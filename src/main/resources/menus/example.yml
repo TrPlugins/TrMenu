@@ -1,0 +1,83 @@
+# 设置该容器的显示标题, (不支持动态)
+TITLE: '示例容器的标题 {0} {1}'
+
+# 打开命令
+OPEN:
+  - 'example'
+  - 'menu'
+
+# 设置容器的页面排版
+# *(一条字符串代表一行, 最多6行)
+# *(单个符号代表一个物品)
+SHAPE:
+  - '########C'
+  - '         '
+  - '         '
+  - '         '
+  - '         '
+  - '#########'
+
+# 一些其它选项，可以不写
+OPTIONS:
+  # 是否在打开GUI时禁止玩家操作自己的背包? (默认 true)
+  LOCK-PLAYER-INV: true
+  # 是否传递命令后面的参数? (可用 {N*} 来表示) (默认 false)
+  TRANSFER-ARGS: true
+  # 强制传递参数的最小数量 (甚至为0则不强制) (默认 0)
+  # 如果>=0, 则玩家输入任何以打开命令为开头的命令都会触发打开菜单
+  FORCE-TRANSFER-ARGS: 0
+  # 绑定物品打开 (下方需要需要识别的关键词Lore)
+  BIND-ITEM-LORE:
+    - '点击打开菜单'
+
+# 定义容器的显示物品以及操作
+BUTTONS:
+  '#':
+    # 该单位的更新周期 (动态材质/名称/Lore 等刷新周期)
+    update: 20
+    # 重新计算优先级的周期 (填写为 -1 则不重新刷新, 如果需要，这个值应该设置高一点!)
+    # (!) 玩家在点击事件时会触发刷新优先级
+    refresh-conditions: -1
+    # 默认图标
+    display:
+      name:
+        - '玻璃板'
+        - '哈哈哈'
+      lore:
+        - - 'text1'
+          - 'text2'
+          - 'text3'
+        - - 'text4'
+          - 'text5'
+      # 物品的外表显示, 多个将轮流切换
+      mats:
+        # 原版材质
+        - GRAY_STAINED_GLASS_PANE
+        - black stained glass pane
+        # 原版材质 + ModelData (1.14+)
+        - <MODEL-DATA:GRAY_STAINED_GLASS:1>
+        # 指定玩家头颅
+        - <PLAYER-HEAD:Arasple>
+        # 动态变量玩家头颅
+        - <VARIABLE-HEAD:%player_name%>
+        # 材质头颅
+        - <CUSTOM-HEAD:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGI2MTdjNTlkY2VkODE1M2RhOTNiYjBiMTg3MGZjZTJjODAwNDY0NDVhZTM3M2I0M2JlYmZhMTA0OGE5MDViNyJ9fX0=>
+    actions:
+      left_click:
+        - 'cancel'
+        - 'talk: 你好啊'
+    # 相关优先级, 按顺序
+    icons:
+      - condition: '"%player_name%" == "Bkm016"'
+        display:
+          mats:
+            - GRAY_STAINED_GLASS_PANE
+            - BLACK_STAINED_GLASS_PANE
+          name: ''
+          lore:
+            - ''
+            - 'six!'
+            - ''
+        actions:
+          left_click:
+            - ''

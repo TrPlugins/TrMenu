@@ -1,0 +1,15 @@
+name: TrMenu
+main: me.arasple.mc.trmenu.TrMenu
+
+description: A powerful advanced menu plugin with animated item support
+
+api-version: 1.13
+version: ${project.version}
+
+github: https://github.com/Arasple/LiteChat
+qq: 1197897763
+
+softdepend:
+  - PlaceholderAPI
+
+author: Arasple
