@@ -8,6 +8,7 @@ import me.arasple.mc.trmenu.inv.Menu;
 import me.arasple.mc.trmenu.inv.MenuHolder;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
@@ -24,7 +25,7 @@ public class ListenerMenuAction implements Listener {
 
     private HashMap<UUID, Long> clickTimes = new HashMap<>();
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onClick(InventoryClickEvent e) {
         if (!(e.getInventory().getHolder() instanceof MenuHolder)) {
             return;

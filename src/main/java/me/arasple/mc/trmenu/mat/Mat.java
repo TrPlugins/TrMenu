@@ -79,7 +79,7 @@ public class Mat {
                 switch (args[0]) {
                     case "MODEL-DATA":
                         if (args.length == 3) {
-                            this.material = MaterialUtils.matchMaterial(args[1]);
+                            this.material = MaterialUtils.readMaterial(args[1]);
                             this.modelData = NumberUtils.toInt(args[2], 0);
                             return MatType.MODEL_DATA;
                         }
@@ -111,14 +111,21 @@ public class Mat {
                 }
             }
         } else {
-            if (MaterialUtils.existMaterial(material)) {
-                String[] args = material.replace(' ', '_').toUpperCase().split(":");
-                this.material = MaterialUtils.matchMaterial(args[0]);
-                this.dataValue = (byte) (args.length >= 2 ? NumberUtils.toInt(args[1], 0) : 0);
-                return MatType.ORIGINAL;
+            String[] args = material.replace(' ', '_').toUpperCase().split(":");
+
+            if (!Materials.isNewVersion()) {
+                this.material = MaterialUtils.readMaterial(args[0]);
+                this.dataValue = (byte) (args.length > 1 ? NumberUtils.toInt(args[1], 0) : 0);
+            } else {
+                if (Materials.matchMaterials(args[0]) != null) {
+                    this.material = Materials.matchMaterials(args[0]).parseMaterial();
+                } else {
+                    this.material = MaterialUtils.readMaterial(args[0]);
+                }
             }
+            return MatType.ORIGINAL;
         }
-        this.material = Material.BEDROCK;
+        this.material = Material.STONE;
         return MatType.UNKNOW;
     }
 

@@ -1,10 +1,5 @@
 # 设置该容器的显示标题, (不支持动态)
-TITLE: '示例容器的标题 {0} {1}'
-
-# 打开命令
-OPEN:
-  - 'example'
-  - 'menu'
+TITLE: 'Hello, TrMenu'
 
 # 设置容器的页面排版
 # *(一条字符串代表一行, 最多6行)
@@ -12,12 +7,22 @@ OPEN:
 SHAPE:
   - '########C'
   - '         '
-  - '         '
-  - '         '
+  - 'ABCDEFG'
   - '         '
   - '#########'
 
-# 一些其它选项，可以不写
+# 菜单打开命令
+OPEN-COMMANDS:
+  - 'example'
+
+# 定义开启菜单 / 关闭菜单时的动作
+# 非必须项
+OPEN-ACTIONS:
+  - 'tell: np'
+CLOSE-ACTIONS:
+  - 'talk: bye'
+
+# 一些其它选项，非必须, 有提供默认值
 OPTIONS:
   # 是否在打开GUI时禁止玩家操作自己的背包? (默认 true)
   LOCK-PLAYER-INV: true
@@ -31,6 +36,20 @@ OPTIONS:
     - '点击打开菜单'
 
 # 定义容器的显示物品以及操作
+# actions 下支持的类型有
+#    LEFT,
+#    SHIFT_LEFT,
+#    RIGHT,
+#    SHIFT_RIGHT,
+#    WINDOW_BORDER_LEFT,
+#    WINDOW_BORDER_RIGHT,
+#    MIDDLE,
+#    NUMBER_KEY,
+#    DOUBLE_CLICK,
+#    DROP,
+#    CONTROL_DROP,
+#    CREATIVE,
+#    UNKNOWN;
 BUTTONS:
   '#':
     # 该单位的更新周期 (动态材质/名称/Lore 等刷新周期)
@@ -54,8 +73,6 @@ BUTTONS:
         # 原版材质
         - GRAY_STAINED_GLASS_PANE
         - black stained glass pane
-        # 原版材质 + ModelData (1.14+)
-        - <MODEL-DATA:GRAY_STAINED_GLASS:1>
         # 指定玩家头颅
         - <PLAYER-HEAD:Arasple>
         # 动态变量玩家头颅
@@ -63,8 +80,7 @@ BUTTONS:
         # 材质头颅
         - <CUSTOM-HEAD:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGI2MTdjNTlkY2VkODE1M2RhOTNiYjBiMTg3MGZjZTJjODAwNDY0NDVhZTM3M2I0M2JlYmZhMTA0OGE5MDViNyJ9fX0=>
     actions:
-      left_click:
-        - 'cancel'
+      left:
         - 'talk: 你好啊'
     # 相关优先级, 按顺序
     icons:

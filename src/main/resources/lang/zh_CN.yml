@@ -40,8 +40,7 @@ COMMANDS:
   OPENED-FOR: '&8[&3Tr&bMenu&8] &3已为目标玩家打开菜单...'
   LIST:
     - '&8--------------------------------------------------'
-    - '&3Tr&bMenu &7- Menu List'
-    - '&8(&7点击聊天内容即可打开&8)'
+    - '&3Tr&bMenu &7- Menu List *&8(点击聊天内容即可打开)'
     - ''
   LIST-FORMAT:
     - '&8▫ &6{0}'
@@ -60,13 +59,13 @@ COMMANDS:
       list:
         hover: |-
           &7点击这里快捷执行此命令.
-        command: '/menu list'
+        command: '/trmenu list'
       reload:
         hover: |-
           &7点击这里快捷执行此命令.
-        command: '/menu reload'
+        command: '/trmenu reload'
       open:
         hover: |-
           &7点击这里建议该命令.
-        suggest: '/menu open'
+        suggest: '/trmenu open'
 

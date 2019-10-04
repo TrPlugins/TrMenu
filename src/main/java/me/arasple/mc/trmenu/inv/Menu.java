@@ -3,6 +3,7 @@ package me.arasple.mc.trmenu.inv;
 import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.util.Strings;
 import me.arasple.mc.trmenu.TrMenu;
+import me.arasple.mc.trmenu.actions.BaseAction;
 import me.arasple.mc.trmenu.data.ArgsCache;
 import me.arasple.mc.trmenu.display.Button;
 import org.bukkit.Bukkit;
@@ -25,18 +26,22 @@ public class Menu {
     private int rows;
     private HashMap<Button, List<Integer>> buttons;
     private List<String> openCommands;
+    private List<BaseAction> openActions, closeActions;
 
     private boolean lockPlayerInv;
     private boolean transferArgs;
     private int forceTransferArgsAmount;
     private List<String> bindItemLore;
 
-    public Menu(String name, String title, int rows, HashMap<Button, List<Integer>> buttons, List<String> openCommands, boolean lockPlayerInv, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore) {
+
+    public Menu(String name, String title, int rows, HashMap<Button, List<Integer>> buttons, List<String> openCommands, List<BaseAction> openActions, List<BaseAction> closeActions, boolean lockPlayerInv, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore) {
         this.name = name;
         this.title = title;
         this.rows = rows;
         this.buttons = buttons;
         this.openCommands = openCommands;
+        this.openActions = openActions;
+        this.closeActions = closeActions;
         this.lockPlayerInv = lockPlayerInv;
         this.transferArgs = transferArgs;
         this.forceTransferArgsAmount = forceTransferArgsAmount;
@@ -58,7 +63,7 @@ public class Menu {
         // 开始刷新
         buttons.forEach((button, slots) -> {
             // 判断刷新周期是否合法
-            if (button.getUpdatePeriod() >= 1) {
+            if (slots != null && button.getUpdatePeriod() >= 1) {
                 // 创建异步 BukkitRunnable
                 new BukkitRunnable() {
                     @Override
@@ -76,7 +81,7 @@ public class Menu {
                 }.runTaskTimerAsynchronously(TrMenu.getPlugin(), button.getUpdatePeriod(), button.getUpdatePeriod());
             }
             // 判断重新计算优先级
-            if (button.getRefreshConditions() >= 20 && button.getConditionalIcons().size() > 0) {
+            if (slots != null && button.getRefreshConditions() >= 20 && button.getConditionalIcons().size() > 0) {
                 new BukkitRunnable() {
                     @Override
                     public void run() {
@@ -90,6 +95,9 @@ public class Menu {
         Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> {
             ArgsCache.getArgs().put(player.getUniqueId(), args);
             player.openInventory(menu);
+            if (getOpenActions() != null) {
+                getOpenActions().forEach(action -> action.onExecute(player, null, args));
+            }
         }, 2);
     }
 
@@ -142,6 +150,22 @@ public class Menu {
 
     public void setOpenCommands(List<String> openCommands) {
         this.openCommands = openCommands;
+    }
+
+    public List<BaseAction> getOpenActions() {
+        return openActions;
+    }
+
+    public void setOpenActions(List<BaseAction> openActions) {
+        this.openActions = openActions;
+    }
+
+    public List<BaseAction> getCloseActions() {
+        return closeActions;
+    }
+
+    public void setCloseActions(List<BaseAction> closeActions) {
+        this.closeActions = closeActions;
     }
 
     public boolean isTransferArgs() {

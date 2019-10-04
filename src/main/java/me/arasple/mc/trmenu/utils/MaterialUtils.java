@@ -7,6 +7,7 @@ import me.arasple.mc.trmenu.TrMenu;
 import org.bukkit.Material;
 
 import java.util.Arrays;
+import java.util.Comparator;
 
 /**
  * @author Arasple
@@ -14,30 +15,25 @@ import java.util.Arrays;
  */
 public class MaterialUtils {
 
-    public static Material matchMaterial(String material) {
+    public static Material readMaterial(String material) {
         if (NumberUtils.toInt(material, -1) != -1) {
-            return Arrays.stream(Materials.values())
-                    .filter(m -> m.getId() == NumberUtils.toInt(material, -1))
-                    .findFirst()
-                    .orElse(Materials.BEDROCK)
-                    .parseMaterial();
-        }
-        return Arrays.stream(Materials.values())
-                .filter(m -> Strings.similarDegree(m.name(), material) > TrMenu.getSettings().getDouble("OPTIONS.MATERIAL-SIMILAR-DEGREE", 0.8))
-                .findFirst()
-                .orElse(Materials.BEDROCK)
-                .parseMaterial();
-    }
-
-    public static boolean existMaterial(String material) {
-        String[] args = material.replace(' ', '_').toUpperCase().split(":");
-        if (NumberUtils.toInt(args[0], -1) != -1) {
-            if (args.length >= 2 && NumberUtils.toInt(args[1], -1) == -1) {
-                return false;
+            int id = NumberUtils.toInt(material, -1);
+            for (Material value : Material.values()) {
+                if (value.getId() == id) {
+                    return value;
+                }
             }
-            return Materials.matchMaterials(NumberUtils.toInt(args[0], -1), args.length >= 2 ? NumberUtils.toByte(args[1], (byte) -1) : 0) != null;
+            return Material.STONE;
         } else {
-            return Arrays.stream(Materials.values()).anyMatch(m -> m.name().equalsIgnoreCase(args[0]));
+            try {
+                return Material.valueOf(material);
+            } catch (Throwable e) {
+                return Arrays.stream(Materials.values())
+                        .filter(m -> Strings.similarDegree(m.name(), material) > TrMenu.getSettings().getDouble("OPTIONS.MATERIAL-SIMILAR-DEGREE", 0.8))
+                        .max(Comparator.comparingDouble(x -> Strings.similarDegree(x.name(), material)))
+                        .orElse(Materials.STONE)
+                        .parseMaterial();
+            }
         }
     }
 

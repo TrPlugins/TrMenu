@@ -25,11 +25,8 @@ public class TrMenuCommands extends BaseMainCommand {
     }
 
     @Override
-    public boolean onCommand(final CommandSender sender, Command command, final String label, final String[] args) {
-        if (args.length == 0) {
-            displayHelp(sender, label);
-        }
-        return true;
+    public void onCommandHelp(CommandSender sender, Command command, String label, String[] args) {
+        displayHelp(sender, label);
     }
 
     /**
@@ -40,8 +37,6 @@ public class TrMenuCommands extends BaseMainCommand {
 
         @Override
         public void onCommand(CommandSender sender, Command command, String label, String[] args) {
-            sender.sendMessage("Hi bro");
-
             TrMenu.loadMenus(sender);
         }
 
@@ -61,7 +56,7 @@ public class TrMenuCommands extends BaseMainCommand {
         @Override
         public void onCommand(CommandSender sender, Command command, String label, String[] args) {
             TLocale.sendTo(sender, "COMMANDS.LIST");
-            TrMenuAPI.getMenuIds().forEach(id -> TellrawJson.create().append(Strings.replaceWithOrder(TLocale.asString("COMMANDS.LIST-FORMAT"), id)).hoverText("§7点击立即打开!").clickCommand("/menu open " + id).send(sender));
+            TrMenuAPI.getMenuIds().forEach(id -> TellrawJson.create().append(Strings.replaceWithOrder(TLocale.asString("COMMANDS.LIST-FORMAT"), id + ".yml")).hoverText("§7点击立即打开!").clickCommand("/trmenu open " + id).send(sender));
             sender.sendMessage("");
         }
 
@@ -85,11 +80,12 @@ public class TrMenuCommands extends BaseMainCommand {
 
         @Override
         public void onCommand(CommandSender sender, Command command, String label, String[] args) {
-            if (args.length == 0) {
+            if (args.length < 1) {
                 displayHelp(sender, label);
                 return;
             }
-            Menu menu = TrMenuAPI.getMenu(args[1]);
+            // tmenu open args
+            Menu menu = TrMenuAPI.getMenu(args[0]);
             if (menu == null) {
                 TLocale.sendTo(sender, "MENU.NOT-EXIST");
             }
@@ -120,6 +116,7 @@ public class TrMenuCommands extends BaseMainCommand {
 
     @SubCommand(priority = 1)
     BaseSubCommand debug = new BaseSubCommand() {
+
         @Override
         public void onCommand(CommandSender sender, Command command, String label, String[] args) {
             sender.sendMessage("§3--------------------------------------------------");

@@ -2,6 +2,8 @@ package me.arasple.mc.trmenu.loader;
 
 import com.google.common.collect.Lists;
 import me.arasple.mc.trmenu.TrMenu;
+import me.arasple.mc.trmenu.actions.ActionType;
+import me.arasple.mc.trmenu.actions.BaseAction;
 import me.arasple.mc.trmenu.display.Button;
 import me.arasple.mc.trmenu.display.Icon;
 import me.arasple.mc.trmenu.inv.Menu;
@@ -39,8 +41,10 @@ public class MenuLoader {
 
             String title = cfg.getString("TITLE");
             List<String> shape = fixShape(cfg.getStringList("SHAPE"));
-            List<String> openCmds = cfg.getStringList("OPEN");
+            List<String> openCmds = cfg.getStringList("OPEN-COMMANDS");
             HashMap<Button, List<Integer>> buttons = new HashMap<>();
+            List<BaseAction> openActions = ActionType.readAction(cfg.getStringList("OPEN-ACTIONS"));
+            List<BaseAction> closeActions = ActionType.readAction(cfg.getStringList("CLOSE-ACTIONS"));
 
             boolean lockPlayerInv = cfg.getBoolean("OPTIONS.LOCK-PLAYER-INV", true);
             boolean transferArgs = cfg.getBoolean("OPTIONS.TRANSFER-ARGS", false);
@@ -97,7 +101,7 @@ public class MenuLoader {
             });
 
             if (errors.size() <= 0) {
-                TrMenu.getMenus().add(new Menu(fileName.substring(0, fileName.length() - 4), title, shape.size(), buttons, openCmds, lockPlayerInv, transferArgs, forceTransferArgsAmount, bindItemLore));
+                TrMenu.getMenus().add(new Menu(fileName.substring(0, fileName.length() - 4), title, shape.size(), buttons, openCmds, openActions, closeActions, lockPlayerInv, transferArgs, forceTransferArgsAmount, bindItemLore));
             }
         }
         return errors;

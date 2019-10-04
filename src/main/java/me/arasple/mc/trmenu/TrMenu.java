@@ -57,6 +57,8 @@ public final class TrMenu extends TrMenuPlugin {
      * @param senders 接收反馈者
      */
     public static void loadMenus(CommandSender... senders) {
+        menus.clear();
+
         File folder = new File(getPlugin().getDataFolder(), "menus");
         if (!folder.exists()) {
             getPlugin().saveResource("menus/example.yml", true);

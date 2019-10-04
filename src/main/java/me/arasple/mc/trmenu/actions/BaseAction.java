@@ -1,7 +1,7 @@
 package me.arasple.mc.trmenu.actions;
 
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryEvent;
 
 /**
  * @author Arasple
@@ -11,7 +11,7 @@ public abstract class BaseAction {
 
     private String command;
 
-    public abstract void onExecute(Player player, InventoryClickEvent e, String... args);
+    public abstract void onExecute(Player player, InventoryEvent e, String... args);
 
     public BaseAction(String command) {
         this.command = command;

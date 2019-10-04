@@ -18,7 +18,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 @TListener
 public class ListenerMenuOpenCommands implements Listener {
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onCommand(PlayerCommandPreprocessEvent e) {
         Player p = e.getPlayer();
         String cmd = e.getMessage().split(" ")[0].substring(1);
@@ -35,9 +35,9 @@ public class ListenerMenuOpenCommands implements Listener {
             } else if (args.length > 0) {
                 return;
             }
+            menu.open(p, args);
+            e.setCancelled(true);
         }
-        menu.open(p, args);
-        e.setCancelled(true);
     }
 
 }
