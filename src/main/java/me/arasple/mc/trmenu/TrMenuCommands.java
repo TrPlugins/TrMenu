@@ -40,6 +40,8 @@ public class TrMenuCommands extends BaseMainCommand {
 
         @Override
         public void onCommand(CommandSender sender, Command command, String label, String[] args) {
+            sender.sendMessage("Hi bro");
+
             TrMenu.loadMenus(sender);
         }
 
