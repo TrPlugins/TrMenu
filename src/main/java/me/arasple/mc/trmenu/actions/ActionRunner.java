@@ -44,6 +44,10 @@ public class ActionRunner {
         while (actionListIterator.hasNext()) {
             BaseAction action = actionListIterator.next();
 
+            if (new Random().nextDouble() > action.getChance()) {
+                continue;
+            }
+
             if (action instanceof IconActionDealy) {
                 long delay = ((IconActionDealy) action).getDelay();
                 if (delay > 0) {
