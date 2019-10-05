@@ -32,22 +32,20 @@ public class ActionRunner {
         actionGroups.forEach((requirement, actions) -> {
             // 判断条件是否满足
             if (!isRequirementMatch(requirement, player, e)) {
-                return;
+                orgActions.removeAll(actions);
             }
-
-            executeActions(actions.listIterator(), player, e);
         });
+        executeActions(orgActions.listIterator(), player, e);
     }
 
     private static void executeActions(ListIterator<BaseAction> actionListIterator, Player player, InventoryClickEvent e) {
         while (actionListIterator.hasNext()) {
-            BaseAction action = actionListIterator.next();
 
+            BaseAction action = actionListIterator.next();
             // 判断概率是否满足
             if (new Random().nextDouble() > action.getChance()) {
                 continue;
             }
-
             // 延时执行
             if (action instanceof IconActionDealy) {
                 long delay = ((IconActionDealy) action).getDelay();

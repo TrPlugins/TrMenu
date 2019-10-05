@@ -29,6 +29,8 @@ public class ListenerMenuAction implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onClick(InventoryClickEvent e) {
+        long start = System.currentTimeMillis();
+
         if (!(e.getInventory().getHolder() instanceof MenurHolder)) {
             return;
         }
@@ -64,6 +66,10 @@ public class ListenerMenuAction implements Listener {
         ActionRunner.runActions(actions, p, e);
         // 刷新图标优先级
         button.refreshConditionalIcon(p, e, e.getClick());
+
+        if (p.hasMetadata("TrMenu-Debug")) {
+            p.sendMessage("§8[§3Tr§bMenu§8]§8[§7DEBUG§8] §6InventoryClickEvent Took §e" + (System.currentTimeMillis() - start) + "ms§6.");
+        }
     }
 
 }

@@ -42,6 +42,8 @@ public class JavaScript {
 
         script = TLocale.Translate.setPlaceholders(player, Strings.replaceWithOrder(script, args));
 
+        System.out.println(script);
+
         try {
             return Scripts.compile(script).eval(new SimpleBindings(bind));
         } catch (ScriptException e) {

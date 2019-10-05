@@ -15,6 +15,8 @@ import java.util.List;
 /**
  * @author Arasple
  * @since 2019.10.2
+ * -
+ * Doc: https://arasple.gitbook.io/trmenu
  */
 @TrMenuPlugin.Version(5.07)
 public final class TrMenu extends TrMenuPlugin {

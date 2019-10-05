@@ -13,6 +13,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.metadata.FixedMetadataValue;
 
 /**
  * @author Arasple
@@ -103,11 +104,24 @@ public class TrMenuCommands extends BaseMainCommand {
         }
 
     };
+
     @SubCommand(priority = 1)
     BaseSubCommand debug = new BaseSubCommand() {
 
         @Override
         public void onCommand(CommandSender sender, Command command, String label, String[] args) {
+            if (sender instanceof Player) {
+                Player player = (Player) sender;
+                if (player.hasMetadata("TrMenu-Debug")) {
+                    player.removeMetadata("TrMenu-Debug", TrMenu.getPlugin());
+                    sender.sendMessage("§7Canceled...");
+                } else {
+                    player.setMetadata("TrMenu-Debug", new FixedMetadataValue(TrMenu.getPlugin(), ""));
+                    sender.sendMessage("§aEnabled...");
+                }
+                return;
+            }
+
             sender.sendMessage("§3--------------------------------------------------");
             sender.sendMessage("");
             sender.sendMessage("§2Total Menus: §6" + TrMenuAPI.getMenus().size());

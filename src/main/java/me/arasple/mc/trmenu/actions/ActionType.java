@@ -57,7 +57,7 @@ public enum ActionType {
 
     public static BaseAction readAction(String line) {
         ActionType type = Arrays.stream(values()).filter(t -> Arrays.stream(t.names).anyMatch(x -> line.toLowerCase().split(":")[0].startsWith(x))).findFirst().orElse(ActionType.MESSAGE);
-        String command = ArrayUtil.arrayJoin(line.split(":"), 1);
+        String command = ArrayUtil.arrayJoin(line.split(":", 2), 1);
         String requirement = null;
         double chance = 1;
         StringBuilder value = new StringBuilder();
@@ -68,12 +68,13 @@ public enum ActionType {
                 if (args.length >= 2) {
                     if ("REQUIREMENT".equalsIgnoreCase(args[0])) {
                         requirement = args[1];
-                        break;
-                    }
-                    if ("CHANCE".equalsIgnoreCase(args[0])) {
+                        continue;
+                    } else if ("CHANCE".equalsIgnoreCase(args[0])) {
                         chance = NumberUtils.toDouble(args[1], 1);
+                        continue;
                     }
                 }
+                value.append("<").append(variable.getText()).append(">");
             } else {
                 value.append(variable.getText());
             }

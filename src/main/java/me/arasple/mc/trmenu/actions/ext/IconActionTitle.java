@@ -53,8 +53,6 @@ public class IconActionTitle extends BaseAction {
         this.fadein = fadein <= 0 ? 20 : fadein;
         this.fadeout = fadeout <= 0 ? 20 : fadeout;
         this.stay = stay <= 0 ? 40 : stay;
-
-        // Title: <TITLE=你好啊><SUBTITLE=测试副标题><STAY=11><FADEINT=111><FADEOUT=134>
     }
 
     @Override
