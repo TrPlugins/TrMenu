@@ -1,17 +1,15 @@
 package me.arasple.mc.trmenu.actions;
 
-import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.util.Strings;
-import io.izzel.taboolib.util.lite.Scripts;
 import me.arasple.mc.trmenu.TrMenu;
+import me.arasple.mc.trmenu.actions.ext.IconActionBreak;
 import me.arasple.mc.trmenu.actions.ext.IconActionDealy;
 import me.arasple.mc.trmenu.data.ArgsCache;
+import me.arasple.mc.trmenu.utils.JavaScript;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-import javax.script.ScriptException;
-import javax.script.SimpleBindings;
 import java.util.*;
 
 /**
@@ -32,6 +30,7 @@ public class ActionRunner {
         });
 
         actionGroups.forEach((requirement, actions) -> {
+            // 判断条件是否满足
             if (!isRequirementMatch(requirement, player, e)) {
                 return;
             }
@@ -44,39 +43,34 @@ public class ActionRunner {
         while (actionListIterator.hasNext()) {
             BaseAction action = actionListIterator.next();
 
+            // 判断概率是否满足
             if (new Random().nextDouble() > action.getChance()) {
                 continue;
             }
 
+            // 延时执行
             if (action instanceof IconActionDealy) {
                 long delay = ((IconActionDealy) action).getDelay();
                 if (delay > 0) {
                     Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> executeActions(actionListIterator, player, e), delay);
                     break;
                 }
+
+            }
+            // 中断执行
+            else if (action instanceof IconActionBreak) {
+                break;
             } else {
                 action.onExecute(player, e, ArgsCache.getPlayerArgs(player));
             }
-
-            actionListIterator.remove();
         }
+
+        actionListIterator.remove();
     }
 
     private static boolean isRequirementMatch(String requirement, Player player, InventoryClickEvent event) {
         if (requirement != null && !Strings.isEmpty(requirement)) {
-            try {
-                Map<String, Object> bind = new HashMap<>();
-                bind.put("player", player);
-                if (event != null) {
-                    bind.put("clickEvent", event);
-                    if (event.getClick() != null) {
-                        bind.put("clickType", event.getClick());
-                    }
-                }
-                return (boolean) Scripts.compile(TLocale.Translate.setPlaceholders(player, requirement)).eval(new SimpleBindings(bind));
-            } catch (ScriptException e) {
-                TrMenu.getTLogger().error("&c条件运算时发生异常: &6{Requirement" + requirement + "}&8; &6Error: &4" + e.getMessage());
-            }
+            return (boolean) JavaScript.run(player, requirement, event, ArgsCache.getPlayerArgs(player));
         }
         return true;
     }

@@ -5,6 +5,7 @@ import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.module.tellraw.TellrawJson;
 import io.izzel.taboolib.util.Strings;
 import me.arasple.mc.trmenu.api.TrMenuAPI;
+import me.arasple.mc.trmenu.bstats.Metrics;
 import me.arasple.mc.trmenu.inv.Menur;
 import me.arasple.mc.trmenu.loader.MenuLoader;
 import me.arasple.mc.trmenu.utils.Skulls;
@@ -112,6 +113,7 @@ public class TrMenuCommands extends BaseMainCommand {
             sender.sendMessage("§2Total Menus: §6" + TrMenuAPI.getMenus().size());
             sender.sendMessage("§2Cached Skulls: §6" + Skulls.getSkulls().size());
             sender.sendMessage("§2Running Tasks: §6" + Bukkit.getScheduler().getActiveWorkers().size() + Bukkit.getScheduler().getPendingTasks().size());
+            sender.sendMessage("§2Metrics: §6" + Metrics.getMetrics().isEnabled() + " §7/ §8" + Metrics.getMetrics().getPluginData());
             sender.sendMessage("");
             sender.sendMessage("§3--------------------------------------------------");
         }

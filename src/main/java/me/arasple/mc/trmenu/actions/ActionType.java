@@ -20,18 +20,23 @@ public enum ActionType {
      * 点击图标执行的操作
      */
 
+    ACTIONBAR("action", "actionbar"),
+    ACTIONBAR_BROADCAST("actionall", "actionbarall", "action-all", "actionbar-all"),
+    BREAK("break", "cancel"),
     BROADCAST("broadcast", "announce"),
-    CLOSE("close", "cancel", "shut"),
+    CLOSE("close", "shut"),
     CONNECT("connect", "bungee", "server"),
     CONSOLE("console"),
-    DELAY("delay"),
-    JS("js"),
-    MESSAGE("talk", "message", "send"),
+    DELAY("delay", "wait"),
+    JS("js", "script(s)?", "javascript(s)?"),
+    MESSAGE("talk", "message", "send", "tell"),
     OPEN("gui", "trmenu", "open"),
     PLAYER_COMMAND("player", "command", "execute"),
     PLAYER_OP_COMMAND("op"),
     SOUND("sound"),
-    SOUND_ALL("sound-all", "soundall");
+    SOUND_ALL("sound-all", "soundall"),
+    TITLE("title"),
+    TITLE_BROADCAST("title-all", "titleall");
 
     private String[] names;
 
@@ -75,6 +80,12 @@ public enum ActionType {
         }
 
         switch (type) {
+            case ACTIONBAR:
+                return new IconActionActionbar(value.toString()).setRequirement(requirement).setChance(chance);
+            case ACTIONBAR_BROADCAST:
+                return new IconActionActionbarBroadcast(value.toString()).setRequirement(requirement).setChance(chance);
+            case BREAK:
+                return new IconActionBreak(value.toString()).setRequirement(requirement).setChance(chance);
             case BROADCAST:
                 return new IconActionBroadcast(value.toString()).setRequirement(requirement).setChance(chance);
             case CLOSE:
@@ -99,6 +110,10 @@ public enum ActionType {
                 return new IconActionSound(value.toString()).setRequirement(requirement).setChance(chance);
             case SOUND_ALL:
                 return new IconActionSoundAll(value.toString()).setRequirement(requirement).setChance(chance);
+            case TITLE:
+                return new IconActionTitle(value.toString()).setRequirement(requirement).setChance(chance);
+            case TITLE_BROADCAST:
+                return new IconActionTitleBroadcast(value.toString()).setRequirement(requirement).setChance(chance);
             default:
                 return null;
         }

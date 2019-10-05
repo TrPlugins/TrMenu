@@ -77,6 +77,7 @@ public class Mat {
             String[] args = variable.get(0).getText().split(":");
             if (args.length >= 2) {
                 switch (args[0]) {
+                    // <MODEL-DATA:COAL:1>
                     case "MODEL-DATA":
                         if (args.length == 3) {
                             this.material = MaterialUtils.readMaterial(args[1]);

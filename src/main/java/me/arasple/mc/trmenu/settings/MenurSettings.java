@@ -29,8 +29,8 @@ public enum MenurSettings {
     BUTTON_ICONS("icons"),
     BUTTON_ICONS_CONDITION("condition"),
 
-    ICON_DISPLAY_NAME("name|displayname"),
-    ICON_DISPLAY_MATERIALS("material(s)?|id|mat(s)?"),
+    ICON_DISPLAY_NAME("name(s)?|displayname(s)?"),
+    ICON_DISPLAY_MATERIALS("material(s)?|id(s)?|mat(s)?"),
     ICON_DISPLAY_LORES("lore(s)?"),
     ICON_DISPLAY_ATTRIBUTES("attribute(s)?");
 

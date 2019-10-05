@@ -6,7 +6,7 @@
 
     <groupId>me.arasple.mc</groupId>
     <artifactId>TrMenu</artifactId>
-    <version>1.0</version>
+    <version>1.01</version>
     <packaging>jar</packaging>
 
     <name>TrMenu</name>

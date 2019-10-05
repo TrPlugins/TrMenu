@@ -1,14 +1,11 @@
 package me.arasple.mc.trmenu.display;
 
-import io.izzel.taboolib.module.locale.TLocale;
-import io.izzel.taboolib.util.lite.Scripts;
-import me.arasple.mc.trmenu.TrMenu;
+import me.arasple.mc.trmenu.data.ArgsCache;
+import me.arasple.mc.trmenu.utils.JavaScript;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-import javax.script.ScriptException;
-import javax.script.SimpleBindings;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -39,21 +36,9 @@ public class Button {
     public void refreshConditionalIcon(Player player, InventoryClickEvent event, ClickType type) {
         if (conditionalIcons.values().size() > 0) {
             for (Map.Entry<String, Icon> iconEntry : conditionalIcons.entrySet()) {
-                try {
-                    Map<String, Object> bind = new HashMap<>();
-                    bind.put("player", player);
-                    if (event != null) {
-                        bind.put("clickEvent", event);
-                    }
-                    if (type != null) {
-                        bind.put("clickType", type);
-                    }
-                    if ((boolean) Scripts.compile(TLocale.Translate.setPlaceholders(player, iconEntry.getKey())).eval(new SimpleBindings(bind))) {
-                        currentIcon = iconEntry.getValue();
-                        return;
-                    }
-                } catch (ScriptException e) {
-                    TrMenu.getTLogger().error("&c条件运算时发生异常: &6Condition{" + iconEntry.getKey() + "}&8; &6Error: &4" + e.getMessage());
+                if ((boolean) JavaScript.run(player, iconEntry.getKey(), event, ArgsCache.getPlayerArgs(player))) {
+                    currentIcon = iconEntry.getValue();
+                    return;
                 }
             }
         }
