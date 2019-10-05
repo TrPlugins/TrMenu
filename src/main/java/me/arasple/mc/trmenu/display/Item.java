@@ -1,9 +1,13 @@
 package me.arasple.mc.trmenu.display;
 
 import com.google.common.collect.Lists;
+import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils;
 import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.util.Strings;
+import me.arasple.mc.trmenu.bstats.Metrics;
 import me.arasple.mc.trmenu.mat.Mat;
+import me.arasple.mc.trmenu.utils.JavaScript;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -20,12 +24,24 @@ public class Item {
     private List<String> names;
     private List<Mat> materials;
     private List<List<String>> lores;
+    private List<ItemFlag> itemFlags;
+
+    private String amount;
+    private int finalAmount;
+    private String shiny;
+    private boolean finalShiny;
+
     private int[] indexs;
 
-    public Item(List<String> names, List<Mat> materials, List<List<String>> lores) {
+    public Item(List<String> names, List<Mat> materials, List<List<String>> lores, List<ItemFlag> itemFlags, String shiny, String amount) {
         this.names = names;
         this.materials = materials;
         this.lores = lores;
+        this.itemFlags = itemFlags;
+        this.shiny = shiny;
+        this.amount = amount;
+        this.finalShiny = Boolean.parseBoolean(shiny);
+        this.finalAmount = NumberUtils.toInt(amount, -1);
         resetIndex();
     }
 
@@ -39,14 +55,25 @@ public class Item {
         if (names.size() > 0) {
             itemMeta.setDisplayName(TLocale.Translate.setPlaceholders(player, Strings.replaceWithOrder(names.get(nextIndex(0)), args)));
         }
-
-        try {
-            itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        } catch (Throwable ignore) {
-
+        if (finalShiny || (!Strings.isBlank(shiny) && (boolean) JavaScript.run(player, shiny, null, args))) {
+            itemMeta.addEnchant(Enchantment.LUCK, 1, true);
+            itemFlags.add(ItemFlag.HIDE_ENCHANTS);
+        }
+        if (finalAmount != -1) {
+            itemStack.setAmount(finalAmount);
+        } else {
+            itemStack.setAmount(NumberUtils.toInt(String.valueOf(JavaScript.run(player, amount, null, args)), 1));
+        }
+        if (itemFlags.size() > 0) {
+            itemFlags.forEach(itemFlag -> {
+                if (!itemMeta.hasItemFlag(itemFlag)) {
+                    itemMeta.addItemFlags(itemFlag);
+                }
+            });
         }
 
         itemStack.setItemMeta(itemMeta);
+        Metrics.increase(2);
 
         return itemStack;
     }

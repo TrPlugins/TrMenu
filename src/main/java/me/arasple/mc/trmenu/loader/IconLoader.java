@@ -1,6 +1,7 @@
 package me.arasple.mc.trmenu.loader;
 
 import com.google.common.collect.Lists;
+import io.izzel.taboolib.util.item.Items;
 import me.arasple.mc.trmenu.actions.ActionType;
 import me.arasple.mc.trmenu.actions.BaseAction;
 import me.arasple.mc.trmenu.display.Icon;
@@ -9,10 +10,12 @@ import me.arasple.mc.trmenu.mat.Mat;
 import me.arasple.mc.trmenu.settings.MenurSettings;
 import me.arasple.mc.trmenu.utils.Maps;
 import org.bukkit.event.inventory.ClickType;
+import org.bukkit.inventory.ItemFlag;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author Arasple
@@ -30,6 +33,7 @@ public class IconLoader {
         List<String> names = Lists.newArrayList();
         List<Mat> materials = Lists.newArrayList();
         List<List<String>> lores = Lists.newArrayList();
+        List<ItemFlag> flags = Lists.newArrayList();
 
         Map<String, Object> displayMap = Maps.sectionToMap(map.get("display"));
         Map<String, Object> actionsMap = Maps.containsSimilar(map, "actions") ? Maps.sectionToMap(map.get("actions")) : new HashMap<>();
@@ -38,7 +42,11 @@ public class IconLoader {
         Object name = Maps.getSimilarOrDefault(displayMap, MenurSettings.ICON_DISPLAY_NAME.getName(), null);
         Object mats = Maps.getSimilarOrDefault(displayMap, MenurSettings.ICON_DISPLAY_MATERIALS.getName(), null);
         Object lore = Maps.getSimilarOrDefault(displayMap, MenurSettings.ICON_DISPLAY_LORES.getName(), null);
-        Object attributes = Maps.getSimilarOrDefault(displayMap, MenurSettings.ICON_DISPLAY_ATTRIBUTES.getName(), null);
+        Object flag = Maps.getSimilarOrDefault(displayMap, MenurSettings.ICON_DISPLAY_FLAGS.getName(), null);
+        String shiny = String.valueOf(Maps.getSimilar(displayMap, MenurSettings.ICON_DISPLAY_SHINY.getName()));
+        String amount = String.valueOf(Maps.getSimilar(displayMap, MenurSettings.ICON_DISPLAY_AMOUNT.getName()));
+        shiny = "null".equals(shiny) ? "false" : shiny;
+        amount = "null".equals(amount) ? "1" : amount;
 
         // 载入点击动作
         for (ClickType value : ClickType.values()) {
@@ -70,16 +78,16 @@ public class IconLoader {
                 materials.add(new Mat(String.valueOf(mats)));
             }
         }
+        // 载入图标动态名称
         if (name != null) {
-            // 载入图标动态名称
             if (name instanceof List) {
                 names.addAll((List<String>) name);
             } else {
                 names.add(String.valueOf(name));
             }
         }
+        // 载入Lore组
         if (lore != null) {
-            // 载入单个/多个Lore组
             if (lore instanceof List) {
                 List<Object> l = (List<Object>) lore;
                 if (l.size() > 0) {
@@ -91,8 +99,17 @@ public class IconLoader {
                 }
             }
         }
-
-        return new Icon(new Item(names, materials, lores), actions);
+        // 载入flags
+        if (flag != null) {
+            if (flag instanceof List) {
+                try {
+                    ((List<Object>) flag).forEach(f -> flags.add(Items.asItemFlag(String.valueOf(f))));
+                } catch (Throwable ignored) {
+                }
+                flags.removeIf(Objects::isNull);
+            }
+        }
+        return new Icon(new Item(names, materials, lores, flags, shiny, amount), actions);
     }
 
 }

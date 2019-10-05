@@ -8,6 +8,7 @@ import me.arasple.mc.trmenu.actions.BaseAction;
 import me.arasple.mc.trmenu.display.Button;
 import me.arasple.mc.trmenu.display.Icon;
 import me.arasple.mc.trmenu.inv.Menur;
+import me.arasple.mc.trmenu.inv.MenurHolder;
 import me.arasple.mc.trmenu.settings.MenurSettings;
 import me.arasple.mc.trmenu.utils.Maps;
 import org.bukkit.Bukkit;
@@ -31,6 +32,11 @@ public class MenuLoader {
      */
     public static void loadMenus(List<Menur> menus, CommandSender... senders) {
         menus.clear();
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            if (player.getOpenInventory().getTopInventory().getHolder() instanceof MenurHolder) {
+                player.closeInventory();
+            }
+        });
 
         File folder = new File(TrMenu.getPlugin().getDataFolder(), "menus");
         if (!folder.exists()) {

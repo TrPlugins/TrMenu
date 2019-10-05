@@ -32,7 +32,9 @@ public enum MenurSettings {
     ICON_DISPLAY_NAME("name(s)?|displayname(s)?"),
     ICON_DISPLAY_MATERIALS("material(s)?|id(s)?|mat(s)?"),
     ICON_DISPLAY_LORES("lore(s)?"),
-    ICON_DISPLAY_ATTRIBUTES("attribute(s)?");
+    ICON_DISPLAY_FLAGS("flag(s)?"),
+    ICON_DISPLAY_SHINY("shiny|glow"),
+    ICON_DISPLAY_AMOUNT("amount");
 
     private String name;
 

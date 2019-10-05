@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.display;
 
+import me.arasple.mc.trmenu.bstats.Metrics;
 import me.arasple.mc.trmenu.data.ArgsCache;
 import me.arasple.mc.trmenu.utils.JavaScript;
 import org.bukkit.entity.Player;
@@ -43,6 +44,7 @@ public class Button {
             }
         }
         currentIcon = defaultIcon;
+        Metrics.increase(2);
     }
 
     public int getUpdatePeriod() {
