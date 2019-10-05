@@ -47,22 +47,22 @@ Options:
     - '点击打开菜单'
 
   # 定义容器的按钮, 与 Shaple 模板中的字符相对应
-  BUTTONS:
-    '#':
-      # (可选) 更新周期, 不设置则不刷新
-      update: 10
-      # (必须) 图标显示
-      display:
-        mats:
-          - 'GRAY_STAINED_GLASS_PANE'
-        name: ["&7Tr&8Menu","&7Tr&7Menu","&7Tr&fMenu"]
-        lore:
-          - - '&7TrMenu by &2Arasple'
-          - - '&7TrMenu by &3Arasple'
-      # 点击动作
-      actions:
-        # 类型 - [动作]
-        all: ['sound: BLOCK_NOTE_BLOCK_PLING-1-2']
+BUTTONS:
+  '#':
+    # (可选) 更新周期, 不设置则不刷新
+    update: 10
+    # (必须) 图标显示
+    display:
+      mats:
+        - 'GRAY_STAINED_GLASS_PANE'
+      name: ["&7Tr&8Menu","&7Tr&7Menu","&7Tr&fMenu"]
+      lore:
+        - - '&7TrMenu by &2Arasple'
+        - - '&7TrMenu by &3Arasple'
+    # 点击动作
+    actions:
+      # 类型 - [动作]
+      all: ['sound: BLOCK_NOTE_BLOCK_PLING-1-2']
   'C':
     update: 35
     display:
@@ -108,8 +108,8 @@ Options:
         - '<CUSTOM-HEAD:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjc3MTY1YzlkYjc2M2E5YWNkMTNjMDYyMjBlOTJkM2M5NzBkZmEzNmRhYzU2ZTU5NTdkMDJkMzZmNWE5ZjBiOCJ9fX0=>'
       name: '&6动态的自定义头颅!!'
       lore:
-        - - ''
-          - '&7这是一组多个自定义头颅组成的动态物品!'
+        - ''
+        - '&7这是一组多个自定义头颅组成的动态物品!'
   'E':
     update: 20
     display:

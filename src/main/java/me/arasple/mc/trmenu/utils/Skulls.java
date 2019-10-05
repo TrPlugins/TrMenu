@@ -25,7 +25,7 @@ public class Skulls {
      * @return 头颅物品
      */
     public static ItemStack getCustomSkull(String texture) {
-        return skulls.computeIfAbsent(texture, x -> setTexture(new ItemStack(Materials.matchMaterials("PLAYER_HEAD").parseMaterial()), texture));
+        return skulls.computeIfAbsent(texture, x -> setTexture(Materials.matchMaterials("PLAYER_HEAD").parseItem(), texture));
     }
 
     /**

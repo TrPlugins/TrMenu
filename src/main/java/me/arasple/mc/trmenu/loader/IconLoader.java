@@ -70,7 +70,6 @@ public class IconLoader {
                 materials.add(new Mat(String.valueOf(mats)));
             }
         }
-
         if (name != null) {
             // 载入图标动态名称
             if (name instanceof List) {

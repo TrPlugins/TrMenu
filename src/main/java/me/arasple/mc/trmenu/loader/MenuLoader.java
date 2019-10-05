@@ -31,6 +31,7 @@ public class MenuLoader {
      */
     public static void loadMenus(List<Menur> menus, CommandSender... senders) {
         menus.clear();
+
         File folder = new File(TrMenu.getPlugin().getDataFolder(), "menus");
         if (!folder.exists()) {
             TrMenu.getPlugin().saveResource("menus/example.yml", true);
@@ -137,7 +138,10 @@ public class MenuLoader {
                         errors.add(fileName + " 的图标 '" + key + "' 加载失败: " + e.toString() + "\n§8" + Arrays.toString(e.getStackTrace()));
                     }
                 });
+            } else {
+                errors.add(fileName + " 按钮为空...");
             }
+
             if (errors.size() <= 0) {
                 TrMenu.getMenus().add(new Menur(fileName.substring(0, fileName.length() - 4), title, shape.size(), buttons, openCmds, openActions, closeActions, lockPlayerInv, transferArgs, forceTransferArgsAmount, bindItemLore));
             }

@@ -28,10 +28,15 @@ public class MaterialUtils {
             try {
                 return new String[]{Material.valueOf(material).name(), "0"};
             } catch (Throwable e) {
-                Materials materials = Arrays.stream(Materials.values())
-                        .filter(m -> Strings.similarDegree(m.name(), material) > TrMenu.getSettings().getDouble("OPTIONS.MATERIAL-SIMILAR-DEGREE", 0.8))
-                        .max(Comparator.comparingDouble(x -> Strings.similarDegree(x.name(), material)))
-                        .orElse(Materials.STONE);
+                Materials materials;
+                try {
+                    materials = Materials.valueOf(material);
+                } catch (Throwable e1) {
+                    materials = Arrays.stream(Materials.values())
+                            .filter(m -> Strings.similarDegree(m.name(), material) > TrMenu.getSettings().getDouble("OPTIONS.MATERIAL-SIMILAR-DEGREE", 0.8))
+                            .max(Comparator.comparingDouble(x -> Strings.similarDegree(x.name(), material)))
+                            .orElse(Materials.STONE);
+                }
                 return new String[]{materials.parseMaterial().name(), String.valueOf(materials.getData())};
             }
         }

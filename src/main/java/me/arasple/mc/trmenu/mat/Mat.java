@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  * @author Arasple
  * @date 2019/10/4 16:21
  */
-@SuppressWarnings({"deprecation", "AliDeprecation"})
+@SuppressWarnings({"deprecation"})
 public class Mat {
 
     private String mat;
@@ -101,9 +101,7 @@ public class Mat {
                             this.material = Materials.matchMaterials("PLAYER_HEAD").parseMaterial();
                             this.textureHead = args[1];
                             // 这里提前异步加载，缓存. 防止玩家首次打开卡炸
-                            Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
-                                Skulls.getCustomSkull(textureHead);
-                            });
+                            Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> Skulls.getCustomSkull(textureHead));
                             return MatType.CUSTOM_HEAD;
                         }
                     default:
