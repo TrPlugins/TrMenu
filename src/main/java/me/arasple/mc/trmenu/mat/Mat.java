@@ -114,8 +114,9 @@ public class Mat {
             String[] args = material.replace(' ', '_').toUpperCase().split(":");
 
             if (!Materials.isNewVersion()) {
-                this.material = MaterialUtils.readMaterial(args[0]);
-                this.dataValue = (byte) (args.length > 1 ? NumberUtils.toInt(args[1], 0) : 0);
+                String[] mat = MaterialUtils.readNewMaterialForOld(args[0]);
+                this.material = Material.valueOf(mat[0]);
+                this.dataValue = (byte) (args.length > 1 ? NumberUtils.toInt(args[1], 0) : NumberUtils.toInt(mat[1], 0));
             } else {
                 if (Materials.matchMaterials(args[0]) != null) {
                     this.material = Materials.matchMaterials(args[0]).parseMaterial();

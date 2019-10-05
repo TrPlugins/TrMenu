@@ -6,7 +6,7 @@ description: A powerful advanced menu plugin with animated item support
 api-version: 1.13
 version: ${project.version}
 
-github: https://github.com/Arasple/LiteChat
+github: https://github.com/Arasple/TrMenu
 qq: 1197897763
 
 softdepend:

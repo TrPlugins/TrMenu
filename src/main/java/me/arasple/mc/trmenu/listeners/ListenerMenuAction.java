@@ -2,13 +2,11 @@ package me.arasple.mc.trmenu.listeners;
 
 import io.izzel.taboolib.module.inject.TListener;
 import me.arasple.mc.trmenu.TrMenu;
+import me.arasple.mc.trmenu.actions.ActionRunner;
 import me.arasple.mc.trmenu.actions.BaseAction;
-import me.arasple.mc.trmenu.actions.ext.IconActionDealy;
-import me.arasple.mc.trmenu.data.ArgsCache;
 import me.arasple.mc.trmenu.display.Button;
 import me.arasple.mc.trmenu.inv.Menur;
 import me.arasple.mc.trmenu.inv.MenurHolder;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -49,7 +47,7 @@ public class ListenerMenuAction implements Listener {
         }
 
         if (button == null) {
-            if (p.getOpenInventory().getTopInventory().getHolder() instanceof MenurHolder && menu.isLockPlayerInv()) {
+            if (e.getClickedInventory() == p.getInventory() && menu.isLockPlayerInv()) {
                 e.setCancelled(true);
             }
             return;
@@ -57,22 +55,13 @@ public class ListenerMenuAction implements Listener {
             e.setCancelled(true);
         }
 
-        // 执行相关动作
+        // 读取动作
         List<BaseAction> actions = button.getCurrentIcon().getactions().getOrDefault(e.getClick(), new ArrayList<>());
-        if (actions != null && !actions.isEmpty()) {
-            for (BaseAction action : actions) {
-                if (action instanceof IconActionDealy) {
-                    long delay = ((IconActionDealy) action).getDelay();
-                    if (delay > 0) {
-                        Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> {
-
-                        }, delay);
-                    }
-                    break;
-                }
-                action.onExecute(p, e, ArgsCache.getPlayerArgs(p));
-            }
+        if (button.getCurrentIcon().getactions().get(null) != null) {
+            actions.addAll(button.getCurrentIcon().getactions().get(null));
         }
+        // 执行动作
+        ActionRunner.runActions(actions, p, e);
         // 刷新图标优先级
         button.refreshConditionalIcon(p, e, e.getClick());
     }

@@ -25,6 +25,7 @@ public enum ActionType {
     CONNECT("connect", "bungee", "server"),
     CONSOLE("console"),
     DELAY("delay"),
+    JS("js"),
     MESSAGE("talk", "message", "send"),
     OPEN("gui", "trmenu", "open"),
     PLAYER_COMMAND("player", "command", "execute"),
@@ -84,6 +85,8 @@ public enum ActionType {
                 return new IconActionConsole(value.toString()).setRequirement(requirement).setChance(chance);
             case DELAY:
                 return new IconActionDealy(value.toString()).setRequirement(requirement).setChance(chance);
+            case JS:
+                return new IconActionJs(value.toString()).setRequirement(requirement).setChance(chance);
             case MESSAGE:
                 return new IconActionMessage(value.toString()).setRequirement(requirement).setChance(chance);
             case OPEN:

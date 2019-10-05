@@ -32,8 +32,12 @@ public class Item {
         ItemStack itemStack = materials.get(nextIndex(1)).createItem(player);
         ItemMeta itemMeta = itemStack.getItemMeta();
 
-        itemMeta.setLore(replaceWith(player, lores.get(nextIndex(2)), args));
-        itemMeta.setDisplayName(TLocale.Translate.setPlaceholders(player, Strings.replaceWithOrder(names.get(nextIndex(0)), args)));
+        if (lores.size() > 0) {
+            itemMeta.setLore(replaceWith(player, lores.get(nextIndex(2)), args));
+        }
+        if (names.size() > 0) {
+            itemMeta.setDisplayName(TLocale.Translate.setPlaceholders(player, Strings.replaceWithOrder(names.get(nextIndex(0)), args)));
+        }
         itemStack.setItemMeta(itemMeta);
 
         return itemStack;

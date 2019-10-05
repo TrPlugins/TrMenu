@@ -83,8 +83,8 @@ public class MenuLoader {
             List<BaseAction> openActions = ActionType.readAction(Maps.getSimilarOrDefault(cfg, MenurSettings.MENU_OPEN_ACTIONS.getName(), new ArrayList<>()));
             List<BaseAction> closeActions = ActionType.readAction(Maps.getSimilarOrDefault(cfg, MenurSettings.MENU_CLOSE_ACTIONS.getName(), new ArrayList<>()));
 
-            Map<String, Object> options = (Map<String, Object>) cfg.getOrDefault(MenurSettings.MENU_OPTIONS.getName(), new HashMap<>());
-            boolean lockPlayerInv = Maps.getSimilarOrDefault(options, MenurSettings.MENU_OPTIONS_LOCKHAND.getName(), false);
+            Map<String, Object> options = Maps.getSimilarOrDefault(cfg, MenurSettings.MENU_OPTIONS.getName(), new HashMap<>());
+            boolean lockPlayerInv = Maps.getSimilarOrDefault(options, MenurSettings.MENU_OPTIONS_LOCKHAND.getName(), true);
             boolean transferArgs = Maps.getSimilarOrDefault(options, MenurSettings.MENU_OPTIONS_ARGS.getName(), false);
             int forceTransferArgsAmount = Maps.getSimilarOrDefault(options, MenurSettings.MENU_OPTIONS_FORCEARGS.getName(), -1);
             List<String> bindItemLore = Maps.getSimilarOrDefault(options, MenurSettings.MENU_OPTIONS_BINDLORES.getName(), null);

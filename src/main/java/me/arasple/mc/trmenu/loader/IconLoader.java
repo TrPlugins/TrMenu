@@ -39,17 +39,30 @@ public class IconLoader {
         Object mats = Maps.getSimilarOrDefault(displayMap, MenurSettings.ICON_DISPLAY_MATERIALS.getName(), null);
         Object lore = Maps.getSimilarOrDefault(displayMap, MenurSettings.ICON_DISPLAY_LORES.getName(), null);
 
+        // 载入点击动作
         for (ClickType value : ClickType.values()) {
             List<String> actionStrings = Maps.getSimilarOrDefault(actionsMap, value.name(), null);
             if (actionStrings != null && !actionStrings.isEmpty()) {
                 actions.put(value, ActionType.readAction(actionStrings));
             }
         }
+        Object allActionObject = Maps.getSimilarOrDefault(actionsMap, "ALL", null);
+        if (allActionObject != null) {
+            List<String> allAction = Lists.newArrayList();
+            if (allActionObject instanceof List) {
+                allAction = (List<String>) allActionObject;
+            } else {
+                allAction.add(String.valueOf(allActionObject));
+            }
+            if (allAction != null && !allAction.isEmpty()) {
+                actions.put(null, ActionType.readAction(allAction));
+            }
+        }
 
+        // 载入动态材质
         if (mats == null) {
             throw new NullPointerException("Materials can not be null");
         } else {
-            // 载入图标的动态材质
             if (mats instanceof List) {
                 ((List) mats).forEach(m -> materials.add(new Mat(String.valueOf(m))));
             } else {

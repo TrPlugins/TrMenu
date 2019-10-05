@@ -15,6 +15,28 @@ import java.util.Comparator;
  */
 public class MaterialUtils {
 
+    public static String[] readNewMaterialForOld(String material) {
+        if (NumberUtils.toInt(material, -1) != -1) {
+            int id = NumberUtils.toInt(material, -1);
+            for (Material value : Material.values()) {
+                if (value.getId() == id) {
+                    return new String[]{value.name(), "0"};
+                }
+            }
+            return new String[]{Material.STONE.name(), "0"};
+        } else {
+            try {
+                return new String[]{Material.valueOf(material).name(), "0"};
+            } catch (Throwable e) {
+                Materials materials = Arrays.stream(Materials.values())
+                        .filter(m -> Strings.similarDegree(m.name(), material) > TrMenu.getSettings().getDouble("OPTIONS.MATERIAL-SIMILAR-DEGREE", 0.8))
+                        .max(Comparator.comparingDouble(x -> Strings.similarDegree(x.name(), material)))
+                        .orElse(Materials.STONE);
+                return new String[]{materials.parseMaterial().name(), String.valueOf(materials.getData())};
+            }
+        }
+    }
+
     public static Material readMaterial(String material) {
         if (NumberUtils.toInt(material, -1) != -1) {
             // 是数字ID

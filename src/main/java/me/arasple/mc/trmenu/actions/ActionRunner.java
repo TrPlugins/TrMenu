@@ -26,12 +26,10 @@ public class ActionRunner {
         }
 
         HashMap<String, List<BaseAction>> actionGroups = new HashMap<>();
-
         orgActions.forEach(baseAction -> {
             actionGroups.putIfAbsent(baseAction.getRequirement(), new ArrayList<>());
             actionGroups.get(baseAction.getRequirement()).add(baseAction);
         });
-
 
         actionGroups.forEach((requirement, actions) -> {
             if (!isRequirementMatch(requirement, player, e)) {
@@ -55,6 +53,8 @@ public class ActionRunner {
             } else {
                 action.onExecute(player, e, ArgsCache.getPlayerArgs(player));
             }
+
+            actionListIterator.remove();
         }
     }
 
@@ -74,7 +74,7 @@ public class ActionRunner {
                 TrMenu.getTLogger().error("&c条件运算时发生异常: &6{Requirement" + requirement + "}&8; &6Error: &4" + e.getMessage());
             }
         }
-        return false;
+        return true;
     }
 
 }

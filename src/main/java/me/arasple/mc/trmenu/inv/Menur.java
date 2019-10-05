@@ -33,7 +33,6 @@ public class Menur {
     private int forceTransferArgsAmount;
     private List<String> bindItemLore;
 
-
     public Menur(String name, String title, int rows, HashMap<Button, List<Integer>> buttons, List<String> openCommands, List<BaseAction> openActions, List<BaseAction> closeActions, boolean lockPlayerInv, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore) {
         this.name = name;
         this.title = title;
