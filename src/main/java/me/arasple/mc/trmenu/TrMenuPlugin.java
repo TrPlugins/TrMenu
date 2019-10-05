@@ -65,79 +65,6 @@ public abstract class TrMenuPlugin extends JavaPlugin {
         init();
     }
 
-    @Override
-    public final void onLoad() {
-        if (initFailed) {
-            setEnabled(false);
-            return;
-        }
-        plugin = this;
-        PluginLoader.addPlugin(this);
-        PluginLoader.load(this);
-        try {
-            onLoading();
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
-    }
-
-    @Override
-    public final void onEnable() {
-        if (initFailed) {
-            return;
-        }
-        PluginLoader.start(this);
-        try {
-            onStarting();
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
-        Bukkit.getScheduler().runTask(this, () -> {
-            PluginLoader.active(this);
-            onActivated();
-        });
-    }
-
-    @Override
-    public final void onDisable() {
-        if (initFailed) {
-            return;
-        }
-        PluginLoader.stop(this);
-        try {
-            onStopping();
-        } catch (Throwable t) {
-            t.printStackTrace();
-        }
-    }
-
-    /**
-     * 代替 JavaPlugin 本身的 onLoad 方法
-     */
-    public void onLoading() {
-    }
-
-    /**
-     * 代替 JavaPlugin 本身的 onEnable 方法
-     */
-    public void onStarting() {
-    }
-
-    /**
-     * 代替 JavaPlugin 本身的 onDisable 方法
-     */
-    public void onStopping() {
-    }
-
-    /**
-     * 当服务端完全启动时执行该方法
-     * 完全启动指 "控制台可以输入命令且得到反馈时"
-     * <p>
-     * 使用 @TSchedule 同样可以代替该方法
-     */
-    public void onActivated() {
-    }
-
     /**
      * 检查 TabooLib 是否已经被载入
      * 跳过 TabooLib 主类的初始化过程
@@ -502,6 +429,79 @@ public abstract class TrMenuPlugin extends JavaPlugin {
 
     public static File getLibFile() {
         return libFile;
+    }
+
+    @Override
+    public final void onLoad() {
+        if (initFailed) {
+            setEnabled(false);
+            return;
+        }
+        plugin = this;
+        PluginLoader.addPlugin(this);
+        PluginLoader.load(this);
+        try {
+            onLoading();
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
+
+    @Override
+    public final void onEnable() {
+        if (initFailed) {
+            return;
+        }
+        PluginLoader.start(this);
+        try {
+            onStarting();
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+        Bukkit.getScheduler().runTask(this, () -> {
+            PluginLoader.active(this);
+            onActivated();
+        });
+    }
+
+    @Override
+    public final void onDisable() {
+        if (initFailed) {
+            return;
+        }
+        PluginLoader.stop(this);
+        try {
+            onStopping();
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+    }
+
+    /**
+     * 代替 JavaPlugin 本身的 onLoad 方法
+     */
+    public void onLoading() {
+    }
+
+    /**
+     * 代替 JavaPlugin 本身的 onEnable 方法
+     */
+    public void onStarting() {
+    }
+
+    /**
+     * 代替 JavaPlugin 本身的 onDisable 方法
+     */
+    public void onStopping() {
+    }
+
+    /**
+     * 当服务端完全启动时执行该方法
+     * 完全启动指 "控制台可以输入命令且得到反馈时"
+     * <p>
+     * 使用 @TSchedule 同样可以代替该方法
+     */
+    public void onActivated() {
     }
 
     @Target(ElementType.TYPE)

@@ -5,7 +5,8 @@ import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.module.tellraw.TellrawJson;
 import io.izzel.taboolib.util.Strings;
 import me.arasple.mc.trmenu.api.TrMenuAPI;
-import me.arasple.mc.trmenu.inv.Menu;
+import me.arasple.mc.trmenu.inv.Menur;
+import me.arasple.mc.trmenu.loader.MenuLoader;
 import me.arasple.mc.trmenu.utils.Skulls;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -19,16 +20,6 @@ import org.bukkit.entity.Player;
 @BaseCommand(name = "trmenu", aliases = {"menu", "tmenu"}, permission = "trmenu.admin")
 public class TrMenuCommands extends BaseMainCommand {
 
-    @Override
-    public String getCommandTitle() {
-        return "§3--------------------------------------------------";
-    }
-
-    @Override
-    public void onCommandHelp(CommandSender sender, Command command, String label, String[] args) {
-        displayHelp(sender, label);
-    }
-
     /**
      * 重载命令
      */
@@ -37,7 +28,7 @@ public class TrMenuCommands extends BaseMainCommand {
 
         @Override
         public void onCommand(CommandSender sender, Command command, String label, String[] args) {
-            TrMenu.loadMenus(sender);
+            MenuLoader.loadMenus(TrMenu.getMenus(), sender);
         }
 
         @Override
@@ -46,7 +37,6 @@ public class TrMenuCommands extends BaseMainCommand {
         }
 
     };
-
     /**
      * 列出所有菜单命令
      */
@@ -66,7 +56,6 @@ public class TrMenuCommands extends BaseMainCommand {
         }
 
     };
-
     /**
      * (为指定玩家) 打开指定菜单命令
      */
@@ -85,7 +74,7 @@ public class TrMenuCommands extends BaseMainCommand {
                 return;
             }
             // tmenu open args
-            Menu menu = TrMenuAPI.getMenu(args[0]);
+            Menur menu = TrMenuAPI.getMenu(args[0]);
             if (menu == null) {
                 TLocale.sendTo(sender, "MENU.NOT-EXIST");
             }
@@ -113,7 +102,6 @@ public class TrMenuCommands extends BaseMainCommand {
         }
 
     };
-
     @SubCommand(priority = 1)
     BaseSubCommand debug = new BaseSubCommand() {
 
@@ -123,7 +111,7 @@ public class TrMenuCommands extends BaseMainCommand {
             sender.sendMessage("");
             sender.sendMessage("§2Total Menus: §6" + TrMenuAPI.getMenus().size());
             sender.sendMessage("§2Cached Skulls: §6" + Skulls.getSkulls().size());
-            sender.sendMessage("§2Running Tasks: §6" + Bukkit.getScheduler().getActiveWorkers().size());
+            sender.sendMessage("§2Running Tasks: §6" + Bukkit.getScheduler().getActiveWorkers().size() + Bukkit.getScheduler().getPendingTasks().size());
             sender.sendMessage("");
             sender.sendMessage("§3--------------------------------------------------");
         }
@@ -133,6 +121,16 @@ public class TrMenuCommands extends BaseMainCommand {
             return CommandType.ALL;
         }
     };
+
+    @Override
+    public String getCommandTitle() {
+        return "§3--------------------------------------------------";
+    }
+
+    @Override
+    public void onCommandHelp(CommandSender sender, Command command, String label, String[] args) {
+        displayHelp(sender, label);
+    }
 
     private void displayHelp(CommandSender sender, String label) {
         TLocale.sendTo(sender, "COMMANDS.HELP-PAGE", TrMenu.getPlugin().getDescription().getVersion(), label.toUpperCase().charAt(0) + label.substring(1));

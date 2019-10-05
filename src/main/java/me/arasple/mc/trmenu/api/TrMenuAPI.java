@@ -2,7 +2,7 @@ package me.arasple.mc.trmenu.api;
 
 import com.google.common.collect.Lists;
 import me.arasple.mc.trmenu.TrMenu;
-import me.arasple.mc.trmenu.inv.Menu;
+import me.arasple.mc.trmenu.inv.Menur;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -13,18 +13,18 @@ import java.util.List;
  */
 public class TrMenuAPI {
 
-    public static Menu getMenu(String menuId) {
+    public static Menur getMenu(String menuId) {
         return TrMenu.getMenus().stream().filter(menu -> menu.getName().equals(menuId)).findFirst().orElse(null);
     }
 
     public static void openMenu(Player player, String id) {
-        Menu menu = getMenu(id);
+        Menur menu = getMenu(id);
         if (menu != null) {
             menu.open(player);
         }
     }
 
-    public static List<Menu> getMenus() {
+    public static List<Menur> getMenus() {
         return TrMenu.getMenus();
     }
 
@@ -35,7 +35,7 @@ public class TrMenuAPI {
         return menus;
     }
 
-    public static Menu getMenuByCommand(String cmd) {
+    public static Menur getMenuByCommand(String cmd) {
         return getMenus().stream().filter(menu -> menu.getOpenCommands().contains(cmd)).findFirst().orElse(null);
     }
 

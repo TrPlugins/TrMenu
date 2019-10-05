@@ -1,14 +1,17 @@
 package me.arasple.mc.trmenu.loader;
 
 import com.google.common.collect.Lists;
+import io.izzel.taboolib.module.locale.TLocale;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.actions.ActionType;
 import me.arasple.mc.trmenu.actions.BaseAction;
 import me.arasple.mc.trmenu.display.Button;
 import me.arasple.mc.trmenu.display.Icon;
-import me.arasple.mc.trmenu.inv.Menu;
-import me.arasple.mc.trmenu.settings.ButtonSettings;
+import me.arasple.mc.trmenu.inv.Menur;
+import me.arasple.mc.trmenu.settings.MenurSettings;
 import me.arasple.mc.trmenu.utils.Maps;
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -20,6 +23,40 @@ import java.util.*;
  */
 @SuppressWarnings({"unchecked"})
 public class MenuLoader {
+
+    /**
+     * 加载菜单
+     *
+     * @param senders 接收反馈者
+     */
+    public static void loadMenus(List<Menur> menus, CommandSender... senders) {
+        menus.clear();
+        File folder = new File(TrMenu.getPlugin().getDataFolder(), "menus");
+        if (!folder.exists()) {
+            TrMenu.getPlugin().saveResource("menus/example.yml", true);
+        }
+
+        long start = System.currentTimeMillis();
+        Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
+            int allMenus = MenuLoader.countFiles(folder);
+            List<String> errors = MenuLoader.loadMenu(folder);
+
+            for (CommandSender sender : senders) {
+                if (menus.size() > 0) {
+                    TLocale.sendTo(sender, "MENU.LOADED-SUCCESS", menus.size(), System.currentTimeMillis() - start);
+                }
+
+                if (allMenus - menus.size() > 0 && !errors.isEmpty() && errors.size() > 0) {
+                    TLocale.sendTo(sender, "MENU.LOADED-FAILURE", allMenus - menus.size());
+                    sender.sendMessage("§8[§3Tr§bMenu§8]§8[§6WARN§8] §6--------------------------------------------------");
+                    sender.sendMessage("");
+                    errors.forEach(error -> sender.sendMessage("§8[§3Tr§bMenu§8]§8[§7INFO§8] §6" + error));
+                    sender.sendMessage("");
+                    sender.sendMessage("§8[§3Tr§bMenu§8]§8[§6WARN§8] §6--------------------------------------------------");
+                }
+            }
+        });
+    }
 
     /**
      * 加载菜单
@@ -37,19 +74,20 @@ public class MenuLoader {
             return new ArrayList<>();
         } else {
             String fileName = file.getName();
-            YamlConfiguration cfg = YamlConfiguration.loadConfiguration(file);
+            Map<String, Object> cfg = YamlConfiguration.loadConfiguration(file).getValues(false);
 
-            String title = cfg.getString("TITLE");
-            List<String> shape = fixShape(cfg.getStringList("SHAPE"));
-            List<String> openCmds = cfg.getStringList("OPEN-COMMANDS");
+            String title = Maps.getSimilarOrDefault(cfg, MenurSettings.MENU_TITLE.getName(), null);
+            List<String> shape = fixShape(Maps.getSimilarOrDefault(cfg, MenurSettings.MENU_SHAPE.getName(), null));
+            List<String> openCmds = Maps.getSimilarOrDefault(cfg, MenurSettings.MENU_OPEN_COMAMNDS.getName(), null);
             HashMap<Button, List<Integer>> buttons = new HashMap<>();
-            List<BaseAction> openActions = ActionType.readAction(cfg.getStringList("OPEN-ACTIONS"));
-            List<BaseAction> closeActions = ActionType.readAction(cfg.getStringList("CLOSE-ACTIONS"));
+            List<BaseAction> openActions = ActionType.readAction(Maps.getSimilarOrDefault(cfg, MenurSettings.MENU_OPEN_ACTIONS.getName(), new ArrayList<>()));
+            List<BaseAction> closeActions = ActionType.readAction(Maps.getSimilarOrDefault(cfg, MenurSettings.MENU_CLOSE_ACTIONS.getName(), new ArrayList<>()));
 
-            boolean lockPlayerInv = cfg.getBoolean("OPTIONS.LOCK-PLAYER-INV", true);
-            boolean transferArgs = cfg.getBoolean("OPTIONS.TRANSFER-ARGS", false);
-            int forceTransferArgsAmount = cfg.getInt("OPTIONS.FORCE-TRANSFER-ARGS", -1);
-            List<String> bindItemLore = cfg.getStringList("OPTIONS.BIND-ITEM-LORE");
+            Map<String, Object> options = (Map<String, Object>) cfg.getOrDefault(MenurSettings.MENU_OPTIONS.getName(), new HashMap<>());
+            boolean lockPlayerInv = Maps.getSimilarOrDefault(options, MenurSettings.MENU_OPTIONS_LOCKHAND.getName(), false);
+            boolean transferArgs = Maps.getSimilarOrDefault(options, MenurSettings.MENU_OPTIONS_ARGS.getName(), false);
+            int forceTransferArgsAmount = Maps.getSimilarOrDefault(options, MenurSettings.MENU_OPTIONS_FORCEARGS.getName(), -1);
+            List<String> bindItemLore = Maps.getSimilarOrDefault(options, MenurSettings.MENU_OPTIONS_BINDLORES.getName(), null);
 
             // 判断一些错误
             if (title == null) {
@@ -68,40 +106,40 @@ public class MenuLoader {
             });
 
             // 加载图标
-            cfg.getConfigurationSection("BUTTONS").getKeys(false).forEach(key -> {
-                try {
-                    Map buttonSection = Maps.sectionToMap(cfg.getConfigurationSection("BUTTONS." + key));
-                    Icon defaultIcon = IconLoader.loadIcon(buttonSection);
-                    HashMap<String, Icon> conditionalIcons = new HashMap<>();
-                    int update = Maps.getSimilarOrDefault(buttonSection, ButtonSettings.UPDATE_PERIOD.getName(), -1);
-                    int refreshConditions = Maps.getSimilarOrDefault(buttonSection, ButtonSettings.REFRESH_CONDITIONS.getName(), -1);
+            if (Maps.getSimilarOrDefault(cfg, MenurSettings.MENU_BUTTONS.getName(), null) != null) {
+                ((Map<String, Object>) Maps.sectionToMap(Maps.getSimilarOrDefault(cfg, MenurSettings.MENU_BUTTONS.getName(), null))).forEach((key, b) -> {
+                    try {
+                        Map<String, Object> buttonSection = (Map<String, Object>) Maps.sectionToMap(b);
+                        Icon defaultIcon = IconLoader.loadIcon(buttonSection);
+                        HashMap<String, Icon> conditionalIcons = new HashMap<>();
+                        int update = Maps.getSimilarOrDefault(buttonSection, MenurSettings.BUTTON_UPDATE_PERIOD.getName(), -1);
+                        int refreshConditions = Maps.getSimilarOrDefault(buttonSection, MenurSettings.BUTTON_REFRESH_CONDITIONS.getName(), -1);
 
-                    // 如果有优先级图标
-                    if (Maps.getSimilarOrDefault(buttonSection, ButtonSettings.ICONS.getName(), null) != null) {
-                        ((List<Object>) Maps.getSimilar(buttonSection, ButtonSettings.ICONS.getName())).forEach(icon -> {
-                            Map iconMap = Maps.sectionToMap(icon);
-                            String condition = Maps.getSimilarOrDefault(iconMap, ButtonSettings.ICONS_CONDITION.getName(), null);
-                            if (condition != null) {
-                                conditionalIcons.put(condition, IconLoader.loadIcon(iconMap));
-                            } else {
-                                errors.add(fileName + " 的图标 '" + key + "' 加载失败: 一个或多个条件图标的条件为空");
-                            }
-                        });
+                        // 如果有优先级图标
+                        if (Maps.getSimilarOrDefault(buttonSection, MenurSettings.BUTTON_ICONS.getName(), null) != null) {
+                            ((List<Object>) Maps.getSimilar(buttonSection, MenurSettings.BUTTON_ICONS.getName())).forEach(icon -> {
+                                Map iconMap = Maps.sectionToMap(icon);
+                                String condition = Maps.getSimilarOrDefault(iconMap, MenurSettings.BUTTON_ICONS_CONDITION.getName(), null);
+                                if (condition != null) {
+                                    conditionalIcons.put(condition, IconLoader.loadIcon(iconMap));
+                                } else {
+                                    errors.add(fileName + " 的图标 '" + key + "' 加载失败: 一个或多个条件图标的条件为空");
+                                }
+                            });
+                        }
+                        // 定位图标的位置, 创建按钮
+                        List<Integer> slots = locateButton(shape, key.charAt(0));
+                        Button button = new Button(update, refreshConditions, defaultIcon, conditionalIcons);
+                        if (slots.size() > 0) {
+                            buttons.put(button, slots);
+                        }
+                    } catch (Throwable e) {
+                        errors.add(fileName + " 的图标 '" + key + "' 加载失败: " + e.toString() + "\n§8" + Arrays.toString(e.getStackTrace()));
                     }
-                    // 定位图标的位置, 创建按钮
-                    List<Integer> slots = locateButton(shape, key.charAt(0));
-                    Button button = new Button(update, refreshConditions, defaultIcon, conditionalIcons);
-
-                    if (slots.size() > 0) {
-                        buttons.put(button, slots);
-                    }
-                } catch (Throwable e) {
-                    errors.add(fileName + " 的图标 '" + key + "' 加载失败: " + e.toString() + "\n§8" + Arrays.toString(e.getStackTrace()));
-                }
-            });
-
+                });
+            }
             if (errors.size() <= 0) {
-                TrMenu.getMenus().add(new Menu(fileName.substring(0, fileName.length() - 4), title, shape.size(), buttons, openCmds, openActions, closeActions, lockPlayerInv, transferArgs, forceTransferArgsAmount, bindItemLore));
+                TrMenu.getMenus().add(new Menur(fileName.substring(0, fileName.length() - 4), title, shape.size(), buttons, openCmds, openActions, closeActions, lockPlayerInv, transferArgs, forceTransferArgsAmount, bindItemLore));
             }
         }
         return errors;

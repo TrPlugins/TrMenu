@@ -7,15 +7,15 @@ import org.bukkit.inventory.InventoryHolder;
  * @author Arasple
  * @date 2019/10/4 14:01
  */
-public class MenuHolder implements InventoryHolder {
+public class MenurHolder implements InventoryHolder {
 
-    private Menu menu;
+    private Menur menu;
 
-    public MenuHolder(Menu menu) {
+    public MenurHolder(Menur menu) {
         this.menu = menu;
     }
 
-    public Menu getMenu() {
+    public Menur getMenu() {
         return menu;
     }
 

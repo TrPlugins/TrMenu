@@ -42,6 +42,9 @@ public class Maps {
     }
 
     public static Map sectionToMap(Object obj) {
+        if (obj == null) {
+            return null;
+        }
         if (obj instanceof Map) {
             return (Map) obj;
         } else if (obj instanceof ConfigurationSection) {

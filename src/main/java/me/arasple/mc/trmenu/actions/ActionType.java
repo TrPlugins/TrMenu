@@ -33,7 +33,7 @@ public enum ActionType {
     }
 
     public static List<BaseAction> readAction(List<String> lines) {
-        if (lines == null) {
+        if (lines == null || lines.isEmpty()) {
             return null;
         }
 
@@ -45,7 +45,7 @@ public enum ActionType {
 
     public static BaseAction readAction(String line) {
         ActionType type = Arrays.stream(values()).filter(t -> Arrays.stream(t.names).anyMatch(x -> line.toLowerCase().split(":")[0].startsWith(x))).findFirst().orElse(ActionType.MESSAGE);
-        String command = ArrayUtil.arrayJoin(line.split(":"), 0);
+        String command = ArrayUtil.arrayJoin(line.split(":"), 1);
 
         switch (type) {
             case CLOSE:

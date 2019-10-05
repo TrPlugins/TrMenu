@@ -19,7 +19,7 @@ import java.util.List;
  * @author Arasple
  * @date 2019/10/4 14:09
  */
-public class Menu {
+public class Menur {
 
     private String name;
     private String title;
@@ -34,7 +34,7 @@ public class Menu {
     private List<String> bindItemLore;
 
 
-    public Menu(String name, String title, int rows, HashMap<Button, List<Integer>> buttons, List<String> openCommands, List<BaseAction> openActions, List<BaseAction> closeActions, boolean lockPlayerInv, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore) {
+    public Menur(String name, String title, int rows, HashMap<Button, List<Integer>> buttons, List<String> openCommands, List<BaseAction> openActions, List<BaseAction> closeActions, boolean lockPlayerInv, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore) {
         this.name = name;
         this.title = title;
         this.rows = rows;
@@ -49,11 +49,11 @@ public class Menu {
     }
 
     public void open(Player player, String... args) {
-        Inventory menu = Bukkit.createInventory(new MenuHolder(this), 9 * rows, TLocale.Translate.setPlaceholders(player, Strings.replaceWithOrder(title, args)));
+        Inventory menu = Bukkit.createInventory(new MenurHolder(this), 9 * rows, TLocale.Translate.setPlaceholders(player, Strings.replaceWithOrder(title, args)));
 
         // 初始化设置
         buttons.forEach((button, slots) -> Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
-            button.refreshConditionalIcon(player);
+            button.refreshConditionalIcon(player, null, null);
             ItemStack itemStack = button.getCurrentIcon().getItem().createItemStack(player, args);
             for (int i : slots) {
                 menu.setItem(i, itemStack);
@@ -85,7 +85,7 @@ public class Menu {
                 new BukkitRunnable() {
                     @Override
                     public void run() {
-                        button.refreshConditionalIcon(player);
+                        button.refreshConditionalIcon(player, null, null);
                     }
                 }.runTaskTimerAsynchronously(TrMenu.getPlugin(), button.getRefreshConditions(), button.getRefreshConditions());
             }

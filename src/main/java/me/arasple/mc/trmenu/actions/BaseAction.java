@@ -11,11 +11,11 @@ public abstract class BaseAction {
 
     private String command;
 
-    public abstract void onExecute(Player player, InventoryEvent e, String... args);
-
     public BaseAction(String command) {
         this.command = command;
     }
+
+    public abstract void onExecute(Player player, InventoryEvent e, String... args);
 
     public String getCommand() {
         return command;

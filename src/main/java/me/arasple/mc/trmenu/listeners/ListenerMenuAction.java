@@ -4,8 +4,8 @@ import io.izzel.taboolib.module.inject.TListener;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.data.ArgsCache;
 import me.arasple.mc.trmenu.display.Button;
-import me.arasple.mc.trmenu.inv.Menu;
-import me.arasple.mc.trmenu.inv.MenuHolder;
+import me.arasple.mc.trmenu.inv.Menur;
+import me.arasple.mc.trmenu.inv.MenurHolder;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -27,12 +27,12 @@ public class ListenerMenuAction implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onClick(InventoryClickEvent e) {
-        if (!(e.getInventory().getHolder() instanceof MenuHolder)) {
+        if (!(e.getInventory().getHolder() instanceof MenurHolder)) {
             return;
         }
 
         Player p = (Player) e.getWhoClicked();
-        Menu menu = ((MenuHolder) e.getInventory().getHolder()).getMenu();
+        Menur menu = ((MenurHolder) e.getInventory().getHolder()).getMenu();
         Button button = menu.getButton(e.getRawSlot());
 
         // 防刷屏点击
@@ -45,18 +45,18 @@ public class ListenerMenuAction implements Listener {
         }
 
         if (button == null) {
+            if (p.getOpenInventory().getTopInventory().getHolder() instanceof MenurHolder && menu.isLockPlayerInv()) {
+                e.setCancelled(true);
+            }
             return;
         } else {
             e.setCancelled(true);
         }
 
         // 执行相关动作
-        button.getCurrentIcon().getactions().getOrDefault(e.getClick(), new ArrayList<>()).forEach(action -> {
-            action.onExecute(p, e, ArgsCache.getPlayerArgs(p));
-        });
-
+        button.getCurrentIcon().getactions().getOrDefault(e.getClick(), new ArrayList<>()).forEach(action -> action.onExecute(p, e, ArgsCache.getPlayerArgs(p)));
         // 刷新图标优先级
-        button.refreshConditionalIcon(p);
+        button.refreshConditionalIcon(p, e, e.getClick());
     }
 
 }

@@ -6,7 +6,7 @@ import me.arasple.mc.trmenu.actions.BaseAction;
 import me.arasple.mc.trmenu.display.Icon;
 import me.arasple.mc.trmenu.display.Item;
 import me.arasple.mc.trmenu.mat.Mat;
-import me.arasple.mc.trmenu.settings.IconSettings;
+import me.arasple.mc.trmenu.settings.MenurSettings;
 import me.arasple.mc.trmenu.utils.Maps;
 import org.bukkit.event.inventory.ClickType;
 
@@ -35,9 +35,9 @@ public class IconLoader {
         Map<String, Object> actionsMap = Maps.containsSimilar(map, "actions") ? Maps.sectionToMap(map.get("actions")) : new HashMap<>();
         HashMap<ClickType, List<BaseAction>> actions = new HashMap<>();
 
-        Object name = Maps.getSimilarOrDefault(displayMap, IconSettings.DISPLAY_NAME.getName(), null);
-        Object mats = Maps.getSimilarOrDefault(displayMap, IconSettings.DISPLAY_MATERIALS.getName(), null);
-        Object lore = Maps.getSimilarOrDefault(displayMap, IconSettings.DISPLAY_LORES.getName(), null);
+        Object name = Maps.getSimilarOrDefault(displayMap, MenurSettings.ICON_DISPLAY_NAME.getName(), null);
+        Object mats = Maps.getSimilarOrDefault(displayMap, MenurSettings.ICON_DISPLAY_MATERIALS.getName(), null);
+        Object lore = Maps.getSimilarOrDefault(displayMap, MenurSettings.ICON_DISPLAY_LORES.getName(), null);
 
         for (ClickType value : ClickType.values()) {
             List<String> actionStrings = Maps.getSimilarOrDefault(actionsMap, value.name(), null);

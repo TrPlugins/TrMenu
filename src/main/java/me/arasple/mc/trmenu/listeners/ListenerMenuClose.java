@@ -2,8 +2,8 @@ package me.arasple.mc.trmenu.listeners;
 
 import io.izzel.taboolib.module.inject.TListener;
 import me.arasple.mc.trmenu.data.ArgsCache;
-import me.arasple.mc.trmenu.inv.Menu;
-import me.arasple.mc.trmenu.inv.MenuHolder;
+import me.arasple.mc.trmenu.inv.Menur;
+import me.arasple.mc.trmenu.inv.MenurHolder;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -19,12 +19,12 @@ public class ListenerMenuClose implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onClick(InventoryCloseEvent e) {
-        if (!(e.getInventory().getHolder() instanceof MenuHolder)) {
+        if (!(e.getInventory().getHolder() instanceof MenurHolder)) {
             return;
         }
 
         Player p = (Player) e.getPlayer();
-        Menu menu = ((MenuHolder) e.getInventory().getHolder()).getMenu();
+        Menur menu = ((MenurHolder) e.getInventory().getHolder()).getMenu();
 
         if (menu.getCloseActions() != null) {
             menu.getCloseActions().forEach(action -> action.onExecute(p, e, ArgsCache.getPlayerArgs(p)));

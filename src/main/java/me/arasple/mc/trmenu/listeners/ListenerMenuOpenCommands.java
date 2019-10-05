@@ -4,7 +4,7 @@ import io.izzel.taboolib.internal.apache.lang3.ArrayUtils;
 import io.izzel.taboolib.module.inject.TListener;
 import io.izzel.taboolib.module.locale.TLocale;
 import me.arasple.mc.trmenu.api.TrMenuAPI;
-import me.arasple.mc.trmenu.inv.Menu;
+import me.arasple.mc.trmenu.inv.Menur;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -24,7 +24,7 @@ public class ListenerMenuOpenCommands implements Listener {
         String cmd = e.getMessage().split(" ")[0].substring(1);
         String[] args = ArrayUtils.remove(e.getMessage().split(" "), 0);
 
-        Menu menu = TrMenuAPI.getMenuByCommand(cmd);
+        Menur menu = TrMenuAPI.getMenuByCommand(cmd);
         if (menu != null) {
             if (menu.isTransferArgs()) {
                 if (args.length < menu.getForceTransferArgsAmount()) {

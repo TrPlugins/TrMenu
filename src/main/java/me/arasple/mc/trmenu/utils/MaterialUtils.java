@@ -17,6 +17,7 @@ public class MaterialUtils {
 
     public static Material readMaterial(String material) {
         if (NumberUtils.toInt(material, -1) != -1) {
+            // 是数字ID
             int id = NumberUtils.toInt(material, -1);
             for (Material value : Material.values()) {
                 if (value.getId() == id) {
@@ -25,9 +26,11 @@ public class MaterialUtils {
             }
             return Material.STONE;
         } else {
+            // 尝试直接读取
             try {
                 return Material.valueOf(material);
             } catch (Throwable e) {
+                // 返回类似
                 return Arrays.stream(Materials.values())
                         .filter(m -> Strings.similarDegree(m.name(), material) > TrMenu.getSettings().getDouble("OPTIONS.MATERIAL-SIMILAR-DEGREE", 0.8))
                         .max(Comparator.comparingDouble(x -> Strings.similarDegree(x.name(), material)))

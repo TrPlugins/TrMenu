@@ -1,6 +1,6 @@
 package me.arasple.mc.trmenu.api.events;
 
-import me.arasple.mc.trmenu.inv.Menu;
+import me.arasple.mc.trmenu.inv.Menur;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;
@@ -14,14 +14,14 @@ public class MenuOpenEvent extends PlayerEvent implements Cancellable {
 
     private static final HandlerList HANDLERS = new HandlerList();
     private boolean cancelled;
-    private Menu menu;
+    private Menur menu;
 
-    public MenuOpenEvent(Player player, Menu menu) {
+    public MenuOpenEvent(Player player, Menur menu) {
         super(player);
         this.menu = menu;
     }
 
-    public Menu getMenu() {
+    public Menur getMenu() {
         return menu;
     }
 
