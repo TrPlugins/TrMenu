@@ -2,10 +2,13 @@ package me.arasple.mc.trmenu.listeners;
 
 import io.izzel.taboolib.module.inject.TListener;
 import me.arasple.mc.trmenu.TrMenu;
+import me.arasple.mc.trmenu.actions.BaseAction;
+import me.arasple.mc.trmenu.actions.ext.IconActionDealy;
 import me.arasple.mc.trmenu.data.ArgsCache;
 import me.arasple.mc.trmenu.display.Button;
 import me.arasple.mc.trmenu.inv.Menur;
 import me.arasple.mc.trmenu.inv.MenurHolder;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -14,6 +17,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -54,7 +58,21 @@ public class ListenerMenuAction implements Listener {
         }
 
         // 执行相关动作
-        button.getCurrentIcon().getactions().getOrDefault(e.getClick(), new ArrayList<>()).forEach(action -> action.onExecute(p, e, ArgsCache.getPlayerArgs(p)));
+        List<BaseAction> actions = button.getCurrentIcon().getactions().getOrDefault(e.getClick(), new ArrayList<>());
+        if (actions != null && !actions.isEmpty()) {
+            for (BaseAction action : actions) {
+                if (action instanceof IconActionDealy) {
+                    long delay = ((IconActionDealy) action).getDelay();
+                    if (delay > 0) {
+                        Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> {
+
+                        }, delay);
+                    }
+                    break;
+                }
+                action.onExecute(p, e, ArgsCache.getPlayerArgs(p));
+            }
+        }
         // 刷新图标优先级
         button.refreshConditionalIcon(p, e, e.getClick());
     }

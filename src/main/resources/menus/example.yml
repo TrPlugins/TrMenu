@@ -81,7 +81,7 @@ BUTTONS:
         - <CUSTOM-HEAD:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGI2MTdjNTlkY2VkODE1M2RhOTNiYjBiMTg3MGZjZTJjODAwNDY0NDVhZTM3M2I0M2JlYmZhMTA0OGE5MDViNyJ9fX0=>
     actions:
       left:
-        - 'talk: 你好啊'
+        - 'talk: 你好啊<REQUIREMENT:true><CHANCE:1>'
     # 相关优先级, 按顺序
     icons:
       - condition: '"%player_name%" == "Bkm016"'
