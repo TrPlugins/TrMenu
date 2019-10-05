@@ -56,9 +56,9 @@ public class ListenerMenuAction implements Listener {
         }
 
         // 读取动作
-        List<BaseAction> actions = button.getCurrentIcon().getactions().getOrDefault(e.getClick(), new ArrayList<>());
-        if (button.getCurrentIcon().getactions().get(null) != null) {
-            actions.addAll(button.getCurrentIcon().getactions().get(null));
+        List<BaseAction> actions = button.getCurrentIcon().getActions().getOrDefault(e.getClick(), new ArrayList<>());
+        if (button.getCurrentIcon().getActions().get(null) != null) {
+            actions.addAll(button.getCurrentIcon().getActions().get(null));
         }
         // 执行动作
         ActionRunner.runActions(actions, p, e);

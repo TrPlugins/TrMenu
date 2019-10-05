@@ -38,6 +38,7 @@ public class IconLoader {
         Object name = Maps.getSimilarOrDefault(displayMap, MenurSettings.ICON_DISPLAY_NAME.getName(), null);
         Object mats = Maps.getSimilarOrDefault(displayMap, MenurSettings.ICON_DISPLAY_MATERIALS.getName(), null);
         Object lore = Maps.getSimilarOrDefault(displayMap, MenurSettings.ICON_DISPLAY_LORES.getName(), null);
+        Object attributes = Maps.getSimilarOrDefault(displayMap, MenurSettings.ICON_DISPLAY_ATTRIBUTES.getName(), null);
 
         // 载入点击动作
         for (ClickType value : ClickType.values()) {

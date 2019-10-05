@@ -5,6 +5,7 @@ import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.util.Strings;
 import me.arasple.mc.trmenu.mat.Mat;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -38,6 +39,13 @@ public class Item {
         if (names.size() > 0) {
             itemMeta.setDisplayName(TLocale.Translate.setPlaceholders(player, Strings.replaceWithOrder(names.get(nextIndex(0)), args)));
         }
+
+        try {
+            itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        } catch (Throwable ignore) {
+
+        }
+
         itemStack.setItemMeta(itemMeta);
 
         return itemStack;

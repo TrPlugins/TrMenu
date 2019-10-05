@@ -28,11 +28,11 @@ public class Icon {
         this.item = item;
     }
 
-    public HashMap<ClickType, List<BaseAction>> getactions() {
+    public HashMap<ClickType, List<BaseAction>> getActions() {
         return actions;
     }
 
-    public void setactions(HashMap<ClickType, List<BaseAction>> actions) {
+    public void setActions(HashMap<ClickType, List<BaseAction>> actions) {
         this.actions = actions;
     }
 
