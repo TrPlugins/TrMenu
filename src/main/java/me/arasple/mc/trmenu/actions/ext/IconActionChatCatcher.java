@@ -50,7 +50,7 @@ public class IconActionChatCatcher extends BaseAction {
         }
     }
 
-    // CATCHER: <BEFORE=action1|action2><EXECUTE=action1|action2><AFTER=action1|action2>
+    // CATCHER: BEFORE=action1|action2---EXECUTE=action1|action2---AFTER=action1|action2
     // catch: <before=动作1|动作2><execute=动作组><after=动作组>
 
     @Override

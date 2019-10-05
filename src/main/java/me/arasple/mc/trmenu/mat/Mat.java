@@ -4,10 +4,8 @@ import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils;
 import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.util.Variables;
 import io.izzel.taboolib.util.lite.Materials;
-import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.utils.MaterialUtils;
 import me.arasple.mc.trmenu.utils.Skulls;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -77,7 +75,6 @@ public class Mat {
             String[] args = variable.get(0).getText().split(":");
             if (args.length >= 2) {
                 switch (args[0]) {
-                    // <MODEL-DATA:COAL:1>
                     case "MODEL-DATA":
                         if (args.length == 3) {
                             this.material = MaterialUtils.readMaterial(args[1]);
@@ -89,6 +86,7 @@ public class Mat {
                         if (args.length == 2) {
                             this.material = Materials.matchMaterials("PLAYER_HEAD").parseMaterial();
                             this.playerHead = args[1];
+                            Skulls.getPlayerSkull(playerHead);
                             return MatType.PLAYER_HEAD;
                         }
                     case "VARIABLE-HEAD":
@@ -101,8 +99,7 @@ public class Mat {
                         if (args.length == 2) {
                             this.material = Materials.matchMaterials("PLAYER_HEAD").parseMaterial();
                             this.textureHead = args[1];
-                            // 这里提前异步加载，缓存. 防止玩家首次打开卡炸
-                            Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> Skulls.getCustomSkull(textureHead));
+                            Skulls.getCustomSkull(textureHead);
                             return MatType.CUSTOM_HEAD;
                         }
                     default:
