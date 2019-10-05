@@ -90,6 +90,9 @@ public class MenuLoader {
             List<BaseAction> openActions = ActionType.readAction(Maps.getSimilarOrDefault(cfg, MenurSettings.MENU_OPEN_ACTIONS.getName(), new ArrayList<>()));
             List<BaseAction> closeActions = ActionType.readAction(Maps.getSimilarOrDefault(cfg, MenurSettings.MENU_CLOSE_ACTIONS.getName(), new ArrayList<>()));
 
+            String openRequirement = Maps.getSimilarOrDefault(cfg, MenurSettings.MENU_OPEN_REQUIREMENT.getName(), null);
+            List<BaseAction> openDenyActions = ActionType.readAction(Maps.getSimilarOrDefault(cfg, MenurSettings.MENU_OPEN_DENY_ACTIONS.getName(), new ArrayList<>()));
+
             Map<String, Object> options = Maps.getSimilarOrDefault(cfg, MenurSettings.MENU_OPTIONS.getName(), new HashMap<>());
             boolean lockPlayerInv = Maps.getSimilarOrDefault(options, MenurSettings.MENU_OPTIONS_LOCKHAND.getName(), true);
             boolean transferArgs = Maps.getSimilarOrDefault(options, MenurSettings.MENU_OPTIONS_ARGS.getName(), false);
@@ -149,7 +152,7 @@ public class MenuLoader {
             }
 
             if (errors.size() <= 0) {
-                TrMenu.getMenus().add(new Menur(fileName.substring(0, fileName.length() - 4), title, shape.size(), buttons, openCmds, openActions, closeActions, lockPlayerInv, transferArgs, forceTransferArgsAmount, bindItemLore));
+                TrMenu.getMenus().add(new Menur(fileName.substring(0, fileName.length() - 4), title, shape.size(), buttons, openRequirement, openDenyActions, openCmds, openActions, closeActions, lockPlayerInv, transferArgs, forceTransferArgsAmount, bindItemLore));
             }
         }
         return errors;

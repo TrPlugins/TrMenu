@@ -23,6 +23,13 @@ Shape:
   - '         '
   - '#########'
 
+# (可选 | 默认无) 打开此菜单需要满足的条件表达式，需返回 Boolean 值
+Open-Requirement: 'player.hasPermission("trmenu.use")'
+
+# (可选 | 默认无) 若不满足打开此菜单需满足的条件, 则执行以下动作
+Open-Deny-Actions:
+  - 'tell: &c你缺少权限 &6trmenu.use &c以打开此菜单.'
+
 # 菜单打开命令
 Open-Commands:
   - 'example'

@@ -27,6 +27,18 @@ public final class TrMenu extends TrMenuPlugin {
     private static TConfig settings;
     private static List<Menur> menus = Lists.newArrayList();
 
+    public static List<Menur> getMenus() {
+        return menus;
+    }
+
+    public static TLogger getTLogger() {
+        return logger;
+    }
+
+    public static TConfig getSettings() {
+        return settings;
+    }
+
     @Override
     public void onStarting() {
         TLocale.sendToConsole("PLUGIN.LOADING");
@@ -44,22 +56,6 @@ public final class TrMenu extends TrMenuPlugin {
         });
 
         TLocale.sendToConsole("PLUGIN.DISABLED");
-    }
-
-    /*
-    GETTERS
-     */
-
-    public static List<Menur> getMenus() {
-        return menus;
-    }
-
-    public static TLogger getTLogger() {
-        return logger;
-    }
-
-    public static TConfig getSettings() {
-        return settings;
     }
 
 }

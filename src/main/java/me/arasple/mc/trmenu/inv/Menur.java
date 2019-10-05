@@ -7,6 +7,7 @@ import me.arasple.mc.trmenu.actions.BaseAction;
 import me.arasple.mc.trmenu.api.events.MenuOpenEvent;
 import me.arasple.mc.trmenu.data.ArgsCache;
 import me.arasple.mc.trmenu.display.Button;
+import me.arasple.mc.trmenu.utils.JavaScript;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -29,16 +30,21 @@ public class Menur {
     private List<String> openCommands;
     private List<BaseAction> openActions, closeActions;
 
+    private String openRequirement;
+    private List<BaseAction> openDenyActions;
+
     private boolean lockPlayerInv;
     private boolean transferArgs;
     private int forceTransferArgsAmount;
     private List<String> bindItemLore;
 
-    public Menur(String name, String title, int rows, HashMap<Button, List<Integer>> buttons, List<String> openCommands, List<BaseAction> openActions, List<BaseAction> closeActions, boolean lockPlayerInv, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore) {
+    public Menur(String name, String title, int rows, HashMap<Button, List<Integer>> buttons, String openRequirement, List<BaseAction> openDenyActions, List<String> openCommands, List<BaseAction> openActions, List<BaseAction> closeActions, boolean lockPlayerInv, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore) {
         this.name = name;
         this.title = title;
         this.rows = rows;
         this.buttons = buttons;
+        this.openRequirement = openRequirement;
+        this.openDenyActions = openDenyActions;
         this.openCommands = openCommands;
         this.openActions = openActions;
         this.closeActions = closeActions;
@@ -57,11 +63,18 @@ public class Menur {
             event.getMenu().open(player, args);
             return;
         }
+        if (!player.hasPermission("trmenu.admin") && !Strings.isBlank(openRequirement) && !(boolean) JavaScript.run(player, openRequirement, null, args)) {
+            event.setCancelled(true);
+            if (getOpenDenyActions() != null) {
+                getOpenDenyActions().forEach(action -> action.onExecute(player, null, args));
+            }
+            return;
+        }
 
         Inventory menu = Bukkit.createInventory(new MenurHolder(this), 9 * rows, TLocale.Translate.setPlaceholders(player, Strings.replaceWithOrder(title, args)));
         // 初始化设置
         buttons.forEach((button, slots) -> Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
-            button.refreshConditionalIcon(player, null, null);
+            button.refreshConditionalIcon(player, null);
             ItemStack itemStack = button.getCurrentIcon().getItem().createItemStack(player, args);
             for (int i : slots) {
                 menu.setItem(i, itemStack);
@@ -93,7 +106,7 @@ public class Menur {
                 new BukkitRunnable() {
                     @Override
                     public void run() {
-                        button.refreshConditionalIcon(player, null, null);
+                        button.refreshConditionalIcon(player, null);
                     }
                 }.runTaskTimerAsynchronously(TrMenu.getPlugin(), button.getRefreshConditions(), button.getRefreshConditions());
             }
@@ -176,12 +189,20 @@ public class Menur {
         this.closeActions = closeActions;
     }
 
-    public boolean isTransferArgs() {
-        return transferArgs;
+    public String getOpenRequirement() {
+        return openRequirement;
     }
 
-    public void setTransferArgs(boolean transferArgs) {
-        this.transferArgs = transferArgs;
+    public void setOpenRequirement(String openRequirement) {
+        this.openRequirement = openRequirement;
+    }
+
+    public List<BaseAction> getOpenDenyActions() {
+        return openDenyActions;
+    }
+
+    public void setOpenDenyActions(List<BaseAction> openDenyActions) {
+        this.openDenyActions = openDenyActions;
     }
 
     public boolean isLockPlayerInv() {
@@ -190,6 +211,14 @@ public class Menur {
 
     public void setLockPlayerInv(boolean lockPlayerInv) {
         this.lockPlayerInv = lockPlayerInv;
+    }
+
+    public boolean isTransferArgs() {
+        return transferArgs;
+    }
+
+    public void setTransferArgs(boolean transferArgs) {
+        this.transferArgs = transferArgs;
     }
 
     public int getForceTransferArgsAmount() {

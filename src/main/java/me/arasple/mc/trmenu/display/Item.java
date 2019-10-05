@@ -45,25 +45,37 @@ public class Item {
         resetIndex();
     }
 
+    /**
+     * 为一名玩家刷新该物品
+     *
+     * @param player 玩家
+     * @param args   参数
+     * @return 物品
+     */
     public ItemStack createItemStack(Player player, String... args) {
+        // 取动态材质创建物品
         ItemStack itemStack = materials.get(nextIndex(1)).createItem(player);
         ItemMeta itemMeta = itemStack.getItemMeta();
-
+        // 载入动态 Lore
         if (lores.size() > 0) {
             itemMeta.setLore(replaceWith(player, lores.get(nextIndex(2)), args));
         }
+        // 载入动态名称
         if (names.size() > 0) {
             itemMeta.setDisplayName(TLocale.Translate.setPlaceholders(player, Strings.replaceWithOrder(names.get(nextIndex(0)), args)));
         }
+        // 计算并应用发光效果
         if (finalShiny || (!Strings.isBlank(shiny) && (boolean) JavaScript.run(player, shiny, null, args))) {
             itemMeta.addEnchant(Enchantment.LUCK, 1, true);
             itemFlags.add(ItemFlag.HIDE_ENCHANTS);
         }
+        // 计算并应用动态数量
         if (finalAmount != -1) {
             itemStack.setAmount(finalAmount);
         } else {
             itemStack.setAmount(NumberUtils.toInt(String.valueOf(JavaScript.run(player, amount, null, args)), 1));
         }
+        // 应用物品标签
         if (itemFlags.size() > 0) {
             itemFlags.forEach(itemFlag -> {
                 if (!itemMeta.hasItemFlag(itemFlag)) {
@@ -71,10 +83,8 @@ public class Item {
                 }
             });
         }
-
         itemStack.setItemMeta(itemMeta);
         Metrics.increase(2);
-
         return itemStack;
     }
 
@@ -86,11 +96,9 @@ public class Item {
 
     private int nextIndex(int type) {
         int size = type == 0 ? names.size() : type == 1 ? materials.size() : lores.size();
-
         if (size == 1) {
             return 0;
         }
-
         int i = indexs[type];
         if (i + 1 >= size) {
             indexs[type] = 0;

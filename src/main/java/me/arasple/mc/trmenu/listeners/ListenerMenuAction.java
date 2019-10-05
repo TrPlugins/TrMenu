@@ -65,7 +65,7 @@ public class ListenerMenuAction implements Listener {
         // 执行动作
         ActionRunner.runActions(actions, p, e);
         // 刷新图标优先级
-        button.refreshConditionalIcon(p, e, e.getClick());
+        button.refreshConditionalIcon(p, e);
 
         if (p.hasMetadata("TrMenu-Debug")) {
             p.sendMessage("§8[§3Tr§bMenu§8]§8[§7DEBUG§8] §6InventoryClickEvent Took §e" + (System.currentTimeMillis() - start) + "ms§6.");

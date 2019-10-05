@@ -12,7 +12,6 @@ public abstract class BaseAction {
     private String requirement;
     private String command;
     private double chance;
-
     public BaseAction(String command) {
         this.command = command;
     }
@@ -23,23 +22,35 @@ public abstract class BaseAction {
         this.chance = chance;
     }
 
+
+    /**
+     * 执行动作时的方法
+     *
+     * @param player 玩家
+     * @param e      容器事件
+     * @param args   参数
+     */
     public abstract void onExecute(Player player, InventoryEvent e, String... args);
 
     public String getCommand() {
         return command;
     }
 
-    public String getRequirement() {
-        return requirement;
+    public void setCommand(String command) {
+        this.command = command;
     }
 
-    public double getChance() {
-        return chance;
+    public String getRequirement() {
+        return requirement;
     }
 
     public BaseAction setRequirement(String requirement) {
         this.requirement = requirement;
         return this;
+    }
+
+    public double getChance() {
+        return chance;
     }
 
     public BaseAction setChance(double chance) {

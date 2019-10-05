@@ -18,7 +18,18 @@ import java.util.*;
  */
 public class ActionRunner {
 
+    /**
+     * 将动作集合根据条件表达式分组并依次执行, 提高效率
+     *
+     * @param orgActions 原动作组
+     * @param player     需要跑的玩家
+     * @param e          容器事件
+     */
     public static void runActions(List<BaseAction> orgActions, Player player, InventoryClickEvent e) {
+        runActions(orgActions, player, e, null);
+    }
+
+    public static void runActions(List<BaseAction> orgActions, Player player, InventoryClickEvent e, Map<String, String> replace) {
         if (orgActions == null || orgActions.isEmpty()) {
             return;
         }
@@ -35,12 +46,18 @@ public class ActionRunner {
                 orgActions.removeAll(actions);
             }
         });
-        executeActions(orgActions.listIterator(), player, e);
+        executeActions(orgActions.listIterator(), player, e, replace);
     }
 
-    private static void executeActions(ListIterator<BaseAction> actionListIterator, Player player, InventoryClickEvent e) {
+    /**
+     * 执行一组动作
+     *
+     * @param actionListIterator 动作
+     * @param player             玩家
+     * @param e                  容器事件
+     */
+    private static void executeActions(ListIterator<BaseAction> actionListIterator, Player player, InventoryClickEvent e, Map<String, String> replace) {
         while (actionListIterator.hasNext()) {
-
             BaseAction action = actionListIterator.next();
             // 判断概率是否满足
             if (new Random().nextDouble() > action.getChance()) {
@@ -50,22 +67,34 @@ public class ActionRunner {
             if (action instanceof IconActionDealy) {
                 long delay = ((IconActionDealy) action).getDelay();
                 if (delay > 0) {
-                    Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> executeActions(actionListIterator, player, e), delay);
+                    Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> executeActions(actionListIterator, player, e, replace), delay);
                     break;
                 }
-
             }
             // 中断执行
             else if (action instanceof IconActionBreak) {
                 break;
             } else {
+                String cmd = action.getCommand();
+                if (replace != null && replace.size() > 0) {
+                    replace.forEach((key, value) -> action.setCommand(action.getCommand().replace(key, value)));
+                }
                 action.onExecute(player, e, ArgsCache.getPlayerArgs(player));
+                action.setCommand(cmd);
             }
         }
 
         actionListIterator.remove();
     }
 
+    /**
+     * 是否满足表达式
+     *
+     * @param requirement 表达式
+     * @param player      玩家
+     * @param event       容器事件
+     * @return 是否满足
+     */
     private static boolean isRequirementMatch(String requirement, Player player, InventoryClickEvent event) {
         if (requirement != null && !Strings.isEmpty(requirement)) {
             return (boolean) JavaScript.run(player, requirement, event, ArgsCache.getPlayerArgs(player));

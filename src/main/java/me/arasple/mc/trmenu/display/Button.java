@@ -4,7 +4,6 @@ import me.arasple.mc.trmenu.bstats.Metrics;
 import me.arasple.mc.trmenu.data.ArgsCache;
 import me.arasple.mc.trmenu.utils.JavaScript;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 import java.util.HashMap;
@@ -30,11 +29,13 @@ public class Button {
         this.conditionalIcons = conditionalIcons;
     }
 
-    public Icon getCurrentIcon() {
-        return currentIcon;
-    }
-
-    public void refreshConditionalIcon(Player player, InventoryClickEvent event, ClickType type) {
+    /**
+     * 重新计算条件并刷新显示的图标
+     *
+     * @param player 玩家
+     * @param event  容器事件
+     */
+    public void refreshConditionalIcon(Player player, InventoryClickEvent event) {
         if (conditionalIcons.values().size() > 0) {
             for (Map.Entry<String, Icon> iconEntry : conditionalIcons.entrySet()) {
                 if ((boolean) JavaScript.run(player, iconEntry.getKey(), event, ArgsCache.getPlayerArgs(player))) {
@@ -46,6 +47,10 @@ public class Button {
         currentIcon = defaultIcon;
         Metrics.increase(2);
     }
+
+    /*
+    GETTERS & SETTERS
+     */
 
     public int getUpdatePeriod() {
         return updatePeriod;
@@ -77,6 +82,14 @@ public class Button {
 
     public void setConditionalIcons(HashMap<String, Icon> conditionalIcons) {
         this.conditionalIcons = conditionalIcons;
+    }
+
+    public Icon getCurrentIcon() {
+        return currentIcon;
+    }
+
+    public void setCurrentIcon(Icon currentIcon) {
+        this.currentIcon = currentIcon;
     }
 
     @Override

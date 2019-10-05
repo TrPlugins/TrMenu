@@ -11,6 +11,8 @@ public enum MenurSettings {
      */
     MENU_TITLE("title"),
     MENU_SHAPE("shape"),
+    MENU_OPEN_REQUIREMENT("open-requirement"),
+    MENU_OPEN_DENY_ACTIONS("open-deny-actions"),
     MENU_OPEN_COMAMNDS("open-commands"),
     MENU_OPEN_ACTIONS("open-actions"),
     MENU_CLOSE_ACTIONS("close-actions"),

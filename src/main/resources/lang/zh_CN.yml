@@ -10,10 +10,8 @@ PLUGIN:
     - ''
     - '&3Tr&bMenu &7正在载入中...'
     - ''
-  ENABLED:
-    - '&8[&3Tr&bMenu&8] &3启动成功. 当前运行版本: &aVersion {0}'
-  DISABLED:
-    - '&8[&3Tr&bMenu&8] &7感谢使用本插件, 您在论坛为本插件评分即是对作者最大的鼓励!'
+  ENABLED: '&8[&3Tr&bMenu&8] &3启动成功. 当前运行版本: &aVersion {0}'
+  DISABLED: '&8[&3Tr&bMenu&8] &7感谢使用本插件, 您在论坛为本插件评分即是对作者最大的鼓励!'
   UPDATE-NOTIFY:
     LATEST: '&8[&3Tr&bMenu&8] &2你正在运行最新版的 &3TrMenu&a.'
     DEV: '&8[&3Tr&bMenu&8] &6你正在运行开发版本的 TrMenu, 请及时反馈漏洞!'

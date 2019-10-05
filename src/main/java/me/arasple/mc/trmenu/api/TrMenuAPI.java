@@ -13,21 +13,37 @@ import java.util.List;
  */
 public class TrMenuAPI {
 
+    /**
+     * 通过菜单ID取得菜单
+     *
+     * @param menuId id
+     * @return TrMenu菜单
+     */
     public static Menur getMenu(String menuId) {
         return TrMenu.getMenus().stream().filter(menu -> menu.getName().equals(menuId)).findFirst().orElse(null);
     }
 
-    public static void openMenu(Player player, String id) {
+    /**
+     * 为一名玩家打开一个菜单
+     *
+     * @param player 目标玩家
+     * @param id     菜单ID
+     * @return 是否存在菜单
+     */
+    public static boolean openMenu(Player player, String id) {
         Menur menu = getMenu(id);
         if (menu != null) {
             menu.open(player);
+            return true;
         }
+        return false;
     }
 
-    public static List<Menur> getMenus() {
-        return TrMenu.getMenus();
-    }
-
+    /**
+     * 取得所有菜单的ID集合
+     *
+     * @return 集合
+     */
     public static List<String> getMenuIds() {
         List<String> menus = Lists.newArrayList();
         getMenus().forEach(m -> menus.add(m.getName()));
@@ -35,8 +51,23 @@ public class TrMenuAPI {
         return menus;
     }
 
+    /**
+     * 通过打开菜单的命令取得菜单
+     *
+     * @param cmd 命令
+     * @return 菜单
+     */
     public static Menur getMenuByCommand(String cmd) {
         return getMenus().stream().filter(menu -> menu.getOpenCommands().contains(cmd)).findFirst().orElse(null);
+    }
+
+    /**
+     * 取得 TrMenu 已加载的所有菜单
+     *
+     * @return 菜单集合
+     */
+    public static List<Menur> getMenus() {
+        return TrMenu.getMenus();
     }
 
 }
