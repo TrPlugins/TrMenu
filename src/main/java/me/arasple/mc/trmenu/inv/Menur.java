@@ -4,6 +4,7 @@ import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.util.Strings;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.actions.BaseAction;
+import me.arasple.mc.trmenu.api.events.MenuOpenEvent;
 import me.arasple.mc.trmenu.data.ArgsCache;
 import me.arasple.mc.trmenu.display.Button;
 import org.bukkit.Bukkit;
@@ -48,8 +49,16 @@ public class Menur {
     }
 
     public void open(Player player, String... args) {
-        Inventory menu = Bukkit.createInventory(new MenurHolder(this), 9 * rows, TLocale.Translate.setPlaceholders(player, Strings.replaceWithOrder(title, args)));
+        MenuOpenEvent event = new MenuOpenEvent(player, this);
+        if (event.isCancelled()) {
+            return;
+        }
+        if (event.getMenu() != this) {
+            event.getMenu().open(player, args);
+            return;
+        }
 
+        Inventory menu = Bukkit.createInventory(new MenurHolder(this), 9 * rows, TLocale.Translate.setPlaceholders(player, Strings.replaceWithOrder(title, args)));
         // 初始化设置
         buttons.forEach((button, slots) -> Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
             button.refreshConditionalIcon(player, null, null);

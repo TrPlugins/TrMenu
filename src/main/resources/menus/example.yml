@@ -46,23 +46,23 @@ Options:
   Bind-Item-Lore:
     - '点击打开菜单'
 
-# 定义容器的按钮, 与 Shaple 模板中的字符相对应
-BUTTONS:
-  '#':
-    # (可选) 更新周期, 不设置则不刷新
-    update: 10
-    # (必须) 图标显示
-    display:
-      mats:
-        - 'GRAY_STAINED_GLASS_PANE'
-      name: ["&7Tr&8Menu","&7Tr&7Menu","&7Tr&fMenu"]
-      lore:
-        - - '&7TrMenu by &2Arasple'
-        - - '&7TrMenu by &3Arasple'
-    # 点击动作
-    actions:
-      # 类型 - [动作]
-      all: ['sound: BLOCK_NOTE_BLOCK_PLING-1-2']
+  # 定义容器的按钮, 与 Shaple 模板中的字符相对应
+  BUTTONS:
+    '#':
+      # (可选) 更新周期, 不设置则不刷新
+      update: 10
+      # (必须) 图标显示
+      display:
+        mats:
+          - 'GRAY_STAINED_GLASS_PANE'
+        name: ["&7Tr&8Menu","&7Tr&7Menu","&7Tr&fMenu"]
+        lore:
+          - - '&7TrMenu by &2Arasple'
+          - - '&7TrMenu by &3Arasple'
+      # 点击动作
+      actions:
+        # 类型 - [动作]
+        all: ['sound: BLOCK_NOTE_BLOCK_PLING-1-2']
   'C':
     update: 35
     display:
