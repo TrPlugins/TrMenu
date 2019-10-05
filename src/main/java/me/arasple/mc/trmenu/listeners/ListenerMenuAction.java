@@ -45,7 +45,7 @@ public class ListenerMenuAction implements Listener {
         } else {
             clickTimes.put(p.getUniqueId(), System.currentTimeMillis());
         }
-
+        // 锁定玩家背包
         if (button == null) {
             if (e.getClickedInventory() == p.getInventory() && menu.isLockPlayerInv()) {
                 e.setCancelled(true);

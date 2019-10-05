@@ -15,11 +15,6 @@ import java.util.List;
 /**
  * @author Arasple
  * @since 2019.10.2
- * -
- * Menu -> Buttons
- * -
- * Each button has unlimited icons display by condition,
- * and each icons support dyniamc display items as well as actions
  */
 @TrMenuPlugin.Version(5.07)
 public final class TrMenu extends TrMenuPlugin {
