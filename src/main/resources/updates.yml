@@ -25,6 +25,7 @@ Version 1.0X:
       - 单个 Icon 支持异步刷新多组动态位置!!
       - 新增菜单的 Open-Requirement (打开条件表达式) 和 Open-DenyActions (打开失败执行动作)
       - 新增聊天捕获器图标命令
+    1.04:
 
 Version 1.0:
   Date: 2019.10.5

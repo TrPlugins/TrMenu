@@ -45,7 +45,7 @@ public class Metrics {
             return i;
         }));
         // 统计菜单行数
-        metrics.addCustomChart(new MetricsBukkit.AdvancedPie("menu_rows", () -> {
+        metrics.addCustomChart(new MetricsBukkit.AdvancedPie("menu_size", () -> {
             Map<String, Integer> data = new HashMap<>();
             data.put("1", (int) TrMenu.getMenus().stream().filter(menur -> menur.getRows() == 1).count());
             data.put("2", (int) TrMenu.getMenus().stream().filter(menur -> menur.getRows() == 2).count());
@@ -53,6 +53,7 @@ public class Metrics {
             data.put("4", (int) TrMenu.getMenus().stream().filter(menur -> menur.getRows() == 4).count());
             data.put("5", (int) TrMenu.getMenus().stream().filter(menur -> menur.getRows() == 5).count());
             data.put("6", (int) TrMenu.getMenus().stream().filter(menur -> menur.getRows() == 6).count());
+            data.entrySet().removeIf(entry -> entry.getValue() <= 0);
             return data;
         }));
         // 选项 - 相似度比

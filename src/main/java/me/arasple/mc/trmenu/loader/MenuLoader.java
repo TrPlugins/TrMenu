@@ -9,7 +9,7 @@ import me.arasple.mc.trmenu.display.Button;
 import me.arasple.mc.trmenu.display.Icon;
 import me.arasple.mc.trmenu.inv.Menur;
 import me.arasple.mc.trmenu.inv.MenurHolder;
-import me.arasple.mc.trmenu.settings.MenurSettings;
+import me.arasple.mc.trmenu.inv.MenurSettings;
 import me.arasple.mc.trmenu.utils.Maps;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;

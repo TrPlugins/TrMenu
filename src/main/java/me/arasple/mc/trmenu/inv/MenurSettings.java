@@ -1,4 +1,4 @@
-package me.arasple.mc.trmenu.settings;
+package me.arasple.mc.trmenu.inv;
 
 /**
  * @author Arasple
@@ -37,7 +37,7 @@ public enum MenurSettings {
     ICON_DISPLAY_SLOTS("slot(s)?"),
     ICON_DISPLAY_FLAGS("flag(s)?"),
     ICON_DISPLAY_SHINY("shiny|glow"),
-    ICON_DISPLAY_AMOUNT("amount");
+    ICON_DISPLAY_AMOUNT("amount(s)?");
 
     private String name;
 
