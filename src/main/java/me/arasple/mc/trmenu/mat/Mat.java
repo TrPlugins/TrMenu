@@ -4,6 +4,8 @@ import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils;
 import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.util.Variables;
 import io.izzel.taboolib.util.lite.Materials;
+import me.arasple.mc.trmenu.TrMenu;
+import me.arasple.mc.trmenu.hook.HookHeadDatabase;
 import me.arasple.mc.trmenu.utils.MaterialUtils;
 import me.arasple.mc.trmenu.utils.Skulls;
 import org.bukkit.Material;
@@ -25,10 +27,8 @@ public class Mat {
     private MatType type;
 
     private Material material;
-    private String playerHead;
-    private String variableHead;
-    private String textureHead;
 
+    private String headValue;
     private int modelData;
     private byte dataValue;
 
@@ -38,8 +38,8 @@ public class Mat {
     }
 
     public ItemStack createItem(Player player) {
-        ItemStack itemStack = new ItemStack(material);
-        ItemMeta itemMeta = itemStack.getItemMeta();
+        ItemStack itemStack = material != null ? new ItemStack(material) : null;
+        ItemMeta itemMeta = itemStack != null ? itemStack.getItemMeta() : null;
 
         switch (type) {
             case ORIGINAL:
@@ -52,11 +52,17 @@ public class Mat {
                 itemStack.setItemMeta(itemMeta);
                 return itemStack;
             case PLAYER_HEAD:
-                return Skulls.getPlayerSkull(playerHead);
+                return Skulls.getPlayerSkull(headValue);
             case VARIABLE_HEAD:
-                return Skulls.getPlayerSkull(TLocale.Translate.setPlaceholders(player, variableHead));
+                return Skulls.getPlayerSkull(TLocale.Translate.setPlaceholders(player, headValue));
             case CUSTOM_HEAD:
-                return Skulls.getCustomSkull(textureHead);
+                return Skulls.getCustomSkull(headValue);
+            case HEAD_DATABASE:
+                if (!HookHeadDatabase.isHoooked()) {
+                    TrMenu.getTLogger().error("&c未安装 &6HeadDatabase&c, 你无法使用该材质: &6" + mat);
+                    return null;
+                }
+                return HookHeadDatabase.getItem(headValue);
             default:
                 return itemStack;
         }
@@ -74,7 +80,7 @@ public class Mat {
         if (variable.size() >= 1) {
             String[] args = variable.get(0).getText().split(":");
             if (args.length >= 2) {
-                switch (args[0]) {
+                switch (args[0].toUpperCase()) {
                     case "MODEL-DATA":
                         if (args.length == 3) {
                             this.material = MaterialUtils.readMaterial(args[1]);
@@ -84,23 +90,25 @@ public class Mat {
                         break;
                     case "PLAYER-HEAD":
                         if (args.length == 2) {
-                            this.material = Materials.matchMaterials("PLAYER_HEAD").parseMaterial();
-                            this.playerHead = args[1];
-                            Skulls.getPlayerSkull(playerHead);
+                            this.headValue = args[1];
+                            Skulls.getPlayerSkull(headValue);
                             return MatType.PLAYER_HEAD;
                         }
                     case "VARIABLE-HEAD":
                         if (args.length == 2) {
-                            this.material = Materials.matchMaterials("PLAYER_HEAD").parseMaterial();
-                            this.variableHead = args[1];
+                            this.headValue = args[1];
                             return MatType.VARIABLE_HEAD;
                         }
                     case "CUSTOM-HEAD":
                         if (args.length == 2) {
-                            this.material = Materials.matchMaterials("PLAYER_HEAD").parseMaterial();
-                            this.textureHead = args[1];
-                            Skulls.getCustomSkull(textureHead);
+                            this.headValue = args[1];
+                            Skulls.getCustomSkull(headValue);
                             return MatType.CUSTOM_HEAD;
+                        }
+                    case "HDB":
+                        if (args.length == 2) {
+                            this.headValue = args[1];
+                            return MatType.HEAD_DATABASE;
                         }
                     default:
                         break;

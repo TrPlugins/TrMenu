@@ -5,8 +5,11 @@ import io.izzel.taboolib.util.Strings;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.actions.BaseAction;
 import me.arasple.mc.trmenu.api.events.MenuOpenEvent;
+import me.arasple.mc.trmenu.bstats.Metrics;
 import me.arasple.mc.trmenu.data.ArgsCache;
 import me.arasple.mc.trmenu.display.Button;
+import me.arasple.mc.trmenu.display.Icon;
+import me.arasple.mc.trmenu.display.Item;
 import me.arasple.mc.trmenu.utils.JavaScript;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -16,6 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Arasple
@@ -55,6 +59,8 @@ public class Menur {
     }
 
     public void open(Player player, String... args) {
+        Metrics.increase(0);
+
         MenuOpenEvent event = new MenuOpenEvent(player, this);
         if (event.isCancelled()) {
             return;
@@ -75,8 +81,9 @@ public class Menur {
         // 初始化设置
         buttons.forEach((button, slots) -> Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
             button.refreshConditionalIcon(player, null);
-            ItemStack itemStack = button.getCurrentIcon().getItem().createItemStack(player, args);
-            for (int i : slots) {
+            Item item = button.getCurrentIcon().getItem();
+            ItemStack itemStack = item.createItemStack(player, args);
+            for (int i : item.getSlots().size() > 0 ? item.getNextSlots() : slots) {
                 menu.setItem(i, itemStack);
             }
         }));
@@ -94,15 +101,18 @@ public class Menur {
                             cancel();
                             return;
                         }
-                        ItemStack itemStack = button.getCurrentIcon().getItem().createItemStack(player, args);
-                        for (Integer slot : slots) {
-                            menu.setItem(slot, itemStack);
+                        Item item = button.getCurrentIcon().getItem();
+                        ItemStack itemStack = item.createItemStack(player, args);
+                        for (int i : item.getSlots().size() > 0 ? item.getNextSlots() : slots) {
+                            menu.setItem(i, itemStack);
                         }
+                        // 清理残留
+                        clearEmptySlots(menu, item.getSlots());
                     }
                 }.runTaskTimerAsynchronously(TrMenu.getPlugin(), button.getUpdatePeriod(), button.getUpdatePeriod());
             }
             // 判断重新计算优先级
-            if (slots != null && button.getRefreshConditions() >= 20 && button.getConditionalIcons().size() > 0) {
+            if (slots != null && button.getRefreshConditions() >= 1 && button.getConditionalIcons().size() > 0) {
                 new BukkitRunnable() {
                     @Override
                     public void run() {
@@ -123,10 +133,26 @@ public class Menur {
     }
 
     public Button getButton(int slot) {
-        if (slot < 0 || buttons.entrySet().stream().noneMatch(entry -> entry.getValue().contains(slot))) {
+        if (slot < 0) {
             return null;
         }
-        return buttons.entrySet().stream().filter(entry -> entry.getValue().contains(slot)).findFirst().get().getKey();
+        for (Map.Entry<Button, List<Integer>> entry : buttons.entrySet()) {
+            Icon icon = entry.getKey().getCurrentIcon();
+            if (icon.getItem().getCurrentSlots() != null && icon.getItem().getCurrentSlots().contains(slot)) {
+                return entry.getKey();
+            } else if (entry.getValue().contains(slot)) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+
+    public void clearEmptySlots(Inventory menu, List<List<Integer>> slots) {
+        slots.forEach(s -> s.forEach(i -> {
+            if (menu.getItem(i) != null && getButton(i) == null) {
+                menu.setItem(i, null);
+            }
+        }));
     }
 
     /*

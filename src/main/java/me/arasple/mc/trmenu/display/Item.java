@@ -24,6 +24,7 @@ public class Item {
     private List<String> names;
     private List<Mat> materials;
     private List<List<String>> lores;
+    private List<List<Integer>> slots;
     private List<ItemFlag> itemFlags;
 
     private String amount;
@@ -31,12 +32,15 @@ public class Item {
     private String shiny;
     private boolean finalShiny;
 
+    private List<Integer> currentSlots;
+
     private int[] indexs;
 
-    public Item(List<String> names, List<Mat> materials, List<List<String>> lores, List<ItemFlag> itemFlags, String shiny, String amount) {
+    public Item(List<String> names, List<Mat> materials, List<List<String>> lores, List<List<Integer>> slots, List<ItemFlag> itemFlags, String shiny, String amount) {
         this.names = names;
         this.materials = materials;
         this.lores = lores;
+        this.slots = slots;
         this.itemFlags = itemFlags;
         this.shiny = shiny;
         this.amount = amount;
@@ -55,6 +59,10 @@ public class Item {
     public ItemStack createItemStack(Player player, String... args) {
         // 取动态材质创建物品
         ItemStack itemStack = materials.get(nextIndex(1)).createItem(player);
+        if (itemStack == null) {
+            return null;
+        }
+
         ItemMeta itemMeta = itemStack.getItemMeta();
         // 载入动态 Lore
         if (lores.size() > 0) {
@@ -88,6 +96,15 @@ public class Item {
         return itemStack;
     }
 
+    public List<List<Integer>> getSlots() {
+        return slots;
+    }
+
+    public List<Integer> getNextSlots() {
+        currentSlots = slots.get(nextIndex(3));
+        return currentSlots;
+    }
+
     private List<String> replaceWith(Player player, List<String> strings, String... args) {
         List<String> result = Lists.newArrayList();
         strings.forEach(string -> result.add(TLocale.Translate.setPlaceholders(player, Strings.replaceWithOrder(string, args))));
@@ -95,7 +112,23 @@ public class Item {
     }
 
     private int nextIndex(int type) {
-        int size = type == 0 ? names.size() : type == 1 ? materials.size() : lores.size();
+        int size = 0;
+        switch (type) {
+            case 0:
+                size = names.size();
+                break;
+            case 1:
+                size = materials.size();
+                break;
+            case 2:
+                size = lores.size();
+                break;
+            case 3:
+                size = slots.size();
+                break;
+            default:
+                break;
+        }
         if (size == 1) {
             return 0;
         }
@@ -109,7 +142,11 @@ public class Item {
     }
 
     public void resetIndex() {
-        this.indexs = new int[]{0, 0, 0};
+        this.indexs = new int[]{0, 0, 0, 0};
+    }
+
+    public List<Integer> getCurrentSlots() {
+        return currentSlots;
     }
 
 }

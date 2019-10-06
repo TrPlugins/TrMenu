@@ -4,6 +4,7 @@ import io.izzel.taboolib.util.Strings;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.actions.ext.IconActionBreak;
 import me.arasple.mc.trmenu.actions.ext.IconActionDealy;
+import me.arasple.mc.trmenu.bstats.Metrics;
 import me.arasple.mc.trmenu.data.ArgsCache;
 import me.arasple.mc.trmenu.utils.JavaScript;
 import org.bukkit.Bukkit;
@@ -33,6 +34,7 @@ public class ActionRunner {
         if (orgActions == null || orgActions.isEmpty()) {
             return;
         }
+        Metrics.increase(3, orgActions.size());
 
         HashMap<String, List<BaseAction>> actionGroups = new HashMap<>();
         orgActions.forEach(baseAction -> {

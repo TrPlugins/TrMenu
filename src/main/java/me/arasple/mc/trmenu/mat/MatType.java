@@ -32,6 +32,11 @@ public enum MatType {
     CUSTOM_HEAD,
 
     /**
+     * Head Database
+     */
+    HEAD_DATABASE,
+
+    /**
      * 未知
      */
     UNKNOW

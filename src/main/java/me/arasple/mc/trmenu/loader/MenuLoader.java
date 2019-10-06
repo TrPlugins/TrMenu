@@ -43,10 +43,21 @@ public class MenuLoader {
             TrMenu.getPlugin().saveResource("menus/example.yml", true);
         }
 
-        long start = System.currentTimeMillis();
         Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
+            long start = System.currentTimeMillis();
             int allMenus = MenuLoader.countFiles(folder);
             List<String> errors = MenuLoader.loadMenu(folder);
+
+            // 载入自定义路径的菜单
+            if (TrMenu.getSettings().isSet("MENU-FILES")) {
+                for (String path : TrMenu.getSettings().getStringList("MENU-FILES")) {
+                    File menuFile = new File(path);
+                    if (menuFile.exists() && menuFile.getName().toLowerCase().endsWith(".yml")) {
+                        errors.addAll(MenuLoader.loadMenu(menuFile));
+                    }
+                    allMenus++;
+                }
+            }
 
             for (CommandSender sender : senders) {
                 if (menus.size() > 0) {

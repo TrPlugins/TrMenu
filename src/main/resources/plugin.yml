@@ -11,5 +11,6 @@ qq: 1197897763
 
 softdepend:
   - PlaceholderAPI
+  - HeadDatabase
 
 author: Arasple

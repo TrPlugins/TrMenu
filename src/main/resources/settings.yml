@@ -20,3 +20,8 @@ OPTIONS:
   MATERIAL-SIMILAR-DEGREE: 0.8
   # 最小的点击延时, 防容器点击事件刷屏 (ms)
   ANTI-CLICK-SPAM: 200
+
+# 自定义路径载入菜单
+# (plugins/TrMenu/menus 目录及其子目录下的菜单默认均会加载)
+MENU-FILES:
+  - 'plugins/XXX/zzz.yml'

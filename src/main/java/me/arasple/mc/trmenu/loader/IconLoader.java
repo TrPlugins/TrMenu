@@ -21,6 +21,7 @@ import java.util.Objects;
  * @author Arasple
  * @date 2019/10/4 20:58
  */
+@SuppressWarnings("unchecked")
 public class IconLoader {
 
     /**
@@ -33,6 +34,7 @@ public class IconLoader {
         List<String> names = Lists.newArrayList();
         List<Mat> materials = Lists.newArrayList();
         List<List<String>> lores = Lists.newArrayList();
+        List<List<Integer>> slots = Lists.newArrayList();
         List<ItemFlag> flags = Lists.newArrayList();
 
         Map<String, Object> displayMap = Maps.sectionToMap(map.get("display"));
@@ -42,6 +44,7 @@ public class IconLoader {
         Object name = Maps.getSimilarOrDefault(displayMap, MenurSettings.ICON_DISPLAY_NAME.getName(), null);
         Object mats = Maps.getSimilarOrDefault(displayMap, MenurSettings.ICON_DISPLAY_MATERIALS.getName(), null);
         Object lore = Maps.getSimilarOrDefault(displayMap, MenurSettings.ICON_DISPLAY_LORES.getName(), null);
+        Object slot = Maps.getSimilarOrDefault(displayMap, MenurSettings.ICON_DISPLAY_SLOTS.getName(), null);
         Object flag = Maps.getSimilarOrDefault(displayMap, MenurSettings.ICON_DISPLAY_FLAGS.getName(), null);
         String shiny = String.valueOf(Maps.getSimilar(displayMap, MenurSettings.ICON_DISPLAY_SHINY.getName()));
         String amount = String.valueOf(Maps.getSimilar(displayMap, MenurSettings.ICON_DISPLAY_AMOUNT.getName()));
@@ -99,6 +102,19 @@ public class IconLoader {
                 }
             }
         }
+        // 载入动态位置组
+        if (slot != null) {
+            if (slot instanceof List) {
+                List<Object> s = (List<Object>) slot;
+                if (s.size() > 0) {
+                    if (s.get(0) instanceof List) {
+                        slots.addAll((List<List<Integer>>) slot);
+                    } else {
+                        slots.add((List<Integer>) slot);
+                    }
+                }
+            }
+        }
         // 载入flags
         if (flag != null) {
             if (flag instanceof List) {
@@ -109,7 +125,7 @@ public class IconLoader {
                 flags.removeIf(Objects::isNull);
             }
         }
-        return new Icon(new Item(names, materials, lores, flags, shiny, amount), actions);
+        return new Icon(new Item(names, materials, lores, slots, flags, shiny, amount), actions);
     }
 
 }

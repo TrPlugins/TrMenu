@@ -4,6 +4,7 @@ import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.util.Strings;
 import io.izzel.taboolib.util.lite.Scripts;
 import me.arasple.mc.trmenu.TrMenu;
+import me.arasple.mc.trmenu.bstats.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -23,6 +24,8 @@ import java.util.Map;
 public class JavaScript {
 
     public static Object run(Player player, String script, InventoryEvent event, String... args) {
+        Metrics.increase(1);
+
         Map<String, Object> bind = new HashMap<>();
         bind.put("player", player);
         bind.put("bukkitServer", Bukkit.getServer());

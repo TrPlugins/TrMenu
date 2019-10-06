@@ -1,7 +1,6 @@
 package me.arasple.mc.trmenu.actions.ext;
 
 import com.google.common.collect.Lists;
-import io.izzel.taboolib.util.Variables;
 import io.izzel.taboolib.util.lite.Catchers;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.actions.ActionRunner;
@@ -26,25 +25,23 @@ public class IconActionChatCatcher extends BaseAction {
     public IconActionChatCatcher(String command) {
         super(command);
 
-        for (Variables.Variable variable : new Variables(command).find().getVariableList()) {
-            if (variable.isVariable()) {
-                String[] args = variable.getText().split("=", 2);
-                if (args.length == 2) {
-                    String type = args[0].toUpperCase();
-                    List<String> values = Lists.newArrayList();
-                    values.addAll(Arrays.asList(args[0].split("\\|")));
-                    switch (type) {
-                        case "BEFORE":
-                            this.before = ActionType.readAction(values);
-                            continue;
-                        case "EXECUTE":
-                            this.execute = ActionType.readAction(values);
-                            continue;
-                        case "AFTER":
-                            this.after = ActionType.readAction(values);
-                            continue;
-                        default:
-                    }
+        for (String value : command.split("---")) {
+            String[] args = value.split("=", 2);
+            if (args.length == 2) {
+                String type = args[0].toUpperCase();
+                List<String> values = Lists.newArrayList();
+                values.addAll(Arrays.asList(args[0].split("\\|")));
+                switch (type) {
+                    case "BEFORE":
+                        this.before = ActionType.readAction(values);
+                        continue;
+                    case "EXECUTE":
+                        this.execute = ActionType.readAction(values);
+                        continue;
+                    case "AFTER":
+                        this.after = ActionType.readAction(values);
+                        continue;
+                    default:
                 }
             }
         }

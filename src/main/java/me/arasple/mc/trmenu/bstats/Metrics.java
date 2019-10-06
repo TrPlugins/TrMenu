@@ -14,7 +14,7 @@ public class Metrics {
 
     private static MetricsBukkit metrics;
     private static DecimalFormat doubleFormat = new DecimalFormat("#.#");
-    private static int[] coutns = new int[]{0, 0, 0};
+    private static int[] coutns = new int[]{0, 0, 0, 0};
 
     @TSchedule
     public static void init() {
@@ -38,7 +38,12 @@ public class Metrics {
             coutns[2] = 0;
             return i;
         }));
-
+        // 动作次数
+        metrics.addCustomChart(new MetricsBukkit.SingleLineChart("action_run_counts", () -> {
+            int i = coutns[3];
+            coutns[3] = 0;
+            return i;
+        }));
         // 统计菜单行数
         metrics.addCustomChart(new MetricsBukkit.AdvancedPie("menu_rows", () -> {
             Map<String, Integer> data = new HashMap<>();
@@ -50,7 +55,6 @@ public class Metrics {
             data.put("6", (int) TrMenu.getMenus().stream().filter(menur -> menur.getRows() == 6).count());
             return data;
         }));
-
         // 选项 - 相似度比
         metrics.addCustomChart(new MetricsBukkit.SimplePie("option_material_similar_degree", () -> doubleFormat.format(TrMenu.getSettings().getDouble("OPTIONS.MATERIAL-SIMILAR-DEGREE", 0.8))));
         // 选项 - 相似度比
@@ -58,8 +62,12 @@ public class Metrics {
     }
 
     public static void increase(int index) {
+        increase(index, 1);
+    }
+
+    public static void increase(int index, int value) {
         if (coutns[index] < Integer.MAX_VALUE) {
-            coutns[index]++;
+            coutns[index] += value;
         }
     }
 
