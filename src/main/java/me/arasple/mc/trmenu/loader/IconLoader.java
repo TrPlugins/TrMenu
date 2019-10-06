@@ -6,8 +6,8 @@ import me.arasple.mc.trmenu.actions.ActionType;
 import me.arasple.mc.trmenu.actions.BaseAction;
 import me.arasple.mc.trmenu.display.Icon;
 import me.arasple.mc.trmenu.display.Item;
-import me.arasple.mc.trmenu.inv.MenurSettings;
-import me.arasple.mc.trmenu.mat.Mat;
+import me.arasple.mc.trmenu.mats.Mat;
+import me.arasple.mc.trmenu.menu.MenurSettings;
 import me.arasple.mc.trmenu.utils.Maps;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemFlag;
@@ -24,13 +24,18 @@ import java.util.Objects;
 @SuppressWarnings("unchecked")
 public class IconLoader {
 
+    public static Icon loadIcon(Map<String, Object> map) {
+        return loadIcon(map, null);
+    }
+
     /**
      * 加载图标
      *
-     * @param map 图标设置
+     * @param map         图标设置
+     * @param defaultIcon 默认图标
      * @return 图标
      */
-    public static Icon loadIcon(Map<String, Object> map) {
+    public static Icon loadIcon(Map<String, Object> map, Icon defaultIcon) {
         List<String> names = Lists.newArrayList();
         List<Mat> materials = Lists.newArrayList();
         List<List<String>> lores = Lists.newArrayList();
@@ -70,9 +75,8 @@ public class IconLoader {
                 actions.put(null, ActionType.readAction(allAction));
             }
         }
-
         // 载入动态材质
-        if (mats == null) {
+        if (mats == null && defaultIcon == null) {
             throw new NullPointerException("Materials can not be null");
         } else {
             if (mats instanceof List) {
@@ -125,7 +129,8 @@ public class IconLoader {
                 flags.removeIf(Objects::isNull);
             }
         }
-        return new Icon(new Item(names, materials, lores, slots, flags, shiny, amount), actions);
+        Item item = (displayMap == null && defaultIcon != null) ? defaultIcon.getItem() : new Item(names, materials, lores, slots, flags, shiny, amount);
+        return new Icon(item, actions);
     }
 
 }

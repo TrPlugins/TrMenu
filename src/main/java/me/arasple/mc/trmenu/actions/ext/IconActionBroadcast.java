@@ -1,8 +1,7 @@
 package me.arasple.mc.trmenu.actions.ext;
 
-import io.izzel.taboolib.module.locale.TLocale;
-import io.izzel.taboolib.util.Strings;
 import me.arasple.mc.trmenu.actions.BaseAction;
+import me.arasple.mc.trmenu.utils.Vars;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryEvent;
@@ -18,9 +17,8 @@ public class IconActionBroadcast extends BaseAction {
     }
 
     @Override
-    public void onExecute(Player player, InventoryEvent e, String... args) {
-        String message = TLocale.Translate.setPlaceholders(player, Strings.replaceWithOrder(getCommand(), args));
-        Bukkit.getOnlinePlayers().forEach(p -> p.sendMessage(message));
+    public void onExecute(Player player, InventoryEvent e) {
+        Bukkit.getOnlinePlayers().forEach(p -> p.sendMessage(Vars.replace(player, getCommand())));
     }
 
 }

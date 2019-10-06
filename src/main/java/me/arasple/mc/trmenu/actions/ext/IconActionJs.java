@@ -16,8 +16,8 @@ public class IconActionJs extends BaseAction {
     }
 
     @Override
-    public void onExecute(Player player, InventoryEvent e, String... args) {
-        JavaScript.run(player, getCommand(), e, args);
+    public void onExecute(Player player, InventoryEvent e) {
+        JavaScript.run(player, getCommand(), e);
     }
 
 }

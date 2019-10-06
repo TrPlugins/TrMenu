@@ -16,7 +16,7 @@ public class IconActionConnect extends BaseAction {
     }
 
     @Override
-    public void onExecute(Player player, InventoryEvent e, String... args) {
+    public void onExecute(Player player, InventoryEvent e) {
         Bungees.connect(player, getCommand());
     }
 

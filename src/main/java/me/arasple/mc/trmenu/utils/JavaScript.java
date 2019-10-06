@@ -1,7 +1,5 @@
 package me.arasple.mc.trmenu.utils;
 
-import io.izzel.taboolib.module.locale.TLocale;
-import io.izzel.taboolib.util.Strings;
 import io.izzel.taboolib.util.lite.Scripts;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.bstats.Metrics;
@@ -23,7 +21,11 @@ import java.util.Map;
  */
 public class JavaScript {
 
-    public static Object run(Player player, String script, InventoryEvent event, String... args) {
+    public static Object run(Player player, String script) {
+        return run(player, script, null);
+    }
+
+    public static Object run(Player player, String script, InventoryEvent event) {
         Metrics.increase(1);
 
         Map<String, Object> bind = new HashMap<>();
@@ -43,7 +45,7 @@ public class JavaScript {
             }
         }
 
-        script = TLocale.Translate.setPlaceholders(player, Strings.replaceWithOrder(script, args));
+        script = Vars.replace(player, script);
 
         try {
             return Scripts.compile(script).eval(new SimpleBindings(bind));

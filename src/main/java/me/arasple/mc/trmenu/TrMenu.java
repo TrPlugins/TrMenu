@@ -5,9 +5,9 @@ import io.izzel.taboolib.module.config.TConfig;
 import io.izzel.taboolib.module.inject.TInject;
 import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.module.locale.logger.TLogger;
-import me.arasple.mc.trmenu.inv.Menur;
-import me.arasple.mc.trmenu.inv.MenurHolder;
 import me.arasple.mc.trmenu.loader.MenuLoader;
+import me.arasple.mc.trmenu.menu.Menur;
+import me.arasple.mc.trmenu.menu.MenurHolder;
 import org.bukkit.Bukkit;
 
 import java.util.List;

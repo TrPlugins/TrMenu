@@ -1,8 +1,10 @@
-package me.arasple.mc.trmenu.inv;
+package me.arasple.mc.trmenu.menu;
 
+import com.google.common.collect.Lists;
 import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.util.Strings;
 import me.arasple.mc.trmenu.TrMenu;
+import me.arasple.mc.trmenu.actions.ActionRunner;
 import me.arasple.mc.trmenu.actions.BaseAction;
 import me.arasple.mc.trmenu.api.events.MenuOpenEvent;
 import me.arasple.mc.trmenu.bstats.Metrics;
@@ -11,15 +13,21 @@ import me.arasple.mc.trmenu.display.Button;
 import me.arasple.mc.trmenu.display.Icon;
 import me.arasple.mc.trmenu.display.Item;
 import me.arasple.mc.trmenu.utils.JavaScript;
+import me.arasple.mc.trmenu.utils.Vars;
+import me.clip.placeholderapi.PlaceholderAPI;
+import me.clip.placeholderapi.PlaceholderAPIPlugin;
+import me.clip.placeholderapi.expansion.cloud.CloudExpansion;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author Arasple
@@ -34,21 +42,24 @@ public class Menur {
     private List<String> openCommands;
     private List<BaseAction> openActions, closeActions;
 
-    private String openRequirement;
-    private List<BaseAction> openDenyActions;
+    private String openRequirement, closeRequirement;
+    private List<BaseAction> openDenyActions, closeDenyActions;
 
     private boolean lockPlayerInv;
     private boolean transferArgs;
     private int forceTransferArgsAmount;
     private List<String> bindItemLore;
+    private List<String> dependExpansions;
 
-    public Menur(String name, String title, int rows, HashMap<Button, List<Integer>> buttons, String openRequirement, List<BaseAction> openDenyActions, List<String> openCommands, List<BaseAction> openActions, List<BaseAction> closeActions, boolean lockPlayerInv, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore) {
+    public Menur(String name, String title, int rows, HashMap<Button, List<Integer>> buttons, String openRequirement, List<BaseAction> openDenyActions, String closeRequirement, List<BaseAction> closeDenyActions, List<String> openCommands, List<BaseAction> openActions, List<BaseAction> closeActions, boolean lockPlayerInv, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore, List<String> dependExpansions) {
         this.name = name;
         this.title = title;
         this.rows = rows;
         this.buttons = buttons;
         this.openRequirement = openRequirement;
         this.openDenyActions = openDenyActions;
+        this.closeRequirement = closeRequirement;
+        this.closeDenyActions = closeDenyActions;
         this.openCommands = openCommands;
         this.openActions = openActions;
         this.closeActions = closeActions;
@@ -56,6 +67,9 @@ public class Menur {
         this.transferArgs = transferArgs;
         this.forceTransferArgsAmount = forceTransferArgsAmount;
         this.bindItemLore = bindItemLore;
+        this.dependExpansions = dependExpansions;
+
+        checkDepends();
     }
 
     public void open(Player player, String... args) {
@@ -69,15 +83,20 @@ public class Menur {
             event.getMenu().open(player, args);
             return;
         }
-        if (!player.hasPermission("trmenu.admin") && !Strings.isBlank(openRequirement) && !(boolean) JavaScript.run(player, openRequirement, null, args)) {
+        if (!Strings.isBlank(openRequirement) && !(boolean) JavaScript.run(player, openRequirement)) {
             event.setCancelled(true);
-            if (getOpenDenyActions() != null) {
-                getOpenDenyActions().forEach(action -> action.onExecute(player, null, args));
-            }
+            ActionRunner.runActions(getOpenDenyActions(), player, null);
             return;
         }
+        List<String> unInstalledDepends = checkDepends();
+        if (unInstalledDepends.size() > 0) {
+            TLocale.sendTo(player, "MENU.DEPEND-EXPANSIONS-REQUIRED", Arrays.toString(unInstalledDepends.toArray()));
+            event.setCancelled(true);
+            return;
+        }
+        ArgsCache.getArgs().put(player.getUniqueId(), args);
 
-        Inventory menu = Bukkit.createInventory(new MenurHolder(this), 9 * rows, TLocale.Translate.setPlaceholders(player, Strings.replaceWithOrder(title, args)));
+        Inventory menu = Bukkit.createInventory(new MenurHolder(this), 9 * rows, Vars.replace(player, title));
         // 初始化设置
         buttons.forEach((button, slots) -> Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
             button.refreshConditionalIcon(player, null);
@@ -91,7 +110,7 @@ public class Menur {
         // 开始刷新
         buttons.forEach((button, slots) -> {
             // 判断刷新周期是否合法
-            if (slots != null && button.getUpdatePeriod() >= 1) {
+            if (slots != null && button.getUpdate() >= 1) {
                 // 创建异步 BukkitRunnable
                 new BukkitRunnable() {
                     @Override
@@ -109,7 +128,7 @@ public class Menur {
                         // 清理残留
                         clearEmptySlots(menu, item.getSlots());
                     }
-                }.runTaskTimerAsynchronously(TrMenu.getPlugin(), button.getUpdatePeriod(), button.getUpdatePeriod());
+                }.runTaskTimerAsynchronously(TrMenu.getPlugin(), button.getUpdate(), button.getUpdate());
             }
             // 判断重新计算优先级
             if (slots != null && button.getRefreshConditions() >= 1 && button.getConditionalIcons().size() > 0) {
@@ -124,12 +143,34 @@ public class Menur {
 
         // 为玩家打开此菜单
         Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> {
-            ArgsCache.getArgs().put(player.getUniqueId(), args);
             player.openInventory(menu);
             if (getOpenActions() != null) {
-                getOpenActions().forEach(action -> action.onExecute(player, null, args));
+                getOpenActions().forEach(action -> action.onExecute(player, null));
             }
         }, 2);
+    }
+
+    /**
+     * 检测菜单需要的 PAPI 依赖并自动下载
+     *
+     * @return 未安装的
+     */
+    private List<String> checkDepends() {
+        List<String> unInstalled = Lists.newArrayList();
+        if (getDependExpansions() != null && getDependExpansions().size() > 0 && Vars.isEnabled()) {
+            if (PlaceholderAPIPlugin.getInstance().getExpansionCloud().getCloudExpansions().isEmpty()) {
+                PlaceholderAPIPlugin.getInstance().getExpansionCloud().fetch(false);
+            }
+            unInstalled = getDependExpansions().stream().filter(d -> PlaceholderAPI.getExpansions().stream().noneMatch(e -> e.getName().equalsIgnoreCase(d)) && PlaceholderAPIPlugin.getInstance().getExpansionCloud().getCloudExpansion(d) != null && !PlaceholderAPIPlugin.getInstance().getExpansionCloud().isDownloading(d)).collect(Collectors.toList());
+            if (unInstalled.size() > 0) {
+                unInstalled.forEach(ex -> {
+                    CloudExpansion cloudExpansion = PlaceholderAPIPlugin.getInstance().getExpansionCloud().getCloudExpansion(ex);
+                    PlaceholderAPIPlugin.getInstance().getExpansionCloud().downloadExpansion(null, cloudExpansion);
+                });
+                PlaceholderAPIPlugin.getInstance().getExpansionManager().registerAllExpansions();
+            }
+        }
+        return unInstalled;
     }
 
     public Button getButton(int slot) {
@@ -231,6 +272,22 @@ public class Menur {
         this.openDenyActions = openDenyActions;
     }
 
+    public String getCloseRequirement() {
+        return closeRequirement;
+    }
+
+    public void setCloseRequirement(String closeRequirement) {
+        this.closeRequirement = closeRequirement;
+    }
+
+    public List<BaseAction> getCloseDenyActions() {
+        return closeDenyActions;
+    }
+
+    public void setCloseDenyActions(List<BaseAction> closeDenyActions) {
+        this.closeDenyActions = closeDenyActions;
+    }
+
     public boolean isLockPlayerInv() {
         return lockPlayerInv;
     }
@@ -261,6 +318,14 @@ public class Menur {
 
     public void setBindItemLore(List<String> bindItemLore) {
         this.bindItemLore = bindItemLore;
+    }
+
+    public List<String> getDependExpansions() {
+        return dependExpansions;
+    }
+
+    public void setDependExpansions(List<String> dependExpansions) {
+        this.dependExpansions = dependExpansions;
     }
 
 }

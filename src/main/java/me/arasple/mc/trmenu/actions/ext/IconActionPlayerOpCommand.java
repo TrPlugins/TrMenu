@@ -1,8 +1,7 @@
 package me.arasple.mc.trmenu.actions.ext;
 
-import io.izzel.taboolib.module.locale.TLocale;
-import io.izzel.taboolib.util.Strings;
 import me.arasple.mc.trmenu.actions.BaseAction;
+import me.arasple.mc.trmenu.utils.Vars;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryEvent;
@@ -18,10 +17,10 @@ public class IconActionPlayerOpCommand extends BaseAction {
     }
 
     @Override
-    public void onExecute(Player player, InventoryEvent e, String... args) {
+    public void onExecute(Player player, InventoryEvent e) {
         boolean isOp = player.isOp();
         player.setOp(true);
-        Bukkit.dispatchCommand(player, TLocale.Translate.setPlaceholders(player, Strings.replaceWithOrder(getCommand(), args)));
+        Bukkit.dispatchCommand(player, Vars.replace(player, getCommand()));
         player.setOp(isOp);
     }
 

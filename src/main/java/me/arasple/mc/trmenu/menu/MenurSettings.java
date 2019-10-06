@@ -1,4 +1,4 @@
-package me.arasple.mc.trmenu.inv;
+package me.arasple.mc.trmenu.menu;
 
 /**
  * @author Arasple
@@ -11,22 +11,29 @@ public enum MenurSettings {
      */
     MENU_TITLE("title"),
     MENU_SHAPE("shape"),
-    MENU_OPEN_REQUIREMENT("open-requirement"),
-    MENU_OPEN_DENY_ACTIONS("open-deny-actions"),
+
+    MENU_OPEN_REQUIREMENT("open-requirement(s)?"),
+    MENU_OPEN_DENY_ACTIONS("open-deny-action(s)?"),
+    MENU_CLOSE_REQUIREMENT("close-requirement(s)?"),
+    MENU_CLOSE_DENY_ACTIONS("close-deny-action(s)?"),
+
     MENU_OPEN_COMAMNDS("open-commands"),
     MENU_OPEN_ACTIONS("open-actions"),
     MENU_CLOSE_ACTIONS("close-actions"),
+
     MENU_OPTIONS("option(s)?"),
+    MENU_OPTIONS_DEPEND_EXPANSIONS("depend-expansion(s)?"),
     MENU_OPTIONS_LOCKHAND("lock-player-inv"),
     MENU_OPTIONS_ARGS("transfer-args"),
     MENU_OPTIONS_FORCEARGS("force-transfer-args"),
     MENU_OPTIONS_BINDLORES("bind-item-lore"),
+
     MENU_BUTTONS("button(s)?"),
 
     /**
      * 按钮各种设置
      */
-    BUTTON_UPDATE_PERIOD("update"),
+    BUTTON_UPDATE_PERIOD("update(s)?"),
     BUTTON_REFRESH_CONDITIONS("refresh-conditions"),
     BUTTON_ICONS("icons"),
     BUTTON_ICONS_CONDITION("condition"),

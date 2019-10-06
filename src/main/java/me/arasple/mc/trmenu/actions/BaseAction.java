@@ -12,6 +12,7 @@ public abstract class BaseAction {
     private String requirement;
     private String command;
     private double chance;
+
     public BaseAction(String command) {
         this.command = command;
     }
@@ -28,9 +29,8 @@ public abstract class BaseAction {
      *
      * @param player 玩家
      * @param e      容器事件
-     * @param args   参数
      */
-    public abstract void onExecute(Player player, InventoryEvent e, String... args);
+    public abstract void onExecute(Player player, InventoryEvent e);
 
     public String getCommand() {
         return command;

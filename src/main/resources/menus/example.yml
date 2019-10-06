@@ -43,6 +43,9 @@ Close-Actions:
 
 # 菜单选项 (非必须项, 不设置则使用默认值)
 Options:
+  # 菜单需要依赖的 PAPI 拓展名称, 若无将自动下载!
+  Depend-Expansions:
+    - ''
   # 是否在打开 GUI 时禁止玩家操作自己的背包? (默认:true)
   Lock-Player-Inv: true
   # 是否传递命令后面的参数? (可用 {N*} 来表示) (默认:false)
@@ -104,6 +107,7 @@ BUTTONS:
         - ''
   'D':
     update: 10
+    async: false
     display:
       mats:
         - '<CUSTOM-HEAD:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTUxN2I0ODI5YjgzMTkyYmQ3MjcxMTI3N2E4ZWZjNDE5NjcxMWU0MTgwYzIyYjNlMmI4MTY2YmVhMWE5ZGUxOSJ9fX0=>'
@@ -119,6 +123,7 @@ BUTTONS:
         - '&7这是一组多个自定义头颅组成的动态物品!'
   'E':
     update: 20
+    refresh-conditions: 40
     display:
       mats:
         - 'IRON_SWORD'

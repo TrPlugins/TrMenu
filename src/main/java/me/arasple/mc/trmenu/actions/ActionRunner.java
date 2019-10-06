@@ -5,7 +5,6 @@ import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.actions.ext.IconActionBreak;
 import me.arasple.mc.trmenu.actions.ext.IconActionDealy;
 import me.arasple.mc.trmenu.bstats.Metrics;
-import me.arasple.mc.trmenu.data.ArgsCache;
 import me.arasple.mc.trmenu.utils.JavaScript;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -81,7 +80,7 @@ public class ActionRunner {
                 if (replace != null && replace.size() > 0) {
                     replace.forEach((key, value) -> action.setCommand(action.getCommand().replace(key, value)));
                 }
-                action.onExecute(player, e, ArgsCache.getPlayerArgs(player));
+                action.onExecute(player, e);
                 action.setCommand(cmd);
             }
         }
@@ -99,7 +98,7 @@ public class ActionRunner {
      */
     private static boolean isRequirementMatch(String requirement, Player player, InventoryClickEvent event) {
         if (requirement != null && !Strings.isEmpty(requirement)) {
-            return (boolean) JavaScript.run(player, requirement, event, ArgsCache.getPlayerArgs(player));
+            return (boolean) JavaScript.run(player, requirement, event);
         }
         return true;
     }

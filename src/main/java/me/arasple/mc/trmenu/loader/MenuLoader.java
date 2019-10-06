@@ -7,9 +7,9 @@ import me.arasple.mc.trmenu.actions.ActionType;
 import me.arasple.mc.trmenu.actions.BaseAction;
 import me.arasple.mc.trmenu.display.Button;
 import me.arasple.mc.trmenu.display.Icon;
-import me.arasple.mc.trmenu.inv.Menur;
-import me.arasple.mc.trmenu.inv.MenurHolder;
-import me.arasple.mc.trmenu.inv.MenurSettings;
+import me.arasple.mc.trmenu.menu.Menur;
+import me.arasple.mc.trmenu.menu.MenurHolder;
+import me.arasple.mc.trmenu.menu.MenurSettings;
 import me.arasple.mc.trmenu.utils.Maps;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -102,9 +102,12 @@ public class MenuLoader {
             List<BaseAction> closeActions = ActionType.readAction(Maps.getSimilarOrDefault(cfg, MenurSettings.MENU_CLOSE_ACTIONS.getName(), new ArrayList<>()));
 
             String openRequirement = Maps.getSimilarOrDefault(cfg, MenurSettings.MENU_OPEN_REQUIREMENT.getName(), null);
-            List<BaseAction> openDenyActions = ActionType.readAction(Maps.getSimilarOrDefault(cfg, MenurSettings.MENU_OPEN_DENY_ACTIONS.getName(), new ArrayList<>()));
+            List<BaseAction> openDenyActions = ActionType.readAction(Maps.getSimilarOrDefault(cfg, MenurSettings.MENU_CLOSE_REQUIREMENT.getName(), new ArrayList<>()));
+            String closeRequirement = Maps.getSimilarOrDefault(cfg, MenurSettings.MENU_OPEN_REQUIREMENT.getName(), null);
+            List<BaseAction> closeDenyActions = ActionType.readAction(Maps.getSimilarOrDefault(cfg, MenurSettings.MENU_CLOSE_DENY_ACTIONS.getName(), new ArrayList<>()));
 
             Map<String, Object> options = Maps.getSimilarOrDefault(cfg, MenurSettings.MENU_OPTIONS.getName(), new HashMap<>());
+            List<String> depends = Maps.getSimilarOrDefault(options, MenurSettings.MENU_OPTIONS_DEPEND_EXPANSIONS.getName(), null);
             boolean lockPlayerInv = Maps.getSimilarOrDefault(options, MenurSettings.MENU_OPTIONS_LOCKHAND.getName(), true);
             boolean transferArgs = Maps.getSimilarOrDefault(options, MenurSettings.MENU_OPTIONS_ARGS.getName(), false);
             int forceTransferArgsAmount = Maps.getSimilarOrDefault(options, MenurSettings.MENU_OPTIONS_FORCEARGS.getName(), -1);
@@ -142,7 +145,7 @@ public class MenuLoader {
                                 Map iconMap = Maps.sectionToMap(icon);
                                 String condition = Maps.getSimilarOrDefault(iconMap, MenurSettings.BUTTON_ICONS_CONDITION.getName(), null);
                                 if (condition != null) {
-                                    conditionalIcons.put(condition, IconLoader.loadIcon(iconMap));
+                                    conditionalIcons.put(condition, IconLoader.loadIcon(iconMap, defaultIcon));
                                 } else {
                                     errors.add(fileName + " 的图标 '" + key + "' 加载失败: 一个或多个条件图标的条件为空");
                                 }
@@ -163,7 +166,7 @@ public class MenuLoader {
             }
 
             if (errors.size() <= 0) {
-                TrMenu.getMenus().add(new Menur(fileName.substring(0, fileName.length() - 4), title, shape.size(), buttons, openRequirement, openDenyActions, openCmds, openActions, closeActions, lockPlayerInv, transferArgs, forceTransferArgsAmount, bindItemLore));
+                TrMenu.getMenus().add(new Menur(fileName.substring(0, fileName.length() - 4), title, shape.size(), buttons, openRequirement, openDenyActions, closeRequirement, closeDenyActions, openCmds, openActions, closeActions, lockPlayerInv, transferArgs, forceTransferArgsAmount, bindItemLore, depends));
             }
         }
         return errors;

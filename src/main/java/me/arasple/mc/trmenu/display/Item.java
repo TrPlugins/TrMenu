@@ -1,12 +1,11 @@
 package me.arasple.mc.trmenu.display;
 
-import com.google.common.collect.Lists;
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils;
-import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.util.Strings;
 import me.arasple.mc.trmenu.bstats.Metrics;
-import me.arasple.mc.trmenu.mat.Mat;
+import me.arasple.mc.trmenu.mats.Mat;
 import me.arasple.mc.trmenu.utils.JavaScript;
+import me.arasple.mc.trmenu.utils.Vars;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
@@ -66,14 +65,14 @@ public class Item {
         ItemMeta itemMeta = itemStack.getItemMeta();
         // 载入动态 Lore
         if (lores.size() > 0) {
-            itemMeta.setLore(replaceWith(player, lores.get(nextIndex(2)), args));
+            itemMeta.setLore(Vars.replace(player, lores.get(nextIndex(2))));
         }
         // 载入动态名称
         if (names.size() > 0) {
-            itemMeta.setDisplayName(TLocale.Translate.setPlaceholders(player, Strings.replaceWithOrder(names.get(nextIndex(0)), args)));
+            itemMeta.setDisplayName(Vars.replace(player, names.get(nextIndex(0))));
         }
         // 计算并应用发光效果
-        if (finalShiny || (!Strings.isBlank(shiny) && (boolean) JavaScript.run(player, shiny, null, args))) {
+        if (finalShiny || (!Strings.isBlank(shiny) && (boolean) JavaScript.run(player, shiny))) {
             itemMeta.addEnchant(Enchantment.LUCK, 1, true);
             itemFlags.add(ItemFlag.HIDE_ENCHANTS);
         }
@@ -81,7 +80,7 @@ public class Item {
         if (finalAmount != -1) {
             itemStack.setAmount(finalAmount);
         } else {
-            itemStack.setAmount(NumberUtils.toInt(String.valueOf(JavaScript.run(player, amount, null, args)), 1));
+            itemStack.setAmount(NumberUtils.toInt(String.valueOf(JavaScript.run(player, amount)), 1));
         }
         // 应用物品标签
         if (itemFlags.size() > 0) {
@@ -103,12 +102,6 @@ public class Item {
     public List<Integer> getNextSlots() {
         currentSlots = slots.get(nextIndex(3));
         return currentSlots;
-    }
-
-    private List<String> replaceWith(Player player, List<String> strings, String... args) {
-        List<String> result = Lists.newArrayList();
-        strings.forEach(string -> result.add(TLocale.Translate.setPlaceholders(player, Strings.replaceWithOrder(string, args))));
-        return result;
     }
 
     private int nextIndex(int type) {

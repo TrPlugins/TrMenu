@@ -1,7 +1,6 @@
 package me.arasple.mc.trmenu.display;
 
 import me.arasple.mc.trmenu.bstats.Metrics;
-import me.arasple.mc.trmenu.data.ArgsCache;
 import me.arasple.mc.trmenu.utils.JavaScript;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -16,14 +15,14 @@ import java.util.Objects;
  */
 public class Button {
 
-    private int updatePeriod;
+    private int update;
     private int refreshConditions;
     private Icon defaultIcon;
     private HashMap<String, Icon> conditionalIcons;
     private Icon currentIcon;
 
-    public Button(int updatePeriod, int refreshConditions, Icon defaultIcon, HashMap<String, Icon> conditionalIcons) {
-        this.updatePeriod = updatePeriod;
+    public Button(int update, int refreshConditions, Icon defaultIcon, HashMap<String, Icon> conditionalIcons) {
+        this.update = update;
         this.refreshConditions = refreshConditions;
         this.defaultIcon = defaultIcon;
         this.conditionalIcons = conditionalIcons;
@@ -38,7 +37,7 @@ public class Button {
     public void refreshConditionalIcon(Player player, InventoryClickEvent event) {
         if (conditionalIcons.values().size() > 0) {
             for (Map.Entry<String, Icon> iconEntry : conditionalIcons.entrySet()) {
-                if ((boolean) JavaScript.run(player, iconEntry.getKey(), event, ArgsCache.getPlayerArgs(player))) {
+                if ((boolean) JavaScript.run(player, iconEntry.getKey(), event)) {
                     currentIcon = iconEntry.getValue();
                     return;
                 }
@@ -51,13 +50,12 @@ public class Button {
     /*
     GETTERS & SETTERS
      */
-
-    public int getUpdatePeriod() {
-        return updatePeriod;
+    public int getUpdate() {
+        return update;
     }
 
-    public void setUpdatePeriod(int updatePeriod) {
-        this.updatePeriod = updatePeriod;
+    public void setUpdate(int update) {
+        this.update = update;
     }
 
     public int getRefreshConditions() {
@@ -101,7 +99,7 @@ public class Button {
             return false;
         }
         Button button = (Button) o;
-        return updatePeriod == button.updatePeriod &&
+        return update == button.update &&
                 refreshConditions == button.refreshConditions &&
                 Objects.equals(defaultIcon, button.defaultIcon) &&
                 Objects.equals(conditionalIcons, button.conditionalIcons) &&
@@ -110,7 +108,7 @@ public class Button {
 
     @Override
     public int hashCode() {
-        return Objects.hash(updatePeriod, refreshConditions, defaultIcon, conditionalIcons, currentIcon);
+        return Objects.hash(update, refreshConditions, defaultIcon, conditionalIcons, currentIcon);
     }
 
 }

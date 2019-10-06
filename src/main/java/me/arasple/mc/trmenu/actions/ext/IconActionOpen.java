@@ -2,7 +2,7 @@ package me.arasple.mc.trmenu.actions.ext;
 
 import me.arasple.mc.trmenu.actions.BaseAction;
 import me.arasple.mc.trmenu.api.TrMenuAPI;
-import me.arasple.mc.trmenu.inv.Menur;
+import me.arasple.mc.trmenu.menu.Menur;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryEvent;
 
@@ -17,7 +17,7 @@ public class IconActionOpen extends BaseAction {
     }
 
     @Override
-    public void onExecute(Player player, InventoryEvent e, String... args) {
+    public void onExecute(Player player, InventoryEvent e) {
         Menur menu = TrMenuAPI.getMenu(getCommand());
         if (menu != null) {
             menu.open(player);

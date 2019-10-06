@@ -3,10 +3,9 @@ package me.arasple.mc.trmenu.actions.ext;
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils;
 import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.util.ArrayUtil;
-import io.izzel.taboolib.util.Strings;
 import io.izzel.taboolib.util.Variables;
 import me.arasple.mc.trmenu.actions.BaseAction;
-import org.bukkit.Bukkit;
+import me.arasple.mc.trmenu.utils.Vars;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryEvent;
 
@@ -59,12 +58,12 @@ public class IconActionTitleBroadcast extends BaseAction {
     }
 
     @Override
-    public void onExecute(Player player, InventoryEvent e, String... args) {
-        Bukkit.getOnlinePlayers().forEach(p -> TLocale.Display.sendTitle(p,
-                TLocale.Translate.setPlaceholders(player, Strings.replaceWithOrder(title, args)),
-                TLocale.Translate.setPlaceholders(player, Strings.replaceWithOrder(subtitle, args)),
+    public void onExecute(Player player, InventoryEvent e) {
+        TLocale.Display.sendTitle(player,
+                Vars.replace(player, title),
+                Vars.replace(player, subtitle),
                 fadein, stay, fadeout
-        ));
+        );
     }
 
 }

@@ -26,6 +26,13 @@ Version 1.0X:
       - 新增菜单的 Open-Requirement (打开条件表达式) 和 Open-DenyActions (打开失败执行动作)
       - 新增聊天捕获器图标命令
     1.04:
+      - 修复了更新周期异常
+      - 代码优化改进
+      - 新增菜单的 Close-Requirement/Close-DenyActions (关闭条件表达式) 和 (关闭失败执行动作)
+      - 按钮的条件图标现在现在若未配置 display/actions 将采用默认图标的代替
+      - 改进了 "物品材质" 模块读取, 支持忽略大小写、多种节点写法
+      - 菜单新增一个 Options.Depend-Expansions 设置菜单依赖的变量拓展, 自动下载
+      - ...
 
 Version 1.0:
   Date: 2019.10.5

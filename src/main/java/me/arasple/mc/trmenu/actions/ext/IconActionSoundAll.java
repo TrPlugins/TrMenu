@@ -17,7 +17,7 @@ public class IconActionSoundAll extends BaseAction {
     }
 
     @Override
-    public void onExecute(Player player, InventoryEvent e, String... args) {
+    public void onExecute(Player player, InventoryEvent e) {
         SoundPack soundPack = new SoundPack(getCommand());
         Bukkit.getOnlinePlayers().forEach(soundPack::play);
     }

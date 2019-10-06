@@ -51,7 +51,7 @@ public class IconActionChatCatcher extends BaseAction {
     // catch: <before=动作1|动作2><execute=动作组><after=动作组>
 
     @Override
-    public void onExecute(Player player, InventoryEvent e, String... args) {
+    public void onExecute(Player player, InventoryEvent e) {
 
         if ((before == null || before.isEmpty()) && (execute == null || execute.isEmpty()) && (after == null && after.isEmpty())) {
             TrMenu.getTLogger().error("§c聊天捕获器配置异常, 请检查 §8" + getCommand());

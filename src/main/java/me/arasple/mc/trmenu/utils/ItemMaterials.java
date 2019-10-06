@@ -13,7 +13,7 @@ import java.util.Comparator;
  * @author Arasple
  * @date 2019/10/4 16:36
  */
-public class MaterialUtils {
+public class ItemMaterials {
 
     public static String[] readNewMaterialForOld(String material) {
         if (NumberUtils.toInt(material, -1) != -1) {

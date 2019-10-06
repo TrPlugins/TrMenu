@@ -1,4 +1,4 @@
-package me.arasple.mc.trmenu.inv;
+package me.arasple.mc.trmenu.menu;
 
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;

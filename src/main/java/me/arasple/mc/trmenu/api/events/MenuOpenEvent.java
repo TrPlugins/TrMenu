@@ -1,6 +1,6 @@
 package me.arasple.mc.trmenu.api.events;
 
-import me.arasple.mc.trmenu.inv.Menur;
+import me.arasple.mc.trmenu.menu.Menur;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.HandlerList;

@@ -30,6 +30,7 @@ PLUGIN:
 MENU:
   LOADED-SUCCESS: '&8[&3Tr&bMenu&8]&8[&aFINE&8] &7成功加载了 &a{0} &7个有效菜单... &8[&7{1} Ms&8]'
   LOADED-FAILURE: '&8[&3Tr&bMenu&8]&8[&6WARN&8] &7共计有 &6{0} &7个菜单加载失败, 请检测诊断错误, 如有困难+群咨询!'
+  DEPEND-EXPANSIONS-REQUIRED: '&8[&3Tr&bMenu&8] &7目标菜单需要安装以下 PlaceholderAPI 变量才能使用, TrMenu 正在自动下载中... &6{0}'
   NOT-EXIST: '&8[&3Tr&bMenu&8] &7目标菜单不存在...'
   NOT-ENOUGH-ARGS: '&8[&3Tr&bMenu&8] &7此菜单要求你至少提供 &6{0} &7个有效参数.'
 

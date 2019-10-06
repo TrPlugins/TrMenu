@@ -15,7 +15,7 @@ public class IconActionClose extends BaseAction {
     }
 
     @Override
-    public void onExecute(Player player, InventoryEvent e, String... args) {
+    public void onExecute(Player player, InventoryEvent e) {
         player.closeInventory();
     }
 

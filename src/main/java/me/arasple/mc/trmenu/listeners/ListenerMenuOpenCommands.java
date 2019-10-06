@@ -4,7 +4,7 @@ import io.izzel.taboolib.internal.apache.lang3.ArrayUtils;
 import io.izzel.taboolib.module.inject.TListener;
 import io.izzel.taboolib.module.locale.TLocale;
 import me.arasple.mc.trmenu.api.TrMenuAPI;
-import me.arasple.mc.trmenu.inv.Menur;
+import me.arasple.mc.trmenu.menu.Menur;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

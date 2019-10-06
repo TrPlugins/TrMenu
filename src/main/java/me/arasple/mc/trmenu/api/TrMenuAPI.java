@@ -2,7 +2,7 @@ package me.arasple.mc.trmenu.api;
 
 import com.google.common.collect.Lists;
 import me.arasple.mc.trmenu.TrMenu;
-import me.arasple.mc.trmenu.inv.Menur;
+import me.arasple.mc.trmenu.menu.Menur;
 import org.bukkit.entity.Player;
 
 import java.util.List;

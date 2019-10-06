@@ -15,7 +15,7 @@ public class IconActionBreak extends BaseAction {
     }
 
     @Override
-    public void onExecute(Player player, InventoryEvent e, String... args) {
+    public void onExecute(Player player, InventoryEvent e) {
 
     }
 
