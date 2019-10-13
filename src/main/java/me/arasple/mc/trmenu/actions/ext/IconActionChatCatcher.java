@@ -6,6 +6,7 @@ import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.actions.ActionRunner;
 import me.arasple.mc.trmenu.actions.ActionType;
 import me.arasple.mc.trmenu.actions.BaseAction;
+import me.arasple.mc.trmenu.actions.option.ActionOption;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryEvent;
@@ -22,8 +23,8 @@ public class IconActionChatCatcher extends BaseAction {
 
     private List<BaseAction> before, execute, after;
 
-    public IconActionChatCatcher(String command) {
-        super(command);
+    public IconActionChatCatcher(String command, HashMap<ActionOption, String> options) {
+        super(command, options);
 
         for (String value : command.split("---")) {
             String[] args = value.split("=", 2);

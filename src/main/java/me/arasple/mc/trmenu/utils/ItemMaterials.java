@@ -15,7 +15,9 @@ import java.util.Comparator;
  */
 public class ItemMaterials {
 
-    public static String[] readNewMaterialForOld(String material) {
+    public static String[] readNewMaterialForOld(String mat) {
+        String material = mat.replace(' ', '_').toUpperCase();
+
         if (NumberUtils.toInt(material, -1) != -1) {
             int id = NumberUtils.toInt(material, -1);
             for (Material value : Material.values()) {
@@ -42,7 +44,9 @@ public class ItemMaterials {
         }
     }
 
-    public static Material readMaterial(String material) {
+    public static Material readMaterial(String mat) {
+        String material = mat.replace(' ', '_').toUpperCase();
+
         if (NumberUtils.toInt(material, -1) != -1) {
             // 是数字ID
             int id = NumberUtils.toInt(material, -1);

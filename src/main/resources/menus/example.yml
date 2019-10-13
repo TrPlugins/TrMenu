@@ -33,6 +33,7 @@ Open-Deny-Actions:
 # 菜单打开命令
 Open-Commands:
   - 'example'
+  - 'menu'
 
 # 定义开启菜单时的动作 (非必须项)
 Open-Actions:
@@ -49,7 +50,7 @@ Options:
   # 是否在打开 GUI 时禁止玩家操作自己的背包? (默认:true)
   Lock-Player-Inv: true
   # 是否传递命令后面的参数? (可用 {N*} 来表示) (默认:false)
-  Transfer-Args: true
+  Transfer-Args: false
   # 强制传递参数的最小数量 (默认:0)
   Force-Transfer-Args: 0
   # 绑定物品打开 (下方需要需要识别的关键词Lore)

@@ -31,7 +31,7 @@ public class Mat {
     private byte data;
 
     public Mat(String mat) {
-        this.mat = mat.replace(' ', '_').toUpperCase();
+        this.mat = mat;
         this.type = initType(this.mat);
     }
 
@@ -86,7 +86,7 @@ public class Mat {
                     this.material = ItemMaterials.readMaterial(args[1]);
                     this.model = NumberUtils.toInt(args[2], 0);
                 } else {
-                    this.head = args[1].toLowerCase();
+                    this.head = args[1];
                 }
                 return matType;
             }

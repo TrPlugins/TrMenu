@@ -50,6 +50,7 @@ public class Button {
     /*
     GETTERS & SETTERS
      */
+
     public int getUpdate() {
         return update;
     }

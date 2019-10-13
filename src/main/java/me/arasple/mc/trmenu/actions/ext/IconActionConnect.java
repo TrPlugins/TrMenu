@@ -1,9 +1,12 @@
 package me.arasple.mc.trmenu.actions.ext;
 
 import me.arasple.mc.trmenu.actions.BaseAction;
+import me.arasple.mc.trmenu.actions.option.ActionOption;
 import me.arasple.mc.trmenu.utils.Bungees;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryEvent;
+
+import java.util.HashMap;
 
 /**
  * @author Arasple
@@ -11,8 +14,8 @@ import org.bukkit.event.inventory.InventoryEvent;
  */
 public class IconActionConnect extends BaseAction {
 
-    public IconActionConnect(String command) {
-        super(command);
+    public IconActionConnect(String command, HashMap<ActionOption, String> options) {
+        super(command, options);
     }
 
     @Override

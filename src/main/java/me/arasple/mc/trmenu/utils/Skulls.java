@@ -54,7 +54,7 @@ public class Skulls {
                 field.setAccessible(true);
                 field.set(meta, profile);
                 skull.setItemMeta(meta);
-            } catch (ClassCastException | NoSuchFieldException | IllegalArgumentException | IllegalAccessException e) {
+            } catch (Throwable e) {
                 e.printStackTrace();
             }
         });

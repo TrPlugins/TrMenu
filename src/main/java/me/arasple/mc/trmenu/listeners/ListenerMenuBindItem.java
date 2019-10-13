@@ -38,6 +38,9 @@ public class ListenerMenuBindItem implements Listener {
     }
 
     private boolean loreContains(List<String> m, List<String> n) {
+        if (m == null) {
+            return false;
+        }
         for (String s : n) {
             for (String s1 : m) {
                 if (s.contains(s1)) {

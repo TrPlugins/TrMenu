@@ -1,7 +1,10 @@
 package me.arasple.mc.trmenu.actions;
 
+import me.arasple.mc.trmenu.actions.option.ActionOption;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryEvent;
+
+import java.util.HashMap;
 
 /**
  * @author Arasple
@@ -9,18 +12,12 @@ import org.bukkit.event.inventory.InventoryEvent;
  */
 public abstract class BaseAction {
 
-    private String requirement;
     private String command;
-    private double chance;
+    private HashMap<ActionOption, String> options;
 
-    public BaseAction(String command) {
+    public BaseAction(String command, HashMap<ActionOption, String> options) {
         this.command = command;
-    }
-
-    public BaseAction(String requirement, String command, double chance) {
-        this.requirement = requirement;
-        this.command = command;
-        this.chance = chance;
+        this.options = options;
     }
 
 
@@ -40,22 +37,12 @@ public abstract class BaseAction {
         this.command = command;
     }
 
-    public String getRequirement() {
-        return requirement;
+    public HashMap<ActionOption, String> getOptions() {
+        return options;
     }
 
-    public BaseAction setRequirement(String requirement) {
-        this.requirement = requirement;
-        return this;
-    }
-
-    public double getChance() {
-        return chance;
-    }
-
-    public BaseAction setChance(double chance) {
-        this.chance = chance;
-        return this;
+    public void setOptions(HashMap<ActionOption, String> options) {
+        this.options = options;
     }
 
 }

@@ -1,12 +1,14 @@
 package me.arasple.mc.trmenu.actions;
 
 import com.google.common.collect.Lists;
-import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils;
 import io.izzel.taboolib.util.ArrayUtil;
+import io.izzel.taboolib.util.Strings;
 import io.izzel.taboolib.util.Variables;
 import me.arasple.mc.trmenu.actions.ext.*;
+import me.arasple.mc.trmenu.actions.option.ActionOption;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -132,8 +134,7 @@ public enum ActionType {
     public static BaseAction readAction(String line) {
         ActionType type = Arrays.stream(values()).filter(t -> Arrays.stream(t.names).anyMatch(x -> line.toLowerCase().split(":")[0].startsWith(x))).findFirst().orElse(ActionType.MESSAGE);
         String command = ArrayUtil.arrayJoin(line.split(":", 2), 1);
-        String requirement = null;
-        double chance = 1;
+        HashMap<ActionOption, String> options = new HashMap<>();
         StringBuilder value = new StringBuilder();
 
         // 读取相关参数
@@ -141,12 +142,11 @@ public enum ActionType {
             if (variable.isVariable()) {
                 String[] args = variable.getText().split(":");
                 if (args.length >= 2) {
-                    if ("REQUIREMENT".equalsIgnoreCase(args[0])) {
-                        requirement = args[1];
-                        continue;
-                    } else if ("CHANCE".equalsIgnoreCase(args[0])) {
-                        chance = NumberUtils.toDouble(args[1], 1);
-                        continue;
+                    ActionOption option = ActionOption.matchType(args[0]);
+                    if (option != null && !Strings.isEmpty(args[1])) {
+                        options.put(option, args[1]);
+                    } else {
+                        value.append("<").append(variable.getText()).append(">");
                     }
                 }
                 value.append("<").append(variable.getText()).append(">");
@@ -158,41 +158,41 @@ public enum ActionType {
         // 返回
         switch (type) {
             case ACTIONBAR:
-                return new IconActionActionbar(value.toString()).setRequirement(requirement).setChance(chance);
+                return new IconActionActionbar(value.toString(), options);
             case ACTIONBAR_BROADCAST:
-                return new IconActionActionbarBroadcast(value.toString()).setRequirement(requirement).setChance(chance);
+                return new IconActionActionbarBroadcast(value.toString(), options);
             case BREAK:
-                return new IconActionBreak(value.toString()).setRequirement(requirement).setChance(chance);
+                return new IconActionBreak(value.toString(), options);
             case BROADCAST:
-                return new IconActionBroadcast(value.toString()).setRequirement(requirement).setChance(chance);
+                return new IconActionBroadcast(value.toString(), options);
             case CHAT_CATCHER:
-                return new IconActionChatCatcher(value.toString()).setRequirement(requirement).setChance(chance);
+                return new IconActionChatCatcher(value.toString(), options);
             case CLOSE:
-                return new IconActionClose(value.toString()).setRequirement(requirement).setChance(chance);
+                return new IconActionClose(value.toString(), options);
             case CONNECT:
-                return new IconActionConnect(value.toString()).setRequirement(requirement).setChance(chance);
+                return new IconActionConnect(value.toString(), options);
             case CONSOLE:
-                return new IconActionConsole(value.toString()).setRequirement(requirement).setChance(chance);
+                return new IconActionConsole(value.toString(), options);
             case DELAY:
-                return new IconActionDealy(value.toString()).setRequirement(requirement).setChance(chance);
+                return new IconActionDealy(value.toString(), options);
             case JS:
-                return new IconActionJs(value.toString()).setRequirement(requirement).setChance(chance);
+                return new IconActionJs(value.toString(), options);
             case MESSAGE:
-                return new IconActionMessage(value.toString()).setRequirement(requirement).setChance(chance);
+                return new IconActionMessage(value.toString(), options);
             case OPEN:
-                return new IconActionOpen(value.toString()).setRequirement(requirement).setChance(chance);
+                return new IconActionOpen(value.toString(), options);
             case PLAYER_COMMAND:
-                return new IconActionPlayerCommand(value.toString()).setRequirement(requirement).setChance(chance);
+                return new IconActionPlayerCommand(value.toString(), options);
             case PLAYER_OP_COMMAND:
-                return new IconActionPlayerOpCommand(value.toString()).setRequirement(requirement).setChance(chance);
+                return new IconActionPlayerOpCommand(value.toString(), options);
             case SOUND:
-                return new IconActionSound(value.toString()).setRequirement(requirement).setChance(chance);
+                return new IconActionSound(value.toString(), options);
             case SOUND_ALL:
-                return new IconActionSoundAll(value.toString()).setRequirement(requirement).setChance(chance);
+                return new IconActionSoundAll(value.toString(), options);
             case TITLE:
-                return new IconActionTitle(value.toString()).setRequirement(requirement).setChance(chance);
+                return new IconActionTitle(value.toString(), options);
             case TITLE_BROADCAST:
-                return new IconActionTitleBroadcast(value.toString()).setRequirement(requirement).setChance(chance);
+                return new IconActionTitleBroadcast(value.toString(), options);
             default:
                 return null;
         }

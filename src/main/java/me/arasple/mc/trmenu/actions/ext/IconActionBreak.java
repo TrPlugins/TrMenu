@@ -1,8 +1,11 @@
 package me.arasple.mc.trmenu.actions.ext;
 
 import me.arasple.mc.trmenu.actions.BaseAction;
+import me.arasple.mc.trmenu.actions.option.ActionOption;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryEvent;
+
+import java.util.HashMap;
 
 /**
  * @author Arasple
@@ -10,8 +13,8 @@ import org.bukkit.event.inventory.InventoryEvent;
  */
 public class IconActionBreak extends BaseAction {
 
-    public IconActionBreak(String command) {
-        super(command);
+    public IconActionBreak(String command, HashMap<ActionOption, String> options) {
+        super(command, options);
     }
 
     @Override

@@ -58,7 +58,7 @@ public class TrMenuAPI {
      * @return 菜单
      */
     public static Menur getMenuByCommand(String cmd) {
-        return getMenus().stream().filter(menu -> menu.getOpenCommands().contains(cmd)).findFirst().orElse(null);
+        return getMenus().stream().filter(menu -> menu.getOpenCommands() != null && menu.getOpenCommands().contains(cmd)).findFirst().orElse(null);
     }
 
     /**

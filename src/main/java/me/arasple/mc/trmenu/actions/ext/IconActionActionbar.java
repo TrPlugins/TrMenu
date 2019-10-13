@@ -2,9 +2,12 @@ package me.arasple.mc.trmenu.actions.ext;
 
 import io.izzel.taboolib.module.locale.TLocale;
 import me.arasple.mc.trmenu.actions.BaseAction;
+import me.arasple.mc.trmenu.actions.option.ActionOption;
 import me.arasple.mc.trmenu.utils.Vars;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryEvent;
+
+import java.util.HashMap;
 
 /**
  * @author Arasple
@@ -12,8 +15,8 @@ import org.bukkit.event.inventory.InventoryEvent;
  */
 public class IconActionActionbar extends BaseAction {
 
-    public IconActionActionbar(String command) {
-        super(command);
+    public IconActionActionbar(String command, HashMap<ActionOption, String> options) {
+        super(command, options);
     }
 
     @Override

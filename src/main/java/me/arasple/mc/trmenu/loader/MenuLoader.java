@@ -102,8 +102,8 @@ public class MenuLoader {
             List<BaseAction> closeActions = ActionType.readAction(Maps.getSimilarOrDefault(cfg, MenurSettings.MENU_CLOSE_ACTIONS.getName(), new ArrayList<>()));
 
             String openRequirement = Maps.getSimilarOrDefault(cfg, MenurSettings.MENU_OPEN_REQUIREMENT.getName(), null);
-            List<BaseAction> openDenyActions = ActionType.readAction(Maps.getSimilarOrDefault(cfg, MenurSettings.MENU_CLOSE_REQUIREMENT.getName(), new ArrayList<>()));
-            String closeRequirement = Maps.getSimilarOrDefault(cfg, MenurSettings.MENU_OPEN_REQUIREMENT.getName(), null);
+            List<BaseAction> openDenyActions = ActionType.readAction(Maps.getSimilarOrDefault(cfg, MenurSettings.MENU_OPEN_DENY_ACTIONS.getName(), new ArrayList<>()));
+            String closeRequirement = Maps.getSimilarOrDefault(cfg, MenurSettings.MENU_CLOSE_REQUIREMENT.getName(), null);
             List<BaseAction> closeDenyActions = ActionType.readAction(Maps.getSimilarOrDefault(cfg, MenurSettings.MENU_CLOSE_DENY_ACTIONS.getName(), new ArrayList<>()));
 
             Map<String, Object> options = Maps.getSimilarOrDefault(cfg, MenurSettings.MENU_OPTIONS.getName(), new HashMap<>());

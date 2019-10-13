@@ -5,10 +5,12 @@ import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.util.ArrayUtil;
 import io.izzel.taboolib.util.Variables;
 import me.arasple.mc.trmenu.actions.BaseAction;
+import me.arasple.mc.trmenu.actions.option.ActionOption;
 import me.arasple.mc.trmenu.utils.Vars;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryEvent;
 
+import java.util.HashMap;
 /**
  * @author Arasple
  * @date 2019/10/5 14:33
@@ -21,8 +23,8 @@ public class IconActionTitle extends BaseAction {
     private int stay = -1;
     private int fadeout = -1;
 
-    public IconActionTitle(String command) {
-        super(command);
+    public IconActionTitle(String command, HashMap<ActionOption, String> options) {
+        super(command, options);
 
         for (Variables.Variable variable : new Variables(command).find().getVariableList()) {
             if (variable.isVariable()) {

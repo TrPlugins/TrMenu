@@ -1,10 +1,13 @@
 package me.arasple.mc.trmenu.actions.ext;
 
 import me.arasple.mc.trmenu.actions.BaseAction;
+import me.arasple.mc.trmenu.actions.option.ActionOption;
 import me.arasple.mc.trmenu.utils.Vars;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryEvent;
+
+import java.util.HashMap;
 
 /**
  * @author Arasple
@@ -12,8 +15,8 @@ import org.bukkit.event.inventory.InventoryEvent;
  */
 public class IconActionPlayerCommand extends BaseAction {
 
-    public IconActionPlayerCommand(String command) {
-        super(command);
+    public IconActionPlayerCommand(String command, HashMap<ActionOption, String> options) {
+        super(command, options);
     }
 
     @Override
