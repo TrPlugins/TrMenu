@@ -57,8 +57,8 @@ public class MenuLoader {
                     File menuFile = new File(path);
                     if (menuFile.exists() && menuFile.getName().toLowerCase().endsWith(".yml")) {
                         errors.addAll(MenuLoader.loadMenu(menuFile));
+                        allMenus++;
                     }
-                    allMenus++;
                 }
             }
 
