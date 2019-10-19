@@ -21,7 +21,6 @@ import java.util.Objects;
  * @author Arasple
  * @date 2019/10/4 20:58
  */
-@SuppressWarnings("unchecked")
 public class IconLoader {
 
     public static Icon loadIcon(Map<String, Object> map) {
@@ -41,7 +40,6 @@ public class IconLoader {
         List<List<String>> lores = Lists.newArrayList();
         List<List<Integer>> slots = Lists.newArrayList();
         List<ItemFlag> flags = Lists.newArrayList();
-
         Map<String, Object> displayMap = Maps.sectionToMap(map.get("display"));
         Map<String, Object> actionsMap = Maps.containsSimilar(map, "actions") ? Maps.sectionToMap(map.get("actions")) : new HashMap<>();
         HashMap<ClickType, List<BaseAction>> actions = new HashMap<>();

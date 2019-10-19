@@ -20,6 +20,8 @@ public class Metrics {
     public static void init() {
         metrics = new MetricsBukkit(TrMenu.getPlugin());
 
+        // 菜单总数统计
+        metrics.addCustomChart(new MetricsBukkit.SingleLineChart("menus", () -> TrMenu.getMenus().size()));
         // 菜单打开次数统计 0
         metrics.addCustomChart(new MetricsBukkit.SingleLineChart("menu_open_counts", () -> {
             int i = coutns[0];

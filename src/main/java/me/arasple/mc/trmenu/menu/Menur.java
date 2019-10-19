@@ -68,7 +68,6 @@ public class Menur {
         this.forceTransferArgsAmount = forceTransferArgsAmount;
         this.bindItemLore = bindItemLore;
         this.dependExpansions = dependExpansions;
-
         checkDepends();
     }
 
@@ -167,7 +166,7 @@ public class Menur {
                     CloudExpansion cloudExpansion = PlaceholderAPIPlugin.getInstance().getExpansionCloud().getCloudExpansion(ex);
                     PlaceholderAPIPlugin.getInstance().getExpansionCloud().downloadExpansion(null, cloudExpansion);
                 });
-                PlaceholderAPIPlugin.getInstance().getExpansionManager().registerAllExpansions();
+                Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> PlaceholderAPIPlugin.getInstance().getExpansionManager().registerAllExpansions(), 20);
             }
         }
         return unInstalled;

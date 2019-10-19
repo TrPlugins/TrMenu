@@ -31,18 +31,21 @@ public class MenuLoader {
      * @param senders 接收反馈者
      */
     public static void loadMenus(List<Menur> menus, CommandSender... senders) {
+        // 清空
         menus.clear();
+        // 关闭正在查看被查看的菜单
         Bukkit.getOnlinePlayers().forEach(player -> {
             if (player.getOpenInventory().getTopInventory().getHolder() instanceof MenurHolder) {
                 player.closeInventory();
+                TLocale.sendTo(player, "MENU.FORCED-CLOSE");
             }
         });
-
+        // 读取目录
         File folder = new File(TrMenu.getPlugin().getDataFolder(), "menus");
         if (!folder.exists()) {
             TrMenu.getPlugin().saveResource("menus/example.yml", true);
         }
-
+        // 异步加载
         Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
             long start = System.currentTimeMillis();
             int allMenus = MenuLoader.countFiles(folder);
@@ -59,6 +62,7 @@ public class MenuLoader {
                 }
             }
 
+            // 报平安
             for (CommandSender sender : senders) {
                 if (menus.size() > 0) {
                     TLocale.sendTo(sender, "MENU.LOADED-SUCCESS", menus.size(), System.currentTimeMillis() - start);

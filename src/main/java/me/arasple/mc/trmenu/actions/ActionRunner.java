@@ -91,7 +91,6 @@ public class ActionRunner {
                 runAction(action, player, e, replace);
             }
         }
-
         actionListIterator.remove();
     }
 

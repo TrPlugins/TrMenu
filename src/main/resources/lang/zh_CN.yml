@@ -33,6 +33,10 @@ MENU:
   DEPEND-EXPANSIONS-REQUIRED: '&8[&3Tr&bMenu&8] &7目标菜单需要安装以下 PlaceholderAPI 变量才能使用, TrMenu 正在自动下载中... &6{0}'
   NOT-EXIST: '&8[&3Tr&bMenu&8] &7目标菜单不存在...'
   NOT-ENOUGH-ARGS: '&8[&3Tr&bMenu&8] &7此菜单要求你至少提供 &6{0} &7个有效参数.'
+  FORCED-CLOSE:
+    ==: TITLE
+    title: '&c&l菜单强制关闭'
+    subtitle: '&7&l正在重载菜单配置...'
 
 COMMANDS:
   NOT-PLAYER: '&8[&3Tr&bMenu&8] &c你必须是一名玩家...'
