@@ -8,6 +8,7 @@ import me.arasple.mc.trmenu.utils.JavaScript;
 import me.arasple.mc.trmenu.utils.Vars;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -61,8 +62,10 @@ public class Item {
         if (itemStack == null) {
             return null;
         }
-
         ItemMeta itemMeta = itemStack.getItemMeta();
+        if (itemMeta == null) {
+            return itemStack;
+        }
         // 载入动态 Lore
         if (lores.size() > 0) {
             itemMeta.setLore(Vars.replace(player, lores.get(nextIndex(2))));
@@ -99,11 +102,20 @@ public class Item {
         return slots;
     }
 
-    public List<Integer> getNextSlots() {
+    public List<Integer> getNextSlots(Inventory inv) {
+        if (slots.size() > 0 && currentSlots != null) {
+            currentSlots.forEach(s -> inv.setItem(s, null));
+        }
         currentSlots = slots.get(nextIndex(3));
-        return currentSlots;
+        return getCurrentSlots();
     }
 
+    /**
+     * 下一个动态属性位置
+     *
+     * @param type 类型
+     * @return 值
+     */
     private int nextIndex(int type) {
         int size = 0;
         switch (type) {
@@ -131,7 +143,7 @@ public class Item {
         } else {
             indexs[type]++;
         }
-        return indexs[type];
+        return i;
     }
 
     public void resetIndex() {
@@ -140,6 +152,85 @@ public class Item {
 
     public List<Integer> getCurrentSlots() {
         return currentSlots;
+    }
+
+    /*
+    GETTERS & SETTERS
+     */
+    public List<String> getNames() {
+        return names;
+    }
+
+    public void setNames(List<String> names) {
+        this.names = names;
+    }
+
+    public List<Mat> getMaterials() {
+        return materials;
+    }
+
+    public void setMaterials(List<Mat> materials) {
+        this.materials = materials;
+    }
+
+    public List<List<String>> getLores() {
+        return lores;
+    }
+
+    public void setLores(List<List<String>> lores) {
+        this.lores = lores;
+    }
+
+    public void setSlots(List<List<Integer>> slots) {
+        this.slots = slots;
+    }
+
+    public List<ItemFlag> getItemFlags() {
+        return itemFlags;
+    }
+
+    public void setItemFlags(List<ItemFlag> itemFlags) {
+        this.itemFlags = itemFlags;
+    }
+
+    public String getAmount() {
+        return amount;
+    }
+
+    public void setAmount(String amount) {
+        this.amount = amount;
+    }
+
+    public int getFinalAmount() {
+        return finalAmount;
+    }
+
+    public void setFinalAmount(int finalAmount) {
+        this.finalAmount = finalAmount;
+    }
+
+    public String getShiny() {
+        return shiny;
+    }
+
+    public void setShiny(String shiny) {
+        this.shiny = shiny;
+    }
+
+    public boolean isFinalShiny() {
+        return finalShiny;
+    }
+
+    public void setFinalShiny(boolean finalShiny) {
+        this.finalShiny = finalShiny;
+    }
+
+    public void setCurrentSlots(List<Integer> currentSlots) {
+        this.currentSlots = currentSlots;
+    }
+
+    public int[] getIndexs() {
+        return indexs;
     }
 
 }

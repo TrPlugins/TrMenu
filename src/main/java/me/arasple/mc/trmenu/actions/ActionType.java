@@ -21,37 +21,37 @@ public enum ActionType {
     /**
      * 发送一条 Actionbar 消息
      */
-    ACTIONBAR("action", "actionbar"),
+    ACTIONBAR("action(bar)?"),
 
     /**
      * 向全体在线玩家发送一条 Actionbar 消息
      */
-    ACTIONBAR_BROADCAST("actionall", "actionbarall", "action-all", "actionbar-all"),
+    ACTIONBAR_BROADCAST("actionall|actionbarall|action-all|actionbar-all"),
 
     /**
      * 中断执行动作组
      */
-    BREAK("break", "cancel"),
+    BREAK("break|cancel"),
 
     /**
      * 向全体在线玩家发送一条消息
      */
-    BROADCAST("broadcast", "announce"),
+    BROADCAST("broadcast|announce"),
 
     /**
      * 向玩家发送一个聊天捕获器
      */
-    CHAT_CATCHER("catch", "catcher", "catchers"),
+    CHAT_CATCHER("catch(er)?|catcher(s)?"),
 
     /**
      * 关闭当前菜单
      */
-    CLOSE("close", "shut"),
+    CLOSE("close|shut"),
 
     /**
      * 连接到指定 Bungee 服务器
      */
-    CONNECT("connect", "bungee", "server"),
+    CONNECT("connect|bungee|server"),
 
     /**
      * 通过后台执行某命令
@@ -61,27 +61,27 @@ public enum ActionType {
     /**
      * 延时多久再继续执行命令组
      */
-    DELAY("delay", "wait"),
+    DELAY("delay|wait"),
 
     /**
      * 执行脚本
      */
-    JS("js", "script(s)?", "javascript(s)?"),
+    JS("js|(java)?script(s)?"),
 
     /**
      * 向某玩家发送一条消息
      */
-    MESSAGE("talk", "message", "send", "tell"),
+    MESSAGE("talk|message|send|tell"),
 
     /**
      * 打开另一个 TrMenu 的菜单
      */
-    OPEN("gui", "trmenu", "open"),
+    OPEN("gui|trmenu|open"),
 
     /**
      * 以玩家身份执行命令
      */
-    PLAYER_COMMAND("player", "command", "execute"),
+    PLAYER_COMMAND("player|command|execute"),
 
     /**
      * 让玩家以OP身份执行命令
@@ -91,12 +91,12 @@ public enum ActionType {
     /**
      * 给玩家发送一个音效
      */
-    SOUND("sound"),
+    SOUND("sound(s)?"),
 
     /**
      * 给全体在线挖掘发送一个音效
      */
-    SOUND_ALL("sound-all", "soundall"),
+    SOUND_ALL("sound(-)?all"),
 
     /**
      * 给玩家发送一个 Title + Subtitle
@@ -106,12 +106,20 @@ public enum ActionType {
     /**
      * 给全体在线玩家发送一个 Title + SubTitle
      */
-    TITLE_BROADCAST("title-all", "titleall");
+    TITLE_BROADCAST("title(-)?all");
 
-    private String[] names;
+    private String name;
 
-    ActionType(String... names) {
-        this.names = names;
+    ActionType(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public static ActionType matchByName(String name) {
+        return Arrays.stream(values()).filter(v -> name.matches("^(?i)" + v.getName())).findFirst().orElse(MESSAGE);
     }
 
     public static List<BaseAction> readAction(List<String> lines) {
@@ -132,7 +140,7 @@ public enum ActionType {
      * @return 动作
      */
     public static BaseAction readAction(String line) {
-        ActionType type = Arrays.stream(values()).filter(t -> Arrays.stream(t.names).anyMatch(x -> line.toLowerCase().split(":")[0].startsWith(x))).findFirst().orElse(ActionType.MESSAGE);
+        ActionType type = matchByName(line.split(":")[0]);
         String command = ArrayUtil.arrayJoin(line.split(":", 2), 1);
         HashMap<ActionOption, String> options = new HashMap<>();
         StringBuilder value = new StringBuilder();

@@ -6,9 +6,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-import io.izzel.taboolib.util.Files;
 import io.izzel.taboolib.util.lite.Materials;
 import me.arasple.mc.trmenu.TrMenu;
+import me.arasple.mc.trmenu.TrMenuPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -77,8 +77,8 @@ public class Skulls {
             playerTextures.put(id, null);
             Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
                 try {
-                    JsonObject userProfile = (JsonObject) new JsonParser().parse(Files.readFromURL("https://api.mojang.com/users/profiles/minecraft/" + id));
-                    JsonArray textures = ((JsonObject) new JsonParser().parse(Files.readFromURL("https://sessionserver.mojang.com/session/minecraft/profile/" + userProfile.get("id").getAsString()))).getAsJsonArray("properties");
+                    JsonObject userProfile = (JsonObject) new JsonParser().parse(TrMenuPlugin.readFromURL("https://api.mojang.com/users/profiles/minecraft/" + id));
+                    JsonArray textures = ((JsonObject) new JsonParser().parse(TrMenuPlugin.readFromURL("https://sessionserver.mojang.com/session/minecraft/profile/" + userProfile.get("id").getAsString()))).getAsJsonArray("properties");
                     for (JsonElement element : textures) {
                         if ("textures".equals(element.getAsJsonObject().get("name").getAsString())) {
                             playerTextures.put(id, element.getAsJsonObject().get("value").getAsString());

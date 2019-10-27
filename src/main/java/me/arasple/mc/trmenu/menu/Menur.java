@@ -21,6 +21,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Arrays;
@@ -94,34 +95,51 @@ public class Menur {
             return;
         }
         ArgsCache.getArgs().put(player.getUniqueId(), args);
-
         Inventory menu = Bukkit.createInventory(new MenurHolder(this), 9 * rows, Vars.replace(player, title));
+
         // 初始化设置
         buttons.forEach((button, slots) -> Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
             button.refreshConditionalIcon(player, null);
             Item item = button.getCurrentIcon().getItem();
             ItemStack itemStack = item.createItemStack(player, args);
-            for (int i : item.getSlots().size() > 0 ? item.getNextSlots() : slots) {
+            for (int i : item.getSlots().size() > 0 ? item.getNextSlots(menu) : slots) {
                 menu.setItem(i, itemStack);
             }
         }));
-
         // 开始刷新
         buttons.forEach((button, slots) -> {
             // 判断刷新周期是否合法
             if (slots != null && button.getUpdate() >= 1) {
-                // 创建异步 BukkitRunnable
+                // 创建 Runnable
                 new BukkitRunnable() {
                     @Override
                     public void run() {
+                        long start = System.currentTimeMillis();
                         // 如果该菜单已被玩家关闭, 则取消刷新进程
                         if (!player.getOpenInventory().getTopInventory().equals(menu)) {
                             cancel();
                             return;
                         }
+
                         Item item = button.getCurrentIcon().getItem();
                         ItemStack itemStack = item.createItemStack(player, args);
-                        for (int i : item.getSlots().size() > 0 ? item.getNextSlots() : slots) {
+
+                        if (player.hasMetadata("TrMenu-Debug")) {
+                            if (item == null || itemStack == null) {
+                                return;
+                            }
+                            ItemMeta meta = itemStack.getItemMeta();
+                            if (meta != null) {
+                                List<String> lore = meta.hasLore() ? meta.getLore() : Lists.newArrayList();
+                                lore.add("");
+                                lore.add("§8[TrMenu-Debug] §7Last Refresh: §8" + System.currentTimeMillis() + "; §7Took: §8" + (System.currentTimeMillis() - start) + "ms.");
+                                lore.add("§8[TrMenu-Debug] §7Mats: " + button.getCurrentIcon().getItem().getMaterials().size() + "; Index: " + Arrays.toString(button.getCurrentIcon().getItem().getIndexs()));
+                                meta.setLore(lore);
+                                itemStack.setItemMeta(meta);
+                            }
+                        }
+                        menu.clear();
+                        for (int i : item.getSlots().size() > 0 ? item.getNextSlots(menu) : slots) {
                             menu.setItem(i, itemStack);
                         }
                         // 清理残留
@@ -136,10 +154,9 @@ public class Menur {
                     public void run() {
                         button.refreshConditionalIcon(player, null);
                     }
-                }.runTaskTimerAsynchronously(TrMenu.getPlugin(), button.getRefreshConditions(), button.getRefreshConditions());
+                }.runTaskTimer(TrMenu.getPlugin(), button.getRefreshConditions(), button.getRefreshConditions());
             }
         });
-
         // 为玩家打开此菜单
         Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> {
             player.openInventory(menu);

@@ -18,7 +18,7 @@ import java.util.List;
  * -
  * Doc: https://arasple.gitbook.io/trmenu
  */
-@TrMenuPlugin.Version(5.08)
+@TrMenuPlugin.Version(5.09)
 public final class TrMenu extends TrMenuPlugin {
 
     @TInject("§3Tr§bMenu")

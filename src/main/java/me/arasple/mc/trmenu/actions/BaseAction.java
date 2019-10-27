@@ -20,7 +20,6 @@ public abstract class BaseAction {
         this.options = options;
     }
 
-
     /**
      * 执行动作时的方法
      *

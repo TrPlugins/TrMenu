@@ -38,12 +38,10 @@ public class UpdateChecker implements Listener {
         url = "https://api.github.com/repos/Arasple/" + TrMenu.getPlugin().getDescription().getName() + "/releases/latest";
         version = NumberUtils.toDouble(TrMenu.getPlugin().getDescription().getVersion().split("-")[0], -1);
         latest = new LatestInfo(false, -1, new String[]{});
-
         if (version == -1) {
-            TrMenu.getTLogger().error("检测版本号时发生异常... 关闭服务器!");
+            TLocale.sendToConsole("ERROR.VERSION");
             Bukkit.shutdown();
         }
-
         startTask();
     }
 

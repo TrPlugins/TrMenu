@@ -22,9 +22,9 @@ import java.util.stream.Collectors;
  */
 public class Mat {
 
+    private ItemStack staticTemp;
     private String mat;
     private MatType type;
-
     private Material material;
     private String head;
     private int model;
@@ -32,54 +32,65 @@ public class Mat {
 
     public Mat(String mat) {
         this.mat = mat;
-        this.type = initType(this.mat);
+        this.data = 0;
+        this.model = 0;
+        this.type = initProperties(this.mat);
     }
 
     /**
-     * 为玩家创建该物品
+     * 转换 Mat 为一个显示的 ItemStack
      *
      * @param player 玩家
-     * @return 物品
+     * @return ItemStack
      */
+    @SuppressWarnings("deprecation")
     public ItemStack createItem(Player player) {
-        ItemStack itemStack = material != null ? new ItemStack(material) : null;
-        ItemMeta itemMeta = itemStack != null ? itemStack.getItemMeta() : null;
-
-        switch (type) {
-            case ORIGINAL:
-                if (data != 0) {
-                    itemStack.setDurability(data);
-                }
-                return itemStack;
-            case MODEL_DATA:
-                itemMeta.setCustomModelData(model);
-                itemStack.setItemMeta(itemMeta);
-                return itemStack;
-            case PLAYER_HEAD:
+        if (staticTemp != null) {
+            return staticTemp;
+        } else {
+            ItemStack item = material != null ? new ItemStack(material) : null;
+            ItemMeta meta = item != null ? item.getItemMeta() : null;
+            // 原版材质
+            if (type == MatType.ORIGINAL && data != 0) {
+                item.setDurability(data);
+            }
+            // 1.14+ Model Data 材质
+            else if (type == MatType.MODEL_DATA && model != 0) {
+                meta.setCustomModelData(model);
+                item.setItemMeta(meta);
+            }
+            // 自定义纹理头颅
+            else if (type == MatType.CUSTOM_HEAD) {
+                item = Skulls.getCustomSkull(head);
+            }
+            // 玩家动态头颅材质
+            else if (type == MatType.PLAYER_HEAD) {
                 return Skulls.getPlayerSkull(Vars.replace(player, head));
-            case CUSTOM_HEAD:
-                return Skulls.getCustomSkull(head);
-            case HEAD_DATABASE:
+            }
+            // HeadDatabase
+            else if (type == MatType.HEAD_DATABASE) {
                 if (!HookHeadDatabase.isHoooked()) {
                     TrMenu.getTLogger().error("&c未安装 &6HeadDatabase&c, 你无法使用该材质: &6" + mat);
                     return null;
                 }
-                return HookHeadDatabase.getItem(head);
-            default:
-                return itemStack;
+                item = HookHeadDatabase.getItem(head);
+            }
+            staticTemp = item;
+            return item;
         }
     }
 
     /**
-     * 判断材质类型并注入
+     * 解析材质内容返回 MatType
      *
-     * @param material text
-     * @return 类型
+     * @param material 材质写法
+     * @return MatType
      */
-    public MatType initType(String material) {
+    public MatType initProperties(String material) {
         List<Variables.Variable> variable = new Variables(material).find().getVariableList().stream().filter(Variables.Variable::isVariable).collect(Collectors.toList());
+        String[] args;
         if (variable.size() >= 1) {
-            String[] args = variable.get(0).getText().split(":");
+            args = variable.get(0).getText().split(":");
             if (args.length >= 2) {
                 MatType matType = MatType.matchByName(args[0]);
                 if (matType == MatType.MODEL_DATA) {
@@ -91,7 +102,7 @@ public class Mat {
                 return matType;
             }
         } else {
-            String[] args = material.split(":");
+            args = material.split(":");
             if (!Materials.isNewVersion()) {
                 String[] mat = ItemMaterials.readNewMaterialForOld(args[0]);
                 this.material = Material.valueOf(mat[0]);
@@ -107,6 +118,58 @@ public class Mat {
         }
         this.material = Material.STONE;
         return MatType.ORIGINAL;
+    }
+
+    /*
+    GETTERS & SETTERS
+     */
+
+    public String getMat() {
+        return mat;
+    }
+
+    public void setMat(String mat) {
+        this.mat = mat;
+    }
+
+    public MatType getType() {
+        return type;
+    }
+
+    public void setType(MatType type) {
+        this.type = type;
+    }
+
+    public Material getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(Material material) {
+        this.material = material;
+    }
+
+    public String getHead() {
+        return head;
+    }
+
+    public void setHead(String head) {
+        this.head = head;
+    }
+
+    public int getModel() {
+        return model;
+    }
+
+    public void setModel(int model) {
+        this.model = model;
+    }
+
+    public byte getData() {
+        return data;
+    }
+
+    public void setData(byte data) {
+        this.data = data;
     }
 
 }

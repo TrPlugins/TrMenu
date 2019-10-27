@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.actions;
 
+import com.google.common.collect.Lists;
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils;
 import io.izzel.taboolib.util.Strings;
 import me.arasple.mc.trmenu.TrMenu;
@@ -42,14 +43,13 @@ public class ActionRunner {
             actionGroups.putIfAbsent(baseAction.getOptions().getOrDefault(ActionOption.REQUIREMENT, null), new ArrayList<>());
             actionGroups.get(baseAction.getOptions().getOrDefault(ActionOption.REQUIREMENT, null)).add(baseAction);
         });
-
-        actionGroups.forEach((requirement, actions) -> {
-            // 判断条件是否满足
-            if (!isRequirementMatch(requirement, player, e)) {
-                orgActions.removeAll(actions);
+        List<BaseAction> actions = Lists.newArrayList();
+        actionGroups.forEach((key, value) -> {
+            if (isRequirementMatch(key, player, e)) {
+                actions.addAll(value);
             }
         });
-        executeActions(orgActions.listIterator(), player, e, replace);
+        executeActions(actions.listIterator(), player, e, replace);
     }
 
     /**

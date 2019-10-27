@@ -1,7 +1,7 @@
 package me.arasple.mc.trmenu.utils;
 
+import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.util.lite.Scripts;
-import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.bstats.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -51,12 +51,8 @@ public class JavaScript {
             return Scripts.compile(script).eval(new SimpleBindings(bind));
         } catch (ScriptException e) {
             player.closeInventory();
-
-            player.sendMessage("§c表达式计算时出错: §6" + e.getMessage());
-            player.sendMessage("§8" + Arrays.toString(e.getStackTrace()));
-
-            TrMenu.getTLogger().error("&cJs 运算时发生异常: &6{Script" + script + "}&8; &6Error: &4" + e.getMessage());
-            TrMenu.getTLogger().error("&8" + Arrays.toString(e.getStackTrace()));
+            TLocale.sendTo(player, "ERROR.JS", e.getMessage(), Arrays.toString(e.getStackTrace()));
+            TLocale.sendToConsole("ERROR.JS", e.getMessage(), Arrays.toString(e.getStackTrace()));
             return null;
         }
     }

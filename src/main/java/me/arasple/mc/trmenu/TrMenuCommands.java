@@ -25,7 +25,7 @@ public class TrMenuCommands extends BaseMainCommand {
     /**
      * 重载命令
      */
-    @SubCommand(priority = 2)
+    @SubCommand(description = "重新载入菜单")
     BaseSubCommand reload = new BaseSubCommand() {
 
         @Override
@@ -42,7 +42,7 @@ public class TrMenuCommands extends BaseMainCommand {
     /**
      * 列出所有菜单命令
      */
-    @SubCommand(priority = 3)
+    @SubCommand(description = "列出菜单")
     BaseSubCommand list = new BaseSubCommand() {
 
         @Override
@@ -61,7 +61,7 @@ public class TrMenuCommands extends BaseMainCommand {
     /**
      * (为指定玩家) 打开指定菜单命令
      */
-    @SubCommand(priority = 4)
+    @SubCommand(description = "为玩家打开一个菜单")
     BaseSubCommand open = new BaseSubCommand() {
 
         @Override
@@ -105,7 +105,7 @@ public class TrMenuCommands extends BaseMainCommand {
 
     };
 
-    @SubCommand(priority = 1)
+    @SubCommand(description = "调试模式")
     BaseSubCommand debug = new BaseSubCommand() {
 
         @Override

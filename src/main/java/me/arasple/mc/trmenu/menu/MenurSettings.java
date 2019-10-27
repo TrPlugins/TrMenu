@@ -34,7 +34,7 @@ public enum MenurSettings {
      * 按钮各种设置
      */
     BUTTON_UPDATE_PERIOD("update(s)?"),
-    BUTTON_REFRESH_CONDITIONS("refresh-conditions"),
+    BUTTON_REFRESH_CONDITIONS("refresh-condition(s)?"),
     BUTTON_ICONS("icons"),
     BUTTON_ICONS_CONDITION("condition"),
 

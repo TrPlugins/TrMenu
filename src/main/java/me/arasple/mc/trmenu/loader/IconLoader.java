@@ -12,15 +12,13 @@ import me.arasple.mc.trmenu.utils.Maps;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemFlag;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @author Arasple
  * @date 2019/10/4 20:58
  */
+@SuppressWarnings("unchecked")
 public class IconLoader {
 
     public static Icon loadIcon(Map<String, Object> map) {
@@ -35,13 +33,13 @@ public class IconLoader {
      * @return 图标
      */
     public static Icon loadIcon(Map<String, Object> map, Icon defaultIcon) {
-        List<String> names = Lists.newArrayList();
         List<Mat> materials = Lists.newArrayList();
-        List<List<String>> lores = Lists.newArrayList();
-        List<List<Integer>> slots = Lists.newArrayList();
+        List<String> names;
+        List<List<String>> lores;
+        List<List<Integer>> slots;
         List<ItemFlag> flags = Lists.newArrayList();
-        Map<String, Object> displayMap = Maps.sectionToMap(map.get("display"));
-        Map<String, Object> actionsMap = Maps.containsSimilar(map, "actions") ? Maps.sectionToMap(map.get("actions")) : new HashMap<>();
+        Map displayMap = Maps.sectionToMap(map.get("display"));
+        Map actionsMap = Maps.containsSimilar(map, "actions") ? Maps.sectionToMap(map.get("actions")) : new HashMap<>();
         HashMap<ClickType, List<BaseAction>> actions = new HashMap<>();
 
         Object name = Maps.getSimilarOrDefault(displayMap, MenurSettings.ICON_DISPLAY_NAME.getName(), null);
@@ -61,18 +59,14 @@ public class IconLoader {
                 actions.put(value, ActionType.readAction(actionStrings));
             }
         }
+
+        // Actions
         Object allActionObject = Maps.getSimilarOrDefault(actionsMap, "ALL", null);
-        if (allActionObject != null) {
-            List<String> allAction = Lists.newArrayList();
-            if (allActionObject instanceof List) {
-                allAction = (List<String>) allActionObject;
-            } else {
-                allAction.add(String.valueOf(allActionObject));
-            }
-            if (allAction != null && !allAction.isEmpty()) {
-                actions.put(null, ActionType.readAction(allAction));
-            }
+        List<String> allAction = allActionObject instanceof List ? (List<String>) allActionObject : allActionObject != null ? Collections.singletonList(String.valueOf(allActionObject)) : null;
+        if (allAction != null && !allAction.isEmpty()) {
+            actions.put(null, ActionType.readAction(allAction));
         }
+
         // 载入动态材质
         if (mats == null && defaultIcon == null) {
             throw new NullPointerException("Materials can not be null");
@@ -83,41 +77,10 @@ public class IconLoader {
                 materials.add(new Mat(String.valueOf(mats)));
             }
         }
-        // 载入图标动态名称
-        if (name != null) {
-            if (name instanceof List) {
-                names.addAll((List<String>) name);
-            } else {
-                names.add(String.valueOf(name));
-            }
-        }
-        // 载入Lore组
-        if (lore != null) {
-            if (lore instanceof List) {
-                List<Object> l = (List<Object>) lore;
-                if (l.size() > 0) {
-                    if (l.get(0) instanceof List) {
-                        lores.addAll((List<List<String>>) lore);
-                    } else {
-                        lores.add((List<String>) lore);
-                    }
-                }
-            }
-        }
-        // 载入动态位置组
-        if (slot != null) {
-            if (slot instanceof List) {
-                List<Object> s = (List<Object>) slot;
-                if (s.size() > 0) {
-                    if (s.get(0) instanceof List) {
-                        slots.addAll((List<List<Integer>>) slot);
-                    } else {
-                        slots.add((List<Integer>) slot);
-                    }
-                }
-            }
-        }
-        // 载入flags
+        names = name instanceof List ? (List<String>) name : Collections.singletonList(String.valueOf(name));
+        lores = readStringList(lore);
+        slots = readIntegerList(slot);
+        // flags
         if (flag != null) {
             if (flag instanceof List) {
                 try {
@@ -127,8 +90,33 @@ public class IconLoader {
                 flags.removeIf(Objects::isNull);
             }
         }
+
         Item item = (displayMap == null && defaultIcon != null) ? defaultIcon.getItem() : new Item(names, materials, lores, slots, flags, shiny, amount);
         return new Icon(item, actions);
+    }
+
+    public static List<List<String>> readStringList(Object object) {
+        List<List<String>> list = Lists.newArrayList();
+        if (!(object instanceof List) || ((List) object).size() <= 0) {
+            return list;
+        } else if (((List) object).get(0) instanceof List) {
+            ((List) object).forEach(x -> list.add((ArrayList) x));
+        } else {
+            list.add((List<String>) object);
+        }
+        return list;
+    }
+
+    public static List<List<Integer>> readIntegerList(Object object) {
+        List<List<Integer>> list = Lists.newArrayList();
+        if (!(object instanceof List) || ((List) object).size() <= 0) {
+            return list;
+        } else if (((List) object).get(0) instanceof List) {
+            ((List) object).forEach(x -> list.add((ArrayList) x));
+        } else {
+            list.add((List<Integer>) object);
+        }
+        return list;
     }
 
 }

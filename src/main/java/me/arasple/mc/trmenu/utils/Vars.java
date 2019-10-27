@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.utils;
 
+import com.google.common.collect.Lists;
 import io.izzel.taboolib.module.inject.TFunction;
 import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.util.Strings;
@@ -31,10 +32,9 @@ public class Vars {
     }
 
     public static List<String> replace(Player player, List<String> strings) {
-        for (int i = 0; i < strings.size(); i++) {
-            strings.set(i, replace(player, strings.get(i)));
-        }
-        return strings;
+        List<String> results = Lists.newArrayList();
+        strings.forEach(str -> results.add(replace(player, str)));
+        return results;
     }
 
     private static String setPlaceholders(Player player, String string) {

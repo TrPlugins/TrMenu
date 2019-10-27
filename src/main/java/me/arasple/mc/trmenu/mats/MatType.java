@@ -1,5 +1,7 @@
 package me.arasple.mc.trmenu.mats;
 
+import java.util.Arrays;
+
 /**
  * @author Arasple
  * @date 2019/10/4 16:29
@@ -9,49 +11,40 @@ public enum MatType {
     /**
      * 纯粹的原版物品ID
      */
-    ORIGINAL,
+    ORIGINAL("original"),
 
     /**
      * 带 Model Data 的原版物品 (1.14+)
      */
-    MODEL_DATA("model-data", "model"),
+    MODEL_DATA("model-data"),
 
     /**
      * 玩家头颅 (支持动态变量)
      */
-    PLAYER_HEAD("player-head", "variable-head", "head"),
+    PLAYER_HEAD("head|(player-)?head|(variable-)?head"),
 
     /**
      * 自定义头颅 (自定义材质)
      */
-    CUSTOM_HEAD("custom-head", "custom-skull", "skull"),
+    CUSTOM_HEAD("skull|custom(-head)?|custom(-skull)?"),
 
     /**
      * Head Database
      */
-    HEAD_DATABASE("head-database", "hdb");
+    HEAD_DATABASE("head-database|hdb");
 
-    private String[] keys;
+    private String key;
 
-    MatType(String... keys) {
-        this.keys = keys;
+    MatType(String key) {
+        this.key = key;
     }
 
-    public String[] getKeys() {
-        return keys;
+    public String getKey() {
+        return key;
     }
 
     public static MatType matchByName(String name) {
-        for (MatType value : values()) {
-            if (value.getKeys() != null) {
-                for (String key : value.getKeys()) {
-                    if (name.equalsIgnoreCase(key)) {
-                        return value;
-                    }
-                }
-            }
-        }
-        return null;
+        return Arrays.stream(values()).filter(v -> name.matches("^(?i)" + v.getKey())).findFirst().orElse(null);
     }
 
 }

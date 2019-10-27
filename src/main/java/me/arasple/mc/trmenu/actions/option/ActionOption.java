@@ -1,5 +1,7 @@
 package me.arasple.mc.trmenu.actions.option;
 
+import java.util.Arrays;
+
 /**
  * @author Arasple
  * @date 2019/10/13 11:32
@@ -21,12 +23,7 @@ public enum ActionOption {
     }
 
     public static ActionOption matchType(String name) {
-        for (ActionOption value : values()) {
-            if (value.getName().matches("^(?i)" + name.toLowerCase())) {
-                return value;
-            }
-        }
-        return null;
+        return Arrays.stream(values()).filter(v -> name.matches("^(?i)" + v.getName())).findFirst().orElse(null);
     }
 
     public String getName() {

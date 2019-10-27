@@ -92,11 +92,11 @@ public abstract class TrMenuPlugin extends JavaPlugin {
      */
     public static String[] getNewVersion() {
         for (String[] url : URL) {
-            String read = readFromURL(url[0]);
-            if (read == null) {
-                continue;
-            }
             try {
+                String read = readFromURL(url[0]);
+                if (read == null) {
+                    continue;
+                }
                 JsonObject jsonObject = (JsonObject) new JsonParser().parse(read);
                 if (jsonObject.has("tag_name")) {
                     return new String[]{jsonObject.get("tag_name").getAsString(), url[0], url[1]};
@@ -140,17 +140,14 @@ public abstract class TrMenuPlugin extends JavaPlugin {
         return file;
     }
 
-    private static String readFromURL(String in, String def) {
+    private static String readFromURL(String in, String def) throws IOException {
         return Optional.ofNullable(readFromURL(in)).orElse(def);
     }
 
-    public static String readFromURL(String in) {
+    public static String readFromURL(String in) throws IOException {
         try (InputStream inputStream = new URL(in).openStream(); BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream)) {
-            return new String(readFully(bufferedInputStream));
-        } catch (Throwable t) {
-            t.printStackTrace();
+            return readFully(bufferedInputStream, StandardCharsets.UTF_8);
         }
-        return null;
     }
 
     public static String readFully(InputStream inputStream, Charset charset) throws IOException {

@@ -21,7 +21,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 public class ListenerMenuClose implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
-    public void onClick(InventoryCloseEvent e) {
+    public void onClose(InventoryCloseEvent e) {
         if (!(e.getInventory().getHolder() instanceof MenurHolder)) {
             return;
         }
