@@ -19,6 +19,7 @@ import me.clip.placeholderapi.PlaceholderAPIPlugin;
 import me.clip.placeholderapi.expansion.cloud.CloudExpansion;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -37,6 +38,7 @@ import java.util.stream.Collectors;
 public class Menur {
 
     private String name;
+    private InventoryType invType;
     private String title;
     private int rows;
     private HashMap<Button, List<Integer>> buttons;
@@ -95,7 +97,7 @@ public class Menur {
             return;
         }
         ArgsCache.getArgs().put(player.getUniqueId(), args);
-        Inventory menu = Bukkit.createInventory(new MenurHolder(this), 9 * rows, Vars.replace(player, title));
+        Inventory menu = invType == null ? Bukkit.createInventory(new MenurHolder(this), 9 * rows, Vars.replace(player, title)) : Bukkit.createInventory(new MenurHolder(this), invType, Vars.replace(player, title));
 
         // 初始化设置
         buttons.forEach((button, slots) -> Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
@@ -220,9 +222,16 @@ public class Menur {
         return name;
     }
 
-    public void
-    setName(String name) {
+    public void setName(String name) {
         this.name = name;
+    }
+
+    public InventoryType getInvType() {
+        return invType;
+    }
+
+    public void setInvType(InventoryType invType) {
+        this.invType = invType;
     }
 
     public String getTitle() {
