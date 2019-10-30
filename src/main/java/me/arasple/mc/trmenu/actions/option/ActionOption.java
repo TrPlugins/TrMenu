@@ -12,9 +12,10 @@ public enum ActionOption {
      * 动作的参数
      */
 
-    REQUIREMENT("requirement"),
+    REQUIREMENT("requirement|condition"),
     CHANCE("chance"),
-    DELAY("delay|wait");
+    DELAY("delay|wait"),
+    PERMISSION("perm(ission)?");
 
     private String name;
 

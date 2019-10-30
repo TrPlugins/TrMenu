@@ -1,10 +1,12 @@
 package me.arasple.mc.trmenu.loader;
 
 import com.google.common.collect.Lists;
+import io.izzel.taboolib.module.config.TConfigWatcher;
 import io.izzel.taboolib.module.locale.TLocale;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.actions.ActionType;
 import me.arasple.mc.trmenu.actions.BaseAction;
+import me.arasple.mc.trmenu.api.TrMenuAPI;
 import me.arasple.mc.trmenu.display.Button;
 import me.arasple.mc.trmenu.display.Icon;
 import me.arasple.mc.trmenu.menu.Menur;
@@ -14,6 +16,7 @@ import me.arasple.mc.trmenu.utils.Maps;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.InventoryHolder;
 
 import java.io.File;
 import java.util.*;
@@ -49,13 +52,13 @@ public class MenuLoader {
         Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
             long start = System.currentTimeMillis();
             int all = MenuLoader.countMenus(folder);
-            List<String> errors = MenuLoader.loadMenu(folder);
+            List<String> errors = MenuLoader.loadMenu(folder, false);
             // 载入自定义路径的菜单
             if (TrMenu.getSettings().isSet("MENU-FILES")) {
                 for (String path : TrMenu.getSettings().getStringList("MENU-FILES")) {
                     File menuFile = new File(path);
                     if (menuFile.exists() && menuFile.getName().toLowerCase().endsWith(".yml")) {
-                        errors.addAll(MenuLoader.loadMenu(menuFile));
+                        errors.addAll(MenuLoader.loadMenu(menuFile, false));
                     }
                 }
             }
@@ -83,21 +86,26 @@ public class MenuLoader {
      * @param file 文件/目录
      * @return 加载错误
      */
-    @SuppressWarnings("unchecked")
-    public static List<String> loadMenu(File file) {
+    public static List<String> loadMenu(File file, boolean replaceLoad) {
         List<String> errors = Lists.newArrayList();
-        // 判断是否为目录
         if (file.isDirectory()) {
             for (File f : file.listFiles()) {
-                errors.addAll(loadMenu(f));
+                errors.addAll(loadMenu(f, replaceLoad));
             }
         } else if (!file.getName().toLowerCase().endsWith(".yml")) {
             return new ArrayList<>();
         } else {
-            // 如果是文件, 则读取信息
             String fileName = file.getName();
-            Map<String, Object> sets = YamlConfiguration.loadConfiguration(file).getValues(false);
-            // 菜单的属性、内容值
+
+            Map<String, Object> sets;
+            try {
+                YamlConfiguration config = new YamlConfiguration();
+                config.load(file);
+                sets = config.getValues(false);
+            } catch (Exception e) {
+                errors.add(TLocale.asString("MENU.LOADING-ERRORS.YAML", fileName, e.getMessage(), Arrays.toString(e.getStackTrace())));
+                return errors;
+            }
             String title = Maps.getSimilarOrDefault(sets, MenurSettings.MENU_TITLE.getName(), null);
             List<String> shape = fixShape(Maps.getSimilarOrDefault(sets, MenurSettings.MENU_SHAPE.getName(), null));
             List<String> openCmds = Maps.getSimilarOrDefault(sets, MenurSettings.MENU_OPEN_COMAMNDS.getName(), null);
@@ -122,14 +130,16 @@ public class MenuLoader {
             if (shape == null || shape.size() < 1) {
                 errors.add(TLocale.asString("MENU.LOADING-ERRORS.NO-SHAPE", fileName, shape));
             }
-            TrMenu.getMenus().forEach(menu -> {
-                if (menu.getOpenCommands() != null && openCmds != null && menu.getOpenCommands().stream().anyMatch(openCmds::contains)) {
-                    errors.add(TLocale.asString("MENU.LOADING-ERRORS.CONFLICT-OPEN-COMMANDS", fileName, menu.getName()));
-                }
-                if (menu.getBindItemLore() != null && bindItemLore != null && menu.getBindItemLore().stream().anyMatch(bindItemLore::contains)) {
-                    errors.add(TLocale.asString("MENU.LOADING-ERRORS.CONFLICT-OPEN-ITEMS", fileName, menu.getName()));
-                }
-            });
+            if (!replaceLoad) {
+                TrMenu.getMenus().forEach(menu -> {
+                    if (menu.getOpenCommands() != null && openCmds != null && menu.getOpenCommands().stream().anyMatch(openCmds::contains)) {
+                        errors.add(TLocale.asString("MENU.LOADING-ERRORS.CONFLICT-OPEN-COMMANDS", fileName, menu.getName()));
+                    }
+                    if (menu.getBindItemLore() != null && bindItemLore != null && menu.getBindItemLore().stream().anyMatch(bindItemLore::contains)) {
+                        errors.add(TLocale.asString("MENU.LOADING-ERRORS.CONFLICT-OPEN-ITEMS", fileName, menu.getName()));
+                    }
+                });
+            }
 
             // 加载图标
             if (Maps.containsSimilar(sets, MenurSettings.MENU_BUTTONS.getName())) {
@@ -169,7 +179,29 @@ public class MenuLoader {
             }
             // 保存菜单到内存
             if (errors.size() <= 0) {
-                TrMenu.getMenus().add(new Menur(fileName.substring(0, fileName.length() - 4), title, shape.size(), buttons, openRequirement, openDenyActions, closeRequirement, closeDenyActions, openCmds, openActions, closeActions, lockPlayerInv, transferArgs, forceTransferArgsAmount, bindItemLore, depends));
+                String name = fileName.substring(0, fileName.length() - 4);
+                // 无敌自动重载
+                if (!replaceLoad && TrMenu.getSettings().getBoolean("OPTIONS.MENU-FILE-LISTENER.ENABLE", true)) {
+                    TConfigWatcher.getInst().removeListener(file);
+                    TConfigWatcher.getInst().addSimpleListener(file, () -> {
+                        if (file.exists() && TrMenuAPI.getMenu(name) != null) {
+                            Menur current = TrMenuAPI.getMenu(name);
+                            if (loadMenu(file, true).size() <= 0) {
+                                TrMenu.getMenus().remove(current);
+                                Bukkit.getOnlinePlayers().stream().filter(p -> {
+                                    InventoryHolder holder = p.getOpenInventory().getTopInventory().getHolder();
+                                    return (holder instanceof MenurHolder && ((MenurHolder) holder).getMenu() == current);
+                                }).forEach(p -> Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> TrMenuAPI.getMenu(name).open(p), 2));
+                                if (TrMenu.getSettings().getBoolean("OPTIONS.MENU-FILE-LISTENER.NOTIFY", true)) {
+                                    TLocale.sendToConsole("MENU.LOADED-AUTOLY", fileName);
+                                }
+                            }
+                        } else {
+                            TConfigWatcher.getInst().removeListener(file);
+                        }
+                    });
+                }
+                TrMenu.getMenus().add(new Menur(name, title, shape.size(), buttons, openRequirement, openDenyActions, closeRequirement, closeDenyActions, openCmds, openActions, closeActions, lockPlayerInv, transferArgs, forceTransferArgsAmount, bindItemLore, depends));
             }
         }
         return errors;

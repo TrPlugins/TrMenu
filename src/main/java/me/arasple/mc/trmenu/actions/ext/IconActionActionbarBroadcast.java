@@ -22,7 +22,10 @@ public class IconActionActionbarBroadcast extends BaseAction {
 
     @Override
     public void onExecute(Player player, InventoryEvent e) {
-        Bukkit.getOnlinePlayers().forEach(p -> TLocale.Display.sendActionBar(p, Vars.replace(player, getCommand())));
+        Bukkit.getOnlinePlayers().stream().filter(p -> {
+            String permission = getOptions().getOrDefault(ActionOption.PERMISSION, null);
+            return permission == null || p.hasPermission(permission);
+        }).forEach(p -> TLocale.Display.sendActionBar(p, Vars.replace(player, getCommand())));
     }
 
 }

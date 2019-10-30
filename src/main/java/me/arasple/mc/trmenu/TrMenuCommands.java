@@ -79,6 +79,7 @@ public class TrMenuCommands extends BaseMainCommand {
             Menur menu = TrMenuAPI.getMenu(args[0]);
             if (menu == null) {
                 TLocale.sendTo(sender, "MENU.NOT-EXIST");
+                return;
             }
             if (args.length == 1) {
                 if (sender instanceof Player) {

@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryEvent;
 
 import java.util.HashMap;
+
 /**
  * @author Arasple
  * @date 2019/10/5 14:33
@@ -59,9 +60,11 @@ public class IconActionTitle extends BaseAction {
 
     @Override
     public void onExecute(Player player, InventoryEvent e) {
+        String title = Vars.replace(player, this.title);
+        String subTitle = Vars.replace(player, this.subtitle);
         TLocale.Display.sendTitle(player,
-                Vars.replace(player, title),
-                Vars.replace(player, subtitle),
+                title != null ? title : "",
+                subTitle != null ? subTitle : "",
                 fadein, stay, fadeout
         );
     }

@@ -1,9 +1,9 @@
 package me.arasple.mc.trmenu.mats;
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils;
+import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.util.Variables;
 import io.izzel.taboolib.util.lite.Materials;
-import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.hook.HookHeadDatabase;
 import me.arasple.mc.trmenu.utils.ItemMaterials;
 import me.arasple.mc.trmenu.utils.Skulls;
@@ -43,11 +43,8 @@ public class Mat {
      * @param player 玩家
      * @return ItemStack
      */
-    @SuppressWarnings("deprecation")
     public ItemStack createItem(Player player) {
-        if (staticTemp != null) {
-            return staticTemp;
-        } else {
+        if (staticTemp == null) {
             ItemStack item = material != null ? new ItemStack(material) : null;
             ItemMeta meta = item != null ? item.getItemMeta() : null;
             // 原版材质
@@ -70,14 +67,14 @@ public class Mat {
             // HeadDatabase
             else if (type == MatType.HEAD_DATABASE) {
                 if (!HookHeadDatabase.isHoooked()) {
-                    TrMenu.getTLogger().error("&c未安装 &6HeadDatabase&c, 你无法使用该材质: &6" + mat);
+                    TLocale.sendToConsole("ERROR.HDB", mat);
                     return null;
                 }
                 item = HookHeadDatabase.getItem(head);
             }
             staticTemp = item;
-            return item;
         }
+        return staticTemp;
     }
 
     /**

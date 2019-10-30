@@ -7,10 +7,12 @@ import io.izzel.taboolib.util.Variables;
 import me.arasple.mc.trmenu.actions.BaseAction;
 import me.arasple.mc.trmenu.actions.option.ActionOption;
 import me.arasple.mc.trmenu.utils.Vars;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryEvent;
 
 import java.util.HashMap;
+
 /**
  * @author Arasple
  * @date 2019/10/5 14:33
@@ -61,11 +63,17 @@ public class IconActionTitleBroadcast extends BaseAction {
 
     @Override
     public void onExecute(Player player, InventoryEvent e) {
-        TLocale.Display.sendTitle(player,
-                Vars.replace(player, title),
-                Vars.replace(player, subtitle),
+        String title = Vars.replace(player, this.title);
+        String subTitle = Vars.replace(player, this.subtitle);
+
+        Bukkit.getOnlinePlayers().stream().filter(p -> {
+            String permission = getOptions().getOrDefault(ActionOption.PERMISSION, null);
+            return permission == null || p.hasPermission(permission);
+        }).forEach(p -> TLocale.Display.sendTitle(p,
+                title != null ? title : "",
+                subTitle != null ? subTitle : "",
                 fadein, stay, fadeout
-        );
+        ));
     }
 
 }

@@ -63,12 +63,12 @@ public class ActionRunner {
         while (actionListIterator.hasNext()) {
             BaseAction action = actionListIterator.next();
             // 判断概率是否满足
-            if (action.getOptions().containsKey(ActionOption.CHANCE) && new Random().nextDouble() < NumberUtils.toDouble(action.getOptions().get(ActionOption.CHANCE), 1)) {
+            if (action.getOptions().containsKey(ActionOption.CHANCE) && new Random().nextDouble() >= NumberUtils.toDouble(action.getOptions().get(ActionOption.CHANCE), 1)) {
                 continue;
             }
             // 延时参数执行
             if (action.getOptions().containsKey(ActionOption.DELAY)) {
-                int delay = NumberUtils.toInt(action.getOptions().get(ActionOption.CHANCE), -1);
+                int delay = (int) NumberUtils.toDouble(action.getOptions().get(ActionOption.DELAY), -1);
                 if (delay > 0) {
                     Bukkit.getScheduler().runTaskLaterAsynchronously(TrMenu.getPlugin(), () -> {
                         runAction(action, player, e, replace);

@@ -18,11 +18,17 @@ public class Maps {
     }
 
     public static Object getSimilar(Map<?, ?> map, String key) {
+        if (map == null || map.entrySet().size() <= 0) {
+            return null;
+        }
         Optional<? extends Map.Entry<?, ?>> find = map.entrySet().stream().filter(entry -> String.valueOf(entry.getKey()).matches("^(?i)" + key)).findFirst();
         return find.map(entry -> entry.getValue() instanceof ConfigurationSection ? sectionToMap(entry.getValue()) : entry.getValue()).orElse(null);
     }
 
     public static <T> T getSimilarOrDefault(Map<?, ?> map, String key, T def) {
+        if (map == null || map.entrySet().size() <= 0) {
+            return def;
+        }
         Optional<? extends Map.Entry<?, ?>> find = map.entrySet().stream().filter(entry -> String.valueOf(entry.getKey()).matches("^(?i)" + key)).findFirst();
         if (!find.isPresent()) {
             return def;

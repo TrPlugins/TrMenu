@@ -50,7 +50,6 @@ public class JavaScript {
         try {
             return Scripts.compile(script).eval(new SimpleBindings(bind));
         } catch (ScriptException e) {
-            player.closeInventory();
             TLocale.sendTo(player, "ERROR.JS", e.getMessage(), Arrays.toString(e.getStackTrace()));
             TLocale.sendToConsole("ERROR.JS", e.getMessage(), Arrays.toString(e.getStackTrace()));
             return null;

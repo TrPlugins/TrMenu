@@ -70,16 +70,28 @@ public class IconLoader {
         // 载入动态材质
         if (mats == null && defaultIcon == null) {
             throw new NullPointerException("Materials can not be null");
-        } else {
+        } else if (mats != null) {
             if (mats instanceof List) {
                 ((List) mats).forEach(m -> materials.add(new Mat(String.valueOf(m))));
             } else {
                 materials.add(new Mat(String.valueOf(mats)));
             }
         }
-        names = name instanceof List ? (List<String>) name : Collections.singletonList(String.valueOf(name));
+        names = name == null ? new ArrayList<>() : name instanceof List ? (List<String>) name : Collections.singletonList(String.valueOf(name));
         lores = readStringList(lore);
         slots = readIntegerList(slot);
+
+        if (defaultIcon != null) {
+            if (names.isEmpty()) {
+                names = defaultIcon.getItem().getNames();
+            }
+            if (lores.isEmpty()) {
+                lores = defaultIcon.getItem().getLores();
+            }
+            if (materials.isEmpty()) {
+                materials.addAll(defaultIcon.getItem().getMaterials());
+            }
+        }
         // flags
         if (flag != null) {
             if (flag instanceof List) {

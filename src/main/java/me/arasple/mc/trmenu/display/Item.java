@@ -2,7 +2,6 @@ package me.arasple.mc.trmenu.display;
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils;
 import io.izzel.taboolib.util.Strings;
-import me.arasple.mc.trmenu.bstats.Metrics;
 import me.arasple.mc.trmenu.mats.Mat;
 import me.arasple.mc.trmenu.utils.JavaScript;
 import me.arasple.mc.trmenu.utils.Vars;
@@ -57,7 +56,6 @@ public class Item {
      * @return 物品
      */
     public ItemStack createItemStack(Player player, String... args) {
-        // 取动态材质创建物品
         ItemStack itemStack = materials.get(nextIndex(1)).createItem(player);
         if (itemStack == null) {
             return null;
@@ -66,20 +64,16 @@ public class Item {
         if (itemMeta == null) {
             return itemStack;
         }
-        // 载入动态 Lore
         if (lores.size() > 0) {
             itemMeta.setLore(Vars.replace(player, lores.get(nextIndex(2))));
         }
-        // 载入动态名称
         if (names.size() > 0) {
             itemMeta.setDisplayName(Vars.replace(player, names.get(nextIndex(0))));
         }
-        // 计算并应用发光效果
         if (finalShiny || (!Strings.isBlank(shiny) && (boolean) JavaScript.run(player, shiny))) {
             itemMeta.addEnchant(Enchantment.LUCK, 1, true);
             itemFlags.add(ItemFlag.HIDE_ENCHANTS);
         }
-        // 计算并应用动态数量
         if (finalAmount != -1) {
             itemStack.setAmount(finalAmount);
         } else {
@@ -94,7 +88,6 @@ public class Item {
             });
         }
         itemStack.setItemMeta(itemMeta);
-        Metrics.increase(2);
         return itemStack;
     }
 

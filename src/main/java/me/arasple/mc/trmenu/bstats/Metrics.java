@@ -2,6 +2,8 @@ package me.arasple.mc.trmenu.bstats;
 
 import io.izzel.taboolib.module.inject.TSchedule;
 import me.arasple.mc.trmenu.TrMenu;
+import me.arasple.mc.trmenu.hook.HookHeadDatabase;
+import me.arasple.mc.trmenu.utils.Vars;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
@@ -60,8 +62,14 @@ public class Metrics {
         }));
         // 选项 - 相似度比
         metrics.addCustomChart(new MetricsBukkit.SimplePie("option_material_similar_degree", () -> doubleFormat.format(TrMenu.getSettings().getDouble("OPTIONS.MATERIAL-SIMILAR-DEGREE", 0.8))));
-        // 选项 - 相似度比
+        // 选项 - 防刷屏
         metrics.addCustomChart(new MetricsBukkit.SimplePie("option_anti_click_spam", () -> String.valueOf(TrMenu.getSettings().getInt("OPTIONS.ANTI-CLICK-SPAM", 200))));
+        // 选项 - 菜单重载监听
+        metrics.addCustomChart(new MetricsBukkit.SimplePie("menu_file_listener", () -> TrMenu.getSettings().getBoolean("OPTIONS.MENU-FILE-LISTENER.ENABLE", true) ? "Enabled" : "Disabled"));
+        // 支持 - PlaceholderAPI
+        metrics.addCustomChart(new MetricsBukkit.SimplePie("hooked_placeholderapi", () -> Vars.isEnabled() ? "Enabled" : "Disabled"));
+        // 支持 - HeadDatabase
+        metrics.addCustomChart(new MetricsBukkit.SimplePie("hooked_headdatabase", () -> HookHeadDatabase.isHoooked() ? "Enabled" : "Disabled"));
     }
 
     public static void increase(int index) {

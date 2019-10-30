@@ -110,6 +110,7 @@ public class Menur {
         buttons.forEach((button, slots) -> {
             // 判断刷新周期是否合法
             if (slots != null && button.getUpdate() >= 1) {
+                int update = Math.max(button.getUpdate(), 3);
                 // 创建 Runnable
                 new BukkitRunnable() {
                     @Override
@@ -138,14 +139,13 @@ public class Menur {
                                 itemStack.setItemMeta(meta);
                             }
                         }
-                        menu.clear();
                         for (int i : item.getSlots().size() > 0 ? item.getNextSlots(menu) : slots) {
                             menu.setItem(i, itemStack);
                         }
                         // 清理残留
                         clearEmptySlots(menu, item.getSlots());
                     }
-                }.runTaskTimerAsynchronously(TrMenu.getPlugin(), button.getUpdate(), button.getUpdate());
+                }.runTaskTimerAsynchronously(TrMenu.getPlugin(), update, update);
             }
             // 判断重新计算优先级
             if (slots != null && button.getRefreshConditions() >= 1 && button.getConditionalIcons().size() > 0) {
@@ -220,7 +220,8 @@ public class Menur {
         return name;
     }
 
-    public void setName(String name) {
+    public void
+    setName(String name) {
         this.name = name;
     }
 

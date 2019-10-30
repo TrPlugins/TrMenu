@@ -122,6 +122,14 @@ public enum ActionType {
         return Arrays.stream(values()).filter(v -> name.matches("^(?i)" + v.getName())).findFirst().orElse(MESSAGE);
     }
 
+    public static List<BaseAction> readAction(Object object) {
+        if (object instanceof List) {
+            return readAction((List<String>) object);
+        } else {
+            return Arrays.asList(readAction(String.valueOf(object)));
+        }
+    }
+
     public static List<BaseAction> readAction(List<String> lines) {
         if (lines == null || lines.isEmpty()) {
             return null;
@@ -140,26 +148,26 @@ public enum ActionType {
      * @return 动作
      */
     public static BaseAction readAction(String line) {
-        ActionType type = matchByName(line.split(":")[0]);
+        ActionType type = matchByName(line.split(":", 2)[0]);
         String command = ArrayUtil.arrayJoin(line.split(":", 2), 1);
         HashMap<ActionOption, String> options = new HashMap<>();
         StringBuilder value = new StringBuilder();
+        List<Variables.Variable> vars = new Variables(command).find().getVariableList();
 
         // 读取相关参数
-        for (Variables.Variable variable : new Variables(command).find().getVariableList()) {
+        for (Variables.Variable variable : vars) {
             if (variable.isVariable()) {
                 String[] args = variable.getText().split(":");
                 if (args.length >= 2) {
                     ActionOption option = ActionOption.matchType(args[0]);
                     if (option != null && !Strings.isEmpty(args[1])) {
                         options.put(option, args[1]);
-                    } else {
-                        value.append("<").append(variable.getText()).append(">");
                     }
+                } else {
+                    value.append("<").append(variable.getText()).append(">");
                 }
-                value.append("<").append(variable.getText()).append(">");
             } else {
-                value.append(variable.getText());
+                value.append(variable.getText().replaceAll("<([^>]+?)>", ""));
             }
         }
 

@@ -29,7 +29,7 @@ public class ListenerMenuClose implements Listener {
         Player p = (Player) e.getPlayer();
         Menur menu = ((MenurHolder) e.getInventory().getHolder()).getMenu();
 
-        if (!Strings.isBlank(menu.getCloseRequirement()) && !(boolean) JavaScript.run(p, menu.getCloseRequirement())) {
+        if (!Strings.isBlank(menu.getCloseRequirement()) && !Boolean.parseBoolean(String.valueOf(JavaScript.run(p, menu.getCloseRequirement())))) {
             ActionRunner.runActions(menu.getCloseActions(), p, null);
             return;
         }
