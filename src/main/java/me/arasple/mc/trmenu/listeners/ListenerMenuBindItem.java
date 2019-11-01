@@ -5,7 +5,6 @@ import io.izzel.taboolib.util.item.Items;
 import io.izzel.taboolib.util.lite.Materials;
 import me.arasple.mc.trmenu.api.TrMenuAPI;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -18,7 +17,7 @@ import org.bukkit.inventory.ItemStack;
 @TListener
 public class ListenerMenuBindItem implements Listener {
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler
     public void onInteract(PlayerInteractEvent e) {
         ItemStack item = e.getItem();
 
@@ -28,6 +27,9 @@ public class ListenerMenuBindItem implements Listener {
             }
         }
 
-        TrMenuAPI.getMenus().stream().filter(menu -> menu.getBindItemLore() != null && menu.getBindItemLore().stream().anyMatch(lore -> Items.hasLore(item, lore))).findFirst().ifPresent(menu -> menu.open(e.getPlayer()));
+        TrMenuAPI.getMenus().stream().filter(menu -> menu.getBindItemLore() != null && menu.getBindItemLore().stream().anyMatch(lore -> Items.hasLore(item, lore))).findFirst().ifPresent(menu -> {
+            menu.open(e.getPlayer());
+            e.setCancelled(true);
+        });
     }
 }

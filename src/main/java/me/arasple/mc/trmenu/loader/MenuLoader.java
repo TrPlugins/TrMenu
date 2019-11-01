@@ -64,7 +64,7 @@ public class MenuLoader {
             }
             // 报平安
             for (CommandSender sender : senders) {
-                if (menus.size() > 0) {
+                if (menus.size() >= 0) {
                     TLocale.sendTo(sender, "MENU.LOADED-SUCCESS", menus.size(), System.currentTimeMillis() - start);
                 }
 
