@@ -8,6 +8,7 @@ import io.izzel.taboolib.module.locale.logger.TLogger;
 import me.arasple.mc.trmenu.loader.MenuLoader;
 import me.arasple.mc.trmenu.menu.Menur;
 import me.arasple.mc.trmenu.menu.MenurHolder;
+import me.arasple.mc.trmenu.updater.UpdateChecker;
 import org.bukkit.Bukkit;
 
 import java.util.List;
@@ -29,6 +30,8 @@ public final class TrMenu extends TrMenuPlugin {
 
     @Override
     public void onStarting() {
+        UpdateChecker.check();
+
         TLocale.sendToConsole("PLUGIN.LOADING");
         MenuLoader.loadMenus(menus, Bukkit.getConsoleSender());
         TLocale.sendToConsole("PLUGIN.ENABLED", getDescription().getVersion());
