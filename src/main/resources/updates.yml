@@ -2,8 +2,16 @@ Version 1.0X:
   Date: 2019.10.5 - Now
   Updates:
     1.07:
-      - 支持自定义菜单的容器类型!!!
+      - 更新自定义菜单的容器类型, 支持 23+ 种 InventoryType
+      - · CHEST / DISPENSER / DROPPER / FURNACE / WORKBENCH / CRAFTING ......
+      - 现在替换PlaceholderAPI得到的布尔值无需用JS进行判断
+      - <REQUIREMENT:"%checkitem_mat:DIAMOND%" == "true"> --> <REQUIREMENT:%checkitem_mat:DIAMOND%>
+      - PlaceholderAPI 改为必需前置
+      - 新增当版本过旧时醒目的更新提醒
+      - 修复了表达式匹配导致的变量判断符号报错
+      - 修复了 CheckItem 变量无法使用
       - 修复了菜单绑定物品必须要点物品才能打开的问题
+      - 新增 bStats 统计 inventory_type
     1.06:
       - 修复了关闭条件导致JS循环报错
       - 修复了动态位置异常

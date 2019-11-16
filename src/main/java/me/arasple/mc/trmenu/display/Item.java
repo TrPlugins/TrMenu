@@ -150,6 +150,7 @@ public class Item {
     /*
     GETTERS & SETTERS
      */
+
     public List<String> getNames() {
         return names;
     }

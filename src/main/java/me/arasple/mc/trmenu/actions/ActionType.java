@@ -152,12 +152,12 @@ public enum ActionType {
         String command = ArrayUtil.arrayJoin(line.split(":", 2), 1);
         HashMap<ActionOption, String> options = new HashMap<>();
         StringBuilder value = new StringBuilder();
-        List<Variables.Variable> vars = new Variables(command).find().getVariableList();
+        List<Variables.Variable> vars = new Variables(command, "<(.+)>").find().getVariableList();
 
         // 读取相关参数
         for (Variables.Variable variable : vars) {
             if (variable.isVariable()) {
-                String[] args = variable.getText().split(":");
+                String[] args = variable.getText().split(":", 2);
                 if (args.length >= 2) {
                     ActionOption option = ActionOption.matchType(args[0]);
                     if (option != null && !Strings.isEmpty(args[1])) {

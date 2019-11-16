@@ -19,7 +19,7 @@ import java.util.List;
  * -
  * Doc: https://arasple.gitbook.io/trmenu
  */
-@TrMenuPlugin.Version(5.1)
+@TrMenuPlugin.Version(5.11)
 public final class TrMenu extends TrMenuPlugin {
 
     @TInject("§3Tr§bMenu")
@@ -31,7 +31,6 @@ public final class TrMenu extends TrMenuPlugin {
     @Override
     public void onStarting() {
         UpdateChecker.check();
-
         TLocale.sendToConsole("PLUGIN.LOADING");
         MenuLoader.loadMenus(menus, Bukkit.getConsoleSender());
         TLocale.sendToConsole("PLUGIN.ENABLED", getDescription().getVersion());

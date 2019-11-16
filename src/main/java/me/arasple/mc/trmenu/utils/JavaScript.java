@@ -47,11 +47,16 @@ public class JavaScript {
 
         script = Vars.replace(player, script);
 
+        if (script.matches("true|false")) {
+            return Boolean.parseBoolean(script);
+        } else if (script.matches("no|yes")) {
+            return !"no".equalsIgnoreCase(script);
+        }
         try {
             return Scripts.compile(script).eval(new SimpleBindings(bind));
         } catch (ScriptException e) {
-            TLocale.sendTo(player, "ERROR.JS", e.getMessage(), Arrays.toString(e.getStackTrace()));
-            TLocale.sendToConsole("ERROR.JS", e.getMessage(), Arrays.toString(e.getStackTrace()));
+            TLocale.sendTo(player, "ERROR.JS", script, e.getMessage(), Arrays.toString(e.getStackTrace()));
+            TLocale.sendToConsole("ERROR.JS", script, e.getMessage(), Arrays.toString(e.getStackTrace()));
             return null;
         }
     }

@@ -92,6 +92,7 @@ public class UpdateChecker implements Listener {
         double latestVersion = catchLatestVersion();
 
         if (latestVersion - currentVersion >= 0.03) {
+            int last = (int) (5 * ((latestVersion - currentVersion) / 0.01));
             Bukkit.getConsoleSender().sendMessage("§8--------------------------------------------------");
             Bukkit.getConsoleSender().sendMessage("§r");
             Bukkit.getConsoleSender().sendMessage("§8# §4您所运行的 §cTrMenu §4版本过旧, 可能潜在很多漏洞");
@@ -100,13 +101,12 @@ public class UpdateChecker implements Listener {
             Bukkit.getConsoleSender().sendMessage("§8# §4Mcbbs: §chttps://www.mcbbs.net/thread-918078-1-1.html");
             Bukkit.getConsoleSender().sendMessage("§8# §r");
             Bukkit.getConsoleSender().sendMessage("§8# §r");
-            Bukkit.getConsoleSender().sendMessage("§8# §4服务器将在 §c§l10 secs §4后继续启动...");
+            Bukkit.getConsoleSender().sendMessage("§8# §4服务器将在 §c§l" + last + " secs §4后继续启动...");
             Bukkit.getConsoleSender().sendMessage("§r");
             Bukkit.getConsoleSender().sendMessage("§8--------------------------------------------------");
             try {
-                Thread.sleep(10 * 1000);
+                Thread.sleep(last * 1000);
             } catch (InterruptedException ignored) {
-
             }
         }
     }

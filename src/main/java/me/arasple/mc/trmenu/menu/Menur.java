@@ -54,9 +54,10 @@ public class Menur {
     private List<String> bindItemLore;
     private List<String> dependExpansions;
 
-    public Menur(String name, String title, int rows, HashMap<Button, List<Integer>> buttons, String openRequirement, List<BaseAction> openDenyActions, String closeRequirement, List<BaseAction> closeDenyActions, List<String> openCommands, List<BaseAction> openActions, List<BaseAction> closeActions, boolean lockPlayerInv, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore, List<String> dependExpansions) {
+    public Menur(String name, String title, InventoryType invType, int rows, HashMap<Button, List<Integer>> buttons, String openRequirement, List<BaseAction> openDenyActions, String closeRequirement, List<BaseAction> closeDenyActions, List<String> openCommands, List<BaseAction> openActions, List<BaseAction> closeActions, boolean lockPlayerInv, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore, List<String> dependExpansions) {
         this.name = name;
         this.title = title;
+        this.invType = invType;
         this.rows = rows;
         this.buttons = buttons;
         this.openRequirement = openRequirement;
@@ -105,7 +106,9 @@ public class Menur {
             Item item = button.getCurrentIcon().getItem();
             ItemStack itemStack = item.createItemStack(player, args);
             for (int i : item.getSlots().size() > 0 ? item.getNextSlots(menu) : slots) {
-                menu.setItem(i, itemStack);
+                if (menu.getSize() > i) {
+                    menu.setItem(i, itemStack);
+                }
             }
         }));
         // 开始刷新
@@ -142,7 +145,9 @@ public class Menur {
                             }
                         }
                         for (int i : item.getSlots().size() > 0 ? item.getNextSlots(menu) : slots) {
-                            menu.setItem(i, itemStack);
+                            if (menu.getSize() > i) {
+                                menu.setItem(i, itemStack);
+                            }
                         }
                         // 清理残留
                         clearEmptySlots(menu, item.getSlots());
@@ -175,7 +180,7 @@ public class Menur {
      */
     private List<String> checkDepends() {
         List<String> unInstalled = Lists.newArrayList();
-        if (getDependExpansions() != null && getDependExpansions().size() > 0 && Vars.isEnabled()) {
+        if (getDependExpansions() != null && getDependExpansions().size() > 0) {
             if (PlaceholderAPIPlugin.getInstance().getExpansionCloud().getCloudExpansions().isEmpty()) {
                 PlaceholderAPIPlugin.getInstance().getExpansionCloud().fetch(false);
             }
@@ -209,7 +214,9 @@ public class Menur {
     public void clearEmptySlots(Inventory menu, List<List<Integer>> slots) {
         slots.forEach(s -> s.forEach(i -> {
             if (menu.getItem(i) != null && getButton(i) == null) {
-                menu.setItem(i, null);
+                if (menu.getSize() > i) {
+                    menu.setItem(i, null);
+                }
             }
         }));
     }

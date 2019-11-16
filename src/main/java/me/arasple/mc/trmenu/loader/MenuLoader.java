@@ -16,6 +16,7 @@ import me.arasple.mc.trmenu.utils.Maps;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.InventoryHolder;
 
 import java.io.File;
@@ -107,6 +108,7 @@ public class MenuLoader {
                 return errors;
             }
             String title = Maps.getSimilarOrDefault(sets, MenurSettings.MENU_TITLE.getName(), null);
+            InventoryType type = Arrays.stream(InventoryType.values()).filter(t -> t.name().equalsIgnoreCase(Maps.getSimilarOrDefault(sets, MenurSettings.MENU_TYPE.getName(), null))).findFirst().orElse(null);
             List<String> shape = fixShape(Maps.getSimilarOrDefault(sets, MenurSettings.MENU_SHAPE.getName(), null));
             List<String> openCmds = Maps.getSimilarOrDefault(sets, MenurSettings.MENU_OPEN_COMAMNDS.getName(), null);
             HashMap<Button, List<Integer>> buttons = new HashMap<>();
@@ -165,7 +167,7 @@ public class MenuLoader {
                                     });
                                 }
                                 // 定位图标的位置, 创建按钮
-                                List<Integer> slots = locateButton(shape, key.charAt(0));
+                                List<Integer> slots = locateButton(shape, type, key.charAt(0));
                                 Button button = new Button(update, refreshConditions, defaultIcon, conditionalIcons);
                                 if (slots.size() > 0) {
                                     buttons.put(button, slots);
@@ -201,7 +203,7 @@ public class MenuLoader {
                         }
                     });
                 }
-                TrMenu.getMenus().add(new Menur(name, title, shape.size(), buttons, openRequirement, openDenyActions, closeRequirement, closeDenyActions, openCmds, openActions, closeActions, lockPlayerInv, transferArgs, forceTransferArgsAmount, bindItemLore, depends));
+                TrMenu.getMenus().add(new Menur(name, title, type, shape.size(), buttons, openRequirement, openDenyActions, closeRequirement, closeDenyActions, openCmds, openActions, closeActions, lockPlayerInv, transferArgs, forceTransferArgsAmount, bindItemLore, depends));
             }
         }
         return errors;
@@ -237,7 +239,7 @@ public class MenuLoader {
      * @param key   按钮字符
      * @return 槽位
      */
-    private static List<Integer> locateButton(List<String> shape, char key) {
+    private static List<Integer> locateButton(List<String> shape, InventoryType type, char key) {
         List<Integer> slots = Lists.newArrayList();
         // 第 N 行 第 M 个 物品的 SLOT = (N-1)*9+M-1
         for (int line = 1; line <= shape.size(); line++) {

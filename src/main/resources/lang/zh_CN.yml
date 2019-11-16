@@ -31,8 +31,9 @@ ERROR:
   HDB: '&8[&3Tr&bMenu&8]&8[&4ERROR&8] &c未安装 &6HeadDatabase&c, 你无法使用该材质: &6{0}'
   VERSION: '&8[&3Tr&bMenu&8]&8[&4ERROR&8] &7检测版本号时发生异常... 关闭服务器!"'
   JS:
-    - '&8[&3Tr&bMenu&8]&8[&4ERROR&8] &c表达式计算时出错: &6{0}'
-    - '&8{1}'
+    - '&8[&3Tr&bMenu&8]&8[&4ERROR&8] &c表达式计算时出错: &2{0}'
+    - '&6{1}'
+    - '&8{2}'
 
 MENU:
   LOADED-AUTOLY: '&8[&3Tr&bMenu&8]&8[&aFINE&8] &7监听到文件改动并自动成功重载了菜单 &f{0}&7...'

@@ -91,7 +91,6 @@ public class ActionRunner {
                 runAction(action, player, e, replace);
             }
         }
-        actionListIterator.remove();
     }
 
     private static void runAction(BaseAction action, Player player, InventoryClickEvent e, Map<String, String> replace) {

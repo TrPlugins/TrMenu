@@ -9,8 +9,10 @@ version: ${project.version}
 github: https://github.com/Arasple/TrMenu
 qq: 1197897763
 
-softdepend:
+depend:
   - PlaceholderAPI
+
+softdepend:
   - HeadDatabase
 
 author: Arasple
