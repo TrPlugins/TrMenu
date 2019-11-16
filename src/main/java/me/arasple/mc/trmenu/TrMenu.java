@@ -38,7 +38,6 @@ public final class TrMenu extends TrMenuPlugin {
 
     @Override
     public void onStopping() {
-        Bukkit.getScheduler().cancelTasks(this);
         Bukkit.getOnlinePlayers().forEach(player -> {
             if (player.getOpenInventory().getTopInventory().getHolder() instanceof MenurHolder) {
                 player.closeInventory();

@@ -156,18 +156,17 @@ public enum ActionType {
 
         // 读取相关参数
         for (Variables.Variable variable : vars) {
+            String text = variable.getText();
             if (variable.isVariable()) {
-                String[] args = variable.getText().split(":", 2);
-                if (args.length >= 2) {
-                    ActionOption option = ActionOption.matchType(args[0]);
-                    if (option != null && !Strings.isEmpty(args[1])) {
-                        options.put(option, args[1]);
+                if (text.contains("><")) {
+                    for (String s : text.split("><")) {
+                        initOption(s, options, value);
                     }
-                } else {
-                    value.append("<").append(variable.getText()).append(">");
+                    continue;
                 }
+                initOption(text, options, value);
             } else {
-                value.append(variable.getText().replaceAll("<([^>]+?)>", ""));
+                value.append(text.replaceAll("<([^<>]+)>", ""));
             }
         }
 
@@ -211,6 +210,18 @@ public enum ActionType {
                 return new IconActionTitleBroadcast(value.toString(), options);
             default:
                 return null;
+        }
+    }
+
+    private static void initOption(String text, HashMap<ActionOption, String> options, StringBuilder value) {
+        String[] args = text.split(":", 2);
+        if (args.length >= 2) {
+            ActionOption option = ActionOption.matchType(args[0]);
+            if (option != null && !Strings.isEmpty(args[1])) {
+                options.put(option, args[1]);
+            }
+        } else {
+            value.append("<").append(text).append(">");
         }
     }
 
