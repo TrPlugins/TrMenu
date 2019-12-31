@@ -1,0 +1,47 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '4.0.4'
+}
+
+configurations {
+    group = 'me.arasple.mc.trmenu'
+    version = '1.1-alpha1'
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+
+    defaultTasks 'clean', 'releaseJar'
+}
+
+repositories {
+    maven { url "http://ptms.ink:8081/repository/codemc-nms/" }
+    maven { url "http://ptms.ink:8081/repository/maven-releases/" }
+    maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+    mavenCentral()
+}
+
+task releaseJar(type: Copy, dependsOn: ['build']) {
+    from 'build/libs'
+    include '*.jar'
+    into 'C:\\Users\\Arasp\\Desktop'
+}
+
+dependencies {
+    compile 'org.spigotmc:spigot:1.15-R0.1-SNAPSHOT'
+    compile 'io.izzel.taboolib:TabooLib:5.13:all'
+    compile 'io.izzel.taboolib.loader:TabooLibloader:1.2:all'
+    shadow fileTree(dir: 'libs', includes: ['*.jar'])
+}
+
+processResources {
+    from(sourceSets.main.resources.srcDirs) {
+        include 'plugin.yml'
+        include 'bungee.yml'
+        expand 'version': project.version
+    }
+}
