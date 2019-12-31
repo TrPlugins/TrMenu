@@ -167,7 +167,7 @@ public class Menu {
     }
 
     /**
-     * 检测菜单需要的 PAPI 依赖并自动下载
+     * 检测菜单需要的 PlaceholderAPI 依赖并自动下载
      *
      * @return 未安装的
      */
@@ -215,143 +215,74 @@ public class Menu {
     }
 
     /*
-    GETTERS & SETTERS
+    GETTERS
      */
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public InventoryType getInventoryType() {
         return inventoryType;
-    }
-
-    public void setInventoryType(InventoryType inventoryType) {
-        this.inventoryType = inventoryType;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public int getRows() {
         return rows;
-    }
-
-    public void setRows(int rows) {
-        this.rows = rows;
     }
 
     public HashMap<Button, List<Integer>> getButtons() {
         return buttons;
     }
 
-    public void setButtons(HashMap<Button, List<Integer>> buttons) {
-        this.buttons = buttons;
-    }
-
     public List<String> getOpenCommands() {
         return openCommands;
-    }
-
-    public void setOpenCommands(List<String> openCommands) {
-        this.openCommands = openCommands;
     }
 
     public List<AbstractAction> getOpenActions() {
         return openActions;
     }
 
-    public void setOpenActions(List<AbstractAction> openActions) {
-        this.openActions = openActions;
-    }
-
     public List<AbstractAction> getCloseActions() {
         return closeActions;
-    }
-
-    public void setCloseActions(List<AbstractAction> closeActions) {
-        this.closeActions = closeActions;
-    }
-
-    public String getOpenRequirement() {
-        return openRequirement;
-    }
-
-    public void setOpenRequirement(String openRequirement) {
-        this.openRequirement = openRequirement;
-    }
-
-    public String getCloseRequirement() {
-        return closeRequirement;
-    }
-
-    public void setCloseRequirement(String closeRequirement) {
-        this.closeRequirement = closeRequirement;
     }
 
     public List<AbstractAction> getOpenDenyActions() {
         return openDenyActions;
     }
 
-    public void setOpenDenyActions(List<AbstractAction> openDenyActions) {
-        this.openDenyActions = openDenyActions;
-    }
-
     public List<AbstractAction> getCloseDenyActions() {
         return closeDenyActions;
     }
 
-    public void setCloseDenyActions(List<AbstractAction> closeDenyActions) {
-        this.closeDenyActions = closeDenyActions;
+    public String getOpenRequirement() {
+        return openRequirement;
+    }
+
+    public String getCloseRequirement() {
+        return closeRequirement;
     }
 
     public boolean isLockPlayerInv() {
         return lockPlayerInv;
     }
 
-    public void setLockPlayerInv(boolean lockPlayerInv) {
-        this.lockPlayerInv = lockPlayerInv;
-    }
-
     public boolean isTransferArgs() {
         return transferArgs;
-    }
-
-    public void setTransferArgs(boolean transferArgs) {
-        this.transferArgs = transferArgs;
     }
 
     public int getForceTransferArgsAmount() {
         return forceTransferArgsAmount;
     }
 
-    public void setForceTransferArgsAmount(int forceTransferArgsAmount) {
-        this.forceTransferArgsAmount = forceTransferArgsAmount;
-    }
-
     public List<String> getBindItemLore() {
         return bindItemLore;
-    }
-
-    public void setBindItemLore(List<String> bindItemLore) {
-        this.bindItemLore = bindItemLore;
     }
 
     public List<String> getDependExpansions() {
         return dependExpansions;
     }
-
-    public void setDependExpansions(List<String> dependExpansions) {
-        this.dependExpansions = dependExpansions;
-    }
-
 }

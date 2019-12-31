@@ -1,2 +1,6 @@
 # Project exclude paths
 /target/
+gradlew
+gradlew.bat
+settings.gradle
+TrMenu.iml

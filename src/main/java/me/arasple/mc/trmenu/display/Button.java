@@ -42,7 +42,7 @@ public class Button {
                 }
             }
         }
-        icon = defIcon;
+        icon = getDefIcon();
     }
 
     /*
@@ -66,7 +66,7 @@ public class Button {
     }
 
     public Icon getIcon() {
-        return icon;
+        return icon != null ? icon : getDefIcon();
     }
 
     @Override
