@@ -12,7 +12,7 @@ import java.util.List;
  * @document https://arasple.gitbook.io/trmenu
  * @since 2019.10.2
  */
-@TrMenuPlugin.Version(5.11)
+@TrMenuPlugin.Version(5.13)
 public final class TrMenu extends TrMenuPlugin {
 
     @TInject("settings.yml")
