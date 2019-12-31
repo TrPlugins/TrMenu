@@ -18,7 +18,7 @@ import java.util.*;
  * @author Arasple
  * @date 2019/10/4 20:58
  */
-@SuppressWarnings("unchecked")
+@Deprecated
 public class IconLoader {
 
     public static Icon loadIcon(Map<String, Object> map) {

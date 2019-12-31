@@ -1,7 +1,7 @@
 name: TrMenu
 main: me.arasple.mc.trmenu.TrMenu
 
-description: A powerful advanced menu plugin with animated item support
+description: Advanced & Dynamic menus for Minecraft
 
 api-version: 1.13
 version: ${version}
@@ -9,10 +9,9 @@ version: ${version}
 github: https://github.com/Arasple/TrMenu
 qq: 1197897763
 
-depend:
-  - PlaceholderAPI
-
 softdepend:
+  - PlaceholderAPI
   - HeadDatabase
+  - TrChat
 
 author: Arasple

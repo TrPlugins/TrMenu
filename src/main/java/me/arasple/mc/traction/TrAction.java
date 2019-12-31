@@ -5,6 +5,7 @@ import me.arasple.mc.traction.acts.*;
 import me.arasple.mc.traction.base.AbstractAction;
 import me.arasple.mc.traction.base.EnumOption;
 import me.arasple.mc.trmenu.TrMenu;
+import me.arasple.mc.trmenu.utils.JavaScript;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -41,7 +42,13 @@ public class TrAction {
 //            player.sendMessage("Action " + ChatColor.AQUA + action.toString());
 //            player.sendMessage(ChatColor.GRAY + "--------------------");
             if (action instanceof ActionBreak) {
-                break;
+                if (action.getOptions().containsKey(EnumOption.CHANCE) && new Random().nextDouble() >= NumberUtils.toDouble(action.getOptions().get(EnumOption.CHANCE), 1)) {
+                    break;
+                }
+                if (action.getOptions().containsKey(EnumOption.REQUIREMENT) && (boolean) JavaScript.run(player, action.getOptions().get(EnumOption.REQUIREMENT))) {
+                    break;
+                }
+                continue;
             } else if (action instanceof ActionDelay) {
                 double delay = NumberUtils.toDouble(action.getContent(), -1);
                 if (delay > 0) {
@@ -92,7 +99,7 @@ public class TrAction {
      */
     private static AbstractAction readSingleAction(String line) {
         String[] acts = line.replaceFirst("( )?:( )?", ":").split(":", 2);
-        AbstractAction action = actions.stream().filter(act -> acts[0].matches(act.getName())).findFirst().orElse(null);
+        AbstractAction action = actions.stream().filter(act -> acts[0].matches("(?i)" + act.getName())).findFirst().orElse(null);
         HashMap<EnumOption, String> options = new HashMap<>();
 
         if (action == null) {

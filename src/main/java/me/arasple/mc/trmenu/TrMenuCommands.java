@@ -6,8 +6,8 @@ import io.izzel.taboolib.module.tellraw.TellrawJson;
 import io.izzel.taboolib.util.Strings;
 import me.arasple.mc.trmenu.api.TrMenuAPI;
 import me.arasple.mc.trmenu.bstats.Metrics;
-import me.arasple.mc.trmenu.loader.MenuLoader;
 import me.arasple.mc.trmenu.menu.Menu;
+import me.arasple.mc.trmenu.menu.MenuLoader;
 import me.arasple.mc.trmenu.utils.Skulls;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -30,7 +30,7 @@ public class TrMenuCommands extends BaseMainCommand {
 
         @Override
         public void onCommand(CommandSender sender, Command command, String label, String[] args) {
-            MenuLoader.loadMenus(TrMenu.getMenus(), sender);
+            MenuLoader.loadMenus(sender);
         }
 
         @Override

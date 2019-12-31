@@ -5,6 +5,7 @@ import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.menu.Menu;
 import org.bukkit.entity.Player;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -21,6 +22,10 @@ public class TrMenuAPI {
      */
     public static Menu getMenu(String menuId) {
         return TrMenu.getMenus().stream().filter(menu -> menu.getName().equals(menuId)).findFirst().orElse(null);
+    }
+
+    public static Menu getMenu(File loadedFrom) {
+        return TrMenu.getMenus().stream().filter(menu -> menu.getLoadedFrom().getName().equals(loadedFrom.getName())).findFirst().orElse(null);
     }
 
     /**

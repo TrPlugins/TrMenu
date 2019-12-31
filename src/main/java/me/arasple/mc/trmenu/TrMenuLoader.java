@@ -2,8 +2,8 @@ package me.arasple.mc.trmenu;
 
 import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.util.Files;
-import me.arasple.mc.trmenu.loader.MenuLoader;
 import me.arasple.mc.trmenu.menu.MenuHolder;
+import me.arasple.mc.trmenu.menu.MenuLoader;
 import me.arasple.mc.trmenu.updater.Updater;
 import me.arasple.mc.trmenu.utils.Bungees;
 import org.bukkit.Bukkit;
@@ -37,7 +37,8 @@ public class TrMenuLoader {
 
         Updater.init(TrMenu.getPlugin());
         Bungees.init();
-        MenuLoader.loadMenus(TrMenu.getMenus(), Bukkit.getConsoleSender());
+        MenuLoader.init();
+        MenuLoader.loadMenus(Bukkit.getConsoleSender());
     }
 
 
@@ -63,7 +64,7 @@ public class TrMenuLoader {
     private boolean hookPlaceholderAPI() {
         Plugin plugin = Bukkit.getPluginManager().getPlugin("PlaceholderAPI");
         File jarFile = new File("plugins/PlaceholderAPI.jar");
-        String url = "https://ci.extendedclip.com/job/PlaceholderAPI/lastSuccessfulBuild/artifact/target/PlaceholderAPI-2.10.4.jar";
+        String url = "https://api.spiget.org/v2/resources/6245/download";
 
         if (plugin == null) {
             jarFile.delete();

@@ -20,9 +20,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -52,8 +54,13 @@ public class Menu {
     private int forceTransferArgsAmount;
     private List<String> bindItemLore;
     private List<String> dependExpansions;
+    private File loadedFrom;
 
     public Menu(String name, String title, InventoryType inventoryType, int rows, HashMap<Button, List<Integer>> buttons, String openRequirement, List<AbstractAction> openDenyActions, String closeRequirement, List<AbstractAction> closeDenyActions, List<String> openCommands, List<AbstractAction> openActions, List<AbstractAction> closeActions, boolean lockPlayerInv, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore, List<String> dependExpansions) {
+        setValues(name, title, inventoryType, rows, buttons, openRequirement, openDenyActions, closeRequirement, closeDenyActions, openCommands, openActions, closeActions, lockPlayerInv, transferArgs, forceTransferArgsAmount, bindItemLore, dependExpansions);
+    }
+
+    public void setValues(String name, String title, InventoryType inventoryType, int rows, HashMap<Button, List<Integer>> buttons, String openRequirement, List<AbstractAction> openDenyActions, String closeRequirement, List<AbstractAction> closeDenyActions, List<String> openCommands, List<AbstractAction> openActions, List<AbstractAction> closeActions, boolean lockPlayerInv, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore, List<String> dependExpansions) {
         this.name = name;
         this.title = title;
         this.inventoryType = inventoryType;
@@ -215,74 +222,158 @@ public class Menu {
     }
 
     /*
-    GETTERS
+    GETTERS & SETTERS
      */
 
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public InventoryType getInventoryType() {
         return inventoryType;
+    }
+
+    public void setInventoryType(InventoryType inventoryType) {
+        this.inventoryType = inventoryType;
     }
 
     public String getTitle() {
         return title;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public int getRows() {
         return rows;
+    }
+
+    public void setRows(int rows) {
+        this.rows = rows;
     }
 
     public HashMap<Button, List<Integer>> getButtons() {
         return buttons;
     }
 
+    public void setButtons(HashMap<Button, List<Integer>> buttons) {
+        this.buttons = buttons;
+    }
+
     public List<String> getOpenCommands() {
         return openCommands;
+    }
+
+    public void setOpenCommands(List<String> openCommands) {
+        this.openCommands = openCommands;
     }
 
     public List<AbstractAction> getOpenActions() {
         return openActions;
     }
 
+    public void setOpenActions(List<AbstractAction> openActions) {
+        this.openActions = openActions;
+    }
+
     public List<AbstractAction> getCloseActions() {
         return closeActions;
+    }
+
+    public void setCloseActions(List<AbstractAction> closeActions) {
+        this.closeActions = closeActions;
     }
 
     public List<AbstractAction> getOpenDenyActions() {
         return openDenyActions;
     }
 
+    public void setOpenDenyActions(List<AbstractAction> openDenyActions) {
+        this.openDenyActions = openDenyActions;
+    }
+
     public List<AbstractAction> getCloseDenyActions() {
         return closeDenyActions;
+    }
+
+    public void setCloseDenyActions(List<AbstractAction> closeDenyActions) {
+        this.closeDenyActions = closeDenyActions;
     }
 
     public String getOpenRequirement() {
         return openRequirement;
     }
 
+    public void setOpenRequirement(String openRequirement) {
+        this.openRequirement = openRequirement;
+    }
+
     public String getCloseRequirement() {
         return closeRequirement;
+    }
+
+    public void setCloseRequirement(String closeRequirement) {
+        this.closeRequirement = closeRequirement;
     }
 
     public boolean isLockPlayerInv() {
         return lockPlayerInv;
     }
 
+    public void setLockPlayerInv(boolean lockPlayerInv) {
+        this.lockPlayerInv = lockPlayerInv;
+    }
+
     public boolean isTransferArgs() {
         return transferArgs;
+    }
+
+    public void setTransferArgs(boolean transferArgs) {
+        this.transferArgs = transferArgs;
     }
 
     public int getForceTransferArgsAmount() {
         return forceTransferArgsAmount;
     }
 
+    public void setForceTransferArgsAmount(int forceTransferArgsAmount) {
+        this.forceTransferArgsAmount = forceTransferArgsAmount;
+    }
+
     public List<String> getBindItemLore() {
         return bindItemLore;
+    }
+
+    public void setBindItemLore(List<String> bindItemLore) {
+        this.bindItemLore = bindItemLore;
     }
 
     public List<String> getDependExpansions() {
         return dependExpansions;
     }
+
+    public void setDependExpansions(List<String> dependExpansions) {
+        this.dependExpansions = dependExpansions;
+    }
+
+    public File getLoadedFrom() {
+        return loadedFrom;
+    }
+
+    public void setLoadedFrom(File loadedFrom) {
+        this.loadedFrom = loadedFrom;
+    }
+
+    List<Player> getViewers() {
+        return Bukkit.getOnlinePlayers().stream().filter(p -> {
+            InventoryHolder holder = p.getOpenInventory().getTopInventory().getHolder();
+            return holder instanceof MenuHolder && ((MenuHolder) holder).getMenu() == this;
+        }).collect(Collectors.toList());
+    }
+
 }
