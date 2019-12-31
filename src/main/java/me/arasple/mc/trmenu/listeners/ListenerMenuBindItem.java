@@ -21,10 +21,13 @@ public class ListenerMenuBindItem implements Listener {
     public void onInteract(PlayerInteractEvent e) {
         ItemStack item = e.getItem();
 
-        if (item == null || Materials.getVersion() != Materials.MinecraftVersion.VERSION_1_8) {
-            if (e.getHand() == EquipmentSlot.OFF_HAND) {
-                return;
+        try {
+            if (item == null || Materials.getVersion() != Materials.MinecraftVersion.VERSION_1_8) {
+                if (e.getHand() == EquipmentSlot.OFF_HAND) {
+                    return;
+                }
             }
+        } catch (Throwable ignored) {
         }
 
         TrMenuAPI.getMenus().stream().filter(menu -> menu.getBindItemLore() != null && menu.getBindItemLore().stream().anyMatch(lore -> Items.hasLore(item, lore))).findFirst().ifPresent(menu -> {
