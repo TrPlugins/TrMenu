@@ -335,7 +335,7 @@ public abstract class TrMenuPlugin extends JavaPlugin {
                 Loader.addPath(libFile);
                 // 初始化 TabooLib 主类
                 if (Loader.forName("io.izzel.taboolib.TabooLib", true, Bukkit.class.getClassLoader()) == null) {
-                    Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c主运行库未完成初始化, 插件停止加载.");
+                    Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §cFailed to load.");
                     initFailed = true;
                 }
             }
@@ -345,7 +345,7 @@ public abstract class TrMenuPlugin extends JavaPlugin {
     }
 
     private static boolean download() {
-        Bukkit.getConsoleSender().sendMessage("§f[TabooLib] §7正在下载资源文件...");
+        Bukkit.getConsoleSender().sendMessage("§f[TabooLib] §7Downloading...");
         String[] newVersion = getNewVersion();
         if (newVersion == null || !downloadFile(newVersion[2], file(libFile))) {
             close();

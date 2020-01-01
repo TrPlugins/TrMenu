@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
  * @date 2019/12/28 19:07
  */
 public class ActionOpen extends AbstractAction {
+
     @Override
     public String getName() {
         return "gui|trmenu|open";
@@ -22,4 +23,5 @@ public class ActionOpen extends AbstractAction {
             menu.open(player);
         }
     }
+
 }

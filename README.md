@@ -1,1 +1,1 @@
-Learn more https://arasple.gitbook.io/trmenu
+Learn more https://trmenu.trixey.cn

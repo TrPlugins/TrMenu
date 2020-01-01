@@ -2,6 +2,7 @@ package me.arasple.mc.traction.acts;
 
 import me.arasple.mc.traction.base.AbstractAction;
 import me.arasple.mc.trmenu.utils.Bungees;
+import me.arasple.mc.trmenu.utils.Vars;
 import org.bukkit.entity.Player;
 
 /**
@@ -16,6 +17,6 @@ public class ActionConnect extends AbstractAction {
 
     @Override
     public void onExecute(Player player) {
-        Bungees.connect(player, getContent());
+        Bungees.connect(player, Vars.replace(player, getContent()));
     }
 }

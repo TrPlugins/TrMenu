@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
  * @date 2019/12/28 19:07
  */
 public class ActionClose extends AbstractAction {
+
     @Override
     public String getName() {
         return "close|shut";
@@ -17,4 +18,5 @@ public class ActionClose extends AbstractAction {
     public void onExecute(Player player) {
         player.closeInventory();
     }
+
 }

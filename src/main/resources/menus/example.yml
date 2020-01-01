@@ -7,23 +7,18 @@
 #  |____|   |____|_  \____|__  /_______  \____|__  |______/
 #                  \/        \/        \/        \/
 #
-# 示例动态菜单
-# 本菜单由 Arasple 设计
+# Example menu of TrMenu
 #
-# 推荐网址:
-# - TrMenu 文档教程：https://arasple.gitbook.io/trmenu
-# - PlaceholderAPI 变量查询：
-#   （官方）https://github.com/PlaceholderAPI/PlaceholderAPI/wiki/Placeholders #官方最新，推荐地址#
-#   （MinePlugin 汉化）http://mineplugin.org/PlaceholderAPI #可能过旧,不全#
-# - 自定义头颅材质纹理: https://minecraft-heads.com/custom-heads
+# - TrMenu Docs：https://arasple.gitbook.io/trmenu
+# - PlaceholderAPI: https://github.com/PlaceholderAPI/PlaceholderAPI/wiki/Placeholders
+# - Custom Heads: https://minecraft-heads.com/custom-heads
 #
 ################################################################################
-# 设置该容器的显示标题, (暂不支持动态)
+# The inventory's title (Do not support animation)
 Title: 'Hello, TrMenu'
 
-# 设置容器的页面排版
-# *(一条字符串代表一行, 最多6行)
-# *(单个符号代表一个按钮)
+# Defines the layout of this menu
+# *(Each character represents a button)
 Shape:
   - '########C'
   - ' QTRMENU '
@@ -31,58 +26,59 @@ Shape:
   - '         '
   - '#########'
 
-# (可选 | 默认无) 打开此菜单需要满足的条件表达式，需返回 Boolean 值
+# (Optional)
 Open-Requirement: 'player.hasPermission("trmenu.use")'
 
-# (可选 | 默认无) 若不满足打开此菜单需满足的条件, 则执行以下动作
+# (Optional)
 Open-Deny-Actions:
-  - 'tell: &7你缺少权限 &ctrmenu.use &7以打开此菜单.'
+  - 'tell: &7You need permission &ctrmenu.use &7to open this menu.'
 
-# (可选 | 默认无) 关闭此菜单需要满足的条件表达式，需返回 Boolean 值
+# (Optional)
 Close-Requirement: null
 
-# (可选 | 默认无) 若不满足关闭此菜单需满足的条件, 则执行以下动作 (不会阻止关闭菜单, 除非写打开动作)
+# (Optional)
 Close-Deny-Actions: []
 
-# 菜单打开命令
+# Defines the commands used to open this menu
 Open-Commands:
   - 'example'
   - 'menu'
 
-# 定义开启菜单时的动作 (非必须项)
+# These run when a player successfully opened the menu
 Open-Actions:
   - 'sound: BLOCK_CHEST_OPEN-1-2'
-# 定义关闭菜单时的动作 (非必须项)
+# (Optional)
 Close-Actions:
   - 'sound: BLOCK_CHEST_CLOSE-1-2'
 
-# 菜单选项 (非必须项, 不设置则使用默认值)
+# Menu Options (All are optional)
 Options:
-  # 菜单需要依赖的 PAPI 拓展名称, 若无将自动下载!
+  # Automatically download PlaceholderAPI's expansions
   Depend-Expansions:
     - 'server'
     - 'player'
     - 'progress'
     - 'math'
-  # 是否在打开 GUI 时禁止玩家操作自己的背包? (默认:true)
+  # (Default: true)
   Lock-Player-Inv: true
-  # 是否传递命令后面的参数? (可用 {N*} 来表示) (默认:false)
+  # Use the arguments of an open command as variables (Var: {N*}) (Default: false)
   Transfer-Args: false
-  # 强制传递参数的最小数量 (默认:0)
+  # Force the arguments it needs (Default: 0)
   Force-Transfer-Args: 0
-  # 绑定物品打开 (下方需要需要识别的关键词Lore)
+  # Bind this menu with items have specific lore
   Bind-Item-Lore:
-    - '点击打开菜单'
+    - 'OPEN_MENU'
 
-# 定义容器的按钮, 与 Shaple 模板中的字符相对应
-# （可以二次定义动态位置）
-BUTTONS:
-  # 对应 Shape 中的模板排版中的字符
+# Buttons of this menu
+# You can re-define ones' slots
+Buttons:
+  # Character from 'shape'
   '#':
-    # (可选) 更新周期, 不设置则不刷新
+    # (Optional) The period for lore, materials and names to update (in ticks)
     update: 25
-    # (必须) 图标显示
+    # (Required) Default display part
     display:
+      # Materials, or specify item
       mats: GRAY_STAINED_GLASS_PANE
       name:
         - '&3Tr&bMenu'
@@ -92,15 +88,13 @@ BUTTONS:
           - '&7Advanced & Dynamic menus for Minecraft'
         - - '&7Tr&fMenu &7by &2Arasple'
           - '&7Thanks for using :>'
-    # 点击动作
+    # Click Actions
     actions:
-      # 类型 - [动作]
+      # ClickType - [Actions]
       all: ['sound: BLOCK_NOTE_BLOCK_PLING-1-2']
   'C':
     update: 3
     display:
-      # 忽略大小写、下划线写法, 自动匹配相似度最高的
-      # 插件能够自动匹配相似度最高的材质, 这里部分名称刻意少写或错写几个字母
       mats: [
         rd stained glss pane,red staxxed glass pane,red sined glass pane,red stained glass pane,red stained glass pane,
         red stained glass pne,red stained glass pane,red stined glass pane,red stained glass pane,red stained glass pane,
@@ -191,14 +185,13 @@ BUTTONS:
           name: '&2&lWelcome, &a&lAuthor!'
           lore:
             - ''
-            - '&7Hello Arasple,'
-            - '&7Woowwwwwww'
+            - '&7Hello Arasple'
             - ''
   'P':
     update: 20
     display:
       mats: 'compass'
-      amount: '%server_time_s%+1' # 动态物品数量
+      amount: '%server_time_s%+1'
       name:
         - '&3&lTrMenu &f&lAdvanced Menu'
         - '&3&lTrMenu &f&lPowerful Dynamic Menu'
@@ -208,7 +201,7 @@ BUTTONS:
           - '&3Tr&bMenu &7is an advanced & dynamic menu plugin'
           - '&7for Minecraft servers.'
           - ''
-          - '&2It is very very very six, and powerful'
+          - '&2It is very powerful and easy to use.'
         - - ''
           - '&3Tr&bMenu &7is an advanced & dynamic menu plugin'
           - '&7for Minecraft servers.'
@@ -218,15 +211,14 @@ BUTTONS:
           - '&3Tr&bMenu &7is an advanced & dynamic menu plugin'
           - '&7for Minecraft servers.'
           - ''
-          - '&2You can created so many powerful guis by'
-          - '&2using advanced actions and conditional icons'
+          - '&2You can created so unlimited menus with clickable-icons'
     actions:
       left:
-        - 'tell: &7This message can only be received by op<requirement:player.isOp()>'
-        - 'tell: &7Woww, this is a 80% percent message.<chance:0.8>'
-        - 'js: player.sendTitle("You are a op", "and received this after 5s")<requirement:player.isOp()><wait:45.0>'
+        - 'tell: &7This message can only be received by OP<Require:player.isOp()>'
+        - 'tell: &7Wow, this is a 80% percent message.<Chance:0.8>'
+        - 'js: player.sendTitle("You are a op", "and received this after 5s")<Require:player.isOp()><Wait:100>'
       right:
-        - 'tell: &a一条公告<players>'
+        - 'tell: &aA message for all players<players>'
       all: ['sound: BLOCK_NOTE_BLOCK_PLING-1-2']
 
   'Q':

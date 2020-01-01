@@ -233,7 +233,10 @@ public class MenuLoader {
         return shape;
     }
 
-    public static int getMenuFilesCount(File folder) {
+    private static int getMenuFilesCount(File folder) {
+        if (folder == null) {
+            return 0;
+        }
         int count = 0;
         if (folder.isDirectory()) {
             for (File file : folder.listFiles()) {

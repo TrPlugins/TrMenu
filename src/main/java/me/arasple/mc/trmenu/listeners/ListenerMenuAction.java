@@ -4,6 +4,7 @@ import io.izzel.taboolib.module.inject.TListener;
 import me.arasple.mc.traction.TrAction;
 import me.arasple.mc.traction.base.AbstractAction;
 import me.arasple.mc.trmenu.TrMenu;
+import me.arasple.mc.trmenu.data.ArgsCache;
 import me.arasple.mc.trmenu.display.Button;
 import me.arasple.mc.trmenu.menu.Menu;
 import me.arasple.mc.trmenu.menu.MenuHolder;
@@ -63,7 +64,9 @@ public class ListenerMenuAction implements Listener {
             actions.addAll(button.getIcon().getActions().get(null));
         }
         // 执行动作
+        ArgsCache.getEvent().put(p.getUniqueId(), e);
         TrAction.runActions(actions.listIterator(), p);
+        ArgsCache.getEvent().remove(p.getUniqueId());
         // 刷新图标优先级
         button.refreshConditionalIcon(p, e);
 

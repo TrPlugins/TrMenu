@@ -26,7 +26,7 @@ PLUGIN:
 
 ERROR:
   HDB: '&8[&3Tr&bMenu&8] &cERROR &8| &c未安装 &6HeadDatabase&c, 你无法使用该材质: &6{0}'
-  VERSION: '&8[&3Tr&bMenu&8] &cERROR &8| &7检测版本号时发生异常... 关闭服务器!"'
+  VERSION: '&8[&3Tr&bMenu&8] &cERROR &8| &7检测版本号时发生异常... 关闭服务器!'
   JS:
     - '&8[&3Tr&bMenu&8] &cERROR &8| &c表达式计算时出错: &2{0}'
     - '&6{1}'

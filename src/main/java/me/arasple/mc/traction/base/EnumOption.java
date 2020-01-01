@@ -28,7 +28,7 @@ public enum EnumOption {
     /**
      * 执行该动作需满足的表达式条件
      */
-    REQUIREMENT(3, "<(?i)(requirement|condition):( )?(.+>)");
+    REQUIREMENT(3, "<(?i)(require(ment)?|condition):( )?(.+>)");
 
     private int priority;
     private Pattern[] pattern;
