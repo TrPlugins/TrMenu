@@ -3,9 +3,9 @@ package me.arasple.mc.trmenu.menu;
 import com.google.common.collect.Lists;
 import io.izzel.taboolib.module.config.TConfigWatcher;
 import io.izzel.taboolib.module.locale.TLocale;
-import me.arasple.mc.traction.TrAction;
-import me.arasple.mc.traction.base.AbstractAction;
 import me.arasple.mc.trmenu.TrMenu;
+import me.arasple.mc.trmenu.action.TrAction;
+import me.arasple.mc.trmenu.action.base.AbstractAction;
 import me.arasple.mc.trmenu.api.TrMenuAPI;
 import me.arasple.mc.trmenu.display.Button;
 import me.arasple.mc.trmenu.display.Icon;
@@ -246,6 +246,10 @@ public class MenuLoader {
             count += folder.getName().toLowerCase().endsWith(".yml") ? 1 : 0;
         }
         return count;
+    }
+
+    public static File getFolder() {
+        return folder;
     }
 
 }

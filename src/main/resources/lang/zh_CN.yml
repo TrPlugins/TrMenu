@@ -32,6 +32,9 @@ ERROR:
     - '&6{1}'
     - '&8{2}'
 
+CONVERTER:
+  CHESTCOMMANDS: '&8[&3Tr&bMenu&8] &aSUCCESS &8| &7检测并成功转换导入 &3{0} &7个 &6ChestCommands &7菜单... &8(仅转换基础布局)'
+
 MENU:
   LOADED-AUTOLY: '&8[&3Tr&bMenu&8] &bINFO &8| &7监听到文件改动并自动成功重载了菜单 &f{0}&7...'
   LOADED-SUCCESS: '&8[&3Tr&bMenu&8] &bINFO &8| &7成功加载了 &a{0} &7个有效菜单... &8[&7{1} Ms&8]'

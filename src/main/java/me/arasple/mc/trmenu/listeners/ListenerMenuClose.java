@@ -2,7 +2,7 @@ package me.arasple.mc.trmenu.listeners;
 
 import io.izzel.taboolib.module.inject.TListener;
 import io.izzel.taboolib.util.Strings;
-import me.arasple.mc.traction.TrAction;
+import me.arasple.mc.trmenu.action.TrAction;
 import me.arasple.mc.trmenu.data.ArgsCache;
 import me.arasple.mc.trmenu.menu.Menu;
 import me.arasple.mc.trmenu.menu.MenuHolder;

@@ -1,9 +1,9 @@
 package me.arasple.mc.trmenu.listeners;
 
 import io.izzel.taboolib.module.inject.TListener;
-import me.arasple.mc.traction.TrAction;
-import me.arasple.mc.traction.base.AbstractAction;
 import me.arasple.mc.trmenu.TrMenu;
+import me.arasple.mc.trmenu.action.TrAction;
+import me.arasple.mc.trmenu.action.base.AbstractAction;
 import me.arasple.mc.trmenu.data.ArgsCache;
 import me.arasple.mc.trmenu.display.Button;
 import me.arasple.mc.trmenu.menu.Menu;

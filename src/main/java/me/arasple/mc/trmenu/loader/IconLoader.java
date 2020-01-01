@@ -2,8 +2,8 @@ package me.arasple.mc.trmenu.loader;
 
 import com.google.common.collect.Lists;
 import io.izzel.taboolib.util.item.Items;
-import me.arasple.mc.traction.TrAction;
-import me.arasple.mc.traction.base.AbstractAction;
+import me.arasple.mc.trmenu.action.TrAction;
+import me.arasple.mc.trmenu.action.base.AbstractAction;
 import me.arasple.mc.trmenu.display.Icon;
 import me.arasple.mc.trmenu.display.Item;
 import me.arasple.mc.trmenu.display.mats.Mat;

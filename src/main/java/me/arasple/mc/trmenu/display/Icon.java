@@ -1,6 +1,6 @@
 package me.arasple.mc.trmenu.display;
 
-import me.arasple.mc.traction.base.AbstractAction;
+import me.arasple.mc.trmenu.action.base.AbstractAction;
 import org.bukkit.event.inventory.ClickType;
 
 import java.util.HashMap;
