@@ -25,6 +25,7 @@ public class Button {
         this.refresh = refresh;
         this.defIcon = defIcon;
         this.icons = icons;
+        this.visibles = new HashMap<>();
     }
 
     /**
