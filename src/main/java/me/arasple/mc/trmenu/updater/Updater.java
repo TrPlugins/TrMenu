@@ -55,7 +55,7 @@ public class Updater implements Listener {
 
     private static void notifyOld() {
         if (latest.newVersion - version >= 0.03) {
-            int last = Math.min((int) (4 * ((latest.newVersion - version) / 0.01)), 20);
+            int last = Math.min((int) (3 * ((latest.newVersion - version) / 0.01)), 20);
             Bukkit.getConsoleSender().sendMessage("§8--------------------------------------------------");
             Bukkit.getConsoleSender().sendMessage("§r");
             Bukkit.getConsoleSender().sendMessage("§8# §4您所运行的 §cTrMenu §4版本过旧, 可能潜在很多漏洞");

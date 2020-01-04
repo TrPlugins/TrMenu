@@ -100,7 +100,7 @@ public class Menu {
         buttons.forEach((button, slots) -> {
                     Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
                         button.refreshConditionalIcon(player, null);
-                        Item item = button.getIcon().getItem();
+                        Item item = button.getIcon(player).getItem();
                         ItemStack itemStack = item.createItemStack(player, args);
                         for (int i : item.getSlots().size() > 0 ? item.getNextSlots(menu) : slots) {
                             if (menu.getSize() > i) {
@@ -120,14 +120,14 @@ public class Menu {
                                         cancel();
                                         return;
                                     }
-                                    Item item = button.getIcon().getItem();
+                                    Item item = button.getIcon(player).getItem();
                                     ItemStack itemStack = item.createItemStack(player, args);
                                     for (int i : item.getSlots().size() > 0 ? item.getNextSlots(menu) : slots) {
                                         if (menu.getSize() > i) {
                                             menu.setItem(i, itemStack);
                                         }
                                     }
-                                    clearEmptySlots(menu, item.getSlots());
+                                    clearEmptySlots(player, menu, item.getSlots());
                                 }
                             }.runTaskTimerAsynchronously(TrMenu.getPlugin(), update, update);
                         }
@@ -196,12 +196,12 @@ public class Menu {
         return unInstalled;
     }
 
-    public Button getButton(int slot) {
+    public Button getButton(Player player, int slot) {
         if (slot < 0) {
             return null;
         }
         for (Map.Entry<Button, List<Integer>> entry : buttons.entrySet()) {
-            Icon icon = entry.getKey().getIcon();
+            Icon icon = entry.getKey().getIcon(player);
             if (icon.getItem().getCurSlots() != null && icon.getItem().getCurSlots().contains(slot)) {
                 return entry.getKey();
             } else if (entry.getValue().contains(slot)) {
@@ -211,9 +211,9 @@ public class Menu {
         return null;
     }
 
-    private void clearEmptySlots(Inventory menu, List<List<Integer>> slots) {
+    private void clearEmptySlots(Player player, Inventory menu, List<List<Integer>> slots) {
         slots.forEach(s -> s.forEach(i -> {
-            if (menu.getItem(i) != null && getButton(i) == null) {
+            if (menu.getItem(i) != null && getButton(player, i) == null) {
                 if (menu.getSize() > i) {
                     menu.setItem(i, null);
                 }

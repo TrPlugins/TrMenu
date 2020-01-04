@@ -38,7 +38,7 @@ public class ListenerMenuAction implements Listener {
 
         Player p = (Player) e.getWhoClicked();
         Menu menu = ((MenuHolder) e.getInventory().getHolder()).getMenu();
-        Button button = menu.getButton(e.getRawSlot());
+        Button button = menu.getButton(p, e.getRawSlot());
 
         // 防刷屏点击
         clickTimes.putIfAbsent(p.getUniqueId(), 0L);
@@ -59,9 +59,9 @@ public class ListenerMenuAction implements Listener {
         }
 
         // 读取动作
-        List<AbstractAction> actions = button.getIcon().getActions().getOrDefault(e.getClick(), new ArrayList<>());
-        if (button.getIcon().getActions().get(null) != null) {
-            actions.addAll(button.getIcon().getActions().get(null));
+        List<AbstractAction> actions = button.getIcon(p).getActions().getOrDefault(e.getClick(), new ArrayList<>());
+        if (button.getIcon(p).getActions().get(null) != null) {
+            actions.addAll(button.getIcon(p).getActions().get(null));
         }
         // 执行动作
         ArgsCache.getEvent().put(p.getUniqueId(), e);

@@ -6,7 +6,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+import java.util.UUID;
 
 /**
  * @author Arasple
@@ -18,7 +18,7 @@ public class Button {
     private int refresh;
     private Icon defIcon;
     private HashMap<String, Icon> icons;
-    private Icon icon;
+    private HashMap<UUID, String> visibles;
 
     public Button(int update, int refresh, Icon defIcon, HashMap<String, Icon> icons) {
         this.update = update;
@@ -37,12 +37,12 @@ public class Button {
         if (icons.values().size() > 0) {
             for (Map.Entry<String, Icon> iconEntry : icons.entrySet()) {
                 if ((boolean) JavaScript.run(player, iconEntry.getKey(), event)) {
-                    icon = iconEntry.getValue();
+                    visibles.put(player.getUniqueId(), iconEntry.getKey());
                     return;
                 }
             }
+            visibles.remove(player.getUniqueId());
         }
-        icon = getDefIcon();
     }
 
     /*
@@ -65,29 +65,8 @@ public class Button {
         return icons;
     }
 
-    public Icon getIcon() {
-        return icon != null ? icon : getDefIcon();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Button button = (Button) o;
-        return update == button.update &&
-                refresh == button.refresh &&
-                Objects.equals(defIcon, button.defIcon) &&
-                Objects.equals(icons, button.icons) &&
-                Objects.equals(icon, button.icon);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(update, refresh, defIcon, icons, icon);
+    public Icon getIcon(Player player) {
+        return visibles.containsKey(player.getUniqueId()) ? icons.get(visibles.get(player.getUniqueId())) : getDefIcon();
     }
 
 }
