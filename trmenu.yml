@@ -1,10 +1,24 @@
 TITLE: 'TrMenu About'
+#OPEN-COMMANDS: ['trmenu about', 'tx']
+
+OPEN-REQUIREMENT: '["1.11","1.11-R1","1.11-R2","1.11-R3","1.11-R"].indexOf(bukkitServer.getPluginManager().getPlugin("TrMenu").getDescription().getVersion()) < 0'
+
+OPEN-DENY-ACTIONS:
+  - 'sound: ITEM_SHIELD_BREAK-1-0'
+  - |-
+    js:
+    player.sendMessage("&8[&c!&8] &7TrMenu &3" + bukkitServer.getPluginManager().getPlugin("TrMenu").getDescription().getVersion() + "&7 does not support this GUI yet, Please redownload &61.11-R5");
+
+OPTIONS:
+  DEPEND-EXPANSIONS: ['progress', 'math']
+
 SHAPE:
   - '#########'
   - '|       |'
-  - '|       |'
+  - '| ABCDE |'
   - '|       |'
   - '#########'
+
 BUTTONS:
   '#':
     update: 40
@@ -15,11 +29,43 @@ BUTTONS:
         'green stained glass pane'
       ]
       name: '&7TrMenu'
-      lore:
-        - '&cThis GUI is currently being produced, please wait'
   '|':
     display:
       mats: 'gray stained glass pane'
       name: '&8TrMenu'
+  'A':
+    update: 40
+    display:
+      mats: compass
+      name: '&2b&3Stats'
       lore:
-        - '&cThis GUI is currently being produced, please wait'
+        - ''
+        - '&7Here are the stats of TrMenu'
+        - '&7from the bStats &8(https://bstats.org/)'
+        - ''
+        - '&f| &3Servers: &2%trmenu_query_https://bstats.org/api/v1/plugins/5742/charts/servers/data?maxElements=1%'
+        - '&f| &3Players: &2%trmenu_query_https://bstats.org/api/v1/plugins/5742/charts/players/data?maxElements=1%'
+        - ''
+        - '&7There are &b%trmenu_query_https://bstats.org/api/v1/plugins/5742/charts/menus/data?maxElements=1% &7menus made by TrMenu,'
+        - '&7And your server is &e%math_{trmenu_menus}/{trmenu_query_https://bstats.org/api/v1/plugins/5742/charts/menus/data?maxElements=1}*100[precision:2]%% &7of them'
+        - '&8[ %progress_bar_{trmenu_menus}_m:{trmenu_query_https://bstats.org/api/v1/plugins/5742/charts/menus/data?maxElements=1}_c:&3|_p:&7|_r:&8|_l:60% &8] &8(%trmenu_menus%/%trmenu_query_https://bstats.org/api/v1/plugins/5742/charts/menus/data?maxElements=1%)'
+        - ''
+        - '&7For the past half hour, menus are opened for &6%trmenu_query_https://bstats.org/api/v1/plugins/5742/charts/menu_open_counts/data?maxElements=1% &7times,'
+        - '&7With &6%trmenu_query_https://bstats.org/api/v1/plugins/5742/charts/action_run_counts/data?maxElements=1% &7actions executed. '
+        - ''
+        - '&2C&3lick to view more stats'
+    actions:
+      all: [
+        'close',
+        'sound: BLOCK_NOTE_BLOCK_PLING-1-0',
+        'tell: &7bStats: &3https://bstats.org/plugin/bukkit/TrMenu'
+      ]
+
+  'C':
+    display:
+      mats: red stained glass pane
+      name: '&cMore will coming soon :)'
+      lore:
+        - ''
+        - '&7Thanks for using TrMenu'
+        - '&7Dont forget to leave a &e5-STAR'
