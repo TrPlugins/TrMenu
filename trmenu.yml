@@ -61,7 +61,7 @@ BUTTONS:
         'tell: &7bStats: &3https://bstats.org/plugin/bukkit/TrMenu'
       ]
     icons:
-      - condition: '%trmenu_query_https://bstats.org/api/v1/plugins/5742/charts/menus/data?maxElements=1% == "Loading..."'
+      - condition: '"%trmenu_query_https://bstats.org/api/v1/plugins/5742/charts/menus/data?maxElements=1%" == "Loading..."'
         display:
           lore: [
           ['','&7Loading.',''],
