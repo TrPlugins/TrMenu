@@ -68,12 +68,8 @@ public class Metrics {
     }
 
     public static void increase(int index) {
-        increase(index, 1);
-    }
-
-    public static void increase(int index, int value) {
         if (coutns[index] < Integer.MAX_VALUE) {
-            coutns[index] += value;
+            coutns[index] += 1;
         }
     }
 

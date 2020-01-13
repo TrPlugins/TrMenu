@@ -46,6 +46,10 @@ public enum EnumOption {
         return priority;
     }
 
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+
     public Matcher matcher(String content) {
         Matcher matcher = pattern[0].matcher(content);
         if (matcher.find()) {
@@ -53,10 +57,6 @@ public enum EnumOption {
         } else {
             return pattern[1].matcher(content);
         }
-    }
-
-    public void setPriority(int priority) {
-        this.priority = priority;
     }
 
     public String toString(String value) {

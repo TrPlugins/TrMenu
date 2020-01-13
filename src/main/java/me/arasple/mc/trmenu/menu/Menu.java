@@ -60,7 +60,7 @@ public class Menu {
         setValues(name, title, inventoryType, rows, buttons, openRequirement, openDenyActions, closeRequirement, closeDenyActions, openCommands, openActions, closeActions, lockPlayerInv, transferArgs, forceTransferArgsAmount, bindItemLore, dependExpansions);
     }
 
-    public void setValues(String name, String title, InventoryType inventoryType, int rows, HashMap<Button, List<Integer>> buttons, String openRequirement, List<AbstractAction> openDenyActions, String closeRequirement, List<AbstractAction> closeDenyActions, List<String> openCommands, List<AbstractAction> openActions, List<AbstractAction> closeActions, boolean lockPlayerInv, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore, List<String> dependExpansions) {
+    private void setValues(String name, String title, InventoryType inventoryType, int rows, HashMap<Button, List<Integer>> buttons, String openRequirement, List<AbstractAction> openDenyActions, String closeRequirement, List<AbstractAction> closeDenyActions, List<String> openCommands, List<AbstractAction> openActions, List<AbstractAction> closeActions, boolean lockPlayerInv, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore, List<String> dependExpansions) {
         this.name = name;
         this.title = title;
         this.inventoryType = inventoryType;
@@ -110,7 +110,7 @@ public class Menu {
                     });
 
                     if (slots != null) {
-                        if (button.getUpdate() >= 1) {
+                        if (button.getUpdate() > 0) {
                             int update = Math.max(button.getUpdate(), 3);
                             new BukkitRunnable() {
                                 @Override
@@ -128,16 +128,19 @@ public class Menu {
                                         }
                                     }
                                     clearEmptySlots(player, menu, item.getSlots());
+                                    player.updateInventory();
                                 }
                             }.runTaskTimerAsynchronously(TrMenu.getPlugin(), update, update);
                         }
-                        if (button.getRefresh() >= 1 && button.getIcons().size() > 0) {
+                        if (button.getRefresh() > 0 && button.getIcons().size() > 0) {
+                            int update = Math.max(button.getUpdate(), 3);
+                            int refresh = Math.max(button.getRefresh(), 5);
                             new BukkitRunnable() {
                                 @Override
                                 public void run() {
                                     button.refreshConditionalIcon(player, null);
                                 }
-                            }.runTaskTimer(TrMenu.getPlugin(), button.getRefresh(), button.getRefresh());
+                            }.runTaskTimerAsynchronously(TrMenu.getPlugin(), refresh + update, refresh);
                         }
                     }
                 }
@@ -161,7 +164,7 @@ public class Menu {
         }
         if (!Strings.isBlank(openRequirement) && !(boolean) JavaScript.run(player, openRequirement)) {
             event.setCancelled(true);
-            TrAction.runActions(openActions.listIterator(), player);
+            TrAction.runActions(openDenyActions.listIterator(), player);
             return true;
         }
         List<String> unInstalledDepends = checkDepends();
@@ -180,18 +183,27 @@ public class Menu {
      */
     private List<String> checkDepends() {
         List<String> unInstalled = Lists.newArrayList();
-        if (dependExpansions != null && dependExpansions.size() > 0) {
-            if (PlaceholderAPIPlugin.getInstance().getExpansionCloud().getCloudExpansions().isEmpty()) {
-                PlaceholderAPIPlugin.getInstance().getExpansionCloud().fetch(false);
+
+        if (PlaceholderAPIPlugin.getInstance().getExpansionCloud() == null) {
+            return unInstalled;
+        }
+
+        try {
+            if (dependExpansions != null && dependExpansions.size() > 0) {
+                if (PlaceholderAPIPlugin.getInstance().getExpansionCloud().getCloudExpansions().isEmpty()) {
+                    PlaceholderAPIPlugin.getInstance().getExpansionCloud().fetch(false);
+                }
+                unInstalled = dependExpansions.stream().filter(d -> PlaceholderAPI.getExpansions().stream().noneMatch(e -> e.getName().equalsIgnoreCase(d)) && PlaceholderAPIPlugin.getInstance().getExpansionCloud().getCloudExpansion(d) != null && !PlaceholderAPIPlugin.getInstance().getExpansionCloud().isDownloading(d)).collect(Collectors.toList());
+                if (unInstalled.size() > 0) {
+                    unInstalled.forEach(ex -> {
+                        CloudExpansion cloudExpansion = PlaceholderAPIPlugin.getInstance().getExpansionCloud().getCloudExpansion(ex);
+                        PlaceholderAPIPlugin.getInstance().getExpansionCloud().downloadExpansion(null, cloudExpansion);
+                    });
+                    Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> PlaceholderAPIPlugin.getInstance().getExpansionManager().registerAllExpansions(), 20);
+                }
             }
-            unInstalled = dependExpansions.stream().filter(d -> PlaceholderAPI.getExpansions().stream().noneMatch(e -> e.getName().equalsIgnoreCase(d)) && PlaceholderAPIPlugin.getInstance().getExpansionCloud().getCloudExpansion(d) != null && !PlaceholderAPIPlugin.getInstance().getExpansionCloud().isDownloading(d)).collect(Collectors.toList());
-            if (unInstalled.size() > 0) {
-                unInstalled.forEach(ex -> {
-                    CloudExpansion cloudExpansion = PlaceholderAPIPlugin.getInstance().getExpansionCloud().getCloudExpansion(ex);
-                    PlaceholderAPIPlugin.getInstance().getExpansionCloud().downloadExpansion(null, cloudExpansion);
-                });
-                Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> PlaceholderAPIPlugin.getInstance().getExpansionManager().registerAllExpansions(), 20);
-            }
+        } catch (Throwable ignored) {
+
         }
         return unInstalled;
     }
@@ -365,7 +377,7 @@ public class Menu {
         return loadedFrom;
     }
 
-    public void setLoadedFrom(File loadedFrom) {
+    void setLoadedFrom(File loadedFrom) {
         this.loadedFrom = loadedFrom;
     }
 

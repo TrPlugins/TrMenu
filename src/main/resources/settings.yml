@@ -1,13 +1,20 @@
-# 相关注解、用法请查阅 https://github.com/Arasple/TrMenu
+# TrMenu Wiki: https://trmenu.trixey.cn
+
+# Do not change
 CONFIG-VERSION: 0
 
+# Locale loading priority
 LOCALE-PRIORITY:
   - en_US
   - zh_CN
 
+# Options
 OPTIONS:
+  # Similar material matches
   MATERIAL-SIMILAR-DEGREE: 0.8
+  # Anti inventory click spam (millisecs)
   ANTI-CLICK-SPAM: 200
+  # Should enable the menu file listener?
   MENU-FILE-LISTENER:
     ENABLE: true
     NOTIFY: true

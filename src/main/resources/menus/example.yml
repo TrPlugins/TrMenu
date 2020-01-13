@@ -44,7 +44,7 @@ Open-Commands:
   - 'example'
   - 'menu'
 
-# These run when a player successfully opened the menu
+# (Optional) These run when a player successfully opened the menu
 Open-Actions:
   - 'sound: BLOCK_CHEST_OPEN-1-2'
 # (Optional)

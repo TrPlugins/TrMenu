@@ -6,6 +6,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -68,6 +69,27 @@ public class Button {
 
     public Icon getIcon(Player player) {
         return visibles.containsKey(player.getUniqueId()) ? icons.get(visibles.get(player.getUniqueId())) : getDefIcon();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Button button = (Button) o;
+        return update == button.update &&
+                refresh == button.refresh &&
+                Objects.equals(defIcon, button.defIcon) &&
+                Objects.equals(icons, button.icons) &&
+                Objects.equals(visibles, button.visibles);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(update, refresh, defIcon, icons, visibles);
     }
 
 }

@@ -61,7 +61,8 @@ public enum MenurSettings {
         return name;
     }
 
-    public <T> T getFromMap(Map<?, ?> map, T... def) {
+    @SafeVarargs
+    public final <T> T getFromMap(Map<?, ?> map, T... def) {
         return Maps.getSimilarOrDefault(map, getName(), def.length > 0 ? def[0] : null);
     }
 

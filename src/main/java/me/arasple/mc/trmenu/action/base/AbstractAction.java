@@ -19,10 +19,10 @@ import java.util.stream.Collectors;
  */
 public abstract class AbstractAction {
 
-    public abstract String getName();
-
     private String content;
     private HashMap<EnumOption, String> options;
+
+    public abstract String getName();
 
     public void run(Player player) {
         Metrics.increase(1);
@@ -58,7 +58,8 @@ public abstract class AbstractAction {
      *
      * @param player 执行玩家
      */
-    public abstract void onExecute(Player player);
+    public void onExecute(Player player) {
+    }
 
     /*
     GETTERS && SETTERS
@@ -76,14 +77,14 @@ public abstract class AbstractAction {
         return options;
     }
 
+    public void setOptions(HashMap<EnumOption, String> options) {
+        this.options = options;
+    }
+
     public String getOptionsAsString() {
         List<String> s = new ArrayList<>();
         options.forEach((type, value) -> s.add(type.toString(value)));
         return s.toString();
-    }
-
-    public void setOptions(HashMap<EnumOption, String> options) {
-        this.options = options;
     }
 
     public AbstractAction create() {

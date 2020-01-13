@@ -69,11 +69,12 @@ COMMANDS:
     ==: JSON
     text:
       - '&8--------------------------------------------------'
-      - '&3Tr&bMenu &7- Advanced Animate Menu &6*{0}'
+      - '&3Tr&bMenu &7- Advanced Dynamic Menu &6*{0}'
       - ''
       - '&8▪ <&7/&3{1} List@list> &8— &7 列出所有菜单'
       - '&8▪ <&7/&3{1} Reload@reload> &8— &7 重新载入所有菜单'
       - '&8▪ <&7/&3{1} Open [Menu] [Id]@open> &8— &7 为自己或他人打开一个菜单'
+      - '&8▪ <&7/&3{1} About@about> &8- &7 查看插件信息'
       - ''
       - '&8--------------------------------------------------'
     args:
@@ -89,3 +90,7 @@ COMMANDS:
         hover: |-
           &7点击这里建议该命令.
         suggest: '/trmenu open'
+      about:
+        hover: |-
+          &7点击这里查看插件信息.
+        suggest: '/trmenu about'

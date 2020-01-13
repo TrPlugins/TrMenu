@@ -21,6 +21,10 @@ public class MenuOpenEvent extends PlayerEvent implements Cancellable {
         this.menu = menu;
     }
 
+    public static HandlerList getHandlerList() {
+        return HANDLERS;
+    }
+
     public Menu getMenu() {
         return menu;
     }
@@ -37,10 +41,6 @@ public class MenuOpenEvent extends PlayerEvent implements Cancellable {
 
     @Override
     public HandlerList getHandlers() {
-        return HANDLERS;
-    }
-
-    public static HandlerList getHandlerList() {
         return HANDLERS;
     }
 

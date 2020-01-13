@@ -33,17 +33,17 @@ MENU:
   LOADED-AUTOLY: '&8[&3Tr&bMenu&8] &bINFO &8| &7File changes, automatically reloaded menu &f{0}&7...'
   LOADED-SUCCESS: '&8[&3Tr&bMenu&8] &bINFO &8| &7Loaded &a{0} &7menus... &8[&7{1} Ms&8]'
   LOADED-FAILURE: '&8[&3Tr&bMenu&8] &6WARN &8| &7There''re &6{0} &7menus failed to load. Please check these errors...'
-  DEPEND-EXPANSIONS-REQUIRED: '&8[&3Tr&bMenu&8] &7You need install PlaceholderAPI expansions &6{0} &7to use that menu.'
+  DEPEND-EXPANSIONS-REQUIRED: '&8[&3Tr&bMenu&8] &7You need to install PlaceholderAPI expansions &6{0} &7to use that menu.'
   NOT-EXIST: '&8[&3Tr&bMenu&8] &7Menu doesn''t exist...'
   NOT-ENOUGH-ARGS: '&8[&3Tr&bMenu&8] &7Requires &6{0} &7arguments.'
   LOADING-ERRORS:
     NO-SHAPE: '&7Menu &6{0} &7''s shape is invalid &2{1}'
     NO-BUTTONS: '&7Menu &6{0} &7do not contain Buttons section'
     YAML: '&7Menu &6{0} &7has YAML error &c{1} &8{2}'
-    CONFLICT-OPEN-COMMANDS: '&7菜单 &6{0} &7与菜单 &6{1} &7的自定义开启命令有冲突...'
-    CONFLICT-OPEN-ITEMS: '&7菜单 &6{0} &7与菜单 &6{1} &7的绑定Lore物品打开有冲突...'
-    ICON-NO-CONDITION: '&7菜单 &6{0} &7的按钮节点 &3{1} &7条件图标的条件为空...'
-    ICON-LOAD-FAILED: '&7菜单 &6{0} &7的按钮节点 &3{1} &7加载失败. &3{2}&8{3}'
+    CONFLICT-OPEN-COMMANDS: '&7Menu &6{0} &7has conflicting open command with menu &6{1}...'
+    CONFLICT-OPEN-ITEMS: '&7Menu &6{0} &7has conflicting bind item lore with menu &6{1}...'
+    ICON-NO-CONDITION: '&7Menu &6{0} &7button &3{1} &7has empty condition for priority icon'
+    ICON-LOAD-FAILED: '&7Menu &6{0} &7button &3{1} &7failed to load. &3{2}&8{3}'
 
 COMMANDS:
   NOT-PLAYER: '&8[&3Tr&bMenu&8] &cPlayer only...'
@@ -59,11 +59,12 @@ COMMANDS:
     ==: JSON
     text:
       - '&8--------------------------------------------------'
-      - '&3Tr&bMenu &7- Advanced Animate Menu &6*{0}'
+      - '&3Tr&bMenu &7- Advanced Dynamic Menu &6*{0}'
       - ''
       - '&8▪ <&7/&3{1} List@list> &8— &7 List menus'
       - '&8▪ <&7/&3{1} Reload@reload> &8— &7 Reload all menus'
       - '&8▪ <&7/&3{1} Open [Menu] [Id]@open> &8— &7 Open a menu for a player'
+      - '&8▪ <&7/&3{1} About@about> &8- &7 About plugin'
       - ''
       - '&8--------------------------------------------------'
     args:
@@ -79,3 +80,7 @@ COMMANDS:
         hover: |-
           &7Click to execute
         suggest: '/trmenu open'
+      about:
+        hover: |-
+          &7Click to view
+        suggest: '/trmenu about'

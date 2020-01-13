@@ -1,7 +1,6 @@
 package me.arasple.mc.trmenu.display;
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils;
-import io.izzel.taboolib.util.Strings;
 import me.arasple.mc.trmenu.display.mats.Mat;
 import me.arasple.mc.trmenu.utils.JavaScript;
 import me.arasple.mc.trmenu.utils.Vars;
@@ -70,7 +69,7 @@ public class Item {
         if (names.size() > 0) {
             itemMeta.setDisplayName(Vars.replace(player, names.get(nextIndex(0))));
         }
-        if (finalShiny || (!Strings.isBlank(shiny) && (boolean) JavaScript.run(player, shiny))) {
+        if (finalShiny || (boolean) JavaScript.run(player, shiny)) {
             itemMeta.addEnchant(Enchantment.LUCK, 1, true);
             itemFlags.add(ItemFlag.HIDE_ENCHANTS);
         }

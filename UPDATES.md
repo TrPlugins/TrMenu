@@ -1,6 +1,12 @@
 # TrMenu Update Logs #
 
 #### VERSION 1.1
+  - ##### 1.11
+    - Since: 2020.1.12
+    - Updates:
+      - 修复了菜单即使不满足打开条件也会执行打开动作的问题
+      - 彻底修复动态效果慢的问题
+      - 优化了 ChestCommands 导入
   - ##### 1.1
     - Date: 2019.12.31
     - Overview:

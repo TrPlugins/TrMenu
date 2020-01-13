@@ -7,13 +7,10 @@ import me.arasple.mc.trmenu.data.ArgsCache;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
 
 import javax.script.ScriptException;
 import javax.script.SimpleBindings;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author Arasple
@@ -26,34 +23,35 @@ public class JavaScript {
     }
 
     public static Object run(Player player, String script, InventoryClickEvent event) {
+        SimpleBindings bindings = new SimpleBindings();
+        script = Vars.replace(player, script);
+
         if (Strings.isEmpty(script) || "null".equalsIgnoreCase(script)) {
             return true;
-        }
-        event = event != null ? event : ArgsCache.getEvent().get(player.getUniqueId());
-        Map<String, Object> bind = new HashMap<>();
-        bind.put("player", player);
-        bind.put("bukkitServer", Bukkit.getServer());
-        if (event != null) {
-            if (event instanceof InventoryClickEvent) {
-                InventoryClickEvent clickEvent = event;
-                bind.put("clickEvent", clickEvent);
-                bind.put("clickType", clickEvent.getClick());
-
-                ItemStack itemStack = clickEvent.getClickedInventory().getItem(clickEvent.getRawSlot());
-                if (itemStack != null) {
-                    bind.put("clickItemStack", itemStack);
-                }
-            }
-        }
-        script = Vars.replace(player, script);
-        if (script.matches("true|false")) {
+        } else if (script.matches("true|false")) {
             return Boolean.parseBoolean(script);
-        } else if (script.matches("no|yes")) {
+        } else if (script.matches("(?i)no|yes")) {
             return !"no".equalsIgnoreCase(script);
         }
+
+        if (event == null) {
+            event = ArgsCache.getEvent().get(player.getUniqueId());
+        }
+
+        bindings.put("player", player);
+        bindings.put("bukkitServer", Bukkit.getServer());
+        if (event != null) {
+            if (event instanceof InventoryClickEvent) {
+                bindings.put("clickEvent", event);
+                bindings.put("clickType", event.getClick());
+                bindings.put("clickItemStack", event.getClickedInventory().getItem(event.getRawSlot()));
+            }
+        }
+
         try {
-            return Scripts.compile(script).eval(new SimpleBindings(bind));
-        } catch (ScriptException e) {
+            return Scripts.compile(script).eval(bindings);
+        } catch (
+                ScriptException e) {
             TLocale.sendTo(player, "ERROR.JS", script, e.getMessage(), Arrays.toString(e.getStackTrace()));
             TLocale.sendToConsole("ERROR.JS", script, e.getMessage(), Arrays.toString(e.getStackTrace()));
             return false;

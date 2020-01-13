@@ -39,12 +39,12 @@ public enum MatType {
         this.key = key;
     }
 
-    public String getKey() {
-        return key;
-    }
-
     public static MatType matchByName(String name) {
         return Arrays.stream(values()).filter(v -> name.matches("^(?i)" + v.getKey())).findFirst().orElse(null);
+    }
+
+    public String getKey() {
+        return key;
     }
 
 }

@@ -42,7 +42,7 @@ public class ActionTitle extends AbstractAction {
         initTitle();
     }
 
-    public void initTitle() {
+    private void initTitle() {
         if (getContent() == null) {
             return;
         }

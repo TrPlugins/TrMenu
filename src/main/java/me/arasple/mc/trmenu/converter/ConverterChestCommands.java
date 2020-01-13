@@ -44,14 +44,13 @@ public class ConverterChestCommands {
             return count;
         }
         try {
-            ListIterator<Character> buttons = Arrays.asList('~', '`', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+').listIterator();
+            ListIterator<Character> buttons = Arrays.asList('#', '-', '+', '=', '<', '>', '~', '_', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z').listIterator();
             YamlConfiguration trmenu = new YamlConfiguration();
             YamlConfiguration conf = YamlConfiguration.loadConfiguration(file);
             List<String> cmds = conf.contains("menu-settings.command") ? Arrays.asList(conf.getString("menu-settings.command").split(";( )?")) : new ArrayList<>();
             for (int i = 0; i < cmds.size(); i++) {
                 cmds.set(i, cmds.get(i) + "-fromCC");
             }
-
             int rows = conf.getInt("menu-settings.rows", 6);
             int update = conf.getInt("menu-settings.auto-refresh", -1) * 20;
             trmenu.set("Title", conf.getString("menu-settings.name"));

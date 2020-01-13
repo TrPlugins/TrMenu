@@ -36,25 +36,27 @@ public class TrAction {
     );
 
     public static void runActions(ListIterator<AbstractAction> actions, Player player) {
-        while (actions.hasNext()) {
-            AbstractAction action = actions.next();
-            if (action instanceof ActionBreak) {
-                if (action.getOptions().containsKey(EnumOption.CHANCE) && new Random().nextDouble() >= NumberUtils.toDouble(action.getOptions().get(EnumOption.CHANCE), 1)) {
+        Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
+            while (actions.hasNext()) {
+                AbstractAction action = actions.next();
+                if (action instanceof ActionBreak) {
+                    if (action.getOptions().containsKey(EnumOption.CHANCE) && new Random().nextDouble() >= NumberUtils.toDouble(action.getOptions().get(EnumOption.CHANCE), 1)) {
+                        break;
+                    }
+                    if (action.getOptions().containsKey(EnumOption.REQUIREMENT) && (boolean) JavaScript.run(player, action.getOptions().get(EnumOption.REQUIREMENT))) {
+                        break;
+                    }
+                    continue;
+                } else if (action instanceof ActionDelay) {
+                    double delay = NumberUtils.toDouble(action.getContent(), -1);
+                    if (delay > 0) {
+                        Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> runActions(actions, player), (long) delay);
+                    }
                     break;
                 }
-                if (action.getOptions().containsKey(EnumOption.REQUIREMENT) && (boolean) JavaScript.run(player, action.getOptions().get(EnumOption.REQUIREMENT))) {
-                    break;
-                }
-                continue;
-            } else if (action instanceof ActionDelay) {
-                double delay = NumberUtils.toDouble(action.getContent(), -1);
-                if (delay > 0) {
-                    Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> runActions(actions, player), (long) delay);
-                }
-                break;
+                action.run(player);
             }
-            action.run(player);
-        }
+        });
     }
 
     /**

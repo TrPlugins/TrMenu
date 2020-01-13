@@ -71,6 +71,61 @@ public class MenuLoader {
         });
     }
 
+    public static Menu loadMenuFromYAML(YamlConfiguration config) {
+        Map<String, Object> sets;
+        Map<String, Object> options;
+        sets = config.getValues(false);
+        options = Maps.sectionToMap(MENU_OPTIONS.getFromMap(sets));
+        InventoryType inventoryType = Arrays.stream(InventoryType.values()).filter(t -> t.name().equalsIgnoreCase(MenurSettings.MENU_TYPE.getFromMap(sets))).findFirst().orElse(null);
+        String title = MENU_TITLE.getFromMap(sets, "TrMenu");
+        List<String> shape = fixShape(MENU_SHAPE.getFromMap(sets));
+        int rows = shape != null ? shape.size() : 0;
+        HashMap<Button, List<Integer>> buttons = new HashMap<>();
+        List<String> openCommands = MENU_OPEN_COMAMNDS.getFromMap(sets);
+        List<AbstractAction> openActions = TrAction.readActions(MENU_OPEN_ACTIONS.getFromMap(sets, new ArrayList()));
+        List<AbstractAction> closeActions = TrAction.readActions(MENU_CLOSE_ACTIONS.getFromMap(sets, new ArrayList()));
+        List<AbstractAction> openDenyActions = TrAction.readActions(MENU_OPEN_DENY_ACTIONS.getFromMap(sets, new ArrayList()));
+        List<AbstractAction> closeDenyActions = TrAction.readActions(MENU_CLOSE_DENY_ACTIONS.getFromMap(sets, new ArrayList()));
+        String openRequirement = MENU_OPEN_REQUIREMENT.getFromMap(sets);
+        String closeRequirement = MENU_CLOSE_REQUIREMENT.getFromMap(sets);
+        boolean lockPlayerInv = MENU_OPTIONS_LOCKHAND.getFromMap(options, true);
+        boolean transferArgs = MENU_OPTIONS_ARGS.getFromMap(options, false);
+        int forceTransferArgsAmount = MENU_OPTIONS_FORCEARGS.getFromMap(options, -1);
+        List<String> bindItemLore = MENU_OPTIONS_BINDLORES.getFromMap(options);
+        List<String> dependExpansions = MENU_OPTIONS_DEPEND_EXPANSIONS.getFromMap(options);
+        if (Maps.containsSimilar(sets, MENU_BUTTONS.getName())) {
+            ((Map<String, Object>) Maps.sectionToMap(MENU_BUTTONS.getFromMap(sets))).
+                    forEach((key, b) -> {
+                        try {
+                            Map<String, Object> butMap = (Map<String, Object>) Maps.sectionToMap(b);
+                            Icon defaultIcon = IconLoader.loadIcon(butMap);
+                            HashMap<String, Icon> conditionalIcons = new HashMap<>();
+                            int update = BUTTON_UPDATE_PERIOD.getFromMap(butMap, -1);
+                            int refresh = BUTTON_REFRESH_CONDITIONS.getFromMap(butMap, -1);
+
+                            if (BUTTON_ICONS.getFromMap(butMap) != null) {
+                                ((List<Object>) BUTTON_ICONS.getFromMap(butMap)).forEach(icon -> {
+                                    Map iconMap = Maps.sectionToMap(icon);
+                                    String condition = BUTTON_ICONS_CONDITION.getFromMap(iconMap);
+                                    if (condition != null) {
+                                        conditionalIcons.put(condition, IconLoader.loadIcon(iconMap, defaultIcon));
+                                    }
+                                });
+                            }
+                            List<Integer> slots = locateButton(shape, inventoryType, key.charAt(0));
+                            Button button = new Button(update, refresh, defaultIcon, conditionalIcons);
+                            if (slots.size() > 0) {
+                                buttons.put(button, slots);
+                            }
+                        } catch (Throwable ignored) {
+                        }
+                    });
+        } else {
+            return null;
+        }
+        return new Menu(config.getName(), title, inventoryType, shape.size(), buttons, openRequirement, openDenyActions, closeRequirement, closeDenyActions, openCommands, openActions, closeActions, lockPlayerInv, transferArgs, forceTransferArgsAmount, bindItemLore, dependExpansions);
+    }
+
     private static List<String> loadMenu(File file) {
         String name = file.getName();
         List<String> errors = Lists.newArrayList();
@@ -251,5 +306,6 @@ public class MenuLoader {
     public static File getFolder() {
         return folder;
     }
+
 
 }
