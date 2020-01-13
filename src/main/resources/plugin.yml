@@ -7,7 +7,6 @@ api-version: 1.13
 version: ${version}
 
 github: https://github.com/Arasple/TrMenu
-qq: 1197897763
 
 softdepend:
   - PlaceholderAPI
