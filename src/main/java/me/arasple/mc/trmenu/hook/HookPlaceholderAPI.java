@@ -45,25 +45,23 @@ public class HookPlaceholderAPI extends PlaceholderExpansion {
         }
 
         String[] type = params.split("_", 2);
+        String[] args = type.length >= 2 ? type[1].split("\\|") : new String[]{};
 
-        if (type.length != 2) {
-            return null;
-        }
-
-        String[] args = type[1].split("\\|");
         if ("version".equalsIgnoreCase(type[0])) {
             return String.valueOf(TrMenu.getVersion());
         } else if ("menus".equalsIgnoreCase(type[0])) {
             return String.valueOf(TrMenuAPI.getMenus().size());
-        } else if ("tapapi".equalsIgnoreCase(type[0])) {
-            if (args.length == 2) {
-                Player player = Bukkit.getPlayerExact(args[0]);
-                player = player == null ? p : player;
-                return PlaceholderAPI.setBracketPlaceholders(player, args[1]);
-            }
-        } else if ("query".equalsIgnoreCase(type[0])) {
-            if (args.length >= 1) {
-                return Querier.query(PlaceholderAPI.setBracketPlaceholders(p, args[0]), args.length >= 2 ? PlaceholderAPI.setBracketPlaceholders(p, args[1]) : null);
+        } else if (type.length == 2) {
+            if (("tapapi".equalsIgnoreCase(type[0]))) {
+                if (args.length == 2) {
+                    Player player = Bukkit.getPlayerExact(args[0]);
+                    player = player == null ? p : player;
+                    return PlaceholderAPI.setBracketPlaceholders(player, args[1]);
+                }
+            } else if ("query".equalsIgnoreCase(type[0])) {
+                if (args.length >= 1) {
+                    return Querier.query(PlaceholderAPI.setBracketPlaceholders(p, args[0]), args.length >= 2 ? PlaceholderAPI.setBracketPlaceholders(p, args[1]) : null);
+                }
             }
         }
         return null;
