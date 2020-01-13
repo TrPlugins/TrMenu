@@ -1,7 +1,7 @@
 TITLE: 'TrMenu About'
 #OPEN-COMMANDS: ['trmenu about', 'tx']
 
-OPEN-REQUIREMENT: '["1.11","1.11-R1","1.11-R2","1.11-R3","1.11-R"].indexOf(bukkitServer.getPluginManager().getPlugin("TrMenu").getDescription().getVersion()) < 0'
+OPEN-REQUIREMENT: '["1.11","1.11-R1","1.11-R2","1.11-R3","1.11-R4"].indexOf(bukkitServer.getPluginManager().getPlugin("TrMenu").getDescription().getVersion()) < 0'
 
 OPEN-DENY-ACTIONS:
   - 'sound: ITEM_SHIELD_BREAK-1-0'
