@@ -97,7 +97,7 @@ public class TrAction {
      * @return 动作
      */
     private static AbstractAction readSingleAction(String line) {
-        String tag = line.replaceAll("<([^<>]+)>", "").split(":", 2)[0];
+        String tag = line.replaceAll("<([^<>].+)>", "").split(":", 2)[0];
         AbstractAction action = actions.stream().filter(act -> tag.matches("(?i)" + act.getName())).findFirst().orElse(actions.get(0));
         HashMap<EnumOption, String> options = new HashMap<>();
 

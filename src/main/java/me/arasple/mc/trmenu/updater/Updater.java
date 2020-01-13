@@ -56,17 +56,7 @@ public class Updater implements Listener {
     private static void notifyOld() {
         if (latest.newVersion - version >= 0.03) {
             int last = Math.min((int) (3 * ((latest.newVersion - version) / 0.01)), 20);
-            Bukkit.getConsoleSender().sendMessage("§8--------------------------------------------------");
-            Bukkit.getConsoleSender().sendMessage("§r");
-            Bukkit.getConsoleSender().sendMessage("§8# §4您所运行的 §cTrMenu §4版本过旧, 可能潜在很多漏洞");
-            Bukkit.getConsoleSender().sendMessage("§8# §4请及时更新到最新版本以便获得更好的插件体验!");
-            Bukkit.getConsoleSender().sendMessage("§8# §r");
-            Bukkit.getConsoleSender().sendMessage("§8# §4Mcbbs: §chttps://www.mcbbs.net/thread-918078-1-1.html");
-            Bukkit.getConsoleSender().sendMessage("§8# §r");
-            Bukkit.getConsoleSender().sendMessage("§8# §r");
-            Bukkit.getConsoleSender().sendMessage("§8# §4服务器将在 §c§l" + last + " secs §4后继续启动...");
-            Bukkit.getConsoleSender().sendMessage("§r");
-            Bukkit.getConsoleSender().sendMessage("§8--------------------------------------------------");
+            TLocale.sendToConsole("PLUGIN.UPDATE-NOTIFY.TOO-OLD", last);
             try {
                 Thread.sleep(last * 1000);
             } catch (InterruptedException ignored) {

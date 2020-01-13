@@ -13,6 +13,18 @@ PLUGIN:
   UPDATE-NOTIFY:
     LATEST: '&8[&3Tr&bMenu&8] &2You''re running the latest version of &3TrMenu&a.'
     DEV: '&8[&3Tr&bMenu&8] &6You''re running the development version of &3TrMenu&6.'
+    TOO-OLD:
+      - "&8--------------------------------------------------"
+      - "&r"
+      - "&8# &4The version of &cTrMenu &4you are running is too old"
+      - "&8# &4Please update to the latest version in time!"
+      - "&8# &r"
+      - "&8# &4SpigotMC: &chttps://www.spigotmc.org/resources/74284"
+      - "&8# &r"
+      - "&8# &r"
+      - "&8# &4The server will start in &c&l{0} secs &4..."
+      - "&r"
+      - "&8--------------------------------------------------"
     HEADER:
       - ''
       - '§3--------------------------------------------------'
