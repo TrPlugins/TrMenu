@@ -45,6 +45,10 @@ public class CommandAbout extends BaseSubCommand {
             loadMenu();
             sender.sendMessage("§7Please wait... GUI is loading...");
         } else {
+            if (args.length == 1 && "reload".equalsIgnoreCase(args[0])) {
+                loadMenu();
+                sender.sendMessage("§7Reloading the about menu...");
+            }
             aboutMenu.open((Player) sender);
         }
     }
