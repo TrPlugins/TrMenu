@@ -1,0 +1,25 @@
+TITLE: 'TrMenu About'
+SHAPE:
+  - '#########'
+  - '|       |'
+  - '|       |'
+  - '|       |'
+  - '#########'
+BUTTONS:
+  '#':
+    update: 40
+    display:
+      mats: [
+        'cyan stained glass pane',
+        'brown stained glass pane',
+        'green stained glass pane'
+      ]
+      name: '&7TrMenu'
+      lore:
+        - '&cThis GUI is currently being produced, please wait'
+  '|':
+    display:
+      mats: 'gray stained glass pane'
+      name: '&8TrMenu'
+      lore:
+        - '&cThis GUI is currently being produced, please wait'

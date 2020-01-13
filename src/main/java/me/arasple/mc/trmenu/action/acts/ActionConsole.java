@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.action.acts;
 
+import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.action.base.AbstractAction;
 import me.arasple.mc.trmenu.utils.Vars;
 import org.bukkit.Bukkit;
@@ -18,7 +19,9 @@ public class ActionConsole extends AbstractAction {
 
     @Override
     public void onExecute(Player player) {
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Vars.replace(player, getContent()));
+        Bukkit.getScheduler().runTask(TrMenu.getPlugin(), () -> {
+            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Vars.replace(player, getContent()));
+        });
     }
 
 }

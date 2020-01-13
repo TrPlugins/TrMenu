@@ -97,15 +97,15 @@ public class TrAction {
      * @return 动作
      */
     private static AbstractAction readSingleAction(String line) {
-        String[] acts = line.replaceFirst("( )?:( )?", ":").split(":", 2);
-        AbstractAction action = actions.stream().filter(act -> acts[0].matches("(?i)" + act.getName())).findFirst().orElse(actions.get(0));
+        String tag = line.replaceAll("<([^<>]+)>", "").split(":", 2)[0];
+        AbstractAction action = actions.stream().filter(act -> tag.matches("(?i)" + act.getName())).findFirst().orElse(actions.get(0));
         HashMap<EnumOption, String> options = new HashMap<>();
 
         if (action == null) {
             return null;
         } else {
             action = action.create();
-            line = acts.length == 2 ? acts[1] : acts[0];
+            line = line.replaceFirst(tag + "( )?:( )?", "");
         }
 
         for (EnumOption option : EnumOption.values()) {

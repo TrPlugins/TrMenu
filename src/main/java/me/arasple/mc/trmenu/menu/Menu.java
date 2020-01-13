@@ -128,7 +128,9 @@ public class Menu {
                                         }
                                     }
                                     clearEmptySlots(player, menu, item.getSlots());
-                                    player.updateInventory();
+                                    if (update <= 10) {
+                                        player.updateInventory();
+                                    }
                                 }
                             }.runTaskTimerAsynchronously(TrMenu.getPlugin(), update, update);
                         }

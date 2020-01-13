@@ -31,7 +31,7 @@ public class CommandAbout extends BaseSubCommand {
 
     private void loadMenu() {
         Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
-            try (InputStream inputStream = new URL("https://raw.githubusercontent.com/Arasple/TrMenu/master/about.yml").openStream(); BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream)) {
+            try (InputStream inputStream = new URL("https://raw.githubusercontent.com/Arasple/TrMenu/master/trmenu.yml").openStream(); BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream)) {
                 YamlConfiguration configuration = YamlConfiguration.loadConfiguration(new BufferedReader(new InputStreamReader(bufferedInputStream)));
                 aboutMenu = MenuLoader.loadMenuFromYAML(configuration);
             } catch (Throwable ignored) {
@@ -43,7 +43,7 @@ public class CommandAbout extends BaseSubCommand {
     public void onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (aboutMenu == null) {
             loadMenu();
-            sender.sendMessage("§7Please wait... About GUI is loading...");
+            sender.sendMessage("§7Please wait... GUI is loading...");
         } else {
             aboutMenu.open((Player) sender);
         }
