@@ -80,8 +80,7 @@ public abstract class TrMenuPlugin extends JavaPlugin {
         try {
             ZipFile zipFile = new ZipFile(libFile);
             return NumberConversions.toDouble(readFully(zipFile.getInputStream(zipFile.getEntry("__resources__/version")), StandardCharsets.UTF_8));
-        } catch (Throwable t) {
-            t.printStackTrace();
+        } catch (Throwable ignored) {
         }
         return -1;
     }
@@ -224,7 +223,7 @@ public abstract class TrMenuPlugin extends JavaPlugin {
             plugin.onLoad();
             Bukkit.getPluginManager().enablePlugin(plugin);
         } catch (Throwable t) {
-            Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c主运行库未完成初始化, 插件停止加载.");
+            Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §cThe main runtime is not initialized and the plugin stops loading.");
             initFailed = true;
         }
     }
@@ -234,7 +233,7 @@ public abstract class TrMenuPlugin extends JavaPlugin {
         for (File plugin : pluginDir.listFiles()) {
             if (plugin.getName().endsWith(".jar")) {
                 PluginDescriptionFile desc = getPluginDescription(plugin);
-                if (desc != null && desc.getName().equals("TabooLib5")) {
+                if (desc != null && "TabooLib5".equals(desc.getName())) {
                     return plugin;
                 }
             }
@@ -299,11 +298,11 @@ public abstract class TrMenuPlugin extends JavaPlugin {
                     // 如果插件使用不合理的版本则跳过下载防止死循环
                     // 并跳过插件加载
                     if (requireVersion > NumberConversions.toDouble(newVersion[0])) {
-                        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c无效的依赖版本...");
+                        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §cInvalid dependency version...");
                         initFailed = true;
                         return;
                     }
-                    Bukkit.getConsoleSender().sendMessage("§f[TabooLib] §7正在下载资源文件...");
+                    Bukkit.getConsoleSender().sendMessage("§f[TabooLib] §7Downloading dependencies...");
                     if (downloadFile(newVersion[2], file(libFile))) {
                         // 如果资源下载成功则重启服务器
                         restart();
@@ -316,7 +315,7 @@ public abstract class TrMenuPlugin extends JavaPlugin {
         if (forge) {
             // 检查 TabooLib5 是否已经被加载
             if (Bukkit.getPluginManager().getPlugin("TabooLib5") == null) {
-                Bukkit.getConsoleSender().sendMessage("§f[TabooLib] §7检测到当前为 Forge 服务端, 主运行库将以插件模式启动.");
+                Bukkit.getConsoleSender().sendMessage("§f[TabooLib] §7Forge server. TabooLib will load as plugin...");
                 // 将 TabooLib 通过插件方式加载到服务端
                 LoadByPlugin();
             }
@@ -345,7 +344,7 @@ public abstract class TrMenuPlugin extends JavaPlugin {
     }
 
     private static boolean download() {
-        Bukkit.getConsoleSender().sendMessage("§f[TabooLib] §7Downloading...");
+        Bukkit.getConsoleSender().sendMessage("§f[TabooLib] §7Downloading TabooLib (Tr Plugin's dependency)...");
         String[] newVersion = getNewVersion();
         if (newVersion == null || !downloadFile(newVersion[2], file(libFile))) {
             close();
@@ -356,20 +355,20 @@ public abstract class TrMenuPlugin extends JavaPlugin {
 
     private static void close() {
         Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c");
-        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c#################### 错误 ####################");
+        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c#################### ERROR ####################");
         Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c");
-        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c  初始化 §4TabooLib §c失败!");
-        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c  无法获取版本信息或下载时出现错误.");
+        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c  Failed to load §4TabooLib §c!");
+        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c  Can not get the version information or download error.");
         Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c");
-        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c  请检查服务器的互联网连接是否有效.");
-        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c  手动将 §4TabooLib.jar §c放入服务端根目录.");
+        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c  Please check if the server's internet connection is valid.");
+        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c  Or drop §4TabooLib.jar §cinto libs folder manually");
         Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c");
-        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c  服务端将在 5 秒后继续启动.");
+        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c  Server will restart in 5 secs");
         Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c");
-        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c  下载地址:");
+        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c  Download:");
         Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c   §4https://github.com/Bkm016/TabooLib/releases");
         Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c");
-        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c#################### 错误 ####################");
+        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c#################### ERROR ####################");
         Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c");
         try {
             Thread.sleep(5000L);
@@ -381,15 +380,14 @@ public abstract class TrMenuPlugin extends JavaPlugin {
 
     private static void restart() {
         Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c");
-        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c#################### 警告 ####################");
+        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §2#################### WARNING ####################");
         Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c");
-        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c  初始化 §4TabooLib §c失败!");
-        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c  当前运行的版本低于插件所需版本.");
+        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c  The required §4TabooLib version is higher than the present");
         Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c");
-        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c  已下载最新版.");
-        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c  服务端将在 5 秒后重新启动.");
+        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c  The latest TabooLib has been downloaded.");
+        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c  Server will restart in 5 secs");
         Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c");
-        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c#################### 警告 ####################");
+        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §2#################### WARNING ####################");
         Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c");
         try {
             Thread.sleep(5000L);
@@ -402,14 +400,14 @@ public abstract class TrMenuPlugin extends JavaPlugin {
 
     private static void restartDuplicate(String name) {
         Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c");
-        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c#################### 警告 ####################");
+        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c#################### WARNING ####################");
         Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c");
-        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c  请勿将 §4TabooLib 5.0 §c放入插件文件夹中.");
+        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c  Do not put §4TabooLib 5.0 §cinto plugins folder.");
         Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c");
-        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c  已删除 §4" + name);
-        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c  服务端将在 5 秒后重新启动.");
+        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c  Deleted §4" + name);
+        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c  Server will restart in 5 secs");
         Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c");
-        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c#################### 警告 ####################");
+        Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c#################### WARNING ####################");
         Bukkit.getConsoleSender().sendMessage("§4[TabooLib] §c");
         try {
             Thread.sleep(5000L);
