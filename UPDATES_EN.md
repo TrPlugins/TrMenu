@@ -13,6 +13,7 @@
       - R2
         - Added MenuOptions.Update-Inventory
         - Fixed animation buggy when there are multiple viewers
+        - Added TrUtils, can be used in JavaScript
   - ##### 1.11
     - Since: 2020.1.12
     - Updates:

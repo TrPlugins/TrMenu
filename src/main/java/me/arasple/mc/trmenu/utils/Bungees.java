@@ -27,7 +27,7 @@ public class Bungees {
         sendBungeeData(player, "Connect", server);
     }
 
-    private static void sendBungeeData(Player player, String... args) {
+    public static void sendBungeeData(Player player, String... args) {
         ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
         DataOutputStream out = new DataOutputStream(byteArray);
         for (String arg : args) {

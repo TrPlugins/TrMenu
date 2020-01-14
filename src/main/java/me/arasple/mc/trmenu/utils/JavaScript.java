@@ -18,6 +18,8 @@ import java.util.Arrays;
  */
 public class JavaScript {
 
+    private static TrUtils utils = new TrUtils();
+
     public static Object run(Player player, String script) {
         return run(player, script, null);
     }
@@ -38,6 +40,7 @@ public class JavaScript {
             event = ArgsCache.getEvent().get(player.getUniqueId());
         }
 
+        bindings.put("TrUtils", utils);
         bindings.put("player", player);
         bindings.put("bukkitServer", Bukkit.getServer());
         if (event != null) {
