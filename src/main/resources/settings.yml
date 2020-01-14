@@ -34,7 +34,7 @@ MENUS:
         '#':
           display:
             mats: green stained glass pane
-        '|'
-        display:
-          mats: apple
-          name: '&6Nice to meet you~'
+        '|':
+          display:
+            mats: apple
+            name: '&6Nice to meet you~'

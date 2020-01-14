@@ -48,8 +48,16 @@ public class Mat {
      */
     public ItemStack createItem(Player player) {
         if (staticItem == null) {
-            ItemStack item = material != null ? new ItemStack(material) : null;
-            ItemMeta meta = item != null ? item.getItemMeta() : null;
+            boolean isVariable = type == MatType.VARIABLE;
+            ItemStack item;
+            ItemMeta meta;
+            if (isVariable) {
+                final String fMat = mat;
+                item = new ItemStack(Material.valueOf(readMaterial(new String[]{Vars.replace(player, fMat), null})[0]));
+            } else {
+                item = material != null ? new ItemStack(material) : null;
+            }
+            meta = item != null ? item.getItemMeta() : null;
             // 原版材质
             if (type == MatType.ORIGINAL && data != 0) {
                 assert item != null;
@@ -96,8 +104,11 @@ public class Mat {
             if (args.length >= 2) {
                 MatType matType = MatType.matchByName(args[0]);
                 if (matType == MatType.MODEL_DATA) {
-                    this.material = Material.valueOf(readMaterial(new String[]{args[1], null})[0]);
+                    this.material = Material.valueOf(readMaterial(new String[]{args[1], "0"})[0]);
                     this.model = NumberUtils.toInt(args[2], 0);
+                } else if (matType == MatType.VARIABLE) {
+                    this.mat = args[1];
+                    return MatType.VARIABLE;
                 } else {
                     this.head = args[1];
                 }
@@ -117,6 +128,9 @@ public class Mat {
 
     private String[] readMaterial(String[] args) {
         for (int i = 0; i < args.length; i++) {
+            if (args[i] == null) {
+                continue;
+            }
             args[i] = args[i].replace(' ', '_').toUpperCase();
         }
         if (args.length >= 1) {

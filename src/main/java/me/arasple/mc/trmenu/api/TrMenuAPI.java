@@ -15,7 +15,7 @@ import java.util.List;
 public class TrMenuAPI {
 
     /**
-     * 通过菜单ID取得菜单
+     * Get menu by ID
      *
      * @param menuId id
      * @return TrMenu菜单
@@ -29,11 +29,11 @@ public class TrMenuAPI {
     }
 
     /**
-     * 为一名玩家打开一个菜单
+     * Open a menu for player
      *
-     * @param player 目标玩家
-     * @param id     菜单ID
-     * @return 是否存在菜单
+     * @param player player
+     * @param id     menu id
+     * @return whether success
      */
     public static boolean openMenu(Player player, String id) {
         Menu menu = getMenu(id);
@@ -45,9 +45,9 @@ public class TrMenuAPI {
     }
 
     /**
-     * 取得所有菜单的ID集合
+     * Get all the ids of menus
      *
-     * @return 集合
+     * @return list
      */
     public static List<String> getMenuIds() {
         List<String> menus = Lists.newArrayList();
@@ -57,19 +57,19 @@ public class TrMenuAPI {
     }
 
     /**
-     * 通过打开菜单的命令取得菜单
+     * Get menu by open command
      *
-     * @param cmd 命令
-     * @return 菜单
+     * @param cmd command
+     * @return menu
      */
     public static Menu getMenuByCommand(String cmd) {
         return getMenus().stream().filter(menu -> menu.getOpenCommands() != null && menu.getOpenCommands().contains(cmd)).findFirst().orElse(null);
     }
 
     /**
-     * 取得 TrMenu 已加载的所有菜单
+     * Get all loaded menus
      *
-     * @return 菜单集合
+     * @return menus
      */
     public static List<Menu> getMenus() {
         return TrMenu.getMenus();

@@ -4,7 +4,6 @@
   - ##### 1.12
     - Since: 2020.1.14
     - Updates:
-      - Improved TLib's Tlocale
       - Improved ActionCommand(Player/OP/Console)
       - Added ActionGiveMoney
       - Added ActionTakeMoney 

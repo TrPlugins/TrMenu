@@ -4,12 +4,12 @@
   - ##### 1.12
     - Since: 2020.1.14
     - Updates:
-      - 更新兼容新版 TLib Tlocale
       - 优化 Command(Player/OP/Console) 执行方式
       - 新增动作 ActionGiveMoney - 给予玩家余额
       - 新增动作 ActionTakeMoney - 扣除玩家余额
       - 新增动作 ActionTakeItem - 扣除多个指定条件的物品
       - 现在支持在 settings.yml-MENUS 节点下写 List 创建菜单
+      - 修复了更新检测版本号通知错误
   - ##### 1.11
     - Since: 2020.1.12
     - Updates:

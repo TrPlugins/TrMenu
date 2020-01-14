@@ -15,9 +15,9 @@ import java.util.List;
 @TrMenuPlugin.Version(5.13)
 public final class TrMenu extends TrMenuPlugin {
 
-    @TInject(value = "settings.yml", locale = "LOCALE-PRIORITY")
+    @TInject("settings.yml")
     private static TConfig settings;
-    @TInject(state = TInject.State.STARTING, init = "init", active = "load", cancel = "unload")
+    @TInject(state = TInject.State.LOADING, init = "init", active = "load", cancel = "unload")
     private static TrMenuLoader loader;
 
     private static List<Menu> menus = Lists.newArrayList();

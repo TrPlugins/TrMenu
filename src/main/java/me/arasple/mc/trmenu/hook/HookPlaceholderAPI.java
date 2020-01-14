@@ -48,7 +48,7 @@ public class HookPlaceholderAPI extends PlaceholderExpansion {
         String[] args = type.length >= 2 ? type[1].split("\\|") : new String[]{};
 
         if ("version".equalsIgnoreCase(type[0])) {
-            return String.valueOf(TrMenu.getVersion());
+            return TrMenu.getPlugin().getDescription().getVersion();
         } else if ("menus".equalsIgnoreCase(type[0])) {
             return String.valueOf(TrMenuAPI.getMenus().size());
         } else if (type.length == 2) {

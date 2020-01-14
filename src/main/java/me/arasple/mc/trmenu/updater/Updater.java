@@ -70,7 +70,7 @@ public class Updater implements Listener {
         }
     }
 
-    @TSchedule(delay = 60, period = 60 * 30, async = true)
+    @TSchedule(delay = 60 * 5, period = 60 * 30, async = true)
     private static void grabInfo() {
         if (latest.hasLatest) {
             return;
@@ -82,9 +82,9 @@ public class Updater implements Listener {
             double latestVersion = json.get("tag_name").getAsDouble();
             if (latestVersion > version) {
                 latest.hasLatest = true;
-                latest.newVersion = latestVersion;
-                latest.updates = json.get("body").getAsString().replace("\r", "").split("\n");
             }
+            latest.newVersion = latestVersion;
+            latest.updates = json.get("body").getAsString().replace("\r", "").split("\n");
         } catch (Exception ignored) {
         }
     }

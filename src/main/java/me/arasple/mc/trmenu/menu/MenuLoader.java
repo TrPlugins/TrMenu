@@ -15,7 +15,6 @@ import me.arasple.mc.trmenu.utils.Maps;
 import me.arasple.mc.trmenu.utils.Notifys;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
@@ -57,10 +56,16 @@ public class MenuLoader {
                 }
             }
             if (TrMenu.getSettings().isSet("MENUS")) {
-                TrMenu.getSettings().getList("MENUS", new ArrayList<>()).forEach(obj -> {
-                    MemorySection section = (MemorySection) obj;
-                    errors.addAll(loadMenu(section.getValues(false), section.getName(), null, true).getErrors());
-                });
+//                TrMenu.getSettings().
+//                TrMenu.getSettings().getList("MENUS", new ArrayList<>()).forEach(obj -> {
+//                    LinkedHashMap section = (LinkedHashMap) obj;
+//
+//                    section.forEach((key, value) -> {
+//
+//                    });
+
+//                    errors.addAll(loadMenu(section, section.get(0).toString(), null, true).getErrors());
+//                });
             }
             errors.addAll(MenuLoader.loadMenu(folder));
             TrMenu.getMenus().removeIf(menu -> !menu.getLoadedFrom().exists());
@@ -84,7 +89,7 @@ public class MenuLoader {
 
     public static LoadedMenu loadMenu(Map<String, Object> sets, String name, File file, boolean add) {
         LoadedMenu loadedMenu = new LoadedMenu();
-        Menu menu = file == null && !file.exists() ? null : TrMenu.getMenus().stream().filter(m -> m.getLoadedFrom().getName().equals(file.getName())).findFirst().orElse(null);
+        Menu menu = file == null || !file.exists() ? null : TrMenu.getMenus().stream().filter(m -> m.getLoadedFrom().getName().equals(file.getName())).findFirst().orElse(null);
 
         Map<String, Object> options = Maps.sectionToMap(MENU_OPTIONS.getFromMap(sets));
         InventoryType inventoryType = Arrays.stream(InventoryType.values()).filter(t -> t.name().equalsIgnoreCase(MenurSettings.MENU_TYPE.getFromMap(sets))).findFirst().orElse(null);
@@ -147,7 +152,11 @@ public class MenuLoader {
                                 buttons.put(button, slots);
                             }
                         } catch (Throwable e) {
-                            loadedMenu.getErrors().add(TLocale.asString("MENU.LOADING-ERRORS.ICON-LOAD-FAILED", name, key, e.toString(), Arrays.toString(e.getStackTrace())));
+                            StringBuilder stackTrace = new StringBuilder();
+                            for (StackTraceElement s : e.getStackTrace()) {
+                                stackTrace.append("\n").append(s.toString());
+                            }
+                            loadedMenu.getErrors().add(TLocale.asString("MENU.LOADING-ERRORS.ICON-LOAD-FAILED", name, key, e.toString(), stackTrace.toString()));
                         }
                     });
         } else {
@@ -155,7 +164,7 @@ public class MenuLoader {
         }
 
         if (loadedMenu.getErrors().size() <= 0) {
-            String mName = name.substring(0, name.length() - 4);
+            String mName = name.length() > 4 ? name.substring(0, name.length() - 4) : name;
             Menu nMenu = new Menu(mName, title, inventoryType, shape.size(), buttons, openRequirement, openDenyActions, closeRequirement, closeDenyActions, openCommands, openActions, closeActions, lockPlayerInv, transferArgs, forceTransferArgsAmount, bindItemLore, dependExpansions);
             nMenu.setLoadedFrom(file);
             if (menu != null && add) {
@@ -178,6 +187,7 @@ public class MenuLoader {
                     });
                 }
             }
+            loadedMenu.setMenu(nMenu);
             loadedMenu.setState(LoadedMenu.LoadedState.SUCCESS);
             return loadedMenu;
         }

@@ -5,6 +5,7 @@ import io.izzel.taboolib.module.command.base.CommandType;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.menu.Menu;
 import me.arasple.mc.trmenu.menu.MenuLoader;
+import me.arasple.mc.trmenu.menu.objs.LoadedMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -23,6 +24,7 @@ import java.net.URL;
  */
 public class CommandAbout extends BaseSubCommand {
 
+    private static boolean loading;
     private static Menu aboutMenu;
 
     {
@@ -30,26 +32,33 @@ public class CommandAbout extends BaseSubCommand {
     }
 
     private void loadMenu() {
-        Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
-            try (InputStream inputStream = new URL("https://raw.githubusercontent.com/Arasple/TrMenu/master/trmenu.yml").openStream(); BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream)) {
-                YamlConfiguration configuration = YamlConfiguration.loadConfiguration(new BufferedReader(new InputStreamReader(bufferedInputStream)));
-                aboutMenu = MenuLoader.loadMenu(configuration.getValues(false), configuration.getName()).getMenu();
-            } catch (Throwable ignored) {
-            }
-        });
+        if (!loading) {
+            loading = true;
+            Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
+                try (InputStream inputStream = new URL("https://raw.githubusercontent.com/Arasple/TrMenu/master/trmenu.yml").openStream(); BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream)) {
+                    YamlConfiguration cfg = YamlConfiguration.loadConfiguration(new BufferedReader(new InputStreamReader(bufferedInputStream)));
+                    LoadedMenu menu = MenuLoader.loadMenu(cfg.getValues(false), cfg.getName());
+                    if (menu != null) {
+                        aboutMenu = menu.getMenu();
+                    }
+                } catch (Throwable ignored) {
+                }
+                loading = false;
+            });
+        }
     }
 
     @Override
     public void onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (args.length >= 1 && "reload".equalsIgnoreCase(args[0])) {
+            loadMenu();
+            sender.sendMessage("§2Reloading the about menu...");
+            return;
+        }
         if (aboutMenu == null) {
             loadMenu();
             sender.sendMessage("§7Please wait... GUI is loading...");
         } else {
-            if (args.length == 1 && "reload".equalsIgnoreCase(args[0])) {
-                loadMenu();
-                sender.sendMessage("§7Reloading the about menu...");
-                return;
-            }
             aboutMenu.open((Player) sender);
         }
     }

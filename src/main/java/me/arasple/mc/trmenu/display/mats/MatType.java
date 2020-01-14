@@ -31,7 +31,12 @@ public enum MatType {
     /**
      * Head Database
      */
-    HEAD_DATABASE("head-database|hdb");
+    HEAD_DATABASE("head-database|hdb"),
+
+    /**
+     * 动态读取
+     */
+    VARIABLE("var(iable)?(s)?");
 
     private String key;
 
