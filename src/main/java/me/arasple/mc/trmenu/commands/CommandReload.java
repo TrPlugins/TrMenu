@@ -2,7 +2,6 @@ package me.arasple.mc.trmenu.commands;
 
 import io.izzel.taboolib.module.command.base.BaseSubCommand;
 import io.izzel.taboolib.module.command.base.CommandType;
-import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.module.locale.TLocaleLoader;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.menu.MenuLoader;
@@ -20,7 +19,7 @@ public class CommandReload extends BaseSubCommand {
         try {
             if (!TrMenu.getSettings().getStringList("LOCALE-PRIORITY").equals(TLocaleLoader.getLocalePriority(TrMenu.getPlugin()))) {
                 TLocaleLoader.setLocalePriority(TrMenu.getPlugin(), TrMenu.getSettings().getStringList("LOCALE-PRIORITY"));
-                TLocale.reload();
+                TLocaleLoader.load(TrMenu.getPlugin(), true, true);
             }
         } catch (Throwable ignored) {
         }

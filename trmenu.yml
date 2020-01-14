@@ -35,6 +35,7 @@ BUTTONS:
       name: '&8TrMenu'
   'A':
     update: 40
+    refresh: 40
     display:
       mats: compass
       name: '&2b&3Stats'

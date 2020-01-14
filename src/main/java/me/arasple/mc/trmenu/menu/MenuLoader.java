@@ -34,7 +34,7 @@ public class MenuLoader {
     private static File folder;
 
     public static void init() {
-        folder = new File(TrMenu.getPlugin().getDataFolder(), "menus");
+        folder = new File("plugins/TrMenu/menus");
         if (!folder.exists()) {
             TrMenu.getPlugin().saveResource("menus/example.yml", true);
             TrMenu.getPlugin().saveResource("menus/buy-and-sell.yml", true);
@@ -55,20 +55,15 @@ public class MenuLoader {
                     }
                 }
             }
+            TrMenu.getMenus().removeIf(menu -> menu.getLoadedFrom() == null);
             if (TrMenu.getSettings().isSet("MENUS")) {
-//                TrMenu.getSettings().
-//                TrMenu.getSettings().getList("MENUS", new ArrayList<>()).forEach(obj -> {
-//                    LinkedHashMap section = (LinkedHashMap) obj;
-//
-//                    section.forEach((key, value) -> {
-//
-//                    });
-
-//                    errors.addAll(loadMenu(section, section.get(0).toString(), null, true).getErrors());
-//                });
+                TrMenu.getSettings().getList("MENUS", new ArrayList<>()).forEach(s -> {
+                    LinkedHashMap map = (LinkedHashMap) s;
+                    map.forEach((name, section) -> errors.addAll(loadMenu((LinkedHashMap) section, String.valueOf(name), null, true).getErrors()));
+                });
             }
             errors.addAll(MenuLoader.loadMenu(folder));
-            TrMenu.getMenus().removeIf(menu -> !menu.getLoadedFrom().exists());
+            TrMenu.getMenus().removeIf(menu -> menu.getLoadedFrom() != null && !menu.getLoadedFrom().exists());
 
             int loaded = TrMenuAPI.getMenus().size();
             if (loaded >= 0) {
@@ -89,8 +84,7 @@ public class MenuLoader {
 
     public static LoadedMenu loadMenu(Map<String, Object> sets, String name, File file, boolean add) {
         LoadedMenu loadedMenu = new LoadedMenu();
-        Menu menu = file == null || !file.exists() ? null : TrMenu.getMenus().stream().filter(m -> m.getLoadedFrom().getName().equals(file.getName())).findFirst().orElse(null);
-
+        Menu menu = file == null || !file.exists() ? null : TrMenu.getMenus().stream().filter(m -> m.getLoadedFrom() != null && m.getLoadedFrom().getName().equals(file.getName())).findFirst().orElse(null);
         Map<String, Object> options = Maps.sectionToMap(MENU_OPTIONS.getFromMap(sets));
         InventoryType inventoryType = Arrays.stream(InventoryType.values()).filter(t -> t.name().equalsIgnoreCase(MenurSettings.MENU_TYPE.getFromMap(sets))).findFirst().orElse(null);
         String title = MENU_TITLE.getFromMap(sets, "TrMenu");
@@ -168,12 +162,14 @@ public class MenuLoader {
             String mName = name.length() > 4 ? name.substring(0, name.length() - 4) : name;
             Menu nMenu = new Menu(mName, title, inventoryType, shape.size(), buttons, openRequirement, openDenyActions, closeRequirement, closeDenyActions, openCommands, openActions, closeActions, lockPlayerInv, updateInventory, transferArgs, forceTransferArgsAmount, bindItemLore, dependExpansions);
             nMenu.setLoadedFrom(file);
-            if (menu != null && add) {
-                List<Player> viewers = menu.getViewers();
-                menu.getViewers().forEach(p -> Bukkit.getScheduler().runTask(TrMenu.getPlugin(), () -> p.closeInventory()));
-                TrMenu.getMenus().remove(menu);
+            if (nMenu != null && add) {
+                if (menu != null) {
+                    List<Player> viewers = menu.getViewers();
+                    menu.getViewers().forEach(p -> Bukkit.getScheduler().runTask(TrMenu.getPlugin(), p::closeInventory));
+                    TrMenu.getMenus().remove(menu);
+                    viewers.forEach(player -> nMenu.open(player));
+                }
                 TrMenu.getMenus().add(nMenu);
-                viewers.forEach(player -> nMenu.open(player));
             } else if (file != null && file.exists()) {
                 TrMenu.getMenus().add(nMenu);
                 if (TrMenu.getSettings().getBoolean("OPTIONS.MENU-FILE-LISTENER.ENABLE", true)) {
@@ -207,7 +203,7 @@ public class MenuLoader {
         } else if (!name.toLowerCase().endsWith(".yml")) {
             return new ArrayList<>();
         } else {
-            Menu menu = TrMenu.getMenus().stream().filter(m -> m.getLoadedFrom().getName().equals(file.getName())).findFirst().orElse(null);
+            Menu menu = TrMenu.getMenus().stream().filter(m -> m.getLoadedFrom() != null && m.getLoadedFrom().getName().equals(file.getName())).findFirst().orElse(null);
             Map<String, Object> sets;
             try {
                 YamlConfiguration config = new YamlConfiguration();
