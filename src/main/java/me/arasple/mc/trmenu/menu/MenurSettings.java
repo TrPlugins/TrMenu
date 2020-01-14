@@ -29,6 +29,7 @@ public enum MenurSettings {
     MENU_OPTIONS("option(s)?"),
     MENU_OPTIONS_DEPEND_EXPANSIONS("depend-expansion(s)?"),
     MENU_OPTIONS_LOCKHAND("lock-player-inv"),
+    MENU_OPTIONS_UPDATEINV("update-inventory"),
     MENU_OPTIONS_ARGS("transfer-args"),
     MENU_OPTIONS_FORCEARGS("force-transfer-args"),
     MENU_OPTIONS_BINDLORES("bind-item-lore"),

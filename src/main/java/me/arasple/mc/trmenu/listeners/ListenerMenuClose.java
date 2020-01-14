@@ -33,11 +33,13 @@ public class ListenerMenuClose implements Listener {
             TrAction.runActions(menu.getCloseActions().listIterator(), p);
             return;
         }
-
         if (menu.getCloseActions() != null) {
             menu.getCloseActions().forEach(action -> action.run(p));
         }
-
+        if (ArgsCache.getHeldSlot().containsKey(p.getUniqueId())) {
+            p.getInventory().setHeldItemSlot(ArgsCache.getHeldSlot().get(p.getUniqueId()));
+            ArgsCache.getHeldSlot().remove(p.getUniqueId());
+        }
         ArgsCache.getArgs().remove(p.getUniqueId());
     }
 

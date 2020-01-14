@@ -11,6 +11,10 @@
       - 现在支持在 settings.yml-MENUS 节点下写 List 创建菜单
       - 修复了更新检测版本号通知错误
       - 新增 zh_TW 繁体中文语言文件
+      - R2
+        - 新增 MenuOptions.Update-Inventory 用以实现流畅的动画,
+          防止手中物品闪频，插件讲自动切换到空手位 (关菜单后自动复原)
+
   - ##### 1.11
     - Since: 2020.1.12
     - Updates:

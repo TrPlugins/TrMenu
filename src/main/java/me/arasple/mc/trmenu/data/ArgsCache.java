@@ -14,6 +14,7 @@ public class ArgsCache {
 
     private static HashMap<UUID, String[]> args = new HashMap<>();
     private static HashMap<UUID, InventoryClickEvent> event = new HashMap<>();
+    private static HashMap<UUID, Integer> heldSlot = new HashMap<>();
 
     public static HashMap<UUID, String[]> getArgs() {
         return args;
@@ -25,6 +26,10 @@ public class ArgsCache {
 
     public static HashMap<UUID, InventoryClickEvent> getEvent() {
         return event;
+    }
+
+    public static HashMap<UUID, Integer> getHeldSlot() {
+        return heldSlot;
     }
 
 }

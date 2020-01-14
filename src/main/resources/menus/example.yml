@@ -63,6 +63,9 @@ Options:
   Lock-Player-Inv: true
   # Use the arguments of an open command as variables (Var: {N*}) (Default: false)
   Transfer-Args: false
+  # Each time when an icon updates, plugin refreshes the player's inventory
+  # [!] Do not recommend. You should only enabled this when you require fast animations in lower Minecraft version
+  Update-Inventory: false
   # Force the arguments it needs (Default: 0)
   Force-Transfer-Args: 0
   # Bind this menu with items have specific lore

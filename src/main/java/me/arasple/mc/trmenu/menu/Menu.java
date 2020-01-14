@@ -3,6 +3,7 @@ package me.arasple.mc.trmenu.menu;
 import com.google.common.collect.Lists;
 import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.util.Strings;
+import io.izzel.taboolib.util.item.Items;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.action.TrAction;
 import me.arasple.mc.trmenu.action.base.AbstractAction;
@@ -50,17 +51,18 @@ public class Menu {
     private String openRequirement;
     private String closeRequirement;
     private boolean lockPlayerInv;
+    private boolean updateInventory;
     private boolean transferArgs;
     private int forceTransferArgsAmount;
     private List<String> bindItemLore;
     private List<String> dependExpansions;
     private File loadedFrom;
 
-    public Menu(String name, String title, InventoryType inventoryType, int rows, HashMap<Button, List<Integer>> buttons, String openRequirement, List<AbstractAction> openDenyActions, String closeRequirement, List<AbstractAction> closeDenyActions, List<String> openCommands, List<AbstractAction> openActions, List<AbstractAction> closeActions, boolean lockPlayerInv, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore, List<String> dependExpansions) {
-        setValues(name, title, inventoryType, rows, buttons, openRequirement, openDenyActions, closeRequirement, closeDenyActions, openCommands, openActions, closeActions, lockPlayerInv, transferArgs, forceTransferArgsAmount, bindItemLore, dependExpansions);
+    public Menu(String name, String title, InventoryType inventoryType, int rows, HashMap<Button, List<Integer>> buttons, String openRequirement, List<AbstractAction> openDenyActions, String closeRequirement, List<AbstractAction> closeDenyActions, List<String> openCommands, List<AbstractAction> openActions, List<AbstractAction> closeActions, boolean lockPlayerInv, boolean updateInventory, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore, List<String> dependExpansions) {
+        setValues(name, title, inventoryType, rows, buttons, openRequirement, openDenyActions, closeRequirement, closeDenyActions, openCommands, openActions, closeActions, lockPlayerInv, updateInventory, transferArgs, forceTransferArgsAmount, bindItemLore, dependExpansions);
     }
 
-    private void setValues(String name, String title, InventoryType inventoryType, int rows, HashMap<Button, List<Integer>> buttons, String openRequirement, List<AbstractAction> openDenyActions, String closeRequirement, List<AbstractAction> closeDenyActions, List<String> openCommands, List<AbstractAction> openActions, List<AbstractAction> closeActions, boolean lockPlayerInv, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore, List<String> dependExpansions) {
+    private void setValues(String name, String title, InventoryType inventoryType, int rows, HashMap<Button, List<Integer>> buttons, String openRequirement, List<AbstractAction> openDenyActions, String closeRequirement, List<AbstractAction> closeDenyActions, List<String> openCommands, List<AbstractAction> openActions, List<AbstractAction> closeActions, boolean lockPlayerInv, boolean updateInventory, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore, List<String> dependExpansions) {
         this.name = name;
         this.title = title;
         this.inventoryType = inventoryType;
@@ -74,6 +76,7 @@ public class Menu {
         this.openActions = openActions;
         this.closeActions = closeActions;
         this.lockPlayerInv = lockPlayerInv;
+        this.updateInventory = updateInventory;
         this.transferArgs = transferArgs;
         this.forceTransferArgsAmount = forceTransferArgsAmount;
         this.bindItemLore = bindItemLore;
@@ -128,7 +131,16 @@ public class Menu {
                                         }
                                     }
                                     clearEmptySlots(player, menu, item.getSlots());
-                                    if (update <= 10) {
+                                    if (updateInventory) {
+                                        if (!Items.isNull(player.getInventory().getItemInMainHand())) {
+                                            for (byte i = 0; i < 9; i++) {
+                                                if (Items.isNull(player.getInventory().getItem(i))) {
+                                                    ArgsCache.getHeldSlot().put(player.getUniqueId(), player.getInventory().getHeldItemSlot());
+                                                    player.getInventory().setHeldItemSlot(i);
+                                                    break;
+                                                }
+                                            }
+                                        }
                                         player.updateInventory();
                                     }
                                 }

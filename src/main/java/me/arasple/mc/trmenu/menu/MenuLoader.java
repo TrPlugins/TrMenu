@@ -105,6 +105,7 @@ public class MenuLoader {
         String openRequirement = MENU_OPEN_REQUIREMENT.getFromMap(sets);
         String closeRequirement = MENU_CLOSE_REQUIREMENT.getFromMap(sets);
         boolean lockPlayerInv = MENU_OPTIONS_LOCKHAND.getFromMap(options, true);
+        boolean updateInventory = MENU_OPTIONS_UPDATEINV.getFromMap(options, false);
         boolean transferArgs = MENU_OPTIONS_ARGS.getFromMap(options, false);
         int forceTransferArgsAmount = MENU_OPTIONS_FORCEARGS.getFromMap(options, -1);
         List<String> bindItemLore = MENU_OPTIONS_BINDLORES.getFromMap(options);
@@ -165,7 +166,7 @@ public class MenuLoader {
 
         if (loadedMenu.getErrors().size() <= 0) {
             String mName = name.length() > 4 ? name.substring(0, name.length() - 4) : name;
-            Menu nMenu = new Menu(mName, title, inventoryType, shape.size(), buttons, openRequirement, openDenyActions, closeRequirement, closeDenyActions, openCommands, openActions, closeActions, lockPlayerInv, transferArgs, forceTransferArgsAmount, bindItemLore, dependExpansions);
+            Menu nMenu = new Menu(mName, title, inventoryType, shape.size(), buttons, openRequirement, openDenyActions, closeRequirement, closeDenyActions, openCommands, openActions, closeActions, lockPlayerInv, updateInventory, transferArgs, forceTransferArgsAmount, bindItemLore, dependExpansions);
             nMenu.setLoadedFrom(file);
             if (menu != null && add) {
                 List<Player> viewers = menu.getViewers();
