@@ -9,6 +9,7 @@
       - Added ActionTakeMoney 
       - Added ActionTakeItem (Remove specify items)
       - Now you can create internal menus in settings.yml
+      - Added Traditional Chinese locale file (zh_TW)
   - ##### 1.11
     - Since: 2020.1.12
     - Updates:

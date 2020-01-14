@@ -10,6 +10,7 @@
       - 新增动作 ActionTakeItem - 扣除多个指定条件的物品
       - 现在支持在 settings.yml-MENUS 节点下写 List 创建菜单
       - 修复了更新检测版本号通知错误
+      - 新增 zh_TW 繁体中文语言文件
   - ##### 1.11
     - Since: 2020.1.12
     - Updates:

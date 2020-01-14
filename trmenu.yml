@@ -51,7 +51,7 @@ BUTTONS:
         - '&8[ %progress_bar_{trmenu_menus}_m:{trmenu_query_https://bstats.org/api/v1/plugins/5742/charts/menus/data?maxElements=1}_c:&3|_p:&7|_r:&8|_l:60% &8] &8(%trmenu_menus%/%trmenu_query_https://bstats.org/api/v1/plugins/5742/charts/menus/data?maxElements=1%)'
         - ''
         - '&7For the past half hour,'
-        - '&&Menus are opened for &6%trmenu_query_https://bstats.org/api/v1/plugins/5742/charts/menu_open_counts/data?maxElements=1% &7times,'
+        - '&7Menus are opened for &6%trmenu_query_https://bstats.org/api/v1/plugins/5742/charts/menu_open_counts/data?maxElements=1% &7times,'
         - '&7With &6%trmenu_query_https://bstats.org/api/v1/plugins/5742/charts/action_run_counts/data?maxElements=1% &7actions executed. '
         - ''
         - '&2C&3lick to view more stats'
