@@ -105,7 +105,7 @@ public class Menu {
                         button.refreshConditionalIcon(player, null);
                         Item item = button.getIcon(player).getItem();
                         ItemStack itemStack = item.createItemStack(player, args);
-                        for (int i : item.getSlots().size() > 0 ? item.getNextSlots(menu) : slots) {
+                        for (int i : item.getSlots().size() > 0 ? item.getNextSlots(player, menu) : slots) {
                             if (menu.getSize() > i) {
                                 menu.setItem(i, itemStack);
                             }
@@ -125,7 +125,7 @@ public class Menu {
                                     }
                                     Item item = button.getIcon(player).getItem();
                                     ItemStack itemStack = item.createItemStack(player, args);
-                                    for (int i : item.getSlots().size() > 0 ? item.getNextSlots(menu) : slots) {
+                                    for (int i : item.getSlots().size() > 0 ? item.getNextSlots(player, menu) : slots) {
                                         if (menu.getSize() > i) {
                                             menu.setItem(i, itemStack);
                                         }

@@ -305,7 +305,8 @@ public abstract class TrMenuPlugin extends JavaPlugin {
                     Bukkit.getConsoleSender().sendMessage("§f[TabooLib] §7Downloading dependencies...");
                     if (downloadFile(newVersion[2], file(libFile))) {
                         // 如果资源下载成功则重启服务器
-                        restart();
+                        init();
+                        return;
                     }
                     return;
                 }

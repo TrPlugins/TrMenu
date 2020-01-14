@@ -11,7 +11,9 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author Arasple
@@ -24,15 +26,12 @@ public class Item {
     private List<List<String>> lores;
     private List<List<Integer>> slots;
     private List<ItemFlag> itemFlags;
-
     private String amount;
     private int finalAmount;
     private String shiny;
     private boolean finalShiny;
-
     private List<Integer> curSlots;
-
-    private int[] indexs;
+    private HashMap<UUID, int[]> indexMap;
 
     public Item(List<String> names, List<Mat> materials, List<List<String>> lores, List<List<Integer>> slots, List<ItemFlag> itemFlags, String shiny, String amount) {
         this.names = names;
@@ -55,7 +54,7 @@ public class Item {
      * @return 物品
      */
     public ItemStack createItemStack(Player player, String... args) {
-        ItemStack itemStack = materials.get(nextIndex(1)).createItem(player);
+        ItemStack itemStack = materials.get(nextIndex(player, 1)).createItem(player);
         if (itemStack == null) {
             return null;
         }
@@ -64,10 +63,10 @@ public class Item {
             return itemStack;
         }
         if (lores.size() > 0) {
-            itemMeta.setLore(Vars.replace(player, lores.get(nextIndex(2))));
+            itemMeta.setLore(Vars.replace(player, lores.get(nextIndex(player, 2))));
         }
         if (names.size() > 0) {
-            itemMeta.setDisplayName(Vars.replace(player, names.get(nextIndex(0))));
+            itemMeta.setDisplayName(Vars.replace(player, names.get(nextIndex(player, 0))));
         }
         if (finalShiny || (boolean) JavaScript.run(player, shiny)) {
             itemMeta.addEnchant(Enchantment.LUCK, 1, true);
@@ -93,11 +92,11 @@ public class Item {
         return slots;
     }
 
-    public List<Integer> getNextSlots(Inventory inv) {
+    public List<Integer> getNextSlots(Player player, Inventory inv) {
         if (slots.size() > 0 && curSlots != null) {
             curSlots.forEach(s -> inv.setItem(s, null));
         }
-        curSlots = slots.get(nextIndex(3));
+        curSlots = slots.get(nextIndex(player, 3));
         return getCurSlots();
     }
 
@@ -111,7 +110,8 @@ public class Item {
      * @param type 类型
      * @return 值
      */
-    private int nextIndex(int type) {
+    private int nextIndex(Player player, int type) {
+        int[] indexs = indexMap.computeIfAbsent(player.getUniqueId(), r -> new int[]{0, 0, 0, 0});
         int size = 0;
         switch (type) {
             case 0:
@@ -142,7 +142,15 @@ public class Item {
     }
 
     private void resetIndex() {
-        this.indexs = new int[]{0, 0, 0, 0};
+        if (indexMap == null) {
+            indexMap = new HashMap<>();
+            return;
+        }
+        this.indexMap.clear();
+    }
+
+    public void resetIndex(Player player) {
+        this.indexMap.remove(player.getUniqueId());
     }
 
     /*
@@ -181,7 +189,8 @@ public class Item {
         return finalShiny;
     }
 
-    public int[] getIndexs() {
-        return indexs;
+    public HashMap<UUID, int[]> getIndexMap() {
+        return indexMap;
     }
+
 }
