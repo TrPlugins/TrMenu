@@ -1,7 +1,6 @@
 package me.arasple.mc.trmenu.display;
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils;
-import me.arasple.mc.trmenu.display.mats.Mat;
 import me.arasple.mc.trmenu.utils.JavaScript;
 import me.arasple.mc.trmenu.utils.Vars;
 import org.bukkit.enchantments.Enchantment;

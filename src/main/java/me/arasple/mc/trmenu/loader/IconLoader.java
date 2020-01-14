@@ -6,7 +6,7 @@ import me.arasple.mc.trmenu.action.TrAction;
 import me.arasple.mc.trmenu.action.base.AbstractAction;
 import me.arasple.mc.trmenu.display.Icon;
 import me.arasple.mc.trmenu.display.Item;
-import me.arasple.mc.trmenu.display.mats.Mat;
+import me.arasple.mc.trmenu.display.Mat;
 import me.arasple.mc.trmenu.menu.MenurSettings;
 import me.arasple.mc.trmenu.utils.Maps;
 import org.bukkit.event.inventory.ClickType;

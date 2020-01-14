@@ -25,7 +25,7 @@ public class HookHeadDatabase {
     }
 
     public static ItemStack getItem(String id) {
-        return isHoooked() && hdb != null ? "Random".equalsIgnoreCase(id) ? getRandom() : hdb.getItemHead(id) : null;
+        return isHoooked() && hdb != null ? "random".equalsIgnoreCase(id) ? getRandom() : hdb.getItemHead(id) : null;
     }
 
     public static ItemStack getRandom() {

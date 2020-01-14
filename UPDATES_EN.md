@@ -14,6 +14,9 @@
         - Added MenuOptions.Update-Inventory
         - Fixed animation buggy when there are multiple viewers
         - Added TrUtils, can be used in JavaScript
+        - Recoded "Mat"
+        - Added <dye: r,g,b> for create dyed leather armor
+        - Added <banner: > for create dyed custom banner
   - ##### 1.11
     - Since: 2020.1.12
     - Updates:
