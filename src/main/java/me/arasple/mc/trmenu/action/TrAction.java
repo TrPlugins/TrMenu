@@ -1,6 +1,7 @@
 package me.arasple.mc.trmenu.action;
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils;
+import io.izzel.taboolib.util.lite.Numbers;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.action.acts.*;
 import me.arasple.mc.trmenu.action.base.AbstractAction;
@@ -32,7 +33,10 @@ public class TrAction {
             new ActionOpen(),
             new ActionSound(),
             new ActionTell(),
-            new ActionTitle()
+            new ActionTitle(),
+            new ActionTakeItem(),
+            new ActionGiveMoney(),
+            new ActionTakeMoney()
     );
 
     public static void runActions(ListIterator<AbstractAction> actions, Player player) {
@@ -40,7 +44,7 @@ public class TrAction {
             while (actions.hasNext()) {
                 AbstractAction action = actions.next();
                 if (action instanceof ActionBreak) {
-                    if (action.getOptions().containsKey(EnumOption.CHANCE) && new Random().nextDouble() >= NumberUtils.toDouble(action.getOptions().get(EnumOption.CHANCE), 1)) {
+                    if (action.getOptions().containsKey(EnumOption.CHANCE) && !Numbers.random(NumberUtils.toDouble(action.getOptions().get(EnumOption.CHANCE), 1))) {
                         break;
                     }
                     if (action.getOptions().containsKey(EnumOption.REQUIREMENT) && (boolean) JavaScript.run(player, action.getOptions().get(EnumOption.REQUIREMENT))) {

@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.action.acts;
 
+import io.izzel.taboolib.util.Commands;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.action.base.AbstractAction;
 import me.arasple.mc.trmenu.utils.Vars;
@@ -19,9 +20,7 @@ public class ActionConsole extends AbstractAction {
 
     @Override
     public void onExecute(Player player) {
-        Bukkit.getScheduler().runTask(TrMenu.getPlugin(), () -> {
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), Vars.replace(player, getContent()));
-        });
+        Bukkit.getScheduler().runTask(TrMenu.getPlugin(), () -> Commands.dispatchCommand(Bukkit.getConsoleSender(), Vars.replace(player, getContent())));
     }
 
 }

@@ -22,7 +22,7 @@ public class ListenerMenuBindItem implements Listener {
         ItemStack item = e.getItem();
 
         try {
-            if (item == null || Materials.getVersion() != Materials.MinecraftVersion.VERSION_1_8) {
+            if (item == null || Materials.getVersion() != Materials.MinecraftVersion.V1_8) {
                 if (e.getHand() == EquipmentSlot.OFF_HAND) {
                     return;
                 }

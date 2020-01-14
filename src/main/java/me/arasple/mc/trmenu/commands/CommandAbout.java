@@ -33,7 +33,7 @@ public class CommandAbout extends BaseSubCommand {
         Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
             try (InputStream inputStream = new URL("https://raw.githubusercontent.com/Arasple/TrMenu/master/trmenu.yml").openStream(); BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream)) {
                 YamlConfiguration configuration = YamlConfiguration.loadConfiguration(new BufferedReader(new InputStreamReader(bufferedInputStream)));
-                aboutMenu = MenuLoader.loadMenuFromYAML(configuration);
+                aboutMenu = MenuLoader.loadMenu(configuration.getValues(false), configuration.getName()).getMenu();
             } catch (Throwable ignored) {
             }
         });
@@ -48,6 +48,7 @@ public class CommandAbout extends BaseSubCommand {
             if (args.length == 1 && "reload".equalsIgnoreCase(args[0])) {
                 loadMenu();
                 sender.sendMessage("§7Reloading the about menu...");
+                return;
             }
             aboutMenu.open((Player) sender);
         }

@@ -1,6 +1,15 @@
 # TrMenu Update Logs #
 
 #### VERSION 1.1
+  - ##### 1.12
+    - Since: 2020.1.14
+    - Updates:
+      - 更新兼容新版 TLib Tlocale
+      - 优化 Command(Player/OP/Console) 执行方式
+      - 新增动作 ActionGiveMoney - 给予玩家余额
+      - 新增动作 ActionTakeMoney - 扣除玩家余额
+      - 新增动作 ActionTakeItem - 扣除多个指定条件的物品
+      - 现在支持在 settings.yml-MENUS 节点下写 List 创建菜单
   - ##### 1.11
     - Since: 2020.1.12
     - Updates:
@@ -18,6 +27,9 @@
         - 修复了 Command 相关命令执行报错的问题
         - 新增了 %Trmenu_Query_url|query% 无敌变量
         - 现在仅会在刷新频率低于 10 时调用 player.updateInventory(), 防止动画跟不上
+      - R5
+        - 改进 "about" GUI
+        - 新增 TrMenu PlaceholderAPI 变量
   - ##### 1.1
     - Date: 2019.12.31
     - Overview:

@@ -21,3 +21,20 @@ OPTIONS:
 
 # Custom loading files as menus
 MENU-FILES: []
+
+# Create menus inside the settings file
+MENUS:
+  - internalMenu:
+      title: 'Internal Menu in settings.yml'
+      shape:
+        - '#########'
+        - '    |    '
+        - '#########'
+      buttons:
+        '#':
+          display:
+            mats: green stained glass pane
+        '|'
+        display:
+          mats: apple
+          name: '&6Nice to meet you~'

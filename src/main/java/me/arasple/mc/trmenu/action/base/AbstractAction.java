@@ -1,6 +1,7 @@
 package me.arasple.mc.trmenu.action.base;
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils;
+import io.izzel.taboolib.util.lite.Numbers;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.bstats.Metrics;
 import me.arasple.mc.trmenu.utils.JavaScript;
@@ -10,7 +11,6 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
@@ -26,7 +26,7 @@ public abstract class AbstractAction {
 
     public void run(Player player) {
         Metrics.increase(1);
-        if (options.containsKey(EnumOption.CHANCE) && new Random().nextDouble() >= NumberUtils.toDouble(options.get(EnumOption.CHANCE), 1)) {
+        if (options.containsKey(EnumOption.CHANCE) && !Numbers.random(NumberUtils.toDouble(options.get(EnumOption.CHANCE), 1))) {
             return;
         }
         if (options.containsKey(EnumOption.REQUIREMENT) && !(boolean) JavaScript.run(player, options.get(EnumOption.REQUIREMENT))) {
