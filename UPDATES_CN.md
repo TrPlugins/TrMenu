@@ -20,6 +20,18 @@
         - 重写 Mat 相关内容
         - 新增 <Dye: r,g,b> 选项，写Mat里面支持染色皮革
         - 新增 <Banner: PATTERN> 选项，绘自定义旗帜
+      - R3
+        - 新增 ChatCatcher（聊天捕获器），例如
+          ```
+          - |-
+            Catcher:
+              <Type=CHAT>
+              <Before=Tell: &3&lPlease type a value>
+              <Vaild=TELL:&6You typed a number &a$input>
+              <Invaild=TELL:&cInvaild number input>
+              <Require=TrUtils.isNumber("$input")>
+              <Cancel=TELL:&7Canceld...>
+          ```
   - ##### 1.11
     - Since: 2
     020.1.12

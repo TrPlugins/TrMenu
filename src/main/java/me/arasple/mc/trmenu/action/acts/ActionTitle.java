@@ -39,13 +39,11 @@ public class ActionTitle extends AbstractAction {
     @Override
     public void setContent(String content) {
         super.setContent(content);
-        initTitle();
-    }
 
-    private void initTitle() {
         if (getContent() == null) {
             return;
         }
+
         for (Variables.Variable variable : new Variables(getContent()).find().getVariableList()) {
             if (variable.isVariable()) {
                 String[] x = variable.getText().split("=");

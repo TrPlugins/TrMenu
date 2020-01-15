@@ -1,5 +1,7 @@
 package me.arasple.mc.trmenu.utils;
 
+import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils;
+import io.izzel.taboolib.util.Strings;
 import io.izzel.taboolib.util.lite.Numbers;
 import me.arasple.mc.trmenu.action.TrAction;
 import org.bukkit.Bukkit;
@@ -16,12 +18,22 @@ import java.util.ArrayList;
  */
 public class TrUtils {
 
+    private static TrUtils instance = new TrUtils();
+
+    public static TrUtils getInst() {
+        return instance;
+    }
+
+
     /*
     TRACTION
      */
 
-    public static void runAction(Player player, String... actions) {
+    public void runAction(Player player, String... actions) {
         for (String action : actions) {
+            if (Strings.isEmpty(action)) {
+                continue;
+            }
             TrAction.runActions(TrAction.readActions(action).listIterator(), player);
         }
     }
@@ -56,7 +68,7 @@ public class TrUtils {
 
 
     /*
-    RANDOM
+    NUMBER
      */
 
     public int randomInteger(int low, int high) {
@@ -65,6 +77,10 @@ public class TrUtils {
 
     public double randomDouble(double low, double high) {
         return Numbers.getRandomDouble(low, high);
+    }
+
+    public boolean isNumber(String number) {
+        return NumberUtils.isParsable(number);
     }
 
     public boolean chance(double rate) {

@@ -5,7 +5,7 @@ plugins {
 
 configurations {
     group = 'me.arasple.mc.trmenu'
-    version = '1.12-R2'
+    version = '1.12-R3'
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
@@ -33,8 +33,8 @@ task releaseJar(type: Copy, dependsOn: ['build']) {
 
 dependencies {
     compile 'org.spigotmc:spigot:1.15.1-R0.1-SNAPSHOT'
-//    compile 'io.izzel.taboolib:TabooLib:5.13:all'
-//    compile 'io.izzel.taboolib.loader:TabooLibloader:1.2:all'
+    compile 'io.izzel.taboolib:TabooLib:5.14:all'
+    compile 'io.izzel.taboolib.loader:TabooLibloader:1.2:all'
     shadow fileTree(dir: 'libs', includes: ['*.jar'])
 }
 

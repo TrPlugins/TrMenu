@@ -174,8 +174,8 @@ public class MenuLoader {
                 TrMenu.getMenus().add(nMenu);
                 if (TrMenu.getSettings().getBoolean("OPTIONS.MENU-FILE-LISTENER.ENABLE", true)) {
                     TConfigWatcher.getInst().addSimpleListener(file, () -> {
-                        if (file.exists() && TrMenuAPI.getMenu(mName) != null) {
-                            if (loadMenu(file).size() <= 0) {
+                        if (TrMenuAPI.getMenu(mName) != null) {
+                            if (loadMenu(TrMenuAPI.getMenu(mName).getLoadedFrom()).size() <= 0) {
                                 if (TrMenu.getSettings().getBoolean("OPTIONS.MENU-FILE-LISTENER.NOTIFY", true)) {
                                     TLocale.sendToConsole("MENU.LOADED-AUTOLY", name);
                                 }

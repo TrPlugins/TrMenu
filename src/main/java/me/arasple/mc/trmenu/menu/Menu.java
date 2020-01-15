@@ -217,7 +217,6 @@ public class Menu {
                 }
             }
         } catch (Throwable ignored) {
-
         }
         return unInstalled;
     }

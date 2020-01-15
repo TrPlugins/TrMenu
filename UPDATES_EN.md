@@ -17,6 +17,18 @@
         - Recoded "Mat"
         - Added <dye: r,g,b> for create dyed leather armor
         - Added <banner: > for create dyed custom banner
+      - R3
+        - Added ChatCatcher, for example
+          ```
+          - |-
+            Catcher:
+              <Type=CHAT>
+              <Before=Tell: &3&lPlease type a value>
+              <Vaild=TELL:&6You typed a number &a$input>
+              <Invaild=TELL:&cInvaild number input>
+              <Require=TrUtils.isNumber("$input")>
+              <Cancel=TELL:&7Canceld...>
+          ```
   - ##### 1.11
     - Since: 2020.1.12
     - Updates:

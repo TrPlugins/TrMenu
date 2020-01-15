@@ -36,7 +36,9 @@ public class TrAction {
             new ActionTitle(),
             new ActionTakeItem(),
             new ActionGiveMoney(),
-            new ActionTakeMoney()
+            new ActionTakeMoney(),
+            new ActionCatcher(),
+            new ActionCleanCatchers()
     );
 
     public static void runActions(ListIterator<AbstractAction> actions, Player player) {
