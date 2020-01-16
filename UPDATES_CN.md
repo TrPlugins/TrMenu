@@ -27,14 +27,15 @@
             Catcher:
               <Type=CHAT>
               <Before=Tell: &3&lPlease type a value>
-              <Vaild=TELL:&6You typed a number &a$input>
-              <Invaild=TELL:&cInvaild number input>
+              <Valid=TELL:&6You typed a number &a$input>
+              <Invalid=TELL:&cInvalid number input>
               <Require=TrUtils.isNumber("$input")>
               <Cancel=TELL:&7Canceld...>
           ```
       - R4
         - 彻底修复了菜单文件监听失效
         - 新增自动重载更新菜单时错误的诊断提示
+        - 修复了动作冲突中断执行的问题
         - 修复了优先级读取顺序, 多个优先级图标时请使用 priority 项校正
         - 修复了一个 bStats 报错
         - 优化了 1.13 以下版本的物品ID读取方式

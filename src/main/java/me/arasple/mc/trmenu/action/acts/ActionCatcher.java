@@ -15,15 +15,15 @@ import org.bukkit.entity.Player;
  * @author Arasple
  * @date 2020/1/15 15:37
  * variable - $input
- * catcher: <type=SIGN/CHAT><require=TrUtils.isNumber("$input")><before=><vaild=console:eco give %player_name% $input><invaild=tell:&cType a vaild number...><cancel=xxx>
+ * catcher: <type=SIGN/CHAT><require=TrUtils.isNumber("$input")><before=><valid=console:eco give %player_name% $input><invalid=tell:&cType a valid number...><cancel=xxx>
  */
 public class ActionCatcher extends AbstractAction {
 
     private int type;
     private String require;
     private String beforeInputAction;
-    private String inputVaildAction;
-    private String inputInvaildAction;
+    private String inputValidAction;
+    private String inputInvalidAction;
     private String cancelAction;
 
     @Override
@@ -45,10 +45,10 @@ public class ActionCatcher extends AbstractAction {
                 @Override
                 public boolean after(String input) {
                     if (require != null && !(boolean) JavaScript.run(player, require.replace("$input", input))) {
-                        TrUtils.getInst().runAction(player, inputInvaildAction.replace("$input", input));
+                        TrUtils.getInst().runAction(player, inputInvalidAction.replace("$input", input));
                         return true;
                     }
-                    TrUtils.getInst().runAction(player, inputVaildAction.replace("$input", input));
+                    TrUtils.getInst().runAction(player, inputValidAction.replace("$input", input));
                     return false;
                 }
 
@@ -75,8 +75,8 @@ public class ActionCatcher extends AbstractAction {
         type = 0;
         require = "";
         beforeInputAction = "";
-        inputVaildAction = "";
-        inputInvaildAction = "";
+        inputValidAction = "";
+        inputInvalidAction = "";
         cancelAction = "";
 
         for (Variables.Variable v : new Variables(getContent()).find().getVariableList()) {
@@ -95,11 +95,11 @@ public class ActionCatcher extends AbstractAction {
                         case "before":
                             this.beforeInputAction = value;
                             continue;
-                        case "vaild":
-                            this.inputVaildAction = value;
+                        case "valid":
+                            this.inputValidAction = value;
                             continue;
-                        case "invaild":
-                            this.inputInvaildAction = value;
+                        case "invalid":
+                            this.inputInvalidAction = value;
                             continue;
                         case "cancel":
                             this.cancelAction = value;

@@ -24,7 +24,7 @@ import java.util.List;
 public class Querier {
 
     private static final String QUERING = "Loading...";
-    private static final String INVAILD = "Invaild";
+    private static final String INVALID = "Invalid";
     private static List<Query> queries = new ArrayList<>();
 
     @TSchedule(period = 20 * 10)
@@ -51,7 +51,7 @@ public class Querier {
                 }
                 return element.getAsJsonPrimitive().getAsString();
             } else {
-                return INVAILD;
+                return INVALID;
             }
         } else {
             queries.add(new Query(url));
@@ -61,7 +61,7 @@ public class Querier {
 
     private static String getArrayValue(JsonArray array) {
         if (array.size() <= 0) {
-            return INVAILD;
+            return INVALID;
         } else {
             int index = array.size() - 1;
             if (array.get(index).isJsonArray()) {

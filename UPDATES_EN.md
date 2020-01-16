@@ -24,8 +24,8 @@
             Catcher:
               <Type=CHAT>
               <Before=Tell: &3&lPlease type a value>
-              <Vaild=TELL:&6You typed a number &a$input>
-              <Invaild=TELL:&cInvaild number input>
+              <Valid=TELL:&6You typed a number &a$input>
+              <Invalid=TELL:&cInvalid number input>
               <Require=TrUtils.isNumber("$input")>
               <Cancel=TELL:&7Canceld...>
           ```

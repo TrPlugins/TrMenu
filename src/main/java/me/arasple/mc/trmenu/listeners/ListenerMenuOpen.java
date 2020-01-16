@@ -14,7 +14,7 @@ import org.bukkit.event.Listener;
 @TListener
 public class ListenerMenuOpen implements Listener {
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onMenuOpen(MenuOpenEvent e) {
         Metrics.increase(0);
     }
