@@ -1,13 +1,10 @@
 TITLE: 'TrMenu About'
-#OPEN-COMMANDS: ['trmenu about', 'tx']
+OPEN-COMMANDS: ['tx']
 
 OPEN-REQUIREMENT: '["1.11","1.11-R1","1.11-R2","1.11-R3","1.11-R4"].indexOf(bukkitServer.getPluginManager().getPlugin("TrMenu").getDescription().getVersion()) < 0'
 
 OPEN-DENY-ACTIONS:
   - 'sound: ITEM_SHIELD_BREAK-1-0'
-  - |-
-    js:
-    player.sendMessage("&8[&c!&8] &7TrMenu &3" + bukkitServer.getPluginManager().getPlugin("TrMenu").getDescription().getVersion() + "&7 does not support this GUI yet, Please redownload &61.11-R5");
 
 OPTIONS:
   DEPEND-EXPANSIONS: ['progress', 'math']
@@ -34,10 +31,17 @@ BUTTONS:
       mats: 'gray stained glass pane'
       name: '&8TrMenu'
   'A':
-    update: 40
+    update: 15
     refresh: 40
     display:
-      mats: compass
+      mats:
+        - '<skull: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTBjMWI1ODRmMTM5ODdiNDY2MTM5Mjg1YjJmM2YyOGRmNjc4NzEyM2QwYjMyMjgzZDg3OTRlMzM3NGUyMyJ9fX0=>'
+        - '<skull: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTBjMWI1ODRmMTM5ODdiNDY2MTM5Mjg1YjJmM2YyOGRmNjc4NzEyM2QwYjMyMjgzZDg3OTRlMzM3NGUyMyJ9fX0=>'
+        - '<skull: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2U0MWM2MDU3MmM1MzNlOTNjYTQyMTIyODkyOWU1NGQ2Yzg1NjUyOTQ1OTI0OWMyNWMzMmJhMzNhMWIxNTE3In19fQ==>'
+        - '<skull: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTU2MmU4YzFkNjZiMjFlNDU5YmU5YTI0ZTVjMDI3YTM0ZDI2OWJkY2U0ZmJlZTJmNzY3OGQyZDNlZTQ3MTgifX19>'
+        - '<skull: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTY3ZDgxM2FlN2ZmZTViZTk1MWE0ZjQxZjJhYTYxOWE1ZTM4OTRlODVlYTVkNDk4NmY4NDk0OWM2M2Q3NjcyZSJ9fX0=>'
+        - '<skull: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTU2MmU4YzFkNjZiMjFlNDU5YmU5YTI0ZTVjMDI3YTM0ZDI2OWJkY2U0ZmJlZTJmNzY3OGQyZDNlZTQ3MTgifX19>'
+        - '<skull: eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2U0MWM2MDU3MmM1MzNlOTNjYTQyMTIyODkyOWU1NGQ2Yzg1NjUyOTQ1OTI0OWMyNWMzMmJhMzNhMWIxNTE3In19fQ==>'
       name: '&2b&3Stats'
       lore:
         - ''
@@ -79,3 +83,29 @@ BUTTONS:
         - ''
         - '&7Thanks for using TrMenu'
         - '&7Dont forget to leave a &e5-STAR'
+
+  'E':
+    update: 5
+    display:
+      mats: '<head:Arasple>'
+      name:
+        - '&3&lArasple'
+        - '&3&lArasple'
+        - '&3&lArasple'
+        - '&b&lA&3&lrasple'
+        - '&3&lA&b&lr&3&lasple'
+        - '&3&lAr&b&la&3&lsple'
+        - '&3&lAra&b&ls&3&lple'
+        - '&3&lAras&b&lp&3&lle'
+        - '&3&lArasp&b&ll&3&le'
+        - '&3&lAraspl&b&le'
+      lore:
+        - ''
+        - ''
+        - '&eClick to view more resources of me'
+    actions:
+      all: [
+        'close',
+        'sound: BLOCK_NOTE_BLOCK_PLING-1-0',
+        'tell: &7SpigotMC: &3https://www.spigotmc.org/resources/authors/arasple.435323/'
+      ]

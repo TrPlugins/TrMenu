@@ -2,9 +2,6 @@ package me.arasple.mc.trmenu.listeners;
 
 import io.izzel.taboolib.module.inject.TListener;
 import me.arasple.mc.trmenu.TrMenu;
-import me.arasple.mc.trmenu.action.TrAction;
-import me.arasple.mc.trmenu.action.base.AbstractAction;
-import me.arasple.mc.trmenu.data.ArgsCache;
 import me.arasple.mc.trmenu.display.Button;
 import me.arasple.mc.trmenu.menu.Menu;
 import me.arasple.mc.trmenu.menu.MenuHolder;
@@ -14,9 +11,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -40,7 +35,7 @@ public class ListenerMenuAction implements Listener {
         Menu menu = ((MenuHolder) e.getInventory().getHolder()).getMenu();
         Button button = menu.getButton(p, e.getRawSlot());
 
-        // 防刷屏点击
+        // Anti ClickSpam
         clickTimes.putIfAbsent(p.getUniqueId(), 0L);
         if (System.currentTimeMillis() - clickTimes.get(p.getUniqueId()) < TrMenu.getSettings().getLong("OPTIONS.ANTI-CLICK-SPAM")) {
             e.setCancelled(true);
@@ -48,7 +43,7 @@ public class ListenerMenuAction implements Listener {
         } else {
             clickTimes.put(p.getUniqueId(), System.currentTimeMillis());
         }
-        // 锁定玩家背包
+        // Lock PLayer's Inventory
         if (button == null) {
             if (e.getClickedInventory() == p.getInventory() && menu.isLockPlayerInv()) {
                 e.setCancelled(true);
@@ -58,16 +53,7 @@ public class ListenerMenuAction implements Listener {
             e.setCancelled(true);
         }
 
-        // 读取动作
-        List<AbstractAction> actions = button.getIcon(p).getActions().getOrDefault(e.getClick(), new ArrayList<>());
-        if (button.getIcon(p).getActions().get(null) != null) {
-            actions.addAll(button.getIcon(p).getActions().get(null));
-        }
-        // 执行动作
-        ArgsCache.getEvent().put(p.getUniqueId(), e);
-        TrAction.runActions(actions.listIterator(), p);
-        ArgsCache.getEvent().remove(p.getUniqueId());
-        // 刷新图标优先级
+        button.getIcon(p).onClick(p, e.getClick(), e);
         button.refreshConditionalIcon(p, e);
 
         if (p.hasMetadata("TrMenu-Debug")) {

@@ -30,7 +30,7 @@ public class ListenerMenuClose implements Listener {
         Menu menu = ((MenuHolder) e.getInventory().getHolder()).getMenu();
 
         if (!Strings.isBlank(menu.getCloseRequirement()) && !Boolean.parseBoolean(String.valueOf(JavaScript.run(p, menu.getCloseRequirement())))) {
-            TrAction.runActions(menu.getCloseActions().listIterator(), p);
+            TrAction.runActions(menu.getCloseActions(), p);
             return;
         }
         if (menu.getCloseActions() != null) {
@@ -43,7 +43,7 @@ public class ListenerMenuClose implements Listener {
         ArgsCache.getArgs().remove(p.getUniqueId());
         menu.getButtons().keySet().forEach(b -> {
             b.getDefIcon().getItem().resetIndex(p);
-            b.getIcons().values().forEach(i -> i.getItem().resetIndex(p));
+            b.getIcons().forEach(i -> i.getItem().resetIndex(p));
         });
     }
 

@@ -17,6 +17,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * @author Arasple
@@ -40,6 +41,7 @@ public class CommandAbout extends BaseSubCommand {
                     LoadedMenu menu = MenuLoader.loadMenu(cfg.getValues(false), cfg.getName());
                     if (menu != null) {
                         aboutMenu = menu.getMenu();
+                        aboutMenu.setOpenCommands(new ArrayList<>());
                     }
                 } catch (Throwable ignored) {
                 }

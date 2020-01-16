@@ -29,6 +29,10 @@
               <Require=TrUtils.isNumber("$input")>
               <Cancel=TELL:&7Canceld...>
           ```
+      - R4
+        - Fixed menu file listener
+        - Each icon's priority can be defined with "priority: [Num]" now
+        - Fixed a bStats error
   - ##### 1.11
     - Since: 2020.1.12
     - Updates:

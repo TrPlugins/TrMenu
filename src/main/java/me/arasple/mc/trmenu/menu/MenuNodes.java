@@ -8,7 +8,7 @@ import java.util.Map;
  * @author Arasple
  * @date 2019/10/4 17:21
  */
-public enum MenurSettings {
+public enum MenuNodes {
 
     /**
      * 菜单的设置
@@ -43,6 +43,7 @@ public enum MenurSettings {
     BUTTON_REFRESH_CONDITIONS("refresh-condition(s)?"),
     BUTTON_ICONS("icons"),
     BUTTON_ICONS_CONDITION("condition"),
+    BUTTON_ICONS_PRIORITY("pri(ority)?"),
 
     ICON_DISPLAY_NAME("name(s)?|displayname(s)?"),
     ICON_DISPLAY_MATERIALS("material(s)?|id(s)?|mat(s)?"),
@@ -54,7 +55,7 @@ public enum MenurSettings {
 
     private String name;
 
-    MenurSettings(String name) {
+    MenuNodes(String name) {
         this.name = name;
     }
 

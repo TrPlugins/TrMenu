@@ -34,7 +34,7 @@ public class TrUtils {
             if (Strings.isEmpty(action)) {
                 continue;
             }
-            TrAction.runActions(TrAction.readActions(action).listIterator(), player);
+            TrAction.runActions(TrAction.readActions(action), player);
         }
     }
 

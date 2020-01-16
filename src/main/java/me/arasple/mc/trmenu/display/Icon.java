@@ -1,8 +1,13 @@
 package me.arasple.mc.trmenu.display;
 
+import me.arasple.mc.trmenu.action.TrAction;
 import me.arasple.mc.trmenu.action.base.AbstractAction;
+import me.arasple.mc.trmenu.data.ArgsCache;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryClickEvent;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -12,20 +17,51 @@ import java.util.List;
  */
 public class Icon {
 
+    private int priority;
+    private String requirement;
     private Item item;
     private HashMap<ClickType, List<AbstractAction>> actions;
 
-    public Icon(Item item, HashMap<ClickType, List<AbstractAction>> actions) {
+    public Icon(int priority, String requirement, Item item, HashMap<ClickType, List<AbstractAction>> actions) {
+        this.priority = priority;
+        this.requirement = requirement;
         this.item = item;
         this.actions = actions;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public String getRequirement() {
+        return requirement;
     }
 
     public Item getItem() {
         return item;
     }
 
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+
+    public void setRequirement(String requirement) {
+        this.requirement = requirement;
+    }
+
     public HashMap<ClickType, List<AbstractAction>> getActions() {
         return actions;
+    }
+
+    public void onClick(Player player, ClickType clickType, InventoryClickEvent event) {
+        List<AbstractAction> actions = getActions().getOrDefault(clickType, new ArrayList<>());
+        if (getActions().get(null) != null) {
+            actions.addAll(getActions().get(null));
+        }
+
+        ArgsCache.getEvent().put(player.getUniqueId(), event);
+        TrAction.runActions(actions, player);
+        ArgsCache.getEvent().remove(player.getUniqueId());
     }
 
 }

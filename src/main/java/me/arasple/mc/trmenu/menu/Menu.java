@@ -132,7 +132,7 @@ public class Menu {
                                     }
                                     clearEmptySlots(player, menu, item.getSlots());
                                     if (updateInventory) {
-                                        if (!Items.isNull(player.getInventory().getItemInMainHand())) {
+                                        if (!Items.isNull(player.getInventory().getItem(player.getInventory().getHeldItemSlot()))) {
                                             for (byte i = 0; i < 9; i++) {
                                                 if (Items.isNull(player.getInventory().getItem(i))) {
                                                     ArgsCache.getHeldSlot().put(player.getUniqueId(), player.getInventory().getHeldItemSlot());
@@ -178,7 +178,7 @@ public class Menu {
         }
         if (!Strings.isBlank(openRequirement) && !(boolean) JavaScript.run(player, openRequirement)) {
             event.setCancelled(true);
-            TrAction.runActions(openDenyActions.listIterator(), player);
+            TrAction.runActions(openDenyActions, player);
             return true;
         }
         List<String> unInstalledDepends = checkDepends();

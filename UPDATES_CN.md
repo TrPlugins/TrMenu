@@ -32,6 +32,10 @@
               <Require=TrUtils.isNumber("$input")>
               <Cancel=TELL:&7Canceld...>
           ```
+      - R4
+        - 修复了菜单文件监听失效
+        - 修复了优先级读取顺序, 多个优先级图标时请使用 priority 项校正
+        - 修复了一个 bStats 报错
   - ##### 1.11
     - Since: 2
     020.1.12

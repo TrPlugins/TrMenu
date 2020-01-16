@@ -10,7 +10,10 @@ import me.arasple.mc.trmenu.utils.JavaScript;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Matcher;
 
 /**
@@ -41,10 +44,10 @@ public class TrAction {
             new ActionCleanCatchers()
     );
 
-    public static void runActions(ListIterator<AbstractAction> actions, Player player) {
+    public static void runActions(List<AbstractAction> actions, Player player) {
         Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
-            while (actions.hasNext()) {
-                AbstractAction action = actions.next();
+            long delay = 0;
+            for (AbstractAction action : actions) {
                 if (action instanceof ActionBreak) {
                     if (action.getOptions().containsKey(EnumOption.CHANCE) && !Numbers.random(NumberUtils.toDouble(action.getOptions().get(EnumOption.CHANCE), 1))) {
                         break;
@@ -52,15 +55,11 @@ public class TrAction {
                     if (action.getOptions().containsKey(EnumOption.REQUIREMENT) && (boolean) JavaScript.run(player, action.getOptions().get(EnumOption.REQUIREMENT))) {
                         break;
                     }
-                    continue;
                 } else if (action instanceof ActionDelay) {
-                    double delay = NumberUtils.toDouble(action.getContent(), -1);
-                    if (delay > 0) {
-                        Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> runActions(actions, player), (long) delay);
-                    }
-                    break;
+                    delay += NumberUtils.toDouble(action.getContent(), 0);
+                } else {
+                    Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> action.run(player), delay);
                 }
-                action.run(player);
             }
         });
     }

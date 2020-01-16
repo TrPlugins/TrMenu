@@ -26,8 +26,18 @@ Shape:
   - '         '
   - '#########'
 
+
 # (Optional)
-Open-Requirement: 'player.hasPermission("trmenu.use")'
+Open-Requirement:
+  - 'player.hasPermission("trmenu.use")'
+  - |-
+    js:
+     var lobbys = ["mainlobby1", "mainlobby2"];
+     function randomHub(){
+       var hub = lobbys[TrUtils.randomInteger(0, lobbys.size()-1)];
+       TrUtils.connect(player, hub);
+     }
+     randomHub();
 
 # (Optional)
 Open-Deny-Actions:
