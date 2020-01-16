@@ -49,6 +49,7 @@ CONVERTER:
 
 MENU:
   LOADED-AUTOLY: '&8[&3Tr&bMenu&8] &bINFO &8| &7监听到文件改动并自动成功重载了菜单 &f{0}&7...'
+  LOADED-AUTOLY-FAILED: '&8[&3Tr&bMenu&8] &6WARN &8| &7自动重载菜单 &f{0} &7的过程中出错, 菜单更新失败, 请检查错误重新编辑保存...'
   LOADED-SUCCESS: '&8[&3Tr&bMenu&8] &bINFO &8| &7成功加载了 &a{0} &7个有效菜单... &8[&7{1} Ms&8]'
   LOADED-FAILURE: '&8[&3Tr&bMenu&8] &6WARN &8| &7共计有 &6{0} &7个菜单加载失败, 请检测诊断错误.'
   DEPEND-EXPANSIONS-REQUIRED: '&8[&3Tr&bMenu&8] &7目标菜单需要安装以下 PlaceholderAPI 变量才能使用, TrMenu 正在自动下载中... &6{0}'

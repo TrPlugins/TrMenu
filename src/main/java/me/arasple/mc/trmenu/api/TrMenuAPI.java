@@ -25,7 +25,7 @@ public class TrMenuAPI {
     }
 
     public static Menu getMenu(File loadedFrom) {
-        return TrMenu.getMenus().stream().filter(menu -> menu.getLoadedFrom().getName().equals(loadedFrom.getName())).findFirst().orElse(null);
+        return TrMenu.getMenus().stream().filter(menu -> menu.getLoadedPath().equals(loadedFrom.getAbsolutePath())).findFirst().orElse(null);
     }
 
     /**

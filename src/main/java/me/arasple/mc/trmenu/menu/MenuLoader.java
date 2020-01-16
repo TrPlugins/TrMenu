@@ -54,6 +54,14 @@ public class MenuLoader {
             int all = MenuLoader.getMenuFilesCount(folder);
             List<String> errors = new ArrayList<>();
 
+
+            TrMenu.getMenus().clear();
+            if (TrMenu.getSettings().isSet("MENUS")) {
+                TrMenu.getSettings().getList("MENUS", new ArrayList<>()).forEach(s -> {
+                    LinkedHashMap map = (LinkedHashMap) s;
+                    map.forEach((name, section) -> errors.addAll(loadMenu((LinkedHashMap) section, String.valueOf(name), null, true).getErrors()));
+                });
+            }
             if (TrMenu.getSettings().isSet("MENU-FILES")) {
                 for (String path : TrMenu.getSettings().getStringList("MENU-FILES")) {
                     File menuFile = new File(path);
@@ -62,19 +70,32 @@ public class MenuLoader {
                     }
                 }
             }
-            TrMenu.getMenus().removeIf(menu -> menu.getLoadedFrom() == null);
-            if (TrMenu.getSettings().isSet("MENUS")) {
-                TrMenu.getSettings().getList("MENUS", new ArrayList<>()).forEach(s -> {
-                    LinkedHashMap map = (LinkedHashMap) s;
-                    map.forEach((name, section) -> errors.addAll(loadMenu((LinkedHashMap) section, String.valueOf(name), null, true).getErrors()));
-                });
-            }
             errors.addAll(MenuLoader.loadMenu(folder));
-            TrMenu.getMenus().removeIf(menu -> menu.getLoadedFrom() != null && !menu.getLoadedFrom().exists());
 
             int loaded = TrMenuAPI.getMenus().size();
             if (loaded >= 0) {
                 Notifys.notify(receivers, "MENU.LOADED-SUCCESS", loaded, System.currentTimeMillis() - start);
+                for (Menu menu : TrMenuAPI.getMenus()) {
+                    if (menu.getLoadedPath() == null) {
+                        continue;
+                    }
+                    File file = new File(menu.getLoadedPath());
+                    if (file != null && file.exists() && TrMenu.getSettings().getBoolean("OPTIONS.MENU-FILE-LISTENER.ENABLE", true)) {
+                        TConfigWatcher.getInst().addSimpleListener(file, () -> {
+                            if (file.exists() && TrMenuAPI.getMenu(menu.getName()) != null) {
+                                List<String> result = MenuLoader.loadMenu(file);
+                                if (result.size() <= 0 && TrMenu.getSettings().getBoolean("OPTIONS.MENU-FILE-LISTENER.NOTIFY", true)) {
+                                    TLocale.sendToConsole("MENU.LOADED-AUTOLY", file.getName());
+                                } else {
+                                    TLocale.sendToConsole("MENU.LOADED-AUTOLY-FAILED", file.getName());
+                                    Bukkit.getConsoleSender().sendMessage("§8[§3Tr§bMenu§8] §6WARN §8| §6--------------------------------------------------");
+                                    result.forEach(r -> Bukkit.getConsoleSender().sendMessage("§8[§3Tr§bMenu§8] §bINFO §8| " + r));
+                                    Notifys.sendMsg(receivers, "§8[§3Tr§bMenu§8] §6WARN §8| §6--------------------------------------------------");
+                                }
+                            }
+                        });
+                    }
+                }
             }
             if (!errors.isEmpty()) {
                 Notifys.notify(receivers, "MENU.LOADED-FAILURE", all - loaded);
@@ -85,7 +106,7 @@ public class MenuLoader {
         });
     }
 
-    private static List<String> loadMenu(File file) {
+    public static List<String> loadMenu(File file) {
         String name = file.getName();
         List<String> errors = Lists.newArrayList();
 
@@ -96,7 +117,7 @@ public class MenuLoader {
         } else if (!name.toLowerCase().endsWith(".yml")) {
             return new ArrayList<>();
         } else {
-            Menu menu = TrMenu.getMenus().stream().filter(m -> m.getLoadedFrom() != null && m.getLoadedFrom().getName().equals(file.getName())).findFirst().orElse(null);
+            Menu menu = TrMenu.getMenus().stream().filter(m -> m.getLoadedPath() != null && m.getLoadedPath().equalsIgnoreCase(file.getAbsolutePath())).findFirst().orElse(null);
             Map<String, Object> sets;
             try {
                 YamlConfiguration config = new YamlConfiguration();
@@ -114,7 +135,7 @@ public class MenuLoader {
 
     public static LoadedMenu loadMenu(Map<String, Object> sets, String name, File file, boolean add) {
         LoadedMenu loadedMenu = new LoadedMenu();
-        Menu menu = file == null || !file.exists() ? null : TrMenu.getMenus().stream().filter(m -> m.getLoadedFrom() != null && m.getLoadedFrom().getName().equals(file.getName())).findFirst().orElse(null);
+        Menu menu = file == null || !file.exists() ? null : TrMenu.getMenus().stream().filter(m -> m.getLoadedPath() != null && m.getLoadedPath().equalsIgnoreCase(file.getAbsolutePath())).findFirst().orElse(null);
         Map<String, Object> options = Maps.sectionToMap(MENU_OPTIONS.getFromMap(sets));
         InventoryType inventoryType = Arrays.stream(InventoryType.values()).filter(t -> t.name().equalsIgnoreCase(MenuNodes.MENU_TYPE.getFromMap(sets))).findFirst().orElse(null);
         String title = MENU_TITLE.getFromMap(sets, "TrMenu");
@@ -198,7 +219,7 @@ public class MenuLoader {
         if (loadedMenu.getErrors().size() <= 0) {
             String mName = name.length() > 4 ? name.substring(0, name.length() - 4) : name;
             Menu nMenu = new Menu(mName, title, inventoryType, shape.size(), buttons, openRequirement, openDenyActions, closeRequirement, closeDenyActions, openCommands, openActions, closeActions, lockPlayerInv, updateInventory, transferArgs, forceTransferArgsAmount, bindItemLore, dependExpansions);
-            nMenu.setLoadedFrom(file);
+            nMenu.setLoadedPath(file != null ? file.getAbsolutePath() : null);
             if (nMenu != null && add) {
                 if (menu != null) {
                     List<Player> viewers = menu.getViewers();
@@ -207,20 +228,6 @@ public class MenuLoader {
                     viewers.forEach(player -> nMenu.open(player));
                 }
                 TrMenu.getMenus().add(nMenu);
-
-                if (file != null && file.exists()) {
-                    if (TrMenu.getSettings().getBoolean("OPTIONS.MENU-FILE-LISTENER.ENABLE", true)) {
-                        TConfigWatcher.getInst().addSimpleListener(file, () -> {
-                            if (TrMenuAPI.getMenu(mName) != null) {
-                                if (loadMenu(TrMenuAPI.getMenu(mName).getLoadedFrom()).size() <= 0) {
-                                    if (TrMenu.getSettings().getBoolean("OPTIONS.MENU-FILE-LISTENER.NOTIFY", true)) {
-                                        TLocale.sendToConsole("MENU.LOADED-AUTOLY", name);
-                                    }
-                                }
-                            }
-                        });
-                    }
-                }
             }
             loadedMenu.setMenu(nMenu);
             loadedMenu.setState(LoadedMenu.LoadedState.SUCCESS);
@@ -392,10 +399,18 @@ public class MenuLoader {
         List<T> result = new ArrayList<>();
         if (object instanceof List<?>) {
             for (Object o : (List<?>) object) {
-                result.add(classz.cast(o));
+                try {
+                    result.add(classz.cast(o));
+                } catch (Throwable e) {
+                    result.add(classz.cast(String.valueOf(o)));
+                }
             }
         } else if (object != null) {
-            result.add(classz.cast(object));
+            try {
+                result.add(classz.cast(object));
+            } catch (Throwable e) {
+                result.add(classz.cast(String.valueOf(object)));
+            }
         }
         return result;
     }

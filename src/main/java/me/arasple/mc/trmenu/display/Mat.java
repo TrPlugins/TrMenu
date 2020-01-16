@@ -70,7 +70,7 @@ public class Mat {
             return HookHeadDatabase.getItem(optionValue);
         } else if (Strings.nonEmpty(mat)) {
             String[] args = (option == Option.VARIABLE ? Vars.replace(player, mat) : mat).split(":");
-            String[] read = readMaterial(new String[]{args[0], args.length > 1 ? args[1] : "0"});
+            String[] read = readMaterial(new String[]{args[0], args.length > 1 ? args[1] : null});
             item = new ItemStack(Material.valueOf(read[0]));
             meta = item.getItemMeta();
             if (!Materials.isNewVersion() && !Strings.isEmpty(read[1]) && option != Option.DATA_VALUE) {

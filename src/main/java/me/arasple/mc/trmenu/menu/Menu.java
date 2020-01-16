@@ -25,7 +25,6 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -56,7 +55,7 @@ public class Menu {
     private int forceTransferArgsAmount;
     private List<String> bindItemLore;
     private List<String> dependExpansions;
-    private File loadedFrom;
+    private String loadedPath;
 
     public Menu(String name, String title, InventoryType inventoryType, int rows, HashMap<Button, List<Integer>> buttons, String openRequirement, List<AbstractAction> openDenyActions, String closeRequirement, List<AbstractAction> closeDenyActions, List<String> openCommands, List<AbstractAction> openActions, List<AbstractAction> closeActions, boolean lockPlayerInv, boolean updateInventory, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore, List<String> dependExpansions) {
         setValues(name, title, inventoryType, rows, buttons, openRequirement, openDenyActions, closeRequirement, closeDenyActions, openCommands, openActions, closeActions, lockPlayerInv, updateInventory, transferArgs, forceTransferArgsAmount, bindItemLore, dependExpansions);
@@ -386,12 +385,12 @@ public class Menu {
         this.dependExpansions = dependExpansions;
     }
 
-    public File getLoadedFrom() {
-        return loadedFrom;
+    public String getLoadedPath() {
+        return loadedPath;
     }
 
-    void setLoadedFrom(File loadedFrom) {
-        this.loadedFrom = loadedFrom;
+    public void setLoadedPath(String loadedPath) {
+        this.loadedPath = loadedPath;
     }
 
     List<Player> getViewers() {

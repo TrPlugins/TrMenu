@@ -31,8 +31,11 @@
           ```
       - R4
         - Fixed menu file listener
+        - Added notify message when auto-reload menu failed
         - Each icon's priority can be defined with "priority: [Num]" now
         - Fixed a bStats error
+        - Improved item's ID reading
+        - Now supports materials of Mods in Forge server
   - ##### 1.11
     - Since: 2020.1.12
     - Updates:

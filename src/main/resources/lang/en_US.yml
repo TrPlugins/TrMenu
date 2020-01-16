@@ -43,6 +43,7 @@ ERROR:
 
 MENU:
   LOADED-AUTOLY: '&8[&3Tr&bMenu&8] &bINFO &8| &7File changes, automatically reloaded menu &f{0}&7...'
+  LOADED-AUTOLY-FAILED: '&8[&3Tr&bMenu&8] &6WARN &8| &7Error during auto-reload menu &f{0} &7, failed to update menu. Please check these errors, re-edit and save the file'
   LOADED-SUCCESS: '&8[&3Tr&bMenu&8] &bINFO &8| &7Loaded &a{0} &7menus... &8[&7{1} Ms&8]'
   LOADED-FAILURE: '&8[&3Tr&bMenu&8] &6WARN &8| &7There''re &6{0} &7menus failed to load. Please check these errors...'
   DEPEND-EXPANSIONS-REQUIRED: '&8[&3Tr&bMenu&8] &7You need to install PlaceholderAPI expansions &6{0} &7to use that menu.'
