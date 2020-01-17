@@ -29,7 +29,7 @@ public class Item {
     private int finalAmount;
     private String shiny;
     private boolean finalShiny;
-    private List<Integer> curSlots;
+    private HashMap<UUID, List<Integer>> curSlots;
     private HashMap<UUID, int[]> indexMap;
 
     public Item(List<String> names, List<Mat> materials, List<List<String>> lores, List<List<Integer>> slots, List<ItemFlag> itemFlags, String shiny, String amount) {
@@ -42,6 +42,7 @@ public class Item {
         this.amount = amount;
         this.finalShiny = Boolean.parseBoolean(shiny);
         this.finalAmount = NumberUtils.toInt(amount, -1);
+        this.curSlots = new HashMap<>();
         resetIndex();
     }
 
@@ -92,15 +93,19 @@ public class Item {
     }
 
     public List<Integer> getNextSlots(Player player, Inventory inv) {
-        if (slots.size() > 0 && curSlots != null) {
-            curSlots.forEach(s -> inv.setItem(s, null));
+        if (slots.size() > 0 && getCurSlots(player) != null) {
+            getCurSlots(player).forEach(s -> inv.setItem(s, null));
         }
-        curSlots = slots.get(nextIndex(player, 3));
-        return getCurSlots();
+        setCurSlots(player, slots.get(nextIndex(player, 3)));
+        return getCurSlots(player);
     }
 
-    public List<Integer> getCurSlots() {
-        return curSlots;
+    public List<Integer> getCurSlots(Player player) {
+        return curSlots.getOrDefault(player.getUniqueId(), null);
+    }
+
+    public void setCurSlots(Player player, List<Integer> slots) {
+        curSlots.put(player.getUniqueId(), slots);
     }
 
     /**

@@ -40,6 +40,10 @@
         - 修复了一个 bStats 报错
         - 优化了 1.13 以下版本的物品ID读取方式
         - 兼容支持了 Forge 端中 Mod 物品的 ID 使用
+      - R5
+        - 现支持用 .json 写菜单
+        - 修复了动态位置的物品在多个玩家同时打开时的冲突
+        - 新增 $openBy 变量，可在 openRequirement 中使用, 返回 CONSOLE / PLAYER
   - ##### 1.11
     - Since: 2
     020.1.12

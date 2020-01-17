@@ -38,7 +38,7 @@ public class TrMenuAPI {
     public static boolean openMenu(Player player, String id) {
         Menu menu = getMenu(id);
         if (menu != null) {
-            menu.open(player);
+            menu.open(player, true);
             return true;
         }
         return false;

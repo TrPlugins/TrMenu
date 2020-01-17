@@ -1,6 +1,9 @@
 package me.arasple.mc.trmenu.menu;
 
 import com.google.common.collect.Lists;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializer;
 import io.izzel.taboolib.module.config.TConfigWatcher;
 import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.util.item.Items;
@@ -15,6 +18,7 @@ import me.arasple.mc.trmenu.display.Mat;
 import me.arasple.mc.trmenu.menu.objs.LoadedMenu;
 import me.arasple.mc.trmenu.utils.Maps;
 import me.arasple.mc.trmenu.utils.Notifys;
+import me.arasple.mc.trmenu.utils.Reader;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -114,17 +118,21 @@ public class MenuLoader {
             for (File f : Objects.requireNonNull(file.listFiles())) {
                 errors.addAll(Objects.requireNonNull(loadMenu(f)));
             }
-        } else if (!name.toLowerCase().endsWith(".yml")) {
+        } else if (!name.toLowerCase().endsWith(".yml") && !name.toLowerCase().endsWith(".json")) {
             return new ArrayList<>();
         } else {
             Menu menu = TrMenu.getMenus().stream().filter(m -> m.getLoadedPath() != null && m.getLoadedPath().equalsIgnoreCase(file.getAbsolutePath())).findFirst().orElse(null);
             Map<String, Object> sets;
             try {
-                YamlConfiguration config = new YamlConfiguration();
-                config.load(file);
-                sets = config.getValues(false);
+                if (name.toLowerCase().endsWith(".json")) {
+                    sets = new GsonBuilder().registerTypeAdapter(Double.class, (JsonSerializer<Double>) (src, typeOfSrc, context) -> src == src.longValue() ? new JsonPrimitive(src.longValue()) : new JsonPrimitive(src)).create().fromJson(Reader.readFileAsJson(file), Map.class);
+                } else {
+                    YamlConfiguration config = new YamlConfiguration();
+                    config.load(file);
+                    sets = config.getValues(false);
+                }
             } catch (Exception e) {
-                errors.add(TLocale.asString("MENU.LOADING-ERRORS.YAML", name, e.getMessage(), Arrays.toString(e.getStackTrace())));
+                errors.add(TLocale.asString("MENU.LOADING-ERRORS." + (name.toLowerCase().endsWith(".json") ? "JSON" : "YAML"), name, e.getMessage(), Arrays.toString(e.getStackTrace())));
                 return errors;
             }
             errors.addAll(loadMenu(sets, name, file, true).getErrors());

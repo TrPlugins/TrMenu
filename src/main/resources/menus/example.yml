@@ -28,7 +28,7 @@ Shape:
 
 
 # (Optional)
-Open-Requirement: 'player.hasPermission("trmenu.use")'
+Open-Requirement: 'player.hasPermission("trmenu.use") || "$openBy" == "CONSOLE"'
 
 # (Optional)
 Open-Deny-Actions:

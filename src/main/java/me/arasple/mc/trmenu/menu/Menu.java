@@ -90,7 +90,11 @@ public class Menu {
      * @param args   传递参数
      */
     public void open(Player player, String... args) {
-        MenuOpenEvent event = new MenuOpenEvent(player, this);
+        open(player, false, args);
+    }
+
+    public void open(Player player, boolean byConsole, String... args) {
+        MenuOpenEvent event = new MenuOpenEvent(player, byConsole, this);
         if (shouldCancelEvent(event, player)) {
             event.setCancelled(true);
             return;
@@ -100,7 +104,7 @@ public class Menu {
         Inventory menu = inventoryType == null ? Bukkit.createInventory(new MenuHolder(this), 9 * rows, Vars.replace(player, title)) : Bukkit.createInventory(new MenuHolder(this), inventoryType, Vars.replace(player, title));
 
         buttons.forEach((button, slots) -> {
-                    Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
+            Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
                         button.refreshConditionalIcon(player, null);
                         Item item = button.getIcon(player).getItem();
                         ItemStack itemStack = item.createItemStack(player, args);
@@ -172,10 +176,12 @@ public class Menu {
             return true;
         }
         if (event.getMenu() != this) {
-            event.getMenu().open(player, args);
+            event.getMenu().open(player, event.isByConsole(), args);
             return true;
         }
-        if (!Strings.isBlank(openRequirement) && !(boolean) JavaScript.run(player, openRequirement)) {
+        if (!Strings.isBlank(openRequirement) && !(boolean) JavaScript.run(player, openRequirement
+                .replace("$openBy", event.isByConsole() ? "CONSOLE" : "COMMAND")
+        )) {
             event.setCancelled(true);
             TrAction.runActions(openDenyActions, player);
             return true;
@@ -226,7 +232,7 @@ public class Menu {
         }
         for (Map.Entry<Button, List<Integer>> entry : buttons.entrySet()) {
             Icon icon = entry.getKey().getIcon(player);
-            if (icon.getItem().getCurSlots() != null && icon.getItem().getCurSlots().contains(slot)) {
+            if (icon.getItem().getCurSlots(player) != null && icon.getItem().getCurSlots(player).contains(slot)) {
                 return entry.getKey();
             } else if (entry.getValue().contains(slot)) {
                 return entry.getKey();

@@ -36,6 +36,10 @@
         - Fixed a bStats error
         - Improved item's ID reading
         - Now supports materials of Mods in Forge server
+      - R5
+        - Support .json file menu load
+        - Fixed animate slots buggy when there're multiple viewers
+        - Added variable $openBy which returns CONSOLE or PLAYER
   - ##### 1.11
     - Since: 2020.1.12
     - Updates:

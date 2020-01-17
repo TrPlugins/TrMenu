@@ -53,6 +53,7 @@ MENU:
     NO-SHAPE: '&7Menu &6{0} &7''s shape is invalid &2{1}'
     NO-BUTTONS: '&7Menu &6{0} &7do not contain Buttons section'
     YAML: '&7Menu &6{0} &7has YAML error &c{1} &8{2}'
+    JSON: '&7Menu &6{0} &7has JSON error &c{1} &8{2}'
     CONFLICT-OPEN-COMMANDS: '&7Menu &6{0} &7has conflicting open command with menu &6{1}...'
     CONFLICT-OPEN-ITEMS: '&7Menu &6{0} &7has conflicting bind item lore with menu &6{1}...'
     ICON-NO-CONDITION: '&7Menu &6{0} &7button &3{1} &7has empty condition for priority icon'

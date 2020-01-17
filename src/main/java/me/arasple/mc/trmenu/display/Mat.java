@@ -155,7 +155,7 @@ public class Mat {
          * <head:Arasple>
          * <player-head:Arasple>
          */
-        HEAD("<((player|variable)?(-)?head)(:)?(.+)?>"),
+        HEAD("<((player|variable)?(-)?head):(.+)?>"),
 
         /**
          * Example

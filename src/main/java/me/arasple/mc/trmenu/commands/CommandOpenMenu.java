@@ -36,7 +36,7 @@ public class CommandOpenMenu extends BaseSubCommand {
         }
         if (args.length == 1) {
             if (sender instanceof Player) {
-                menu.open((Player) sender);
+                menu.open((Player) sender, true);
             } else {
                 TLocale.sendTo(sender, "COMMANDS.NOT-PLAYER");
             }
@@ -46,7 +46,7 @@ public class CommandOpenMenu extends BaseSubCommand {
             if (player == null || !player.isOnline()) {
                 TLocale.sendTo(sender, "COMMANDS.NO-PLAYER");
             } else {
-                menu.open(player);
+                menu.open(player, true);
                 if (!(args.length >= 3 && "silent".equalsIgnoreCase(args[2]))) {
                     TLocale.sendTo(sender, "COMMANDS.OPENED-FOR");
                 }

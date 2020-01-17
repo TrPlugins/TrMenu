@@ -13,11 +13,13 @@ import org.bukkit.event.player.PlayerEvent;
 public class MenuOpenEvent extends PlayerEvent implements Cancellable {
 
     private static final HandlerList HANDLERS = new HandlerList();
+    private boolean byConsole;
     private boolean cancelled;
     private Menu menu;
 
-    public MenuOpenEvent(Player player, Menu menu) {
-        super(player);
+    public MenuOpenEvent(Player who, boolean byConsole, Menu menu) {
+        super(who);
+        this.byConsole = byConsole;
         this.menu = menu;
     }
 
@@ -27,6 +29,14 @@ public class MenuOpenEvent extends PlayerEvent implements Cancellable {
 
     public Menu getMenu() {
         return menu;
+    }
+
+    public boolean isByConsole() {
+        return byConsole;
+    }
+
+    public void setByConsole(boolean byConsole) {
+        this.byConsole = byConsole;
     }
 
     @Override
