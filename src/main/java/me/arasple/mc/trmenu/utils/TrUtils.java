@@ -4,6 +4,7 @@ import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils;
 import io.izzel.taboolib.util.Strings;
 import io.izzel.taboolib.util.lite.Numbers;
 import me.arasple.mc.trmenu.action.TrAction;
+import me.arasple.mc.trmenu.data.ArgsCache;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -53,6 +54,10 @@ public class TrUtils {
     /*
     PLAYERS
      */
+
+    public String[] getPlayerArgs(String player) {
+        return ArgsCache.getPlayerArgs(getPlayer(player));
+    }
 
     public boolean isPlayerOnline(String player) {
         return Bukkit.getPlayerExact(player) != null && Bukkit.getPlayerExact(player).isOnline();

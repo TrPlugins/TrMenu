@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 import java.util.HashMap;
@@ -42,6 +43,9 @@ public class ListenerMenuAction implements Listener {
             return;
         } else {
             clickTimes.put(p.getUniqueId(), System.currentTimeMillis());
+        }
+        if (e.getAction() == InventoryAction.MOVE_TO_OTHER_INVENTORY || e.getAction() == InventoryAction.HOTBAR_SWAP) {
+            e.setCancelled(true);
         }
         // Lock PLayer's Inventory
         if (button == null) {

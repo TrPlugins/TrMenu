@@ -16,6 +16,27 @@ import org.bukkit.entity.Player;
  * @date 2020/1/15 15:37
  * variable - $input
  * catcher: <type=SIGN/CHAT><require=TrUtils.isNumber("$input")><before=><valid=console:eco give %player_name% $input><invalid=tell:&cType a valid number...><cancel=xxx>
+ * <p>
+ * - |-
+ * Catcher:
+ * <chance:0.8>
+ * <Type=CHAt>
+ * <Before=Tell: &3&lPlease type a value><Valid=TELL:&6You typed a number &a$input>
+ * <Invalid=TELL:&cInvalid number input>
+ * <Require=function require(){
+ * var blackList = ["word1", "word2"];
+ * if (input.length<3 || input.length>8 || !/^\w+$/.test(input)){
+ * return false;
+ * }
+ * for (var i=0; i<blackList.length; i++){
+ * if (blackList[i].search(/$input/i) >= 0){
+ * return false;
+ * }
+ * }
+ * return true;
+ * }
+ * }require()>
+ * <Cancel=TELL:&7Canceld...>
  */
 public class ActionCatcher extends AbstractAction {
 
@@ -38,17 +59,17 @@ public class ActionCatcher extends AbstractAction {
             Catchers.call(player, new Catchers.Catcher() {
                 @Override
                 public Catchers.Catcher before() {
-                    Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> TrUtils.getInst().runAction(player, beforeInputAction), 3);
+                    Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> TrUtils.getInst().runAction(player, beforeInputAction.replace(";", "_||_")), 3);
                     return this;
                 }
 
                 @Override
                 public boolean after(String input) {
                     if (require != null && !(boolean) JavaScript.run(player, require.replace("$input", input))) {
-                        TrUtils.getInst().runAction(player, inputInvalidAction.replace("$input", input));
+                        TrUtils.getInst().runAction(player, inputInvalidAction.replace(";", "_||_").replace("$input", input));
                         return true;
                     }
-                    TrUtils.getInst().runAction(player, inputValidAction.replace("$input", input));
+                    TrUtils.getInst().runAction(player, inputValidAction.replace(";", "_||_").replace("$input", input));
                     return false;
                 }
 
@@ -58,10 +79,25 @@ public class ActionCatcher extends AbstractAction {
                 }
             });
         } else {
-            Signs.fakeSign(player, lines -> {
-
-            });
+            sendFakeSign(player);
         }
+    }
+
+    private void sendFakeSign(Player player) {
+        Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> TrUtils.getInst().runAction(player, beforeInputAction.replace(";", "_||_")), 3);
+        Signs.fakeSign(player, lines -> {
+            String input = ArrayUtil.arrayJoin(lines, 0);
+            if (input.matches("quit|cancel|exit")) {
+                TrUtils.getInst().runAction(player, cancelAction.replace(";", "_||_"));
+                return;
+            }
+            if (require != null && !(boolean) JavaScript.run(player, require.replace("$input", input))) {
+                TrUtils.getInst().runAction(player, inputInvalidAction.replace(";", "_||_").replace("$input", input));
+                sendFakeSign(player);
+            } else {
+                TrUtils.getInst().runAction(player, inputValidAction.replace(";", "_||_").replace("$input", input));
+            }
+        });
     }
 
     @Override
@@ -81,7 +117,7 @@ public class ActionCatcher extends AbstractAction {
 
         for (Variables.Variable v : new Variables(getContent()).find().getVariableList()) {
             if (v.isVariable()) {
-                String[] x = v.getText().split("=");
+                String[] x = v.getText().split("=", 2);
                 if (x.length >= 2) {
                     String type = x[0].toLowerCase();
                     String value = ArrayUtil.arrayJoin(x, 1);

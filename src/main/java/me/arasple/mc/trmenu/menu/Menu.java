@@ -39,9 +39,9 @@ public class Menu {
 
     private String name;
     private InventoryType inventoryType;
-    private String title;
     private int rows;
     private HashMap<Button, List<Integer>> buttons;
+    private List<String> title;
     private List<String> openCommands;
     private List<AbstractAction> openActions;
     private List<AbstractAction> closeActions;
@@ -57,11 +57,11 @@ public class Menu {
     private List<String> dependExpansions;
     private String loadedPath;
 
-    public Menu(String name, String title, InventoryType inventoryType, int rows, HashMap<Button, List<Integer>> buttons, String openRequirement, List<AbstractAction> openDenyActions, String closeRequirement, List<AbstractAction> closeDenyActions, List<String> openCommands, List<AbstractAction> openActions, List<AbstractAction> closeActions, boolean lockPlayerInv, boolean updateInventory, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore, List<String> dependExpansions) {
+    public Menu(String name, List<String> title, InventoryType inventoryType, int rows, HashMap<Button, List<Integer>> buttons, String openRequirement, List<AbstractAction> openDenyActions, String closeRequirement, List<AbstractAction> closeDenyActions, List<String> openCommands, List<AbstractAction> openActions, List<AbstractAction> closeActions, boolean lockPlayerInv, boolean updateInventory, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore, List<String> dependExpansions) {
         setValues(name, title, inventoryType, rows, buttons, openRequirement, openDenyActions, closeRequirement, closeDenyActions, openCommands, openActions, closeActions, lockPlayerInv, updateInventory, transferArgs, forceTransferArgsAmount, bindItemLore, dependExpansions);
     }
 
-    private void setValues(String name, String title, InventoryType inventoryType, int rows, HashMap<Button, List<Integer>> buttons, String openRequirement, List<AbstractAction> openDenyActions, String closeRequirement, List<AbstractAction> closeDenyActions, List<String> openCommands, List<AbstractAction> openActions, List<AbstractAction> closeActions, boolean lockPlayerInv, boolean updateInventory, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore, List<String> dependExpansions) {
+    private void setValues(String name, List<String> title, InventoryType inventoryType, int rows, HashMap<Button, List<Integer>> buttons, String openRequirement, List<AbstractAction> openDenyActions, String closeRequirement, List<AbstractAction> closeDenyActions, List<String> openCommands, List<AbstractAction> openActions, List<AbstractAction> closeActions, boolean lockPlayerInv, boolean updateInventory, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore, List<String> dependExpansions) {
         this.name = name;
         this.title = title;
         this.inventoryType = inventoryType;
@@ -101,19 +101,19 @@ public class Menu {
         }
 
         ArgsCache.getArgs().put(player.getUniqueId(), args);
-        Inventory menu = inventoryType == null ? Bukkit.createInventory(new MenuHolder(this), 9 * rows, Vars.replace(player, title)) : Bukkit.createInventory(new MenuHolder(this), inventoryType, Vars.replace(player, title));
+        Inventory menu = inventoryType == null ? Bukkit.createInventory(new MenuHolder(this), 9 * rows, Vars.replace(player, title.get(0))) : Bukkit.createInventory(new MenuHolder(this), inventoryType, Vars.replace(player, title.get(0)));
 
         buttons.forEach((button, slots) -> {
             Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
-                        button.refreshConditionalIcon(player, null);
-                        Item item = button.getIcon(player).getItem();
-                        ItemStack itemStack = item.createItemStack(player, args);
-                        for (int i : item.getSlots().size() > 0 ? item.getNextSlots(player, menu) : slots) {
-                            if (menu.getSize() > i) {
-                                menu.setItem(i, itemStack);
-                            }
-                        }
-                    });
+                button.refreshConditionalIcon(player, null);
+                Item item = button.getIcon(player).getItem();
+                ItemStack itemStack = item.createItemStack(player, args);
+                for (int i : item.getSlots().size() > 0 ? item.getNextSlots(player, menu) : slots) {
+                    if (menu.getSize() > i) {
+                        menu.setItem(i, itemStack);
+                    }
+                }
+            });
 
                     if (slots != null) {
                         if (button.getUpdate() > 0) {
@@ -271,11 +271,11 @@ public class Menu {
         this.inventoryType = inventoryType;
     }
 
-    public String getTitle() {
+    public List<String> getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(List<String> title) {
         this.title = title;
     }
 

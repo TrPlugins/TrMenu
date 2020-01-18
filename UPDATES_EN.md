@@ -40,6 +40,13 @@
         - Support .json file menu load
         - Fixed animate slots buggy when there're multiple viewers
         - Added variable $openBy which returns CONSOLE or PLAYER
+      - R6
+        - Added getPlayerArgs for TrUtils
+        - Fixed a possible way of moving items into menu bug
+        - Fixed input catcher via sign does not work
+        - Fixed input catcher load error
+        - Added Refresh action to recalculate all the priority icons
+        - Added Set Args action to re-set arguments
   - ##### 1.11
     - Since: 2020.1.12
     - Updates:

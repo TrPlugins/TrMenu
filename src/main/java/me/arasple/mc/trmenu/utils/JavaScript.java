@@ -8,7 +8,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-import javax.script.ScriptException;
 import javax.script.SimpleBindings;
 import java.util.Arrays;
 
@@ -51,8 +50,7 @@ public class JavaScript {
 
         try {
             return Scripts.compile(script).eval(bindings);
-        } catch (
-                ScriptException e) {
+        } catch (Throwable e) {
             TLocale.sendTo(player, "ERROR.JS", script, e.getMessage(), Arrays.toString(e.getStackTrace()));
             TLocale.sendToConsole("ERROR.JS", script, e.getMessage(), Arrays.toString(e.getStackTrace()));
             return false;

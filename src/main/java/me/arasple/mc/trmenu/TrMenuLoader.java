@@ -71,11 +71,10 @@ public class TrMenuLoader {
             TLocale.sendToConsole("PLUGIN.DEPEND.DOWNLOAD", "PlaceholderAPI");
             if (Files.downloadFile(url, jarFile)) {
                 TLocale.sendToConsole("PLUGIN.DEPEND.INSTALL", "PlaceholderAPI");
-                Bukkit.shutdown();
             } else {
                 TLocale.sendToConsole("PLUGIN.DEPEND.INSTALL-FAILED", "PlaceholderAPI");
-                Bukkit.shutdown();
             }
+            Bukkit.shutdown();
             return true;
         }
         return false;

@@ -146,7 +146,7 @@ public class MenuLoader {
         Menu menu = file == null || !file.exists() ? null : TrMenu.getMenus().stream().filter(m -> m.getLoadedPath() != null && m.getLoadedPath().equalsIgnoreCase(file.getAbsolutePath())).findFirst().orElse(null);
         Map<String, Object> options = Maps.sectionToMap(MENU_OPTIONS.getFromMap(sets));
         InventoryType inventoryType = Arrays.stream(InventoryType.values()).filter(t -> t.name().equalsIgnoreCase(MenuNodes.MENU_TYPE.getFromMap(sets))).findFirst().orElse(null);
-        String title = MENU_TITLE.getFromMap(sets, "TrMenu");
+        List<String> titles = MENU_TITLE.getFromMap(sets) instanceof List ? MENU_TITLE.getFromMap(sets, Collections.singletonList("TrMenu")) : Collections.singletonList(MENU_TITLE.getFromMap(sets, "TrMenu"));
         List<String> shape = fixShape(MENU_SHAPE.getFromMap(sets));
         int rows = shape != null ? shape.size() : 0;
         HashMap<Button, List<Integer>> buttons = new HashMap<>();
@@ -226,7 +226,7 @@ public class MenuLoader {
 
         if (loadedMenu.getErrors().size() <= 0) {
             String mName = name.length() > 4 ? name.substring(0, name.length() - 4) : name;
-            Menu nMenu = new Menu(mName, title, inventoryType, shape.size(), buttons, openRequirement, openDenyActions, closeRequirement, closeDenyActions, openCommands, openActions, closeActions, lockPlayerInv, updateInventory, transferArgs, forceTransferArgsAmount, bindItemLore, dependExpansions);
+            Menu nMenu = new Menu(mName, titles, inventoryType, shape.size(), buttons, openRequirement, openDenyActions, closeRequirement, closeDenyActions, openCommands, openActions, closeActions, lockPlayerInv, updateInventory, transferArgs, forceTransferArgsAmount, bindItemLore, dependExpansions);
             nMenu.setLoadedPath(file != null ? file.getAbsolutePath() : null);
             if (nMenu != null && add) {
                 if (menu != null) {

@@ -40,7 +40,6 @@ public class ListenerMenuClose implements Listener {
             p.getInventory().setHeldItemSlot(ArgsCache.getHeldSlot().get(p.getUniqueId()));
             ArgsCache.getHeldSlot().remove(p.getUniqueId());
         }
-        ArgsCache.getArgs().remove(p.getUniqueId());
         menu.getButtons().keySet().forEach(b -> {
             b.getDefIcon().getItem().resetIndex(p);
             b.getIcons().forEach(i -> i.getItem().resetIndex(p));

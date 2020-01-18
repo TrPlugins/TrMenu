@@ -1,6 +1,10 @@
 # TrMenu Update Logs #
 
 #### VERSION 1.1
+  - ##### 1.13
+    - Since: 2020.1.18
+    - Updates:
+      - 容器动态标题支持！基于数据包, 不卡
   - ##### 1.12
     - Since: 2020.1.14
     - Updates:
@@ -44,6 +48,13 @@
         - 现支持用 .json 写菜单
         - 修复了动态位置的物品在多个玩家同时打开时的冲突
         - 新增 $openBy 变量，可在 openRequirement 中使用, 返回 CONSOLE / PLAYER
+      - R6
+        - TrUtils 新增 getPlayerArgs 方法
+        - 修复了数字键快捷位移背包物品到菜单的bug
+        - 新增了木牌捕获器类型
+        - 修复了聊天捕获器属性读取错误
+        - 新增了 Refresh 动作，刷新所有优先级图标
+        - 新增 SetArgs 动作，菜单内设置参数
   - ##### 1.11
     - Since: 2
     020.1.12

@@ -14,8 +14,8 @@
 # - Custom Heads: https://minecraft-heads.com/custom-heads
 #
 ################################################################################
-# The inventory's title (Do not support animation)
-Title: 'Hello, TrMenu'
+# The inventory's title
+Title: 'Hello TrMenu'
 
 # Defines the layout of this menu
 # *(Each character represents a button)
