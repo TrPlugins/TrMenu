@@ -303,7 +303,7 @@ public class MenuLoader {
             if (names.isEmpty()) {
                 names = defIcon.getItem().getNames();
             }
-            if (lores.isEmpty()) {
+            if (lore == null) {
                 lores = defIcon.getItem().getLores();
             }
             if (materials.isEmpty()) {
@@ -337,11 +337,21 @@ public class MenuLoader {
     private static List<Integer> locateButton(List<String> shape, InventoryType type, char key) {
         shape = fixShape(shape);
         List<Integer> slots = Lists.newArrayList();
+        int length = 9;
+        if (type != null) {
+            try {
+                if (type.getDefaultSize() == 9) {
+                    length = 3;
+                }
+            } catch (Throwable ignored) {
+
+            }
+        }
         for (int line = 1; line <= shape.size(); line++) {
             String l = shape.get(line - 1);
             for (int index = 1; index <= l.toCharArray().length; index++) {
                 if (key == l.charAt(index - 1)) {
-                    int slot = 9 * (line - 1) + index - 1;
+                    int slot = length * (line - 1) + index - 1;
                     slots.add(slot);
                 }
             }
@@ -393,10 +403,14 @@ public class MenuLoader {
 
     public static List<List<Integer>> readIntegerList(Object object) {
         List<List<Integer>> list = Lists.newArrayList();
-        if (!(object instanceof List) || ((List) object).size() <= 0) {
+        if (object == null) {
             return list;
-        } else if (((List) object).get(0) instanceof List) {
-            ((List) object).forEach(x -> list.add((ArrayList<Integer>) x));
+        } else if (object instanceof List) {
+            if (((List) object).size() <= 0) {
+                return list;
+            } else if (((List) object).get(0) instanceof List) {
+                ((List) object).forEach(x -> list.add((ArrayList<Integer>) x));
+            }
         } else {
             list.add(castList(object, Integer.class));
         }

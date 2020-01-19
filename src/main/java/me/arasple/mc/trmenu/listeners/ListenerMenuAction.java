@@ -26,13 +26,18 @@ public class ListenerMenuAction implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onClick(InventoryClickEvent e) {
+        Player p = (Player) e.getWhoClicked();
+
+        if (p.hasMetadata("TrMenu-Debug")) {
+            p.sendMessage("§8[§3Tr§bMenu§8]§8[§7DEBUG§8] §7Clicked raw slot §f" + e.getRawSlot());
+        }
+
         long start = System.currentTimeMillis();
 
         if (!(e.getInventory().getHolder() instanceof MenuHolder)) {
             return;
         }
 
-        Player p = (Player) e.getWhoClicked();
         Menu menu = ((MenuHolder) e.getInventory().getHolder()).getMenu();
         Button button = menu.getButton(p, e.getRawSlot());
 
