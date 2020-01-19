@@ -43,27 +43,31 @@ public class TrAction {
             new ActionCatcher(),
             new ActionCleanCatchers(),
             new ActionSetArgs(),
+            new ActionSetSlots(),
+            new ActionClearEmptySlots(),
             new ActionIconRefresh()
     );
 
     public static void runActions(List<AbstractAction> actions, Player player) {
-        Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
-            long delay = 0;
-            for (AbstractAction action : actions) {
-                if (action instanceof ActionBreak) {
-                    if (action.getOptions().containsKey(EnumOption.CHANCE) && !Numbers.random(NumberUtils.toDouble(action.getOptions().get(EnumOption.CHANCE), 1))) {
-                        break;
-                    }
-                    if (action.getOptions().containsKey(EnumOption.REQUIREMENT) && (boolean) JavaScript.run(player, action.getOptions().get(EnumOption.REQUIREMENT))) {
-                        break;
-                    }
-                } else if (action instanceof ActionDelay) {
-                    delay += NumberUtils.toDouble(action.getContent(), 0);
-                } else {
+        long delay = 0;
+        for (AbstractAction action : actions) {
+            if (action instanceof ActionBreak) {
+                if (action.getOptions().containsKey(EnumOption.CHANCE) && !Numbers.random(NumberUtils.toDouble(action.getOptions().get(EnumOption.CHANCE), 1))) {
+                    break;
+                }
+                if (action.getOptions().containsKey(EnumOption.REQUIREMENT) && (boolean) JavaScript.run(player, action.getOptions().get(EnumOption.REQUIREMENT))) {
+                    break;
+                }
+            } else if (action instanceof ActionDelay) {
+                delay += NumberUtils.toDouble(action.getContent(), 0);
+            } else {
+                if (delay > 0) {
                     Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> action.run(player), delay);
+                } else {
+                    action.run(player);
                 }
             }
-        });
+        }
     }
 
     /**

@@ -59,9 +59,14 @@ public class Icon {
             actions.addAll(getActions().get(null));
         }
 
+
         ArgsCache.getEvent().put(player.getUniqueId(), event);
+        ArgsCache.getClickedItem().put(player.getUniqueId(), item);
+
         TrAction.runActions(actions, player);
+
         ArgsCache.getEvent().remove(player.getUniqueId());
+        ArgsCache.getClickedItem().remove(player.getUniqueId());
     }
 
 }

@@ -47,6 +47,12 @@
         - Fixed input catcher load error
         - Added Refresh action to recalculate all the priority icons
         - Added Set Args action to re-set arguments
+      - R7
+      - R7
+        - Added SetSlots action
+        - Fixed JavaScript can not use clickEvent, clickItemStack etc.
+        - Improved animated slots
+        - Added ClearEmptySlots action
   - ##### 1.11
     - Since: 2020.1.12
     - Updates:

@@ -3,6 +3,7 @@ package me.arasple.mc.trmenu.api;
 import com.google.common.collect.Lists;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.menu.Menu;
+import me.arasple.mc.trmenu.menu.MenuHolder;
 import org.bukkit.entity.Player;
 
 import java.io.File;
@@ -73,6 +74,13 @@ public class TrMenuAPI {
      */
     public static List<Menu> getMenus() {
         return TrMenu.getMenus();
+    }
+
+    public static Menu getMenu(Player player) {
+        if (player.getOpenInventory().getTopInventory().getHolder() instanceof MenuHolder) {
+            return ((MenuHolder) player.getOpenInventory().getTopInventory().getHolder()).getMenu();
+        }
+        return null;
     }
 
 }

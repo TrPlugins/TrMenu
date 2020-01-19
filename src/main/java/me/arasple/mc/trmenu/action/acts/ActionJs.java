@@ -1,9 +1,7 @@
 package me.arasple.mc.trmenu.action.acts;
 
-import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.action.base.AbstractAction;
 import me.arasple.mc.trmenu.utils.JavaScript;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 /**
@@ -19,7 +17,7 @@ public class ActionJs extends AbstractAction {
 
     @Override
     public void onExecute(Player player) {
-        Bukkit.getScheduler().runTask(TrMenu.getPlugin(), () -> JavaScript.run(player, getContent()));
+        JavaScript.run(player, getContent());
     }
 
 }

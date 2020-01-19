@@ -23,7 +23,8 @@ public class Item {
     private List<String> names;
     private List<Mat> materials;
     private List<List<String>> lores;
-    private List<List<Integer>> slots;
+    private List<List<Integer>> rawSlots;
+    private HashMap<UUID, List<List<Integer>>> slots;
     private List<ItemFlag> itemFlags;
     private String amount;
     private int finalAmount;
@@ -36,13 +37,14 @@ public class Item {
         this.names = names;
         this.materials = materials;
         this.lores = lores;
-        this.slots = slots;
+        this.rawSlots = slots;
         this.itemFlags = itemFlags;
         this.shiny = shiny;
         this.amount = amount;
         this.finalShiny = Boolean.parseBoolean(shiny);
         this.finalAmount = NumberUtils.toInt(amount, -1);
         this.curSlots = new HashMap<>();
+        this.slots = new HashMap<>();
         resetIndex();
     }
 
@@ -88,15 +90,23 @@ public class Item {
         return itemStack;
     }
 
-    public List<List<Integer>> getSlots() {
-        return slots;
+    public List<List<Integer>> getRawSlots() {
+        return rawSlots;
+    }
+
+    public List<List<Integer>> getSlots(Player player) {
+        return slots.getOrDefault(player.getUniqueId(), rawSlots);
+    }
+
+    public void setSlots(Player player, List<List<Integer>> slots) {
+        this.slots.put(player.getUniqueId(), slots);
     }
 
     public List<Integer> getNextSlots(Player player, Inventory inv) {
         if (slots.size() > 0 && getCurSlots(player) != null) {
             getCurSlots(player).forEach(s -> inv.setItem(s, null));
         }
-        setCurSlots(player, slots.get(nextIndex(player, 3)));
+        setCurSlots(player, getSlots(player).get(nextIndex(player, 3)));
         return getCurSlots(player);
     }
 
@@ -128,7 +138,7 @@ public class Item {
                 size = lores.size();
                 break;
             case 3:
-                size = slots.size();
+                size = getSlots(player).size();
                 break;
             default:
                 break;
@@ -154,6 +164,7 @@ public class Item {
     }
 
     public void resetIndex(Player player) {
+        this.slots.clear();
         this.indexMap.remove(player.getUniqueId());
     }
 

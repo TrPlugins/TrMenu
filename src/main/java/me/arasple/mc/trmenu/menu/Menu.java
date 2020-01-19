@@ -108,32 +108,32 @@ public class Menu {
                 button.refreshConditionalIcon(player, null);
                 Item item = button.getIcon(player).getItem();
                 ItemStack itemStack = item.createItemStack(player, args);
-                for (int i : item.getSlots().size() > 0 ? item.getNextSlots(player, menu) : slots) {
+                for (int i : item.getSlots(player).size() > 0 ? item.getNextSlots(player, menu) : slots) {
                     if (menu.getSize() > i) {
                         menu.setItem(i, itemStack);
                     }
                 }
             });
 
-                    if (slots != null) {
-                        if (button.getUpdate() > 0) {
-                            int update = Math.max(button.getUpdate(), 3);
-                            new BukkitRunnable() {
-                                @Override
-                                public void run() {
-                                    long start = System.currentTimeMillis();
-                                    if (!player.getOpenInventory().getTopInventory().equals(menu)) {
-                                        cancel();
+            if (slots != null) {
+                if (button.getUpdate() > 0) {
+                    int update = Math.max(button.getUpdate(), 3);
+                    new BukkitRunnable() {
+                        @Override
+                        public void run() {
+                            long start = System.currentTimeMillis();
+                            if (!player.getOpenInventory().getTopInventory().equals(menu)) {
+                                cancel();
                                         return;
                                     }
                                     Item item = button.getIcon(player).getItem();
                                     ItemStack itemStack = item.createItemStack(player, args);
-                                    for (int i : item.getSlots().size() > 0 ? item.getNextSlots(player, menu) : slots) {
-                                        if (menu.getSize() > i) {
-                                            menu.setItem(i, itemStack);
-                                        }
-                                    }
-                                    clearEmptySlots(player, menu, item.getSlots());
+                            for (int i : item.getSlots(player).size() > 0 ? item.getNextSlots(player, menu) : slots) {
+                                if (menu.getSize() > i) {
+                                    menu.setItem(i, itemStack);
+                                }
+                            }
+                            clearEmptySlots(player, menu);
                                     if (updateInventory) {
                                         if (!Items.isNull(player.getInventory().getItem(player.getInventory().getHeldItemSlot()))) {
                                             for (byte i = 0; i < 9; i++) {
@@ -234,21 +234,19 @@ public class Menu {
             Icon icon = entry.getKey().getIcon(player);
             if (icon.getItem().getCurSlots(player) != null && icon.getItem().getCurSlots(player).contains(slot)) {
                 return entry.getKey();
-            } else if (entry.getValue().contains(slot)) {
+            } else if (entry.getValue().contains(slot) && icon.getItem().getSlots(player).isEmpty()) {
                 return entry.getKey();
             }
         }
         return null;
     }
 
-    private void clearEmptySlots(Player player, Inventory menu, List<List<Integer>> slots) {
-        slots.forEach(s -> s.forEach(i -> {
+    public void clearEmptySlots(Player player, Inventory menu) {
+        for (int i = 0; i < menu.getSize(); i++) {
             if (menu.getItem(i) != null && getButton(player, i) == null) {
-                if (menu.getSize() > i) {
-                    menu.setItem(i, null);
-                }
+                menu.setItem(i, null);
             }
-        }));
+        }
     }
 
     /*
@@ -293,6 +291,10 @@ public class Menu {
 
     public void setButtons(HashMap<Button, List<Integer>> buttons) {
         this.buttons = buttons;
+    }
+
+    public List<Integer> getButtonSlots(Button button) {
+        return this.buttons.get(button);
     }
 
     public List<String> getOpenCommands() {
