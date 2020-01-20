@@ -69,6 +69,11 @@ MENU:
     ICON-NO-CONDITION: '&7菜单 &6{0} &7的按钮节点 &3{1} &7条件图标的条件为空...'
     ICON-LOAD-FAILED: '&7菜单 &6{0} &7的按钮节点 &3{1} &7加载失败. &3{2}&8{3}'
 
+HASTEBIN:
+  PROCESSING: '&8[&3Tr&bMenu&8] &7请稍等...'
+  SUCCESS: '&8[&3Tr&bMenu&8] &3你的内容已被粘贴到 &a{0}'
+  FAILED: '&8[&3Tr&bMenu&8] &c试图粘贴到 Hastebin 过程中出错.'
+
 TEMPLATE:
   EMPTY: '&8[&3Tr&bMenu&8] &7该容器为空, 取消处理...'
   PROCESSING: '&8[&3Tr&bMenu&8] &7正在转换你的容器模板为 TrMenu 格式中...'

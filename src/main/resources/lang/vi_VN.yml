@@ -62,6 +62,11 @@ MENU:
     ICON-NO-CONDITION: '&7Menu &6{0} &7nút &3{1} &7 có điều kiện trống cho biểu tượng ưu tiên'
     ICON-LOAD-FAILED: '&7Menu &6{0} &7núts &3{1} &7tải thất bại. &3{2}&8{3}'
 
+HASTEBIN:
+  PROCESSING: '&8[&3Tr&bMenu&8] &7Xin vui lòng chờ ...'
+  SUCCESS: '&8[&3Tr&bMenu&8] &3Nội dung của bạn đã được dán vào &a{0}'
+  FAILED: '&8[&3Tr&bMenu&8] &cKhông thể dán nội dung trên hastebin.'
+
 TEMPLATE:
   EMPTY: '&8[&3Tr&bMenu&8] &7Hàng tồn kho trống, thế hệ bị hủy.'
   PROCESSING: '&8[&3Tr&bMenu&8] &7Tạo khoảng không quảng cáo thành định dạng TrMothy ...'

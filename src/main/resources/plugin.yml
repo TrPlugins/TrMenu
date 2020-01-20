@@ -12,6 +12,7 @@ softdepend:
   - PlaceholderAPI
   - HeadDatabase
   - TrChat
+  - Yum
   - ChestCommands
 
 author: Arasple

@@ -70,7 +70,7 @@ public class Updater implements Listener {
         }
     }
 
-    @TSchedule(delay = 60 * 5, period = 60 * 30, async = true)
+    @TSchedule(delay = 60 * 5, period = 10 * 60 * 20, async = true)
     private static void grabInfo() {
         if (latest.hasLatest) {
             return;

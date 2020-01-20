@@ -4,7 +4,10 @@ import io.izzel.taboolib.module.command.base.BaseSubCommand;
 import io.izzel.taboolib.module.command.base.CommandType;
 import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.util.item.Items;
+import me.arasple.mc.trmenu.TrMenu;
+import me.arasple.mc.trmenu.utils.Hastebin;
 import me.arasple.mc.trmenu.utils.JsonItem;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -22,7 +25,16 @@ public class CommandItemToJson extends BaseSubCommand {
         if (Items.isNull(item)) {
             TLocale.sendTo(sender, "COMMANDS.NO-ITEM");
         } else {
-            TLocale.sendTo(sender, "COMMANDS.ITEM-TO-JSON", JsonItem.toJson(item));
+            String json = JsonItem.toJson(item);
+            if (json.length() < 100) {
+                TLocale.sendTo(sender, "COMMANDS.ITEM-TO-JSON", json);
+            } else {
+                TLocale.sendTo(sender, "HASTEBIN.PROCESSING");
+                Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
+                    String url = Hastebin.paste(json);
+                    TLocale.sendTo(sender, url != null ? "HASTEBIN.SUCCESS" : "HASTEBIN.FAILED", url);
+                });
+            }
         }
     }
 

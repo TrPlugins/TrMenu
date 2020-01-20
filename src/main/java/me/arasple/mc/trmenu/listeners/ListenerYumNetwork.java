@@ -14,7 +14,7 @@ import pw.yumc.Yum.events.PluginNetworkEvent;
 @TListener(depend = "Yum")
 public class ListenerYumNetwork implements Listener {
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onNetWork(PluginNetworkEvent e) {
         if (e.getPlugin() != null && e.getPlugin() == TrMenu.getPlugin()) {
             e.setCancelled(false);

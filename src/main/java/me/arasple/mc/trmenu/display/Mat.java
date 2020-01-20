@@ -42,6 +42,12 @@ public class Mat {
     private String optionValue;
 
     public Mat(String rawMat) {
+        if (JsonItem.isJson(rawMat)) {
+            option = Option.JSON;
+            staticItem = JsonItem.fromJson(rawMat);
+            return;
+        }
+
         String[] options = readOption(rawMat);
         if (options != null) {
             this.option = Option.valueOf(options[0]);
@@ -70,39 +76,38 @@ public class Mat {
             }
             return HookHeadDatabase.getItem(optionValue);
         } else if (Strings.nonEmpty(mat)) {
-            if (JsonItem.isJson(mat)) {
-                staticItem = JsonItem.fromJson(mat);
-                return staticItem;
-            } else {
-                String[] args = (option == Option.VARIABLE ? Vars.replace(player, mat) : mat).split(":");
-                String[] read = readMaterial(new String[]{args[0], args.length > 1 ? args[1] : null});
-                item = new ItemStack(Material.valueOf(read[0]));
+            String[] args = (option == Option.VARIABLE ? Vars.replace(player, mat) : mat).split(":");
+            String[] read = readMaterial(new String[]{args[0], args.length > 1 ? args[1] : null});
+            item = new ItemStack(Material.valueOf(read[0]));
+            meta = item.getItemMeta();
+            if (!Materials.isNewVersion() && !Strings.isEmpty(read[1]) && option != Option.DATA_VALUE) {
+                item.setDurability(NumberUtils.toShort(read[1], (short) 0));
+            } else if (option == Option.DATA_VALUE) {
+                item.setDurability(NumberUtils.toShort(optionValue, (short) 0));
+            } else if (option == Option.MODEL_DATA) {
+                meta.setCustomModelData(NumberUtils.toInt(optionValue, 0));
+            } else if (option == Option.DYE_LEATHER) {
+                if (meta instanceof LeatherArmorMeta) {
+                    Dyer.setLeather((LeatherArmorMeta) meta, optionValue);
+                }
+            } else if (option == Option.BANNER) {
+                item = Materials.WHITE_BANNER.parseItem();
                 meta = item.getItemMeta();
-                if (!Materials.isNewVersion() && !Strings.isEmpty(read[1]) && option != Option.DATA_VALUE) {
-                    item.setDurability(NumberUtils.toShort(read[1], (short) 0));
-                } else if (option == Option.DATA_VALUE) {
-                    item.setDurability(NumberUtils.toShort(optionValue, (short) 0));
-                } else if (option == Option.MODEL_DATA) {
-                    meta.setCustomModelData(NumberUtils.toInt(optionValue, 0));
-                } else if (option == Option.DYE_LEATHER) {
-                    if (meta instanceof LeatherArmorMeta) {
-                        Dyer.setLeather((LeatherArmorMeta) meta, optionValue);
-                    }
-                } else if (option == Option.BANNER) {
-                    item = Materials.WHITE_BANNER.parseItem();
-                    meta = item.getItemMeta();
-                    if (meta instanceof BannerMeta) {
-                        Dyer.setBanner((BannerMeta) meta, Arrays.asList(optionValue.split(",")));
-                    }
+                if (meta instanceof BannerMeta) {
+                    Dyer.setBanner((BannerMeta) meta, Arrays.asList(optionValue.split(",")));
                 }
-                item.setItemMeta(meta);
-                if (option != Option.VARIABLE) {
-                    staticItem = item;
-                }
-                return item;
             }
+            item.setItemMeta(meta);
+            if (option != Option.VARIABLE) {
+                staticItem = item;
+            }
+            return item;
         }
         return null;
+    }
+
+    public Option getOption() {
+        return option;
     }
 
     private String[] readMaterial(String[] args) {
@@ -221,7 +226,9 @@ public class Mat {
          * *
          * <Variable>
          */
-        VARIABLE("<variable>");
+        VARIABLE("<variable>"),
+
+        JSON("<json>");
 
         private Pattern pattern;
 

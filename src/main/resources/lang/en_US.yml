@@ -59,6 +59,11 @@ MENU:
     ICON-NO-CONDITION: '&7Menu &6{0} &7button &3{1} &7has empty condition for priority icon'
     ICON-LOAD-FAILED: '&7Menu &6{0} &7button &3{1} &7failed to load. &3{2}&8{3}'
 
+HASTEBIN:
+  PROCESSING: '&8[&3Tr&bMenu&8] &7Please wait...'
+  SUCCESS: '&8[&3Tr&bMenu&8] &3Your content has been pasted on &a{0}'
+  FAILED: '&8[&3Tr&bMenu&8] &cFailed to pasted content on hastebin.'
+
 TEMPLATE:
   EMPTY: '&8[&3Tr&bMenu&8] &7Inventory is empty, generation canceled.'
   PROCESSING: '&8[&3Tr&bMenu&8] &7Generate inventory into TrMenu format ...'

@@ -56,7 +56,8 @@ public class Item {
      * @return 物品
      */
     public ItemStack createItemStack(Player player, String... args) {
-        ItemStack itemStack = materials.get(nextIndex(player, 1)).createItem(player);
+        Mat mat = materials.get(nextIndex(player, 1));
+        ItemStack itemStack = mat.createItem(player);
         if (itemStack == null) {
             return null;
         }

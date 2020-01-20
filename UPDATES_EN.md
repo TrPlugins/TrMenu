@@ -5,11 +5,11 @@
     - Since: 2020.1.20
     - Updates:
       - Added locale vi_VN translated by Galaxyvietnam
+      - Added locale th_TH translated by DriteStudio
       - Added action ForceClose to close menu without running close actions
       - Added option.silent to disable the loading logo
       - Added command /trmenu item to translate item into JSON,
-        which you can use in Mats, NBT is supported
-      - Added template feature, to generate a menu quickly
+        which you can use in Mats, NBT is supportedHastebin for item jsonkly
       - Animated title is now supported :)
       - Fixed refresh priority icons node issue
   - ##### 1.12
