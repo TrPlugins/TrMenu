@@ -8,8 +8,9 @@
       - Added locale th_TH translated by DriteStudio
       - Added action ForceClose to close menu without running close actions
       - Added option.silent to disable the loading logo
+      - Added template feature, generate menu conveniently
       - Added command /trmenu item to translate item into JSON,
-        which you can use in Mats, NBT is supportedHastebin for item jsonkly
+        which you can use in Mats, NBT is supported
       - Animated title is now supported :)
       - Fixed refresh priority icons node issue
   - ##### 1.12
