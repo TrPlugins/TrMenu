@@ -69,10 +69,31 @@ MENU:
     ICON-NO-CONDITION: '&7菜单 &6{0} &7的按钮节点 &3{1} &7条件图标的条件为空...'
     ICON-LOAD-FAILED: '&7菜单 &6{0} &7的按钮节点 &3{1} &7加载失败. &3{2}&8{3}'
 
+TEMPLATE:
+  EMPTY: '&8[&3Tr&bMenu&8] &7该容器为空, 取消处理...'
+  PROCESSING: '&8[&3Tr&bMenu&8] &7正在转换你的容器模板为 TrMenu 格式中...'
+  SUCCESS:
+    ==: JSON
+    text: '&8[&3Tr&bMenu&8] &3成功转换为 TrMenu 格式, 请点击 <&a&n这里@hastebin> &3查看'
+    args:
+      hastebin:
+        hover: '&7点击访问并复制你的模板'
+        url: '{0}'
+  FAILED: '&8[&3Tr&bMenu&8] &c转换失败... 请检查网络连接!'
+
+
 COMMANDS:
   NOT-PLAYER: '&8[&3Tr&bMenu&8] &c你必须是一名玩家...'
   NO-PLAYER: '&8[&3Tr&bMenu&8] &c目标玩家不存在或不在线...'
   OPENED-FOR: '&8[&3Tr&bMenu&8] &3已为目标玩家打开菜单...'
+  NO-ITEM: '&8[&3Tr&bMenu&8] &c你必须手持一个有效物品...'
+  ITEM-TO-JSON:
+    ==: JSON
+    text: '&8[&3Tr&bMenu&8] &7已将物品转换为 JSON 内容: <&3&n{0}@copy>'
+    args:
+      copy:
+        hover: '&7点击复制'
+        suggest: '{0}'
   LIST:
     - '&8--------------------------------------------------'
     - '&3Tr&bMenu &7- Menu List *&8(点击聊天内容即可打开)'
@@ -88,6 +109,8 @@ COMMANDS:
       - '&8▪ <&7/&3{1} List@list> &8— &7 列出所有菜单'
       - '&8▪ <&7/&3{1} Reload@reload> &8— &7 重新载入所有菜单'
       - '&8▪ <&7/&3{1} Open [Menu] [Id]@open> &8— &7 为自己或他人打开一个菜单'
+      - '&8▪ <&7/&3{1} Item@item> &8- &7 转换物品为 JSON'
+      - '&8▪ <&7/&3{1} Template@template> &3<行> &8- &7 快速生成菜单模板'
       - '&8▪ <&7/&3{1} About@about> &8- &7 查看插件信息'
       - ''
       - '&8--------------------------------------------------'
@@ -104,6 +127,14 @@ COMMANDS:
         hover: |-
           &7点击这里建议该命令.
         suggest: '/trmenu open'
+      item:
+        hover: |-
+          &7点击这里建议该命令.
+        suggest: '/trmenu item'
+      template:
+        hover: |-
+          &7点击这里建议该命令.
+        suggest: '/trmenu template'
       about:
         hover: |-
           &7点击这里查看插件信息.

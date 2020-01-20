@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.util.Strings;
 import io.izzel.taboolib.util.item.Items;
+import io.izzel.taboolib.util.lite.Catchers;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.action.TrAction;
 import me.arasple.mc.trmenu.action.base.AbstractAction;
@@ -12,6 +13,7 @@ import me.arasple.mc.trmenu.data.ArgsCache;
 import me.arasple.mc.trmenu.display.Button;
 import me.arasple.mc.trmenu.display.Icon;
 import me.arasple.mc.trmenu.display.Item;
+import me.arasple.mc.trmenu.nms.InvTitler;
 import me.arasple.mc.trmenu.utils.JavaScript;
 import me.arasple.mc.trmenu.utils.Vars;
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -25,10 +27,7 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -41,7 +40,9 @@ public class Menu {
     private InventoryType inventoryType;
     private int rows;
     private HashMap<Button, List<Integer>> buttons;
-    private List<String> title;
+    private List<String> titles;
+    private int titleUpdate;
+    private HashMap<UUID, Integer> titleIndex;
     private List<String> openCommands;
     private List<AbstractAction> openActions;
     private List<AbstractAction> closeActions;
@@ -57,13 +58,15 @@ public class Menu {
     private List<String> dependExpansions;
     private String loadedPath;
 
-    public Menu(String name, List<String> title, InventoryType inventoryType, int rows, HashMap<Button, List<Integer>> buttons, String openRequirement, List<AbstractAction> openDenyActions, String closeRequirement, List<AbstractAction> closeDenyActions, List<String> openCommands, List<AbstractAction> openActions, List<AbstractAction> closeActions, boolean lockPlayerInv, boolean updateInventory, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore, List<String> dependExpansions) {
-        setValues(name, title, inventoryType, rows, buttons, openRequirement, openDenyActions, closeRequirement, closeDenyActions, openCommands, openActions, closeActions, lockPlayerInv, updateInventory, transferArgs, forceTransferArgsAmount, bindItemLore, dependExpansions);
+    public Menu(String name, List<String> titles, int titleUpdate, InventoryType inventoryType, int rows, HashMap<Button, List<Integer>> buttons, String openRequirement, List<AbstractAction> openDenyActions, String closeRequirement, List<AbstractAction> closeDenyActions, List<String> openCommands, List<AbstractAction> openActions, List<AbstractAction> closeActions, boolean lockPlayerInv, boolean updateInventory, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore, List<String> dependExpansions) {
+        setValues(name, titles, titleUpdate, inventoryType, rows, buttons, openRequirement, openDenyActions, closeRequirement, closeDenyActions, openCommands, openActions, closeActions, lockPlayerInv, updateInventory, transferArgs, forceTransferArgsAmount, bindItemLore, dependExpansions);
     }
 
-    private void setValues(String name, List<String> title, InventoryType inventoryType, int rows, HashMap<Button, List<Integer>> buttons, String openRequirement, List<AbstractAction> openDenyActions, String closeRequirement, List<AbstractAction> closeDenyActions, List<String> openCommands, List<AbstractAction> openActions, List<AbstractAction> closeActions, boolean lockPlayerInv, boolean updateInventory, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore, List<String> dependExpansions) {
+    private void setValues(String name, List<String> title, int titleUpdate, InventoryType inventoryType, int rows, HashMap<Button, List<Integer>> buttons, String openRequirement, List<AbstractAction> openDenyActions, String closeRequirement, List<AbstractAction> closeDenyActions, List<String> openCommands, List<AbstractAction> openActions, List<AbstractAction> closeActions, boolean lockPlayerInv, boolean updateInventory, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore, List<String> dependExpansions) {
         this.name = name;
-        this.title = title;
+        this.titles = title;
+        this.titleUpdate = titleUpdate;
+        this.titleIndex = new HashMap<>();
         this.inventoryType = inventoryType;
         this.rows = rows;
         this.buttons = buttons;
@@ -100,41 +103,42 @@ public class Menu {
             return;
         }
 
+        Catchers.getPlayerdata().remove(player.getName());
         ArgsCache.getArgs().put(player.getUniqueId(), args);
-        Inventory menu = inventoryType == null ? Bukkit.createInventory(new MenuHolder(this), 9 * rows, Vars.replace(player, title.get(0))) : Bukkit.createInventory(new MenuHolder(this), inventoryType, Vars.replace(player, title.get(0)));
+        Inventory menu = inventoryType == null ? Bukkit.createInventory(new MenuHolder(this), 9 * rows, Vars.replace(player, titles.get(0))) : Bukkit.createInventory(new MenuHolder(this), inventoryType, Vars.replace(player, titles.get(0)));
 
         buttons.forEach((button, slots) -> {
-            Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
-                button.refreshConditionalIcon(player, null);
-                Item item = button.getIcon(player).getItem();
-                ItemStack itemStack = item.createItemStack(player, args);
-                for (int i : item.getSlots(player).size() > 0 ? item.getNextSlots(player, menu) : slots) {
-                    if (menu.getSize() > i) {
-                        menu.setItem(i, itemStack);
-                    }
-                }
-            });
+                    Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
+                        button.refreshConditionalIcon(player, null);
+                        Item item = button.getIcon(player).getItem();
+                        ItemStack itemStack = item.createItemStack(player, args);
+                        for (int i : item.getSlots(player).size() > 0 ? item.getNextSlots(player, menu) : slots) {
+                            if (menu.getSize() > i) {
+                                menu.setItem(i, itemStack);
+                            }
+                        }
+                    });
 
-            if (slots != null) {
-                if (button.getUpdate() > 0) {
-                    int update = Math.max(button.getUpdate(), 3);
-                    new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            long start = System.currentTimeMillis();
-                            if (!player.getOpenInventory().getTopInventory().equals(menu)) {
-                                cancel();
+                    if (slots != null) {
+                        if (button.getUpdate() > 0) {
+                            int update = Math.max(button.getUpdate(), 3);
+                            new BukkitRunnable() {
+                                @Override
+                                public void run() {
+                                    long start = System.currentTimeMillis();
+                                    if (!player.getOpenInventory().getTopInventory().equals(menu)) {
+                                        cancel();
                                         return;
                                     }
                                     Item item = button.getIcon(player).getItem();
                                     ItemStack itemStack = item.createItemStack(player, args);
-                            for (int i : item.getSlots(player).size() > 0 ? item.getNextSlots(player, menu) : slots) {
-                                if (menu.getSize() > i) {
-                                    menu.setItem(i, itemStack);
-                                }
-                            }
-                            clearEmptySlots(player, menu);
-                                    if (updateInventory) {
+                                    for (int i : item.getSlots(player).size() > 0 ? item.getNextSlots(player, menu) : slots) {
+                                        if (menu.getSize() > i) {
+                                            menu.setItem(i, itemStack);
+                                        }
+                                    }
+                                    clearEmptySlots(player, menu);
+                                    if (updateInventory || (titles.size() > 1 && titleUpdate > 0)) {
                                         if (!Items.isNull(player.getInventory().getItem(player.getInventory().getHeldItemSlot()))) {
                                             for (byte i = 0; i < 9; i++) {
                                                 if (Items.isNull(player.getInventory().getItem(i))) {
@@ -162,13 +166,33 @@ public class Menu {
                     }
                 }
         );
-
+        if (titleUpdate > 0 && titles.size() > 0) {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    if (!player.getOpenInventory().getTopInventory().equals(menu)) {
+                        cancel();
+                        return;
+                    }
+                    InvTitler.getImpl().setInventoryTitle(player, menu, Vars.replace(player, getTitle(player)));
+                }
+            }.runTaskTimerAsynchronously(TrMenu.getPlugin(), titleUpdate, titleUpdate);
+        }
         Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> {
             player.openInventory(menu);
             if (openActions != null) {
                 openActions.forEach(action -> action.run(player));
             }
         }, 2);
+    }
+
+    private String getTitle(Player player) {
+        if (!titleIndex.containsKey(player.getUniqueId())) {
+            titleIndex.put(player.getUniqueId(), 0);
+        } else {
+            titleIndex.put(player.getUniqueId(), (titleIndex.get(player.getUniqueId()) + 1 >= titles.size()) ? 0 : titleIndex.get(player.getUniqueId()) + 1);
+        }
+        return titles.get(titleIndex.get(player.getUniqueId()));
     }
 
     private boolean shouldCancelEvent(MenuOpenEvent event, Player player, String... args) {
@@ -269,14 +293,6 @@ public class Menu {
         this.inventoryType = inventoryType;
     }
 
-    public List<String> getTitle() {
-        return title;
-    }
-
-    public void setTitle(List<String> title) {
-        this.title = title;
-    }
-
     public int getRows() {
         return rows;
     }
@@ -293,8 +309,28 @@ public class Menu {
         this.buttons = buttons;
     }
 
-    public List<Integer> getButtonSlots(Button button) {
-        return this.buttons.get(button);
+    public List<String> getTitles() {
+        return titles;
+    }
+
+    public void setTitles(List<String> titles) {
+        this.titles = titles;
+    }
+
+    public int getTitleUpdate() {
+        return titleUpdate;
+    }
+
+    public void setTitleUpdate(int titleUpdate) {
+        this.titleUpdate = titleUpdate;
+    }
+
+    public HashMap<UUID, Integer> getTitleIndex() {
+        return titleIndex;
+    }
+
+    public void setTitleIndex(HashMap<UUID, Integer> titleIndex) {
+        this.titleIndex = titleIndex;
     }
 
     public List<String> getOpenCommands() {
@@ -359,6 +395,14 @@ public class Menu {
 
     public void setLockPlayerInv(boolean lockPlayerInv) {
         this.lockPlayerInv = lockPlayerInv;
+    }
+
+    public boolean isUpdateInventory() {
+        return updateInventory;
+    }
+
+    public void setUpdateInventory(boolean updateInventory) {
+        this.updateInventory = updateInventory;
     }
 
     public boolean isTransferArgs() {

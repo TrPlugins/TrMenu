@@ -11,6 +11,7 @@ import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.TrMenuPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import java.lang.reflect.Field;
@@ -60,6 +61,34 @@ public class Skulls {
             }
         });
         return skull;
+    }
+
+    /**
+     * 取得一个头颅的材质
+     *
+     * @param skull 头颅物品
+     * @return 材质
+     */
+    public static String getTexture(ItemStack skull) {
+        GameProfile profile;
+        ItemMeta meta = skull.getItemMeta();
+        Field field;
+        try {
+            field = meta.getClass().getDeclaredField("profile");
+            field.setAccessible(true);
+            profile = (GameProfile) field.get(meta);
+            if (profile != null) {
+                for (Property prop : profile.getProperties().values()) {
+                    if ("textures".equals(prop.getName())) {
+                        return prop.getValue();
+                    }
+                }
+            }
+            return null;
+        } catch (Throwable e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static ItemStack getPlayerSkull(String id) {

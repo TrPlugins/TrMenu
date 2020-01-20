@@ -2,7 +2,7 @@ package me.arasple.mc.trmenu;
 
 import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.util.Files;
-import me.arasple.mc.trmenu.menu.MenuHolder;
+import me.arasple.mc.trmenu.api.TrMenuAPI;
 import me.arasple.mc.trmenu.menu.MenuLoader;
 import me.arasple.mc.trmenu.updater.Updater;
 import me.arasple.mc.trmenu.utils.Bungees;
@@ -19,16 +19,18 @@ import java.util.Arrays;
 public class TrMenuLoader {
 
     void init() {
-        Arrays.asList(
-                "",
-                "§3  ____________________   _____  __________________   ____ ___",
-                "§3\\__    ___\\______   \\ /     \\ \\_   _____/\\      \\ |    |   \\",
-                "§3  |    |   |       _//  \\ /  \\ |    __)_ /   |   \\|    |   /",
-                "§3  |    |   |    |   /    Y    \\|        /    |    |    |  /",
-                "§3  |____|   |____|_  \\____|__  /_______  \\____|__  |______/",
-                "§3                  \\/        \\/        \\/        \\/"
-        )
-                .forEach(l -> Bukkit.getConsoleSender().sendMessage(l));
+        if (!TrMenu.getSettings().getBoolean("OPTIONS.SILENT", false)) {
+            Arrays.asList(
+                    "",
+                    "§3  ____________________   _____  __________________   ____ ___",
+                    "§3\\__    ___\\______   \\ /     \\ \\_   _____/\\      \\ |    |   \\",
+                    "§3  |    |   |       _//  \\ /  \\ |    __)_ /   |   \\|    |   /",
+                    "§3  |    |   |    |   /    Y    \\|        /    |    |    |  /",
+                    "§3  |____|   |____|_  \\____|__  /_______  \\____|__  |______/",
+                    "§3                  \\/        \\/        \\/        \\/"
+            )
+                    .forEach(l -> Bukkit.getConsoleSender().sendMessage(l));
+        }
         TLocale.sendToConsole("PLUGIN.LOADING");
 
         if (hookPlaceholderAPI()) {
@@ -48,7 +50,7 @@ public class TrMenuLoader {
 
     void unload() {
         Bukkit.getOnlinePlayers().forEach(player -> {
-            if (player.getOpenInventory().getTopInventory().getHolder() instanceof MenuHolder) {
+            if (TrMenuAPI.isViewingMenu(player)) {
                 player.closeInventory();
             }
         });

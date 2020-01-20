@@ -16,6 +16,23 @@ import java.util.List;
 public class TrMenuAPI {
 
     /**
+     * Get the menu a player is viewing
+     *
+     * @param player the player
+     * @return menu
+     */
+    public static Menu getMenu(Player player) {
+        if (player.getOpenInventory().getTopInventory().getHolder() instanceof MenuHolder) {
+            return ((MenuHolder) player.getOpenInventory().getTopInventory().getHolder()).getMenu();
+        }
+        return null;
+    }
+
+    public static boolean isViewingMenu(Player player) {
+        return getMenu(player) != null;
+    }
+
+    /**
      * Get menu by ID
      *
      * @param menuId id
@@ -74,13 +91,6 @@ public class TrMenuAPI {
      */
     public static List<Menu> getMenus() {
         return TrMenu.getMenus();
-    }
-
-    public static Menu getMenu(Player player) {
-        if (player.getOpenInventory().getTopInventory().getHolder() instanceof MenuHolder) {
-            return ((MenuHolder) player.getOpenInventory().getTopInventory().getHolder()).getMenu();
-        }
-        return null;
     }
 
 }

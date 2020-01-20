@@ -1,0 +1,133 @@
+# Translated by Galaxyvietnam
+# Date 2020.1.20
+
+PLUGIN:
+  LOADING:
+    - ''
+    - '&3Tr&bMenu &7đang tải...'
+    - ''
+  ENABLED: '&8[&3Tr&bMenu&8] &bTHÔNG TIN &8| &3Đã tải. TrMenu &av{0} &3đã được bật.'
+  DISABLED: '&8[&3Tr&bMenu&8] &bTHÔNG TIN &8| &7Đã tắt. Cảm ơn đã sử dụng :)'
+  DEPEND:
+    DOWNLOAD: '&8[&3Tr&bMenu&8] &ePHỤ THUỘC &8| &7Đang tải plugin phụ thuộc &f{0} &7...'
+    INSTALL: '&8[&3Tr&bMenu&8] &ePHỤ THUỘC &8| &7Tải về thành công &3{0} &7, đang khởi động lại máy chủ...'
+    INSTALL-FAILED: '&8[&3Tr&bMenu&8] &ePHỤ THUỘC &8| &7Thất bại tải về plugin phụ thuộc &c{0} &7...'
+  HOOKED: '&8[&3Tr&bMenu&8] &ePHỤ THUỘC &8| &7Đã kết nối &6{0}&7...'
+  UPDATE-NOTIFY:
+    LATEST: '&8[&3Tr&bMenu&8] &2Bạn đang chạy phiên bản mới nhất của &3TrMenu&a.'
+    DEV: '&8[&3Tr&bMenu&8] &6Bạn đang chạy phiên bản nhà phát tiển của &3TrMenu&6.'
+    TOO-OLD:
+      - "&8--------------------------------------------------"
+      - "&r"
+      - "&8# &4Phiên bản của &cTrMenu &4bạn đang chạy quá cũ"
+      - "&8# &4Cập nhập phiên bản mới nhất trong thời gian!"
+      - "&8# &r"
+      - "&8# &4SpigotMC: &chttps://www.spigotmc.org/resources/74284"
+      - "&8# &r"
+      - "&8# &r"
+      - "&8# &4Máy chủ sẽ chạy trong &c&l{0} giây nữa &4..."
+      - "&r"
+      - "&8--------------------------------------------------"
+    HEADER:
+      - ''
+      - '§3--------------------------------------------------'
+      - '&7▪ &3TrMenu &aThông báo cập nhật &8{0} &7➦ &8{1}'
+    FOOTER:
+      - '&7▪ &2Github: &a&nhttps://github.com/Arasple/TrMenu/releases/latest'
+      - '§3--------------------------------------------------'
+
+ERROR:
+  HDB: '&8[&3Tr&bMenu&8] &cLỖI &8| &cBạn không thể sử dụng &6{0} &ckhi không có plugin &6HeadDatabase&c.'
+  VERSION: '&8[&3Tr&bMenu&8] &cLỖI &8| &7Lỗi phiên bản plugin. Vui lòng tải lại plugin.'
+  JS:
+    - '&8[&3Tr&bMenu&8] &cLỖi &8| &cLỗi biểu hiện: &2{0}'
+    - '&6{1}'
+    - '&8{2}'
+
+MENU:
+  LOADED-AUTOLY: '&8[&3Tr&bMenu&8] &bTHÔNG TIN &8| &7Tập tin thay đổi, tự động tải lại menu &f{0}&7...'
+  LOADED-AUTOLY-FAILED: '&8[&3Tr&bMenu&8] &6CẢNH BÁO &8| &7Lỗi trong khi tự động tải lại &f{0} &7, thất bại cập nhật menu. Vui lòng kiểm tra những lỗi, điều chỉnh và lưu lại tập tin'
+  LOADED-SUCCESS: '&8[&3Tr&bMenu&8] &bTHÔNG TIN &8| &7Đã tải &a{0} &7menu... &8[&7{1} Ms&8]'
+  LOADED-FAILURE: '&8[&3Tr&bMenu&8] &6CẢNH BÁO &8| &7Có &6{0} &7menus tải thất bại. Vui lòng kiểm tra những lỗi...'
+  DEPEND-EXPANSIONS-REQUIRED: '&8[&3Tr&bMenu&8] &7Bạn cần tải PlaceholderAPI expansions &6{0} &7để sử dụng menu đó.'
+  NOT-EXIST: '&8[&3Tr&bMenu&8] &7Menu không tồn tại...'
+  NOT-ENOUGH-ARGS: '&8[&3Tr&bMenu&8] &7Yêu cầu &6{0} &7ký tự.'
+  LOADING-ERRORS:
+    NO-SHAPE: '&7Menu &6{0} &7' không có shape hợp lệ &2{1}'
+    NO-BUTTONS: '&7Menu &6{0} &7 không chứa phần Nút'
+    YAML: '&7Menu &6{0} &7có YAML lỗi &c{1} &8{2}'
+    JSON: '&7Menu &6{0} &7có JSON lỗi &c{1} &8{2}'
+    CONFLICT-OPEN-COMMANDS: '&7Menu &6{0} &7 có xung đột lệnh mở với menu &6{1}...'
+    CONFLICT-OPEN-ITEMS: '&7Menu &6{0} &7 có mâu thuẫn vật phẩm ràng buộc với menu &6{1}...'
+    ICON-NO-CONDITION: '&7Menu &6{0} &7nút &3{1} &7 có điều kiện trống cho biểu tượng ưu tiên'
+    ICON-LOAD-FAILED: '&7Menu &6{0} &7núts &3{1} &7tải thất bại. &3{2}&8{3}'
+
+TEMPLATE:
+  EMPTY: '&8[&3Tr&bMenu&8] &7Hàng tồn kho trống, thế hệ bị hủy.'
+  PROCESSING: '&8[&3Tr&bMenu&8] &7Tạo khoảng không quảng cáo thành định dạng TrMothy ...'
+  SUCCESS:
+    ==: JSON
+    text: '&8[&3Tr&bMenu&8] &3Xong, bấm vào <&a&nĐÂY@hastebin> &3sao chép xuống'
+    args:
+      hastebin:
+        hover: '&7Nhấn vào để xem'
+        url: '{0}'
+  FAILED: '&8[&3Tr&bMenu&8] &cTạo thất bại.'
+
+COMMANDS:
+  NOT-PLAYER: '&8[&3Tr&bMenu&8] &cChỉ người chơi...'
+  NO-PLAYER: '&8[&3Tr&bMenu&8] &cNgười chơi không trực tuyến...'
+  OPENED-FOR: '&8[&3Tr&bMenu&8] &3Mở menu cho người chơi...'
+  NO-ITEM: '&8[&3Tr&bMenu&8] &cBạn phải giữ một vật phẩm trong tay chính của bạn.'
+  ITEM-TO-JSON:
+    ==: JSON
+    text: '&8[&3Tr&bMenu&8] &7Viết mục vào JSON: <&3&n{0}@copy>'
+    args:
+      copy:
+        hover: '&7Nhấn vào đây để sao chép'
+        suggest: '{0}'
+  LIST:
+    - '&8--------------------------------------------------'
+    - '&3Tr&bMenu &7- Danh Sách Menu'
+    - ''
+  LIST-FORMAT:
+    - '&8▫ &6{0}'
+  HELP-PAGE:
+    ==: JSON
+    text:
+      - '&8--------------------------------------------------'
+      - '&3Tr&bMenu &7- Menu Nâng Cao Sống Động &6*{0}'
+      - ''
+      - '&8▪ <&7/&3{1} List@list> &8— &7 Danh sách các menu'
+      - '&8▪ <&7/&3{1} Reload@reload> &8— &7 Tải lại các menu'
+      - '&8▪ <&7/&3{1} Open [Menu] [Id]@open> &8— &7 Mở menu cho một người chơi'
+      - '&8▪ <&7/&3{1} Item@item> &8— &7 Dịch itemstack sang JSON'
+      - '&8▪ <&7/&3{1} Template@template> &3<Rows> &8- &7 Tạo menu thuận tiện'
+      - '&8▪ <&7/&3{1} About@about> &8- &7 Thông tin plugin'
+      - ''
+      - '&8--------------------------------------------------'
+    args:
+      list:
+        hover: |-
+          &7Nhấn vào để thực thi
+        command: '/trmenu list'
+      reload:
+        hover: |-
+          &7 Nhấn vào để thực thi
+        command: '/trmenu reload'
+      open:
+        hover: |-
+          &7 Nhấn vào để thực thi
+        suggest: '/trmenu open'
+      item:
+        hover: |-
+          &7 Nhấn vào để thực thi
+        suggest: '/trmenu item'
+      template:
+        hover: |-
+          &7 Nhấn vào để thực thi
+        suggest: '/trmenu template'
+      about:
+        hover: |-
+          &7 Nhấn vào để xem
+        suggest: '/trmenu about'

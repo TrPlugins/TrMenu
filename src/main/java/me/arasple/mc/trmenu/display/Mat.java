@@ -7,6 +7,7 @@ import io.izzel.taboolib.util.lite.Materials;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.hook.HookHeadDatabase;
 import me.arasple.mc.trmenu.utils.Dyer;
+import me.arasple.mc.trmenu.utils.JsonItem;
 import me.arasple.mc.trmenu.utils.Skulls;
 import me.arasple.mc.trmenu.utils.Vars;
 import org.bukkit.Material;
@@ -69,32 +70,37 @@ public class Mat {
             }
             return HookHeadDatabase.getItem(optionValue);
         } else if (Strings.nonEmpty(mat)) {
-            String[] args = (option == Option.VARIABLE ? Vars.replace(player, mat) : mat).split(":");
-            String[] read = readMaterial(new String[]{args[0], args.length > 1 ? args[1] : null});
-            item = new ItemStack(Material.valueOf(read[0]));
-            meta = item.getItemMeta();
-            if (!Materials.isNewVersion() && !Strings.isEmpty(read[1]) && option != Option.DATA_VALUE) {
-                item.setDurability(NumberUtils.toShort(read[1], (short) 0));
-            } else if (option == Option.DATA_VALUE) {
-                item.setDurability(NumberUtils.toShort(optionValue, (short) 0));
-            } else if (option == Option.MODEL_DATA) {
-                meta.setCustomModelData(NumberUtils.toInt(optionValue, 0));
-            } else if (option == Option.DYE_LEATHER) {
-                if (meta instanceof LeatherArmorMeta) {
-                    Dyer.setLeather((LeatherArmorMeta) meta, optionValue);
-                }
-            } else if (option == Option.BANNER) {
-                item = Materials.WHITE_BANNER.parseItem();
+            if (JsonItem.isJson(mat)) {
+                staticItem = JsonItem.fromJson(mat);
+                return staticItem;
+            } else {
+                String[] args = (option == Option.VARIABLE ? Vars.replace(player, mat) : mat).split(":");
+                String[] read = readMaterial(new String[]{args[0], args.length > 1 ? args[1] : null});
+                item = new ItemStack(Material.valueOf(read[0]));
                 meta = item.getItemMeta();
-                if (meta instanceof BannerMeta) {
-                    Dyer.setBanner((BannerMeta) meta, Arrays.asList(optionValue.split(",")));
+                if (!Materials.isNewVersion() && !Strings.isEmpty(read[1]) && option != Option.DATA_VALUE) {
+                    item.setDurability(NumberUtils.toShort(read[1], (short) 0));
+                } else if (option == Option.DATA_VALUE) {
+                    item.setDurability(NumberUtils.toShort(optionValue, (short) 0));
+                } else if (option == Option.MODEL_DATA) {
+                    meta.setCustomModelData(NumberUtils.toInt(optionValue, 0));
+                } else if (option == Option.DYE_LEATHER) {
+                    if (meta instanceof LeatherArmorMeta) {
+                        Dyer.setLeather((LeatherArmorMeta) meta, optionValue);
+                    }
+                } else if (option == Option.BANNER) {
+                    item = Materials.WHITE_BANNER.parseItem();
+                    meta = item.getItemMeta();
+                    if (meta instanceof BannerMeta) {
+                        Dyer.setBanner((BannerMeta) meta, Arrays.asList(optionValue.split(",")));
+                    }
                 }
+                item.setItemMeta(meta);
+                if (option != Option.VARIABLE) {
+                    staticItem = item;
+                }
+                return item;
             }
-            item.setItemMeta(meta);
-            if (option != Option.VARIABLE) {
-                staticItem = item;
-            }
-            return item;
         }
         return null;
     }

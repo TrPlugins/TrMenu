@@ -5,7 +5,7 @@ plugins {
 
 configurations {
     group = 'me.arasple.mc.trmenu'
-    version = '1.12-R7-FIXED1'
+    version = '1.13'
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8

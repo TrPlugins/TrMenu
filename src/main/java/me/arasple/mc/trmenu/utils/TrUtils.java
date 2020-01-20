@@ -25,7 +25,6 @@ public class TrUtils {
         return instance;
     }
 
-
     /*
     TRACTION
      */

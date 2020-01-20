@@ -1,8 +1,8 @@
 package me.arasple.mc.trmenu.action.acts;
 
 import me.arasple.mc.trmenu.action.base.AbstractAction;
+import me.arasple.mc.trmenu.api.TrMenuAPI;
 import me.arasple.mc.trmenu.menu.Menu;
-import me.arasple.mc.trmenu.menu.MenuHolder;
 import org.bukkit.entity.Player;
 
 /**
@@ -18,8 +18,8 @@ public class ActionIconRefresh extends AbstractAction {
 
     @Override
     public void onExecute(Player player) {
-        if (player.getOpenInventory().getTopInventory().getHolder() instanceof MenuHolder) {
-            Menu menu = ((MenuHolder) player.getOpenInventory().getTopInventory().getHolder()).getMenu();
+        Menu menu = TrMenuAPI.getMenu(player);
+        if (menu != null) {
             menu.getButtons().keySet().forEach(button -> button.refreshConditionalIcon(player, null));
         }
     }

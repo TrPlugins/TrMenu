@@ -3,16 +3,16 @@ PLUGIN:
     - ''
     - '&3Tr&bMenu &7正在載入中...'
     - ''
-  ENABLED: '&8[&3Tr&bMenu&8] &bINFO &8| &3加載完畢. TrMenu &av{0} &3現已啟用, 敬請使用.'
-  DISABLED: '&8[&3Tr&bMenu&8] &bINFO &8| &7感謝使用本插件, 您在論壇為本插件評分即是對作者最大的鼓勵!'
+  ENABLED: '&8[&3Tr&bMenu&8] &bINFO &8| &3加載完畢. TrMenu &av{0} &3現已啓用, 敬請使用.'
+  DISABLED: '&8[&3Tr&bMenu&8] &bINFO &8| &7感謝使用本插件, 您在論壇爲本插件評分即是對作者最大的鼓勵!'
   DEPEND:
     DOWNLOAD: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7正在下載前置插件 &f{0} &7...'
-    INSTALL: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7已成功下載前置 &3{0} &7, 即將重啟服務端完成安裝...'
+    INSTALL: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7已成功下載前置 &3{0} &7, 即將重啓服務端完成安裝...'
     INSTALL-FAILED: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7自動下載前置 &c{0} &7過程出錯, 請手動安裝, 服務器即將停止...'
-  HOOKED: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7成功檢測並掛鉤軟依賴插件 &6{0}&7...'
+  HOOKED: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7成功檢測並挂鈎軟依賴插件 &6{0}&7...'
   UPDATE-NOTIFY:
-    LATEST: '&8[&3Tr&bMenu&8] &2妳正在運行最新版的 &3TrMenu&a.'
-    DEV: '&8[&3Tr&bMenu&8] &6妳正在運行開發版本的 TrMenu, 請及時反饋漏洞!'
+    LATEST: '&8[&3Tr&bMenu&8] &2你正在運行最新版的 &3TrMenu&a.'
+    DEV: '&8[&3Tr&bMenu&8] &6你正在運行開發版本的 TrMenu, 請及時反饋漏洞!'
     TOO-OLD:
       - "&8--------------------------------------------------"
       - "&r"
@@ -22,7 +22,7 @@ PLUGIN:
       - "&8# &4Mcbbs: &chttps://www.mcbbs.net/thread-918078-1-1.html"
       - "&8# &r"
       - "&8# &r"
-      - "&8# &4服務器將在 &c&l{0} secs &4後繼續啟動..."
+      - "&8# &4服務器將在 &c&l{0} secs &4後繼續啓動..."
       - "&r"
       - "&8--------------------------------------------------"
     HEADER:
@@ -37,7 +37,7 @@ PLUGIN:
       - '§3--------------------------------------------------'
 
 ERROR:
-  HDB: '&8[&3Tr&bMenu&8] &cERROR &8| &c未安裝 &6HeadDatabase&c, 妳無法使用該材質: &6{0}'
+  HDB: '&8[&3Tr&bMenu&8] &cERROR &8| &c未安裝 &6HeadDatabase&c, 你無法使用該材質: &6{0}'
   VERSION: '&8[&3Tr&bMenu&8] &cERROR &8| &7檢測版本號時發生異常... 關閉服務器!'
   JS:
     - '&8[&3Tr&bMenu&8] &cERROR &8| &c表達式計算時出錯: &2{0}'
@@ -49,12 +49,12 @@ CONVERTER:
 
 MENU:
   LOADED-AUTOLY: '&8[&3Tr&bMenu&8] &bINFO &8| &7監聽到文件改動並自動成功重載了菜單 &f{0}&7...'
-  LOADED-AUTOLY-FAILED: '&8[&3Tr&bMenu&8] &6WARN &8| &7自动重载菜单 &f{0} &7的过程中出错, 菜单更新失败, 请检查错误重新编辑保存...'
+  LOADED-AUTOLY-FAILED: '&8[&3Tr&bMenu&8] &6WARN &8| &7自動重載菜單 &f{0} &7的過程中出錯, 菜單更新失敗, 請檢查錯誤重新編輯保存...'
   LOADED-SUCCESS: '&8[&3Tr&bMenu&8] &bINFO &8| &7成功加載了 &a{0} &7個有效菜單... &8[&7{1} Ms&8]'
   LOADED-FAILURE: '&8[&3Tr&bMenu&8] &6WARN &8| &7共計有 &6{0} &7個菜單加載失敗, 請檢測診斷錯誤.'
   DEPEND-EXPANSIONS-REQUIRED: '&8[&3Tr&bMenu&8] &7目標菜單需要安裝以下 PlaceholderAPI 變量才能使用, TrMenu 正在自動下載中... &6{0}'
   NOT-EXIST: '&8[&3Tr&bMenu&8] &7目標菜單不存在...'
-  NOT-ENOUGH-ARGS: '&8[&3Tr&bMenu&8] &7此菜單要求妳至少提供 &6{0} &7個有效參數.'
+  NOT-ENOUGH-ARGS: '&8[&3Tr&bMenu&8] &7此菜單要求你至少提供 &6{0} &7個有效參數.'
   FORCED-CLOSE:
     ==: TITLE
     title: '&c&l菜單強制關閉'
@@ -64,15 +64,36 @@ MENU:
     NO-BUTTONS: '&7菜單 &6{0} &7未配置按鈕節點'
     YAML: '&7菜單 &6{0} &7的YAML格式配置出錯! &c{1} &8{2}'
     JSON: '&7菜單 &6{0} &7的JSON格式配置出錯! &c{1} &8{2}'
-    CONFLICT-OPEN-COMMANDS: '&7菜單 &6{0} &7與菜單 &6{1} &7的自定義開啟命令有沖突...'
-    CONFLICT-OPEN-ITEMS: '&7菜單 &6{0} &7與菜單 &6{1} &7的綁定Lore物品打開有沖突...'
-    ICON-NO-CONDITION: '&7菜單 &6{0} &7的按鈕節點 &3{1} &7條件圖標的條件為空...'
+    CONFLICT-OPEN-COMMANDS: '&7菜單 &6{0} &7與菜單 &6{1} &7的自定義開啓命令有衝突...'
+    CONFLICT-OPEN-ITEMS: '&7菜單 &6{0} &7與菜單 &6{1} &7的綁定Lore物品打開有衝突...'
+    ICON-NO-CONDITION: '&7菜單 &6{0} &7的按鈕節點 &3{1} &7條件圖標的條件爲空...'
     ICON-LOAD-FAILED: '&7菜單 &6{0} &7的按鈕節點 &3{1} &7加載失敗. &3{2}&8{3}'
 
+TEMPLATE:
+  EMPTY: '&8[&3Tr&bMenu&8] &7該容器爲空, 取消處理...'
+  PROCESSING: '&8[&3Tr&bMenu&8] &7正在轉換你的容器模板爲 TrMenu 格式中...'
+  SUCCESS:
+    ==: JSON
+    text: '&8[&3Tr&bMenu&8] &3成功轉換爲 TrMenu 格式, 請點擊 <&a&n這裏@hastebin> &3查看'
+    args:
+      hastebin:
+        hover: '&7點擊訪問並複制你的模板'
+        url: '{0}'
+  FAILED: '&8[&3Tr&bMenu&8] &c轉換失敗... 請檢查網絡連接!'
+
+
 COMMANDS:
-  NOT-PLAYER: '&8[&3Tr&bMenu&8] &c妳必須是壹名玩家...'
+  NOT-PLAYER: '&8[&3Tr&bMenu&8] &c你必須是一名玩家...'
   NO-PLAYER: '&8[&3Tr&bMenu&8] &c目標玩家不存在或不在線...'
-  OPENED-FOR: '&8[&3Tr&bMenu&8] &3已為目標玩家打開菜單...'
+  OPENED-FOR: '&8[&3Tr&bMenu&8] &3已爲目標玩家打開菜單...'
+  NO-ITEM: '&8[&3Tr&bMenu&8] &c你必須手持一個有效物品...'
+  ITEM-TO-JSON:
+    ==: JSON
+    text: '&8[&3Tr&bMenu&8] &7已將物品轉換爲 JSON 內容: <&3&n{0}@copy>'
+    args:
+      copy:
+        hover: '&7點擊複制'
+        suggest: '{0}'
   LIST:
     - '&8--------------------------------------------------'
     - '&3Tr&bMenu &7- Menu List *&8(點擊聊天內容即可打開)'
@@ -87,7 +108,9 @@ COMMANDS:
       - ''
       - '&8▪ <&7/&3{1} List@list> &8— &7 列出所有菜單'
       - '&8▪ <&7/&3{1} Reload@reload> &8— &7 重新載入所有菜單'
-      - '&8▪ <&7/&3{1} Open [Menu] [Id]@open> &8— &7 為自己或他人打開壹個菜單'
+      - '&8▪ <&7/&3{1} Open [Menu] [Id]@open> &8— &7 爲自己或他人打開一個菜單'
+      - '&8▪ <&7/&3{1} Item@item> &8- &7 轉換物品爲 JSON'
+      - '&8▪ <&7/&3{1} Template@template> &3<行> &8- &7 快速生成菜單模板'
       - '&8▪ <&7/&3{1} About@about> &8- &7 查看插件信息'
       - ''
       - '&8--------------------------------------------------'
@@ -104,6 +127,14 @@ COMMANDS:
         hover: |-
           &7點擊這裏建議該命令.
         suggest: '/trmenu open'
+      item:
+        hover: |-
+          &7點擊這裏建議該命令.
+        suggest: '/trmenu item'
+      template:
+        hover: |-
+          &7點擊這裏建議該命令.
+        suggest: '/trmenu template'
       about:
         hover: |-
           &7點擊這裏查看插件信息.

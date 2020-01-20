@@ -14,6 +14,7 @@ public enum MenuNodes {
      * 菜单的设置
      */
     MENU_TITLE("title"),
+    MENU_TITLE_UPDATER("title-update"),
     MENU_SHAPE("shape"),
     MENU_TYPE("type"),
 
@@ -40,7 +41,8 @@ public enum MenuNodes {
      * 按钮各种设置
      */
     BUTTON_UPDATE_PERIOD("update(s)?"),
-    BUTTON_REFRESH_CONDITIONS("refresh-condition(s)?"),
+
+    BUTTON_REFRESH_CONDITIONS("refresh(-)?condition(s)?|refresh"),
     BUTTON_ICONS("icons"),
     BUTTON_ICONS_CONDITION("condition"),
     BUTTON_ICONS_PRIORITY("pri(ority)?"),

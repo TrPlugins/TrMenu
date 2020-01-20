@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * @author Arasple
- * @document https://arasple.gitbook.io/trmenu
+ * @document https://trmenu.trixey.cn
  * @since 2019.10.2
  */
 @TrMenuPlugin.Version(5.14)
@@ -31,7 +31,7 @@ public final class TrMenu extends TrMenuPlugin {
     }
 
     public static double getTrVersion() {
-        return 1.12;
+        return 1.13;
     }
 
 }

@@ -1,6 +1,17 @@
 # TrMenu Update Logs #
 
 #### VERSION 1.1
+  - ##### 1.13
+    - Since: 2020.1.20
+    - Updates:
+      - Added locale vi_VN translated by Galaxyvietnam
+      - Added action ForceClose to close menu without running close actions
+      - Added option.silent to disable the loading logo
+      - Added command /trmenu item to translate item into JSON,
+        which you can use in Mats, NBT is supported
+      - Added template feature, to generate a menu quickly
+      - Animated title is now supported :)
+      - Fixed refresh priority icons node issue
   - ##### 1.12
     - Since: 2020.1.14
     - Updates:

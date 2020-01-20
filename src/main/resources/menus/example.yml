@@ -15,7 +15,14 @@
 #
 ################################################################################
 # The inventory's title
-Title: 'Hello TrMenu'
+Title:
+  - 'Hello TrMenu'
+  - 'This are animated titles,'
+  - 'You can also use variables!'
+  - 'Thx for using, %player_name%!'
+
+# The update time of inventory's title (in ticks), Default: -1
+Title-Update: 40
 
 # Defines the layout of this menu
 # *(Each character represents a button)
@@ -99,6 +106,7 @@ Buttons:
   'C':
     update: 3
     display:
+      # Materials can be matched similarity, ignore case
       mats: [
         rd stained glss pane,red staxxed glass pane,red sined glass pane,red stained glass pane,red stained glass pane,
         red stained glass pne,red stained glass pane,red stined glass pane,red stained glass pane,red stained glass pane,

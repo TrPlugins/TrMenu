@@ -59,10 +59,30 @@ MENU:
     ICON-NO-CONDITION: '&7Menu &6{0} &7button &3{1} &7has empty condition for priority icon'
     ICON-LOAD-FAILED: '&7Menu &6{0} &7button &3{1} &7failed to load. &3{2}&8{3}'
 
+TEMPLATE:
+  EMPTY: '&8[&3Tr&bMenu&8] &7Inventory is empty, generation canceled.'
+  PROCESSING: '&8[&3Tr&bMenu&8] &7Generate inventory into TrMenu format ...'
+  SUCCESS:
+    ==: JSON
+    text: '&8[&3Tr&bMenu&8] &3Done, click <&a&nHERE@hastebin> &3to copy down'
+    args:
+      hastebin:
+        hover: '&7Click to visit {0}'
+        url: '{0}'
+  FAILED: '&8[&3Tr&bMenu&8] &cGenerate failed.'
+
 COMMANDS:
   NOT-PLAYER: '&8[&3Tr&bMenu&8] &cPlayer only...'
   NO-PLAYER: '&8[&3Tr&bMenu&8] &cPlayer is not online...'
   OPENED-FOR: '&8[&3Tr&bMenu&8] &3Opened the menu for the player...'
+  NO-ITEM: '&8[&3Tr&bMenu&8] &cYou have to hold an item in your main hand.'
+  ITEM-TO-JSON:
+    ==: JSON
+    text: '&8[&3Tr&bMenu&8] &7Write item to JSON: <&3&n{0}@copy>'
+    args:
+      copy:
+        hover: '&7Click to copy'
+        suggest: '{0}'
   LIST:
     - '&8--------------------------------------------------'
     - '&3Tr&bMenu &7- Menu List'
@@ -78,6 +98,8 @@ COMMANDS:
       - '&8▪ <&7/&3{1} List@list> &8— &7 List menus'
       - '&8▪ <&7/&3{1} Reload@reload> &8— &7 Reload all menus'
       - '&8▪ <&7/&3{1} Open [Menu] [Id]@open> &8— &7 Open a menu for a player'
+      - '&8▪ <&7/&3{1} Item@item> &8— &7 Translate itemstack into JSON'
+      - '&8▪ <&7/&3{1} Template@template> &3<Rows> &8- &7 Generate menu conveniently'
       - '&8▪ <&7/&3{1} About@about> &8- &7 About plugin'
       - ''
       - '&8--------------------------------------------------'
@@ -92,8 +114,16 @@ COMMANDS:
         command: '/trmenu reload'
       open:
         hover: |-
-          &7Click to execute
+          &7Click to suggest
         suggest: '/trmenu open'
+      item:
+        hover: |-
+          &7Click to suggest
+        suggest: '/trmenu item'
+      template:
+        hover: |-
+          &7Click to suggest
+        suggest: '/trmenu template'
       about:
         hover: |-
           &7Click to view
