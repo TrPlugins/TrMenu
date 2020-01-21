@@ -34,8 +34,8 @@ public class CommandMigrate extends BaseSubCommand {
             TLocale.sendTo(sender, "MIGRATE.UNSUPPORTED-TYPE", args[0]);
             return;
         }
-        File file = new File(args[1]);
-        if (!file.exists() || (file.isDirectory() && file.listFiles().length == 0) || (file.isFile() && file.length() == 0)) {
+        File file = new File(TrMenu.getPlugin().getDataFolder(), args[1]);
+        if (!file.exists() || countFiles(file) <= 0) {
             TLocale.sendTo(sender, "MIGRATE.NOT-EXISTED", args[1]);
         } else {
             Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
@@ -73,7 +73,7 @@ public class CommandMigrate extends BaseSubCommand {
                 i += countFiles(f);
             }
         } else {
-            return i + 1;
+            return i + (file.getName().toLowerCase().endsWith(".yml") ? 1 : 0);
         }
         return i;
     }
@@ -81,7 +81,7 @@ public class CommandMigrate extends BaseSubCommand {
     private List<String> getMigrateFiles() {
         List<String> result = Lists.newArrayList();
         for (File file : TrMenu.getPlugin().getDataFolder().listFiles()) {
-            if (!file.getName().matches("lang|menus|settings.yml")) {
+            if (!file.getName().matches("lang|menus|migrated|settings.yml")) {
                 result.add(file.getName());
             }
         }

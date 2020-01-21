@@ -13,6 +13,8 @@
         which you can use in Mats, NBT is supported
       - Animated title is now supported :)
       - Fixed refresh priority icons node issue
+      - R1
+        - DeluxeMenus fully migrate is now supported
   - ##### 1.12
     - Since: 2020.1.14
     - Updates:

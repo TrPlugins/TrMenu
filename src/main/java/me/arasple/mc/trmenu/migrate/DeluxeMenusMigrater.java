@@ -5,10 +5,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemoryConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import java.io.*;
-import java.net.URL;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
+import java.io.File;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -19,14 +16,19 @@ import java.util.stream.Collectors;
  */
 public class DeluxeMenusMigrater {
 
-    private static List<Character> keys = Arrays.asList('#', '-', '+', '|', '=', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '<', '>', '~', '_');
+    private static List<Character> keys = Arrays.asList('#', '-', '@', '|', '=', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '<', '>', '~', '_');
 
     public static YamlConfiguration migrateDeluxeMenu(File file) {
         try {
             YamlConfiguration dm = YamlConfiguration.loadConfiguration(file);
             YamlConfiguration tm = new YamlConfiguration();
             ListIterator<Character> k = keys.listIterator();
-            tm.options().header("Converted by TrMenu");
+            tm.options().header(
+                    " " + "\n" +
+                            "Migrated from DeluxeMenus, by TrMenu" + "\n" +
+                            "Date: " + new Date().toString() + "\n" +
+                            " " + "\n"
+            );
 
             List<String> shape = getEmptyShape(dm.getInt("size", 54));
             int menuUpdate = dm.getInt("update_interval", 1) * 20;
@@ -38,6 +40,12 @@ public class DeluxeMenusMigrater {
             }
             if (dm.isSet("open_requirement.deny_commands")) {
                 tm.set("Open-Deny-Actions", migrateIconCommands(dm.getStringList("open_requirement.deny_commands")));
+            } else if (dm.contains("open_requirement.requirements")) {
+                dm.getConfigurationSection("open_requirement.requirements").getKeys(false).forEach(path -> dm.getConfigurationSection("open_requirement.requirements." + path).getKeys(false).forEach(key -> {
+                    if ("deny_commands".equals(key)) {
+                        tm.set("Open-Deny-Actions", migrateIconCommands(dm.getStringList("open_requirement.requirements." + path + "." + key)));
+                    }
+                }));
             }
             HashMap<List<Integer>, List<DmIcon>> icons = new HashMap<>();
             List<DmIcon> dmIcons = Lists.newArrayList();
@@ -103,8 +111,10 @@ public class DeluxeMenusMigrater {
                 tm.set("Buttons." + key, button);
             });
             tm.set("Shape", shape);
+            file.renameTo(new File(file.getParent(), file.getName() + ".MIGRATED"));
             return tm;
-        } catch (Throwable ignored) {
+        } catch (Throwable e) {
+            e.printStackTrace();
         }
         return null;
     }
@@ -241,6 +251,10 @@ public class DeluxeMenusMigrater {
         }
     }
 
+    /*
+    MIGRATE METHODS
+     */
+
     private static HashMap<String, List<String>> migrateIconActions(ConfigurationSection icon) {
         HashMap<String, List<String>> actions = new HashMap<>();
         Arrays.asList("left", "right", "middle", "shift_left").forEach(type -> {
@@ -290,7 +304,7 @@ public class DeluxeMenusMigrater {
 
     private static String migrateMaterial(ConfigurationSection icon) {
         String material = icon.getString("material");
-        if (icon.contains("data")) {
+        if (icon.contains("data") && icon.getInt("data", 0) > 0) {
             material += "<data-value:" + icon.getInt("data") + ">";
         }
         if (icon.contains("banner_meta")) {
@@ -395,30 +409,6 @@ public class DeluxeMenusMigrater {
 
     public static List<Character> getKeys() {
         return keys;
-    }
-
-    private static String readFromURL(String in, String def) throws IOException {
-        return Optional.ofNullable(readFromURL(in)).orElse(def);
-    }
-
-    public static String readFromURL(String in) throws IOException {
-        try (InputStream inputStream = new URL(in).openStream(); BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream)) {
-            return readFully(bufferedInputStream, StandardCharsets.UTF_8);
-        }
-    }
-
-    public static String readFully(InputStream inputStream, Charset charset) throws IOException {
-        return new String(readFully(inputStream), charset);
-    }
-
-    private static byte[] readFully(InputStream inputStream) throws IOException {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        byte[] buf = new byte[1024];
-        int len = 0;
-        while ((len = inputStream.read(buf)) > 0) {
-            stream.write(buf, 0, len);
-        }
-        return stream.toByteArray();
     }
 
 }
