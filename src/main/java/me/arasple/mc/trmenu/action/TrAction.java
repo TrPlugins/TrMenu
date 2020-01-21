@@ -45,7 +45,8 @@ public class TrAction {
             new ActionSetArgs(),
             new ActionSetSlots(),
             new ActionClearEmptySlots(),
-            new ActionIconRefresh()
+            new ActionIconRefresh(),
+            new ActionForceClose()
     );
 
     public static void runActions(List<AbstractAction> actions, Player player) {

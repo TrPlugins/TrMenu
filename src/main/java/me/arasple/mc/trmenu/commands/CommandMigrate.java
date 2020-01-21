@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class CommandMigrate extends BaseSubCommand {
 
-    private File folder = new File("plugins/TrMenu/migrated");
+    private static File folder = new File("plugins/TrMenu/migrated");
 
     @Override
     public Argument[] getArguments() {
@@ -39,31 +39,32 @@ public class CommandMigrate extends BaseSubCommand {
             TLocale.sendTo(sender, "MIGRATE.NOT-EXISTED", args[1]);
         } else {
             Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
+                int beforeMigrate = countFiles(folder);
                 int c = countFiles(file);
                 TLocale.sendTo(sender, "MIGRATE.PROCESSING", c);
-                int r = migrateMenu(file);
-                if (r < c) {
-                    TLocale.sendTo(sender, "MIGRATE.ERROR", c - r);
+                migrateMenu(file);
+                int afterMigrate = countFiles(folder);
+                if (afterMigrate < c) {
+                    TLocale.sendTo(sender, "MIGRATE.ERROR", c - afterMigrate);
+                } else {
+                    TLocale.sendTo(sender, "MIGRATE.SUCCESS", afterMigrate - beforeMigrate);
                 }
             });
         }
     }
 
-    private int migrateMenu(File file) {
-        int i = 0;
+    private void migrateMenu(File file) {
         if (file.isDirectory()) {
             for (File f : file.listFiles()) {
-                i += migrateMenu(f);
+                migrateMenu(f);
             }
         } else {
             try {
-                i++;
-                DeluxeMenusMigrater.migrateDeluxeMenu(file).save(new File(folder, file.getName()));
+                DeluxeMenusMigrater.migrateDeluxeMenu(file);
             } catch (Throwable e) {
                 e.printStackTrace();
             }
         }
-        return i;
     }
 
     private int countFiles(File file) {
@@ -86,6 +87,10 @@ public class CommandMigrate extends BaseSubCommand {
             }
         }
         return result;
+    }
+
+    public static File getFolder() {
+        return folder;
     }
 
     @Override

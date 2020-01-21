@@ -1,8 +1,10 @@
 package me.arasple.mc.trmenu.migrate;
 
 import com.google.common.collect.Lists;
+import me.arasple.mc.trmenu.commands.CommandMigrate;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemoryConfiguration;
+import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -18,9 +20,19 @@ public class DeluxeMenusMigrater {
 
     private static List<Character> keys = Arrays.asList('#', '-', '@', '|', '=', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '<', '>', '~', '_');
 
-    public static YamlConfiguration migrateDeluxeMenu(File file) {
+    public static void migrateDeluxeMenu(File file) {
+        YamlConfiguration c = YamlConfiguration.loadConfiguration(file);
+        if (c.contains("gui_menus")) {
+            for (String menu : c.getConfigurationSection("gui_menus").getKeys(false)) {
+                migrateDeluxeMenu(null, menu + ".yml", c.getConfigurationSection("gui_menus." + menu));
+            }
+        } else {
+            migrateDeluxeMenu(file, file.getName(), c);
+        }
+    }
+
+    public static void migrateDeluxeMenu(File file, String menu, ConfigurationSection dm) {
         try {
-            YamlConfiguration dm = YamlConfiguration.loadConfiguration(file);
             YamlConfiguration tm = new YamlConfiguration();
             ListIterator<Character> k = keys.listIterator();
             tm.options().header(
@@ -29,7 +41,6 @@ public class DeluxeMenusMigrater {
                             "Date: " + new Date().toString() + "\n" +
                             " " + "\n"
             );
-
             List<String> shape = getEmptyShape(dm.getInt("size", 54));
             int menuUpdate = dm.getInt("update_interval", 1) * 20;
             tm.set("Title", dm.getString("menu_title", "TrMenu"));
@@ -51,7 +62,7 @@ public class DeluxeMenusMigrater {
             List<DmIcon> dmIcons = Lists.newArrayList();
 
             dm.getConfigurationSection("items").getValues(false).values().forEach(i -> {
-                ConfigurationSection icon = (ConfigurationSection) i;
+                MemorySection icon = (MemorySection) i;
                 // Icon priority
                 int priority = icon.getInt("priority", Integer.MAX_VALUE);
                 String requirement = icon.isSet("view_requirement.requirements") ? migrateRequires(icon.getConfigurationSection("view_requirement.requirements")) : null;
@@ -89,7 +100,7 @@ public class DeluxeMenusMigrater {
                         button.set(entry.getKey(), entry.getValue());
                     }
                 } else {
-                    DmIcon def = i.stream().filter(x -> x.getRequirement() == null || x.getPriority() == Integer.MAX_VALUE).findFirst().orElse(null);
+                    DmIcon def = i.stream().filter(x -> x.getRequirement() == null || x.getPriority() == Integer.MAX_VALUE).findFirst().orElse(i.stream().max(Comparator.comparingInt(DmIcon::getPriority)).orElse(null));
                     i.remove(def);
 
                     for (Map.Entry<String, Object> entry : def.toTrMenuSection().getValues(false).entrySet()) {
@@ -111,12 +122,13 @@ public class DeluxeMenusMigrater {
                 tm.set("Buttons." + key, button);
             });
             tm.set("Shape", shape);
-            file.renameTo(new File(file.getParent(), file.getName() + ".MIGRATED"));
-            return tm;
+            if (file != null) {
+                file.renameTo(new File(file.getParent(), file.getName() + ".MIGRATED"));
+            }
+            tm.save(new File(CommandMigrate.getFolder(), menu));
         } catch (Throwable e) {
             e.printStackTrace();
         }
-        return null;
     }
 
     private static void applySlots(List<String> shape, List<Integer> slots, char key) {
@@ -171,7 +183,7 @@ public class DeluxeMenusMigrater {
         }
 
         public ConfigurationSection toTrMenuSection(int priority) {
-            MemoryConfiguration section = new MemoryConfiguration();
+            MemorySection section = new MemoryConfiguration();
             if (getRequirement() != null) {
                 section.set("condition", getRequirement());
             }
@@ -342,6 +354,7 @@ public class DeluxeMenusMigrater {
         return iconCommand
                 .replace("[player]", "player:")
                 .replace("[commandevent]", "player:")
+                .replace("[console]", "console:")
                 .replace("[message]", "tell:")
                 .replace("[openguimenu]", "open:")
                 .replace("[connect]", "connect:")
@@ -384,6 +397,8 @@ public class DeluxeMenusMigrater {
                 result.append("\"").append(require.get("input")).append("\" == \"").append(require.get("output")).append("\"");
             } else if ("string equals ignorecase".equalsIgnoreCase(type)) {
                 result.append("\"").append(require.get("input")).append("\".toLowerCase() == \"").append(require.get("output")).append("\".toLowerCase()");
+            } else if ("string contains".equalsIgnoreCase(type)) {
+                result.append("\"").append(require.get("input")).append("\".indexOf(\"").append(require.get("output")).append("\") >= 0");
             } else if (require.containsKey("input") && require.containsKey("output")) {
                 result.append(require.get("input")).append(" ").append(type).append(" ").append(require.get("output"));
             }

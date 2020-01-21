@@ -73,7 +73,8 @@ MENU:
 MIGRATE:
   UNSUPPORTED-TYPE: '&8[&3Tr&bMenu&8] &7暂不支持迁移 &f{0} &7的菜单...'
   NOT-EXISTED: '&8[&3Tr&bMenu&8] &c文件或目录 &6{0} &c不存在或为空...'
-  PROCESSING: '&8[&3Tr&bMenu&8] &7正在处理中, 总计 &f{0} &7个欲迁移菜单...'
+  PROCESSING: '&8[&3Tr&bMenu&8] &7正在处理中, 总计 &f{0} &7个欲迁移文件...'
+  SUCCESS: '&8[&3Tr&bMenu&8] &3成功迁入了 &a{0} &3个菜单...'
   ERROR: '&8[&3Tr&bMenu&8] &7有 &c{0} &7个菜单迁移失败，请检查相关错误...'
 
 HASTEBIN:

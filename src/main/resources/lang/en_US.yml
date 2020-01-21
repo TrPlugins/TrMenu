@@ -63,7 +63,8 @@ MENU:
 MIGRATE:
   UNSUPPORTED-TYPE: '&8[&3Tr&bMenu&8] &7Do not support to migrate from &f{0} &7yet...'
   NOT-EXISTED: '&8[&3Tr&bMenu&8] &cFile or dir &6{0} &cdoes not exist or is empty...'
-  PROCESSING: '&8[&3Tr&bMenu&8] &7Processing, in total &f{0} &7menus to be migrated...'
+  PROCESSING: '&8[&3Tr&bMenu&8] &7Processing, in total &f{0} &7files to be migrated...'
+  SUCCESS: '&8[&3Tr&bMenu&8] &3Successfully migrated &a{0} &3menus...'
   ERROR: '&8[&3Tr&bMenu&8] &7There are &c{0} &7menus failed to migrate, please check errors.'
 
 HASTEBIN:
