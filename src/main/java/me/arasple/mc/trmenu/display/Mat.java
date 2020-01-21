@@ -47,18 +47,20 @@ public class Mat {
             staticItem = JsonItem.fromJson(rawMat);
             return;
         }
-
         String[] options = readOption(rawMat);
         if (options != null) {
             this.option = Option.valueOf(options[0]);
             this.optionValue = options[1];
+        }
+        if (option == null) {
+            option = Option.ORIGINAL;
         }
         this.mat = rawMat.replaceAll("<([^<>].+)>", "").replaceAll(" ", "");
     }
 
     public ItemStack createItem(Player player) {
         if (staticItem != null) {
-            return staticItem;
+            return staticItem.clone();
         }
 
         ItemStack item;
@@ -66,7 +68,7 @@ public class Mat {
 
         if (option == Option.TEXTURE_SKULL) {
             staticItem = Skulls.getCustomSkull(optionValue);
-            return staticItem;
+            return staticItem.clone();
         } else if (option == Option.HEAD) {
             return Skulls.getPlayerSkull(Vars.replace(player, optionValue));
         } else if (option == Option.HEAD_DATABASE) {
@@ -228,7 +230,9 @@ public class Mat {
          */
         VARIABLE("<variable>"),
 
-        JSON("<json>");
+        JSON("<JSON>"),
+
+        ORIGINAL("<ORIGINAL>");
 
         private Pattern pattern;
 

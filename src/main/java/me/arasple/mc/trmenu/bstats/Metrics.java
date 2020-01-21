@@ -17,14 +17,14 @@ public class Metrics {
 
     private static MetricsBukkit metrics;
     private static DecimalFormat doubleFormat = new DecimalFormat("#.#");
-    private static int[] coutns = new int[]{0, 0};
+    private static int[] coutns = new int[]{0, 0, 0};
 
     @TSchedule
     public static void init() {
         metrics = new MetricsBukkit(TrMenu.getPlugin());
         // 菜单总数统计
         metrics.addCustomChart(new MetricsBukkit.SingleLineChart("menus", () -> TrMenu.getMenus().size()));
-        // 菜单打开次数统计 0
+        // 菜单打开次数统计
         metrics.addCustomChart(new MetricsBukkit.SingleLineChart("menu_open_counts", () -> {
             int i = coutns[0];
             coutns[0] = 0;
@@ -34,6 +34,11 @@ public class Metrics {
         metrics.addCustomChart(new MetricsBukkit.SingleLineChart("action_run_counts", () -> {
             int i = coutns[1];
             coutns[1] = 0;
+            return i;
+        }));
+        metrics.addCustomChart(new MetricsBukkit.SingleLineChart("menu_share_counts", () -> {
+            int i = coutns[2];
+            coutns[2] = 0;
             return i;
         }));
         // 统计菜单行数
@@ -46,6 +51,21 @@ public class Metrics {
             data.put("5", (int) TrMenu.getMenus().stream().filter(menur -> menur.getRows() == 5).count());
             data.put("6", (int) TrMenu.getMenus().stream().filter(menur -> menur.getRows() == 6).count());
             data.entrySet().removeIf(entry -> entry.getValue() <= 0);
+            return data;
+        }));
+        // 统计材质类型
+        metrics.addCustomChart(new MetricsBukkit.AdvancedPie("menu_items", () -> {
+            Map<String, Integer> data = new HashMap<>();
+            TrMenu.getMenus().forEach(m -> m.getButtons().keySet().forEach(b -> {
+                b.getDefIcon().getItem().getMaterials().forEach(mat -> {
+                    String option = mat.getOption().name();
+                    data.put(option, data.getOrDefault(option, 0) + 1);
+                });
+                b.getIcons().forEach(icon -> icon.getItem().getMaterials().forEach(mat -> {
+                    String option = mat.getOption().name();
+                    data.put(option, data.getOrDefault(option, 0) + 1);
+                }));
+            }));
             return data;
         }));
         // 统计容器类型

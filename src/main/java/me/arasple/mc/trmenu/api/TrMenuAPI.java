@@ -81,7 +81,7 @@ public class TrMenuAPI {
      * @return menu
      */
     public static Menu getMenuByCommand(String cmd) {
-        return getMenus().stream().filter(menu -> menu.getOpenCommands() != null && menu.getOpenCommands().stream().anyMatch(x -> x.matches(cmd))).findFirst().orElse(null);
+        return getMenus().stream().filter(menu -> menu.getOpenCommands() != null && menu.getOpenCommands().stream().anyMatch(cmd::matches)).findFirst().orElse(null);
     }
 
     /**

@@ -151,7 +151,7 @@ public class MenuLoader {
         List<String> shape = fixShape(MENU_SHAPE.getFromMap(sets));
         int rows = shape != null ? shape.size() : 0;
         HashMap<Button, List<Integer>> buttons = new HashMap<>();
-        List<String> openCommands = MENU_OPEN_COMAMNDS.getFromMap(sets) instanceof List ? MENU_OPEN_COMAMNDS.getFromMap(sets) : Collections.singletonList(MENU_OPEN_COMAMNDS.getFromMap(sets));
+        List<String> openCommands = MENU_OPEN_COMAMNDS.getFromMap(sets) instanceof List ? MENU_OPEN_COMAMNDS.getFromMap(sets) : MENU_OPEN_COMAMNDS.getFromMap(sets) == null ? null : Collections.singletonList(MENU_OPEN_COMAMNDS.getFromMap(sets));
         List<AbstractAction> openActions = TrAction.readActions(MENU_OPEN_ACTIONS.getFromMap(sets, new ArrayList<>()));
         List<AbstractAction> closeActions = TrAction.readActions(MENU_CLOSE_ACTIONS.getFromMap(sets, new ArrayList<>()));
         List<AbstractAction> openDenyActions = TrAction.readActions(MENU_OPEN_DENY_ACTIONS.getFromMap(sets, new ArrayList<>()));
