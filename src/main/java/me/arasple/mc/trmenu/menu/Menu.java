@@ -81,7 +81,7 @@ public class Menu {
         this.updateInventory = updateInventory;
         this.transferArgs = transferArgs;
         this.forceTransferArgsAmount = forceTransferArgsAmount;
-        this.bindItemLore = bindItemLore;
+        this.bindItemLore = bindItemLore != null && !bindItemLore.isEmpty() ? TLocale.Translate.setColored(bindItemLore) : bindItemLore;
         this.dependExpansions = dependExpansions;
         checkDepends();
     }
