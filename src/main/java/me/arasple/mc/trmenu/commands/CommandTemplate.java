@@ -2,6 +2,7 @@ package me.arasple.mc.trmenu.commands;
 
 import com.google.common.collect.Lists;
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils;
+import io.izzel.taboolib.module.command.base.Argument;
 import io.izzel.taboolib.module.command.base.BaseSubCommand;
 import io.izzel.taboolib.module.command.base.CommandType;
 import io.izzel.taboolib.module.locale.TLocale;
@@ -30,6 +31,11 @@ import java.util.*;
  * template <ROWS>
  */
 public class CommandTemplate extends BaseSubCommand {
+
+    @Override
+    public Argument[] getArguments() {
+        return new Argument[]{new Argument("Rows", false, () -> Arrays.asList("1", "2", "3", "4", "5", "6"))};
+    }
 
     private static List<Character> keys = Arrays.asList('#', '-', '+', '=', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '<', '>', '~', '_');
 
