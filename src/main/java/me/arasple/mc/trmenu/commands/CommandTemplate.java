@@ -32,12 +32,13 @@ import java.util.*;
  */
 public class CommandTemplate extends BaseSubCommand {
 
+    private static List<Character> keys = Arrays.asList('#', '-', '+', '|', '=', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '<', '>', '~', '_');
+
     @Override
     public Argument[] getArguments() {
         return new Argument[]{new Argument("Rows", false, () -> Arrays.asList("1", "2", "3", "4", "5", "6"))};
     }
 
-    private static List<Character> keys = Arrays.asList('#', '-', '+', '=', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '<', '>', '~', '_');
 
     @Override
     public void onCommand(CommandSender sender, Command command, String label, String[] args) {

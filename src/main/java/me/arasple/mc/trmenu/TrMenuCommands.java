@@ -34,6 +34,9 @@ public class TrMenuCommands extends BaseMainCommand {
     @SubCommand(description = "Paste your menu on hastebin")
     BaseSubCommand share = new CommandShare();
 
+    @SubCommand(description = "Migrate menus from other plugins")
+    BaseSubCommand migrate = new CommandMigrate();
+
     @SubCommand(description = "Toggle the Debug Mode")
     BaseSubCommand debug = new CommandDebug();
 

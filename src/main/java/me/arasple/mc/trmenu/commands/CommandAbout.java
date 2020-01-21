@@ -70,4 +70,8 @@ public class CommandAbout extends BaseSubCommand {
         return CommandType.PLAYER;
     }
 
+    public static Menu getAboutMenu() {
+        return aboutMenu;
+    }
+
 }

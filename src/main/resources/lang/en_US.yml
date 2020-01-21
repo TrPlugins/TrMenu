@@ -60,6 +60,12 @@ MENU:
     ICON-NO-CONDITION: '&7Menu &6{0} &7button &3{1} &7has empty condition for priority icon'
     ICON-LOAD-FAILED: '&7Menu &6{0} &7button &3{1} &7failed to load. &3{2}&8{3}'
 
+MIGRATE:
+  UNSUPPORTED-TYPE: '&8[&3Tr&bMenu&8] &7Do not support to migrate from &f{0} &7yet...'
+  NOT-EXISTED: '&8[&3Tr&bMenu&8] &cFile or dir &6{0} &cdoes not exist or is empty...'
+  PROCESSING: '&8[&3Tr&bMenu&8] &7Processing, in total &f{0} &7menus to be migrated...'
+  ERROR: '&8[&3Tr&bMenu&8] &7There are &c{0} &7menus failed to migrate, please check errors.'
+
 HASTEBIN:
   PROCESSING: '&8[&3Tr&bMenu&8] &7Please wait...'
   SUCCESS: '&8[&3Tr&bMenu&8] &3Your content has been pasted on &a{0}'

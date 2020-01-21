@@ -70,6 +70,12 @@ MENU:
     ICON-NO-CONDITION: '&7菜单 &6{0} &7的按钮节点 &3{1} &7条件图标的条件为空...'
     ICON-LOAD-FAILED: '&7菜单 &6{0} &7的按钮节点 &3{1} &7加载失败. &3{2}&8{3}'
 
+MIGRATE:
+  UNSUPPORTED-TYPE: '&8[&3Tr&bMenu&8] &7暂不支持迁移 &f{0} &7的菜单...'
+  NOT-EXISTED: '&8[&3Tr&bMenu&8] &c文件或目录 &6{0} &c不存在或为空...'
+  PROCESSING: '&8[&3Tr&bMenu&8] &7正在处理中, 总计 &f{0} &7个欲迁移菜单...'
+  ERROR: '&8[&3Tr&bMenu&8] &7有 &c{0} &7个菜单迁移失败，请检查相关错误...'
+
 HASTEBIN:
   PROCESSING: '&8[&3Tr&bMenu&8] &7请稍等...'
   SUCCESS: '&8[&3Tr&bMenu&8] &3你的内容已被粘贴到 &a{0}'

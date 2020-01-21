@@ -1,4 +1,4 @@
-package me.arasple.mc.trmenu.converter;
+package me.arasple.mc.trmenu.migrate.deprecated;
 
 import com.google.common.collect.Lists;
 import io.izzel.taboolib.module.inject.TSchedule;
@@ -18,6 +18,7 @@ import java.util.ListIterator;
  * @author Arasple
  * @date 2020/1/1 11:34
  */
+@Deprecated
 public class ConverterChestCommands {
 
     @TSchedule
