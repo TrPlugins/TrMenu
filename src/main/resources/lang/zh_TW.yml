@@ -4,7 +4,7 @@ PLUGIN:
     - '&3Tr&bMenu &7正在載入中...'
     - ''
   ENABLED: '&8[&3Tr&bMenu&8] &bINFO &8| &3加載完畢. TrMenu &av{0} &3現已啓用, 敬請使用.'
-  DISABLED: '&8[&3Tr&bMenu&8] &bINFO &8| &7感謝使用本插件, 您在論壇爲本插件評分即是對作者最大的鼓勵!'
+  DISABLED: '&8[&3Tr&bMenu&8] &bINFO &8| &7感謝使用本插件 :)'
   DEPEND:
     DOWNLOAD: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7正在下載前置插件 &f{0} &7...'
     INSTALL: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7已成功下載前置 &3{0} &7, 即將重啓服務端完成安裝...'
@@ -19,7 +19,7 @@ PLUGIN:
       - "&8# &4您所運行的 &cTrMenu &4版本過舊, 可能潛在很多漏洞"
       - "&8# &4請及時更新到最新版本以便獲得更好的插件體驗!"
       - "&8# &r"
-      - "&8# &4Mcbbs: &chttps://www.mcbbs.net/thread-918078-1-1.html"
+      - "&8# &4SpigotMC: &chttps://www.spigotmc.org/resources/74284"
       - "&8# &r"
       - "&8# &r"
       - "&8# &4服務器將在 &c&l{0} secs &4後繼續啓動..."
@@ -54,6 +54,7 @@ MENU:
   LOADED-FAILURE: '&8[&3Tr&bMenu&8] &6WARN &8| &7共計有 &6{0} &7個菜單加載失敗, 請檢測診斷錯誤.'
   DEPEND-EXPANSIONS-REQUIRED: '&8[&3Tr&bMenu&8] &7目標菜單需要安裝以下 PlaceholderAPI 變量才能使用, TrMenu 正在自動下載中... &6{0}'
   NOT-EXIST: '&8[&3Tr&bMenu&8] &7目標菜單不存在...'
+  NOT-SUPPORTED: '&8[&3Tr&bMenu&8] &7暫不支持菜單 &f{0}&7...'
   NOT-ENOUGH-ARGS: '&8[&3Tr&bMenu&8] &7此菜單要求你至少提供 &6{0} &7個有效參數.'
   FORCED-CLOSE:
     ==: TITLE

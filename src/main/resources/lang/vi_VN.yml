@@ -51,9 +51,10 @@ MENU:
   LOADED-FAILURE: '&8[&3Tr&bMenu&8] &6CẢNH BÁO &8| &7Có &6{0} &7menus tải thất bại. Vui lòng kiểm tra những lỗi...'
   DEPEND-EXPANSIONS-REQUIRED: '&8[&3Tr&bMenu&8] &7Bạn cần tải PlaceholderAPI expansions &6{0} &7để sử dụng menu đó.'
   NOT-EXIST: '&8[&3Tr&bMenu&8] &7Menu không tồn tại...'
+  NOT-SUPPORTED: '&8[&3Tr&bMenu&8] &7Menu chưa được hỗ trợ &f{0}&7...'
   NOT-ENOUGH-ARGS: '&8[&3Tr&bMenu&8] &7Yêu cầu &6{0} &7ký tự.'
   LOADING-ERRORS:
-    NO-SHAPE: '&7Menu &6{0} &7' không có shape hợp lệ &2{1}'
+    NO-SHAPE: '&7Menu &6{0} &7'' không có shape hợp lệ &2{1}'
     NO-BUTTONS: '&7Menu &6{0} &7 không chứa phần Nút'
     YAML: '&7Menu &6{0} &7có YAML lỗi &c{1} &8{2}'
     JSON: '&7Menu &6{0} &7có JSON lỗi &c{1} &8{2}'

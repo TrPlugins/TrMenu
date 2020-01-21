@@ -48,6 +48,7 @@ MENU:
   LOADED-FAILURE: '&8[&3Tr&bMenu&8] &6WARN &8| &7There''re &6{0} &7menus failed to load. Please check these errors...'
   DEPEND-EXPANSIONS-REQUIRED: '&8[&3Tr&bMenu&8] &7You need to install PlaceholderAPI expansions &6{0} &7to use that menu.'
   NOT-EXIST: '&8[&3Tr&bMenu&8] &7Menu doesn''t exist...'
+  NOT-SUPPORTED: '&8[&3Tr&bMenu&8] &7Menu not supported yet &f{0}&7...'
   NOT-ENOUGH-ARGS: '&8[&3Tr&bMenu&8] &7Requires &6{0} &7arguments.'
   LOADING-ERRORS:
     NO-SHAPE: '&7Menu &6{0} &7''s shape is invalid &2{1}'

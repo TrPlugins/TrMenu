@@ -25,11 +25,14 @@ public class TrMenuCommands extends BaseMainCommand {
     @SubCommand(description = "Open a menu for a player")
     BaseSubCommand open = new CommandOpenMenu();
 
-    @SubCommand(description = "Write item to JSON", aliases = "itj")
+    @SubCommand(description = "Write item to JSON")
     BaseSubCommand item = new CommandItemToJson();
 
     @SubCommand(description = "Template manage")
     BaseSubCommand template = new CommandTemplate();
+
+    @SubCommand(description = "Paste your menu on hastebin")
+    BaseSubCommand share = new CommandShare();
 
     @SubCommand(description = "Toggle the Debug Mode")
     BaseSubCommand debug = new CommandDebug();

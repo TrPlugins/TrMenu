@@ -51,6 +51,7 @@ MENU:
   LOADED-FAILURE: '&8[&3Tr&bMenu&8] &6WARN &8| &7พบ &6{0} &7เมนูที่โหลดไม่สำเร็จ กรุณาตรวจสอบข้อผิดพลาด...'
   DEPEND-EXPANSIONS-REQUIRED: '&8[&3Tr&bMenu&8] &7คุณต้องติดตั้งส่วนขยายของ PlaceholderAPI ได้แก่ &6{0} &7เพื่อใช้เมนูนี้'
   NOT-EXIST: '&8[&3Tr&bMenu&8] &7ไม่พบเมนู'
+  NOT-SUPPORTED: '&8[&3Tr&bMenu&8] &7ยังไม่รองรับเมนู &f{0}&7...'
   NOT-ENOUGH-ARGS: '&8[&3Tr&bMenu&8] &7ต้องการ arg &6{0}'
   LOADING-ERRORS:
     NO-SHAPE: '&7ไม่พบรูปร่างเมนู &6{0} &7รูปร่าง &2{1} &7ไม่ถูกต้อง'
