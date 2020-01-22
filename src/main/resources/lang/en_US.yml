@@ -51,7 +51,6 @@ MENU:
   NOT-SUPPORTED: '&8[&3Tr&bMenu&8] &7Menu not supported yet &f{0}&7...'
   NOT-ENOUGH-ARGS: '&8[&3Tr&bMenu&8] &7Requires &6{0} &7arguments.'
   LOADING-ERRORS:
-    NO-SHAPE: '&7Menu &6{0} &7''s shape is invalid &2{1}'
     NO-BUTTONS: '&7Menu &6{0} &7do not contain Buttons section'
     YAML: '&7Menu &6{0} &7has YAML error &c{1} &8{2}'
     JSON: '&7Menu &6{0} &7has JSON error &c{1} &8{2}'

@@ -1,12 +1,7 @@
 package me.arasple.mc.trmenu.nms.impl;
 
-import io.izzel.taboolib.util.chat.ComponentSerializer;
-import io.izzel.taboolib.util.chat.TextComponent;
 import me.arasple.mc.trmenu.nms.InvTitler;
-import net.minecraft.server.v1_15_R1.Containers;
-import net.minecraft.server.v1_15_R1.EntityPlayer;
-import net.minecraft.server.v1_15_R1.IChatBaseComponent;
-import net.minecraft.server.v1_15_R1.PacketPlayOutOpenWindow;
+import net.minecraft.server.v1_15_R1.*;
 import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryType;
@@ -25,10 +20,17 @@ public class InvTitlerModern extends InvTitler {
         PacketPlayOutOpenWindow packet = new PacketPlayOutOpenWindow(
                 handle.activeContainer.windowId,
                 getByInventory(inventory),
-                IChatBaseComponent.ChatSerializer.a(ComponentSerializer.toString(TextComponent.fromLegacyText(title)))
+                new ChatComponentText(title)
         );
         handle.playerConnection.sendPacket(packet);
         handle.updateInventory(handle.activeContainer);
+    }
+
+    @Override
+    public void closeInventory(Player player) {
+        PacketPlayOutCloseWindow packet = new PacketPlayOutCloseWindow();
+        EntityPlayer handle = ((CraftPlayer) player).getHandle();
+        handle.playerConnection.sendPacket(packet);
     }
 
     private Containers<?> getByInventory(Inventory inventory) {

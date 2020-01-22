@@ -174,7 +174,7 @@ public class Menu {
                         cancel();
                         return;
                     }
-                    InvTitler.getImpl().setInventoryTitle(player, menu, Vars.replace(player, getTitle(player)));
+                    InvTitler.setTitle(player, menu, Vars.replace(player, getTitle(player)));
                 }
             }.runTaskTimerAsynchronously(TrMenu.getPlugin(), titleUpdate, titleUpdate);
         }

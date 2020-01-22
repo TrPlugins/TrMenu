@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.commands;
 
+import io.izzel.taboolib.module.command.base.Argument;
 import io.izzel.taboolib.module.command.base.BaseSubCommand;
 import io.izzel.taboolib.module.command.base.CommandType;
 import io.izzel.taboolib.module.locale.TLocale;
@@ -20,8 +21,20 @@ import org.bukkit.inventory.ItemStack;
 public class CommandItemToJson extends BaseSubCommand {
 
     @Override
+    public Argument[] getArguments() {
+        return new Argument[]{new Argument("JSON", false)};
+    }
+
+    @Override
     public void onCommand(CommandSender sender, Command command, String label, String[] args) {
         ItemStack item = getItemInHand((Player) sender);
+
+//        if (args.length >= 1) {
+//            String json = args[0];
+//            JsonItem.isJson(json);
+//            return;
+//        }
+
         if (Items.isNull(item)) {
             TLocale.sendTo(sender, "COMMANDS.NO-ITEM");
         } else {

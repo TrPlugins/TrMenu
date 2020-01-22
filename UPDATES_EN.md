@@ -15,6 +15,10 @@
       - Fixed refresh priority icons node issue
       - R1
         - DeluxeMenus fully migrate is now supported
+      - R2
+        - Fixed animated title buggy in versions below 1.14
+        - Supported to migrate menus in config.yml of 
+        - Improved animated titles
   - ##### 1.12
     - Since: 2020.1.14
     - Updates:
