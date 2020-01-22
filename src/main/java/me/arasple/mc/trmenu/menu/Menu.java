@@ -119,7 +119,7 @@ public class Menu {
                         }
                     });
 
-                    if (slots != null) {
+                    if (slots != null && !slots.isEmpty()) {
                         if (button.getUpdate() > 0) {
                             int update = Math.max(button.getUpdate(), 3);
                             new BukkitRunnable() {

@@ -16,6 +16,7 @@ public enum MenuNodes {
     MENU_TITLE("title"),
     MENU_TITLE_UPDATER("title-update"),
     MENU_SHAPE("shape"),
+    MENU_ROWS("row(s)?|size"),
     MENU_TYPE("type"),
 
     MENU_OPEN_REQUIREMENT("open-requirement(s)?"),

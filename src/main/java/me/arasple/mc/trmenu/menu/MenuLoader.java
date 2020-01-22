@@ -149,7 +149,8 @@ public class MenuLoader {
         List<String> titles = MENU_TITLE.getFromMap(sets) instanceof List ? MENU_TITLE.getFromMap(sets, Collections.singletonList("TrMenu")) : Collections.singletonList(MENU_TITLE.getFromMap(sets, "TrMenu"));
         int titleUpdate = MENU_TITLE_UPDATER.getFromMap(sets, -1);
         List<String> shape = fixShape(MENU_SHAPE.getFromMap(sets));
-        int rows = shape != null ? shape.size() : 0;
+        int rows = MENU_ROWS.getFromMap(sets, shape != null ? shape.size() : 1);
+        rows = rows > 9 ? rows / 9 : rows;
         HashMap<Button, List<Integer>> buttons = new HashMap<>();
         List<String> openCommands = MENU_OPEN_COMAMNDS.getFromMap(sets) instanceof List ? MENU_OPEN_COMAMNDS.getFromMap(sets) : MENU_OPEN_COMAMNDS.getFromMap(sets) == null ? null : Collections.singletonList(MENU_OPEN_COMAMNDS.getFromMap(sets));
         List<AbstractAction> openActions = TrAction.readActions(MENU_OPEN_ACTIONS.getFromMap(sets, new ArrayList<>()));
@@ -165,9 +166,9 @@ public class MenuLoader {
         List<String> bindItemLore = MENU_OPTIONS_BINDLORES.getFromMap(options);
         List<String> dependExpansions = MENU_OPTIONS_DEPEND_EXPANSIONS.getFromMap(options);
 
-        if (shape == null || shape.isEmpty()) {
-            loadedMenu.getErrors().add(TLocale.asString("MENU.LOADING-ERRORS.NO-SHAPE", name, shape));
-        }
+//        if (shape == null || shape.isEmpty()) {
+//            loadedMenu.getErrors().add(TLocale.asString("MENU.LOADING-ERRORS.NO-SHAPE", name, shape));
+//        }
         if (menu != null) {
             TrMenu.getMenus().forEach(m -> {
                 if (m != menu) {
@@ -210,8 +211,8 @@ public class MenuLoader {
                             }
                             List<Integer> slots = locateButton(shape, inventoryType, key.charAt(0));
                             Button button = new Button(update, refresh, icons);
-                            if (slots.size() > 0) {
-                                buttons.put(button, slots);
+                            if (slots.size() > 0 || button.getDefIcon().getItem().getRawSlots().size() > 0) {
+                                buttons.put(button, slots.isEmpty() ? button.getDefIcon().getItem().getRawSlots().get(0) : slots);
                             }
                         } catch (Throwable e) {
                             StringBuilder stackTrace = new StringBuilder();
@@ -227,7 +228,7 @@ public class MenuLoader {
 
         if (loadedMenu.getErrors().size() <= 0) {
             String mName = name.length() > 4 ? name.substring(0, name.length() - 4) : name;
-            Menu nMenu = new Menu(mName, titles, titleUpdate, inventoryType, shape.size(), buttons, openRequirement, openDenyActions, closeRequirement, closeDenyActions, openCommands, openActions, closeActions, lockPlayerInv, updateInventory, transferArgs, forceTransferArgsAmount, bindItemLore, dependExpansions);
+            Menu nMenu = new Menu(mName, titles, titleUpdate, inventoryType, rows, buttons, openRequirement, openDenyActions, closeRequirement, closeDenyActions, openCommands, openActions, closeActions, lockPlayerInv, updateInventory, transferArgs, forceTransferArgsAmount, bindItemLore, dependExpansions);
             nMenu.setLoadedPath(file != null ? file.getAbsolutePath() : null);
             if (nMenu != null && add) {
                 if (menu != null) {
@@ -338,6 +339,9 @@ public class MenuLoader {
     private static List<Integer> locateButton(List<String> shape, InventoryType type, char key) {
         shape = fixShape(shape);
         List<Integer> slots = Lists.newArrayList();
+        if (shape == null || shape.isEmpty()) {
+            return slots;
+        }
         int length = 9;
         if (type != null) {
             try {
@@ -345,7 +349,6 @@ public class MenuLoader {
                     length = 3;
                 }
             } catch (Throwable ignored) {
-
             }
         }
         for (int line = 1; line <= shape.size(); line++) {
