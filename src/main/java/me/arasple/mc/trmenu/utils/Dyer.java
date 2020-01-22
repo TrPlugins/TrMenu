@@ -11,7 +11,7 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import java.util.List;
 
 /**
- * @author Arasple
+ * @author Arasple, Bkm016
  * @date 2020/1/14 21:52
  */
 public class Dyer {
@@ -19,7 +19,6 @@ public class Dyer {
     /**
      * @author Bkm016
      */
-    @SuppressWarnings("deprecation")
     public static void setBanner(BannerMeta itemMeta, List<String> patterns) {
         patterns.forEach(pattern -> {
             String[] type = pattern.split(" ");

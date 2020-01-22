@@ -25,6 +25,12 @@ OPTIONS:
   MENU-FILE-LISTENER:
     ENABLE: true
     NOTIFY: true
+  # The words used to cancel a catcher action (Support Regex)
+  CATCHER-CANCEL-WORDS:
+    - 'return|break'
+    - 'quit'
+    - 'exit'
+    - 'cancel'
 
 # Custom loading files as menus
 MENU-FILES: []

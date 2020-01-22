@@ -11,6 +11,8 @@ import me.arasple.mc.trmenu.utils.TrUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.util.Collections;
+
 /**
  * @author Arasple
  * @date 2020/1/15 15:37
@@ -40,6 +42,10 @@ import org.bukkit.entity.Player;
  */
 public class ActionCatcher extends AbstractAction {
 
+    private static boolean isCancelWord(String word) {
+        return TrMenu.getSettings().getList("OPTIONS.CATCHER-CANCEL-WORDS", Collections.singletonList("quit|exit|cancel|return|break")).stream().anyMatch(k -> word.split(" ")[0].matches("(?i)" + k));
+    }
+
     private int type;
     private String require;
     private String beforeInputAction;
@@ -65,6 +71,10 @@ public class ActionCatcher extends AbstractAction {
 
                 @Override
                 public boolean after(String input) {
+                    if (isCancelWord(input)) {
+                        cancel();
+                        return false;
+                    }
                     if (require != null && !(boolean) JavaScript.run(player, require.replace("$input", input))) {
                         TrUtils.getInst().runAction(player, inputInvalidAction.replace(";", "_||_").replace("$input", input));
                         return true;
@@ -87,7 +97,7 @@ public class ActionCatcher extends AbstractAction {
         Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> TrUtils.getInst().runAction(player, beforeInputAction.replace(";", "_||_")), 3);
         Signs.fakeSign(player, lines -> {
             String input = ArrayUtil.arrayJoin(lines, 0);
-            if (input.matches("quit|cancel|exit")) {
+            if (isCancelWord(input)) {
                 TrUtils.getInst().runAction(player, cancelAction.replace(";", "_||_"));
                 return;
             }

@@ -71,10 +71,11 @@ public class Metrics {
         // 统计容器类型
         metrics.addCustomChart(new MetricsBukkit.AdvancedPie("inventory_type", () -> {
             Map<String, Integer> data = new HashMap<>();
-            for (InventoryType type : InventoryType.values()) {
-                data.put(type.name(), (int) TrMenu.getMenus().stream().filter(menur -> menur.getInventoryType() == type).count());
-            }
-            data.entrySet().removeIf(entry -> entry.getValue() <= 0);
+            TrMenu.getMenus().forEach(menu -> {
+                InventoryType type = menu.getInventoryType();
+                type = type == null ? InventoryType.CHEST : type;
+                data.put(type.name(), data.getOrDefault(type.name(), 0) + 1);
+            });
             return data;
         }));
         // 选项 - 相似度比

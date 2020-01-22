@@ -87,6 +87,22 @@ public class TrUtils {
         return NumberUtils.isParsable(number);
     }
 
+    public boolean isSmaller(String input1, String input2) {
+        return NumberUtils.toDouble(input1) < NumberUtils.toDouble(input2);
+    }
+
+    public boolean isGreater(String input1, String input2) {
+        return NumberUtils.toDouble(input1) > NumberUtils.toDouble(input2);
+    }
+
+    public boolean isSmallerOrEqual(String input1, String input2) {
+        return NumberUtils.toDouble(input1) <= NumberUtils.toDouble(input2);
+    }
+
+    public boolean isGreaterOrEqual(String input1, String input2) {
+        return NumberUtils.toDouble(input1) >= NumberUtils.toDouble(input2);
+    }
+
     public boolean chance(double rate) {
         return Numbers.random(rate <= 1 ? rate : rate / 100);
     }
