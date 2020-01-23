@@ -32,6 +32,10 @@ public class CommandShare extends BaseSubCommand {
     @Override
     public void onCommand(CommandSender sender, Command command, String label, String[] args) {
         Menu menu = TrMenuAPI.getMenu(args[0]);
+        if (menu == null) {
+            TLocale.sendTo(sender, "MENU.NOT-EXIST");
+            return;
+        }
         String loadedPath = menu.getLoadedPath();
         if (loadedPath == null) {
             TLocale.sendTo(sender, "MENU.NOT-SUPPORTED", menu.getName());

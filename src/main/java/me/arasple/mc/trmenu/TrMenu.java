@@ -12,7 +12,7 @@ import java.util.List;
  * @document https://trmenu.trixey.cn
  * @since 2019.10.2
  */
-@TrMenuPlugin.Version(5.14)
+@TrMenuPlugin.Version(5.15)
 public final class TrMenu extends TrMenuPlugin {
 
     @TInject(value = "settings.yml", locale = "LOCALE-PRIORITY")

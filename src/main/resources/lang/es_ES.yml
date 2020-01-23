@@ -1,0 +1,145 @@
+# Translated by brs73
+# Date 2020.1.23
+
+PLUGIN:
+  LOADING:
+    - ''
+    - '&3Tr&bMenu &7cargando...'
+    - ''
+  ENABLED: '&8[&3Tr&bMenu&8] &bINFO &8| &3Cargado. TrMenu &av{0} &3ha sido activado.'
+  DISABLED: '&8[&3Tr&bMenu&8] &bINFO &8| &7Desactivado. Gracias por usar :)'
+  DEPEND:
+    DOWNLOAD: '&8[&3Tr&bMenu&8] &eDEPENDENCIA &8| &7Descargando dependencia del plugin &f{0} &7...'
+    INSTALL: '&8[&3Tr&bMenu&8] &eDEPENDENCIA &8| &7Descargado correctamente &3{0} &7, reiniciando servidor...'
+    INSTALL-FAILED: '&8[&3Tr&bMenu&8] &eDEPENDENCIA &8| &7Fallo al instalar la dependencia &c{0} &7...'
+  HOOKED: '&8[&3Tr&bMenu&8] &eDEPENDENCIA &8| &7Linkeado &6{0}&7...'
+  UPDATE-NOTIFY:
+    LATEST: '&8[&3Tr&bMenu&8] &2Estas usando la ultima version de &3TrMenu&a.'
+    DEV: '&8[&3Tr&bMenu&8] &6Estas usando la version DEV de &3TrMenu&6.'
+    TOO-OLD:
+      - "&8--------------------------------------------------"
+      - "&r"
+      - "&8# &4La version de &cTrMenu &4que usas esta desactualizada"
+      - "&8# &4Porfavor actualize para mejoras y bugs arreglados!"
+      - "&8# &r"
+      - "&8# &4SpigotMC: &chttps://www.spigotmc.org/resources/74284"
+      - "&8# &r"
+      - "&8# &r"
+      - "&8# &4El servidor iniciara en &c&l{0} segundos &4..."
+      - "&r"
+      - "&8--------------------------------------------------"
+    HEADER:
+      - ''
+      - '§3--------------------------------------------------'
+      - '&7▪ &3TrMenu &aNotificacion de update &8{0} &7➦ &8{1}'
+    FOOTER:
+      - '&7▪ &2Github: &a&nhttps://github.com/Arasple/TrMenu/releases/latest'
+      - '§3--------------------------------------------------'
+
+ERROR:
+  HDB: '&8[&3Tr&bMenu&8] &cERROR &8| &cNo puedes usar &6{0} &cporque no hay &6HeadDatabase&c.'
+  VERSION: '&8[&3Tr&bMenu&8] &cERROR &8| &7Error de version. Porfavor descarge nuevamente el plugin.'
+  JS:
+    - '&8[&3Tr&bMenu&8] &cERROR &8| &cError de expresion: &2{0}'
+    - '&6{1}'
+    - '&8{2}'
+
+MENU:
+  LOADED-AUTOLY: '&8[&3Tr&bMenu&8] &bINFORMACION &8| &7Cambios en el archivo, menu recargado automaticamente &f{0}&7...'
+  LOADED-AUTOLY-FAILED: '&8[&3Tr&bMenu&8] &6AVISO &8| &7Error durante la carga automatica de los menus &f{0} &7, fallo al actualizar el menu. Porfavor vea el error, edite y guarde el archivo'
+  LOADED-SUCCESS: '&8[&3Tr&bMenu&8] &bINFORMACION &8| &7Cargado &a{0} &7menus... &8[&7{1} Ms&8]'
+  LOADED-FAILURE: '&8[&3Tr&bMenu&8] &6AVISO &8| &7Hay &6{0} &7menus con fallos al cargar. Porfavor ver el error...'
+  DEPEND-EXPANSIONS-REQUIRED: '&8[&3Tr&bMenu&8] &7Necesitas instalar expansiones de PlaceholderAPI &6{0} &7para usar este menu.'
+  NOT-EXIST: '&8[&3Tr&bMenu&8] &7Este menu no existe...'
+  NOT-SUPPORTED: '&8[&3Tr&bMenu&8] &7Menu no permitido todavia &f{0}&7...'
+  NOT-ENOUGH-ARGS: '&8[&3Tr&bMenu&8] &7Requiere &6{0} &7argumentos.'
+  LOADING-ERRORS:
+    NO-BUTTONS: '&7Menu &6{0} &7No contiene la seccion de botones'
+    YAML: '&7Menu &6{0} &7tiene error YAML &c{1} &8{2}'
+    JSON: '&7Menu &6{0} &7tiene error JSON &c{1} &8{2}'
+    CONFLICT-OPEN-COMMANDS: '&7Menu &6{0} &7tiene un comando abierto en conflicto con el menu &6{1}...'
+    CONFLICT-OPEN-ITEMS: '&7Menu &6{0} &7tiene un conflicto de items con el menu &6{1}...'
+    ICON-NO-CONDITION: '&7Menu &6{0} &7boton &3{1} &7tiene una condición vacia para el icono de prioridad'
+    ICON-LOAD-FAILED: '&7Menu &6{0} &7boton &3{1} &7fallo al cargar. &3{2}&8{3}'
+
+MIGRATE:
+  UNSUPPORTED-TYPE: '&8[&3Tr&bMenu&8] &7No admite migrar desde &f{0} &7todavia...'
+  NOT-EXISTED: '&8[&3Tr&bMenu&8] &cArchivo o dir &6{0} &cno existen o esta vacio...'
+  PROCESSING: '&8[&3Tr&bMenu&8] &7Procesando, en total &f{0} &7archivos para ser migrados...'
+  SUCCESS: '&8[&3Tr&bMenu&8] &3Exitosamente migrados &a{0} &3menus...'
+  ERROR: '&8[&3Tr&bMenu&8] &7Existen &c{0} &7menus que no puedieron migrar, porfavor lea el error.'
+
+HASTEBIN:
+  PROCESSING: '&8[&3Tr&bMenu&8] &7Porfavor espera...'
+  SUCCESS: '&8[&3Tr&bMenu&8] &3Tu contenido fue pasado a &a{0}'
+  FAILED: '&8[&3Tr&bMenu&8] &cFallo al pasar el contenido a Hastebin.'
+
+TEMPLATE:
+  EMPTY: '&8[&3Tr&bMenu&8] &7El inventario esta vacio, cancelando generador.'
+  PROCESSING: '&8[&3Tr&bMenu&8] &7Generando inventario a formato TrMenu ...'
+  SUCCESS:
+    ==: JSON
+    text: '&8[&3Tr&bMenu&8] &3Hecho, click <&a&nHERE@hastebin> &3para copia'
+    args:
+      hastebin:
+        hover: '&7Click para visitar'
+        url: '{0}'
+  FAILED: '&8[&3Tr&bMenu&8] &cGenerado fallido.'
+
+COMMANDS:
+  NOT-PLAYER: '&8[&3Tr&bMenu&8] &cSolo jugador...'
+  NO-PLAYER: '&8[&3Tr&bMenu&8] &cEl jugador esta desconectado...'
+  OPENED-FOR: '&8[&3Tr&bMenu&8] &3Menu abierto a un jugador...'
+  NO-ITEM: '&8[&3Tr&bMenu&8] &cTienes que tener un item en tu mano.'
+  ITEM-TO-JSON:
+    ==: JSON
+    text: '&8[&3Tr&bMenu&8] &7Item escrito en JSON: <&3&n{0}@copy>'
+    args:
+      copy:
+        hover: '&7Click para copiar'
+        suggest: '{0}'
+  LIST:
+    - '&8--------------------------------------------------'
+    - '&3Tr&bMenu &7- Lista de menu'
+    - ''
+  LIST-FORMAT:
+    - '&8▫ &6{0}'
+  HELP-PAGE:
+    ==: JSON
+    text:
+      - '&8--------------------------------------------------'
+      - '&3Tr&bMenu &7- Menu dinamico avanzado &6*{0}'
+      - ''
+      - '&8▪ <&7/&3{1} List@list> &8— &7 Lista de menus'
+      - '&8▪ <&7/&3{1} Reload@reload> &8— &7 Recarga los menus'
+      - '&8▪ <&7/&3{1} Open [Menu] [Id]@open> &8— &7 Abrir un menu a un jugador'
+      - '&8▪ <&7/&3{1} Item@item> &8— &7 Traducir itemstack a JSON'
+      - '&8▪ <&7/&3{1} Template@template> &3<Rows> &8- &7 Generar un menu ya creado'
+      - '&8▪ <&7/&3{1} About@about> &8- &7 Acerca del plugin'
+      - ''
+      - '&8--------------------------------------------------'
+    args:
+      list:
+        hover: |-
+          &7Click para ejecutar
+        command: '/trmenu list'
+      reload:
+        hover: |-
+          &7Click para ejecutar
+        command: '/trmenu reload'
+      open:
+        hover: |-
+          &7Click para ejecutar
+        suggest: '/trmenu open'
+      item:
+        hover: |-
+          &7Click para ejecutar
+        suggest: '/trmenu item'
+      template:
+        hover: |-
+          &7Click para ejecutar
+        suggest: '/trmenu template'
+      about:
+        hover: |-
+          &7Click para ver
+        suggest: '/trmenu about'

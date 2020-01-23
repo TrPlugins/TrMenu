@@ -7,12 +7,13 @@ import io.izzel.taboolib.module.command.base.CommandType;
 import io.izzel.taboolib.module.locale.TLocale;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.migrate.DeluxeMenusMigrater;
+import me.arasple.mc.trmenu.migrate.deprecated.ConverterChestCommands;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import java.io.File;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -25,13 +26,17 @@ public class CommandMigrate extends BaseSubCommand {
 
     @Override
     public Argument[] getArguments() {
-        return new Argument[]{new Argument("Type", true, () -> Collections.singletonList("DeluxeMenus")), new Argument("File/Dir name", true, this::getMigrateFiles)};
+        return new Argument[]{new Argument("Type", true, () -> Arrays.asList("DeluxeMenus", "ChestCommands")), new Argument("File/Dir name", true, this::getMigrateFiles)};
     }
 
     @Override
     public void onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!"DeluxeMenus".equalsIgnoreCase(args[0])) {
             TLocale.sendTo(sender, "MIGRATE.UNSUPPORTED-TYPE", args[0]);
+            return;
+        }
+        if ("ChestCommands".equalsIgnoreCase(args[0])) {
+            ConverterChestCommands.init();
             return;
         }
         File file = new File(TrMenu.getPlugin().getDataFolder(), args[1]);

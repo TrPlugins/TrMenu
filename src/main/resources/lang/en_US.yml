@@ -79,7 +79,7 @@ TEMPLATE:
     text: '&8[&3Tr&bMenu&8] &3Done, click <&a&nHERE@hastebin> &3to copy down'
     args:
       hastebin:
-        hover: '&7Click to visit {0}'
+        hover: '&7Click to visit'
         url: '{0}'
   FAILED: '&8[&3Tr&bMenu&8] &cGenerate failed.'
 
@@ -95,6 +95,9 @@ COMMANDS:
       copy:
         hover: '&7Click to copy'
         suggest: '{0}'
+  JSON-TO-ITEM:
+    SUCCESS: '&8[&3Tr&bMenu&8] &3Converted Json as ItemStack，added to your inventory...'
+    FAILED: '&8[&3Tr&bMenu&8] &cFailed to convert Json to ItemStack...'
   LIST:
     - '&8--------------------------------------------------'
     - '&3Tr&bMenu &7- Menu List'

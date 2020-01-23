@@ -93,7 +93,6 @@ TEMPLATE:
         url: '{0}'
   FAILED: '&8[&3Tr&bMenu&8] &c转换失败... 请检查网络连接!'
 
-
 COMMANDS:
   NOT-PLAYER: '&8[&3Tr&bMenu&8] &c你必须是一名玩家...'
   NO-PLAYER: '&8[&3Tr&bMenu&8] &c目标玩家不存在或不在线...'
@@ -106,6 +105,9 @@ COMMANDS:
       copy:
         hover: '&7点击复制'
         suggest: '{0}'
+  JSON-TO-ITEM:
+    SUCCESS: '&8[&3Tr&bMenu&8] &3成功将 Json 转换为物品，已给予到你的背包中...'
+    FAILED: '&8[&3Tr&bMenu&8] &c无法将该 Json 内容转换为物品...'
   LIST:
     - '&8--------------------------------------------------'
     - '&3Tr&bMenu &7- Menu List *&8(点击聊天内容即可打开)'

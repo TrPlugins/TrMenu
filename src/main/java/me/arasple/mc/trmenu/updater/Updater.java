@@ -55,7 +55,7 @@ public class Updater implements Listener {
 
     private static void notifyOld() {
         if (latest.newVersion - version >= 0.03) {
-            int last = Math.min((int) (3 * ((latest.newVersion - version) / 0.01)), 20);
+            int last = Math.min((int) (1 * ((latest.newVersion - version) / 0.01)), 5);
             TLocale.sendToConsole("PLUGIN.UPDATE-NOTIFY.TOO-OLD", last);
             try {
                 Thread.sleep(last * 1000);

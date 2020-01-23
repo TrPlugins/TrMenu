@@ -1,7 +1,6 @@
 package me.arasple.mc.trmenu.migrate.deprecated;
 
 import com.google.common.collect.Lists;
-import io.izzel.taboolib.module.inject.TSchedule;
 import io.izzel.taboolib.module.locale.TLocale;
 import me.arasple.mc.trmenu.menu.MenuLoader;
 import org.bukkit.Bukkit;
@@ -21,8 +20,7 @@ import java.util.ListIterator;
 @Deprecated
 public class ConverterChestCommands {
 
-    @TSchedule
-    static void init() {
+    public static void init() {
         File folder = new File("plugins/ChestCommands/menu");
         if (Bukkit.getPluginManager().getPlugin("ChestCommands") != null || folder.exists()) {
             if (folder.exists()) {

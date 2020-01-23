@@ -3,6 +3,7 @@ package me.arasple.mc.trmenu.commands;
 import io.izzel.taboolib.module.command.base.BaseSubCommand;
 import io.izzel.taboolib.module.command.base.CommandType;
 import me.arasple.mc.trmenu.TrMenu;
+import me.arasple.mc.trmenu.TrMenuPlugin;
 import me.arasple.mc.trmenu.api.TrMenuAPI;
 import me.arasple.mc.trmenu.bstats.Metrics;
 import me.arasple.mc.trmenu.utils.Skulls;
@@ -38,6 +39,7 @@ public class CommandDebug extends BaseSubCommand {
         sender.sendMessage("§2Cached Skulls: §6" + Skulls.getSkulls().size());
         sender.sendMessage("§2Running Tasks: §6" + Bukkit.getScheduler().getActiveWorkers().stream().filter(t -> t.getOwner() == TrMenu.getPlugin()).count() + Bukkit.getScheduler().getPendingTasks().stream().filter(t -> t.getOwner() == TrMenu.getPlugin()).count());
         sender.sendMessage("§2Metrics: §6" + Metrics.getMetrics().isEnabled() + " §7/ §8" + Metrics.getMetrics().getPluginData());
+        sender.sendMessage("§2TabooLib: §f" + TrMenuPlugin.getVersion());
         sender.sendMessage("");
         sender.sendMessage("§3--------------------------------------------------");
     }

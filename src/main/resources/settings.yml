@@ -12,6 +12,7 @@ LOCALE-PRIORITY:
   - zh_TW
   - vi_VN
   - th_TH
+  - es_ES
 
 # Options
 OPTIONS:
@@ -31,6 +32,12 @@ OPTIONS:
     - 'quit'
     - 'exit'
     - 'cancel'
+
+# Only for 1.9+ servers
+# Each option is only for one menu
+SHORTCUT-OPEN:
+  OFFHAND: null
+  SNEAKING-OFFHAND: 'example'
 
 # Custom loading files as menus
 MENU-FILES: []

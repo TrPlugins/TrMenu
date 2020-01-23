@@ -5,6 +5,7 @@ import io.izzel.taboolib.util.Strings;
 import io.izzel.taboolib.util.lite.Numbers;
 import me.arasple.mc.trmenu.action.TrAction;
 import me.arasple.mc.trmenu.data.ArgsCache;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -36,6 +37,10 @@ public class TrUtils {
             }
             TrAction.runActions(TrAction.readActions(action), player);
         }
+    }
+
+    public String parseBracketPlaceholders(Player player, String string) {
+        return PlaceholderAPI.setBracketPlaceholders(player, string);
     }
 
     /*
@@ -70,11 +75,9 @@ public class TrUtils {
         return new ArrayList<>(Bukkit.getOnlinePlayers()).get(randomInteger(0, Bukkit.getOnlinePlayers().size() - 1));
     }
 
-
     /*
     NUMBER
      */
-
     public int randomInteger(int low, int high) {
         return Numbers.getRandomInteger(low, high);
     }

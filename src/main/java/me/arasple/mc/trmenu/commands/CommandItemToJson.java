@@ -29,17 +29,25 @@ public class CommandItemToJson extends BaseSubCommand {
     public void onCommand(CommandSender sender, Command command, String label, String[] args) {
         ItemStack item = getItemInHand((Player) sender);
 
-//        if (args.length >= 1) {
-//            String json = args[0];
-//            JsonItem.isJson(json);
-//            return;
-//        }
+        if (args.length >= 1) {
+            String json = args[0];
+            if (JsonItem.isJson(json)) {
+                ItemStack itemFromJson = JsonItem.fromJson(json);
+                if (itemFromJson != null) {
+                    ((Player) sender).getInventory().addItem(itemFromJson);
+                    TLocale.sendTo(sender, "COMMANDS.JSON-TO-ITEM.SUCCESS");
+                } else {
+                    TLocale.sendTo(sender, "COMMANDS.JSON-TO-ITEM.FAILED");
+                }
+            }
+            return;
+        }
 
         if (Items.isNull(item)) {
             TLocale.sendTo(sender, "COMMANDS.NO-ITEM");
         } else {
             String json = JsonItem.toJson(item);
-            if (json.length() < 100) {
+            if (json.length() < 200) {
                 TLocale.sendTo(sender, "COMMANDS.ITEM-TO-JSON", json);
             } else {
                 TLocale.sendTo(sender, "HASTEBIN.PROCESSING");

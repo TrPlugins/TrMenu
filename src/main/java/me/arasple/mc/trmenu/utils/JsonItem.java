@@ -1,12 +1,16 @@
 package me.arasple.mc.trmenu.utils;
 
 import io.izzel.taboolib.internal.gson.*;
+import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.module.nms.NMS;
 import io.izzel.taboolib.module.nms.nbt.NBTCompound;
 import io.izzel.taboolib.util.item.ItemBuilder;
 import io.izzel.taboolib.util.item.Items;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.List;
 
 /**
  * @author Bkm016
@@ -15,7 +19,7 @@ import org.bukkit.inventory.ItemStack;
 public class JsonItem {
 
     public static ItemStack fromJson(String item) {
-        JsonElement json = new JsonParser().parse(item);
+        JsonElement json = new JsonParser().parse(TLocale.Translate.setColored(item));
         if (json instanceof JsonObject) {
             ItemBuilder itemBuilder = new ItemBuilder(Material.STONE);
             JsonElement type = ((JsonObject) json).get("type");
@@ -42,10 +46,31 @@ public class JsonItem {
 
     public static String toJson(ItemStack item) {
         JsonObject json = new JsonObject();
+        String type = item.getType().name();
+        byte data = item.getData().getData();
+        int amount = item.getAmount();
+
         json.addProperty("type", item.getType().name());
-        json.addProperty("data", item.getData().getData());
-        json.addProperty("amount", item.getAmount());
-        json.add("meta", new JsonParser().parse(NMS.handle().loadNBT(item).toJson()));
+        if (data > 0) {
+            json.addProperty("data", data);
+        }
+        if (amount > 1) {
+            json.addProperty("amount", amount);
+        }
+        if (item.hasItemMeta()) {
+            // Uncolor
+            ItemMeta meta = item.getItemMeta();
+            if (meta.hasDisplayName()) {
+                meta.setDisplayName(meta.getDisplayName().replace('§', '&'));
+            }
+            if (meta.hasLore()) {
+                List<String> lore = meta.getLore();
+                lore.replaceAll(s -> s.replace('§', '&'));
+                meta.setLore(lore);
+            }
+            item.setItemMeta(meta);
+            json.add("meta", new JsonParser().parse(NMS.handle().loadNBT(item).toJson()));
+        }
         return json.toString();
     }
 
@@ -54,16 +79,11 @@ public class JsonItem {
     }
 
     public static boolean isJson(String string) {
-        JsonElement jsonElement;
         try {
-            jsonElement = new JsonParser().parse(string);
-        } catch (Exception e) {
+            return new JsonParser().parse(string).isJsonObject();
+        } catch (Throwable e) {
             return false;
         }
-        if (jsonElement == null) {
-            return false;
-        }
-        return jsonElement.isJsonObject();
     }
 
 }
