@@ -31,7 +31,7 @@
         - Fixed NBT item to json bug
         - Fixed a template issue when you put too many items at once
         - Fixed NullPointerException in share command
-        - Fixed Pastebin paste encode issue
+        - Fixed Hastebin paste encode issue
         - Added json to item command (`/trmenu item <json>`)
         - Added offhand (or offhand while sneaking ) open menu bind for 1.9+ 
         ```YAML

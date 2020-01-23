@@ -2,9 +2,44 @@
 
 #### VERSION 1.1
   - ##### 1.13
-    - Since: 2020.1.18
+    - Since: 2020.1.20
     - Updates:
-      - 容器动态标题支持！基于数据包, 不卡
+      - 新增语言文件 vi_VN , 由 Galaxyvietnam 翻译
+      - 新增语言文件 th_TH , 由 DriteStudio 翻译
+      - 新增动作 ForceClose 在不跑 close actions 的情况下关闭菜单
+      - 新增选项 option.silent 关闭菜单启动时的 Logo
+      - 新增在线模板功能, 快速生成菜单
+      - 新增命令 /trmenu item 将物品转换为 JSON 支持NBT，可以在 Mats 中使用
+      - 现已支持无敌动态标题!!!
+      - 修复了一个优先级图标刷新问题
+      - R1
+        - DeluxeMenus 100%无损暴打现已支持
+      - R2
+        - 修复了 1.14 以下版本容器动态标题的问题
+        - 现在支持迁移 DeluxeMenus 的 config.yml 内部菜单
+        - 优化了容器动态标题实现代码
+      - R3
+        - Update depend TabooLib to 5.15
+        - 新增语言文件 Spanish , 由 brs73 翻译
+        - 'Shape' 不再强制需要，你可以只写 slot
+        - 新增 `TrUtils.parseBracketPlaceholders(Player player, String string)` 方法，可在Catcher动作里转 {} PAPI变量 
+        - 新增 `OPTIONS.CATCHER-CANCEL-WORDS` 选项在 `settings.yml` 自定义取消动作的标题
+        - 你现在可以定义 `ROWS` 或 `SIZE` 调整箱子容器的行数，如果你不用 `Shape`
+        - 给/扣钱 动作现在支持使用变量
+        - 新增 bStats 统计项 Menu-Item types, inventory types
+        - 修复了 NBT 物品转 Json 问题
+        - 修复了在线模板的一个问题 (当你一次性放很多很多不同的物品)
+        - 修复了分享命令 (Share) 的 NullPointerException 异常
+        - 修复了 Hastebin 粘贴的编码问题 (之前不支持特殊符号/中文)
+        - 新增命令参数 (`/trmenu item <json>`) 实现 Json 回转物品
+        - 为 1.9+ 服务器新增选项快捷绑定菜单到 副手(或蹲下+副手) 即 F / Shift+F
+        ```YAML
+        # Only for 1.9+ servers
+        # Each option is only for one menu
+        SHORTCUT-OPEN:
+          OFFHAND: null
+          SNEAKING-OFFHAND: 'example'
+        ```
   - ##### 1.12
     - Since: 2020.1.14
     - Updates:
