@@ -31,6 +31,7 @@ public class ListenerShortcutOpen implements Listener {
             String perm = menu.length > 1 ? menu[1] : null;
             if (!((perm != null && !p.hasPermission(perm)) || trMenu == null)) {
                 trMenu.open(p);
+                e.setCancelled(true);
             }
         }
     }

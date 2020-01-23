@@ -1,6 +1,10 @@
 # TrMenu Update Logs #
 
 #### VERSION 1.1
+  - ##### 1.14
+    - Since: 2020.1.23
+    - Updates:
+      - Fixed title action NullPointerException when don't set subtitle content
   - ##### 1.13
     - Since: 2020.1.20
     - Updates:
