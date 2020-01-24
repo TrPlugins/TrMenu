@@ -36,7 +36,7 @@ public class CommandAbout extends BaseSubCommand {
         if (!loading) {
             loading = true;
             Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
-                try (InputStream inputStream = new URL("https://raw.githubusercontent.com/Arasple/TrMenu/master/trmenu.yml").openStream(); BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream)) {
+                try (InputStream inputStream = new URL("https://raw.githubusercontent.com/Arasple/TrMenu/master/files/trmenu.yml").openStream(); BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream)) {
                     YamlConfiguration cfg = YamlConfiguration.loadConfiguration(new BufferedReader(new InputStreamReader(bufferedInputStream)));
                     LoadedMenu menu = MenuLoader.loadMenu(cfg.getValues(false), cfg.getName());
                     if (menu != null) {

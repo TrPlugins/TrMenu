@@ -33,7 +33,7 @@ task releaseJar(type: Copy, dependsOn: ['build']) {
 
 dependencies {
     compile 'org.spigotmc:spigot:1.15.1-R0.1-SNAPSHOT'
-    compile 'io.izzel.taboolib:TabooLib:5.14:all'
+    compile 'io.izzel.taboolib:TabooLib:5.15:all'
     compile 'io.izzel.taboolib.loader:TabooLibloader:1.2:all'
     shadow fileTree(dir: 'libs', includes: ['*.jar'])
 }
