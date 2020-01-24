@@ -2,13 +2,18 @@
 
 #### VERSION 1.1
   - ##### 1.14
-    - Since: 2020.1.23
+    - Since: 2020.1.24
     - Updates:
       - Fixed title action NullPointerException when don't set subtitle content
       - Fixed arguments can not be used in `Open-Requirement`/`Open-Deny-Actions`
       - Simplified the update checker & its notify message
       - Added config updater for settings.yml
       - Added auto updater (default disabled) to autoly update TrMenu
+      - Added command `/trmenu update` to update the plugin easily
+      - Added js support foy mat, for example
+        `<js-item:player.getInventory().getArmorContents()[3]>`
+      - Added right-click player shortcut bind
+      - Added default example menu `player.yml`
   - ##### 1.13
     - Since: 2020.1.20
     - Updates:

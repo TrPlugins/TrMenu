@@ -6,11 +6,7 @@ import io.izzel.taboolib.util.Strings;
 import io.izzel.taboolib.util.lite.Materials;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.hook.HookHeadDatabase;
-import me.arasple.mc.trmenu.utils.Dyer;
-import me.arasple.mc.trmenu.utils.JsonItem;
-import me.arasple.mc.trmenu.utils.Skulls;
-import me.arasple.mc.trmenu.utils.Vars;
-import org.bukkit.Bukkit;
+import me.arasple.mc.trmenu.utils.*;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -34,6 +30,7 @@ import java.util.regex.Pattern;
  * [新] ModelData
  * 染色 [皮革]
  * 染色
+ * JavaScript
  */
 public class Mat {
 
@@ -66,12 +63,10 @@ public class Mat {
 
         ItemStack item;
         ItemMeta meta;
-        if (option == Option.PLAYER_ITEM) {
-            String[] value = Vars.replace(player, optionValue).split("-", 2);
-            Player p = Bukkit.getPlayer(value[0]);
-            if (p != null && p.isOnline()) {
-                int slot = NumberUtils.toInt(value[1], 1);
-                return p.getInventory().getItem(slot);
+        if (option == Option.JAVA_SCRIPT) {
+            Object object = JavaScript.run(player, optionValue);
+            if (object instanceof ItemStack) {
+                return ((ItemStack) object).clone();
             }
         } else if (option == Option.TEXTURE_SKULL) {
             staticItem = Skulls.getCustomSkull(optionValue);
@@ -231,11 +226,11 @@ public class Mat {
         HEAD_DATABASE("<((head(-)?(database))|(hdb)):( )?(([0-9]|random)+>)"),
 
         /**
-         * Return item from a player's inventory
+         * Get ItemStack by JavaScript
          * *
-         * <p-item:%player_name%-1>
+         * <js-item:SCRIPT>
          */
-        PLAYER_ITEM("<((player|p)?(-)?item):(.+)?>"),
+        JAVA_SCRIPT("<((javascript|js)?(-)?item):(.+)?>"),
 
         /**
          * Example

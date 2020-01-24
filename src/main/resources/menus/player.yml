@@ -1,28 +1,85 @@
 Title:
   - '{0}''s Profile'
-  - 'You can interact with this player :)'
+  - 'Interact with this player'
 
 Title-Update: 40
 
-Open-Requirement: player.isSneaking() && TrUtils.isPlayerOnline("{0}")
+Open-Commands:
+  - 'profile'
+  - 'player'
+  - 'p'
+
+Open-Requirement: TrUtils.isPlayerOnline("{0}")
 Open-Deny-Actions:
-  - 'tell: &cPlayer &6{0} &6is not exist or online...'
+  - 'tell: &cPlayer &6{0} &cis not exist or online...'
 
 Options:
   Transfer-Args: true
   Force-Transfer-Args: 1
 
 Shape:
-  - '#########'
-  - '    P    '
-  - '         '
-  - '         '
-  - '#########'
-
+  - '||#||||||'
+  - '|#H#|   |'
+  - '|RCZ| - |'
+  - '|#L#| - |'
+  - '|#B#|   |'
+  - '||#||||||'
 Buttons:
   '#':
     display:
-      mats: gray stained glass pane
-  'P':
+      mats: CYAN_STAINED_GLASS_PANE
+  '-':
     display:
-      mats: <skull:{0}>
+      mats: BROWN_STAINED_GLASS_PANE
+  '|':
+    display:
+      mats: BLACK_STAINED_GLASS_PANE
+  'H':
+    update: 20
+    display:
+      mats: '<js-item:TrUtils.getPlayer("{0}").getInventory().getArmorContents()[3]>'
+    icons:
+      - condition: 'TrUtils.getPlayer("{0}").getInventory().getArmorContents()[3] == null'
+        display:
+          name: '&3{0}'
+          mats: <head:{0}>
+  'C':
+    update: 20
+    display:
+      mats: '<js-item:TrUtils.getPlayer("{0}").getInventory().getArmorContents()[2]>'
+    icons:
+      - condition: 'TrUtils.getPlayer("{0}").getInventory().getArmorContents()[2] == null'
+        display:
+          mats: gray stained glass pane
+  'L':
+    update: 20
+    display:
+      mats: '<js-item:TrUtils.getPlayer("{0}").getInventory().getArmorContents()[1]>'
+    icons:
+      - condition: 'TrUtils.getPlayer("{0}").getInventory().getArmorContents()[1] == null'
+        display:
+          mats: gray stained glass pane
+  'B':
+    update: 20
+    display:
+      mats: '<js-item:TrUtils.getPlayer("{0}").getInventory().getArmorContents()[0]>'
+    icons:
+      - condition: 'TrUtils.getPlayer("{0}").getInventory().getArmorContents()[0] == null'
+        display:
+          mats: gray stained glass pane
+  'R':
+    update: 20
+    display:
+      mats: '<js-item:TrUtils.getPlayer("{0}").getInventory().getItemInMainHand()>'
+    icons:
+      - condition: 'TrUtils.getPlayer("{0}").getInventory().getItemInMainHand() == null'
+        display:
+          mats: gray stained glass pane
+  'Z':
+    update: 20
+    display:
+      mats: '<js-item:TrUtils.getPlayer("{0}").getInventory().getItemInOffHand()>'
+    icons:
+      - condition: 'TrUtils.getPlayer("{0}").getInventory().getItemInOffHand() == null'
+        display:
+          mats: gray stained glass pane
