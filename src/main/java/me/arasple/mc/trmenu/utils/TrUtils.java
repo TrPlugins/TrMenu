@@ -94,6 +94,30 @@ public class TrUtils {
         return NumberUtils.isParsable(number);
     }
 
+    public boolean isWithin(String input, String input1, String input2) {
+        double num = NumberUtils.toDouble(input);
+        double low = NumberUtils.toDouble(input1);
+        double high = NumberUtils.toDouble(input2);
+        if (low > high) {
+            double temp = high;
+            high = low;
+            low = temp;
+        }
+        return num > low && num < high;
+    }
+
+    public boolean isWithinOrEqual(String input, String input1, String input2) {
+        double num = NumberUtils.toDouble(input);
+        double low = NumberUtils.toDouble(input1);
+        double high = NumberUtils.toDouble(input2);
+        if (low > high) {
+            double temp = high;
+            high = low;
+            low = temp;
+        }
+        return num >= low && num <= high;
+    }
+
     public boolean isSmaller(String input1, String input2) {
         return NumberUtils.toDouble(input1) < NumberUtils.toDouble(input2);
     }
