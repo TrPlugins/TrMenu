@@ -8,9 +8,9 @@
       - Fixed arguments can not be used in `Open-Requirement`/`Open-Deny-Actions`
       - Simplified the update checker & its notify message
       - Added config updater for settings.yml
-      - Added auto updater (default disabled) to autoly update TrMenu
+      - Added auto-updater (default disabled) to auto-update TrMenu
       - Added command `/trmenu update` to update the plugin easily
-      - Added js support foy mat, for example
+      - Added js support for Mat, for example
         `<js-item:player.getInventory().getArmorContents()[3]>`
       - Added right-click player shortcut bind
       - Added default example menu `profile.yml`

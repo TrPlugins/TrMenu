@@ -1,6 +1,20 @@
 # TrMenu Update Logs #
 
 #### VERSION 1.1
+  - ##### 1.14
+    - Since: 2020.1.24
+    - Updates:
+      - 修复了 Title 动作的空指针异常 (当不设置副标题时)
+      - 修复了传入菜单的参数在 `Open-Requirement`/`Open-Deny-Actions` 中不可用
+      - 简化了更新检测的通知消息
+      - 新增了配置文件自动更新功能
+      - 新增了插件自动更新功能, 默认禁用, 需手动开启 (关服时若已发现新版本, 则自动下载)
+      - 新增命令 `/trmenu update` 轻松的手动更新 TrMenu
+      - 新增 Js-Item，可用在物品材质中，返回 ItemStack 对象, 例如
+        `<js-item:player.getInventory().getArmorContents()[3]>`
+      - 新增右键玩家绑定和蹲下右键玩家绑定，可轻松创建高级玩家交互 GUI
+      - 新增了默认示例菜单`profile.yml`, 为上方功能提供参考
+      - 支持 Oraxen 插件物品直接调用, 用法 `'<oraxen:ID>'`
   - ##### 1.13
     - Since: 2020.1.20
     - Updates:
