@@ -2,6 +2,7 @@ package me.arasple.mc.trmenu.migrate;
 
 import com.google.common.collect.Lists;
 import me.arasple.mc.trmenu.commands.CommandMigrate;
+import me.arasple.mc.trmenu.utils.TrUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemoryConfiguration;
 import org.bukkit.configuration.MemorySection;
@@ -18,8 +19,6 @@ import java.util.stream.Collectors;
  */
 public class DeluxeMenusMigrater {
 
-    private static List<Character> keys = Arrays.asList('#', '-', '+', '|', '=', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z');
-
     public static void migrateDeluxeMenu(File file) {
         YamlConfiguration c = YamlConfiguration.loadConfiguration(file);
         if (c.contains("gui_menus")) {
@@ -34,7 +33,7 @@ public class DeluxeMenusMigrater {
     public static void migrateDeluxeMenu(File file, String menu, ConfigurationSection dm) {
         try {
             YamlConfiguration tm = new YamlConfiguration();
-            ListIterator<Character> k = keys.listIterator();
+            ListIterator<Character> k = TrUtils.getKeys().listIterator();
             tm.options().header(
                     " " + "\n" +
                             "Migrated from DeluxeMenus, by TrMenu" + "\n" +
@@ -420,10 +419,6 @@ public class DeluxeMenusMigrater {
             result.append(object);
         }
         return result.toString();
-    }
-
-    public static List<Character> getKeys() {
-        return keys;
     }
 
 }

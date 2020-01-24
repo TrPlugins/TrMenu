@@ -59,7 +59,6 @@ public class Icon {
             actions.addAll(getActions().get(null));
         }
 
-
         ArgsCache.getEvent().put(player.getUniqueId(), event);
         ArgsCache.getClickedItem().put(player.getUniqueId(), item);
 

@@ -2,6 +2,7 @@ package me.arasple.mc.trmenu.migrate.deprecated;
 
 import com.google.common.collect.Lists;
 import io.izzel.taboolib.module.locale.TLocale;
+import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.menu.MenuLoader;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.MemorySection;
@@ -89,7 +90,7 @@ public class ConverterChestCommands {
             });
             trmenu.set("Shape", fixShape(shape));
             file.renameTo(new File(file.getParent(), file.getName().replace(".yml", "") + ".CONVERTED.TRMENU"));
-            trmenu.save(new File(MenuLoader.getFolder(), file.getName().replace(".yml", "") + "-fromcc.yml"));
+            trmenu.save(new File(TrMenu.getPlugin().getDataFolder(), "menus/" + file.getName().replace(".yml", "") + "-fromcc.yml"));
             return count + 1;
         } catch (Throwable e) {
             e.printStackTrace();

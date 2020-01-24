@@ -11,6 +11,7 @@ import io.izzel.taboolib.util.item.inventory.MenuBuilder;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.utils.Hastebin;
 import me.arasple.mc.trmenu.utils.Skulls;
+import me.arasple.mc.trmenu.utils.TrUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -31,8 +32,6 @@ import java.util.*;
  * template <ROWS>
  */
 public class CommandTemplate extends BaseSubCommand {
-
-    private static List<Character> keys = Arrays.asList('#', '-', '+', '|', '=', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z');
 
     @Override
     public Argument[] getArguments() {
@@ -104,7 +103,7 @@ public class CommandTemplate extends BaseSubCommand {
         public String toYaml() {
             YamlConfiguration yaml = new YamlConfiguration();
             List<String> shape = Lists.newArrayList();
-            ListIterator<Character> key = keys.listIterator();
+            ListIterator<Character> key = TrUtils.getKeys().listIterator();
 
             for (int i = 0; i < rows; i++) {
                 shape.add("         ");

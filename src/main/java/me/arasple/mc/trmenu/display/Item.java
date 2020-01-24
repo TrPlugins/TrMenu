@@ -45,7 +45,7 @@ public class Item {
         this.finalAmount = NumberUtils.toInt(amount, -1);
         this.curSlots = new HashMap<>();
         this.slots = new HashMap<>();
-        resetIndex();
+        this.indexMap = new HashMap<>();
     }
 
     /**
@@ -91,12 +91,37 @@ public class Item {
         return itemStack;
     }
 
-    public List<List<Integer>> getRawSlots() {
-        return rawSlots;
+    /**
+     * 下一个动态属性位置
+     *
+     * @param type 类型
+     * @return 值
+     */
+    private int nextIndex(Player player, int type) {
+        int size = type == 0 ? names.size() : type == 1 ? materials.size() : type == 2 ? lores.size() : getSlots(player).size();
+        if (size == 1) {
+            return 0;
+        }
+        int[] indexs = indexMap.computeIfAbsent(player.getUniqueId(), r -> new int[]{0, 0, 0, 0});
+        indexs[type] = indexs[type] + 1 > size ? 0 : indexs[type] + 1;
+        return indexs[type];
     }
 
+    private void resetIndex() {
+        this.indexMap.clear();
+    }
+
+    public void resetIndex(Player player) {
+        this.slots.clear();
+        this.indexMap.remove(player.getUniqueId());
+    }
+
+    /*
+    SLOTS
+     */
+
     public List<List<Integer>> getSlots(Player player) {
-        return slots.getOrDefault(player.getUniqueId(), rawSlots);
+        return slots.getOrDefault(player.getUniqueId(), getRawSlots());
     }
 
     public void setSlots(Player player, List<List<Integer>> slots) {
@@ -119,94 +144,104 @@ public class Item {
         curSlots.put(player.getUniqueId(), slots);
     }
 
-    /**
-     * 下一个动态属性位置
-     *
-     * @param type 类型
-     * @return 值
-     */
-    private int nextIndex(Player player, int type) {
-        int[] indexs = indexMap.computeIfAbsent(player.getUniqueId(), r -> new int[]{0, 0, 0, 0});
-        int size = 0;
-        switch (type) {
-            case 0:
-                size = names.size();
-                break;
-            case 1:
-                size = materials.size();
-                break;
-            case 2:
-                size = lores.size();
-                break;
-            case 3:
-                size = getSlots(player).size();
-                break;
-            default:
-                break;
-        }
-        if (size == 1) {
-            return 0;
-        }
-        int i = indexs[type];
-        if (i + 1 >= size) {
-            indexs[type] = 0;
-        } else {
-            indexs[type]++;
-        }
-        return i;
-    }
-
-    private void resetIndex() {
-        if (indexMap == null) {
-            indexMap = new HashMap<>();
-            return;
-        }
-        this.indexMap.clear();
-    }
-
-    public void resetIndex(Player player) {
-        this.slots.clear();
-        this.indexMap.remove(player.getUniqueId());
-    }
-
     /*
-    GETTERS
+    GETTERS && SETTERS
      */
 
     public List<String> getNames() {
         return names;
     }
 
+    public void setNames(List<String> names) {
+        this.names = names;
+    }
+
     public List<Mat> getMaterials() {
         return materials;
+    }
+
+    public void setMaterials(List<Mat> materials) {
+        this.materials = materials;
     }
 
     public List<List<String>> getLores() {
         return lores;
     }
 
+    public void setLores(List<List<String>> lores) {
+        this.lores = lores;
+    }
+
+    public List<List<Integer>> getRawSlots() {
+        return rawSlots;
+    }
+
+    public void setRawSlots(List<List<Integer>> rawSlots) {
+        this.rawSlots = rawSlots;
+    }
+
+    public HashMap<UUID, List<List<Integer>>> getSlots() {
+        return slots;
+    }
+
+    public void setSlots(HashMap<UUID, List<List<Integer>>> slots) {
+        this.slots = slots;
+    }
+
     public List<ItemFlag> getItemFlags() {
         return itemFlags;
+    }
+
+    public void setItemFlags(List<ItemFlag> itemFlags) {
+        this.itemFlags = itemFlags;
     }
 
     public String getAmount() {
         return amount;
     }
 
+    public void setAmount(String amount) {
+        this.amount = amount;
+    }
+
     public int getFinalAmount() {
         return finalAmount;
+    }
+
+    public void setFinalAmount(int finalAmount) {
+        this.finalAmount = finalAmount;
     }
 
     public String getShiny() {
         return shiny;
     }
 
+    public void setShiny(String shiny) {
+        this.shiny = shiny;
+    }
+
     public boolean isFinalShiny() {
         return finalShiny;
     }
 
+    public void setFinalShiny(boolean finalShiny) {
+        this.finalShiny = finalShiny;
+    }
+
+    public HashMap<UUID, List<Integer>> getCurSlots() {
+        return curSlots;
+    }
+
+    public void setCurSlots(HashMap<UUID, List<Integer>> curSlots) {
+        this.curSlots = curSlots;
+    }
+
     public HashMap<UUID, int[]> getIndexMap() {
         return indexMap;
+    }
+
+    public void setIndexMap(HashMap<UUID, int[]> indexMap) {
+        this.indexMap = indexMap;
     }
 
 }

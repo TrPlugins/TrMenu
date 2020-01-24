@@ -15,10 +15,10 @@ import me.arasple.mc.trmenu.display.Button;
 import me.arasple.mc.trmenu.display.Icon;
 import me.arasple.mc.trmenu.display.Item;
 import me.arasple.mc.trmenu.display.Mat;
-import me.arasple.mc.trmenu.menu.objs.LoadedMenu;
 import me.arasple.mc.trmenu.utils.Maps;
 import me.arasple.mc.trmenu.utils.Notifys;
 import me.arasple.mc.trmenu.utils.Reader;
+import me.arasple.mc.trmenu.utils.TrUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -41,14 +41,14 @@ public class MenuLoader {
     private static File folder;
 
     public static void init() {
-        folder = new File("plugins/TrMenu/menus");
+        folder = new File(TrMenu.getPlugin().getDataFolder(), "menus");
         if (!folder.exists()) {
             TrMenu.getPlugin().saveResource("menus/example.yml", true);
             TrMenu.getPlugin().saveResource("menus/buy-and-sell.yml", true);
         }
     }
 
-    public static LoadedMenu loadMenu(Map<String, Object> sets, String name) {
+    public static Menu.Load loadMenu(Map<String, Object> sets, String name) {
         return loadMenu(sets, name, null, false);
     }
 
@@ -141,8 +141,8 @@ public class MenuLoader {
     }
 
 
-    public static LoadedMenu loadMenu(Map<String, Object> sets, String name, File file, boolean add) {
-        LoadedMenu loadedMenu = new LoadedMenu();
+    public static Menu.Load loadMenu(Map<String, Object> sets, String name, File file, boolean add) {
+        Menu.Load menuLoad = new Menu.Load();
         Menu menu = file == null || !file.exists() ? null : TrMenu.getMenus().stream().filter(m -> m.getLoadedPath() != null && m.getLoadedPath().equalsIgnoreCase(file.getAbsolutePath())).findFirst().orElse(null);
         Map<String, Object> options = Maps.sectionToMap(MENU_OPTIONS.getFromMap(sets));
         InventoryType inventoryType = Arrays.stream(InventoryType.values()).filter(t -> t.name().equalsIgnoreCase(MenuNodes.MENU_TYPE.getFromMap(sets))).findFirst().orElse(null);
@@ -166,17 +166,14 @@ public class MenuLoader {
         List<String> bindItemLore = MENU_OPTIONS_BINDLORES.getFromMap(options);
         List<String> dependExpansions = MENU_OPTIONS_DEPEND_EXPANSIONS.getFromMap(options);
 
-//        if (shape == null || shape.isEmpty()) {
-//            loadedMenu.getErrors().add(TLocale.asString("MENU.LOADING-ERRORS.NO-SHAPE", name, shape));
-//        }
         if (menu != null) {
             TrMenu.getMenus().forEach(m -> {
                 if (m != menu) {
                     if (m.getOpenCommands() != null && openCommands != null && m.getOpenCommands().stream().anyMatch(openCommands::contains)) {
-                        loadedMenu.getErrors().add(TLocale.asString("MENU.LOADING-ERRORS.CONFLICT-OPEN-COMMANDS", name, m.getName()));
+                        menuLoad.getErrors().add(TLocale.asString("MENU.LOADING-ERRORS.CONFLICT-OPEN-COMMANDS", name, m.getName()));
                     }
                     if (m.getBindItemLore() != null && bindItemLore != null && m.getBindItemLore().stream().anyMatch(bindItemLore::contains)) {
-                        loadedMenu.getErrors().add(TLocale.asString("MENU.LOADING-ERRORS.CONFLICT-OPEN-ITEMS", name, m.getName()));
+                        menuLoad.getErrors().add(TLocale.asString("MENU.LOADING-ERRORS.CONFLICT-OPEN-ITEMS", name, m.getName()));
                     }
                 }
             });
@@ -205,7 +202,7 @@ public class MenuLoader {
                                     if (condition != null) {
                                         icons.add(pIcon);
                                     } else {
-                                        loadedMenu.getErrors().add(TLocale.asString("MENU.LOADING-ERRORS.ICON-NO-CONDITION", name, key));
+                                        menuLoad.getErrors().add(TLocale.asString("MENU.LOADING-ERRORS.ICON-NO-CONDITION", name, key));
                                     }
                                 });
                             }
@@ -219,14 +216,14 @@ public class MenuLoader {
                             for (StackTraceElement s : e.getStackTrace()) {
                                 stackTrace.append("\n").append(s.toString());
                             }
-                            loadedMenu.getErrors().add(TLocale.asString("MENU.LOADING-ERRORS.ICON-LOAD-FAILED", name, key, e.toString(), stackTrace.toString()));
+                            menuLoad.getErrors().add(TLocale.asString("MENU.LOADING-ERRORS.ICON-LOAD-FAILED", name, key, e.toString(), stackTrace.toString()));
                         }
                     });
         } else {
-            loadedMenu.getErrors().add(TLocale.asString("MENU.LOADING-ERRORS.NO-BUTTONS", name));
+            menuLoad.getErrors().add(TLocale.asString("MENU.LOADING-ERRORS.NO-BUTTONS", name));
         }
 
-        if (loadedMenu.getErrors().size() <= 0) {
+        if (menuLoad.getErrors().size() <= 0) {
             String mName = name.length() > 4 ? name.substring(0, name.length() - 4) : name;
             Menu nMenu = new Menu(mName, titles, titleUpdate, inventoryType, rows, buttons, openRequirement, openDenyActions, closeRequirement, closeDenyActions, openCommands, openActions, closeActions, lockPlayerInv, updateInventory, transferArgs, forceTransferArgsAmount, bindItemLore, dependExpansions);
             nMenu.setLoadedPath(file != null ? file.getAbsolutePath() : null);
@@ -239,12 +236,10 @@ public class MenuLoader {
                 }
                 TrMenu.getMenus().add(nMenu);
             }
-            loadedMenu.setMenu(nMenu);
-            loadedMenu.setState(LoadedMenu.LoadedState.SUCCESS);
-            return loadedMenu;
+            menuLoad.setMenu(nMenu);
+            return menuLoad;
         }
-        loadedMenu.setState(LoadedMenu.LoadedState.FAILED);
-        return loadedMenu;
+        return menuLoad;
     }
 
     public static Icon loadIcon(Map<String, Object> map) {
@@ -284,22 +279,22 @@ public class MenuLoader {
                 actions.put(value, TrAction.readActions(actStrs));
             }
         }
-        actions.put(null, TrAction.readActions(castList(Maps.getSimilar(actionsMap, "ALL"), String.class)));
+        actions.put(null, TrAction.readActions(TrUtils.castList(Maps.getSimilar(actionsMap, "ALL"), String.class)));
 
         // Materials
         if (mats == null && defIcon == null) {
             throw new NullPointerException("Materials can not be null");
         } else if (mats != null) {
             if (mats instanceof List) {
-                List<String> list = castList(mats, String.class);
+                List<String> list = TrUtils.castList(mats, String.class);
                 list.forEach(m -> materials.add(new Mat(String.valueOf(m))));
             } else {
                 materials.add(new Mat(String.valueOf(mats)));
             }
         }
-        names = castList(name, String.class);
-        lores = readStringList(lore);
-        slots = readIntegerList(slot);
+        names = TrUtils.castList(name, String.class);
+        lores = TrUtils.readList(lore, String.class);
+        slots = TrUtils.readList(slot, Integer.class);
 
         if (defIcon != null) {
             if (names.isEmpty()) {
@@ -315,10 +310,7 @@ public class MenuLoader {
         // flags
         if (flag != null) {
             if (flag instanceof List) {
-                try {
-                    ((List<Object>) flag).forEach(f -> flags.add(Items.asItemFlag(String.valueOf(f))));
-                } catch (Throwable ignored) {
-                }
+                TrUtils.castList(flag, String.class).forEach(f -> flags.add(Items.asItemFlag(f)));
                 flags.removeIf(Objects::isNull);
             }
         }
@@ -391,58 +383,6 @@ public class MenuLoader {
             count += folder.getName().toLowerCase().endsWith(".yml") ? 1 : 0;
         }
         return count;
-    }
-
-    public static List<List<String>> readStringList(Object object) {
-        List<List<String>> list = Lists.newArrayList();
-        if (!(object instanceof List) || ((List) object).size() <= 0) {
-            return list;
-        } else if (((List) object).get(0) instanceof List) {
-            ((List) object).forEach(x -> list.add((ArrayList<String>) x));
-        } else {
-            list.add(castList(object, String.class));
-        }
-        return list;
-    }
-
-    public static List<List<Integer>> readIntegerList(Object object) {
-        List<List<Integer>> list = Lists.newArrayList();
-        if (object == null) {
-            return list;
-        } else if (object instanceof List) {
-            if (((List) object).size() <= 0) {
-                return list;
-            } else if (((List) object).get(0) instanceof List) {
-                ((List) object).forEach(x -> list.add((ArrayList<Integer>) x));
-            }
-        } else {
-            list.add(castList(object, Integer.class));
-        }
-        return list;
-    }
-
-    public static <T> List<T> castList(Object object, Class<T> classz) {
-        List<T> result = new ArrayList<>();
-        if (object instanceof List<?>) {
-            for (Object o : (List<?>) object) {
-                try {
-                    result.add(classz.cast(o));
-                } catch (Throwable e) {
-                    result.add(classz.cast(String.valueOf(o)));
-                }
-            }
-        } else if (object != null) {
-            try {
-                result.add(classz.cast(object));
-            } catch (Throwable e) {
-                result.add(classz.cast(String.valueOf(object)));
-            }
-        }
-        return result;
-    }
-
-    public static File getFolder() {
-        return folder;
     }
 
 

@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.utils;
 
+import com.google.common.collect.Lists;
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils;
 import io.izzel.taboolib.util.Strings;
 import io.izzel.taboolib.util.lite.Numbers;
@@ -12,6 +13,8 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author Arasple
@@ -78,6 +81,7 @@ public class TrUtils {
     /*
     NUMBER
      */
+
     public int randomInteger(int low, int high) {
         return Numbers.getRandomInteger(low, high);
     }
@@ -138,6 +142,48 @@ public class TrUtils {
 
     public Location createLocation(World world, double x, double y, double z, float yaw, float pitch) {
         return new Location(world, x, y, z, yaw, pitch);
+    }
+
+    /*
+    FOR TRMENU PLUGIN
+     */
+
+    private static List<Character> keys = Arrays.asList('#', '-', '+', '|', '=', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z');
+
+    public static List<Character> getKeys() {
+        return keys;
+    }
+
+    public static <T> List<List<T>> readList(Object object, Class<T> classz) {
+        List<List<T>> list = Lists.newArrayList();
+        if (!(object instanceof List) || ((List) object).size() <= 0) {
+            return list;
+        } else if (((List) object).get(0) instanceof List) {
+            ((List) object).forEach(x -> list.add((ArrayList<T>) x));
+        } else {
+            list.add(castList(object, classz));
+        }
+        return list;
+    }
+
+    public static <T> List<T> castList(Object object, Class<T> classz) {
+        List<T> result = new ArrayList<>();
+        if (object instanceof List<?>) {
+            for (Object o : (List<?>) object) {
+                try {
+                    result.add(classz.cast(o));
+                } catch (Throwable e) {
+                    result.add(classz.cast(String.valueOf(o)));
+                }
+            }
+        } else if (object != null) {
+            try {
+                result.add(classz.cast(object));
+            } catch (Throwable e) {
+                result.add(classz.cast(String.valueOf(object)));
+            }
+        }
+        return result;
     }
 
 

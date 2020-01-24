@@ -5,6 +5,7 @@ import io.izzel.taboolib.util.lite.Numbers;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.bstats.Metrics;
 import me.arasple.mc.trmenu.utils.JavaScript;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -33,7 +34,7 @@ public abstract class AbstractAction {
             return;
         }
         if (options.containsKey(EnumOption.PLAYERS)) {
-            Bukkit.getOnlinePlayers().stream().filter(p -> (boolean) JavaScript.run(p, options.get(EnumOption.PLAYERS))).collect(Collectors.toList()).forEach(this::onExecute);
+            Bukkit.getOnlinePlayers().stream().filter(p -> (boolean) JavaScript.run(p, options.get(EnumOption.PLAYERS))).collect(Collectors.toList()).forEach(x -> onExecute(x, getContent() != null ? PlaceholderAPI.setBracketPlaceholders(player, getContent()) : null));
             return;
         }
         if (options.containsKey(EnumOption.DELAY)) {
@@ -51,6 +52,17 @@ public abstract class AbstractAction {
         }
 
         onExecute(player);
+    }
+
+    public void onExecute(Player player, String content) {
+        if (content != null) {
+            String temp = getContent();
+            setContent(content);
+            onExecute(player);
+            setContent(temp);
+        } else {
+            onExecute(player);
+        }
     }
 
     /**

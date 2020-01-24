@@ -551,4 +551,36 @@ public class Menu {
         this.loadedPath = loadedPath;
     }
 
+    public static class Load {
+
+        private Menu menu;
+        private List<String> errors;
+
+        public Load() {
+            this.errors = Lists.newArrayList();
+        }
+
+        public Load(Menu menu, List<String> errors) {
+            this.menu = menu;
+            this.errors = errors;
+        }
+
+        public Menu getMenu() {
+            return menu;
+        }
+
+        public void setMenu(Menu menu) {
+            this.menu = menu;
+        }
+
+        public List<String> getErrors() {
+            return errors;
+        }
+
+        public void setErrors(List<String> errors) {
+            this.errors = errors;
+        }
+
+    }
+
 }

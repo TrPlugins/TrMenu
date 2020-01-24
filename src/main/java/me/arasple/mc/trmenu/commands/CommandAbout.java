@@ -5,7 +5,6 @@ import io.izzel.taboolib.module.command.base.CommandType;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.menu.Menu;
 import me.arasple.mc.trmenu.menu.MenuLoader;
-import me.arasple.mc.trmenu.menu.objs.LoadedMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -38,7 +37,7 @@ public class CommandAbout extends BaseSubCommand {
             Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
                 try (InputStream inputStream = new URL("https://raw.githubusercontent.com/Arasple/TrMenu/master/files/trmenu.yml").openStream(); BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream)) {
                     YamlConfiguration cfg = YamlConfiguration.loadConfiguration(new BufferedReader(new InputStreamReader(bufferedInputStream)));
-                    LoadedMenu menu = MenuLoader.loadMenu(cfg.getValues(false), cfg.getName());
+                    Menu.Load menu = MenuLoader.loadMenu(cfg.getValues(false), cfg.getName());
                     if (menu != null) {
                         aboutMenu = menu.getMenu();
                         aboutMenu.setOpenCommands(new ArrayList<>());
