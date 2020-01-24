@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu;
 
+import io.izzel.taboolib.module.config.TConfig;
 import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.util.Files;
 import me.arasple.mc.trmenu.api.TrMenuAPI;
@@ -7,9 +8,11 @@ import me.arasple.mc.trmenu.menu.MenuLoader;
 import me.arasple.mc.trmenu.updater.Updater;
 import me.arasple.mc.trmenu.utils.Bungees;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 
 /**
@@ -37,10 +40,32 @@ public class TrMenuLoader {
             return;
         }
 
+
+        updateConfig();
         Updater.init(TrMenu.getPlugin());
         Bungees.init();
         MenuLoader.init();
         MenuLoader.loadMenus(Bukkit.getConsoleSender());
+    }
+
+    private void updateConfig() {
+        TConfig oldCfg = TrMenu.getSettings();
+        YamlConfiguration newCfg = YamlConfiguration.loadConfiguration(new InputStreamReader(TrMenu.getPlugin().getResource("settings.yml")));
+        if (newCfg.getInt("CONFIG-VERSION") == TrMenu.getSettings().getInt("CONFIG-VERSION")) {
+            return;
+        }
+        oldCfg.set("CONFIG-VERSION", newCfg.getInt("CONFIG-VERSION"));
+        oldCfg.getKeys(true).forEach(key -> {
+            if (!newCfg.contains(key)) {
+                oldCfg.set(key, null);
+            }
+        });
+        newCfg.getKeys(true).forEach(key -> {
+            if (!oldCfg.contains(key)) {
+                oldCfg.set(key, newCfg.get(key));
+            }
+        });
+        oldCfg.saveToFile();
     }
 
 

@@ -1,7 +1,7 @@
 # TrMenu Wiki: https://trmenu.trixey.cn
 
 # Do not change
-CONFIG-VERSION: 0
+CONFIG-VERSION: 1
 
 # Locale loading priority
 # Put your locale in the first
@@ -36,7 +36,9 @@ OPTIONS:
 # Only for 1.9+ servers
 # Each option is only for one menu
 SHORTCUT-OPEN:
-  OFFHAND: null
+  OFFHAND: ''
+  RIGHT-CLICK-PLAYER: ''
+  SNEAKING-RIGHT-CLICK-PLAYER: 'player'
   SNEAKING-OFFHAND: 'example'
 
 # Custom loading files as menus

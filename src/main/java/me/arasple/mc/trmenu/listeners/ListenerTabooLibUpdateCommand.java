@@ -1,6 +1,5 @@
 package me.arasple.mc.trmenu.listeners;
 
-import io.izzel.taboolib.module.inject.TListener;
 import io.izzel.taboolib.util.Files;
 import me.arasple.mc.trmenu.TrMenuPlugin;
 import org.bukkit.Bukkit;
@@ -16,16 +15,16 @@ import java.io.File;
  * @author Arasple
  * @date 2020/1/23 19:29
  */
-@TListener
+@Deprecated
 public class ListenerTabooLibUpdateCommand implements Listener {
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     private void onCommand(ServerCommandEvent e) {
-        if ("libupdate".equalsIgnoreCase(e.getCommand())) {
+        if ("tlibupdate".equalsIgnoreCase(e.getCommand())) {
             e.setCancelled(true);
-            e.getSender().sendMessage("§8[§fTabooLib§8] §cWARNING §7| §4Update TabooLib will force to restart your server. Please confirm this action by type §c/libupdateConfirm");
-        } else if ("libupdateConfirm".equalsIgnoreCase(e.getCommand()) || "libupdate confirm".equalsIgnoreCase(e.getCommand())) {
-            e.setCommand("libupdatebbb");
+            e.getSender().sendMessage("§8[§fTabooLib§8] §cWARNING §7| §4Update TabooLib will force to restart your server. Please confirm this action by type §c/tlibupdateConfirm");
+        } else if ("tlibupdateConfirm".equalsIgnoreCase(e.getCommand()) || "tlibupdate confirm".equalsIgnoreCase(e.getCommand())) {
+            e.setCommand("tlibupdatebbb");
             update(e.getSender());
         }
     }

@@ -10,6 +10,7 @@ import me.arasple.mc.trmenu.utils.Dyer;
 import me.arasple.mc.trmenu.utils.JsonItem;
 import me.arasple.mc.trmenu.utils.Skulls;
 import me.arasple.mc.trmenu.utils.Vars;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -65,8 +66,14 @@ public class Mat {
 
         ItemStack item;
         ItemMeta meta;
-
-        if (option == Option.TEXTURE_SKULL) {
+        if (option == Option.PLAYER_ITEM) {
+            String[] value = Vars.replace(player, optionValue).split("-", 2);
+            Player p = Bukkit.getPlayer(value[0]);
+            if (p != null && p.isOnline()) {
+                int slot = NumberUtils.toInt(value[1], 1);
+                return p.getInventory().getItem(slot);
+            }
+        } else if (option == Option.TEXTURE_SKULL) {
             staticItem = Skulls.getCustomSkull(optionValue);
             return staticItem.clone();
         } else if (option == Option.HEAD) {
@@ -222,6 +229,13 @@ public class Mat {
          * <hdb:435345534>
          */
         HEAD_DATABASE("<((head(-)?(database))|(hdb)):( )?(([0-9]|random)+>)"),
+
+        /**
+         * Return item from a player's inventory
+         * *
+         * <p-item:%player_name%-1>
+         */
+        PLAYER_ITEM("<((player|p)?(-)?item):(.+)?>"),
 
         /**
          * Example

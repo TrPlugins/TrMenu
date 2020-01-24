@@ -1,0 +1,28 @@
+Title:
+  - '{0}''s Profile'
+  - 'You can interact with this player :)'
+
+Title-Update: 40
+
+Open-Requirement: player.isSneaking() && TrUtils.isPlayerOnline("{0}")
+Open-Deny-Actions:
+  - 'tell: &cPlayer &6{0} &6is not exist or online...'
+
+Options:
+  Transfer-Args: true
+  Force-Transfer-Args: 1
+
+Shape:
+  - '#########'
+  - '    P    '
+  - '         '
+  - '         '
+  - '#########'
+
+Buttons:
+  '#':
+    display:
+      mats: gray stained glass pane
+  'P':
+    display:
+      mats: <skull:{0}>
