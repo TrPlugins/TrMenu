@@ -13,7 +13,8 @@
       - Added js support foy mat, for example
         `<js-item:player.getInventory().getArmorContents()[3]>`
       - Added right-click player shortcut bind
-      - Added default example menu `player.yml`
+      - Added default example menu `profile.yml`
+      - You can now use items from Oraxen like `'<oraxen:ID>'`
   - ##### 1.13
     - Since: 2020.1.20
     - Updates:

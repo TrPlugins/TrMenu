@@ -6,8 +6,6 @@ Title-Update: 40
 
 Open-Commands:
   - 'profile'
-  - 'player'
-  - 'p'
 
 Open-Requirement: TrUtils.isPlayerOnline("{0}")
 Open-Deny-Actions:

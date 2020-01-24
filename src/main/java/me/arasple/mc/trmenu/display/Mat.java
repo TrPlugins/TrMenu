@@ -4,6 +4,7 @@ import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils;
 import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.util.Strings;
 import io.izzel.taboolib.util.lite.Materials;
+import io.th0rgal.oraxen.items.OraxenItems;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.hook.HookHeadDatabase;
 import me.arasple.mc.trmenu.utils.*;
@@ -63,23 +64,8 @@ public class Mat {
 
         ItemStack item;
         ItemMeta meta;
-        if (option == Option.JAVA_SCRIPT) {
-            Object object = JavaScript.run(player, optionValue);
-            if (object instanceof ItemStack) {
-                return ((ItemStack) object).clone();
-            }
-        } else if (option == Option.TEXTURE_SKULL) {
-            staticItem = Skulls.getCustomSkull(optionValue);
-            return staticItem.clone();
-        } else if (option == Option.HEAD) {
-            return Skulls.getPlayerSkull(Vars.replace(player, optionValue));
-        } else if (option == Option.HEAD_DATABASE) {
-            if (!HookHeadDatabase.isHoooked()) {
-                TLocale.sendToConsole("ERROR.HDB", mat);
-                return null;
-            }
-            return HookHeadDatabase.getItem(optionValue);
-        } else if (Strings.nonEmpty(mat)) {
+        // ORIGINAL
+        if (Strings.nonEmpty(mat)) {
             String[] args = (option == Option.VARIABLE ? Vars.replace(player, mat) : mat).split(":");
             String[] read = readMaterial(new String[]{args[0], args.length > 1 ? args[1] : null});
             item = new ItemStack(Material.valueOf(read[0]));
@@ -106,6 +92,34 @@ public class Mat {
                 staticItem = item;
             }
             return item;
+        }
+        // TEXTURED SKULL
+        else if (option == Option.TEXTURE_SKULL) {
+            staticItem = Skulls.getCustomSkull(optionValue);
+            return staticItem.clone();
+        }
+        // PLAYER HEAD
+        else if (option == Option.HEAD) {
+            return Skulls.getPlayerSkull(Vars.replace(player, optionValue));
+        }
+        // HDB
+        else if (option == Option.HEAD_DATABASE) {
+            if (!HookHeadDatabase.isHoooked()) {
+                TLocale.sendToConsole("ERROR.HDB", mat);
+                return null;
+            }
+            return HookHeadDatabase.getItem(optionValue);
+        }
+        // JAVASCRIPT
+        else if (option == Option.JAVA_SCRIPT) {
+            Object object = JavaScript.run(player, optionValue);
+            if (object instanceof ItemStack) {
+                return ((ItemStack) object).clone();
+            }
+        }
+        // ORAXEN
+        else if (option == Option.ORAXEN) {
+            return OraxenItems.getItemById(optionValue).build();
         }
         return null;
     }
@@ -224,6 +238,13 @@ public class Mat {
          * <hdb:435345534>
          */
         HEAD_DATABASE("<((head(-)?(database))|(hdb)):( )?(([0-9]|random)+>)"),
+
+        /**
+         * Example
+         * *
+         * <oraxen:ID>
+         */
+        ORAXEN("<oraxen:(.+)?>"),
 
         /**
          * Get ItemStack by JavaScript

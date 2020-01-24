@@ -45,7 +45,7 @@ public class MenuLoader {
         if (!folder.exists()) {
             TrMenu.getPlugin().saveResource("menus/example.yml", true);
             TrMenu.getPlugin().saveResource("menus/buy-and-sell.yml", true);
-            TrMenu.getPlugin().saveResource("menus/player.yml", true);
+            TrMenu.getPlugin().saveResource("menus/profile.yml", true);
         }
     }
 
