@@ -423,6 +423,10 @@ public abstract class TrMenuPlugin extends JavaPlugin {
         return plugin;
     }
 
+    public File getPluginFile() {
+        return getFile();
+    }
+
     public static File getLibFile() {
         return libFile;
     }
@@ -465,6 +469,7 @@ public abstract class TrMenuPlugin extends JavaPlugin {
         if (initFailed) {
             return;
         }
+        TrMenuLoader.unload();
         PluginLoader.stop(this);
         try {
             onStopping();

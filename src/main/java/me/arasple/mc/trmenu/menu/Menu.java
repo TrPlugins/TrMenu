@@ -105,6 +105,7 @@ public class Menu {
      */
     public void open(Player player, boolean byConsole, String... args) {
         if (!initEvent(player, byConsole, args)) {
+            ArgsCache.getArgs().remove(player.getUniqueId());
             return;
         }
         // 创建容器
@@ -240,6 +241,7 @@ public class Menu {
      * @return
      */
     private boolean initEvent(Player player, boolean byConsole, String... args) {
+        ArgsCache.getArgs().put(player.getUniqueId(), args);
         MenuOpenEvent event = new MenuOpenEvent(player, byConsole, this);
         if (event.isCancelled()) {
             return false;
@@ -260,7 +262,6 @@ public class Menu {
             return false;
         }
         Catchers.getPlayerdata().remove(player.getName());
-        ArgsCache.getArgs().put(player.getUniqueId(), args);
         return true;
     }
 

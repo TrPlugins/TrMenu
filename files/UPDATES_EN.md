@@ -5,6 +5,10 @@
     - Since: 2020.1.23
     - Updates:
       - Fixed title action NullPointerException when don't set subtitle content
+      - Fixed arguments can not be used in `Open-Requirement`/`Open-Deny-Actions`
+      - Simplified the update checker & its notify message
+      - Added config updater for settings.yml
+      - Added auto updater (default disabled) to autoly update TrMenu
   - ##### 1.13
     - Since: 2020.1.20
     - Updates:

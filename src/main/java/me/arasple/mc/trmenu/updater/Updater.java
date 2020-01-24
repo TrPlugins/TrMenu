@@ -7,7 +7,6 @@ import io.izzel.taboolib.module.locale.TLocale;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.TrMenuPlugin;
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -19,7 +18,6 @@ import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,12 +30,13 @@ public class Updater implements Listener {
     private static List<UUID> noticed = new ArrayList<>();
     private static String url;
     private static double version;
-    private static UpdateInfo latest;
+    private static boolean old;
+    private static double newVersion;
 
     public static void init(Plugin plugin) {
         url = "https://api.github.com/repos/Arasple/" + plugin.getName() + "/releases/latest";
         version = TrMenu.getTrVersion();
-        latest = new UpdateInfo();
+        newVersion = version;
 
         if (!String.valueOf(version).equalsIgnoreCase(plugin.getDescription().getVersion().split("-")[0])) {
             TLocale.sendToConsole("ERROR.VERSION");
@@ -54,25 +53,25 @@ public class Updater implements Listener {
     }
 
     private static void notifyOld() {
-        if (latest.newVersion - version >= 0.03) {
-            int last = Math.min((int) (1 * ((latest.newVersion - version) / 0.01)), 5);
-            TLocale.sendToConsole("PLUGIN.UPDATE-NOTIFY.TOO-OLD", last);
+        if (newVersion - version >= 0.03) {
+            int last = Math.min((int) (1 * ((newVersion - version) / 0.01)), 5);
+            TLocale.sendToConsole("PLUGIN.UPDATER.TOO-OLD", last);
             try {
                 Thread.sleep(last * 1000);
             } catch (InterruptedException ignored) {
             }
         } else {
-            if (latest.hasLatest) {
-                latest.notifyUpdates(version, Bukkit.getConsoleSender());
+            if (old) {
+                TLocale.sendToConsole("PLUGIN.UPDATER.OLD", newVersion);
             } else {
-                TLocale.sendToConsole("PLUGIN.UPDATE-NOTIFY." + (version > latest.newVersion ? "DEV" : "LATEST"));
+                TLocale.sendToConsole("PLUGIN.UPDATER." + (version > newVersion ? "DEV" : "LATEST"));
             }
         }
     }
 
     @TSchedule(delay = 60 * 5, period = 10 * 60 * 20, async = true)
     private static void grabInfo() {
-        if (latest.hasLatest) {
+        if (old) {
             return;
         }
         String read;
@@ -81,10 +80,9 @@ public class Updater implements Listener {
             JsonObject json = (JsonObject) new JsonParser().parse(read);
             double latestVersion = json.get("tag_name").getAsDouble();
             if (latestVersion > version) {
-                latest.hasLatest = true;
+                old = true;
             }
-            latest.newVersion = latestVersion;
-            latest.updates = json.get("body").getAsString().replace("\r", "").split("\n");
+            newVersion = latestVersion;
         } catch (Exception ignored) {
         }
     }
@@ -93,39 +91,22 @@ public class Updater implements Listener {
     public void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
 
-        if (latest.hasLatest && !noticed.contains(p.getUniqueId()) && p.hasPermission("trmenu.admin")) {
+        if (old && !noticed.contains(p.getUniqueId()) && p.hasPermission("trmenu.admin")) {
             noticed.add(p.getUniqueId());
-            Bukkit.getScheduler().runTaskLaterAsynchronously(TrMenu.getPlugin(), () -> latest.notifyUpdates(version, p), 1);
+            Bukkit.getScheduler().runTaskLaterAsynchronously(TrMenu.getPlugin(), () -> TLocale.sendTo(p, "PLUGIN.UPDATER.OLD", newVersion), 1);
         }
     }
 
-    private static class UpdateInfo {
+    public static boolean isOld() {
+        return old;
+    }
 
-        private List<String> info;
-        private boolean hasLatest;
-        private double newVersion;
-        private String[] updates;
+    public static double getNewVersion() {
+        return newVersion;
+    }
 
-        public UpdateInfo() {
-            this(false, -1, new String[]{});
-        }
-
-        public UpdateInfo(boolean hasLatest, double newVersion, String[] updates) {
-            this.hasLatest = hasLatest;
-            this.newVersion = newVersion;
-            this.updates = updates;
-            this.info = new ArrayList<>();
-        }
-
-        public void notifyUpdates(double version, CommandSender sender) {
-            if (info.isEmpty()) {
-                info.addAll(TLocale.asStringList("PLUGIN.UPDATE-NOTIFY.HEADER", String.valueOf(version), String.valueOf(newVersion)));
-                info.addAll(Arrays.asList(updates));
-                info.addAll(TLocale.asStringList("PLUGIN.UPDATE-NOTIFY.FOOTER"));
-            }
-            info.forEach(sender::sendMessage);
-        }
-
+    public static double getVersion() {
+        return version;
     }
 
 }

@@ -17,9 +17,8 @@ public final class TrMenu extends TrMenuPlugin {
 
     @TInject(value = "settings.yml", locale = "LOCALE-PRIORITY")
     private static TConfig settings;
-    @TInject(state = TInject.State.LOADING, init = "init", active = "load", cancel = "unload")
+    @TInject(state = TInject.State.LOADING, init = "init", active = "load")
     private static TrMenuLoader loader;
-
     private static List<Menu> menus = Lists.newArrayList();
 
     public static List<Menu> getMenus() {
@@ -31,7 +30,7 @@ public final class TrMenu extends TrMenuPlugin {
     }
 
     public static double getTrVersion() {
-        return 1.13;
+        return 1.14;
     }
 
 }

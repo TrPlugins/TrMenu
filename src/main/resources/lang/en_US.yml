@@ -10,28 +10,28 @@ PLUGIN:
     INSTALL: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7Successfullly downloaded &3{0} &7, restarting the server...'
     INSTALL-FAILED: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7Failed to install depend plugin &c{0} &7...'
   HOOKED: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7Hooked &6{0}&7...'
-  UPDATE-NOTIFY:
+  UPDATER:
     LATEST: '&8[&3Tr&bMenu&8] &2You''re running the latest version of &3TrMenu&a.'
     DEV: '&8[&3Tr&bMenu&8] &6You''re running the development version of &3TrMenu&6.'
+    OLD:
+      - '&8[&3Tr&bMenu&8] &bFound a new available version &av{0}&b, download it here'
+      - '&2https://www.spigotmc.org/resources/74284'
     TOO-OLD:
       - "&8--------------------------------------------------"
       - "&r"
       - "&8# &4The version of &cTrMenu &4you are running is too old"
       - "&8# &4Please update to the latest version in time!"
       - "&8# &r"
-      - "&8# &4SpigotMC: &chttps://www.spigotmc.org/resources/74284"
+      - "&8# &4SpigotMC: &c"
       - "&8# &r"
       - "&8# &r"
       - "&8# &4The server will start in &c&l{0} secs &4..."
       - "&r"
       - "&8--------------------------------------------------"
-    HEADER:
-      - ''
-      - '§3--------------------------------------------------'
-      - '&7▪ &3TrMenu &aUpdate Notify &8{0} &7➦ &8{1}'
-    FOOTER:
-      - '&7▪ &2Github: &a&nhttps://github.com/Arasple/TrMenu/releases/latest'
-      - '§3--------------------------------------------------'
+    CONFIRM: '&8[&3Tr&bMenu&8] &eUPDATE &8| &7To confirm this action, type &3/TrMenu Update Confirmed&7.'
+    DOWNLOADING: '&8[&3Tr&bMenu&8] &eUPDATE &8| &7Downloading the latest TrMenu &3v{0} &7...'
+    DOWNLOAD-COMPLETED: '&8[&3Tr&bMenu&8] &eUPDATE &8| &aSuccessfully downloaded the latest version of TrMenu. Restart your server to complete the update!'
+    DOWNLOAD-FAILED: '&8[&3Tr&bMenu&8] &eUPDATE &8| &cFailed to download the latest TrMenu ...'
 
 ERROR:
   HDB: '&8[&3Tr&bMenu&8] &cERROR &8| &cYou can not use &6{0} &csince there''s no &6HeadDatabase&c.'

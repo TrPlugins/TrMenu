@@ -10,9 +10,12 @@ PLUGIN:
     INSTALL: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7已成功下载前置 &3{0} &7, 即将重启服务端完成安装...'
     INSTALL-FAILED: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7自动下载前置 &c{0} &7过程出错, 请手动安装, 服务器即将停止...'
   HOOKED: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7成功检测并挂钩软依赖插件 &6{0}&7...'
-  UPDATE-NOTIFY:
+  UPDATER:
     LATEST: '&8[&3Tr&bMenu&8] &2你正在运行最新版的 &3TrMenu&a.'
     DEV: '&8[&3Tr&bMenu&8] &6你正在运行开发版本的 TrMenu, 请及时反馈漏洞!'
+    OLD:
+      - '&8[&3Tr&bMenu&8] &b检测到有新版本 &av{0}&b, 可在此下载'
+      - '&2https://www.spigotmc.org/resources/74284'
     TOO-OLD:
       - "&8--------------------------------------------------"
       - "&r"
@@ -25,16 +28,10 @@ PLUGIN:
       - "&8# &4服务器将在 &c&l{0} secs &4后继续启动..."
       - "&r"
       - "&8--------------------------------------------------"
-    HEADER:
-      - ''
-      - '§3--------------------------------------------------'
-      - '&7▪ &3TrMenu &a更新通知 &8{0} &7➦ &8{1}'
-      - ''
-      - '&7▪ &e内容: '
-    FOOTER:
-      - ''
-      - '&7▪ &2Github下载: &a&nhttps://github.com/Arasple/TrMenu/releases/latest'
-      - '§3--------------------------------------------------'
+    CONFIRM: '&8[&3Tr&bMenu&8] &e更新 &8| &7确认此操作, 请输入 &3/TrMenu Update Confirmed&7.'
+    DOWNLOADING: '&8[&3Tr&bMenu&8] &e更新 &8| &7正在下载最新版 TrMenu &3v{0} &7...'
+    DOWNLOAD-COMPLETED: '&8[&3Tr&bMenu&8] &e更新 &8| &a成功下载最新版 TrMenu, 重启服务器即可享受更新...'
+    DOWNLOAD-FAILED: '&8[&3Tr&bMenu&8] &e更新 &8| &c无法下载最新版 TrMenu ...'
 
 ERROR:
   HDB: '&8[&3Tr&bMenu&8] &cERROR &8| &c未安装 &6HeadDatabase&c, 你无法使用该材质: &6{0}'

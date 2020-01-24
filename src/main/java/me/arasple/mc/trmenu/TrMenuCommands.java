@@ -40,6 +40,9 @@ public class TrMenuCommands extends BaseMainCommand {
     @SubCommand(description = "Toggle the Debug Mode")
     BaseSubCommand debug = new CommandDebug();
 
+    @SubCommand(description = "Update the plugin")
+    BaseSubCommand update = new CommandUpdate();
+
     @SubCommand(description = "About this plugin")
     BaseSubCommand about = new CommandAbout();
 

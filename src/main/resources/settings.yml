@@ -16,6 +16,9 @@ LOCALE-PRIORITY:
 
 # Options
 OPTIONS:
+  # Auto updater
+  # Enable this option, if there is a new version, it will be downloaded automatically when the server is shut down
+  AUTO-UPDATE: false
   # Enable this, the plugin will not display the logo when loading
   SILENT: false
   # Similar material matches

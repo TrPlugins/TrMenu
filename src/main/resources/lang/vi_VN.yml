@@ -13,7 +13,7 @@ PLUGIN:
     INSTALL: '&8[&3Tr&bMenu&8] &ePHỤ THUỘC &8| &7Tải về thành công &3{0} &7, đang khởi động lại máy chủ...'
     INSTALL-FAILED: '&8[&3Tr&bMenu&8] &ePHỤ THUỘC &8| &7Thất bại tải về plugin phụ thuộc &c{0} &7...'
   HOOKED: '&8[&3Tr&bMenu&8] &ePHỤ THUỘC &8| &7Đã kết nối &6{0}&7...'
-  UPDATE-NOTIFY:
+  UPDATER:
     LATEST: '&8[&3Tr&bMenu&8] &2Bạn đang chạy phiên bản mới nhất của &3TrMenu&a.'
     DEV: '&8[&3Tr&bMenu&8] &6Bạn đang chạy phiên bản nhà phát tiển của &3TrMenu&6.'
     TOO-OLD:
@@ -28,13 +28,6 @@ PLUGIN:
       - "&8# &4Máy chủ sẽ chạy trong &c&l{0} giây nữa &4..."
       - "&r"
       - "&8--------------------------------------------------"
-    HEADER:
-      - ''
-      - '§3--------------------------------------------------'
-      - '&7▪ &3TrMenu &aThông báo cập nhật &8{0} &7➦ &8{1}'
-    FOOTER:
-      - '&7▪ &2Github: &a&nhttps://github.com/Arasple/TrMenu/releases/latest'
-      - '§3--------------------------------------------------'
 
 ERROR:
   HDB: '&8[&3Tr&bMenu&8] &cLỖI &8| &cBạn không thể sử dụng &6{0} &ckhi không có plugin &6HeadDatabase&c.'

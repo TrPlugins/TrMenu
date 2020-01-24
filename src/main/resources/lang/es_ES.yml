@@ -13,7 +13,7 @@ PLUGIN:
     INSTALL: '&8[&3Tr&bMenu&8] &eDEPENDENCIA &8| &7Descargado correctamente &3{0} &7, reiniciando servidor...'
     INSTALL-FAILED: '&8[&3Tr&bMenu&8] &eDEPENDENCIA &8| &7Fallo al instalar la dependencia &c{0} &7...'
   HOOKED: '&8[&3Tr&bMenu&8] &eDEPENDENCIA &8| &7Linkeado &6{0}&7...'
-  UPDATE-NOTIFY:
+  UPDATER:
     LATEST: '&8[&3Tr&bMenu&8] &2Estas usando la ultima version de &3TrMenu&a.'
     DEV: '&8[&3Tr&bMenu&8] &6Estas usando la version DEV de &3TrMenu&6.'
     TOO-OLD:
@@ -28,13 +28,6 @@ PLUGIN:
       - "&8# &4El servidor iniciara en &c&l{0} segundos &4..."
       - "&r"
       - "&8--------------------------------------------------"
-    HEADER:
-      - ''
-      - '§3--------------------------------------------------'
-      - '&7▪ &3TrMenu &aNotificacion de update &8{0} &7➦ &8{1}'
-    FOOTER:
-      - '&7▪ &2Github: &a&nhttps://github.com/Arasple/TrMenu/releases/latest'
-      - '§3--------------------------------------------------'
 
 ERROR:
   HDB: '&8[&3Tr&bMenu&8] &cERROR &8| &cNo puedes usar &6{0} &cporque no hay &6HeadDatabase&c.'

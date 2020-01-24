@@ -4,37 +4,34 @@ PLUGIN:
     - '&3Tr&bMenu &7正在載入中...'
     - ''
   ENABLED: '&8[&3Tr&bMenu&8] &bINFO &8| &3加載完畢. TrMenu &av{0} &3現已啓用, 敬請使用.'
-  DISABLED: '&8[&3Tr&bMenu&8] &bINFO &8| &7感謝使用本插件 :)'
+  DISABLED: '&8[&3Tr&bMenu&8] &bINFO &8| &7感謝使用本插件, 您在論壇爲本插件評分即是對作者最大的鼓勵!'
   DEPEND:
     DOWNLOAD: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7正在下載前置插件 &f{0} &7...'
     INSTALL: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7已成功下載前置 &3{0} &7, 即將重啓服務端完成安裝...'
     INSTALL-FAILED: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7自動下載前置 &c{0} &7過程出錯, 請手動安裝, 服務器即將停止...'
   HOOKED: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7成功檢測並挂鈎軟依賴插件 &6{0}&7...'
-  UPDATE-NOTIFY:
+  UPDATER:
     LATEST: '&8[&3Tr&bMenu&8] &2你正在運行最新版的 &3TrMenu&a.'
     DEV: '&8[&3Tr&bMenu&8] &6你正在運行開發版本的 TrMenu, 請及時反饋漏洞!'
+    OLD:
+      - '&8[&3Tr&bMenu&8] &b檢測到有新版本 &av{0}&b, 可在此下載'
+      - '&2https://www.spigotmc.org/resources/74284'
     TOO-OLD:
       - "&8--------------------------------------------------"
       - "&r"
       - "&8# &4您所運行的 &cTrMenu &4版本過舊, 可能潛在很多漏洞"
       - "&8# &4請及時更新到最新版本以便獲得更好的插件體驗!"
       - "&8# &r"
-      - "&8# &4SpigotMC: &chttps://www.spigotmc.org/resources/74284"
+      - "&8# &4Mcbbs: &chttps://www.mcbbs.net/thread-918078-1-1.html"
       - "&8# &r"
       - "&8# &r"
       - "&8# &4服務器將在 &c&l{0} secs &4後繼續啓動..."
       - "&r"
       - "&8--------------------------------------------------"
-    HEADER:
-      - ''
-      - '§3--------------------------------------------------'
-      - '&7▪ &3TrMenu &a更新通知 &8{0} &7➦ &8{1}'
-      - ''
-      - '&7▪ &e內容: '
-    FOOTER:
-      - ''
-      - '&7▪ &2Github下載: &a&nhttps://github.com/Arasple/TrMenu/releases/latest'
-      - '§3--------------------------------------------------'
+    CONFIRM: '&8[&3Tr&bMenu&8] &e更新 &8| &7確認此操作, 請輸入 &3/TrMenu Update Confirmed&7.'
+    DOWNLOADING: '&8[&3Tr&bMenu&8] &e更新 &8| &7正在下載最新版 TrMenu &3v{0} &7...'
+    DOWNLOAD-COMPLETED: '&8[&3Tr&bMenu&8] &e更新 &8| &a成功下載最新版 TrMenu, 重啓服務器即可享受更新...'
+    DOWNLOAD-FAILED: '&8[&3Tr&bMenu&8] &e更新 &8| &c無法下載最新版 TrMenu ...'
 
 ERROR:
   HDB: '&8[&3Tr&bMenu&8] &cERROR &8| &c未安裝 &6HeadDatabase&c, 你無法使用該材質: &6{0}'
@@ -69,6 +66,13 @@ MENU:
     ICON-NO-CONDITION: '&7菜單 &6{0} &7的按鈕節點 &3{1} &7條件圖標的條件爲空...'
     ICON-LOAD-FAILED: '&7菜單 &6{0} &7的按鈕節點 &3{1} &7加載失敗. &3{2}&8{3}'
 
+MIGRATE:
+  UNSUPPORTED-TYPE: '&8[&3Tr&bMenu&8] &7暫不支持遷移 &f{0} &7的菜單...'
+  NOT-EXISTED: '&8[&3Tr&bMenu&8] &c文件或目錄 &6{0} &c不存在或爲空...'
+  PROCESSING: '&8[&3Tr&bMenu&8] &7正在處理中, 總計 &f{0} &7個欲遷移文件...'
+  SUCCESS: '&8[&3Tr&bMenu&8] &3成功遷入了 &a{0} &3個菜單...'
+  ERROR: '&8[&3Tr&bMenu&8] &7有 &c{0} &7個菜單遷移失敗，請檢查相關錯誤...'
+
 HASTEBIN:
   PROCESSING: '&8[&3Tr&bMenu&8] &7請稍等...'
   SUCCESS: '&8[&3Tr&bMenu&8] &3你的內容已被粘貼到 &a{0}'
@@ -86,7 +90,6 @@ TEMPLATE:
         url: '{0}'
   FAILED: '&8[&3Tr&bMenu&8] &c轉換失敗... 請檢查網絡連接!'
 
-
 COMMANDS:
   NOT-PLAYER: '&8[&3Tr&bMenu&8] &c你必須是一名玩家...'
   NO-PLAYER: '&8[&3Tr&bMenu&8] &c目標玩家不存在或不在線...'
@@ -99,6 +102,9 @@ COMMANDS:
       copy:
         hover: '&7點擊複制'
         suggest: '{0}'
+  JSON-TO-ITEM:
+    SUCCESS: '&8[&3Tr&bMenu&8] &3成功將 Json 轉換爲物品，已給予到你的背包中...'
+    FAILED: '&8[&3Tr&bMenu&8] &c無法將該 Json 內容轉換爲物品...'
   LIST:
     - '&8--------------------------------------------------'
     - '&3Tr&bMenu &7- Menu List *&8(點擊聊天內容即可打開)'
