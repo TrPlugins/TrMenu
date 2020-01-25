@@ -125,4 +125,14 @@ public class Skulls {
         return skulls;
     }
 
+    private static Skulls instance = new Skulls();
+
+    public static Skulls getInst() {
+        return instance;
+    }
+
+    public ItemStack getSkull(String id) {
+        return id.length() > 150 ? getCustomSkull(id) : getPlayerSkull(id);
+    }
+
 }

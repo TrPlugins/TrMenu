@@ -3,12 +3,14 @@ package me.arasple.mc.trmenu.utils;
 import com.google.common.collect.Lists;
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils;
 import io.izzel.taboolib.util.Strings;
+import io.izzel.taboolib.util.item.ItemBuilder;
 import io.izzel.taboolib.util.lite.Numbers;
 import me.arasple.mc.trmenu.action.TrAction;
 import me.arasple.mc.trmenu.data.ArgsCache;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
@@ -76,6 +78,14 @@ public class TrUtils {
 
     public Player getRandomPlayer() {
         return new ArrayList<>(Bukkit.getOnlinePlayers()).get(randomInteger(0, Bukkit.getOnlinePlayers().size() - 1));
+    }
+
+    /*
+    ITEMSTACKS
+     */
+
+    public ItemBuilder getItemBuildr() {
+        return new ItemBuilder(Material.STONE);
     }
 
     /*

@@ -78,7 +78,7 @@ public class Item {
         if (finalAmount != -1) {
             itemStack.setAmount(finalAmount);
         } else {
-            itemStack.setAmount(NumberUtils.toInt(String.valueOf(JavaScript.run(player, amount)), 1));
+            itemStack.setAmount((int) NumberUtils.toDouble(String.valueOf(JavaScript.run(player, amount)), 1));
         }
         if (itemFlags.size() > 0) {
             itemFlags.forEach(itemFlag -> {

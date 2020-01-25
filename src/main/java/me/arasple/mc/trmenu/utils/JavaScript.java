@@ -15,14 +15,22 @@ import java.util.Arrays;
  * @author Arasple
  * @date 2019/10/5 13:57
  */
+
 public class JavaScript {
+
+    private static SimpleBindings bindings = new SimpleBindings();
+
+    static {
+        bindings.put("bukkitServer", Bukkit.getServer());
+        bindings.put("TrUtils", TrUtils.getInst());
+        bindings.put("Skulls", Skulls.getInst());
+    }
 
     public static Object run(Player player, String script) {
         return run(player, script, null);
     }
 
     public static Object run(Player player, String script, InventoryClickEvent event) {
-        SimpleBindings bindings = new SimpleBindings();
         script = Vars.replace(player, script);
 
         if (Strings.isEmpty(script) || "null".equalsIgnoreCase(script)) {
@@ -37,9 +45,7 @@ public class JavaScript {
             event = ArgsCache.getEvent().get(player.getUniqueId());
         }
 
-        bindings.put("TrUtils", TrUtils.getInst());
         bindings.put("player", player);
-        bindings.put("bukkitServer", Bukkit.getServer());
         if (event != null) {
             if (event instanceof InventoryClickEvent) {
                 bindings.put("clickEvent", event);
@@ -55,6 +61,10 @@ public class JavaScript {
             TLocale.sendToConsole("ERROR.JS", script, e.getMessage(), Arrays.toString(e.getStackTrace()));
             return false;
         }
+    }
+
+    public static SimpleBindings getBindings() {
+        return bindings;
     }
 
 }

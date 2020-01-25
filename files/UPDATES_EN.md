@@ -4,6 +4,11 @@
   - ##### 1.14
     - Since: 2020.1.24
     - Updates:
+      - Fixe double value can not be cast to int for item amount
+      - Fixed tag `<variable>` doesn't work
+  - ##### 1.14
+    - Since: 2020.1.24
+    - Updates:
       - Fixed title action NullPointerException when don't set subtitle content
       - Fixed arguments can not be used in `Open-Requirement`/`Open-Deny-Actions`
       - Simplified the update checker & its notify message

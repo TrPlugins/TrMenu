@@ -160,6 +160,7 @@ public class MenuLoader {
         List<AbstractAction> closeDenyActions = TrAction.readActions(MENU_CLOSE_DENY_ACTIONS.getFromMap(sets, new ArrayList<>()));
         String openRequirement = MENU_OPEN_REQUIREMENT.getFromMap(sets);
         String closeRequirement = MENU_CLOSE_REQUIREMENT.getFromMap(sets);
+        String keepOpenRequirement = MENU_KEEP_OPEN_REQUIREMENT.getFromMap(sets);
         boolean lockPlayerInv = MENU_OPTIONS_LOCKHAND.getFromMap(options, true);
         boolean updateInventory = MENU_OPTIONS_UPDATEINV.getFromMap(options, false);
         boolean transferArgs = MENU_OPTIONS_ARGS.getFromMap(options, false);
@@ -226,7 +227,7 @@ public class MenuLoader {
 
         if (menuLoad.getErrors().size() <= 0) {
             String mName = name.length() > 4 ? name.substring(0, name.length() - 4) : name;
-            Menu nMenu = new Menu(mName, titles, titleUpdate, inventoryType, rows, buttons, openRequirement, openDenyActions, closeRequirement, closeDenyActions, openCommands, openActions, closeActions, lockPlayerInv, updateInventory, transferArgs, forceTransferArgsAmount, bindItemLore, dependExpansions);
+            Menu nMenu = new Menu(mName, titles, titleUpdate, inventoryType, rows, buttons, openRequirement, openDenyActions, closeRequirement, closeDenyActions, keepOpenRequirement, openCommands, openActions, closeActions, lockPlayerInv, updateInventory, transferArgs, forceTransferArgsAmount, bindItemLore, dependExpansions);
             nMenu.setLoadedPath(file != null ? file.getAbsolutePath() : null);
             if (nMenu != null && add) {
                 if (menu != null) {

@@ -170,7 +170,7 @@ public class Mat {
                 if (args.length >= 2) {
                     optValue = args[1];
                 }
-                return new String[]{value.name(), optValue.substring(0, optValue.length() - 1)};
+                return new String[]{value.name(), optValue != null ? optValue.substring(0, optValue.length() - 1) : null};
             }
         }
         return null;

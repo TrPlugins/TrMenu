@@ -23,6 +23,7 @@ public enum MenuNodes {
     MENU_OPEN_DENY_ACTIONS("open-deny-action(s)?"),
     MENU_CLOSE_REQUIREMENT("close-requirement(s)?"),
     MENU_CLOSE_DENY_ACTIONS("close-deny-action(s)?"),
+    MENU_KEEP_OPEN_REQUIREMENT("keep-open-requirement(s)?"),
 
     MENU_OPEN_COMAMNDS("open-commands"),
     MENU_OPEN_ACTIONS("open-actions"),

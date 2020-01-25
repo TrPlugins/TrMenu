@@ -39,7 +39,7 @@ public abstract class InvTitler {
                 if (!(player.getOpenInventory().getTopInventory().getHolder() instanceof MenuHolder)) {
                     getImpl().closeInventory(player);
                 }
-            }, 3);
+            }, 2);
         }
     }
 

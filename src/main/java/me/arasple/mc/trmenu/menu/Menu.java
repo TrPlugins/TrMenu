@@ -50,6 +50,7 @@ public class Menu {
     private List<AbstractAction> closeDenyActions;
     private String openRequirement;
     private String closeRequirement;
+    private String keepOpenRequirement;
     private boolean lockPlayerInv;
     private boolean updateInventory;
     private boolean transferArgs;
@@ -58,11 +59,11 @@ public class Menu {
     private List<String> dependExpansions;
     private String loadedPath;
 
-    public Menu(String name, List<String> titles, int titleUpdate, InventoryType inventoryType, int rows, HashMap<Button, List<Integer>> buttons, String openRequirement, List<AbstractAction> openDenyActions, String closeRequirement, List<AbstractAction> closeDenyActions, List<String> openCommands, List<AbstractAction> openActions, List<AbstractAction> closeActions, boolean lockPlayerInv, boolean updateInventory, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore, List<String> dependExpansions) {
-        setValues(name, titles, titleUpdate, inventoryType, rows, buttons, openRequirement, openDenyActions, closeRequirement, closeDenyActions, openCommands, openActions, closeActions, lockPlayerInv, updateInventory, transferArgs, forceTransferArgsAmount, bindItemLore, dependExpansions);
+    public Menu(String name, List<String> titles, int titleUpdate, InventoryType inventoryType, int rows, HashMap<Button, List<Integer>> buttons, String openRequirement, List<AbstractAction> openDenyActions, String closeRequirement, List<AbstractAction> closeDenyActions, String keepOpenRequirement, List<String> openCommands, List<AbstractAction> openActions, List<AbstractAction> closeActions, boolean lockPlayerInv, boolean updateInventory, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore, List<String> dependExpansions) {
+        setValues(name, titles, titleUpdate, inventoryType, rows, buttons, openRequirement, openDenyActions, closeRequirement, closeDenyActions, keepOpenRequirement, openCommands, openActions, closeActions, lockPlayerInv, updateInventory, transferArgs, forceTransferArgsAmount, bindItemLore, dependExpansions);
     }
 
-    private void setValues(String name, List<String> title, int titleUpdate, InventoryType inventoryType, int rows, HashMap<Button, List<Integer>> buttons, String openRequirement, List<AbstractAction> openDenyActions, String closeRequirement, List<AbstractAction> closeDenyActions, List<String> openCommands, List<AbstractAction> openActions, List<AbstractAction> closeActions, boolean lockPlayerInv, boolean updateInventory, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore, List<String> dependExpansions) {
+    private void setValues(String name, List<String> title, int titleUpdate, InventoryType inventoryType, int rows, HashMap<Button, List<Integer>> buttons, String openRequirement, List<AbstractAction> openDenyActions, String closeRequirement, List<AbstractAction> closeDenyActions, String keepOpenRequirement, List<String> openCommands, List<AbstractAction> openActions, List<AbstractAction> closeActions, boolean lockPlayerInv, boolean updateInventory, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore, List<String> dependExpansions) {
         this.name = name;
         this.titles = title;
         this.titleUpdate = titleUpdate;
@@ -74,6 +75,7 @@ public class Menu {
         this.openDenyActions = openDenyActions;
         this.closeRequirement = closeRequirement;
         this.closeDenyActions = closeDenyActions;
+        this.keepOpenRequirement = keepOpenRequirement;
         this.openCommands = openCommands;
         this.openActions = openActions;
         this.closeActions = closeActions;
@@ -104,6 +106,9 @@ public class Menu {
      * @param args      传递参数
      */
     public void open(Player player, boolean byConsole, String... args) {
+        for (int i = 0; i < args.length; i++) {
+            args[i] = Vars.replace(player, args[i]);
+        }
         if (!initEvent(player, byConsole, args)) {
             ArgsCache.getArgs().remove(player.getUniqueId());
             return;
@@ -143,6 +148,18 @@ public class Menu {
                     }
                 }
                 player.updateInventory();
+            }
+            // 保持打开条件
+            if (Strings.nonEmpty(getOpenRequirement())) {
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        if (!((boolean) JavaScript.run(player, getKeepOpenRequirement()))) {
+                            player.closeInventory();
+                            cancel();
+                        }
+                    }
+                }.runTaskTimer(TrMenu.getPlugin(), 5, 15);
             }
             // 打开菜单
             Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> {
@@ -494,6 +511,14 @@ public class Menu {
 
     public void setCloseRequirement(String closeRequirement) {
         this.closeRequirement = closeRequirement;
+    }
+
+    public String getKeepOpenRequirement() {
+        return keepOpenRequirement;
+    }
+
+    public void setKeepOpenRequirement(String keepOpenRequirement) {
+        this.keepOpenRequirement = keepOpenRequirement;
     }
 
     public boolean isLockPlayerInv() {

@@ -20,11 +20,12 @@ public class ActionOpen extends AbstractAction {
 
     @Override
     public void onExecute(Player player) {
-        Menu menu = TrMenuAPI.getMenu(getContent().split(" ")[0]);
+        String menuName = getContent().split(" ")[0];
+        Menu menu = TrMenuAPI.getMenu(menuName);
         if (menu != null) {
-            menu.open(player, true, ArrayUtil.arrayJoin(getContent().split(" "), 1));
+            menu.open(player, true, ArrayUtil.arrayJoin(getContent().split(" "), 1).split(" "));
         } else {
-            player.sendMessage(ChatColor.RED + "Menu " + ChatColor.YELLOW + getContent() + " does not exist");
+            player.sendMessage(ChatColor.RED + "Menu " + ChatColor.YELLOW + menuName + ChatColor.RED + " does not exist");
         }
     }
 
