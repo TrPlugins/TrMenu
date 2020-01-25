@@ -103,7 +103,7 @@ public class Item {
             return 0;
         }
         int[] indexs = indexMap.computeIfAbsent(player.getUniqueId(), r -> new int[]{0, 0, 0, 0});
-        indexs[type] = indexs[type] + 1 > size ? 0 : indexs[type] + 1;
+        indexs[type] = indexs[type] + 1 >= size ? 0 : indexs[type] + 1;
         return indexs[type];
     }
 

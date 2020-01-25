@@ -41,7 +41,7 @@ OPTIONS:
 SHORTCUT-OPEN:
   OFFHAND: ''
   RIGHT-CLICK-PLAYER: ''
-  SNEAKING-RIGHT-CLICK-PLAYER: 'player'
+  SNEAKING-RIGHT-CLICK-PLAYER: 'profile'
   SNEAKING-OFFHAND: 'example'
 
 # Custom loading files as menus
