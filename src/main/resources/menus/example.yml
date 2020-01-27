@@ -33,7 +33,6 @@ Shape:
   - '         '
   - '#########'
 
-
 # (Optional)
 Open-Requirement: 'player.hasPermission("trmenu.use") || "$openBy" == "CONSOLE"'
 

@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils;
 import io.izzel.taboolib.util.Strings;
 import io.izzel.taboolib.util.item.ItemBuilder;
+import io.izzel.taboolib.util.item.Items;
 import io.izzel.taboolib.util.lite.Numbers;
 import me.arasple.mc.trmenu.action.TrAction;
 import me.arasple.mc.trmenu.data.ArgsCache;
@@ -13,6 +14,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -86,6 +88,28 @@ public class TrUtils {
 
     public ItemBuilder getItemBuildr() {
         return new ItemBuilder(Material.STONE);
+    }
+
+    /*
+    INVENTORY
+     */
+
+    public static <T> List<List<T>> readList(Object object, Class<T> classz) {
+        List<List<T>> list = Lists.newArrayList();
+        if (object == null) {
+            return list;
+        } else if (!(object instanceof List) || ((List) object).size() <= 0) {
+            list.add(Arrays.asList(classz.cast(object)));
+        } else if (((List) object).get(0) instanceof List) {
+            ((List) object).forEach(x -> list.add((ArrayList<T>) x));
+        } else {
+            list.add(castList(object, classz));
+        }
+        return list;
+    }
+
+    public int getEmptySlot(Inventory inventory) {
+        return getEmptySlot(inventory, 0, inventory.getSize());
     }
 
     /*
@@ -188,16 +212,13 @@ public class TrUtils {
         return keys;
     }
 
-    public static <T> List<List<T>> readList(Object object, Class<T> classz) {
-        List<List<T>> list = Lists.newArrayList();
-        if (!(object instanceof List) || ((List) object).size() <= 0) {
-            return list;
-        } else if (((List) object).get(0) instanceof List) {
-            ((List) object).forEach(x -> list.add((ArrayList<T>) x));
-        } else {
-            list.add(castList(object, classz));
+    private int getEmptySlot(Inventory inventory, int from, int to) {
+        for (int i = from; i < to; i++) {
+            if (Items.isNull(inventory.getItem(i))) {
+                return i;
+            }
         }
-        return list;
+        return 0;
     }
 
     public static <T> List<T> castList(Object object, Class<T> classz) {

@@ -1,6 +1,7 @@
 package me.arasple.mc.trmenu.menu;
 
 import com.google.common.collect.Lists;
+import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils;
 import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.util.Strings;
 import io.izzel.taboolib.util.item.Items;
@@ -14,8 +15,10 @@ import me.arasple.mc.trmenu.data.ArgsCache;
 import me.arasple.mc.trmenu.display.Button;
 import me.arasple.mc.trmenu.display.Icon;
 import me.arasple.mc.trmenu.display.Item;
+import me.arasple.mc.trmenu.display.Loc;
 import me.arasple.mc.trmenu.nms.InvTitler;
 import me.arasple.mc.trmenu.utils.JavaScript;
+import me.arasple.mc.trmenu.utils.TrUtils;
 import me.arasple.mc.trmenu.utils.Vars;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.clip.placeholderapi.PlaceholderAPIPlugin;
@@ -37,12 +40,13 @@ import java.util.stream.Collectors;
 public class Menu {
 
     private String name;
-    private InventoryType inventoryType;
-    private int rows;
-    private HashMap<Button, List<Integer>> buttons;
+    private InventoryType type;
+    private HashMap<Integer, Integer> rows;
+    private HashMap<Button, Loc> buttons;
     private List<String> titles;
     private int titleUpdate;
     private HashMap<UUID, Integer> titleIndex;
+    private HashMap<UUID, Integer> shapeIndex;
     private List<String> openCommands;
     private List<AbstractAction> openActions;
     private List<AbstractAction> closeActions;
@@ -59,16 +63,17 @@ public class Menu {
     private List<String> dependExpansions;
     private String loadedPath;
 
-    public Menu(String name, List<String> titles, int titleUpdate, InventoryType inventoryType, int rows, HashMap<Button, List<Integer>> buttons, String openRequirement, List<AbstractAction> openDenyActions, String closeRequirement, List<AbstractAction> closeDenyActions, String keepOpenRequirement, List<String> openCommands, List<AbstractAction> openActions, List<AbstractAction> closeActions, boolean lockPlayerInv, boolean updateInventory, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore, List<String> dependExpansions) {
-        setValues(name, titles, titleUpdate, inventoryType, rows, buttons, openRequirement, openDenyActions, closeRequirement, closeDenyActions, keepOpenRequirement, openCommands, openActions, closeActions, lockPlayerInv, updateInventory, transferArgs, forceTransferArgsAmount, bindItemLore, dependExpansions);
+    public Menu(String name, List<String> titles, int titleUpdate, InventoryType type, HashMap<Integer, Integer> rows, HashMap<Button, Loc> buttons, String openRequirement, List<AbstractAction> openDenyActions, String closeRequirement, List<AbstractAction> closeDenyActions, String keepOpenRequirement, List<String> openCommands, List<AbstractAction> openActions, List<AbstractAction> closeActions, boolean lockPlayerInv, boolean updateInventory, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore, List<String> dependExpansions) {
+        setValues(name, titles, titleUpdate, type, rows, buttons, openRequirement, openDenyActions, closeRequirement, closeDenyActions, keepOpenRequirement, openCommands, openActions, closeActions, lockPlayerInv, updateInventory, transferArgs, forceTransferArgsAmount, bindItemLore, dependExpansions);
     }
 
-    private void setValues(String name, List<String> title, int titleUpdate, InventoryType inventoryType, int rows, HashMap<Button, List<Integer>> buttons, String openRequirement, List<AbstractAction> openDenyActions, String closeRequirement, List<AbstractAction> closeDenyActions, String keepOpenRequirement, List<String> openCommands, List<AbstractAction> openActions, List<AbstractAction> closeActions, boolean lockPlayerInv, boolean updateInventory, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore, List<String> dependExpansions) {
+    private void setValues(String name, List<String> title, int titleUpdate, InventoryType inventoryType, HashMap<Integer, Integer> rows, HashMap<Button, Loc> buttons, String openRequirement, List<AbstractAction> openDenyActions, String closeRequirement, List<AbstractAction> closeDenyActions, String keepOpenRequirement, List<String> openCommands, List<AbstractAction> openActions, List<AbstractAction> closeActions, boolean lockPlayerInv, boolean updateInventory, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore, List<String> dependExpansions) {
         this.name = name;
         this.titles = title;
         this.titleUpdate = titleUpdate;
         this.titleIndex = new HashMap<>();
-        this.inventoryType = inventoryType;
+        this.shapeIndex = new HashMap<>();
+        this.type = inventoryType;
         this.rows = rows;
         this.buttons = buttons;
         this.openRequirement = openRequirement;
@@ -95,7 +100,11 @@ public class Menu {
      * @param args   传递参数
      */
     public void open(Player player, String... args) {
-        open(player, false, args);
+        open(player, 0, false, args);
+    }
+
+    public void open(Player player, boolean byConsole, String... args) {
+        open(player, 0, byConsole, args);
     }
 
     /**
@@ -105,36 +114,50 @@ public class Menu {
      * @param byConsole 是否由控制台命令操作
      * @param args      传递参数
      */
-    public void open(Player player, boolean byConsole, String... args) {
+    public void open(Player player, int shape, boolean byConsole, String... args) {
         for (int i = 0; i < args.length; i++) {
             args[i] = Vars.replace(player, args[i]);
         }
-        if (!initEvent(player, byConsole, args)) {
+        if (!initEvent(player, shape, byConsole, args)) {
             ArgsCache.getArgs().remove(player.getUniqueId());
             return;
         }
         // 创建容器
-        Inventory menu = inventoryType == null ? Bukkit.createInventory(new MenuHolder(this), 9 * rows, Vars.replace(player, titles.get(0))) : Bukkit.createInventory(new MenuHolder(this), inventoryType, Vars.replace(player, titles.get(0)));
+        Inventory menu = type == null ? Bukkit.createInventory(new MenuHolder(this), 9 * getRows(shape), Vars.replace(player, titles.get(0))) : Bukkit.createInventory(new MenuHolder(this), type, Vars.replace(player, titles.get(0)));
         // 初始化容器
         Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
             // 布置按钮
-            buttons.forEach((button, slots) -> {
+            buttons.forEach((button, loc) -> {
                         button.refreshConditionalIcon(player, null);
                         Item item = button.getIcon(player).getItem();
                         ItemStack itemStack = item.createItemStack(player, args);
-                        for (int i : item.getSlots(player).size() > 0 ? item.getNextSlots(player, menu) : slots) {
-                            if (menu.getSize() > i) {
-                                menu.setItem(i, itemStack);
+                        List<ItemStack> emptySlots = Lists.newArrayList();
+                        (item.getSlots(player).size() > 0 ? item.getNextSlots(player, menu) : loc.getSlots(shape)).forEach(i -> {
+                            if (i < 0) {
+                                emptySlots.add(itemStack);
+                            } else {
+                                if (menu.getSize() > i) {
+                                    menu.setItem(i, itemStack);
+                                }
                             }
-                        }
-                        if (slots != null && !slots.isEmpty()) {
-                            newUpdateTask(player, button, menu, slots, args);
+                        });
+                        Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> emptySlots.forEach(i -> {
+                                    int s = TrUtils.getInst().getEmptySlot(menu);
+                                    item.setCurSlots(player, Collections.singletonList(s));
+                                    menu.setItem(s, itemStack);
+                                }
+                        ), 4);
+
+                        if (loc != null && !loc.getSlots(shape).isEmpty()) {
+                            newUpdateTask(player, button, menu, loc.getSlots(shape), args);
                             newRefreshTask(player, button, menu);
                         }
                     }
             );
             // 设置标题
             newTitleUpdateTask(player, menu);
+            // 保持打开条件
+            newKeepOpenTask(player);
             // 如果设置刷新容器或启用动态标题, 将自动调整玩家手持槽位到一个空位 (如果有)
             // 关闭容器后会自动复原, 防止物品频闪影响体验
             if (isUpdateInventory() || (getTitles().size() > 1 && getTitleUpdate() > 0)) {
@@ -149,26 +172,35 @@ public class Menu {
                 }
                 player.updateInventory();
             }
-            // 保持打开条件
-            if (Strings.nonEmpty(getOpenRequirement())) {
-                new BukkitRunnable() {
-                    @Override
-                    public void run() {
-                        if (!((boolean) JavaScript.run(player, getKeepOpenRequirement()))) {
-                            player.closeInventory();
-                            cancel();
-                        }
-                    }
-                }.runTaskTimer(TrMenu.getPlugin(), 5, 15);
-            }
             // 打开菜单
             Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> {
                 player.openInventory(menu);
-                if (openActions != null) {
+                if (shape == 0 && openActions != null) {
                     openActions.forEach(action -> action.run(player));
                 }
             }, 2);
         });
+    }
+
+    /**
+     * 周期性检测条件是否满足, 否则关闭菜单
+     *
+     * @param player 玩家
+     */
+    private void newKeepOpenTask(Player player) {
+        if (Strings.nonEmpty(getOpenRequirement())) {
+            String[] require = getOpenRequirement().split(";", 2);
+            long period = require.length >= 2 && NumberUtils.isParsable(require[1]) ? NumberUtils.toLong(require[1]) : 15;
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    if (!((boolean) JavaScript.run(player, require[0]))) {
+                        player.closeInventory();
+                        cancel();
+                    }
+                }
+            }.runTaskTimer(TrMenu.getPlugin(), period, period);
+        }
     }
 
     /**
@@ -239,11 +271,22 @@ public class Menu {
                 }
                 Item item = button.getIcon(player).getItem();
                 ItemStack itemStack = item.createItemStack(player, args);
-                for (int i : item.getSlots(player).size() > 0 ? item.getNextSlots(player, menu) : slots) {
-                    if (menu.getSize() > i) {
-                        menu.setItem(i, itemStack);
+                List<ItemStack> emptySlots = Lists.newArrayList();
+                (item.getSlots(player).size() > 0 ? item.getNextSlots(player, menu) : slots).forEach(i -> {
+                    if (i < 0) {
+                        emptySlots.add(itemStack);
+                    } else {
+                        if (menu.getSize() > i) {
+                            menu.setItem(i, itemStack);
+                        }
                     }
-                }
+                });
+                Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> emptySlots.forEach(i -> {
+                            int s = TrUtils.getInst().getEmptySlot(menu);
+                            item.setCurSlots(player, Collections.singletonList(s));
+                            menu.setItem(s, itemStack);
+                        }
+                ), 4);
                 clearEmptySlots(player, menu);
             }
         }.runTaskTimerAsynchronously(TrMenu.getPlugin(), update, update);
@@ -257,14 +300,14 @@ public class Menu {
      * @param args      参数
      * @return
      */
-    private boolean initEvent(Player player, boolean byConsole, String... args) {
+    private boolean initEvent(Player player, int shape, boolean byConsole, String... args) {
         ArgsCache.getArgs().put(player.getUniqueId(), args);
         MenuOpenEvent event = new MenuOpenEvent(player, byConsole, this);
         if (event.isCancelled()) {
             return false;
         }
         if (event.getMenu() != this) {
-            event.getMenu().open(player, event.isByConsole(), args);
+            event.getMenu().open(player, shape, event.isByConsole(), args);
             return false;
         }
         if (!Strings.isBlank(openRequirement) && !(boolean) JavaScript.run(player, openRequirement.replace("$openBy", event.isByConsole() ? "CONSOLE" : "COMMAND"))) {
@@ -279,6 +322,9 @@ public class Menu {
             return false;
         }
         Catchers.getPlayerdata().remove(player.getName());
+        if (shape >= 0) {
+            getShapeIndex().put(player.getUniqueId(), shape);
+        }
         return true;
     }
 
@@ -308,11 +354,13 @@ public class Menu {
         if (slot < 0) {
             return null;
         }
-        for (Map.Entry<Button, List<Integer>> entry : buttons.entrySet()) {
+        for (Map.Entry<Button, Loc> entry : buttons.entrySet()) {
             Icon icon = entry.getKey().getIcon(player);
-            if (icon.getItem().getCurSlots(player) != null && icon.getItem().getCurSlots(player).contains(slot)) {
-                return entry.getKey();
-            } else if (entry.getValue().contains(slot) && icon.getItem().getSlots(player).isEmpty()) {
+            if (icon.getItem().getCurSlots(player) != null) {
+                if (icon.getItem().getCurSlots(player).contains(slot)) {
+                    return entry.getKey();
+                }
+            } else if (entry.getValue().getSlots(getShape(player)).contains(slot) && icon.getItem().getSlots(player).isEmpty()) {
                 return entry.getKey();
             }
         }
@@ -397,6 +445,10 @@ public class Menu {
         return unInstalled;
     }
 
+    public int getShape(Player player) {
+        return getShapeIndex().getOrDefault(player.getUniqueId(), 0);
+    }
+
     /*
     GETTERS & SETTERS
      */
@@ -409,27 +461,31 @@ public class Menu {
         this.name = name;
     }
 
-    public InventoryType getInventoryType() {
-        return inventoryType;
+    public InventoryType getType() {
+        return type;
     }
 
-    public void setInventoryType(InventoryType inventoryType) {
-        this.inventoryType = inventoryType;
+    public void setType(InventoryType type) {
+        this.type = type;
     }
 
-    public int getRows() {
+    public HashMap<Integer, Integer> getRows() {
         return rows;
     }
 
-    public void setRows(int rows) {
+    public void setRows(HashMap<Integer, Integer> rows) {
         this.rows = rows;
     }
 
-    public HashMap<Button, List<Integer>> getButtons() {
+    public Integer getRows(int shape) {
+        return rows.get(shape);
+    }
+
+    public HashMap<Button, Loc> getButtons() {
         return buttons;
     }
 
-    public void setButtons(HashMap<Button, List<Integer>> buttons) {
+    public void setButtons(HashMap<Button, Loc> buttons) {
         this.buttons = buttons;
     }
 
@@ -455,6 +511,14 @@ public class Menu {
 
     public void setTitleIndex(HashMap<UUID, Integer> titleIndex) {
         this.titleIndex = titleIndex;
+    }
+
+    public HashMap<UUID, Integer> getShapeIndex() {
+        return shapeIndex;
+    }
+
+    public void setShapeIndex(HashMap<UUID, Integer> shapeIndex) {
+        this.shapeIndex = shapeIndex;
     }
 
     public List<String> getOpenCommands() {

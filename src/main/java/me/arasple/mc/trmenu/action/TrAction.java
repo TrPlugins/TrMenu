@@ -24,29 +24,30 @@ import java.util.regex.Matcher;
 public class TrAction {
 
     private static List<AbstractAction> actions = Arrays.asList(
-            new ActionCommand(),
             new ActionActionbar(),
             new ActionBreak(),
-            new ActionClose(),
-            new ActionCommandOp(),
-            new ActionConnect(),
-            new ActionConsole(),
-            new ActionDelay(),
-            new ActionJs(),
-            new ActionOpen(),
-            new ActionSound(),
-            new ActionTell(),
-            new ActionTitle(),
-            new ActionTakeItem(),
-            new ActionGiveMoney(),
-            new ActionTakeMoney(),
             new ActionCatcher(),
             new ActionCleanCatchers(),
-            new ActionSetArgs(),
-            new ActionSetSlots(),
             new ActionClearEmptySlots(),
+            new ActionClose(),
+            new ActionCommand(),
+            new ActionCommandConsole(),
+            new ActionCommandOp(),
+            new ActionConnect(),
+            new ActionDelay(),
+            new ActionForceClose(),
+            new ActionGiveMoney(),
             new ActionIconRefresh(),
-            new ActionForceClose()
+            new ActionJs(),
+            new ActionOpen(),
+            new ActionSetArgs(),
+            new ActionSetShape(),
+            new ActionSetSlots(),
+            new ActionSound(),
+            new ActionTakeItem(),
+            new ActionTakeMoney(),
+            new ActionTell(),
+            new ActionTitle()
     );
 
     public static void runActions(List<AbstractAction> actions, Player player) {

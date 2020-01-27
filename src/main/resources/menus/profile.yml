@@ -10,6 +10,7 @@ Open-Commands:
 Open-Requirement: TrUtils.isPlayerOnline("{0}")
 Open-Deny-Actions:
   - 'tell: &cPlayer &6{0} &cis not exist or online...'
+Keep-Open-Requirement: 'TrUtils.isPlayerOnline("{0}");10'
 
 Options:
   Transfer-Args: true
@@ -37,7 +38,7 @@ Buttons:
     display:
       mats: '<js-item:TrUtils.getPlayer("{0}").getInventory().getArmorContents()[3]>'
     icons:
-      - condition: '!TrUtils.isPlayerOnline("{0}") || TrUtils.getPlayer("{0}").getInventory().getArmorContents()[3] == null'
+      - condition: 'TrUtils.getPlayer("{0}").getInventory().getArmorContents()[3] == null'
         display:
           name: '&3{0}'
           mats: <head:{0}>
@@ -46,7 +47,7 @@ Buttons:
     display:
       mats: '<js-item:TrUtils.getPlayer("{0}").getInventory().getArmorContents()[2]>'
     icons:
-      - condition: '!TrUtils.isPlayerOnline("{0}") || TrUtils.getPlayer("{0}").getInventory().getArmorContents()[2] == null'
+      - condition: 'TrUtils.getPlayer("{0}").getInventory().getArmorContents()[2] == null'
         display:
           mats: gray stained glass pane
   'L':
@@ -54,7 +55,7 @@ Buttons:
     display:
       mats: '<js-item:TrUtils.getPlayer("{0}").getInventory().getArmorContents()[1]>'
     icons:
-      - condition: '!TrUtils.isPlayerOnline("{0}") || TrUtils.getPlayer("{0}").getInventory().getArmorContents()[1] == null'
+      - condition: 'TrUtils.getPlayer("{0}").getInventory().getArmorContents()[1] == null'
         display:
           mats: gray stained glass pane
   'B':
@@ -62,7 +63,7 @@ Buttons:
     display:
       mats: '<js-item:TrUtils.getPlayer("{0}").getInventory().getArmorContents()[0]>'
     icons:
-      - condition: '!TrUtils.isPlayerOnline("{0}") || TrUtils.getPlayer("{0}").getInventory().getArmorContents()[0] == null'
+      - condition: 'TrUtils.getPlayer("{0}").getInventory().getArmorContents()[0] == null'
         display:
           mats: gray stained glass pane
   'R':
@@ -70,7 +71,7 @@ Buttons:
     display:
       mats: '<js-item:TrUtils.getPlayer("{0}").getInventory().getItemInMainHand()>'
     icons:
-      - condition: '!TrUtils.isPlayerOnline("{0}") || TrUtils.getPlayer("{0}").getInventory().getItemInMainHand() == null'
+      - condition: 'TrUtils.getPlayer("{0}").getInventory().getItemInMainHand() == null'
         display:
           mats: gray stained glass pane
   'Z':
@@ -78,6 +79,6 @@ Buttons:
     display:
       mats: '<js-item:TrUtils.getPlayer("{0}").getInventory().getItemInOffHand()>'
     icons:
-      - condition: '!TrUtils.isPlayerOnline("{0}") || TrUtils.getPlayer("{0}").getInventory().getItemInOffHand() == null'
+      - condition: 'TrUtils.getPlayer("{0}").getInventory().getItemInOffHand() == null'
         display:
           mats: gray stained glass pane

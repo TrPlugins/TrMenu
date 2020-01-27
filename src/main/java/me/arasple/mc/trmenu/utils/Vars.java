@@ -2,7 +2,9 @@ package me.arasple.mc.trmenu.utils;
 
 import com.google.common.collect.Lists;
 import io.izzel.taboolib.util.Strings;
+import me.arasple.mc.trmenu.api.TrMenuAPI;
 import me.arasple.mc.trmenu.data.ArgsCache;
+import me.arasple.mc.trmenu.menu.Menu;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.Player;
 
@@ -27,7 +29,18 @@ public class Vars {
     }
 
     private static String setPlaceholders(Player player, String string) {
-        return PlaceholderAPI.setPlaceholders(player, string);
+        return PlaceholderAPI.setPlaceholders(player, replaceMenuVariables(player, string));
+    }
+
+    private static String replaceMenuVariables(Player player, String string) {
+        Menu menu = TrMenuAPI.getMenu(player);
+        if (menu == null) {
+            return string;
+        } else {
+            return string
+                    .replace("{shape}", String.valueOf(menu.getShape(player)))
+                    .replace("{page}", String.valueOf(menu.getShape(player) + 1));
+        }
     }
 
 }

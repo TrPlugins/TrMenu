@@ -11,10 +11,7 @@ import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.action.TrAction;
 import me.arasple.mc.trmenu.action.base.AbstractAction;
 import me.arasple.mc.trmenu.api.TrMenuAPI;
-import me.arasple.mc.trmenu.display.Button;
-import me.arasple.mc.trmenu.display.Icon;
-import me.arasple.mc.trmenu.display.Item;
-import me.arasple.mc.trmenu.display.Mat;
+import me.arasple.mc.trmenu.display.*;
 import me.arasple.mc.trmenu.utils.Maps;
 import me.arasple.mc.trmenu.utils.Notifys;
 import me.arasple.mc.trmenu.utils.Reader;
@@ -36,6 +33,7 @@ import static me.arasple.mc.trmenu.menu.MenuNodes.*;
  * @author Arasple
  * @date 2019/12/8 9:58
  */
+@SuppressWarnings({"unchecked", "rawtypes", "AlibabaCollectionInitShouldAssignCapacity"})
 public class MenuLoader {
 
     private static File folder;
@@ -149,10 +147,12 @@ public class MenuLoader {
         InventoryType inventoryType = Arrays.stream(InventoryType.values()).filter(t -> t.name().equalsIgnoreCase(MenuNodes.MENU_TYPE.getFromMap(sets))).findFirst().orElse(null);
         List<String> titles = MENU_TITLE.getFromMap(sets) instanceof List ? MENU_TITLE.getFromMap(sets, Collections.singletonList("TrMenu")) : Collections.singletonList(MENU_TITLE.getFromMap(sets, "TrMenu"));
         int titleUpdate = MENU_TITLE_UPDATER.getFromMap(sets, -1);
-        List<String> shape = fixShape(MENU_SHAPE.getFromMap(sets));
-        int rows = MENU_ROWS.getFromMap(sets, shape != null ? shape.size() : 1);
-        rows = rows > 9 ? rows / 9 : rows;
-        HashMap<Button, List<Integer>> buttons = new HashMap<>();
+        List<List<String>> shapes = fixShapes(MENU_SHAPE.getFromMap(sets));
+        HashMap<Integer, Integer> rows = new HashMap<>();
+        for (int i = 0; i < shapes.size(); i++) {
+            rows.put(i, MENU_ROWS.getFromMap(sets, shapes.get(i).size()));
+        }
+        HashMap<Button, Loc> buttons = new HashMap<>();
         List<String> openCommands = MENU_OPEN_COMAMNDS.getFromMap(sets) instanceof List ? MENU_OPEN_COMAMNDS.getFromMap(sets) : MENU_OPEN_COMAMNDS.getFromMap(sets) == null ? null : Collections.singletonList(MENU_OPEN_COMAMNDS.getFromMap(sets));
         List<AbstractAction> openActions = TrAction.readActions(MENU_OPEN_ACTIONS.getFromMap(sets, new ArrayList<>()));
         List<AbstractAction> closeActions = TrAction.readActions(MENU_CLOSE_ACTIONS.getFromMap(sets, new ArrayList<>()));
@@ -208,10 +208,10 @@ public class MenuLoader {
                                     }
                                 });
                             }
-                            List<Integer> slots = locateButton(shape, inventoryType, key.charAt(0));
+                            Loc loc = locateButtons(shapes, inventoryType, key.charAt(0));
                             Button button = new Button(update, refresh, icons);
-                            if (slots.size() > 0 || button.getDefIcon().getItem().getRawSlots().size() > 0) {
-                                buttons.put(button, slots.isEmpty() ? button.getDefIcon().getItem().getRawSlots().get(0) : slots);
+                            if (loc.getSlots().size() > 0 || button.getDefIcon().getItem().getRawSlots().size() > 0) {
+                                buttons.put(button, loc.getSlots().isEmpty() ? new Loc(shapes.size(), button.getDefIcon().getItem().getRawSlots()) : loc);
                             }
                         } catch (Throwable e) {
                             StringBuilder stackTrace = new StringBuilder();
@@ -321,6 +321,13 @@ public class MenuLoader {
         return new Icon(0, null, item, actions);
     }
 
+    private static Loc locateButtons(List<List<String>> shapes, InventoryType type, char key) {
+        Loc loc = new Loc();
+        for (int i = 0; i < shapes.size(); i++) {
+            loc.getSlots().put(i, locateButton(shapes.get(i), type, key));
+        }
+        return loc;
+    }
 
     /**
      * 取得一个图标在形状中的位置
@@ -357,10 +364,20 @@ public class MenuLoader {
         return slots;
     }
 
-    private static List<String> fixShape(List<String> shape) {
-        if (shape == null) {
+    private static List<List<String>> fixShapes(Object shapeObject) {
+        if (!(shapeObject instanceof List)) {
             return null;
         }
+        List<List<String>> shapes = Lists.newArrayList();
+        if (((List) shapeObject).get(0) instanceof List) {
+            ((List) shapeObject).forEach(shape -> shapes.add(fixShape((List<String>) shape)));
+        } else {
+            shapes.add(fixShape((List<String>) shapeObject));
+        }
+        return shapes;
+    }
+
+    private static List<String> fixShape(List<String> shape) {
         while (shape.size() > 6) {
             shape.remove(shape.size() - 1);
         }

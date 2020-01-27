@@ -23,7 +23,7 @@ public class Metrics {
     public static void init() {
         metrics = new MetricsBukkit(TrMenu.getPlugin());
         // 菜单总数统计
-        metrics.addCustomChart(new MetricsBukkit.SingleLineChart("menus", () -> TrMenu.getMenus().size()));
+        metrics.addCustomChart(new MetricsBukkit.SingleLineChart("menus", () -> TrMenu.getMenus().stream().mapToInt(menu -> menu.getRows().keySet().size()).sum()));
         // 菜单打开次数统计
         metrics.addCustomChart(new MetricsBukkit.SingleLineChart("menu_open_counts", () -> {
             int i = coutns[0];
@@ -44,13 +44,9 @@ public class Metrics {
         // 统计菜单行数
         metrics.addCustomChart(new MetricsBukkit.AdvancedPie("menu_size", () -> {
             Map<String, Integer> data = new HashMap<>();
-            data.put("1", (int) TrMenu.getMenus().stream().filter(menur -> menur.getRows() == 1).count());
-            data.put("2", (int) TrMenu.getMenus().stream().filter(menur -> menur.getRows() == 2).count());
-            data.put("3", (int) TrMenu.getMenus().stream().filter(menur -> menur.getRows() == 3).count());
-            data.put("4", (int) TrMenu.getMenus().stream().filter(menur -> menur.getRows() == 4).count());
-            data.put("5", (int) TrMenu.getMenus().stream().filter(menur -> menur.getRows() == 5).count());
-            data.put("6", (int) TrMenu.getMenus().stream().filter(menur -> menur.getRows() == 6).count());
-            data.entrySet().removeIf(entry -> entry.getValue() <= 0);
+            TrMenu.getMenus().forEach(menu -> menu.getRows().values().forEach(rows -> {
+                data.put(String.valueOf(rows), data.getOrDefault(rows, 0) + 1);
+            }));
             return data;
         }));
         // 统计材质类型
@@ -72,12 +68,14 @@ public class Metrics {
         metrics.addCustomChart(new MetricsBukkit.AdvancedPie("inventory_type", () -> {
             Map<String, Integer> data = new HashMap<>();
             TrMenu.getMenus().forEach(menu -> {
-                InventoryType type = menu.getInventoryType();
+                InventoryType type = menu.getType();
                 type = type == null ? InventoryType.CHEST : type;
                 data.put(type.name(), data.getOrDefault(type.name(), 0) + 1);
             });
             return data;
         }));
+        // 选项 - 自动更新
+        metrics.addCustomChart(new MetricsBukkit.SimplePie("option_auto_updater", () -> TrMenu.getSettings().getBoolean("OPTIONS.AUTO-UPDATE", false) ? "Enabled" : "Disabled"));
         // 选项 - 相似度比
         metrics.addCustomChart(new MetricsBukkit.SimplePie("option_material_similar_degree", () -> doubleFormat.format(TrMenu.getSettings().getDouble("OPTIONS.MATERIAL-SIMILAR-DEGREE", 0.8))));
         // 选项 - 防刷屏

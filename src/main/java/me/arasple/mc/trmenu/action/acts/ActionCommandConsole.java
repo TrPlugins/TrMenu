@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
  * @author Arasple
  * @date 2019/12/22 10:22
  */
-public class ActionConsole extends AbstractAction {
+public class ActionCommandConsole extends AbstractAction {
 
     @Override
     public String getName() {
