@@ -4,7 +4,9 @@ main: me.arasple.mc.trmenu.TrMenu
 description: Advanced & Dynamic menus for Minecraft
 
 api-version: 1.13
-version: 1.15
+version: ${version}
+
+built-time: ${built}
 
 github: https://github.com/Arasple/TrMenu
 

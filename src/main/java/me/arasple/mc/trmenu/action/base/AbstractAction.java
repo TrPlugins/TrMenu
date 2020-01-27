@@ -3,7 +3,7 @@ package me.arasple.mc.trmenu.action.base;
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils;
 import io.izzel.taboolib.util.lite.Numbers;
 import me.arasple.mc.trmenu.TrMenu;
-import me.arasple.mc.trmenu.bstats.Metrics;
+import me.arasple.mc.trmenu.bstats.MetricsHandler;
 import me.arasple.mc.trmenu.utils.JavaScript;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
@@ -26,7 +26,7 @@ public abstract class AbstractAction {
     public abstract String getName();
 
     public void run(Player player) {
-        Metrics.increase(1);
+        MetricsHandler.increase(1);
         if (options.containsKey(EnumOption.CHANCE) && !Numbers.random(NumberUtils.toDouble(options.get(EnumOption.CHANCE), 1))) {
             return;
         }
