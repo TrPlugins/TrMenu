@@ -149,8 +149,13 @@ public class MenuLoader {
         int titleUpdate = MENU_TITLE_UPDATER.getFromMap(sets, -1);
         List<List<String>> shapes = fixShapes(MENU_SHAPE.getFromMap(sets));
         HashMap<Integer, Integer> rows = new HashMap<>();
-        for (int i = 0; i < shapes.size(); i++) {
-            rows.put(i, MENU_ROWS.getFromMap(sets, shapes.get(i).size()));
+        if (shapes != null) {
+            for (int i = 0; i < shapes.size(); i++) {
+                int size = MENU_ROWS.getFromMap(sets, shapes.get(i).size());
+                rows.put(i, size > 9 ? size / 9 : size);
+            }
+        } else {
+            rows.put(0, MENU_ROWS.getFromMap(sets, 1) > 9 ? MENU_ROWS.getFromMap(sets, 1) / 9 : MENU_ROWS.getFromMap(sets, 1));
         }
         HashMap<Button, Loc> buttons = new HashMap<>();
         List<String> openCommands = MENU_OPEN_COMAMNDS.getFromMap(sets) instanceof List ? MENU_OPEN_COMAMNDS.getFromMap(sets) : MENU_OPEN_COMAMNDS.getFromMap(sets) == null ? null : Collections.singletonList(MENU_OPEN_COMAMNDS.getFromMap(sets));
@@ -211,7 +216,7 @@ public class MenuLoader {
                             Loc loc = locateButtons(shapes, inventoryType, key.charAt(0));
                             Button button = new Button(update, refresh, icons);
                             if (loc.getSlots().size() > 0 || button.getDefIcon().getItem().getRawSlots().size() > 0) {
-                                buttons.put(button, loc.getSlots().isEmpty() ? new Loc(shapes.size(), button.getDefIcon().getItem().getRawSlots()) : loc);
+                                buttons.put(button, loc.getSlots().isEmpty() ? new Loc(shapes == null ? 1 : shapes.size(), button.getDefIcon().getItem().getRawSlots()) : loc);
                             }
                         } catch (Throwable e) {
                             StringBuilder stackTrace = new StringBuilder();
@@ -323,8 +328,10 @@ public class MenuLoader {
 
     private static Loc locateButtons(List<List<String>> shapes, InventoryType type, char key) {
         Loc loc = new Loc();
-        for (int i = 0; i < shapes.size(); i++) {
-            loc.getSlots().put(i, locateButton(shapes.get(i), type, key));
+        if (shapes != null) {
+            for (int i = 0; i < shapes.size(); i++) {
+                loc.getSlots().put(i, locateButton(shapes.get(i), type, key));
+            }
         }
         return loc;
     }

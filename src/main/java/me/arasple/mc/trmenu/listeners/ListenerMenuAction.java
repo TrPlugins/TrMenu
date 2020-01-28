@@ -1,6 +1,7 @@
 package me.arasple.mc.trmenu.listeners;
 
 import io.izzel.taboolib.module.inject.TListener;
+import io.izzel.taboolib.util.Strings;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.display.Button;
 import me.arasple.mc.trmenu.menu.Menu;
@@ -28,13 +29,12 @@ public class ListenerMenuAction implements Listener {
     public void onClick(InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
 
-        if (p.hasMetadata("TrMenu-Debug")) {
-            p.sendMessage("§8[§3Tr§bMenu§8]§8[§7DEBUG§8] §7Clicked raw slot §f" + e.getRawSlot());
-        }
+        debug(p, "Clicked raw slot §f{0}", e.getRawSlot());
 
         long start = System.currentTimeMillis();
 
         if (!(e.getInventory().getHolder() instanceof MenuHolder)) {
+            debug(p, "Not a MenuHolder");
             return;
         }
 
@@ -45,6 +45,7 @@ public class ListenerMenuAction implements Listener {
         clickTimes.putIfAbsent(p.getUniqueId(), 0L);
         if (System.currentTimeMillis() - clickTimes.get(p.getUniqueId()) < TrMenu.getSettings().getLong("OPTIONS.ANTI-CLICK-SPAM")) {
             e.setCancelled(true);
+            debug(p, "Anti-Spam, event cancelled.");
             return;
         } else {
             clickTimes.put(p.getUniqueId(), System.currentTimeMillis());
@@ -57,6 +58,7 @@ public class ListenerMenuAction implements Listener {
             if (e.getClickedInventory() == p.getInventory() && menu.isLockPlayerInv()) {
                 e.setCancelled(true);
             }
+            debug(p, "Null button");
             return;
         } else {
             e.setCancelled(true);
@@ -65,8 +67,12 @@ public class ListenerMenuAction implements Listener {
         button.getIcon(p).onClick(p, e.getClick(), e);
         button.refreshConditionalIcon(p, e);
 
-        if (p.hasMetadata("TrMenu-Debug")) {
-            p.sendMessage("§8[§3Tr§bMenu§8]§8[§7DEBUG§8] §6InventoryClickEvent Took §e" + (System.currentTimeMillis() - start) + "ms§6.");
+        debug(p, "§6InventoryClickEvent Took §e{0}ms§6.", System.currentTimeMillis() - start);
+    }
+
+    private void debug(Player player, String text, Object... args) {
+        if (player.hasMetadata("TrMenu-Debug")) {
+            player.sendMessage("§8[§3Tr§bMenu§8]§8[§7DEBUG§8] §7" + Strings.replaceWithOrder(text, args));
         }
     }
 

@@ -2,6 +2,7 @@ package me.arasple.mc.trmenu.action.acts;
 
 import com.google.common.collect.Lists;
 import me.arasple.mc.trmenu.action.base.AbstractAction;
+import me.arasple.mc.trmenu.utils.Vars;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -16,8 +17,6 @@ import java.util.List;
  */
 public class ActionTakeItem extends AbstractAction {
 
-    private List<RequiredItem> items;
-
     @Override
     public String getName() {
         return "(take|remove)(-)?item(s)?";
@@ -25,16 +24,16 @@ public class ActionTakeItem extends AbstractAction {
 
     @Override
     public void onExecute(Player player) {
+        List<RequiredItem> items = getRequirements(player);
         if (items != null && !items.isEmpty()) {
             items.forEach(requiredItem -> requiredItem.takeItem(player));
         }
     }
 
-    @Override
-    public void setContent(String content) {
-        super.setContent(content);
-        items = Lists.newArrayList();
-        Arrays.stream(getContent().split(";")).forEach(item -> items.add(RequiredItem.valueOf(item)));
+    public List<RequiredItem> getRequirements(Player player) {
+        List<RequiredItem> items = Lists.newArrayList();
+        Arrays.stream(Vars.replace(player, getContent()).split(";")).forEach(item -> items.add(RequiredItem.valueOf(item)));
+        return items;
     }
 
     /**

@@ -1,11 +1,11 @@
 package me.arasple.mc.trmenu.nms.impl;
 
 import me.arasple.mc.trmenu.nms.InvTitler;
-import net.minecraft.server.v1_13_R1.ChatComponentText;
-import net.minecraft.server.v1_13_R1.EntityPlayer;
-import net.minecraft.server.v1_13_R1.PacketPlayOutCloseWindow;
-import net.minecraft.server.v1_13_R1.PacketPlayOutOpenWindow;
-import org.bukkit.craftbukkit.v1_13_R1.entity.CraftPlayer;
+import net.minecraft.server.v1_13_R2.ChatComponentText;
+import net.minecraft.server.v1_13_R2.EntityPlayer;
+import net.minecraft.server.v1_13_R2.PacketPlayOutCloseWindow;
+import net.minecraft.server.v1_13_R2.PacketPlayOutOpenWindow;
+import org.bukkit.craftbukkit.v1_13_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 

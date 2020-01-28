@@ -44,7 +44,7 @@ public class CommandDebug extends BaseSubCommand {
         sender.sendMessage("§2Running Tasks: §6" + Bukkit.getScheduler().getActiveWorkers().stream().filter(t -> t.getOwner() == TrMenu.getPlugin()).count() + Bukkit.getScheduler().getPendingTasks().stream().filter(t -> t.getOwner() == TrMenu.getPlugin()).count());
         sender.sendMessage("§2Metrics: §6" + MetricsHandler.getMetrics().isEnabled());
         sender.sendMessage("§2TabooLib: §f" + TrMenuPlugin.getVersion());
-        System.out.println();
+        sender.sendMessage("");
         sender.sendMessage("§2TrMenu Built-Time: §b" + YamlConfiguration.loadConfiguration(new InputStreamReader(Files.getResource(TrMenu.getPlugin(), "plugin.yml"))).getString("built-time", "Null"));
         sender.sendMessage("");
         sender.sendMessage("§3--------------------------------------------------");

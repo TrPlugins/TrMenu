@@ -1,6 +1,19 @@
 # TrMenu Update Logs #
 
 #### VERSION 1.1
+  - ##### 1.15
+    - Since: 2020.1.27
+    - Updates:
+      - 修复了 Double 值无法被应用为动态物品数量的 bug
+      - 修复了材质标签 `<variable>` 无效
+      - 新增 `KEEP-OPEN-REQUIREMENT` 选项. 将会周期性检测条件是否满足, 若不满足则强制关闭菜单, 示例: `"%vault_eco_balance%" > 1000`, `%vault_rank% == "VIP";20` <--- 定义周期用 ; 分开 20ticks
+      - 新增 `getItemBuildr()` 在 TrUtils 中
+      - 新增多布局 (Shapes) 支持，创建多页菜单从未如此简单 [#20](https://github.com/Arasple/TrMenu/issues/20)
+      - 新增一个动作设置当前页面 (Shape), 示例 `set-shape: 0`, 或 `shape: 1`, 提供变量 `{page}` 显示为当前布局位置+1, 即实际页面
+      - 新增 bStats 统计自动更新器的启用情况
+      - 支持自动补位图标, 如果你设置图标槽位为负数，将动态更新位置到第一个空位处
+      - 现在你可以调用方法，为 TrMenu 的 JS 处理添加自定义对象
+        `JavaScript.getBindings().put(String key, Object object)`
   - ##### 1.14
     - Since: 2020.1.24
     - Updates:

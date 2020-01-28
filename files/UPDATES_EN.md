@@ -9,8 +9,8 @@
       - Added `KEEP-OPEN-REQUIREMENT` option. Periodically check this condition and close the menu if it is not met. For example: `"%vault_eco_balance%" > 1000`, `%vault_rank% == "VIP";20` <--- Period: 20ticks
       - Added `getItemBuildr()` for TrUtils
       - Added multiple shapes support, creating multi-page menus has never been easier [#20](https://github.com/Arasple/TrMenu/issues/20)
-      - Added action set shape to swith menu shape. Usage `set-shape: 0`, or `shape: 1`, variable `{page}` for shape index + 1
-      - Added bStats for auto updater statiscs
+      - Added action set the shape to switch menu shape. Usage `set-shape: 0`, or `shape: 1`, variable `{page}` for shape index + 1
+      - Added bStats for auto-updater statistics
       - If you set an icon's slot below 0, it will auto-update to the first empty slot of the inventory
       - (For Dev.) Now you can add your custom object to TrMenu's JavaScript check by
         `JavaScript.getBindings().put(String key, Object object)`

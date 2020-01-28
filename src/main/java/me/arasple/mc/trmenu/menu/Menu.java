@@ -356,10 +356,8 @@ public class Menu {
         }
         for (Map.Entry<Button, Loc> entry : buttons.entrySet()) {
             Icon icon = entry.getKey().getIcon(player);
-            if (icon.getItem().getCurSlots(player) != null) {
-                if (icon.getItem().getCurSlots(player).contains(slot)) {
-                    return entry.getKey();
-                }
+            if (icon.getItem().getCurSlots(player) != null && icon.getItem().getCurSlots(player).contains(slot)) {
+                return entry.getKey();
             } else if (entry.getValue().getSlots(getShape(player)).contains(slot) && icon.getItem().getSlots(player).isEmpty()) {
                 return entry.getKey();
             }

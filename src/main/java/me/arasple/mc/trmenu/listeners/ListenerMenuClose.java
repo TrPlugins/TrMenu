@@ -30,7 +30,7 @@ public class ListenerMenuClose implements Listener {
         Menu menu = ((MenuHolder) e.getInventory().getHolder()).getMenu();
 
         if (!Strings.isBlank(menu.getCloseRequirement()) && !Boolean.parseBoolean(String.valueOf(JavaScript.run(p, menu.getCloseRequirement())))) {
-            TrAction.runActions(menu.getCloseActions(), p);
+            TrAction.runActions(menu.getCloseDenyActions(), p);
             return;
         }
         if (menu.getCloseActions() != null && !p.hasMetadata("TrMenu.Force-Close")) {
