@@ -65,6 +65,19 @@ public class TrMenuAPI {
         return false;
     }
 
+    public static boolean open(Player player, String read, String... args) {
+        String[] menu = read != null ? read.split("\\|") : null;
+        if (menu != null) {
+            Menu trMenu = TrMenuAPI.getMenu(menu[0]);
+            String perm = menu.length > 1 ? menu[1] : null;
+            if (!((perm != null && !player.hasPermission(perm)) || trMenu == null)) {
+                trMenu.open(player, args);
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Get all the ids of menus
      *
