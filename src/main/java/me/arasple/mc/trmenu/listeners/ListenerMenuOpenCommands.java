@@ -11,45 +11,12 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-import java.util.Arrays;
-
 /**
  * @author Arasple
  * @date 2019/10/4 19:57
  */
 @TListener
 public class ListenerMenuOpenCommands implements Listener {
-
-    public static void main(String[] xxxxxx) {
-        String correct = "is upgrade";
-        String input = "/is upgrade xxx";
-        String[] cmd = input.substring(1).split(" ");
-        if (cmd.length > 0) {
-            for (int i = 0; i < cmd.length; i++) {
-                String[] read = read(cmd, i);
-                String command = read[0];
-                String[] args = ArrayUtils.remove(read, 0);
-                System.out.println("I: " + i + " ; Command: " + command + "; Args: " + Arrays.toString(args));
-            }
-        }
-    }
-
-    private static String[] read(String[] cmds, int index) {
-        String command;
-        if (index == 0) {
-            command = cmds[index];
-        } else {
-            StringBuilder cmd = new StringBuilder();
-            for (int i = 0; i <= index; i++) {
-                cmd.append(cmds[i]).append(" ");
-            }
-            command = cmd.substring(0, cmd.length() - 1);
-        }
-        for (int i = 0; i <= index; i++) {
-            cmds = ArrayUtils.remove(cmds, 0);
-        }
-        return ArrayUtils.insert(0, cmds, command);
-    }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void onCommand(PlayerCommandPreprocessEvent e) {
@@ -77,6 +44,23 @@ public class ListenerMenuOpenCommands implements Listener {
                 }
             }
         }
+    }
+
+    private static String[] read(String[] cmds, int index) {
+        String command;
+        if (index == 0) {
+            command = cmds[index];
+        } else {
+            StringBuilder cmd = new StringBuilder();
+            for (int i = 0; i <= index; i++) {
+                cmd.append(cmds[i]).append(" ");
+            }
+            command = cmd.substring(0, cmd.length() - 1);
+        }
+        for (int i = 0; i <= index; i++) {
+            cmds = ArrayUtils.remove(cmds, 0);
+        }
+        return ArrayUtils.insert(0, cmds, command);
     }
 
 }
