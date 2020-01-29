@@ -1,6 +1,7 @@
 package me.arasple.mc.trmenu.action.acts;
 
 import io.izzel.taboolib.util.ArrayUtil;
+import io.izzel.taboolib.util.Strings;
 import io.izzel.taboolib.util.Variables;
 import io.izzel.taboolib.util.lite.Catchers;
 import io.izzel.taboolib.util.lite.Signs;
@@ -16,29 +17,6 @@ import java.util.Collections;
 /**
  * @author Arasple
  * @date 2020/1/15 15:37
- * variable - $input
- * catcher: <type=SIGN/CHAT><require=TrUtils.isNumber("$input")><before=><valid=console:eco give %player_name% $input><invalid=tell:&cType a valid number...><cancel=xxx>
- * <p>
- * - |-
- * Catcher:
- * <chance:0.8>
- * <Type=CHAt>
- * <Before=Tell: &3&lPlease type a value><Valid=TELL:&6You typed a number &a$input>
- * <Invalid=TELL:&cInvalid number input>
- * <Require=function require(){
- * var blackList = ["word1", "word2"];
- * if (input.length<3 || input.length>8 || !/^\w+$/.test(input)){
- * return false;
- * }
- * for (var i=0; i<blackList.length; i++){
- * if (blackList[i].search(/$input/i) >= 0){
- * return false;
- * }
- * }
- * return true;
- * }
- * }require()>
- * <Cancel=TELL:&7Canceld...>
  */
 public class ActionCatcher extends AbstractAction {
 
@@ -61,53 +39,69 @@ public class ActionCatcher extends AbstractAction {
     @Override
     public void onExecute(Player player) {
         if (type == 0) {
-            TrUtils.getInst().runAction(player, "close");
-            Catchers.call(player, new Catchers.Catcher() {
-                @Override
-                public Catchers.Catcher before() {
-                    Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> TrUtils.getInst().runAction(player, beforeInputAction.replace(";", "_||_")), 3);
-                    return this;
-                }
-
-                @Override
-                public boolean after(String input) {
-                    if (isCancelWord(input)) {
-                        cancel();
-                        return false;
-                    }
-                    if (require != null && !(boolean) JavaScript.run(player, require.replace("$input", input))) {
-                        TrUtils.getInst().runAction(player, inputInvalidAction.replace(";", "_||_").replace("$input", input));
-                        return true;
-                    }
-                    TrUtils.getInst().runAction(player, inputValidAction.replace(";", "_||_").replace("$input", input));
-                    return false;
-                }
-
-                @Override
-                public void cancel() {
-                    TrUtils.getInst().runAction(player, cancelAction);
-                }
-            });
+            runChatCatcher(player);
         } else {
-            sendFakeSign(player);
+            runSignCatcher(player);
         }
     }
 
-    private void sendFakeSign(Player player) {
-        Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> TrUtils.getInst().runAction(player, beforeInputAction.replace(";", "_||_")), 3);
+    private void runChatCatcher(Player player) {
+        player.closeInventory();
+        Catchers.call(player, new Catchers.Catcher() {
+            @Override
+            public Catchers.Catcher before() {
+                Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> runActions(player, beforeInputAction), 3);
+                return this;
+            }
+
+            @Override
+            public boolean after(String input) {
+                if (isCancelWord(input)) {
+                    cancel();
+                    return false;
+                } else if (require != null && !(boolean) JavaScript.run(player, require.replace("$input", input))) {
+                    runActions(player, inputInvalidAction, input);
+                    return true;
+                } else {
+                    runActions(player, inputValidAction, input);
+                    return false;
+                }
+            }
+
+            @Override
+            public void cancel() {
+                TrUtils.getInst().runAction(player, cancelAction);
+            }
+        });
+    }
+
+    private void runSignCatcher(Player player) {
+        Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> runActions(player, beforeInputAction), 3);
         Signs.fakeSign(player, lines -> {
             String input = ArrayUtil.arrayJoin(lines, 0);
             if (isCancelWord(input)) {
-                TrUtils.getInst().runAction(player, cancelAction.replace(";", "_||_"));
+                runActions(player, cancelAction);
                 return;
             }
             if (require != null && !(boolean) JavaScript.run(player, require.replace("$input", input))) {
-                TrUtils.getInst().runAction(player, inputInvalidAction.replace(";", "_||_").replace("$input", input));
-                sendFakeSign(player);
+                runActions(player, inputInvalidAction, input);
+                runSignCatcher(player);
             } else {
-                TrUtils.getInst().runAction(player, inputValidAction.replace(";", "_||_").replace("$input", input));
+                runActions(player, inputValidAction, input);
             }
         });
+    }
+
+    private void runActions(Player player, String actions) {
+        runActions(player, actions, null);
+    }
+
+    private void runActions(Player player, String actions, String input) {
+        actions = actions.replace(";", "_||_");
+        if (Strings.nonEmpty(input)) {
+            actions = actions.replace("$input", input);
+        }
+        TrUtils.getInst().runAction(player, actions);
     }
 
     @Override

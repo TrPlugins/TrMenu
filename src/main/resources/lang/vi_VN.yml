@@ -16,6 +16,9 @@ PLUGIN:
   UPDATER:
     LATEST: '&8[&3Tr&bMenu&8] &2Bạn đang chạy phiên bản mới nhất của &3TrMenu&a.'
     DEV: '&8[&3Tr&bMenu&8] &6Bạn đang chạy phiên bản nhà phát tiển của &3TrMenu&6.'
+    OLD:
+      - '&8[&3Tr&bMenu&8] &bTìm thấy một phiên bản mới &av{0}&b, tải ở đây'
+      - '&2https://www.spigotmc.org/resources/74284'
     TOO-OLD:
       - "&8--------------------------------------------------"
       - "&r"
@@ -28,6 +31,10 @@ PLUGIN:
       - "&8# &4Máy chủ sẽ chạy trong &c&l{0} giây nữa &4..."
       - "&r"
       - "&8--------------------------------------------------"
+    CONFIRM: '&8[&3Tr&bMenu&8] &eCẬP NHẬT &8| &7Để đồng ý hành động này, nhập &3/TrMenu Update Confirmed&7.'
+    DOWNLOADING: '&8[&3Tr&bMenu&8] &eCẬP NHẬT &8| &7Đang tải phiên bản mới nhất TrMenu &3v{0} &7...'
+    DOWNLOAD-COMPLETED: '&8[&3Tr&bMenu&8] &eCẬP NHẬT &8| &aTải xuống thành công phiên bản mới nhất của TrMenu. Khởi động lại máy chủ của bạn để hoàn thành cập nhật!'
+    DOWNLOAD-FAILED: '&8[&3Tr&bMenu&8] &eCẬP NHẬT &8| &cKhông thể tải xuống phiên bản mới nhất của TrMenu ...'
 
 ERROR:
   HDB: '&8[&3Tr&bMenu&8] &cLỖI &8| &cBạn không thể sử dụng &6{0} &ckhi không có plugin &6HeadDatabase&c.'
@@ -53,10 +60,17 @@ MENU:
     CONFLICT-OPEN-COMMANDS: '&7Menu &6{0} &7 có xung đột lệnh mở với menu &6{1}...'
     CONFLICT-OPEN-ITEMS: '&7Menu &6{0} &7 có mâu thuẫn vật phẩm ràng buộc với menu &6{1}...'
     ICON-NO-CONDITION: '&7Menu &6{0} &7nút &3{1} &7 có điều kiện trống cho biểu tượng ưu tiên'
-    ICON-LOAD-FAILED: '&7Menu &6{0} &7núts &3{1} &7tải thất bại. &3{2}&8{3}'
+    ICON-LOAD-FAILED: '&7Menu &6{0} &7nút &3{1} &7tải thất bại. &3{2}&8{3}'
+
+MIGRATE:
+  UNSUPPORTED-TYPE: '&8[&3Tr&bMenu&8] &7Không hỗ trợ để di chuyển từ &f{0} &7...'
+  NOT-EXISTED: '&8[&3Tr&bMenu&8] &cTập tin hoặc thư mục &6{0} &ckhông tồn tại hoặc trống rỗng...'
+  PROCESSING: '&8[&3Tr&bMenu&8] &7Đang xử lý, tổng cộng &f{0} &7tập tin được di chuyển...'
+  SUCCESS: '&8[&3Tr&bMenu&8] &3Di cư thành công &a{0} &3menu...'
+  ERROR: '&8[&3Tr&bMenu&8] &7Có &c{0} &7menu không thể di chuyển, vui lòng kiểm tra lỗi.'
 
 HASTEBIN:
-  PROCESSING: '&8[&3Tr&bMenu&8] &7Xin vui lòng chờ ...'
+  PROCESSING: '&8[&3Tr&bMenu&8] &7Vui lòng đợi...'
   SUCCESS: '&8[&3Tr&bMenu&8] &3Nội dung của bạn đã được dán vào &a{0}'
   FAILED: '&8[&3Tr&bMenu&8] &cKhông thể dán nội dung trên hastebin.'
 
@@ -84,6 +98,9 @@ COMMANDS:
       copy:
         hover: '&7Nhấn vào đây để sao chép'
         suggest: '{0}'
+  JSON-TO-ITEM:
+    SUCCESS: '&8[&3Tr&bMenu&8] &3Đã chuyển đổi Json thành ItemStack ，đã thêm vào kho của bạn...'
+    FAILED: '&8[&3Tr&bMenu&8] &cKhông thể chuyển đổi Json thành ItemStack...'
   LIST:
     - '&8--------------------------------------------------'
     - '&3Tr&bMenu &7- Danh Sách Menu'
@@ -115,7 +132,7 @@ COMMANDS:
         command: '/trmenu reload'
       open:
         hover: |-
-          &7 Nhấn vào để thực thi
+          &7 Nhấn vào để đề xuất
         suggest: '/trmenu open'
       item:
         hover: |-
