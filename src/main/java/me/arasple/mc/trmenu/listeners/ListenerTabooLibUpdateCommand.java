@@ -1,7 +1,7 @@
 package me.arasple.mc.trmenu.listeners;
 
+import io.izzel.taboolib.loader.Plugin;
 import io.izzel.taboolib.util.Files;
-import me.arasple.mc.trmenu.TrMenuPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.EventHandler;
@@ -31,7 +31,7 @@ public class ListenerTabooLibUpdateCommand implements Listener {
 
     private void update(CommandSender sender) {
         sender.sendMessage("§8[§fTabooLib§8] §7Downloading TabooLib file...");
-        Files.downloadFile(TrMenuPlugin.URL[0][1], new File("libs/TabooLib.jar"));
+        Files.downloadFile(Plugin.URL[0][1], new File("libs/TabooLib.jar"));
         sender.sendMessage("§8[§fTabooLib§8] §2Download completed, the server will restart in 3 secs");
         try {
             Thread.sleep(3000L);

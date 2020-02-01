@@ -41,15 +41,17 @@ public class Mat {
     private String optionValue;
 
     public Mat(String rawMat) {
-        if (JsonItem.isJson(rawMat)) {
-            option = Option.JSON;
-            staticItem = JsonItem.fromJson(rawMat);
-            return;
-        }
         String[] options = readOption(rawMat);
         if (options != null) {
             this.option = Option.valueOf(options[0]);
             this.optionValue = options[1];
+        }
+        if (JsonItem.isJson(rawMat)) {
+            option = option != Option.VARIABLE ? Option.JSON : Option.VARIABLE;
+            if (option == Option.JSON) {
+                staticItem = JsonItem.fromJson(rawMat);
+                return;
+            }
         }
         if (option == null) {
             option = Option.ORIGINAL;
@@ -61,7 +63,9 @@ public class Mat {
         if (staticItem != null) {
             return staticItem.clone();
         }
-
+        if (option == Option.VARIABLE && JsonItem.isJson(optionValue)) {
+            return JsonItem.fromJson(Vars.replace(player, optionValue));
+        }
         ItemStack item;
         ItemMeta meta;
         // ORIGINAL

@@ -43,7 +43,7 @@ public class CommandUpdate extends BaseSubCommand {
         String url = "https://arasple.oss-cn-beijing.aliyuncs.com/files/TrMenu.jar";
         Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
             TLocale.sendToConsole("PLUGIN.UPDATER.DOWNLOADING", Updater.getNewVersion());
-            if (Files.downloadFile(url, TrMenu.getPlugin().getPluginFile())) {
+            if (Files.downloadFile(url, TrMenu.getPluginFile())) {
                 TLocale.sendToConsole("PLUGIN.UPDATER.DOWNLOAD-COMPLETED");
                 return;
             }

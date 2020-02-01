@@ -65,6 +65,11 @@ public class MetricsHandler {
             }));
             return data;
         }));
+        // 统计动作
+        metrics.addCustomChart(new Metrics.AdvancedPie("action_types", () -> {
+            Map<String, Integer> data = new HashMap<>();
+            return data;
+        }));
         // 统计容器类型
         metrics.addCustomChart(new Metrics.AdvancedPie("inventory_type", () -> {
             Map<String, Integer> data = new HashMap<>();

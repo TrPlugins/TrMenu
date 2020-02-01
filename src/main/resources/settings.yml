@@ -1,7 +1,7 @@
 # TrMenu Wiki: https://trmenu.trixey.cn
 
 # Do not change
-CONFIG-VERSION: 1
+CONFIG-VERSION: 2
 
 # Locale loading priority
 # Put your locale in the first
@@ -43,6 +43,12 @@ SHORTCUT-OPEN:
   RIGHT-CLICK-PLAYER: ''
   SNEAKING-RIGHT-CLICK-PLAYER: 'profile'
   SNEAKING-OFFHAND: 'example'
+
+#ITEM-SOURCES:
+#  HeadDatabase:
+#    depend: HeadDatabase
+#    source: |-
+#      new me.arcaniax.hdb.api.HeadDatabaseAPI().getItemHead("{input}")
 
 # Custom loading files as menus
 MENU-FILES: []

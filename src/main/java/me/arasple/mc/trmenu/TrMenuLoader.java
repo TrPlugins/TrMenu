@@ -80,7 +80,7 @@ public class TrMenuLoader {
         if (TrMenu.getSettings().getBoolean("OPTIONS.AUTO-UPDATE", false) && Updater.isOld()) {
             String url = "https://arasple.oss-cn-beijing.aliyuncs.com/files/TrMenu.jar";
             TLocale.sendToConsole("PLUGIN.UPDATER.DOWNLOADING", Updater.getNewVersion());
-            if (Files.downloadFile(url, TrMenu.getPlugin().getPluginFile())) {
+            if (Files.downloadFile(url, TrMenu.getPluginFile())) {
                 TLocale.sendToConsole("PLUGIN.UPDATER.DOWNLOAD-COMPLETED");
                 return;
             }

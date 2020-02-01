@@ -4,8 +4,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import io.izzel.taboolib.module.inject.TSchedule;
 import io.izzel.taboolib.module.locale.TLocale;
+import io.izzel.taboolib.util.IO;
 import me.arasple.mc.trmenu.TrMenu;
-import me.arasple.mc.trmenu.TrMenuPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -76,7 +76,7 @@ public class Updater implements Listener {
         }
         String read;
         try (InputStream inputStream = new URL(url).openStream(); BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream)) {
-            read = TrMenuPlugin.readFully(bufferedInputStream, StandardCharsets.UTF_8);
+            read = IO.readFully(bufferedInputStream, StandardCharsets.UTF_8);
             JsonObject json = (JsonObject) new JsonParser().parse(read);
             double latestVersion = json.get("tag_name").getAsDouble();
             if (latestVersion > version) {

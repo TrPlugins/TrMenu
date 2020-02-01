@@ -31,12 +31,12 @@ public class CommandMigrate extends BaseSubCommand {
 
     @Override
     public void onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!"DeluxeMenus".equalsIgnoreCase(args[0])) {
-            TLocale.sendTo(sender, "MIGRATE.UNSUPPORTED-TYPE", args[0]);
-            return;
-        }
         if ("ChestCommands".equalsIgnoreCase(args[0])) {
             ConverterChestCommands.init();
+            return;
+        }
+        if (!"DeluxeMenus".equalsIgnoreCase(args[0])) {
+            TLocale.sendTo(sender, "MIGRATE.UNSUPPORTED-TYPE", args[0]);
             return;
         }
         File file = new File(TrMenu.getPlugin().getDataFolder(), args[1]);
