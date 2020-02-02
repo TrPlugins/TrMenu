@@ -1,6 +1,13 @@
 # TrMenu Update Logs #
 
 #### VERSION 1.1
+  - ##### 1.16
+    - Since: 2020.2.2
+    - Updates:
+      - Fixed menu file listener doesn't work correctly sometimes
+      - Faster opening a menu
+      - Json Item can use placeholders by using tag `<variable>`
+      - Added support for JDK11 (Do not support JDK9 or OpenJ9)
   - ##### 1.15
     - Since: 2020.1.27
     - Updates:

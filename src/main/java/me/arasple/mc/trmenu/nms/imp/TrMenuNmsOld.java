@@ -1,6 +1,6 @@
-package me.arasple.mc.trmenu.nms.impl;
+package me.arasple.mc.trmenu.nms.imp;
 
-import me.arasple.mc.trmenu.nms.InvTitler;
+import me.arasple.mc.trmenu.nms.TrMenuNms;
 import net.minecraft.server.v1_13_R2.ChatComponentText;
 import net.minecraft.server.v1_13_R2.EntityPlayer;
 import net.minecraft.server.v1_13_R2.PacketPlayOutCloseWindow;
@@ -14,7 +14,7 @@ import org.bukkit.inventory.Inventory;
  * @date 2020/1/20 14:24
  * for versions below Minecraft 1.14
  */
-public class InvTitlerOlder extends InvTitler {
+public class TrMenuNmsOld extends TrMenuNms {
 
     @Override
     public void setInventoryTitle(Player player, Inventory inventory, String title) {
@@ -35,7 +35,6 @@ public class InvTitlerOlder extends InvTitler {
         EntityPlayer handle = ((CraftPlayer) player).getHandle();
         handle.playerConnection.sendPacket(packet);
     }
-
 
     private String getByInventory(Inventory inventory) {
         return "minecraft:" + inventory.getType().name().toLowerCase();

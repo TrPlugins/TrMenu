@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.menu.Menu;
 import me.arasple.mc.trmenu.menu.MenuHolder;
-import me.arasple.mc.trmenu.nms.InvTitler;
+import me.arasple.mc.trmenu.nms.TrMenuNms;
 import me.arasple.mc.trmenu.utils.Vars;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -117,7 +117,7 @@ public class TrMenuAPI {
      * @param title     title
      */
     public static void setInventoryTitle(Player player, Inventory inventory, String title) {
-        InvTitler.setTitle(player, inventory, Vars.replace(player, title));
+        TrMenuNms.setTitle(player, inventory, Vars.replace(player, title));
     }
 
 }

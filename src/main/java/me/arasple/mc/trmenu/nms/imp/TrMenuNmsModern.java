@@ -1,6 +1,6 @@
-package me.arasple.mc.trmenu.nms.impl;
+package me.arasple.mc.trmenu.nms.imp;
 
-import me.arasple.mc.trmenu.nms.InvTitler;
+import me.arasple.mc.trmenu.nms.TrMenuNms;
 import net.minecraft.server.v1_15_R1.*;
 import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -12,7 +12,7 @@ import org.bukkit.inventory.Inventory;
  * @date 2020/1/20 14:24
  * for Minecraft 1.14+
  */
-public class InvTitlerModern extends InvTitler {
+public class TrMenuNmsModern extends TrMenuNms {
 
     @Override
     public void setInventoryTitle(Player player, Inventory inventory, String title) {

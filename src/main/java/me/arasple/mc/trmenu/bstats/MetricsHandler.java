@@ -37,6 +37,7 @@ public class MetricsHandler {
             coutns[1] = 0;
             return i;
         }));
+        // 菜單分享次數
         metrics.addCustomChart(new Metrics.SingleLineChart("menu_share_counts", () -> {
             int i = coutns[2];
             coutns[2] = 0;

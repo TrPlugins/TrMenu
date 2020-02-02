@@ -16,7 +16,7 @@ import me.arasple.mc.trmenu.display.Button;
 import me.arasple.mc.trmenu.display.Icon;
 import me.arasple.mc.trmenu.display.Item;
 import me.arasple.mc.trmenu.display.Loc;
-import me.arasple.mc.trmenu.nms.InvTitler;
+import me.arasple.mc.trmenu.nms.TrMenuNms;
 import me.arasple.mc.trmenu.utils.JavaScript;
 import me.arasple.mc.trmenu.utils.TrUtils;
 import me.arasple.mc.trmenu.utils.Vars;
@@ -30,6 +30,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -67,7 +68,7 @@ public class Menu {
         setValues(name, titles, titleUpdate, type, rows, buttons, openRequirement, openDenyActions, closeRequirement, closeDenyActions, keepOpenRequirement, openCommands, openActions, closeActions, lockPlayerInv, updateInventory, transferArgs, forceTransferArgsAmount, bindItemLore, dependExpansions);
     }
 
-    private void setValues(String name, List<String> title, int titleUpdate, InventoryType inventoryType, HashMap<Integer, Integer> rows, HashMap<Button, Loc> buttons, String openRequirement, List<AbstractAction> openDenyActions, String closeRequirement, List<AbstractAction> closeDenyActions, String keepOpenRequirement, List<String> openCommands, List<AbstractAction> openActions, List<AbstractAction> closeActions, boolean lockPlayerInv, boolean updateInventory, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore, List<String> dependExpansions) {
+    public void setValues(String name, List<String> title, int titleUpdate, InventoryType inventoryType, HashMap<Integer, Integer> rows, HashMap<Button, Loc> buttons, String openRequirement, List<AbstractAction> openDenyActions, String closeRequirement, List<AbstractAction> closeDenyActions, String keepOpenRequirement, List<String> openCommands, List<AbstractAction> openActions, List<AbstractAction> closeActions, boolean lockPlayerInv, boolean updateInventory, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore, List<String> dependExpansions) {
         this.name = name;
         this.titles = title;
         this.titleUpdate = titleUpdate;
@@ -124,30 +125,12 @@ public class Menu {
         }
         // 创建容器
         Inventory menu = type == null ? Bukkit.createInventory(new MenuHolder(this), 9 * getRows(shape), Vars.replace(player, titles.get(0))) : Bukkit.createInventory(new MenuHolder(this), type, Vars.replace(player, titles.get(0)));
+        player.openInventory(menu);
         // 初始化容器
         Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
             // 布置按钮
             buttons.forEach((button, loc) -> {
                         button.refreshConditionalIcon(player, null);
-                        Item item = button.getIcon(player).getItem();
-                        ItemStack itemStack = item.createItemStack(player, args);
-                        List<ItemStack> emptySlots = Lists.newArrayList();
-                        (item.getSlots(player).size() > 0 ? item.getNextSlots(player, menu) : loc.getSlots(shape)).forEach(i -> {
-                            if (i < 0) {
-                                emptySlots.add(itemStack);
-                            } else {
-                                if (menu.getSize() > i) {
-                                    menu.setItem(i, itemStack);
-                                }
-                            }
-                        });
-                        Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> emptySlots.forEach(i -> {
-                                    int s = TrUtils.getInst().getEmptySlot(menu);
-                                    item.setCurSlots(player, Collections.singletonList(s));
-                                    menu.setItem(s, itemStack);
-                                }
-                        ), 4);
-
                         if (loc != null && !loc.getSlots(shape).isEmpty()) {
                             newUpdateTask(player, button, menu, loc.getSlots(shape), args);
                             newRefreshTask(player, button, menu);
@@ -172,9 +155,8 @@ public class Menu {
                 }
                 player.updateInventory();
             }
-            // 打开菜单
+            // 打開動作
             Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> {
-                player.openInventory(menu);
                 if (shape == 0 && openActions != null) {
                     openActions.forEach(action -> action.run(player));
                 }
@@ -218,7 +200,7 @@ public class Menu {
                         cancel();
                         return;
                     }
-                    InvTitler.setTitle(player, menu, Vars.replace(player, getTitle(player)));
+                    TrMenuNms.setTitle(player, menu, Vars.replace(player, getTitle(player)));
                 }
             }.runTaskTimerAsynchronously(TrMenu.getPlugin(), getTitleUpdate(), getTitleUpdate());
         }
@@ -289,7 +271,7 @@ public class Menu {
                 ), 4);
                 clearEmptySlots(player, menu);
             }
-        }.runTaskTimerAsynchronously(TrMenu.getPlugin(), update, update);
+        }.runTaskTimerAsynchronously(TrMenu.getPlugin(), 0, update);
     }
 
     /**
@@ -637,6 +619,21 @@ public class Menu {
 
     public void setLoadedPath(String loadedPath) {
         this.loadedPath = loadedPath;
+    }
+
+    public void reload() {
+        File file = new File(getLoadedPath());
+        if (file.exists()) {
+            List<String> result = MenuLoader.loadMenu(file);
+            if (result.size() <= 0 && TrMenu.getSettings().getBoolean("OPTIONS.MENU-FILE-LISTENER.NOTIFY", true)) {
+                TLocale.sendToConsole("MENU.LOADED-AUTOLY", file.getName());
+            } else {
+                TLocale.sendToConsole("MENU.LOADED-AUTOLY-FAILED", file.getName());
+                Bukkit.getConsoleSender().sendMessage("§8[§3Tr§bMenu§8] §6WARN §8| §6--------------------------------------------------");
+                result.forEach(r -> Bukkit.getConsoleSender().sendMessage("§8[§3Tr§bMenu§8] §bINFO §8| " + r));
+                Bukkit.getConsoleSender().sendMessage("§8[§3Tr§bMenu§8] §6WARN §8| §6--------------------------------------------------");
+            }
+        }
     }
 
     public static class Load {

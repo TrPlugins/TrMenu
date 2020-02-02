@@ -46,25 +46,24 @@ public class Mat {
             this.option = Option.valueOf(options[0]);
             this.optionValue = options[1];
         }
-        if (JsonItem.isJson(rawMat)) {
-            option = option != Option.VARIABLE ? Option.JSON : Option.VARIABLE;
-            if (option == Option.JSON) {
-                staticItem = JsonItem.fromJson(rawMat);
-                return;
-            }
-        }
         if (option == null) {
             option = Option.ORIGINAL;
         }
         this.mat = rawMat.replaceAll("<([^<>].+)>", "").replaceAll(" ", "");
+        if (JsonItem.isJson(this.mat)) {
+            option = option != Option.VARIABLE ? Option.JSON : Option.VARIABLE;
+            if (option == Option.JSON) {
+                staticItem = JsonItem.fromJson(rawMat);
+            }
+        }
     }
 
     public ItemStack createItem(Player player) {
         if (staticItem != null) {
             return staticItem.clone();
         }
-        if (option == Option.VARIABLE && JsonItem.isJson(optionValue)) {
-            return JsonItem.fromJson(Vars.replace(player, optionValue));
+        if (option == Option.VARIABLE && JsonItem.isJson(mat)) {
+            return JsonItem.fromJson(Vars.replace(player, mat));
         }
         ItemStack item;
         ItemMeta meta;

@@ -1,7 +1,7 @@
 package me.arasple.mc.trmenu.nms;
 
+import io.izzel.taboolib.Version;
 import io.izzel.taboolib.module.lite.SimpleVersionControl;
-import io.izzel.taboolib.util.lite.Materials;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.menu.MenuHolder;
 import org.bukkit.Bukkit;
@@ -12,32 +12,30 @@ import org.bukkit.inventory.Inventory;
  * @author Arasple
  * @date 2020/1/20 15:34
  */
-public abstract class InvTitler {
+public abstract class TrMenuNms {
 
-    public static InvTitler impl;
+    public static TrMenuNms instance;
 
     static {
         try {
-            impl = (InvTitler) SimpleVersionControl.createNMS(
-                    Materials.isVersionOrHigher(Materials.MinecraftVersion.V1_14) ?
-                            "me.arasple.mc.trmenu.nms.impl.InvTitlerModern" :
-                            "me.arasple.mc.trmenu.nms.impl.InvTitlerOlder"
+            instance = (TrMenuNms) SimpleVersionControl.createNMS(
+                    "me.arasple.mc.trmenu.nms.imp.TrMenuNms" + (Version.isAfter(Version.v1_14) ? "Modern" : "Old")
             ).useCache().translate(TrMenu.getPlugin()).newInstance();
         } catch (Throwable e) {
             e.printStackTrace();
         }
     }
 
-    public static InvTitler getImpl() {
-        return impl;
+    public static TrMenuNms getInst() {
+        return instance;
     }
 
     public static void setTitle(Player player, Inventory inventory, String title) {
         if (player.getOpenInventory().getTopInventory().getHolder() instanceof MenuHolder) {
-            getImpl().setInventoryTitle(player, inventory, title);
+            getInst().setInventoryTitle(player, inventory, title);
             Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> {
                 if (!(player.getOpenInventory().getTopInventory().getHolder() instanceof MenuHolder)) {
-                    getImpl().closeInventory(player);
+                    getInst().closeInventory(player);
                 }
             }, 2);
         }
@@ -51,7 +49,6 @@ public abstract class InvTitler {
      * @param title     标题
      */
     public abstract void setInventoryTitle(Player player, Inventory inventory, String title);
-
 
     /**
      * 发包关闭一个玩家的残留窗口

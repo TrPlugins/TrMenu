@@ -75,7 +75,7 @@ public class TrMenuLoader {
         TLocale.sendToConsole("PLUGIN.ENABLED", TrMenu.getPlugin().getDescription().getVersion());
     }
 
-    public static void unload() {
+    void unload() {
         Bukkit.getOnlinePlayers().stream().filter(p -> p.getOpenInventory().getTopInventory() instanceof MenuHolder).collect(Collectors.toList()).forEach(HumanEntity::closeInventory);
         if (TrMenu.getSettings().getBoolean("OPTIONS.AUTO-UPDATE", false) && Updater.isOld()) {
             String url = "https://arasple.oss-cn-beijing.aliyuncs.com/files/TrMenu.jar";

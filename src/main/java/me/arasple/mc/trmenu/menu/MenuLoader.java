@@ -56,8 +56,6 @@ public class MenuLoader {
             long start = System.currentTimeMillis();
             int all = MenuLoader.getMenuFilesCount(folder);
             List<String> errors = new ArrayList<>();
-
-
             TrMenu.getMenus().clear();
             if (TrMenu.getSettings().isSet("MENUS")) {
                 TrMenu.getSettings().getList("MENUS", new ArrayList<>()).forEach(s -> {
@@ -85,16 +83,9 @@ public class MenuLoader {
                     File file = new File(menu.getLoadedPath());
                     if (file != null && file.exists() && TrMenu.getSettings().getBoolean("OPTIONS.MENU-FILE-LISTENER.ENABLE", true)) {
                         TConfigWatcher.getInst().addSimpleListener(file, () -> {
-                            if (file.exists() && TrMenuAPI.getMenu(menu.getName()) != null) {
-                                List<String> result = MenuLoader.loadMenu(file);
-                                if (result.size() <= 0 && TrMenu.getSettings().getBoolean("OPTIONS.MENU-FILE-LISTENER.NOTIFY", true)) {
-                                    TLocale.sendToConsole("MENU.LOADED-AUTOLY", file.getName());
-                                } else {
-                                    TLocale.sendToConsole("MENU.LOADED-AUTOLY-FAILED", file.getName());
-                                    Bukkit.getConsoleSender().sendMessage("§8[§3Tr§bMenu§8] §6WARN §8| §6--------------------------------------------------");
-                                    result.forEach(r -> Bukkit.getConsoleSender().sendMessage("§8[§3Tr§bMenu§8] §bINFO §8| " + r));
-                                    Notifys.sendMsg(receivers, "§8[§3Tr§bMenu§8] §6WARN §8| §6--------------------------------------------------");
-                                }
+                            Menu m = TrMenuAPI.getMenu(menu.getName());
+                            if (m != null) {
+                                m.reload();
                             }
                         });
                     }
@@ -120,7 +111,6 @@ public class MenuLoader {
         } else if (!name.toLowerCase().endsWith(".yml") && !name.toLowerCase().endsWith(".json")) {
             return new ArrayList<>();
         } else {
-            Menu menu = TrMenu.getMenus().stream().filter(m -> m.getLoadedPath() != null && m.getLoadedPath().equalsIgnoreCase(file.getAbsolutePath())).findFirst().orElse(null);
             Map<String, Object> sets;
             try {
                 if (name.toLowerCase().endsWith(".json")) {
@@ -142,9 +132,9 @@ public class MenuLoader {
 
     public static Menu.Load loadMenu(Map<String, Object> sets, String name, File file, boolean add) {
         Menu.Load menuLoad = new Menu.Load();
-        Menu menu = file == null || !file.exists() ? null : TrMenu.getMenus().stream().filter(m -> m.getLoadedPath() != null && m.getLoadedPath().equalsIgnoreCase(file.getAbsolutePath())).findFirst().orElse(null);
+        Menu menu = (file == null || !file.exists()) ? null : TrMenu.getMenus().stream().filter(m -> m.getLoadedPath() != null && m.getLoadedPath().equalsIgnoreCase(file.getAbsolutePath())).findFirst().orElse(null);
         Map<String, Object> options = Maps.sectionToMap(MENU_OPTIONS.getFromMap(sets));
-        InventoryType inventoryType = Arrays.stream(InventoryType.values()).filter(t -> t.name().equalsIgnoreCase(MenuNodes.MENU_TYPE.getFromMap(sets))).findFirst().orElse(null);
+        InventoryType inventoryType = Arrays.stream(InventoryType.values()).filter(t -> t != InventoryType.CHEST && t.name().equalsIgnoreCase(MenuNodes.MENU_TYPE.getFromMap(sets))).findFirst().orElse(null);
         List<String> titles = MENU_TITLE.getFromMap(sets) instanceof List ? MENU_TITLE.getFromMap(sets, Collections.singletonList("TrMenu")) : Collections.singletonList(MENU_TITLE.getFromMap(sets, "TrMenu"));
         int titleUpdate = MENU_TITLE_UPDATER.getFromMap(sets, -1);
         List<List<String>> shapes = fixShapes(MENU_SHAPE.getFromMap(sets));
@@ -229,21 +219,23 @@ public class MenuLoader {
         } else {
             menuLoad.getErrors().add(TLocale.asString("MENU.LOADING-ERRORS.NO-BUTTONS", name));
         }
-
         if (menuLoad.getErrors().size() <= 0) {
-            String mName = name.length() > 4 ? name.substring(0, name.length() - 4) : name;
-            Menu nMenu = new Menu(mName, titles, titleUpdate, inventoryType, rows, buttons, openRequirement, openDenyActions, closeRequirement, closeDenyActions, keepOpenRequirement, openCommands, openActions, closeActions, lockPlayerInv, updateInventory, transferArgs, forceTransferArgsAmount, bindItemLore, dependExpansions);
-            nMenu.setLoadedPath(file != null ? file.getAbsolutePath() : null);
-            if (nMenu != null && add) {
-                if (menu != null) {
-                    List<Player> viewers = menu.getViewers();
-                    menu.getViewers().forEach(p -> Bukkit.getScheduler().runTask(TrMenu.getPlugin(), p::closeInventory));
-                    TrMenu.getMenus().remove(menu);
-                    viewers.forEach(player -> nMenu.open(player));
+            String menuName = name.length() > 4 ? name.substring(0, name.length() - 4) : name;
+            if (menu != null) {
+                List<Player> viewers = menu.getViewers();
+                menu.setValues(menuName, titles, titleUpdate, inventoryType, rows, buttons, openRequirement, openDenyActions, closeRequirement, closeDenyActions, keepOpenRequirement, openCommands, openActions, closeActions, lockPlayerInv, updateInventory, transferArgs, forceTransferArgsAmount, bindItemLore, dependExpansions);
+                for (Player viewer : viewers) {
+                    Bukkit.getScheduler().runTask(TrMenu.getPlugin(), () -> menu.open(viewer));
                 }
-                TrMenu.getMenus().add(nMenu);
+                return menuLoad;
+            } else {
+                Menu newMenu = new Menu(menuName, titles, titleUpdate, inventoryType, rows, buttons, openRequirement, openDenyActions, closeRequirement, closeDenyActions, keepOpenRequirement, openCommands, openActions, closeActions, lockPlayerInv, updateInventory, transferArgs, forceTransferArgsAmount, bindItemLore, dependExpansions);
+                newMenu.setLoadedPath(file != null ? file.getAbsolutePath() : null);
+                if (newMenu != null && add) {
+                    TrMenu.getMenus().add(newMenu);
+                }
+                menuLoad.setMenu(newMenu);
             }
-            menuLoad.setMenu(nMenu);
             return menuLoad;
         }
         return menuLoad;
