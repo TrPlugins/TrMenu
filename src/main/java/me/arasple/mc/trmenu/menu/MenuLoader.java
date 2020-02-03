@@ -19,6 +19,7 @@ import me.arasple.mc.trmenu.utils.TrUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryType;
@@ -52,6 +53,7 @@ public class MenuLoader {
     }
 
     public static void loadMenus(CommandSender... receivers) {
+        Bukkit.getOnlinePlayers().stream().filter(TrMenuAPI::isViewingMenu).forEach(HumanEntity::closeInventory);
         Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
             long start = System.currentTimeMillis();
             int all = MenuLoader.getMenuFilesCount(folder);

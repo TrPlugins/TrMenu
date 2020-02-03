@@ -3,7 +3,7 @@ package me.arasple.mc.trmenu;
 import io.izzel.taboolib.module.config.TConfig;
 import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.util.Files;
-import me.arasple.mc.trmenu.menu.MenuHolder;
+import me.arasple.mc.trmenu.api.TrMenuAPI;
 import me.arasple.mc.trmenu.menu.MenuLoader;
 import me.arasple.mc.trmenu.updater.Updater;
 import me.arasple.mc.trmenu.utils.Bungees;
@@ -15,7 +15,7 @@ import org.bukkit.plugin.Plugin;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.util.Arrays;
-import java.util.stream.Collectors;
+import java.util.logging.Level;
 
 /**
  * @author Arasple
@@ -38,7 +38,7 @@ public class TrMenuLoader {
         }
         TLocale.sendToConsole("PLUGIN.LOADING");
 
-        if (hookPlaceholderAPI()) {
+        if (installPlaceholderAPI()) {
             return;
         }
 
@@ -76,24 +76,19 @@ public class TrMenuLoader {
     }
 
     void unload() {
-        Bukkit.getOnlinePlayers().stream().filter(p -> p.getOpenInventory().getTopInventory() instanceof MenuHolder).collect(Collectors.toList()).forEach(HumanEntity::closeInventory);
-        if (TrMenu.getSettings().getBoolean("OPTIONS.AUTO-UPDATE", false) && Updater.isOld()) {
+        Bukkit.getOnlinePlayers().stream().filter(TrMenuAPI::isViewingMenu).forEach(HumanEntity::closeInventory);
+        if (Updater.isAutoUpdate() && Updater.isOld()) {
             String url = "https://arasple.oss-cn-beijing.aliyuncs.com/files/TrMenu.jar";
-            TLocale.sendToConsole("PLUGIN.UPDATER.DOWNLOADING", Updater.getNewVersion());
-            if (Files.downloadFile(url, TrMenu.getPluginFile())) {
-                TLocale.sendToConsole("PLUGIN.UPDATER.DOWNLOAD-COMPLETED");
-                return;
-            }
-            TLocale.sendToConsole("PLUGIN.UPDATER.DOWNLOAD-FAILED");
+            Files.downloadFile(url, TrMenu.getPluginFile());
+            TrMenu.getPlugin().getLogger().log(Level.INFO, "Successfully downloaded a new version of TrMenu...");
         }
-        TLocale.sendToConsole("PLUGIN.DISABLED");
     }
 
     /**
      * 检测前置 PlaceholderAPI
      * 并自动下载、重启服务器
      */
-    private boolean hookPlaceholderAPI() {
+    private boolean installPlaceholderAPI() {
         Plugin plugin = Bukkit.getPluginManager().getPlugin("PlaceholderAPI");
         File jarFile = new File("plugins/PlaceholderAPI.jar");
         String url = "https://api.spiget.org/v2/resources/6245/download";

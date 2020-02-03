@@ -27,6 +27,7 @@ import java.util.UUID;
  */
 public class Updater implements Listener {
 
+    private static boolean autoUpdate;
     private static List<UUID> noticed = new ArrayList<>();
     private static String url;
     private static double version;
@@ -37,6 +38,7 @@ public class Updater implements Listener {
         url = "https://api.github.com/repos/Arasple/" + plugin.getName() + "/releases/latest";
         version = TrMenu.getTrVersion();
         newVersion = version;
+        setAutoUpdate();
 
         if (!String.valueOf(version).equalsIgnoreCase(plugin.getDescription().getVersion().split("-")[0])) {
             TLocale.sendToConsole("ERROR.VERSION");
@@ -107,6 +109,14 @@ public class Updater implements Listener {
 
     public static double getVersion() {
         return version;
+    }
+
+    public static boolean isAutoUpdate() {
+        return autoUpdate;
+    }
+
+    public static void setAutoUpdate() {
+        autoUpdate = TrMenu.getSettings().getBoolean("OPTIONS.AUTO-UPDATE", false);
     }
 
 }

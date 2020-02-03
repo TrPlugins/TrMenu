@@ -13,8 +13,5 @@ github: https://github.com/Arasple/TrMenu
 softdepend:
   - PlaceholderAPI
   - HeadDatabase
-  - TrChat
-  - Yum
-  - ChestCommands
 
 author: Arasple
