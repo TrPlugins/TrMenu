@@ -5,9 +5,18 @@
     - Since: 2020.2.2
     - Updates:
       - Fixed menu file listener doesn't work correctly sometimes
+      - Fixed a bug when you use open-menu action in `close-actions` to open previous menu
       - Faster opening a menu
-      - Json Item can use placeholders by using tag `<variable>`
+      - Added support for Json Item to use placeholders by using tag `<variable>`
       - Added support for JDK11 (Do not support JDK9 or OpenJ9)
+      - Added permissions for each sub command, such as `trmenu.command.open` for `/trmenu open`
+      - Added command `/trmenu runAction <Player> <ActionLine>`
+      - Added action Tellraw (Json Message) with an easier way to build JSON message,
+      - > You can also use it to send raw JSON message.
+      - > Usage Example: 
+      - >```YAML
+        >- 'json: &3Hello, &a%player_name%&3! Click <&a&nHERE?hover=&7Click to open website?url=https://trmenu.trixey.cn> &3to see our wiki.
+        >```
   - ##### 1.15
     - Since: 2020.1.27
     - Updates:

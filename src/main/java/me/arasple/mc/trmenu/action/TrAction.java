@@ -24,13 +24,13 @@ import java.util.regex.Matcher;
 public class TrAction {
 
     private static List<AbstractAction> actions = Arrays.asList(
+            new ActionCommand(),
             new ActionActionbar(),
             new ActionBreak(),
             new ActionCatcher(),
             new ActionCleanCatchers(),
             new ActionClearEmptySlots(),
             new ActionClose(),
-            new ActionCommand(),
             new ActionCommandConsole(),
             new ActionCommandOp(),
             new ActionConnect(),
@@ -47,6 +47,7 @@ public class TrAction {
             new ActionTakeItem(),
             new ActionTakeMoney(),
             new ActionTell(),
+            new ActionTellraw(),
             new ActionTitle()
     );
 

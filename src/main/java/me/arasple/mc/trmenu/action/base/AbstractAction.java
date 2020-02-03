@@ -50,7 +50,6 @@ public abstract class AbstractAction {
             }
             return;
         }
-
         onExecute(player);
     }
 

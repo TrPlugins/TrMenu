@@ -170,8 +170,8 @@ public class Menu {
      * @param player 玩家
      */
     private void newKeepOpenTask(Player player) {
-        if (Strings.nonEmpty(getOpenRequirement())) {
-            String[] require = getOpenRequirement().split(";", 2);
+        if (Strings.nonEmpty(getKeepOpenRequirement())) {
+            String[] require = getKeepOpenRequirement().split(";", 2);
             long period = require.length >= 2 && NumberUtils.isParsable(require[1]) ? NumberUtils.toLong(require[1]) : 15;
             new BukkitRunnable() {
                 @Override
@@ -241,6 +241,7 @@ public class Menu {
      */
     private void newUpdateTask(Player player, Button button, Inventory menu, List<Integer> slots, String... args) {
         if (button.getUpdate() <= 0) {
+            setButton(player, button, menu, slots, args);
             return;
         }
         int update = Math.max(button.getUpdate(), 3);
@@ -251,27 +252,31 @@ public class Menu {
                     cancel();
                     return;
                 }
-                Item item = button.getIcon(player).getItem();
-                ItemStack itemStack = item.createItemStack(player, args);
-                List<ItemStack> emptySlots = Lists.newArrayList();
-                (item.getSlots(player).size() > 0 ? item.getNextSlots(player, menu) : slots).forEach(i -> {
-                    if (i < 0) {
-                        emptySlots.add(itemStack);
-                    } else {
-                        if (menu.getSize() > i) {
-                            menu.setItem(i, itemStack);
-                        }
-                    }
-                });
-                Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> emptySlots.forEach(i -> {
-                            int s = TrUtils.getInst().getEmptySlot(menu);
-                            item.setCurSlots(player, Collections.singletonList(s));
-                            menu.setItem(s, itemStack);
-                        }
-                ), 4);
-                clearEmptySlots(player, menu);
+                setButton(player, button, menu, slots, args);
             }
         }.runTaskTimerAsynchronously(TrMenu.getPlugin(), 0, update);
+    }
+
+    private void setButton(Player player, Button button, Inventory menu, List<Integer> slots, String... args) {
+        Item item = button.getIcon(player).getItem();
+        ItemStack itemStack = item.createItemStack(player, args);
+        List<ItemStack> emptySlots = Lists.newArrayList();
+        (item.getSlots(player).size() > 0 ? item.getNextSlots(player, menu) : slots).forEach(i -> {
+            if (i < 0) {
+                emptySlots.add(itemStack);
+            } else {
+                if (menu.getSize() > i) {
+                    menu.setItem(i, itemStack);
+                }
+            }
+        });
+        Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> emptySlots.forEach(i -> {
+                    int s = TrUtils.getInst().getEmptySlot(menu);
+                    item.setCurSlots(player, Collections.singletonList(s));
+                    menu.setItem(s, itemStack);
+                }
+        ), 4);
+        clearEmptySlots(player, menu);
     }
 
     /**

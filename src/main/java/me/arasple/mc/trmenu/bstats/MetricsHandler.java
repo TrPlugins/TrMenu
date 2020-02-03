@@ -4,6 +4,7 @@ import io.izzel.taboolib.module.inject.TSchedule;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.hook.HookHeadDatabase;
 import org.bstats.bukkit.Metrics;
+import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryType;
 
 import java.text.DecimalFormat;
@@ -19,6 +20,8 @@ public class MetricsHandler {
     private static Metrics metrics;
     private static DecimalFormat doubleFormat = new DecimalFormat("#.#");
     private static int[] coutns = new int[]{0, 0, 0};
+
+    private static Map<String, Integer> MENU_SIZE, MENU_ITEMS, INVENTORY_TYPES;
 
     @TSchedule
     public static void init() {
@@ -44,43 +47,11 @@ public class MetricsHandler {
             return i;
         }));
         // 统计菜单行数
-        metrics.addCustomChart(new Metrics.AdvancedPie("menu_size", () -> {
-            Map<String, Integer> data = new HashMap<>();
-            TrMenu.getMenus().forEach(menu -> menu.getRows().values().forEach(rows -> {
-                data.put(String.valueOf(rows), data.getOrDefault(rows, 0) + 1);
-            }));
-            return data;
-        }));
+        metrics.addCustomChart(new Metrics.AdvancedPie("menu_size", () -> MENU_SIZE));
         // 统计材质类型
-        metrics.addCustomChart(new Metrics.AdvancedPie("menu_items", () -> {
-            Map<String, Integer> data = new HashMap<>();
-            TrMenu.getMenus().forEach(m -> m.getButtons().keySet().forEach(b -> {
-                b.getDefIcon().getItem().getMaterials().forEach(mat -> {
-                    String option = mat.getOption().name();
-                    data.put(option, data.getOrDefault(option, 0) + 1);
-                });
-                b.getIcons().forEach(icon -> icon.getItem().getMaterials().forEach(mat -> {
-                    String option = mat.getOption().name();
-                    data.put(option, data.getOrDefault(option, 0) + 1);
-                }));
-            }));
-            return data;
-        }));
-        // 统计动作
-        metrics.addCustomChart(new Metrics.AdvancedPie("action_types", () -> {
-            Map<String, Integer> data = new HashMap<>();
-            return data;
-        }));
+        metrics.addCustomChart(new Metrics.AdvancedPie("menu_items", () -> MENU_ITEMS));
         // 统计容器类型
-        metrics.addCustomChart(new Metrics.AdvancedPie("inventory_type", () -> {
-            Map<String, Integer> data = new HashMap<>();
-            TrMenu.getMenus().forEach(menu -> {
-                InventoryType type = menu.getType();
-                type = type == null ? InventoryType.CHEST : type;
-                data.put(type.name(), data.getOrDefault(type.name(), 0) + 1);
-            });
-            return data;
-        }));
+        metrics.addCustomChart(new Metrics.AdvancedPie("inventory_type", () -> INVENTORY_TYPES));
         // 选项 - 自动更新
         metrics.addCustomChart(new Metrics.SimplePie("option_auto_updater", () -> TrMenu.getSettings().getBoolean("OPTIONS.AUTO-UPDATE", false) ? "Enabled" : "Disabled"));
         // 选项 - 相似度比
@@ -91,6 +62,37 @@ public class MetricsHandler {
         metrics.addCustomChart(new Metrics.SimplePie("menu_file_listener", () -> TrMenu.getSettings().getBoolean("OPTIONS.MENU-FILE-LISTENER.ENABLE", true) ? "Enabled" : "Disabled"));
         // 支持 - HeadDatabase
         metrics.addCustomChart(new Metrics.SimplePie("hooked_headdatabase", () -> HookHeadDatabase.isHoooked() ? "Enabled" : "Disabled"));
+        // 初始化
+        MENU_SIZE = new HashMap<>();
+        MENU_ITEMS = new HashMap<>();
+        INVENTORY_TYPES = new HashMap<>();
+    }
+
+    public static void reloadStatiscs() {
+        Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
+            MENU_SIZE.clear();
+            MENU_ITEMS.clear();
+            INVENTORY_TYPES.clear();
+
+            TrMenu.getMenus().forEach(menu -> {
+                menu.getRows().values().forEach(rows -> {
+                    MENU_SIZE.put(String.valueOf(rows), MENU_SIZE.getOrDefault(rows, 0) + 1);
+                });
+                menu.getButtons().keySet().forEach(button -> {
+                    button.getDefIcon().getItem().getMaterials().forEach(mat -> {
+                        String option = mat.getOption().name();
+                        MENU_ITEMS.put(option, MENU_ITEMS.getOrDefault(option, 0) + 1);
+                    });
+                    button.getIcons().forEach(icon -> icon.getItem().getMaterials().forEach(mat -> {
+                        String option = mat.getOption().name();
+                        MENU_ITEMS.put(option, MENU_ITEMS.getOrDefault(option, 0) + 1);
+                    }));
+                    InventoryType type = menu.getType();
+                    type = type == null ? InventoryType.CHEST : type;
+                    INVENTORY_TYPES.put(type.name(), INVENTORY_TYPES.getOrDefault(type.name(), 0) + 1);
+                });
+            });
+        });
     }
 
     public static void increase(int index) {

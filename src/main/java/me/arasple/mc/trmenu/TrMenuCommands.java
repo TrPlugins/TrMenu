@@ -13,37 +13,40 @@ import org.bukkit.command.CommandSender;
  * @author Arasple
  * @date 2019/10/3 16:32
  */
-@BaseCommand(name = "trmenu", aliases = {"menu", "tmenu"}, permission = "trmenu.admin")
+@BaseCommand(name = "trmenu", aliases = {"menu", "tmenu"}, permission = "trmenu.use")
 public class TrMenuCommands extends BaseMainCommand {
 
-    @SubCommand(description = "Reload menus")
+    @SubCommand(description = "Reload menus", permission = "trmenu.command.reload")
     BaseSubCommand reload = new CommandReload();
 
-    @SubCommand(description = "List menus")
+    @SubCommand(description = "List menus", permission = "trmenu.command.list")
     BaseSubCommand list = new CommandList();
 
-    @SubCommand(description = "Open a menu for a player")
+    @SubCommand(description = "Open a menu for a player", permission = "trmenu.command.open")
     BaseSubCommand open = new CommandOpenMenu();
 
-    @SubCommand(description = "Write item to JSON")
+    @SubCommand(description = "Write item to JSON", permission = "trmenu.command.item")
     BaseSubCommand item = new CommandItemToJson();
 
-    @SubCommand(description = "Template manage")
+    @SubCommand(description = "Run action", permission = "trmenu.command.runaction")
+    BaseSubCommand runAction = new CommandRunAction();
+
+    @SubCommand(description = "Template manage", permission = "trmenu.command.template")
     BaseSubCommand template = new CommandTemplate();
 
-    @SubCommand(description = "Paste your menu on hastebin")
+    @SubCommand(description = "Paste your menu on hastebin", permission = "trmenu.command.share")
     BaseSubCommand share = new CommandShare();
 
-    @SubCommand(description = "Migrate menus from other plugins")
+    @SubCommand(description = "Migrate menus from other plugins", permission = "trmenu.command.migrate")
     BaseSubCommand migrate = new CommandMigrate();
 
-    @SubCommand(description = "Toggle the Debug Mode")
+    @SubCommand(description = "Toggle the Debug Mode", permission = "trmenu.command.debug")
     BaseSubCommand debug = new CommandDebug();
 
-    @SubCommand(description = "Update the plugin")
+    @SubCommand(description = "Update the plugin", permission = "trmenu.command.update")
     BaseSubCommand update = new CommandUpdate();
 
-    @SubCommand(description = "About this plugin")
+    @SubCommand(description = "About this plugin", permission = "trmenu.command.about")
     BaseSubCommand about = new CommandAbout();
 
     @Override

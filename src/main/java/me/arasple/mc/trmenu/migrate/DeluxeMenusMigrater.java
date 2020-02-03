@@ -358,7 +358,7 @@ public class DeluxeMenusMigrater {
                 .replace("[openguimenu]", "open:")
                 .replace("[connect]", "connect:")
                 .replace("[close]", "close")
-                .replace("[json]", "console: tellraw %player_name%")
+                .replace("[json]", "json:")
                 .replace("[refresh]", "refresh")
                 .replace("[broadcastsound]", "sound: <players>")
                 .replace("[takemoney]", "take-money:")
