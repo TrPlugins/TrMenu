@@ -1,10 +1,12 @@
 package me.arasple.mc.trmenu.api;
 
 import com.google.common.collect.Lists;
+import io.izzel.taboolib.util.Strings;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.menu.Menu;
 import me.arasple.mc.trmenu.menu.MenuHolder;
 import me.arasple.mc.trmenu.nms.TrMenuNms;
+import me.arasple.mc.trmenu.utils.TrUtils;
 import me.arasple.mc.trmenu.utils.Vars;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -65,7 +67,7 @@ public class TrMenuAPI {
         return false;
     }
 
-    public static boolean open(Player player, String read, String... args) {
+    public static boolean openByShortcut(Player player, String read, String... args) {
         String[] menu = read != null ? read.split("\\|") : null;
         if (menu != null) {
             Menu trMenu = TrMenuAPI.getMenu(menu[0]);
@@ -74,6 +76,9 @@ public class TrMenuAPI {
                 trMenu.open(player, args);
                 return true;
             }
+        } else if (Strings.nonEmpty(read) && read.split(":", 2).length > 1) {
+            TrUtils.getInst().runAction(player, read.split(";"));
+            return true;
         }
         return false;
     }

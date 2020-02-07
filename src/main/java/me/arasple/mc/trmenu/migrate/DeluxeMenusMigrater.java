@@ -19,18 +19,18 @@ import java.util.stream.Collectors;
  */
 public class DeluxeMenusMigrater {
 
-    public static void migrateDeluxeMenu(File file) {
+    public static void migrateDeluxeMenu(File file, boolean useSlot) {
         YamlConfiguration c = YamlConfiguration.loadConfiguration(file);
         if (c.contains("gui_menus")) {
             for (String menu : c.getConfigurationSection("gui_menus").getKeys(false)) {
-                migrateDeluxeMenu(null, menu + ".yml", c.getConfigurationSection("gui_menus." + menu));
+                migrateDeluxeMenu(null, menu + ".yml", c.getConfigurationSection("gui_menus." + menu), useSlot);
             }
         } else {
-            migrateDeluxeMenu(file, file.getName(), c);
+            migrateDeluxeMenu(file, file.getName(), c, useSlot);
         }
     }
 
-    public static void migrateDeluxeMenu(File file, String menu, ConfigurationSection dm) {
+    public static void migrateDeluxeMenu(File file, String menu, ConfigurationSection dm, boolean useSlot) {
         try {
             YamlConfiguration tm = new YamlConfiguration();
             ListIterator<Character> k = TrUtils.getKeys().listIterator();
@@ -95,14 +95,14 @@ public class DeluxeMenusMigrater {
                     button.set("refresh", refresh);
                 }
                 if (i.size() == 1) {
-                    for (Map.Entry<String, Object> entry : i.get(0).toTrMenuSection().getValues(false).entrySet()) {
+                    for (Map.Entry<String, Object> entry : i.get(0).toTrMenuSection(useSlot).getValues(false).entrySet()) {
                         button.set(entry.getKey(), entry.getValue());
                     }
                 } else {
                     DmIcon def = i.stream().filter(x -> x.getRequirement() == null || x.getPriority() == Integer.MAX_VALUE).findFirst().orElse(i.stream().max(Comparator.comparingInt(DmIcon::getPriority)).orElse(null));
                     i.remove(def);
 
-                    for (Map.Entry<String, Object> entry : def.toTrMenuSection().getValues(false).entrySet()) {
+                    for (Map.Entry<String, Object> entry : def.toTrMenuSection(useSlot).getValues(false).entrySet()) {
                         button.set(entry.getKey(), entry.getValue());
                     }
                     AtomicInteger priority = new AtomicInteger(1);
@@ -110,7 +110,7 @@ public class DeluxeMenusMigrater {
                     i = i.stream().sorted(Comparator.comparingInt(DmIcon::getPriority)).collect(Collectors.toList());
                     Collections.reverse(i);
                     i.forEach(pI -> {
-                        ConfigurationSection section = pI.toTrMenuSection(priority.get());
+                        ConfigurationSection section = pI.toTrMenuSection(priority.get(), useSlot);
                         priorityIcons.add(section);
                         priority.getAndIncrement();
                     });
@@ -181,7 +181,7 @@ public class DeluxeMenusMigrater {
             this.actions = actions;
         }
 
-        public ConfigurationSection toTrMenuSection(int priority) {
+        public ConfigurationSection toTrMenuSection(int priority, boolean useSlot) {
             MemorySection section = new MemoryConfiguration();
             if (getRequirement() != null) {
                 section.set("condition", getRequirement());
@@ -209,12 +209,19 @@ public class DeluxeMenusMigrater {
             if (getFlags() != null && !getFlags().isEmpty()) {
                 section.set("display.flags", getFlags());
             }
+            if (!getSlots().isEmpty() && useSlot) {
+                if (getSlots().size() == 1) {
+                    section.set("display.slot", getSlots().get(0));
+                } else {
+                    section.set("display.slots", getSlots());
+                }
+            }
             actions.forEach((type, actions) -> section.set("actions." + type, actions));
             return section;
         }
 
-        public ConfigurationSection toTrMenuSection() {
-            return toTrMenuSection(-1);
+        public ConfigurationSection toTrMenuSection(boolean useSlot) {
+            return toTrMenuSection(-1, useSlot);
         }
 
         public int getPriority() {

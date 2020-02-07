@@ -4,7 +4,6 @@ import io.izzel.taboolib.module.inject.TSchedule;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.hook.HookHeadDatabase;
 import org.bstats.bukkit.Metrics;
-import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryType;
 
 import java.text.DecimalFormat;
@@ -68,29 +67,26 @@ public class MetricsHandler {
         INVENTORY_TYPES = new HashMap<>();
     }
 
+    @TSchedule(delay = 20 * 60, period = 20 * 30 * 60)
     public static void reloadStatiscs() {
-        Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
-            MENU_SIZE.clear();
-            MENU_ITEMS.clear();
-            INVENTORY_TYPES.clear();
+        MENU_SIZE.clear();
+        MENU_ITEMS.clear();
+        INVENTORY_TYPES.clear();
 
-            TrMenu.getMenus().forEach(menu -> {
-                menu.getRows().values().forEach(rows -> {
-                    MENU_SIZE.put(String.valueOf(rows), MENU_SIZE.getOrDefault(rows, 0) + 1);
+        TrMenu.getMenus().forEach(menu -> {
+            menu.getRows().values().forEach(rows -> MENU_SIZE.put(String.valueOf(rows), MENU_SIZE.getOrDefault(rows, 0) + 1));
+            menu.getButtons().keySet().forEach(button -> {
+                button.getDefIcon().getItem().getMaterials().forEach(mat -> {
+                    String option = mat.getOption().name();
+                    MENU_ITEMS.put(option, MENU_ITEMS.getOrDefault(option, 0) + 1);
                 });
-                menu.getButtons().keySet().forEach(button -> {
-                    button.getDefIcon().getItem().getMaterials().forEach(mat -> {
-                        String option = mat.getOption().name();
-                        MENU_ITEMS.put(option, MENU_ITEMS.getOrDefault(option, 0) + 1);
-                    });
-                    button.getIcons().forEach(icon -> icon.getItem().getMaterials().forEach(mat -> {
-                        String option = mat.getOption().name();
-                        MENU_ITEMS.put(option, MENU_ITEMS.getOrDefault(option, 0) + 1);
-                    }));
-                    InventoryType type = menu.getType();
-                    type = type == null ? InventoryType.CHEST : type;
-                    INVENTORY_TYPES.put(type.name(), INVENTORY_TYPES.getOrDefault(type.name(), 0) + 1);
-                });
+                button.getIcons().forEach(icon -> icon.getItem().getMaterials().forEach(mat -> {
+                    String option = mat.getOption().name();
+                    MENU_ITEMS.put(option, MENU_ITEMS.getOrDefault(option, 0) + 1);
+                }));
+                InventoryType type = menu.getType();
+                type = type == null ? InventoryType.CHEST : type;
+                INVENTORY_TYPES.put(type.name(), INVENTORY_TYPES.getOrDefault(type.name(), 0) + 1);
             });
         });
     }

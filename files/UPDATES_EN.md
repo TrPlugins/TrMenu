@@ -1,6 +1,15 @@
 # TrMenu Update Logs #
 
 #### VERSION 1.1
+  - ##### 1.17
+    - Since: 2020.2.7
+    - Updates:
+      - Fixed shortcut-open menu incompatibility with other plugins
+      - You can now set actions in shortcut tigger
+      - You can now migrate DeluxeMenus without using layout feature (use slots)
+      - Added action `- 'set-title: CONTENT''` to update inventory's display title
+        (Placeholders are supported)
+      - 
   - ##### 1.16
     - Since: 2020.2.2
     - Updates:

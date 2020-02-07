@@ -22,7 +22,7 @@ public final class TrMenu extends Plugin {
     private static List<Menu> menus = Lists.newArrayList();
     @TInject(value = "settings.yml", locale = "LOCALE-PRIORITY")
     private static TConfig settings;
-    @TInject(state = TInject.State.LOADING, init = "init", active = "load", cancel = "unload")
+    @TInject(state = TInject.State.LOADING, init = "init", active = "active", cancel = "cancel")
     private static TrMenuLoader loader;
 
     public static List<Menu> getMenus() {

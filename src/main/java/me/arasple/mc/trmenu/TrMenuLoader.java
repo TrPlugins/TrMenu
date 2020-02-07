@@ -38,16 +38,48 @@ public class TrMenuLoader {
         }
         TLocale.sendToConsole("PLUGIN.LOADING");
 
-        if (installPlaceholderAPI()) {
+        if (installDepend()) {
             return;
         }
-
 
         updateConfig();
         Updater.init(TrMenu.getPlugin());
         Bungees.init();
         MenuLoader.init();
         MenuLoader.loadMenus(Bukkit.getConsoleSender());
+    }
+
+
+    void active() {
+        TLocale.sendToConsole("PLUGIN.ENABLED", TrMenu.getPlugin().getDescription().getVersion());
+    }
+
+    void cancel() {
+        Bukkit.getOnlinePlayers().stream().filter(TrMenuAPI::isViewingMenu).forEach(HumanEntity::closeInventory);
+        if (Updater.isAutoUpdate() && Updater.isOld()) {
+            String url = "https://arasple.oss-cn-beijing.aliyuncs.com/files/TrMenu.jar";
+            Files.downloadFile(url, TrMenu.getPluginFile());
+            TrMenu.getPlugin().getLogger().log(Level.INFO, "Successfully downloaded a new version of TrMenu...");
+        }
+    }
+
+    private boolean installDepend() {
+        Plugin plugin = Bukkit.getPluginManager().getPlugin("PlaceholderAPI");
+        File jarFile = new File("plugins/PlaceholderAPI.jar");
+        String url = "https://api.spiget.org/v2/resources/6245/download";
+
+        if (plugin == null) {
+            jarFile.delete();
+            TLocale.sendToConsole("PLUGIN.DEPEND.DOWNLOAD", "PlaceholderAPI");
+            if (Files.downloadFile(url, jarFile)) {
+                TLocale.sendToConsole("PLUGIN.DEPEND.INSTALL", "PlaceholderAPI");
+            } else {
+                TLocale.sendToConsole("PLUGIN.DEPEND.INSTALL-FAILED", "PlaceholderAPI");
+            }
+            Bukkit.shutdown();
+            return true;
+        }
+        return false;
     }
 
     private void updateConfig() {
@@ -68,43 +100,6 @@ public class TrMenuLoader {
             }
         });
         oldCfg.saveToFile();
-    }
-
-
-    void load() {
-        TLocale.sendToConsole("PLUGIN.ENABLED", TrMenu.getPlugin().getDescription().getVersion());
-    }
-
-    void unload() {
-        Bukkit.getOnlinePlayers().stream().filter(TrMenuAPI::isViewingMenu).forEach(HumanEntity::closeInventory);
-        if (Updater.isAutoUpdate() && Updater.isOld()) {
-            String url = "https://arasple.oss-cn-beijing.aliyuncs.com/files/TrMenu.jar";
-            Files.downloadFile(url, TrMenu.getPluginFile());
-            TrMenu.getPlugin().getLogger().log(Level.INFO, "Successfully downloaded a new version of TrMenu...");
-        }
-    }
-
-    /**
-     * 检测前置 PlaceholderAPI
-     * 并自动下载、重启服务器
-     */
-    private boolean installPlaceholderAPI() {
-        Plugin plugin = Bukkit.getPluginManager().getPlugin("PlaceholderAPI");
-        File jarFile = new File("plugins/PlaceholderAPI.jar");
-        String url = "https://api.spiget.org/v2/resources/6245/download";
-
-        if (plugin == null) {
-            jarFile.delete();
-            TLocale.sendToConsole("PLUGIN.DEPEND.DOWNLOAD", "PlaceholderAPI");
-            if (Files.downloadFile(url, jarFile)) {
-                TLocale.sendToConsole("PLUGIN.DEPEND.INSTALL", "PlaceholderAPI");
-            } else {
-                TLocale.sendToConsole("PLUGIN.DEPEND.INSTALL-FAILED", "PlaceholderAPI");
-            }
-            Bukkit.shutdown();
-            return true;
-        }
-        return false;
     }
 
 }

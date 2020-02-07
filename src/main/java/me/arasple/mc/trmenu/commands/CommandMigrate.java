@@ -43,11 +43,12 @@ public class CommandMigrate extends BaseSubCommand {
         if (!file.exists() || countFiles(file) <= 0) {
             TLocale.sendTo(sender, "MIGRATE.NOT-EXISTED", args[1]);
         } else {
+            boolean useSlot = args.length >= 3 && Boolean.parseBoolean(args[2]);
             Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
                 int beforeMigrate = countFiles(folder);
                 int c = countFiles(file);
                 TLocale.sendTo(sender, "MIGRATE.PROCESSING", c);
-                migrateMenu(file);
+                migrateMenu(file, useSlot);
                 int afterMigrate = countFiles(folder);
                 if (afterMigrate < c) {
                     TLocale.sendTo(sender, "MIGRATE.ERROR", c - afterMigrate);
@@ -58,14 +59,14 @@ public class CommandMigrate extends BaseSubCommand {
         }
     }
 
-    private void migrateMenu(File file) {
+    private void migrateMenu(File file, boolean useSlot) {
         if (file.isDirectory()) {
             for (File f : file.listFiles()) {
-                migrateMenu(f);
+                migrateMenu(f, useSlot);
             }
         } else {
             try {
-                DeluxeMenusMigrater.migrateDeluxeMenu(file);
+                DeluxeMenusMigrater.migrateDeluxeMenu(file, useSlot);
             } catch (Throwable e) {
                 e.printStackTrace();
             }

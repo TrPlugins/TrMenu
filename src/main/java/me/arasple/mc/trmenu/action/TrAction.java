@@ -43,6 +43,7 @@ public class TrAction {
             new ActionSetArgs(),
             new ActionSetShape(),
             new ActionSetSlots(),
+            new ActionSetTitle(),
             new ActionSound(),
             new ActionTakeItem(),
             new ActionTakeMoney(),

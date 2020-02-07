@@ -16,7 +16,7 @@ Options:
   Transfer-Args: true
   Force-Transfer-Args: 1
 
-Shape:
+Layout:
   - '||#||||||'
   - '|#H#|   |'
   - '|RCZ| - |'

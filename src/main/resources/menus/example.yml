@@ -26,7 +26,7 @@ Title-Update: 40
 
 # Defines the layout of this menu
 # *(Each character represents a button)
-Shape:
+Layout:
   - '########C'
   - ' QTRMENU '
   - '   SAP   '
