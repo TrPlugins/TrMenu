@@ -1,3 +1,7 @@
+#
+# 基於 zh_CN.yml 使用 Google 翻譯，可能不準確
+#
+
 PLUGIN:
   LOADING:
     - ''

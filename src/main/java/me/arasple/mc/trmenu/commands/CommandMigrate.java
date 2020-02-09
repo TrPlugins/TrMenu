@@ -26,6 +26,7 @@ public class CommandMigrate extends BaseSubCommand {
 
     @Override
     public Argument[] getArguments() {
+        //
         return new Argument[]{new Argument("Type", true, () -> Arrays.asList("DeluxeMenus", "ChestCommands")), new Argument("File/Dir name", true, this::getMigrateFiles)};
     }
 

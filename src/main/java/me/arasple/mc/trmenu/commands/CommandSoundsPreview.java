@@ -9,6 +9,8 @@ import io.izzel.taboolib.util.item.ItemBuilder;
 import io.izzel.taboolib.util.item.inventory.ClickType;
 import io.izzel.taboolib.util.item.inventory.MenuBuilder;
 import io.izzel.taboolib.util.lite.Materials;
+import me.arasple.mc.trmenu.TrMenu;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
@@ -48,10 +50,10 @@ public class CommandSoundsPreview extends BaseSubCommand {
         Map<Integer, Sound> soundMap = new HashMap<>();
         final boolean[] has = {false, false};
         MenuBuilder.builder()
-                .title("Sounds " + (Strings.nonEmpty(filter) ? "[" + filter + "] " : " " + "(" + page + ")"))
+                .title("Sounds " + ((Strings.nonEmpty(filter) ? "[" + filter + "] " : " ") + "(" + page + ")"))
                 .rows(6)
                 .items(
-                        "#########",
+                        "$########",
                         "         ",
                         "         ",
                         "         ",
@@ -59,9 +61,16 @@ public class CommandSoundsPreview extends BaseSubCommand {
                         "#########"
                 )
                 .put('#', new ItemBuilder((Materials.GRAY_STAINED_GLASS_PANE.parseItem())).name("§7Tr§fMenu §3Sounds").build())
+                .put('$', new ItemBuilder((Materials.GREEN_STAINED_GLASS_PANE.parseItem())).name("§2Stop playing sounds").build())
                 .event(e -> {
                     e.setCancelled(true);
                     Player clicker = e.getClicker();
+
+                    if (e.getSlot() == '$') {
+                        stopSounds(clicker);
+                        return;
+                    }
+
                     Sound sound = soundMap.get(e.getRawSlot());
                     Object type = e.getClickType() == ClickType.CLICK ? e.castClick().getClick() : null;
                     if (has[0] && e.getRawSlot() == 53) {
@@ -85,10 +94,10 @@ public class CommandSoundsPreview extends BaseSubCommand {
                 })
                 .buildAsync(inventory -> {
                     List<Sound> sounds = Arrays.stream(Sound.values()).filter(s -> Strings.isEmpty(filter) || s.name().toLowerCase().contains(filter.toLowerCase())).collect(Collectors.toList());
-                    sounds.subList(36 * (page - 1), sounds.size());
+                    sounds = sounds.subList(36 * (page - 1), sounds.size());
                     has[0] = sounds.size() > 36;
                     has[1] = page > 1;
-                    for (int i = 0; i < 45; i++) {
+                    for (int i = 9; i < 45; i++) {
                         if (i >= sounds.size()) {
                             break;
                         }
@@ -114,6 +123,14 @@ public class CommandSoundsPreview extends BaseSubCommand {
                         }
                     }
                 }).open(player);
+    }
+
+    private void stopSounds(Player clicker) {
+        Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
+            for (Sound value : Sound.values()) {
+                clicker.stopSound(value);
+            }
+        });
     }
 
 }

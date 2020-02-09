@@ -125,7 +125,7 @@ public class Menu {
         }
         // 创建容器
         Inventory menu = type == null ? Bukkit.createInventory(new MenuHolder(this), 9 * getRows(shape), Vars.replace(player, titles.get(0))) : Bukkit.createInventory(new MenuHolder(this), type, Vars.replace(player, titles.get(0)));
-        boolean fastOpen = TrMenu.getSettings().getBoolean("OPTIONS.FAST-OPEN");
+        boolean fastOpen = TrMenu.getSettings().getBoolean("OPTIONS.FAST-OPEN", false);
         if (fastOpen) {
             player.openInventory(menu);
         }
@@ -160,14 +160,15 @@ public class Menu {
             }
             // 打開動作
             Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> {
-                if (!fastOpen) {
-                    player.openInventory(menu);
-                }
                 if (shape == 0 && openActions != null) {
                     openActions.forEach(action -> action.run(player));
                 }
             }, 2);
         });
+        // 開啓菜單
+        if (!fastOpen) {
+            player.openInventory(menu);
+        }
     }
 
     /**

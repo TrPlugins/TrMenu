@@ -5,7 +5,7 @@ import io.izzel.taboolib.module.command.base.BaseSubCommand;
 import io.izzel.taboolib.module.command.base.CommandType;
 import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.util.ArrayUtil;
-import me.arasple.mc.trmenu.utils.TrUtils;
+import me.arasple.mc.trmenu.action.TrAction;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -29,8 +29,11 @@ public class CommandRunAction extends BaseSubCommand {
             TLocale.sendTo(sender, "COMMANDS.NO-PLAYER");
             return;
         }
-        String action = ArrayUtil.arrayJoin(args, 1);
-        TrUtils.getInst().runAction(player, action);
+        String actionString = ArrayUtil.arrayJoin(args, 1);
+        TrAction.readActions(actionString).forEach(action -> {
+            player.sendMessage("§7Action Details: §3" + action.toString());
+            action.run(player);
+        });
     }
 
     @Override

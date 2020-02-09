@@ -120,7 +120,9 @@ public class DeluxeMenusMigrater {
                 }
                 tm.set("Buttons." + key, button);
             });
-            tm.set("Shape", shape);
+            if (!useSlot) {
+                tm.set("Shape", shape);
+            }
             if (file != null) {
                 file.renameTo(new File(file.getParent(), file.getName() + ".MIGRATED"));
             }
@@ -322,8 +324,15 @@ public class DeluxeMenusMigrater {
 
     private static String migrateMaterial(ConfigurationSection icon) {
         String material = icon.getString("material");
+        String nbtInt = icon.getString("nbt_int");
         if (icon.contains("data") && icon.getInt("data", 0) > 0) {
             material += "<data-value:" + icon.getInt("data") + ">";
+        }
+        if (nbtInt != null && nbtInt.split(":", 2).length == 2) {
+            String[] splits = nbtInt.split(":");
+            if ("CustomModelData".equalsIgnoreCase(splits[0])) {
+                material += "<model-data:" + splits[1] + ">";
+            }
         }
         if (icon.contains("banner_meta")) {
             StringBuilder pattern = new StringBuilder();

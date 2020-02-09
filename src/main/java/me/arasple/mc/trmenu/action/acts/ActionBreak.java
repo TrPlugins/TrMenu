@@ -10,7 +10,7 @@ public class ActionBreak extends AbstractAction {
 
     @Override
     public String getName() {
-        return "break|return";
+        return "break|return|cancel";
     }
 
 }

@@ -109,11 +109,7 @@ public abstract class AbstractAction {
 
     @Override
     public String toString() {
-        return "AbstractAction{" +
-                "name='" + this.getClass().getName() + '\'' +
-                "content='" + content + '\'' +
-                ", options=" + options +
-                '}';
+        return "AbstractAction{" + "content='" + content + '\'' + ", options=" + options + '}';
     }
 
 }
