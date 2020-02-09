@@ -4,12 +4,15 @@
   - ##### 1.17
     - Since: 2020.2.7
     - Updates:
-      - Fixed shortcut-open menu incompatibility with other plugins
       - You can now set actions in shortcut tigger
       - You can now migrate DeluxeMenus without using layout feature (use slots)
-      - Added action `- 'set-title: CONTENT''` to update inventory's display title
-        (Placeholders are supported)
-      - 
+      - Fixed custom model data migrate from DeluxeMenus
+      - Fixed shortcut-open menu incompatibility with other plugins
+      - Added action `- 'set-title: CONTENT''` to update inventory's title (Placeholders are supported)
+      - Added `/trmenu sounds <filter>` to open a GUI where you can preview all sounds in different pitch
+      - Added `parseMat` for `me.arasple.mc.trmenu.api.TrMenuAPI`
+      - Make fast open optional in `settings.yml` `OPTIONS.FAST-OPEN`, default disabled [#24](https://github.com/Arasple/TrMenu/issues/24)
+
   - ##### 1.16
     - Since: 2020.2.2
     - Updates:

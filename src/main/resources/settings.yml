@@ -1,7 +1,7 @@
 # TrMenu Wiki: https://trmenu.trixey.cn
 
 # Do not change
-CONFIG-VERSION: 1
+CONFIG-VERSION: 2
 
 # Locale loading priority
 # Put your locale in the first
@@ -23,6 +23,8 @@ OPTIONS:
   SILENT: false
   # Similar material matches
   MATERIAL-SIMILAR-DEGREE: 0.8
+  # Enable this will boost the speed opening a menu, However, it still takes time to load all icons
+  FAST-OPEN: false
   # Anti inventory click spam (millisecs)
   ANTI-CLICK-SPAM: 200
   # Should enable the menu file listener?

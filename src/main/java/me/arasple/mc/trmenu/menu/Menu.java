@@ -125,7 +125,10 @@ public class Menu {
         }
         // 创建容器
         Inventory menu = type == null ? Bukkit.createInventory(new MenuHolder(this), 9 * getRows(shape), Vars.replace(player, titles.get(0))) : Bukkit.createInventory(new MenuHolder(this), type, Vars.replace(player, titles.get(0)));
-        player.openInventory(menu);
+        boolean fastOpen = TrMenu.getSettings().getBoolean("OPTIONS.FAST-OPEN");
+        if (fastOpen) {
+            player.openInventory(menu);
+        }
         // 初始化容器
         Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
             // 布置按钮
@@ -157,6 +160,9 @@ public class Menu {
             }
             // 打開動作
             Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> {
+                if (!fastOpen) {
+                    player.openInventory(menu);
+                }
                 if (shape == 0 && openActions != null) {
                     openActions.forEach(action -> action.run(player));
                 }

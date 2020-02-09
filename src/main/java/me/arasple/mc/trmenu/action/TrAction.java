@@ -24,6 +24,7 @@ import java.util.regex.Matcher;
 public class TrAction {
 
     private static List<AbstractAction> actions = Arrays.asList(
+            new ActionUnknow(),
             new ActionCommand(),
             new ActionActionbar(),
             new ActionBreak(),

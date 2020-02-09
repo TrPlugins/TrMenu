@@ -10,6 +10,9 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.List;
 
 /**
@@ -72,6 +75,15 @@ public class JsonItem {
             json.add("meta", new JsonParser().parse(NMS.handle().loadNBT(item).toJson()));
         }
         return json.toString();
+    }
+
+    public static JsonElement readFileAsJson(File file) {
+        try {
+            return new JsonParser().parse(new FileReader(file));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static String toJsonFormatted(ItemStack item) {

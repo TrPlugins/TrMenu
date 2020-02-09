@@ -3,6 +3,7 @@ package me.arasple.mc.trmenu.api;
 import com.google.common.collect.Lists;
 import io.izzel.taboolib.util.Strings;
 import me.arasple.mc.trmenu.TrMenu;
+import me.arasple.mc.trmenu.display.Mat;
 import me.arasple.mc.trmenu.menu.Menu;
 import me.arasple.mc.trmenu.menu.MenuHolder;
 import me.arasple.mc.trmenu.nms.TrMenuNms;
@@ -10,6 +11,7 @@ import me.arasple.mc.trmenu.utils.TrUtils;
 import me.arasple.mc.trmenu.utils.Vars;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.util.List;
@@ -33,6 +35,12 @@ public class TrMenuAPI {
         return null;
     }
 
+    /**
+     * Check where a player is viewing menu made with TrMenu
+     *
+     * @param player Player
+     * @return boolean
+     */
     public static boolean isViewingMenu(Player player) {
         return getMenu(player) != null;
     }
@@ -41,12 +49,18 @@ public class TrMenuAPI {
      * Get menu by ID
      *
      * @param menuId id
-     * @return TrMenu菜单
+     * @return Menu
      */
     public static Menu getMenu(String menuId) {
         return TrMenu.getMenus().stream().filter(menu -> menu.getName().equals(menuId)).findFirst().orElse(null);
     }
 
+    /**
+     * Get loaded menu by file
+     *
+     * @param loadedFrom loaded from file
+     * @return Menu
+     */
     public static Menu getMenu(File loadedFrom) {
         return TrMenu.getMenus().stream().filter(menu -> menu.getLoadedPath().equals(loadedFrom.getAbsolutePath())).findFirst().orElse(null);
     }
@@ -67,6 +81,14 @@ public class TrMenuAPI {
         return false;
     }
 
+    /**
+     * Short cut open
+     *
+     * @param player player
+     * @param read   read
+     * @param args   args
+     * @return is succeed
+     */
     public static boolean openByShortcut(Player player, String read, String... args) {
         String[] menu = read != null ? read.split("\\|") : null;
         if (menu != null) {
@@ -123,6 +145,17 @@ public class TrMenuAPI {
      */
     public static void setInventoryTitle(Player player, Inventory inventory, String title) {
         TrMenuNms.setTitle(player, inventory, Vars.replace(player, title));
+    }
+
+    /**
+     * Parse a string mat into ItemStack for a player
+     *
+     * @param player player
+     * @param mat    mat string, all supported
+     * @return ItemStack
+     */
+    public static ItemStack parseMat(Player player, String mat) {
+        return new Mat(mat).createItem(player);
     }
 
 }

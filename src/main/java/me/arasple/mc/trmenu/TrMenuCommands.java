@@ -40,6 +40,9 @@ public class TrMenuCommands extends BaseMainCommand {
     @SubCommand(description = "Migrate menus from other plugins", permission = "trmenu.command.migrate")
     BaseSubCommand migrate = new CommandMigrate();
 
+    @SubCommand(description = "Preview sounds", permission = "trmenu.command.sounds")
+    BaseSubCommand sounds = new CommandSoundsPreview();
+
     @SubCommand(description = "Toggle the Debug Mode", permission = "trmenu.command.debug")
     BaseSubCommand debug = new CommandDebug();
 
