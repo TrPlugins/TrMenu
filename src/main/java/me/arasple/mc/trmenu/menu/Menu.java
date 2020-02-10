@@ -68,6 +68,9 @@ public class Menu {
         setValues(name, titles, titleUpdate, type, rows, buttons, openRequirement, openDenyActions, closeRequirement, closeDenyActions, keepOpenRequirement, openCommands, openActions, closeActions, lockPlayerInv, updateInventory, transferArgs, forceTransferArgsAmount, bindItemLore, dependExpansions);
     }
 
+    public Menu() {
+    }
+
     public void setValues(String name, List<String> title, int titleUpdate, InventoryType inventoryType, HashMap<Integer, Integer> rows, HashMap<Button, Loc> buttons, String openRequirement, List<AbstractAction> openDenyActions, String closeRequirement, List<AbstractAction> closeDenyActions, String keepOpenRequirement, List<String> openCommands, List<AbstractAction> openActions, List<AbstractAction> closeActions, boolean lockPlayerInv, boolean updateInventory, boolean transferArgs, int forceTransferArgsAmount, List<String> bindItemLore, List<String> dependExpansions) {
         this.name = name;
         this.titles = title;
@@ -124,48 +127,42 @@ public class Menu {
             return;
         }
         // 创建容器
-        Inventory menu = type == null ? Bukkit.createInventory(new MenuHolder(this), 9 * getRows(shape), Vars.replace(player, titles.get(0))) : Bukkit.createInventory(new MenuHolder(this), type, Vars.replace(player, titles.get(0)));
-        boolean fastOpen = TrMenu.getSettings().getBoolean("OPTIONS.FAST-OPEN", false);
+        final Inventory menu = type == null ? Bukkit.createInventory(new MenuHolder(this), 9 * getRows(shape), Vars.replace(player, titles.get(0))) : Bukkit.createInventory(new MenuHolder(this), type, Vars.replace(player, titles.get(0)));
+        final boolean fastOpen = TrMenu.getSettings().getBoolean("OPTIONS.FAST-OPEN", false);
         if (fastOpen) {
             player.openInventory(menu);
         }
-        // 初始化容器
-        Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
-            // 布置按钮
-            buttons.forEach((button, loc) -> {
-                        button.refreshConditionalIcon(player, null);
-                        if (loc != null && !loc.getSlots(shape).isEmpty()) {
-                            newUpdateTask(player, button, menu, loc.getSlots(shape), args);
-                            newRefreshTask(player, button, menu);
-                        }
-                    }
-            );
-            // 设置标题
-            newTitleUpdateTask(player, menu);
-            // 保持打开条件
-            newKeepOpenTask(player);
-            // 如果设置刷新容器或启用动态标题, 将自动调整玩家手持槽位到一个空位 (如果有)
-            // 关闭容器后会自动复原, 防止物品频闪影响体验
-            if (isUpdateInventory() || (getTitles().size() > 1 && getTitleUpdate() > 0)) {
-                if (!Items.isNull(player.getInventory().getItem(player.getInventory().getHeldItemSlot()))) {
-                    for (byte i = 0; i < 9; i++) {
-                        if (Items.isNull(player.getInventory().getItem(i))) {
-                            ArgsCache.getHeldSlot().put(player.getUniqueId(), player.getInventory().getHeldItemSlot());
-                            player.getInventory().setHeldItemSlot(i);
-                            break;
-                        }
+        // 布置按钮
+        buttons.forEach((button, loc) -> {
+                    button.refreshConditionalIcon(player, null);
+                    if (loc != null && !loc.getSlots(shape).isEmpty()) {
+                        newUpdateTask(player, button, menu, loc.getSlots(shape), args);
+                        newRefreshTask(player, button, menu);
                     }
                 }
-                player.updateInventory();
+        );
+        // 设置标题
+        newTitleUpdateTask(player, menu);
+        // 保持打开条件
+        newKeepOpenTask(player);
+        // 如果设置刷新容器或启用动态标题, 将自动调整玩家手持槽位到一个空位 (如果有)
+        // 关闭容器后会自动复原, 防止物品频闪影响体验
+        if (isUpdateInventory() || (getTitles().size() > 1 && getTitleUpdate() > 0)) {
+            if (!Items.isNull(player.getInventory().getItem(player.getInventory().getHeldItemSlot()))) {
+                for (byte i = 0; i < 9; i++) {
+                    if (Items.isNull(player.getInventory().getItem(i))) {
+                        ArgsCache.getHeldSlot().put(player.getUniqueId(), player.getInventory().getHeldItemSlot());
+                        player.getInventory().setHeldItemSlot(i);
+                        break;
+                    }
+                }
             }
-            // 打開動作
-            Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> {
-                if (shape == 0 && openActions != null) {
-                    openActions.forEach(action -> action.run(player));
-                }
-            }, 2);
-        });
-        // 開啓菜單
+            player.updateInventory();
+        }
+        // 打開動作
+        if (shape == 0 && openActions != null) {
+            openActions.forEach(action -> action.run(player));
+        }
         if (!fastOpen) {
             player.openInventory(menu);
         }

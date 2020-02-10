@@ -64,9 +64,7 @@ public class ListenerMenuAction implements Listener {
             e.setCancelled(true);
         }
 
-        button.getIcon(p).onClick(p, e.getClick(), e);
-        button.refreshConditionalIcon(p, e);
-
+        button.getIcon(p).onClick(p, button, e.getClick(), e);
         debug(p, "§6InventoryClickEvent Took §e{0}ms§6.", System.currentTimeMillis() - start);
     }
 

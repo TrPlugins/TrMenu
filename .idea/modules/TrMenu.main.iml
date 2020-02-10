@@ -27,20 +27,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="Gradle: org.spigotmc:spigot:1.15.1-R0.1-SNAPSHOT" level="project" />
-    <orderEntry type="library" name="Gradle: org.bstats:bstats-bukkit:1.7" level="project" />
-    <orderEntry type="library" name="Gradle: io.izzel.taboolib:TabooLib:all:5.15" level="project" />
-    <orderEntry type="library" name="Gradle: io.izzel.taboolib.loader:TabooLibloader:all:1.3" level="project" />
-    <orderEntry type="library" name="Gradle: me.clip:placeholderapi:2.10.4" level="project" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../libs/NMS 113R2.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
@@ -59,5 +45,28 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../libs/NMS 113R2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../libs/TabooMenu.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="Gradle: org.spigotmc:spigot:1.15.1-R0.1-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Gradle: org.bstats:bstats-bukkit:1.7" level="project" />
+    <orderEntry type="library" name="Gradle: io.izzel.taboolib:TabooLib:all:5.15" level="project" />
+    <orderEntry type="library" name="Gradle: io.izzel.taboolib.loader:TabooLibloader:all:1.3" level="project" />
+    <orderEntry type="library" name="Gradle: me.clip:placeholderapi:2.10.4" level="project" />
   </component>
 </module>

@@ -74,7 +74,7 @@ public class MetricsHandler {
         INVENTORY_TYPES.clear();
 
         TrMenu.getMenus().forEach(menu -> {
-            menu.getRows().values().forEach(rows -> MENU_SIZE.put(String.valueOf(rows), MENU_SIZE.getOrDefault(rows, 0) + 1));
+            menu.getRows().values().forEach(rows -> MENU_SIZE.put(String.valueOf(rows), MENU_SIZE.getOrDefault(String.valueOf(rows), 0) + 1));
             menu.getButtons().keySet().forEach(button -> {
                 button.getDefIcon().getItem().getMaterials().forEach(mat -> {
                     String option = mat.getOption().name();

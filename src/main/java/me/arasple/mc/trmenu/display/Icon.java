@@ -53,7 +53,7 @@ public class Icon {
         return actions;
     }
 
-    public void onClick(Player player, ClickType clickType, InventoryClickEvent event) {
+    public void onClick(Player player, Button button, ClickType clickType, InventoryClickEvent event) {
         List<AbstractAction> actions = getActions().getOrDefault(clickType, new ArrayList<>());
         if (getActions().get(null) != null) {
             actions.addAll(getActions().get(null));
@@ -66,6 +66,8 @@ public class Icon {
 
         ArgsCache.getEvent().remove(player.getUniqueId());
         ArgsCache.getClickedItem().remove(player.getUniqueId());
+
+        button.refreshConditionalIcon(player, event);
     }
 
 }
