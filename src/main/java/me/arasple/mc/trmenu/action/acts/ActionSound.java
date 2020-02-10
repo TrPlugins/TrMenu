@@ -20,4 +20,13 @@ public class ActionSound extends AbstractAction {
         new SoundPack(getContent()).play(player);
     }
 
+    @Override
+    public void setContent(String content) {
+        String[] split = content.split("-");
+        if (split.length == 1) {
+            content += "-1-1";
+        }
+        super.setContent(content);
+    }
+
 }

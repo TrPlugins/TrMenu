@@ -5,6 +5,7 @@ import io.izzel.taboolib.util.lite.Numbers;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.bstats.MetricsHandler;
 import me.arasple.mc.trmenu.utils.JavaScript;
+import me.arasple.mc.trmenu.utils.Vars;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -78,6 +79,10 @@ public abstract class AbstractAction {
 
     public String getContent() {
         return content;
+    }
+
+    public String getContent(Player player) {
+        return Vars.replace(player, getContent());
     }
 
     public void setContent(String content) {

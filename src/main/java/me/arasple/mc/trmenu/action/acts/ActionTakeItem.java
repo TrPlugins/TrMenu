@@ -32,7 +32,7 @@ public class ActionTakeItem extends AbstractAction {
 
     public List<RequiredItem> getRequirements(Player player) {
         List<RequiredItem> items = Lists.newArrayList();
-        Arrays.stream(Vars.replace(player, getContent()).split(";")).forEach(item -> items.add(RequiredItem.valueOf(item)));
+        Arrays.stream(getContent(player).split(";")).forEach(item -> items.add(RequiredItem.valueOf(item)));
         return items;
     }
 

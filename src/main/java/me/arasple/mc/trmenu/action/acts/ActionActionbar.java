@@ -18,7 +18,7 @@ public class ActionActionbar extends AbstractAction {
 
     @Override
     public void onExecute(Player player) {
-        TLocale.Display.sendActionBar(player, Vars.replace(player, getContent()));
+        TLocale.Display.sendActionBar(player, getContent(player));
     }
 
 }

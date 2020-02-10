@@ -17,7 +17,7 @@ public class ActionTell extends AbstractAction {
 
     @Override
     public void onExecute(Player player) {
-        player.sendMessage(Vars.replace(player, getContent()));
+        player.sendMessage(getContent(player));
     }
 
 }

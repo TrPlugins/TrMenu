@@ -378,6 +378,7 @@ public class DeluxeMenusMigrater {
                 .replace("[refresh]", "refresh")
                 .replace("[broadcastsound]", "sound: <players>")
                 .replace("[takemoney]", "take-money:")
+                .replace("[sound]", "sound:")
                 .replace("<delay=", "<delay:")
                 .replace("<chance=", "<chance:")
                 ;

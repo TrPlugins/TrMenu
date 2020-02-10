@@ -24,7 +24,7 @@ public class ActionSetShape extends AbstractAction {
     @Override
     public void onExecute(Player player) {
         Menu menu = TrMenuAPI.getMenu(player);
-        int shapeIndex = NumberUtils.toInt(Vars.replace(player, getContent()), -1);
+        int shapeIndex = NumberUtils.toInt(getContent(player), -1);
         if (menu != null && menu.getRows().size() > 1 && shapeIndex != menu.getShape(player)) {
             player.setMetadata("TrMenu.Force-Close", new FixedMetadataValue(TrMenu.getPlugin(), "Close"));
             menu.open(player, shapeIndex, true, ArgsCache.getPlayerArgs(player));

@@ -20,7 +20,7 @@ public class ActionCommand extends AbstractAction {
 
     @Override
     public void onExecute(Player player) {
-        Bukkit.getScheduler().runTask(TrMenu.getPlugin(), () -> Commands.dispatchCommand(player, Vars.replace(player, getContent())));
+        Bukkit.getScheduler().runTask(TrMenu.getPlugin(), () -> Commands.dispatchCommand(player, getContent(player)));
     }
 
 }

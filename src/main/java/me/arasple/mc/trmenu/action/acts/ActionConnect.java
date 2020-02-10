@@ -17,6 +17,6 @@ public class ActionConnect extends AbstractAction {
 
     @Override
     public void onExecute(Player player) {
-        Bungees.connect(player, Vars.replace(player, getContent()));
+        Bungees.connect(player, getContent(player));
     }
 }

@@ -23,7 +23,7 @@ public class ActionOpen extends AbstractAction {
 
     @Override
     public void onExecute(Player player) {
-        String content = Vars.replace(player, getContent());
+        String content = getContent(player);
         String menuName = content.split(" ")[0];
         Menu menu = TrMenuAPI.getMenu(menuName);
         if (menu != null) {

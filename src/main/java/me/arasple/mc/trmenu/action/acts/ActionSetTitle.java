@@ -22,7 +22,7 @@ public class ActionSetTitle extends AbstractAction {
     public void onExecute(Player player) {
         Menu menu = TrMenuAPI.getMenu(player);
         if (menu != null) {
-            TrMenuNms.setTitle(player, player.getOpenInventory().getTopInventory(), Vars.replace(player, getContent()));
+            TrMenuNms.setTitle(player, player.getOpenInventory().getTopInventory(), getContent(player));
         }
     }
 

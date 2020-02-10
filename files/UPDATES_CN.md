@@ -1,6 +1,34 @@
 # TrMenu Update Logs #
 
 #### VERSION 1.1
+  - ##### 1.17
+    - Since: 2020.2.7
+    - Updates:
+      - 你现在可以在快捷打开菜单方式里面设置为执行动作
+      - 你现在在 DeluxeMenus 的迁移中可以选择性使用布局功能
+      - 修复了 DeluxeMenus 的 Custom Model Data 无法迁入
+      - 修复了快捷键F和部分插件的不兼容
+      - 新增动作 `- 'set-title: CONTENT''` 二次设置容器标题，支持变量
+      - 新增命令 `/trmenu sounds <filter>` 轻松预览音效
+      - 新增 `parseMat` for `me.arasple.mc.trmenu.api.TrMenuAPI`
+      - Added more details feedback for command `/trmenu runAction`
+      - Make fast open optional in `settings.yml` `OPTIONS.FAST-OPEN`, default disabled [#24](https://github.com/Arasple/TrMenu/issues/24)
+  - ##### 1.16
+    - Since: 2020.2.2
+    - Updates:
+      - 修复了菜单文件监听器有时不工作
+      - 修复了无法通过 `close-actions` 打开上级菜单
+      - 极大的提升了打开菜单的速度
+      - 新增在 Json 物品中使用标签 `<variable>` 以启用相关变量的支持
+      - 新增对 JDK11 的支持 (暂时不支持 JDK9 或 OpenJ9)
+      - 为各级子命令均添加了独立的权限，例如 `trmenu.command.open` 对 `/trmenu open`
+      - 新增命令 `/trmenu runAction <Player> <ActionLine>` 测试动作执行效果
+      - 新增 Tellraw 动作 (发送Json消息)，非常轻松的构建 Json 组件
+      - > 你可以发送原始 Json 消息格式，也可以使用 TrMenu 简单的构建方式
+      - > 例如
+      - >```YAML
+        >- 'json: &3Hello, &a%player_name%&3! Click <&a&nHERE?hover=&7Click to open website?url=https://trmenu.trixey.cn> &3to see our wiki.
+        >```
   - ##### 1.15
     - Since: 2020.1.27
     - Updates:

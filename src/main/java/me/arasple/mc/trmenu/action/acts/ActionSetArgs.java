@@ -18,7 +18,7 @@ public class ActionSetArgs extends AbstractAction {
 
     @Override
     public void onExecute(Player player) {
-        ArgsCache.getArgs().put(player.getUniqueId(), Vars.replace(player, getContent()).split(" "));
+        ArgsCache.getArgs().put(player.getUniqueId(), getContent(player).split(" "));
     }
 
 }
