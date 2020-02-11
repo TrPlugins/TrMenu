@@ -1,7 +1,9 @@
 package me.arasple.mc.trmenu.menu;
 
 import com.google.common.collect.Lists;
-import io.izzel.taboolib.internal.gson.*;
+import io.izzel.taboolib.internal.gson.GsonBuilder;
+import io.izzel.taboolib.internal.gson.JsonPrimitive;
+import io.izzel.taboolib.internal.gson.JsonSerializer;
 import io.izzel.taboolib.module.config.TConfigWatcher;
 import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.util.item.Items;
@@ -148,7 +150,7 @@ public class MenuLoader {
             rows.put(0, MENU_ROWS.getFromMap(sets, 1) > 9 ? MENU_ROWS.getFromMap(sets, 1) / 9 : MENU_ROWS.getFromMap(sets, 1));
         }
         HashMap<Button, Loc> buttons = new HashMap<>();
-        List<String> openCommands = MENU_OPEN_COMAMNDS.getFromMap(sets) instanceof List ? MENU_OPEN_COMAMNDS.getFromMap(sets) : MENU_OPEN_COMAMNDS.getFromMap(sets) == null ? null : Collections.singletonList(MENU_OPEN_COMAMNDS.getFromMap(sets));
+        List<String> openCommands = MENU_OPEN_COMAMNDS.getFromMap(sets) instanceof List ? MENU_OPEN_COMAMNDS.getFromMap(sets) : MENU_OPEN_COMAMNDS.getFromMap(sets) == null ? null : Collections.singletonList(String.valueOf(MENU_OPEN_COMAMNDS.getFromMap(sets)));
         List<AbstractAction> openActions = TrAction.readActions(MENU_OPEN_ACTIONS.getFromMap(sets, new ArrayList<>()));
         List<AbstractAction> closeActions = TrAction.readActions(MENU_CLOSE_ACTIONS.getFromMap(sets, new ArrayList<>()));
         List<AbstractAction> openDenyActions = TrAction.readActions(MENU_OPEN_DENY_ACTIONS.getFromMap(sets, new ArrayList<>()));

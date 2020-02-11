@@ -10,9 +10,9 @@
       - 修复了快捷键F和部分插件的不兼容
       - 新增动作 `- 'set-title: CONTENT''` 二次设置容器标题，支持变量
       - 新增命令 `/trmenu sounds <filter>` 轻松预览音效
-      - 新增 `parseMat` for `me.arasple.mc.trmenu.api.TrMenuAPI`
-      - Added more details feedback for command `/trmenu runAction`
-      - Make fast open optional in `settings.yml` `OPTIONS.FAST-OPEN`, default disabled [#24](https://github.com/Arasple/TrMenu/issues/24)
+      - 新增 `parseMat` 方法到 `me.arasple.mc.trmenu.api.TrMenuAPI`
+      - 为命令 `/trmenu runAction` 增加了更多详细的反馈信息, 方便诊断动作
+      - 将 [快速开启] 功能更改为可选配置项 `settings.yml` `OPTIONS.FAST-OPEN`, 默认关闭 [#24](https://github.com/Arasple/TrMenu/issues/24)
   - ##### 1.16
     - Since: 2020.2.2
     - Updates:

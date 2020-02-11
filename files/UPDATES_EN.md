@@ -1,6 +1,10 @@
 # TrMenu Update Logs #
 
 #### VERSION 1.1
+  - ##### 1.18
+    - Since: 2020.2.7
+    - Updates:
+      - **[*NEW*]** TabooLib: Supported OpenJ9, Hotspot !!!
   - ##### 1.17
     - Since: 2020.2.7
     - Updates:

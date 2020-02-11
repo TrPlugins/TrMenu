@@ -13,5 +13,6 @@ github: https://github.com/Arasple/TrMenu
 softdepend:
   - PlaceholderAPI
   - HeadDatabase
+  - TabooMenu
 
 author: Arasple
