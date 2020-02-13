@@ -24,14 +24,17 @@ public class CommandRunAction extends BaseSubCommand {
 
     @Override
     public void onCommand(CommandSender sender, Command command, String label, String[] args) {
-        Player player = Bukkit.getPlayerExact(args[0]);
+        Player player = Bukkit.getPlayerExact(args[0].startsWith("#") ? args[0].substring(1) : args[0]);
         if (player == null || !player.isOnline()) {
             TLocale.sendTo(sender, "COMMANDS.NO-PLAYER");
             return;
         }
         String actionString = ArrayUtil.arrayJoin(args, 1);
+        boolean print = args[0].startsWith("#");
         TrAction.readActions(actionString).forEach(action -> {
-            player.sendMessage("§7Action Details: §3" + action.toString());
+            if (print) {
+                player.sendMessage("§7Action Details: §3" + action.toString());
+            }
             action.run(player);
         });
     }

@@ -147,7 +147,7 @@ public class Menu {
         newKeepOpenTask(player);
         // 如果设置刷新容器或启用动态标题, 将自动调整玩家手持槽位到一个空位 (如果有)
         // 关闭容器后会自动复原, 防止物品频闪影响体验
-        if (isUpdateInventory() || (getTitles().size() > 1 && getTitleUpdate() > 0)) {
+        if (TrMenu.getSettings().getBoolean("OPTIONS.ANTI-ITEM-FLICKERING", false) && (isUpdateInventory() || (getTitles().size() > 1 && getTitleUpdate() > 0))) {
             if (!Items.isNull(player.getInventory().getItem(player.getInventory().getHeldItemSlot()))) {
                 for (byte i = 0; i < 9; i++) {
                     if (Items.isNull(player.getInventory().getItem(i))) {
@@ -289,7 +289,7 @@ public class Menu {
      * @param player    玩家
      * @param byConsole 是否由控制台操作
      * @param args      参数
-     * @return
+     * @return boolean
      */
     private boolean initEvent(Player player, int shape, boolean byConsole, String... args) {
         ArgsCache.getArgs().put(player.getUniqueId(), args);

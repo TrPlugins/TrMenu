@@ -33,8 +33,8 @@ public enum MenuNodes {
     MENU_OPTIONS_DEPEND_EXPANSIONS("depend-expansion(s)?"),
     MENU_OPTIONS_LOCKHAND("lock-player-inv"),
     MENU_OPTIONS_UPDATEINV("update-inventory"),
-    MENU_OPTIONS_ARGS("transfer-args"),
-    MENU_OPTIONS_FORCEARGS("force-transfer-args"),
+    MENU_OPTIONS_ARGS("transfer-arg(s)?"),
+    MENU_OPTIONS_FORCEARGS("force-transfer-arg(s)?"),
     MENU_OPTIONS_BINDLORES("bind-item-lore"),
 
     MENU_BUTTONS("button(s)?"),
@@ -54,6 +54,7 @@ public enum MenuNodes {
     ICON_DISPLAY_LORES("lore(s)?"),
     ICON_DISPLAY_SLOTS("slot(s)?"),
     ICON_DISPLAY_FLAGS("flag(s)?"),
+    ICON_DISPLAY_NBTS("nbt(s)?"),
     ICON_DISPLAY_SHINY("shiny|glow"),
     ICON_DISPLAY_AMOUNT("amount(s)?");
 

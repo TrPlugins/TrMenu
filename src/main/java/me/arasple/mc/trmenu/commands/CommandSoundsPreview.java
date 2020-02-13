@@ -125,7 +125,7 @@ public class CommandSoundsPreview extends BaseSubCommand {
                 }).open(player);
     }
 
-    private void stopSounds(Player clicker) {
+    public static void stopSounds(Player clicker) {
         Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
             for (Sound value : Sound.values()) {
                 clicker.stopSound(value);

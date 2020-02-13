@@ -5,6 +5,21 @@
     - Since: 2020.2.7
     - Updates:
       - **[*NEW*]** TabooLib: Supported OpenJ9, Hotspot !!!
+      - Added custom nbt support, usage
+        ```YAML
+        display:
+          name: 'Example'
+          amount: 3
+          # <key>:<value>
+          # In this way you can add nbt tags to item without using Json Item
+          # You can also use placeholders in values !
+          nbt:
+            Unbreakable: 1
+        ```
+      - Added filter for command list menu, usage /trmenu list <filter>
+      - Added support for placeholders use in Action Sound
+      - Added a way for you to stop playing sounds, usage `sound: stop`
+      - Added option `OPTIONS.ANTI-ITEM-FLICKERING`
   - ##### 1.17
     - Since: 2020.2.7
     - Updates:

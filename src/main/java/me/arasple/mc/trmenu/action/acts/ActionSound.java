@@ -2,6 +2,7 @@ package me.arasple.mc.trmenu.action.acts;
 
 import io.izzel.taboolib.util.lite.SoundPack;
 import me.arasple.mc.trmenu.action.base.AbstractAction;
+import me.arasple.mc.trmenu.commands.CommandSoundsPreview;
 import org.bukkit.entity.Player;
 
 /**
@@ -17,7 +18,12 @@ public class ActionSound extends AbstractAction {
 
     @Override
     public void onExecute(Player player) {
-        new SoundPack(getContent()).play(player);
+        String sound = getContent(player);
+        if ("stop".equalsIgnoreCase(sound)) {
+            CommandSoundsPreview.stopSounds(player);
+        } else {
+            new SoundPack(sound).play(player);
+        }
     }
 
     @Override

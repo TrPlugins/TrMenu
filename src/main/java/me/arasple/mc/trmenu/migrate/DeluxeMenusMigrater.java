@@ -44,7 +44,7 @@ public class DeluxeMenusMigrater {
             int menuUpdate = dm.getInt("update_interval", 1) * 20;
             tm.set("Title", dm.getString("menu_title", "TrMenu"));
             tm.set("Shape", shape);
-            tm.set("Open-Commands", dm.get("open_command"));
+            tm.set("Open-Commands", asList(dm.get("open_command")));
             if (dm.isSet("open_requirement.requirements")) {
                 tm.set("Open-Requirement", migrateRequires(dm.getConfigurationSection("open_requirement.requirements")));
             }
@@ -426,6 +426,14 @@ public class DeluxeMenusMigrater {
     /*
     UTILS
      */
+    private static List<String> asList(Object object) {
+        if (object instanceof List) {
+            return (List<String>) object;
+        } else {
+            return Collections.singletonList(String.valueOf(object));
+        }
+    }
+
 
     private static String listAsString(Object object) {
         StringBuilder result = new StringBuilder();

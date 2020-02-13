@@ -6,6 +6,7 @@ import io.izzel.taboolib.internal.gson.JsonPrimitive;
 import io.izzel.taboolib.internal.gson.JsonSerializer;
 import io.izzel.taboolib.module.config.TConfigWatcher;
 import io.izzel.taboolib.module.locale.TLocale;
+import io.izzel.taboolib.module.nms.nbt.NBTCompound;
 import io.izzel.taboolib.util.item.Items;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.action.TrAction;
@@ -18,6 +19,7 @@ import me.arasple.mc.trmenu.utils.Notifys;
 import me.arasple.mc.trmenu.utils.TrUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -68,7 +70,7 @@ public class MenuLoader {
             if (TrMenu.getSettings().isSet("MENU-FILES")) {
                 for (String path : TrMenu.getSettings().getStringList("MENU-FILES")) {
                     File menuFile = new File(path);
-                    if (menuFile.exists() && menuFile.getName().toLowerCase().endsWith(".yml")) {
+                    if (menuFile.exists() && (menuFile.getName().toLowerCase().endsWith(".yml") || menuFile.isDirectory())) {
                         errors.addAll(loadMenu(menuFile));
                     }
                 }
@@ -150,7 +152,7 @@ public class MenuLoader {
             rows.put(0, MENU_ROWS.getFromMap(sets, 1) > 9 ? MENU_ROWS.getFromMap(sets, 1) / 9 : MENU_ROWS.getFromMap(sets, 1));
         }
         HashMap<Button, Loc> buttons = new HashMap<>();
-        List<String> openCommands = MENU_OPEN_COMAMNDS.getFromMap(sets) instanceof List ? MENU_OPEN_COMAMNDS.getFromMap(sets) : MENU_OPEN_COMAMNDS.getFromMap(sets) == null ? null : Collections.singletonList(String.valueOf(MENU_OPEN_COMAMNDS.getFromMap(sets)));
+        List<String> openCommands = MENU_OPEN_COMAMNDS.getFromMap(sets) instanceof List ? MENU_OPEN_COMAMNDS.getFromMap(sets) : MENU_OPEN_COMAMNDS.getFromMap(sets) == null ? null : Collections.singletonList(MENU_OPEN_COMAMNDS.getFromMap(sets));
         List<AbstractAction> openActions = TrAction.readActions(MENU_OPEN_ACTIONS.getFromMap(sets, new ArrayList<>()));
         List<AbstractAction> closeActions = TrAction.readActions(MENU_CLOSE_ACTIONS.getFromMap(sets, new ArrayList<>()));
         List<AbstractAction> openDenyActions = TrAction.readActions(MENU_OPEN_DENY_ACTIONS.getFromMap(sets, new ArrayList<>()));
@@ -260,6 +262,7 @@ public class MenuLoader {
         List<List<String>> lores;
         List<List<Integer>> slots;
         List<ItemFlag> flags = Lists.newArrayList();
+        NBTCompound nbtCompound = new NBTCompound();
         Map displayMap = Maps.sectionToMap(map.get("display"));
         Map actionsMap = Maps.containsSimilar(map, "actions") ? Maps.sectionToMap(map.get("actions")) : new HashMap<>();
         HashMap<ClickType, List<AbstractAction>> actions = new HashMap<>();
@@ -268,8 +271,10 @@ public class MenuLoader {
         Object lore = Maps.getSimilarOrDefault(displayMap, MenuNodes.ICON_DISPLAY_LORES.getName(), null);
         Object slot = Maps.getSimilarOrDefault(displayMap, MenuNodes.ICON_DISPLAY_SLOTS.getName(), null);
         Object flag = Maps.getSimilarOrDefault(displayMap, MenuNodes.ICON_DISPLAY_FLAGS.getName(), null);
+        Object nbt = Maps.getSimilarOrDefault(displayMap, ICON_DISPLAY_NBTS.getName(), null);
         String shiny = String.valueOf(Maps.getSimilar(displayMap, MenuNodes.ICON_DISPLAY_SHINY.getName()));
         String amount = String.valueOf(Maps.getSimilar(displayMap, MenuNodes.ICON_DISPLAY_AMOUNT.getName()));
+
         shiny = "null".equals(shiny) ? "false" : shiny;
         amount = "null".equals(amount) ? "1" : amount;
 
@@ -315,8 +320,10 @@ public class MenuLoader {
                 flags.removeIf(Objects::isNull);
             }
         }
-
-        Item item = (displayMap == null && defIcon != null) ? defIcon.getItem() : new Item(names, materials, lores, slots, flags, shiny, amount);
+        if (nbt instanceof MemorySection) {
+            nbtCompound = NBTCompound.translateSection(new NBTCompound(), (MemorySection) nbt);
+        }
+        Item item = (displayMap == null && defIcon != null) ? defIcon.getItem() : new Item(names, materials, lores, slots, flags, nbtCompound, shiny, amount);
         return new Icon(0, null, item, actions);
     }
 

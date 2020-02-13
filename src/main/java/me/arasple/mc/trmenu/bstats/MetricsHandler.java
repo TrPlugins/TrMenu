@@ -1,7 +1,9 @@
 package me.arasple.mc.trmenu.bstats;
 
+import io.izzel.taboolib.TabooLibAPI;
 import io.izzel.taboolib.module.inject.TSchedule;
 import me.arasple.mc.trmenu.TrMenu;
+import me.arasple.mc.trmenu.display.Mat;
 import me.arasple.mc.trmenu.hook.HookHeadDatabase;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.event.inventory.InventoryType;
@@ -46,11 +48,11 @@ public class MetricsHandler {
             return i;
         }));
         // 统计菜单行数
-        metrics.addCustomChart(new Metrics.AdvancedPie("menu_size", () -> MENU_SIZE));
+        metrics.addCustomChart(new Metrics.AdvancedPie("menu_size", MetricsHandler::getMenuSize));
         // 统计材质类型
-        metrics.addCustomChart(new Metrics.AdvancedPie("menu_items", () -> MENU_ITEMS));
+        metrics.addCustomChart(new Metrics.AdvancedPie("menu_items", MetricsHandler::getMenuItems));
         // 统计容器类型
-        metrics.addCustomChart(new Metrics.AdvancedPie("inventory_type", () -> INVENTORY_TYPES));
+        metrics.addCustomChart(new Metrics.AdvancedPie("inventory_type", MetricsHandler::getInventoryTypes));
         // 选项 - 自动更新
         metrics.addCustomChart(new Metrics.SimplePie("option_auto_updater", () -> TrMenu.getSettings().getBoolean("OPTIONS.AUTO-UPDATE", false) ? "Enabled" : "Disabled"));
         // 选项 - 相似度比
@@ -77,18 +79,25 @@ public class MetricsHandler {
             menu.getRows().values().forEach(rows -> MENU_SIZE.put(String.valueOf(rows), MENU_SIZE.getOrDefault(String.valueOf(rows), 0) + 1));
             menu.getButtons().keySet().forEach(button -> {
                 button.getDefIcon().getItem().getMaterials().forEach(mat -> {
-                    String option = mat.getOption().name();
-                    MENU_ITEMS.put(option, MENU_ITEMS.getOrDefault(option, 0) + 1);
+                    if (mat.getOption() != Mat.Option.ORIGINAL) {
+                        String option = mat.getOption().name();
+                        MENU_ITEMS.put(option, MENU_ITEMS.getOrDefault(option, 0) + 1);
+                    }
                 });
                 button.getIcons().forEach(icon -> icon.getItem().getMaterials().forEach(mat -> {
-                    String option = mat.getOption().name();
-                    MENU_ITEMS.put(option, MENU_ITEMS.getOrDefault(option, 0) + 1);
+                    if (mat.getOption() != Mat.Option.ORIGINAL) {
+                        String option = mat.getOption().name();
+                        MENU_ITEMS.put(option, MENU_ITEMS.getOrDefault(option, 0) + 1);
+                    }
                 }));
                 InventoryType type = menu.getType();
-                type = type == null ? InventoryType.CHEST : type;
-                INVENTORY_TYPES.put(type.name(), INVENTORY_TYPES.getOrDefault(type.name(), 0) + 1);
+                if (type != null && type != InventoryType.CHEST) {
+                    INVENTORY_TYPES.put(type.name(), INVENTORY_TYPES.getOrDefault(type.name(), 0) + 1);
+                }
             });
         });
+
+        TabooLibAPI.debug(TrMenu.getPlugin(), "Refreshed bStats data ...", "Sizes: " + MENU_SIZE, "Types: " + INVENTORY_TYPES, "Items: " + MENU_ITEMS);
     }
 
     public static void increase(int index) {
@@ -99,6 +108,18 @@ public class MetricsHandler {
 
     public static Metrics getMetrics() {
         return metrics;
+    }
+
+    private static Map<String, Integer> getMenuSize() {
+        return MENU_SIZE;
+    }
+
+    private static Map<String, Integer> getMenuItems() {
+        return MENU_ITEMS;
+    }
+
+    private static Map<String, Integer> getInventoryTypes() {
+        return INVENTORY_TYPES;
     }
 
 }

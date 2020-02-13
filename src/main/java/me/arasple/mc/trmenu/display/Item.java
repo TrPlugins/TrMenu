@@ -1,8 +1,11 @@
 package me.arasple.mc.trmenu.display;
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils;
+import io.izzel.taboolib.module.nms.NMS;
+import io.izzel.taboolib.module.nms.nbt.NBTCompound;
 import me.arasple.mc.trmenu.utils.JavaScript;
 import me.arasple.mc.trmenu.utils.Vars;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -26,19 +29,22 @@ public class Item {
     private List<List<Integer>> rawSlots;
     private HashMap<UUID, List<List<Integer>>> slots;
     private List<ItemFlag> itemFlags;
+    private NBTCompound nbtCompound;
     private String amount;
     private int finalAmount;
     private String shiny;
     private boolean finalShiny;
     private HashMap<UUID, List<Integer>> curSlots;
     private HashMap<UUID, int[]> indexMap;
+    private boolean updateNbt;
 
-    public Item(List<String> names, List<Mat> materials, List<List<String>> lores, List<List<Integer>> slots, List<ItemFlag> itemFlags, String shiny, String amount) {
+    public Item(List<String> names, List<Mat> materials, List<List<String>> lores, List<List<Integer>> slots, List<ItemFlag> itemFlags, NBTCompound nbtCompound, String shiny, String amount) {
         this.names = names;
         this.materials = materials;
         this.lores = lores;
         this.rawSlots = slots;
         this.itemFlags = itemFlags;
+        this.nbtCompound = nbtCompound;
         this.shiny = shiny;
         this.amount = amount;
         this.finalShiny = Boolean.parseBoolean(shiny);
@@ -46,6 +52,7 @@ public class Item {
         this.curSlots = new HashMap<>();
         this.slots = new HashMap<>();
         this.indexMap = new HashMap<>();
+        this.updateNbt = PlaceholderAPI.containsPlaceholders(nbtCompound.toJsonSimplified());
     }
 
     /**
@@ -65,6 +72,13 @@ public class Item {
         if (itemMeta == null) {
             return itemStack;
         }
+        if (nbtCompound != null && !nbtCompound.isEmpty()) {
+            NBTCompound nbt = updateNbt ? NBTCompound.fromJson(Vars.replace(player, nbtCompound.toJson())) : nbtCompound;
+            if (!nbt.isEmpty()) {
+                itemStack = NMS.handle().saveNBT(itemStack, nbt);
+                itemMeta = itemStack.getItemMeta();
+            }
+        }
         if (lores.size() > 0) {
             itemMeta.setLore(Vars.replace(player, lores.get(nextIndex(player, 2))));
         }
@@ -81,11 +95,11 @@ public class Item {
             itemStack.setAmount((int) NumberUtils.toDouble(String.valueOf(JavaScript.run(player, amount)), 1));
         }
         if (itemFlags.size() > 0) {
-            itemFlags.forEach(itemFlag -> {
+            for (ItemFlag itemFlag : itemFlags) {
                 if (!itemMeta.hasItemFlag(itemFlag)) {
                     itemMeta.addItemFlags(itemFlag);
                 }
-            });
+            }
         }
         itemStack.setItemMeta(itemMeta);
         return itemStack;

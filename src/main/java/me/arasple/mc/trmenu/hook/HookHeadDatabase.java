@@ -28,6 +28,10 @@ public class HookHeadDatabase {
         return isHoooked() && hdb != null ? "random".equalsIgnoreCase(id) ? getRandom() : hdb.getItemHead(id) : null;
     }
 
+    public static String getId(ItemStack item) {
+        return isHoooked() && hdb != null ? hdb.getItemID(item) : null;
+    }
+
     public static ItemStack getRandom() {
         return isHoooked() && hdb != null ? hdb.getRandomHead() : null;
     }

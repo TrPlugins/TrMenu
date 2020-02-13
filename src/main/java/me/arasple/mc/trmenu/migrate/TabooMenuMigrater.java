@@ -3,15 +3,20 @@ package me.arasple.mc.trmenu.migrate;
 import com.google.common.collect.Lists;
 import io.izzel.taboolib.util.Strings;
 import me.arasple.mc.trmenu.commands.CommandMigrate;
+import me.arasple.mc.trmenu.hook.HookHeadDatabase;
+import me.arasple.mc.trmenu.utils.Skulls;
 import me.skymc.taboomenu.TabooMenu;
 import me.skymc.taboomenu.display.Icon;
 import me.skymc.taboomenu.display.data.IconCommand;
+import me.skymc.taboomenu.display.data.Requirement;
 import me.skymc.taboomenu.iconcommand.AbstractIconCommand;
 import me.skymc.taboomenu.iconcommand.impl.*;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.MemoryConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,18 +47,23 @@ public class TabooMenuMigrater {
             trmenu.set("Title", menu.getName());
             trmenu.set("Rows", menu.getRows());
             trmenu.set("Open-Commands", menu.getOpenCommand());
-            trmenu.set("Open-Actions", migrateIconCommands(menu.getOpenAction()));
-            trmenu.set("Close-Actions", migrateIconCommands(menu.getCloseAction()));
+
+            List<String> openActions = migrateIconCommands(menu.getOpenAction()), closeActions = migrateIconCommands(menu.getCloseAction());
+            if (!openActions.isEmpty()) {
+                trmenu.set("Open-Actions", openActions);
+            }
+            if (!closeActions.isEmpty()) {
+                trmenu.set("Close-Actions", closeActions);
+            }
 
             if (Strings.nonEmpty(menu.getPrevious())) {
-                List<String> closeActions = trmenu.getStringList("Close-Actions");
                 if (!closeActions.isEmpty()) {
                     closeActions.add("open: " + menu.getPrevious());
                     trmenu.set("Close-Actions", closeActions);
                 }
             }
-            if (Strings.nonEmpty(menu.getPermission())) {
-                trmenu.set("Open-Requirement", "player.hasPermission(\"" + menu.getPermission() + "\")" + (menu.isPermissionBypass() ? " && !player.isOp()" : ""));
+            if (Strings.nonEmpty(menu.getPermission()) && !menu.isPermissionBypass()) {
+                trmenu.set("Open-Requirement", "player.hasPermission(\"" + menu.getPermission() + "\")");
             }
             int update = menu.getAutoRefresh();
             trmenu.set("Buttons", migrateButtons(menu.getIcons()));
@@ -79,11 +89,15 @@ public class TabooMenuMigrater {
                 b.set("actions", defIcon.getConfigurationSection("actions"));
             }
             List<ConfigurationSection> priorityIcons = new ArrayList<>();
-            button.getRequirements().forEach(requirement -> {
+
+            List<Requirement> requirements = button.getRequirements();
+            requirements.sort(Collections.reverseOrder(Comparator.comparingInt(Requirement::getPriority)));
+            AtomicInteger priority = new AtomicInteger(1);
+            requirements.forEach(requirement -> {
                 ConfigurationSection pIcon = new MemoryConfiguration();
                 ConfigurationSection migrated = migrateIcon(requirement.getIcon(), -1);
                 pIcon.set("condition", requirement.getExpression());
-                pIcon.set("priority", requirement.getPriority());
+                pIcon.set("priority", priority.getAndIncrement());
                 pIcon.set("display", migrated.getConfigurationSection("display"));
                 if (migrated.contains("actions")) {
                     pIcon.set("actions", migrated.getConfigurationSection("actions"));
@@ -168,6 +182,13 @@ public class TabooMenuMigrater {
     }
 
     private static String migrateMat(Icon icon) {
+        if (icon.getItemSource() != null) {
+            ItemStack itemStack = icon.getItemSource();
+            if (itemStack.getItemMeta() instanceof SkullMeta) {
+                String hdb = HookHeadDatabase.getId(itemStack);
+                return Strings.nonEmpty(hdb) ? "<hdb:" + hdb + ">" : "<skull:" + Skulls.getTexture(itemStack) + ">";
+            }
+        }
         if (Strings.nonEmpty(icon.getSkullTexture())) {
             return "<skull:" + icon.getSkullTexture() + ">";
         } else if (Strings.nonEmpty(icon.getSkullOwner())) {

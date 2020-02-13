@@ -1,7 +1,7 @@
 # TrMenu Wiki: https://trmenu.trixey.cn
 
 # Do not change
-CONFIG-VERSION: 2
+CONFIG-VERSION: 3
 
 # Locale loading priority
 # Put your locale in the first
@@ -25,6 +25,9 @@ OPTIONS:
   MATERIAL-SIMILAR-DEGREE: 0.8
   # Enable this will boost the speed opening a menu, However, it still takes time to load all icons
   FAST-OPEN: false
+  # Player's held item will flicker each time update if you set update-inventory to true or use animated titles
+  # Enable this, plugin will switch player's heldslot to the first empty one (if there is), and recover after close menu
+  ANTI-ITEM-FLICKERING: false
   # Anti inventory click spam (millisecs)
   ANTI-CLICK-SPAM: 200
   # Should enable the menu file listener?
@@ -38,13 +41,13 @@ OPTIONS:
     - 'exit'
     - 'cancel'
 
-# Only for 1.9+ servers
+# Offhand only for 1.9+ servers
 # Each option is only for one menu
 SHORTCUT-OPEN:
   OFFHAND: ''
+  SNEAKING-OFFHAND: 'example'
   RIGHT-CLICK-PLAYER: ''
   SNEAKING-RIGHT-CLICK-PLAYER: 'profile'
-  SNEAKING-OFFHAND: 'example'
 
 # Custom loading files as menus
 MENU-FILES: []

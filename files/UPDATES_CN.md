@@ -1,6 +1,26 @@
 # TrMenu Update Logs #
 
 #### VERSION 1.1
+  - ##### 1.18
+    - Since: 2020.2.7
+    - Updates:
+      - **[*NEW*]** TabooLib: 支持 OpenJ9, Hotspot !!!
+      - 新增自定义物品动态 NBT 标签，用法
+        ```YAML
+        display:
+          name: 'Example'
+          amount: 3
+          # <key>:<value>
+          # 轻松添加自定义 NBT 标签，无需使用 Json 物品
+          # 可以使用变量
+          nbt:
+            Unbreakable: 1
+        ```
+      - 新增列出菜单的过滤参数 /trmenu list <filter>
+      - 新增音效动作中使用变量
+      - 新增停止播放玩家音效的方法 `sound: stop`
+      - 新增选项 `OPTIONS.ANTI-ITEM-FLICKERING`
+      - 新增支持微损导入 TabooMenu 菜单
   - ##### 1.17
     - Since: 2020.2.7
     - Updates:
