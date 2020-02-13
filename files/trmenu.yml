@@ -67,7 +67,28 @@ BUTTONS:
         'tell: &7bStats: &3https://bstats.org/plugin/bukkit/TrMenu'
       ]
     icons:
+      - condition: '"%trmenu_locale%" == "zh_CN"'
+        pri: 1
+        display:
+          lore:
+            - ''
+            - '&7以下是 TrMenu 插件的相关数据统计'
+            - '&7来自 bStats &8(https://bstats.org/)'
+            - ''
+            - '&f| &3服务器: &2%trmenu_query_https://bstats.org/api/v1/plugins/5742/charts/servers/data?maxElements=1%'
+            - '&f| &3总玩家: &2%trmenu_query_https://bstats.org/api/v1/plugins/5742/charts/players/data?maxElements=1%'
+            - ''
+            - '&7当前总计有 &b%trmenu_query_https://bstats.org/api/v1/plugins/5742/charts/menus/data?maxElements=1% &7个由 TrMenu 制作的菜单,'
+            - '&7你的服务器正是其中的 &e%math_{trmenu_menus}/{trmenu_query_https://bstats.org/api/v1/plugins/5742/charts/menus/data?maxElements=1}*100[precision:2]%% &7!'
+            - '&8[ %progress_bar_{trmenu_menus}_m:{trmenu_query_https://bstats.org/api/v1/plugins/5742/charts/menus/data?maxElements=1}_c:&3|_p:&7|_r:&8|_l:60% &8] &8(%trmenu_menus%/%trmenu_query_https://bstats.org/api/v1/plugins/5742/charts/menus/data?maxElements=1%)'
+            - ''
+            - '&7在过去短短半小时内,'
+            - '&7菜单总计打开了 &6%trmenu_query_https://bstats.org/api/v1/plugins/5742/charts/menu_open_counts/data?maxElements=1% &7次,'
+            - '&7执行了超过 &6%trmenu_query_https://bstats.org/api/v1/plugins/5742/charts/action_run_counts/data?maxElements=1% &7次动作. '
+            - ''
+            - '&2点&3击了解更多统计信息'
       - condition: '"%trmenu_query_https://bstats.org/api/v1/plugins/5742/charts/menus/data?maxElements=1%" == "Loading..."'
+        pri: 2
         display:
           lore: [
           ['','&7Loading.',''],

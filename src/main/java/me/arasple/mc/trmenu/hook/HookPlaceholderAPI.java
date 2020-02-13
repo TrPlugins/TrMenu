@@ -2,6 +2,7 @@ package me.arasple.mc.trmenu.hook;
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils;
 import io.izzel.taboolib.module.inject.THook;
+import io.izzel.taboolib.module.locale.TLocaleLoader;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.api.TrMenuAPI;
 import me.arasple.mc.trmenu.utils.Querier;
@@ -57,6 +58,8 @@ public class HookPlaceholderAPI extends PlaceholderExpansion {
             return TrMenu.getPlugin().getDescription().getVersion();
         } else if ("menus".equalsIgnoreCase(type[0])) {
             return String.valueOf(TrMenuAPI.getMenus().size());
+        } else if ("locale".equalsIgnoreCase(type[0])) {
+            return TLocaleLoader.getLocalPriorityFirst(TrMenu.getPlugin());
         } else if (type.length == 2) {
             if (("tapapi".equalsIgnoreCase(type[0]))) {
                 if (args.length == 2) {
