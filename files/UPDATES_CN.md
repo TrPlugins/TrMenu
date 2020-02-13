@@ -21,6 +21,7 @@
       - 新增停止播放玩家音效的方法 `sound: stop`
       - 新增选项 `OPTIONS.ANTI-ITEM-FLICKERING`
       - 新增支持微损导入 TabooMenu 菜单
+      - 新增中文版 TrMenu About GUI
   - ##### 1.17
     - Since: 2020.2.7
     - Updates:
