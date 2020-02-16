@@ -61,14 +61,14 @@ public class MenuLoader {
             int all = MenuLoader.getMenuFilesCount(folder);
             List<String> errors = new ArrayList<>();
             TrMenu.getMenus().clear();
-            if (TrMenu.getSettings().isSet("MENUS")) {
-                TrMenu.getSettings().getList("MENUS", new ArrayList<>()).forEach(s -> {
+            if (TrMenu.SETTINGS.isSet("MENUS")) {
+                TrMenu.SETTINGS.getList("MENUS", new ArrayList<>()).forEach(s -> {
                     LinkedHashMap map = (LinkedHashMap) s;
                     map.forEach((name, section) -> errors.addAll(loadMenu((LinkedHashMap) section, String.valueOf(name), null, true).getErrors()));
                 });
             }
-            if (TrMenu.getSettings().isSet("MENU-FILES")) {
-                for (String path : TrMenu.getSettings().getStringList("MENU-FILES")) {
+            if (TrMenu.SETTINGS.isSet("MENU-FILES")) {
+                for (String path : TrMenu.SETTINGS.getStringList("MENU-FILES")) {
                     File menuFile = new File(path);
                     if (menuFile.exists() && (menuFile.getName().toLowerCase().endsWith(".yml") || menuFile.isDirectory())) {
                         errors.addAll(loadMenu(menuFile));
@@ -85,7 +85,7 @@ public class MenuLoader {
                         continue;
                     }
                     File file = new File(menu.getLoadedPath());
-                    if (file != null && file.exists() && TrMenu.getSettings().getBoolean("OPTIONS.MENU-FILE-LISTENER.ENABLE", true)) {
+                    if (file != null && file.exists() && TrMenu.SETTINGS.getBoolean("OPTIONS.MENU-FILE-LISTENER.ENABLE", true)) {
                         TConfigWatcher.getInst().addSimpleListener(file, () -> {
                             Menu m = TrMenuAPI.getMenu(menu.getName());
                             if (m != null) {
@@ -263,17 +263,17 @@ public class MenuLoader {
         List<List<Integer>> slots;
         List<ItemFlag> flags = Lists.newArrayList();
         NBTCompound nbtCompound = new NBTCompound();
-        Map displayMap = Maps.sectionToMap(map.get("display"));
-        Map actionsMap = Maps.containsSimilar(map, "actions") ? Maps.sectionToMap(map.get("actions")) : new HashMap<>();
+        Map displayMap = Maps.sectionToMap(BUTTON_DISPLAY.getFromMap(map));
+        Map actionsMap = Maps.sectionToMap(BUTTON_ACTIONS.getFromMap(map, new HashMap<>()));
         HashMap<ClickType, List<AbstractAction>> actions = new HashMap<>();
-        Object name = Maps.getSimilarOrDefault(displayMap, MenuNodes.ICON_DISPLAY_NAME.getName(), null);
-        Object mats = Maps.getSimilarOrDefault(displayMap, MenuNodes.ICON_DISPLAY_MATERIALS.getName(), null);
-        Object lore = Maps.getSimilarOrDefault(displayMap, MenuNodes.ICON_DISPLAY_LORES.getName(), null);
-        Object slot = Maps.getSimilarOrDefault(displayMap, MenuNodes.ICON_DISPLAY_SLOTS.getName(), null);
-        Object flag = Maps.getSimilarOrDefault(displayMap, MenuNodes.ICON_DISPLAY_FLAGS.getName(), null);
-        Object nbt = Maps.getSimilarOrDefault(displayMap, ICON_DISPLAY_NBTS.getName(), null);
-        String shiny = String.valueOf(Maps.getSimilar(displayMap, MenuNodes.ICON_DISPLAY_SHINY.getName()));
-        String amount = String.valueOf(Maps.getSimilar(displayMap, MenuNodes.ICON_DISPLAY_AMOUNT.getName()));
+        Object name = ICON_DISPLAY_NAME.getFromMap(displayMap);
+        Object mats = ICON_DISPLAY_MATERIALS.getFromMap(displayMap);
+        Object lore = ICON_DISPLAY_LORES.getFromMap(displayMap);
+        Object slot = ICON_DISPLAY_SLOTS.getFromMap(displayMap);
+        Object flag = ICON_DISPLAY_FLAGS.getFromMap(displayMap);
+        Object nbt = ICON_DISPLAY_NBTS.getFromMap(displayMap);
+        String shiny = String.valueOf(Maps.getSimilar(displayMap, ICON_DISPLAY_SHINY.getName()));
+        String amount = String.valueOf(Maps.getSimilar(displayMap, ICON_DISPLAY_AMOUNT.getName()));
 
         shiny = "null".equals(shiny) ? "false" : shiny;
         amount = "null".equals(amount) ? "1" : amount;

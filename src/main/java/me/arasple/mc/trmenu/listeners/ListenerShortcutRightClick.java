@@ -21,7 +21,7 @@ public class ListenerShortcutRightClick implements Listener {
     public void rightClick(PlayerInteractEntityEvent e) {
         Player p = e.getPlayer();
         if (e.getRightClicked() instanceof Player && Bukkit.getPlayer(e.getRightClicked().getUniqueId()) != null && Bukkit.getPlayer(e.getRightClicked().getUniqueId()).isOnline()) {
-            e.setCancelled(TrMenuAPI.openByShortcut(p, (p.isSneaking() ? TrMenu.getSettings().getString("SHORTCUT-OPEN.SNEAKING-RIGHT-CLICK-PLAYER", null) : TrMenu.getSettings().getString("SHORTCUT-OPEN.RIGHT-CLICK-PLAYER", null)), e.getRightClicked().getName()));
+            e.setCancelled(TrMenuAPI.openByShortcut(p, (p.isSneaking() ? TrMenu.SETTINGS.getString("SHORTCUT-OPEN.SNEAKING-RIGHT-CLICK-PLAYER", null) : TrMenu.SETTINGS.getString("SHORTCUT-OPEN.RIGHT-CLICK-PLAYER", null)), e.getRightClicked().getName()));
         }
     }
 

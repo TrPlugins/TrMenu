@@ -150,7 +150,7 @@ public class Mat {
                     return new String[]{Material.valueOf(args[0]).name(), id};
                 } catch (IllegalArgumentException e) {
                     Materials mats = Arrays.stream(Materials.values())
-                            .filter(m -> Strings.similarDegree(m.name(), args[0]) > TrMenu.getSettings().getDouble("OPTIONS.MATERIAL-SIMILAR-DEGREE", 0.8))
+                            .filter(m -> Strings.similarDegree(m.name(), args[0]) > TrMenu.SETTINGS.getDouble("OPTIONS.MATERIAL-SIMILAR-DEGREE", 0.8))
                             .max(Comparator.comparingDouble(x -> Strings.similarDegree(x.name(), args[0])))
                             .orElse(Materials.STONE);
                     return new String[]{mats

@@ -17,7 +17,7 @@ public class ListenerShortcutSwapHand implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     public void offHand(PlayerSwapHandItemsEvent e) {
-        boolean opened = TrMenuAPI.openByShortcut(e.getPlayer(), (e.getPlayer().isSneaking() ? TrMenu.getSettings().getString("SHORTCUT-OPEN.SNEAKING-OFFHAND", null) : TrMenu.getSettings().getString("SHORTCUT-OPEN.OFFHAND", null)));
+        boolean opened = TrMenuAPI.openByShortcut(e.getPlayer(), (e.getPlayer().isSneaking() ? TrMenu.SETTINGS.getString("SHORTCUT-OPEN.SNEAKING-OFFHAND", null) : TrMenu.SETTINGS.getString("SHORTCUT-OPEN.OFFHAND", null)));
         if (opened) {
             e.setCancelled(true);
         }

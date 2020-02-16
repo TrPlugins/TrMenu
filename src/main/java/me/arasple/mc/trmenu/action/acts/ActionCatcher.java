@@ -21,7 +21,7 @@ import java.util.Collections;
 public class ActionCatcher extends AbstractAction {
 
     private static boolean isCancelWord(String word) {
-        return TrMenu.getSettings().getList("OPTIONS.CATCHER-CANCEL-WORDS", Collections.singletonList("quit|exit|cancel|return|break")).stream().anyMatch(k -> word.split(" ")[0].matches("(?i)" + k));
+        return TrMenu.SETTINGS.getList("OPTIONS.CATCHER-CANCEL-WORDS", Collections.singletonList("quit|exit|cancel|return|break")).stream().anyMatch(k -> word.split(" ")[0].matches("(?i)" + k));
     }
 
     private int type;

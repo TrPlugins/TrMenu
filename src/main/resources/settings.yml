@@ -1,7 +1,7 @@
 # TrMenu Wiki: https://trmenu.trixey.cn
 
 # Do not change
-CONFIG-VERSION: 3
+CONFIG-VERSION: 4
 
 # Locale loading priority
 # Put your locale in the first
@@ -34,6 +34,8 @@ OPTIONS:
   MENU-FILE-LISTENER:
     ENABLE: true
     NOTIFY: true
+  # Ignore cancelled inventory click event
+  IGNORE-CANCELLED: true
   # The words used to cancel a catcher action (Support Regex)
   CATCHER-CANCEL-WORDS:
     - 'return|break'

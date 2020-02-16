@@ -116,7 +116,7 @@ public class Updater implements Listener {
     }
 
     public static void setAutoUpdate() {
-        autoUpdate = TrMenu.getSettings().getBoolean("OPTIONS.AUTO-UPDATE", false);
+        autoUpdate = TrMenu.SETTINGS.getBoolean("OPTIONS.AUTO-UPDATE", false);
     }
 
 }

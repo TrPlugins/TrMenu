@@ -22,6 +22,10 @@
       - 新增选项 `OPTIONS.ANTI-ITEM-FLICKERING`
       - 新增支持微损导入 TabooMenu 菜单
       - 新增中文版 TrMenu About GUI
+      - 支持 MENU-FILES 指定路径加载包含多个菜单的文件夹
+      - 修复了 `REFRESH` 动作无法更新图标显示
+      - 修复了 `ALL` 类型的动作反复堆叠到其它类型中
+      - 修复了偶尔出现的空按钮槽的问题
   - ##### 1.17
     - Since: 2020.2.7
     - Updates:

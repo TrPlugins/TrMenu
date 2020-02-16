@@ -3,6 +3,7 @@ package me.arasple.mc.trmenu.display;
 import me.arasple.mc.trmenu.action.TrAction;
 import me.arasple.mc.trmenu.action.base.AbstractAction;
 import me.arasple.mc.trmenu.data.ArgsCache;
+import me.arasple.mc.trmenu.utils.Notifys;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -55,14 +56,14 @@ public class Icon {
 
     public void onClick(Player player, Button button, ClickType clickType, InventoryClickEvent event) {
         List<AbstractAction> actions = getActions().getOrDefault(clickType, new ArrayList<>());
-        if (getActions().get(null) != null) {
-            actions.addAll(getActions().get(null));
-        }
-
+        Notifys.debug(player, "ClickType: {0}, Actions: {1}. &8{2}", clickType.name(), actions.size(), actions);
         ArgsCache.getEvent().put(player.getUniqueId(), event);
         ArgsCache.getClickedItem().put(player.getUniqueId(), item);
 
         TrAction.runActions(actions, player);
+        if (getActions().get(null) != null) {
+            TrAction.runActions(getActions().get(null), player);
+        }
 
         ArgsCache.getEvent().remove(player.getUniqueId());
         ArgsCache.getClickedItem().remove(player.getUniqueId());

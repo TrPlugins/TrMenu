@@ -17,20 +17,17 @@ import java.util.List;
 @Plugin.Version(5.15)
 public final class TrMenu extends Plugin {
 
-    @TInject
-    private static TrMenu instance;
-    private static List<Menu> menus = Lists.newArrayList();
     @TInject(value = "settings.yml", locale = "LOCALE-PRIORITY")
-    private static TConfig settings;
+    public static final TConfig SETTINGS = null;
+    @TInject
+    private static final TrMenu INSTANCE = null;
     @TInject(state = TInject.State.LOADING, init = "init", active = "active", cancel = "cancel")
-    private static TrMenuLoader loader;
+    private static final TrMenuLoader LOADER = null;
+
+    private static List<Menu> menus = Lists.newArrayList();
 
     public static List<Menu> getMenus() {
         return menus;
-    }
-
-    public static TConfig getSettings() {
-        return settings;
     }
 
     public static double getTrVersion() {
@@ -38,7 +35,7 @@ public final class TrMenu extends Plugin {
     }
 
     public static File getPluginFile() {
-        return instance.getFile();
+        return INSTANCE.getFile();
     }
 
 }

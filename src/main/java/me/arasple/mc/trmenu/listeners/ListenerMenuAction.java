@@ -1,11 +1,11 @@
 package me.arasple.mc.trmenu.listeners;
 
 import io.izzel.taboolib.module.inject.TListener;
-import io.izzel.taboolib.util.Strings;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.display.Button;
 import me.arasple.mc.trmenu.menu.Menu;
 import me.arasple.mc.trmenu.menu.MenuHolder;
+import me.arasple.mc.trmenu.utils.Notifys;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -25,16 +25,20 @@ public class ListenerMenuAction implements Listener {
 
     private HashMap<UUID, Long> clickTimes = new HashMap<>();
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onClick(InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
 
-        debug(p, "Clicked raw slot §f{0}", e.getRawSlot());
+        Notifys.debug(p, "Clicked raw slot §f{0}", e.getRawSlot());
 
         long start = System.currentTimeMillis();
 
+        if (e.isCancelled() && TrMenu.SETTINGS.getBoolean("OPTIONS.IGNORE-CANCELLED")) {
+            Notifys.debug(p, "Ignored cancelled");
+            return;
+        }
         if (!(e.getInventory().getHolder() instanceof MenuHolder)) {
-            debug(p, "Not a MenuHolder");
+            Notifys.debug(p, "Not a MenuHolder");
             return;
         }
 
@@ -43,9 +47,9 @@ public class ListenerMenuAction implements Listener {
 
         // Anti ClickSpam
         clickTimes.putIfAbsent(p.getUniqueId(), 0L);
-        if (System.currentTimeMillis() - clickTimes.get(p.getUniqueId()) < TrMenu.getSettings().getLong("OPTIONS.ANTI-CLICK-SPAM")) {
+        if (System.currentTimeMillis() - clickTimes.get(p.getUniqueId()) < TrMenu.SETTINGS.getLong("OPTIONS.ANTI-CLICK-SPAM")) {
             e.setCancelled(true);
-            debug(p, "Anti-Spam, event cancelled.");
+            Notifys.debug(p, "Anti-Spam, event cancelled.");
             return;
         } else {
             clickTimes.put(p.getUniqueId(), System.currentTimeMillis());
@@ -58,20 +62,14 @@ public class ListenerMenuAction implements Listener {
             if (e.getClickedInventory() == p.getInventory() && menu.isLockPlayerInv()) {
                 e.setCancelled(true);
             }
-            debug(p, "Null button");
+            Notifys.debug(p, "Null button");
             return;
         } else {
             e.setCancelled(true);
         }
 
         button.getIcon(p).onClick(p, button, e.getClick(), e);
-        debug(p, "§6InventoryClickEvent Took §e{0}ms§6.", System.currentTimeMillis() - start);
-    }
-
-    private void debug(Player player, String text, Object... args) {
-        if (player.hasMetadata("TrMenu-Debug")) {
-            player.sendMessage("§8[§3Tr§bMenu§8]§8[§7DEBUG§8] §7" + Strings.replaceWithOrder(text, args));
-        }
+        Notifys.debug(p, "§6InventoryClickEvent Took §e{0}ms§6.", System.currentTimeMillis() - start);
     }
 
 }

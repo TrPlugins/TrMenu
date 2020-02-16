@@ -128,7 +128,7 @@ public class Menu {
         }
         // 创建容器
         final Inventory menu = type == null ? Bukkit.createInventory(new MenuHolder(this), 9 * getRows(shape), Vars.replace(player, titles.get(0))) : Bukkit.createInventory(new MenuHolder(this), type, Vars.replace(player, titles.get(0)));
-        final boolean fastOpen = TrMenu.getSettings().getBoolean("OPTIONS.FAST-OPEN", false);
+        final boolean fastOpen = TrMenu.SETTINGS.getBoolean("OPTIONS.FAST-OPEN", false);
         if (fastOpen) {
             player.openInventory(menu);
         }
@@ -147,7 +147,7 @@ public class Menu {
         newKeepOpenTask(player);
         // 如果设置刷新容器或启用动态标题, 将自动调整玩家手持槽位到一个空位 (如果有)
         // 关闭容器后会自动复原, 防止物品频闪影响体验
-        if (TrMenu.getSettings().getBoolean("OPTIONS.ANTI-ITEM-FLICKERING", false) && (isUpdateInventory() || (getTitles().size() > 1 && getTitleUpdate() > 0))) {
+        if (TrMenu.SETTINGS.getBoolean("OPTIONS.ANTI-ITEM-FLICKERING", false) && (isUpdateInventory() || (getTitles().size() > 1 && getTitleUpdate() > 0))) {
             if (!Items.isNull(player.getInventory().getItem(player.getInventory().getHeldItemSlot()))) {
                 for (byte i = 0; i < 9; i++) {
                     if (Items.isNull(player.getInventory().getItem(i))) {
@@ -244,8 +244,9 @@ public class Menu {
      * @param args   参数
      */
     private void newUpdateTask(Player player, Button button, Inventory menu, List<Integer> slots, String... args) {
+        setButton(player, button, menu, slots, args);
+
         if (button.getUpdate() <= 0) {
-            setButton(player, button, menu, slots, args);
             return;
         }
         int update = Math.max(button.getUpdate(), 3);
@@ -258,7 +259,7 @@ public class Menu {
                 }
                 setButton(player, button, menu, slots, args);
             }
-        }.runTaskTimerAsynchronously(TrMenu.getPlugin(), 0, update);
+        }.runTaskTimerAsynchronously(TrMenu.getPlugin(), update, update);
     }
 
     private void setButton(Player player, Button button, Inventory menu, List<Integer> slots, String... args) {
@@ -634,7 +635,7 @@ public class Menu {
         File file = new File(getLoadedPath());
         if (file.exists()) {
             List<String> result = MenuLoader.loadMenu(file);
-            if (result.size() <= 0 && TrMenu.getSettings().getBoolean("OPTIONS.MENU-FILE-LISTENER.NOTIFY", true)) {
+            if (result.size() <= 0 && TrMenu.SETTINGS.getBoolean("OPTIONS.MENU-FILE-LISTENER.NOTIFY", true)) {
                 TLocale.sendToConsole("MENU.LOADED-AUTOLY", file.getName());
             } else {
                 TLocale.sendToConsole("MENU.LOADED-AUTOLY-FAILED", file.getName());

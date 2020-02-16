@@ -2,6 +2,7 @@ package me.arasple.mc.trmenu.action.acts;
 
 import me.arasple.mc.trmenu.action.base.AbstractAction;
 import me.arasple.mc.trmenu.api.TrMenuAPI;
+import me.arasple.mc.trmenu.data.ArgsCache;
 import me.arasple.mc.trmenu.menu.Menu;
 import org.bukkit.entity.Player;
 
@@ -20,7 +21,7 @@ public class ActionIconRefresh extends AbstractAction {
     public void onExecute(Player player) {
         Menu menu = TrMenuAPI.getMenu(player);
         if (menu != null) {
-            menu.getButtons().keySet().forEach(button -> button.refreshConditionalIcon(player, null));
+            menu.open(player, menu.getShape(player), true, ArgsCache.getPlayerArgs(player));
         }
     }
 

@@ -24,7 +24,7 @@ import java.util.logging.Level;
 public class TrMenuLoader {
 
     void init() {
-        if (!TrMenu.getSettings().getBoolean("OPTIONS.SILENT", false)) {
+        if (!TrMenu.SETTINGS.getBoolean("OPTIONS.SILENT", false)) {
             Arrays.asList(
                     "",
                     "§3  ____________________   _____  __________________   ____ ___",
@@ -83,9 +83,9 @@ public class TrMenuLoader {
     }
 
     private void updateConfig() {
-        TConfig oldCfg = TrMenu.getSettings();
+        TConfig oldCfg = TrMenu.SETTINGS;
         YamlConfiguration newCfg = YamlConfiguration.loadConfiguration(new InputStreamReader(TrMenu.getPlugin().getResource("settings.yml")));
-        if (newCfg.getInt("CONFIG-VERSION") == TrMenu.getSettings().getInt("CONFIG-VERSION")) {
+        if (newCfg.getInt("CONFIG-VERSION") == TrMenu.SETTINGS.getInt("CONFIG-VERSION")) {
             return;
         }
         oldCfg.set("CONFIG-VERSION", newCfg.getInt("CONFIG-VERSION"));

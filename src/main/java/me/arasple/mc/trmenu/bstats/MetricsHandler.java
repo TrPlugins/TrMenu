@@ -54,13 +54,13 @@ public class MetricsHandler {
         // 统计容器类型
         metrics.addCustomChart(new Metrics.AdvancedPie("inventory_type", MetricsHandler::getInventoryTypes));
         // 选项 - 自动更新
-        metrics.addCustomChart(new Metrics.SimplePie("option_auto_updater", () -> TrMenu.getSettings().getBoolean("OPTIONS.AUTO-UPDATE", false) ? "Enabled" : "Disabled"));
+        metrics.addCustomChart(new Metrics.SimplePie("option_auto_updater", () -> TrMenu.SETTINGS.getBoolean("OPTIONS.AUTO-UPDATE", false) ? "Enabled" : "Disabled"));
         // 选项 - 相似度比
-        metrics.addCustomChart(new Metrics.SimplePie("option_material_similar_degree", () -> doubleFormat.format(TrMenu.getSettings().getDouble("OPTIONS.MATERIAL-SIMILAR-DEGREE", 0.8))));
+        metrics.addCustomChart(new Metrics.SimplePie("option_material_similar_degree", () -> doubleFormat.format(TrMenu.SETTINGS.getDouble("OPTIONS.MATERIAL-SIMILAR-DEGREE", 0.8))));
         // 选项 - 防刷屏
-        metrics.addCustomChart(new Metrics.SimplePie("option_anti_click_spam", () -> String.valueOf(TrMenu.getSettings().getInt("OPTIONS.ANTI-CLICK-SPAM", 200))));
+        metrics.addCustomChart(new Metrics.SimplePie("option_anti_click_spam", () -> String.valueOf(TrMenu.SETTINGS.getInt("OPTIONS.ANTI-CLICK-SPAM", 200))));
         // 选项 - 菜单重载监听
-        metrics.addCustomChart(new Metrics.SimplePie("menu_file_listener", () -> TrMenu.getSettings().getBoolean("OPTIONS.MENU-FILE-LISTENER.ENABLE", true) ? "Enabled" : "Disabled"));
+        metrics.addCustomChart(new Metrics.SimplePie("menu_file_listener", () -> TrMenu.SETTINGS.getBoolean("OPTIONS.MENU-FILE-LISTENER.ENABLE", true) ? "Enabled" : "Disabled"));
         // 支持 - HeadDatabase
         metrics.addCustomChart(new Metrics.SimplePie("hooked_headdatabase", () -> HookHeadDatabase.isHoooked() ? "Enabled" : "Disabled"));
         // 初始化

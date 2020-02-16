@@ -20,6 +20,10 @@
       - Added support for placeholders use in Action Sound
       - Added a way for you to stop playing sounds, usage `sound: stop`
       - Added option `OPTIONS.ANTI-ITEM-FLICKERING`
+      - Custom menu load path support folder now
+      - Fixed refresh action unable to update icon
+      - Fixed repeated overlay of "All" actions into other click-type actions
+      - Fixed occasional empty buttons
   - ##### 1.17
     - Since: 2020.2.7
     - Updates:

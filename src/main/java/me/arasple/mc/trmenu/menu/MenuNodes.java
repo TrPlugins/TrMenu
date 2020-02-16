@@ -43,6 +43,8 @@ public enum MenuNodes {
      * 按钮各种设置
      */
     BUTTON_UPDATE_PERIOD("update(s)?"),
+    BUTTON_DISPLAY("display(s)?|view"),
+    BUTTON_ACTIONS("action(s)?|command(s)?|cmd|click"),
 
     BUTTON_REFRESH_CONDITIONS("refresh(-)?condition(s)?|refresh"),
     BUTTON_ICONS("icons"),
