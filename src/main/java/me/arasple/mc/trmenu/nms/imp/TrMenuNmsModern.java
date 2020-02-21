@@ -23,7 +23,7 @@ public class TrMenuNmsModern extends TrMenuNms {
                 new ChatComponentText(title)
         );
         handle.playerConnection.sendPacket(packet);
-        handle.updateInventory(handle.activeContainer);
+//        handle.updateInventory(handle.activeContainer);
     }
 
     @Override

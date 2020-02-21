@@ -4,11 +4,11 @@ import io.izzel.taboolib.module.command.base.Argument;
 import io.izzel.taboolib.module.command.base.BaseSubCommand;
 import io.izzel.taboolib.module.command.base.CommandType;
 import io.izzel.taboolib.module.locale.TLocale;
+import io.izzel.taboolib.util.Hastebin;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.api.TrMenuAPI;
 import me.arasple.mc.trmenu.bstats.MetricsHandler;
 import me.arasple.mc.trmenu.menu.Menu;
-import me.arasple.mc.trmenu.utils.Hastebin;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -43,7 +43,7 @@ public class CommandShare extends BaseSubCommand {
             MetricsHandler.increase(2);
             TLocale.sendTo(sender, "HASTEBIN.PROCESSING");
             Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
-                String url = Hastebin.paste(readMenu(loadedPath));
+                String url = Hastebin.paste(readMenu(loadedPath)).getURL();
                 TLocale.sendTo(sender, url != null ? "HASTEBIN.SUCCESS" : "HASTEBIN.FAILED", url);
             });
         }

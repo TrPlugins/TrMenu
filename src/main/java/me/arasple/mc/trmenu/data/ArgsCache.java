@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.data;
 
+import me.arasple.mc.trmenu.display.Button;
 import me.arasple.mc.trmenu.display.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -17,6 +18,7 @@ public class ArgsCache {
     private static HashMap<UUID, InventoryClickEvent> event = new HashMap<>();
     private static HashMap<UUID, Integer> heldSlot = new HashMap<>();
     private static HashMap<UUID, Item> clickedItem = new HashMap<>();
+    private static HashMap<UUID, Button> clickedButtons = new HashMap<>();
 
     public static HashMap<UUID, String[]> getArgs() {
         return args;
@@ -36,6 +38,16 @@ public class ArgsCache {
 
     public static HashMap<UUID, Item> getClickedItem() {
         return clickedItem;
+    }
+
+    public static HashMap<UUID, Button> getClickedButtons() {
+        return clickedButtons;
+    }
+
+    public static void clear(Player player) {
+        getEvent().remove(player.getUniqueId());
+        getClickedItem().remove(player.getUniqueId());
+        getClickedButtons().remove(player.getUniqueId());
     }
 
 }

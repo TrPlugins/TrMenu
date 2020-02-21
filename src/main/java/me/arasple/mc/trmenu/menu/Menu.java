@@ -262,7 +262,7 @@ public class Menu {
         }.runTaskTimerAsynchronously(TrMenu.getPlugin(), update, update);
     }
 
-    private void setButton(Player player, Button button, Inventory menu, List<Integer> slots, String... args) {
+    public void setButton(Player player, Button button, Inventory menu, List<Integer> slots, String... args) {
         Item item = button.getIcon(player).getItem();
         ItemStack itemStack = item.createItemStack(player, args);
         List<ItemStack> emptySlots = Lists.newArrayList();

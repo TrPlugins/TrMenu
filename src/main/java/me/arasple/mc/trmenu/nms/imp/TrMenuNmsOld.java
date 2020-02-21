@@ -26,7 +26,7 @@ public class TrMenuNmsOld extends TrMenuNms {
                 inventory.getSize()
         );
         handle.playerConnection.sendPacket(packet);
-        handle.updateInventory(handle.activeContainer);
+//        handle.updateInventory(handle.activeContainer);
     }
 
     @Override

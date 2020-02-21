@@ -57,17 +57,17 @@ public class Icon {
     public void onClick(Player player, Button button, ClickType clickType, InventoryClickEvent event) {
         List<AbstractAction> actions = getActions().getOrDefault(clickType, new ArrayList<>());
         Notifys.debug(player, "ClickType: {0}, Actions: {1}. &8{2}", clickType.name(), actions.size(), actions);
+
         ArgsCache.getEvent().put(player.getUniqueId(), event);
         ArgsCache.getClickedItem().put(player.getUniqueId(), item);
+        ArgsCache.getClickedButtons().put(player.getUniqueId(), button);
 
         TrAction.runActions(actions, player);
         if (getActions().get(null) != null) {
             TrAction.runActions(getActions().get(null), player);
         }
 
-        ArgsCache.getEvent().remove(player.getUniqueId());
-        ArgsCache.getClickedItem().remove(player.getUniqueId());
-
+        ArgsCache.clear(player);
         button.refreshConditionalIcon(player, event);
     }
 

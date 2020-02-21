@@ -7,7 +7,7 @@ plugins {
 
 configurations {
     group = 'me.arasple.mc.trmenu'
-    version = '1.18'
+    version = '1.19'
 
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
@@ -33,9 +33,9 @@ repositories {
 }
 
 dependencies {
-    compile 'org.spigotmc:spigot:1.15.1-R0.1-SNAPSHOT'
+    compile 'org.spigotmc:spigot:1.15.2-R0.1-SNAPSHOT'
     compile 'org.bstats:bstats-bukkit:1.7'
-    compile 'io.izzel.taboolib:TabooLib:5.15:all'
+    compile 'io.izzel.taboolib:TabooLib:5.17:all'
     compile 'io.izzel.taboolib.loader:TabooLibloader:1.4:all'
     compile 'me.clip:placeholderapi:2.10.4'
 

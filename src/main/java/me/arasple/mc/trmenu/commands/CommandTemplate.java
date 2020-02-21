@@ -6,10 +6,10 @@ import io.izzel.taboolib.module.command.base.Argument;
 import io.izzel.taboolib.module.command.base.BaseSubCommand;
 import io.izzel.taboolib.module.command.base.CommandType;
 import io.izzel.taboolib.module.locale.TLocale;
+import io.izzel.taboolib.util.Hastebin;
 import io.izzel.taboolib.util.item.Items;
 import io.izzel.taboolib.util.item.inventory.MenuBuilder;
 import me.arasple.mc.trmenu.TrMenu;
-import me.arasple.mc.trmenu.utils.Hastebin;
 import me.arasple.mc.trmenu.utils.Skulls;
 import me.arasple.mc.trmenu.utils.TrUtils;
 import org.bukkit.Bukkit;
@@ -56,7 +56,7 @@ public class CommandTemplate extends BaseSubCommand {
                     Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
                         TLocale.sendTo(player, "TEMPLATE.PROCESSING");
                         TemplateMenu menu = inventoryAsTrMenu(inventory);
-                        String url = Hastebin.paste(menu.toYaml());
+                        String url = Hastebin.paste(menu.toYaml()).getURL();
                         TLocale.sendTo(player, url != null ? "TEMPLATE.SUCCESS" : "TEMPLATE.FAILED", url);
                     });
                 })

@@ -103,7 +103,7 @@ public class Mat {
         }
         // PLAYER HEAD
         else if (option == Option.HEAD) {
-            return Skulls.getPlayerSkull(Vars.replace(player, optionValue));
+            return Skulls.getPlayerSkull(Vars.replace(player, optionValue)).clone();
         }
         // HDB
         else if (option == Option.HEAD_DATABASE) {

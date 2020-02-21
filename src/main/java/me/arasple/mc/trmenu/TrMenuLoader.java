@@ -7,6 +7,7 @@ import me.arasple.mc.trmenu.api.TrMenuAPI;
 import me.arasple.mc.trmenu.menu.MenuLoader;
 import me.arasple.mc.trmenu.updater.Updater;
 import me.arasple.mc.trmenu.utils.Bungees;
+import me.arasple.mc.trmenu.utils.FileWatcher;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.HumanEntity;
@@ -56,6 +57,7 @@ public class TrMenuLoader {
 
     void cancel() {
         Bukkit.getOnlinePlayers().stream().filter(TrMenuAPI::isViewingMenu).forEach(HumanEntity::closeInventory);
+        FileWatcher.getWatcher().unregisterAll();
         if (Updater.isAutoUpdate() && Updater.isOld()) {
             String url = "https://arasple.oss-cn-beijing.aliyuncs.com/files/TrMenu.jar";
             Files.downloadFile(url, TrMenu.getPluginFile());

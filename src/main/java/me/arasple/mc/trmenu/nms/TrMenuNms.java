@@ -4,7 +4,6 @@ import io.izzel.taboolib.Version;
 import io.izzel.taboolib.module.lite.SimpleVersionControl;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.menu.MenuHolder;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
@@ -33,11 +32,6 @@ public abstract class TrMenuNms {
     public static void setTitle(Player player, Inventory inventory, String title) {
         if (player.getOpenInventory().getTopInventory().getHolder() instanceof MenuHolder) {
             getInst().setInventoryTitle(player, inventory, title);
-            Bukkit.getScheduler().runTaskLater(TrMenu.getPlugin(), () -> {
-                if (!(player.getOpenInventory().getTopInventory().getHolder() instanceof MenuHolder)) {
-                    getInst().closeInventory(player);
-                }
-            }, 2);
         }
     }
 

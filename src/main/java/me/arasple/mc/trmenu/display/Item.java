@@ -94,12 +94,10 @@ public class Item {
         } else {
             itemStack.setAmount((int) NumberUtils.toDouble(String.valueOf(JavaScript.run(player, amount)), 1));
         }
-        if (itemFlags.size() > 0) {
-            for (ItemFlag itemFlag : itemFlags) {
-                if (!itemMeta.hasItemFlag(itemFlag)) {
-                    itemMeta.addItemFlags(itemFlag);
-                }
-            }
+        if (!itemFlags.isEmpty()) {
+            ItemMeta finalItemMeta = itemMeta;
+            itemFlags.stream().filter(flag -> !finalItemMeta.hasItemFlag(flag)).forEach(finalItemMeta::addItemFlags);
+            itemMeta = finalItemMeta;
         }
         itemStack.setItemMeta(itemMeta);
         return itemStack;

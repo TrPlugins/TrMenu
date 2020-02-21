@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import io.izzel.taboolib.internal.gson.GsonBuilder;
 import io.izzel.taboolib.internal.gson.JsonPrimitive;
 import io.izzel.taboolib.internal.gson.JsonSerializer;
-import io.izzel.taboolib.module.config.TConfigWatcher;
 import io.izzel.taboolib.module.locale.TLocale;
 import io.izzel.taboolib.module.nms.nbt.NBTCompound;
 import io.izzel.taboolib.util.item.Items;
@@ -13,10 +12,7 @@ import me.arasple.mc.trmenu.action.TrAction;
 import me.arasple.mc.trmenu.action.base.AbstractAction;
 import me.arasple.mc.trmenu.api.TrMenuAPI;
 import me.arasple.mc.trmenu.display.*;
-import me.arasple.mc.trmenu.utils.JsonItem;
-import me.arasple.mc.trmenu.utils.Maps;
-import me.arasple.mc.trmenu.utils.Notifys;
-import me.arasple.mc.trmenu.utils.TrUtils;
+import me.arasple.mc.trmenu.utils.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.MemorySection;
@@ -85,8 +81,8 @@ public class MenuLoader {
                         continue;
                     }
                     File file = new File(menu.getLoadedPath());
-                    if (file != null && file.exists() && TrMenu.SETTINGS.getBoolean("OPTIONS.MENU-FILE-LISTENER.ENABLE", true)) {
-                        TConfigWatcher.getInst().addSimpleListener(file, () -> {
+                    if (file != null && file.exists() && !FileWatcher.getWatcher().hasListener(file) && TrMenu.SETTINGS.getBoolean("OPTIONS.MENU-FILE-LISTENER.ENABLE", true)) {
+                        FileWatcher.getWatcher().addSimpleListener(file, () -> {
                             Menu m = TrMenuAPI.getMenu(menu.getName());
                             if (m != null) {
                                 m.reload();
