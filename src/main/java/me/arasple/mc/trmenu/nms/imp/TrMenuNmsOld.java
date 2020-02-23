@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.nms.imp;
 
+import io.izzel.taboolib.module.lite.SimpleReflection;
 import me.arasple.mc.trmenu.nms.TrMenuNms;
 import net.minecraft.server.v1_13_R2.ChatComponentText;
 import net.minecraft.server.v1_13_R2.EntityPlayer;
@@ -16,6 +17,11 @@ import org.bukkit.inventory.Inventory;
  */
 public class TrMenuNmsOld extends TrMenuNms {
 
+
+    static {
+        SimpleReflection.checkAndSave(PacketPlayOutOpenWindow.class);
+    }
+
     @Override
     public void setInventoryTitle(Player player, Inventory inventory, String title) {
         EntityPlayer handle = ((CraftPlayer) player).getHandle();
@@ -26,7 +32,7 @@ public class TrMenuNmsOld extends TrMenuNms {
                 inventory.getSize()
         );
         handle.playerConnection.sendPacket(packet);
-//        handle.updateInventory(handle.activeContainer);
+        handle.updateInventory(handle.activeContainer);
     }
 
     @Override

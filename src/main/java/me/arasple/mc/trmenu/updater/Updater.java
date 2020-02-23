@@ -44,18 +44,11 @@ public class Updater implements Listener {
             TLocale.sendToConsole("ERROR.VERSION");
             Bukkit.shutdown();
         }
-
         Bukkit.getPluginManager().registerEvents(new Updater(), plugin);
-        startTask();
-    }
-
-    private static void startTask() {
-        grabInfo();
-        notifyOld();
     }
 
     private static void notifyOld() {
-        if (newVersion - version >= 0.03) {
+        if (newVersion - version >= 0.2) {
             int last = Math.min((int) (1 * ((newVersion - version) / 0.01)), 5);
             TLocale.sendToConsole("PLUGIN.UPDATER.TOO-OLD", last);
             try {
@@ -71,7 +64,7 @@ public class Updater implements Listener {
         }
     }
 
-    @TSchedule(delay = 60 * 5, period = 10 * 60 * 20, async = true)
+    @TSchedule(delay = 20, period = 10 * 60 * 20, async = true)
     private static void grabInfo() {
         if (old) {
             return;
@@ -83,20 +76,15 @@ public class Updater implements Listener {
             double latestVersion = json.get("tag_name").getAsDouble();
             if (latestVersion > version) {
                 old = true;
+                notifyOld();
             }
             newVersion = latestVersion;
         } catch (Exception ignored) {
         }
     }
 
-    @EventHandler
-    public void onJoin(PlayerJoinEvent e) {
-        Player p = e.getPlayer();
-
-        if (old && !noticed.contains(p.getUniqueId()) && p.hasPermission("trmenu.admin")) {
-            noticed.add(p.getUniqueId());
-            Bukkit.getScheduler().runTaskLaterAsynchronously(TrMenu.getPlugin(), () -> TLocale.sendTo(p, "PLUGIN.UPDATER.OLD", newVersion), 1);
-        }
+    public static boolean isAutoUpdate() {
+        return autoUpdate;
     }
 
     public static boolean isOld() {
@@ -111,12 +99,18 @@ public class Updater implements Listener {
         return version;
     }
 
-    public static boolean isAutoUpdate() {
-        return autoUpdate;
-    }
-
     public static void setAutoUpdate() {
         autoUpdate = TrMenu.SETTINGS.getBoolean("OPTIONS.AUTO-UPDATE", false);
+    }
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent e) {
+        Player p = e.getPlayer();
+
+        if (old && !noticed.contains(p.getUniqueId()) && p.hasPermission("trmenu.admin")) {
+            noticed.add(p.getUniqueId());
+            Bukkit.getScheduler().runTaskLaterAsynchronously(TrMenu.getPlugin(), () -> TLocale.sendTo(p, "PLUGIN.UPDATER.OLD", newVersion), 1);
+        }
     }
 
 }

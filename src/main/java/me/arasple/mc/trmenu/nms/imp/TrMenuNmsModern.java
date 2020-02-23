@@ -1,5 +1,8 @@
 package me.arasple.mc.trmenu.nms.imp;
 
+import com.google.common.collect.ImmutableMap;
+import io.izzel.taboolib.module.lite.SimpleReflection;
+import io.izzel.taboolib.module.packet.TPacketHandler;
 import me.arasple.mc.trmenu.nms.TrMenuNms;
 import net.minecraft.server.v1_15_R1.*;
 import org.bukkit.craftbukkit.v1_15_R1.entity.CraftPlayer;
@@ -14,23 +17,24 @@ import org.bukkit.inventory.Inventory;
  */
 public class TrMenuNmsModern extends TrMenuNms {
 
+    static {
+        SimpleReflection.checkAndSave(PacketPlayOutOpenWindow.class);
+    }
+
     @Override
     public void setInventoryTitle(Player player, Inventory inventory, String title) {
         EntityPlayer handle = ((CraftPlayer) player).getHandle();
-        PacketPlayOutOpenWindow packet = new PacketPlayOutOpenWindow(
-                handle.activeContainer.windowId,
-                getByInventory(inventory),
-                new ChatComponentText(title)
+        TPacketHandler.sendPacket(player, setPacket(PacketPlayOutOpenWindow.class, new PacketPlayOutOpenWindow(), ImmutableMap.of(
+                "a", handle.activeContainer.windowId,
+                "b", IRegistry.MENU.a(getByInventory(inventory)),
+                "c", new ChatComponentText(title)))
         );
-        handle.playerConnection.sendPacket(packet);
-//        handle.updateInventory(handle.activeContainer);
+        handle.updateInventory(handle.activeContainer);
     }
 
     @Override
     public void closeInventory(Player player) {
-        PacketPlayOutCloseWindow packet = new PacketPlayOutCloseWindow();
-        EntityPlayer handle = ((CraftPlayer) player).getHandle();
-        handle.playerConnection.sendPacket(packet);
+        TPacketHandler.sendPacket(player, new PacketPlayOutCloseWindow());
     }
 
     private Containers<?> getByInventory(Inventory inventory) {

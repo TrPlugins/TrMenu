@@ -2,6 +2,7 @@ package me.arasple.mc.trmenu;
 
 import io.izzel.taboolib.module.config.TConfig;
 import io.izzel.taboolib.module.locale.TLocale;
+import io.izzel.taboolib.module.locale.TLocaleLoader;
 import io.izzel.taboolib.util.Files;
 import me.arasple.mc.trmenu.api.TrMenuAPI;
 import me.arasple.mc.trmenu.menu.MenuLoader;
@@ -58,6 +59,7 @@ public class TrMenuLoader {
     void cancel() {
         Bukkit.getOnlinePlayers().stream().filter(TrMenuAPI::isViewingMenu).forEach(HumanEntity::closeInventory);
         FileWatcher.getWatcher().unregisterAll();
+        TLocaleLoader.unload(TrMenu.getPlugin());
         if (Updater.isAutoUpdate() && Updater.isOld()) {
             String url = "https://arasple.oss-cn-beijing.aliyuncs.com/files/TrMenu.jar";
             Files.downloadFile(url, TrMenu.getPluginFile());

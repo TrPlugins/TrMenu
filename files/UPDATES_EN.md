@@ -1,8 +1,9 @@
 # TrMenu Update Logs #
 
 #### VERSION 1.2
-   > Coming soon
-
+  - ##### 1.20
+    > Coming soon
+   
 #### VERSION 1.1
   - ##### 1.19
     - Since: 2020.2.21
@@ -10,7 +11,7 @@
       > ( Thanks a lot to @BackWheel for reporting these issues )
       - Fixed [Issue#44](https://github.com/Arasple/TrMenu/issues/44) (player skull metadata override)
       - Fixed [Issue#47](https://github.com/Arasple/TrMenu/issues/47) (ItemFlags loading error)
-      - Fixed [Issue#36](https://github.com/Arasple/TrMenu/issues/36) (animated title issue)
+      - Fixed [Issue#41](https://github.com/Arasple/TrMenu/issues/41) (animated title issue)
       - Fixed file listener errors on Linux
       - Improved IconRefresh(Update) action performance
   - ##### 1.18
