@@ -325,6 +325,7 @@ public class MenuLoader {
 
     private static Loc locateButtons(List<List<String>> shapes, InventoryType type, char key) {
         Loc loc = new Loc();
+
         if (shapes != null) {
             for (int i = 0; i < shapes.size(); i++) {
                 loc.getSlots().put(i, locateButton(shapes.get(i), type, key));
@@ -332,6 +333,7 @@ public class MenuLoader {
         }
         return loc;
     }
+
 
     /**
      * 取得一个图标在形状中的位置

@@ -17,7 +17,7 @@ public class ActionJs extends AbstractAction {
 
     @Override
     public void onExecute(Player player) {
-        JavaScript.run(player, getContent());
+        JavaScript.run(player, getContent(), getContent().contains("$input"));
     }
 
 }

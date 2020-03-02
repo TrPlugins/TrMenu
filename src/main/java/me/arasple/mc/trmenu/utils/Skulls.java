@@ -13,6 +13,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -45,22 +46,38 @@ public class Skulls {
      * @return 自定义头颅
      */
     private static ItemStack setTexture(ItemStack skull, String texture) {
-        Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
-            GameProfile profile = new GameProfile(UUID.randomUUID(), null);
-            Field field;
-            try {
-                SkullMeta meta = (SkullMeta) skull.getItemMeta();
-                profile.getProperties().put("textures", new Property("textures", texture, null));
-                assert meta != null;
-                field = meta.getClass().getDeclaredField("profile");
-                field.setAccessible(true);
-                field.set(meta, profile);
-                skull.setItemMeta(meta);
-            } catch (Throwable e) {
-                e.printStackTrace();
-            }
-        });
+        if (texture == null) {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    if (getPlayerTexture(texture) != null) {
+                        setSkullTexture(skull, getPlayerTexture(texture));
+                        cancel();
+                    }
+                }
+            }.runTaskTimerAsynchronously(TrMenu.getPlugin(), 20, 20);
+        } else {
+            Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
+                setSkullTexture(skull, texture);
+            });
+        }
         return skull;
+    }
+
+    private static void setSkullTexture(ItemStack skull, String texture) {
+        GameProfile profile = new GameProfile(UUID.randomUUID(), null);
+        Field field;
+        try {
+            SkullMeta meta = (SkullMeta) skull.getItemMeta();
+            profile.getProperties().put("textures", new Property("textures", texture, null));
+            assert meta != null;
+            field = meta.getClass().getDeclaredField("profile");
+            field.setAccessible(true);
+            field.set(meta, profile);
+            skull.setItemMeta(meta);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -92,12 +109,7 @@ public class Skulls {
     }
 
     public static ItemStack getPlayerSkull(String id) {
-        String texture = getPlayerTexture(id);
-        if (texture != null) {
-            return skulls.computeIfAbsent(id, x -> setTexture(Materials.PLAYER_HEAD.parseItem(), texture));
-        } else {
-            return Materials.PLAYER_HEAD.parseItem();
-        }
+        return skulls.computeIfAbsent(id, x -> setTexture(Materials.PLAYER_HEAD.parseItem(), id));
     }
 
     private static String getPlayerTexture(String id) {
@@ -106,6 +118,9 @@ public class Skulls {
         } else {
             playerTextures.put(id, null);
             Bukkit.getScheduler().runTaskAsynchronously(TrMenu.getPlugin(), () -> {
+                if (playerTextures.containsKey(id)) {
+                    return;
+                }
                 try {
                     JsonObject userProfile = (JsonObject) new JsonParser().parse(Files.readFromURL("https://api.mojang.com/users/profiles/minecraft/" + id));
                     JsonArray textures = ((JsonObject) new JsonParser().parse(Files.readFromURL("https://sessionserver.mojang.com/session/minecraft/profile/" + userProfile.get("id").getAsString()))).getAsJsonArray("properties");

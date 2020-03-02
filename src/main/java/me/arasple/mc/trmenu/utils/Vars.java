@@ -35,11 +35,13 @@ public class Vars {
     private static String replaceMenuVariables(Player player, String string) {
         Menu menu = TrMenuAPI.getMenu(player);
         if (menu == null) {
-            return string;
+            return string.replace("$input", ArgsCache.getInput().getOrDefault(player.getUniqueId(), ""));
         } else {
             return string
+                    .replace("$input", ArgsCache.getInput().getOrDefault(player.getUniqueId(), ""))
                     .replace("{shape}", String.valueOf(menu.getShape(player)))
-                    .replace("{page}", String.valueOf(menu.getShape(player) + 1));
+                    .replace("{page}", String.valueOf(menu.getShape(player) + 1))
+                    ;
         }
     }
 

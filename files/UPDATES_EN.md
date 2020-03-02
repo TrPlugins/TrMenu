@@ -2,8 +2,11 @@
 
 #### VERSION 1.2
   - ##### 1.20
-    > Coming soon
-   
+    - Since: 2020.3.2
+    - Updates:
+      - Fixed an urgent inject bug caused by input catcher action,  
+        Please notice that this is very serious and I highly recommend you to update to this fixed version  
+
 #### VERSION 1.1
   - ##### 1.19
     - Since: 2020.2.21
@@ -12,6 +15,7 @@
       - Fixed [Issue#44](https://github.com/Arasple/TrMenu/issues/44) (player skull metadata override)
       - Fixed [Issue#47](https://github.com/Arasple/TrMenu/issues/47) (ItemFlags loading error)
       - Fixed [Issue#41](https://github.com/Arasple/TrMenu/issues/41) (animated title issue)
+      - Fixed [Issue#49](https://github.com/Arasple/TrMenu/issues/49) (menu file listener)
       - Fixed file listener errors on Linux
       - Improved IconRefresh(Update) action performance
   - ##### 1.18

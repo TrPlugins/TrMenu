@@ -7,6 +7,7 @@ import io.izzel.taboolib.util.lite.Catchers;
 import io.izzel.taboolib.util.lite.Signs;
 import me.arasple.mc.trmenu.TrMenu;
 import me.arasple.mc.trmenu.action.base.AbstractAction;
+import me.arasple.mc.trmenu.data.ArgsCache;
 import me.arasple.mc.trmenu.utils.JavaScript;
 import me.arasple.mc.trmenu.utils.TrUtils;
 import org.bukkit.Bukkit;
@@ -38,6 +39,7 @@ public class ActionCatcher extends AbstractAction {
 
     @Override
     public void onExecute(Player player) {
+        ArgsCache.getInput().remove(player.getUniqueId());
         if (type == 0) {
             runChatCatcher(player);
         } else {
@@ -99,7 +101,7 @@ public class ActionCatcher extends AbstractAction {
     private void runActions(Player player, String actions, String input) {
         actions = actions.replace(";", "_||_");
         if (Strings.nonEmpty(input)) {
-            actions = actions.replace("$input", input);
+            ArgsCache.getInput().put(player.getUniqueId(), input.replace("\"", ""));
         }
         TrUtils.getInst().runAction(player, actions);
     }

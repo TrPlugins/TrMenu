@@ -27,12 +27,19 @@ public class JavaScript {
     }
 
     public static Object run(Player player, String script) {
-        return run(player, script, null);
+        return run(player, script, null, false);
+    }
+
+    public static Object run(Player player, String script, boolean silent) {
+        return run(player, script, null, silent);
     }
 
     public static Object run(Player player, String script, InventoryClickEvent event) {
-        script = Vars.replace(player, script);
+        return run(player, script, event, false);
+    }
 
+    public static Object run(Player player, String script, InventoryClickEvent event, boolean silent) {
+        script = Vars.replace(player, script);
         if (Strings.isEmpty(script) || "null".equalsIgnoreCase(script)) {
             return true;
         } else if (script.matches("true|false")) {
@@ -40,11 +47,9 @@ public class JavaScript {
         } else if (script.matches("(?i)no|yes")) {
             return !"no".equalsIgnoreCase(script);
         }
-
         if (event == null) {
             event = ArgsCache.getEvent().get(player.getUniqueId());
         }
-
         bindings.put("player", player);
         if (event != null) {
             if (event instanceof InventoryClickEvent) {
@@ -57,8 +62,10 @@ public class JavaScript {
         try {
             return Scripts.compile(script).eval(bindings);
         } catch (Throwable e) {
-            TLocale.sendTo(player, "ERROR.JS", script, e.getMessage(), Arrays.toString(e.getStackTrace()));
-            TLocale.sendToConsole("ERROR.JS", script, e.getMessage(), Arrays.toString(e.getStackTrace()));
+            if (!silent) {
+                TLocale.sendTo(player, "ERROR.JS", script, e.getMessage(), Arrays.toString(e.getStackTrace()));
+                TLocale.sendToConsole("ERROR.JS", script, e.getMessage(), Arrays.toString(e.getStackTrace()));
+            }
             return false;
         }
     }

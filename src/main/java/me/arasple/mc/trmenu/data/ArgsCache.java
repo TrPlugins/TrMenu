@@ -19,6 +19,7 @@ public class ArgsCache {
     private static HashMap<UUID, Integer> heldSlot = new HashMap<>();
     private static HashMap<UUID, Item> clickedItem = new HashMap<>();
     private static HashMap<UUID, Button> clickedButtons = new HashMap<>();
+    private static HashMap<UUID, String> input = new HashMap<>();
 
     public static HashMap<UUID, String[]> getArgs() {
         return args;
@@ -42,6 +43,10 @@ public class ArgsCache {
 
     public static HashMap<UUID, Button> getClickedButtons() {
         return clickedButtons;
+    }
+
+    public static HashMap<UUID, String> getInput() {
+        return input;
     }
 
     public static void clear(Player player) {

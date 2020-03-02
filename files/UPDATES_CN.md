@@ -1,7 +1,23 @@
 # TrMenu Update Logs #
 
+#### VERSION 1.2
+  - ##### 1.20
+    - Since: 2020.3.2
+    - Updates:
+      - 修复由捕获器造成的紧急漏洞，玩家可能注入服务器命令  
+        如果你有使用任何输入捕获器相关功能, 请务必尽快更新到此修复版本
+
 #### VERSION 1.1
-  - ##### 1.18
+  - ##### 1.19
+    - Since: 2020.2.21
+    - Updates:
+      > ( Thanks a lot to @BackWheel for reporting these issues )
+      - 修复了 [Issue#44](https://github.com/Arasple/TrMenu/issues/44) (player skull metadata override)
+      - 修复了 [Issue#47](https://github.com/Arasple/TrMenu/issues/47) (ItemFlags loading error)
+      - 修复了 [Issue#41](https://github.com/Arasple/TrMenu/issues/41) (animated title issue)
+      - 修复了 [Issue#49](https://github.com/Arasple/TrMenu/issues/49) (menu file listener)
+      - 修复了文件监听器功能在 Linux
+      - Improved IconRefresh(Update) action performance
     - Since: 2020.2.7
     - Updates:
       - **[*NEW*]** TabooLib: 支持 OpenJ9, Hotspot !!!
