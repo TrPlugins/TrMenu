@@ -1,6 +1,11 @@
 # TrMenu Update Logs #
 
 #### VERSION 1.2
+  - ###### 1.21
+    - Since: 2020.3.6
+    - Updates:
+      - Fixed player head can't load issue
+      - Fixed some small bugs & issues
   - ##### 1.20
     - Since: 2020.3.2
     - Updates:

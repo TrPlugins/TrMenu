@@ -55,4 +55,15 @@ public class ArgsCache {
         getClickedButtons().remove(player.getUniqueId());
     }
 
+    public static void updateArgs(UUID uniqueId, String[] strings) {
+        for (int i = 0; i < strings.length; i++) {
+            strings[i] = filterAsValidArgument(strings[i]);
+        }
+        args.put(uniqueId, strings);
+    }
+
+    private static String filterAsValidArgument(String string) {
+        return string.replaceAll("bukkitServer", "").replace("\"", "").replace(")", "").replace("(", "");
+    }
+
 }

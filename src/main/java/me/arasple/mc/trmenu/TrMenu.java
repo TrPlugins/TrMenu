@@ -31,7 +31,7 @@ public final class TrMenu extends Plugin {
     }
 
     public static double getTrVersion() {
-        return 1.2;
+        return 1.21;
     }
 
     public static File getPluginFile() {

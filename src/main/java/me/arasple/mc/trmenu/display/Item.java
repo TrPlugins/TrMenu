@@ -16,6 +16,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * @author Arasple
@@ -96,7 +97,9 @@ public class Item {
         }
         if (!itemFlags.isEmpty()) {
             ItemMeta finalItemMeta = itemMeta;
-            itemFlags.stream().filter(flag -> !finalItemMeta.hasItemFlag(flag)).forEach(finalItemMeta::addItemFlags);
+            for (ItemFlag itemFlag : itemFlags.stream().filter(flag -> !finalItemMeta.hasItemFlag(flag)).collect(Collectors.toList())) {
+                finalItemMeta.addItemFlags(itemFlag);
+            }
             itemMeta = finalItemMeta;
         }
         itemStack.setItemMeta(itemMeta);

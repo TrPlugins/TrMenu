@@ -293,7 +293,7 @@ public class Menu {
      * @return boolean
      */
     private boolean initEvent(Player player, int shape, boolean byConsole, String... args) {
-        ArgsCache.getArgs().put(player.getUniqueId(), args);
+        ArgsCache.updateArgs(player.getUniqueId(), args);
         MenuOpenEvent event = new MenuOpenEvent(player, byConsole, this);
         if (event.isCancelled()) {
             return false;
