@@ -88,7 +88,7 @@ public class Item {
         }
         if (finalShiny || (boolean) JavaScript.run(player, shiny)) {
             itemMeta.addEnchant(Enchantment.LUCK, 1, true);
-            itemFlags.add(ItemFlag.HIDE_ENCHANTS);
+            itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         }
         if (finalAmount != -1) {
             itemStack.setAmount(finalAmount);

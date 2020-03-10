@@ -35,8 +35,8 @@ repositories {
 dependencies {
     compile 'org.spigotmc:spigot:1.15.2-R0.1-SNAPSHOT'
     compile 'org.bstats:bstats-bukkit:1.7'
-    compile 'io.izzel.taboolib:TabooLib:5.17:all'
-    compile 'io.izzel.taboolib.loader:TabooLibloader:1.4:all'
+    compile 'io.izzel.taboolib:TabooLib:5.2:all'
+    compile 'io.izzel.taboolib:TabooLibLoader:1.7:all'
     compile 'me.clip:placeholderapi:2.10.4'
 
     shadow fileTree(dir: 'libs', includes: ['*.jar'])
@@ -45,7 +45,7 @@ dependencies {
 shadowJar {
     dependencies {
         include(dependency('org.bstats:bstats-bukkit:1.7'))
-        include(dependency('io.izzel.taboolib.loader:TabooLibloader:1.4:all'))
+        include(dependency('io.izzel.taboolib:TabooLibLoader:1.7:all'))
     }
     relocate 'io.izzel.taboolib.loader', project.group
     relocate "org.bstats.bukkit", project.group + '.bstats'
