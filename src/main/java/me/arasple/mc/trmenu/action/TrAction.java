@@ -36,6 +36,7 @@ public class TrAction {
             new ActionCommandOp(),
             new ActionConnect(),
             new ActionDelay(),
+            new ActionEnchant(),
             new ActionForceClose(),
             new ActionGiveMoney(),
             new ActionIconRefresh(),

@@ -183,7 +183,9 @@ public class TrUtils {
      * @return 随机整数
      */
     public int randomInteger(int low, int high) {
-        return Numbers.getRandomInteger(low, high);
+        int l = Math.min(low, high);
+        int h = Math.max(low, high);
+        return Numbers.getRandomInteger(l, h);
     }
 
     /**
