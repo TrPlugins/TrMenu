@@ -15,36 +15,33 @@ abstract class Action(val name: Regex, internal var content: String, var options
 
     constructor(name: String) : this(Regex(name), "", mutableMapOf())
 
-    fun run(player: Player, placeholders: Map<String, String>?) {
+    fun run(player: Player) {
         if (options.containsKey(Option.DELAY)) {
             val delay = NumberUtils.toLong(options[Option.DELAY], -1)
             if (delay > 0) {
                 Tasks.runDelayTask(Runnable {
                     if (options.containsKey(Option.PLAYERS)) {
-                        Bukkit.getOnlinePlayers().filter { options[Option.PLAYERS]?.let { it1 -> Scripts.script(it, it1).asBoolean() } as Boolean }.forEach { onExecute(it, placeholders, Msger.replaceWithBracketPlaceholders(player, content)) }
+                        Bukkit.getOnlinePlayers().filter { options[Option.PLAYERS]?.let { it1 -> Scripts.script(it, it1).asBoolean() } as Boolean }.forEach { onExecute(it, Msger.replaceWithBracketPlaceholders(player, content)) }
                     } else {
-                        onExecute(player, placeholders)
+                        onExecute(player)
                     }
                 }, delay)
             }
             return
         }
         if (options.containsKey(Option.PLAYERS)) {
-            Bukkit.getOnlinePlayers().filter { options[Option.PLAYERS]?.let { it1 -> Scripts.script(it, it1).asBoolean() } as Boolean }.forEach { onExecute(it, placeholders, Msger.replaceWithBracketPlaceholders(player, content)) }
+            Bukkit.getOnlinePlayers().filter { options[Option.PLAYERS]?.let { it1 -> Scripts.script(it, it1).asBoolean() } as Boolean }.forEach { onExecute(it, Msger.replaceWithBracketPlaceholders(player, content)) }
             return
         }
-        onExecute(player, placeholders)
+        onExecute(player)
     }
 
-    private fun onExecute(player: Player, placeholders: Map<String, String>?) = onExecute(player, placeholders, null)
-
-    private fun onExecute(player: Player, placeholders: Map<String, String>?, content: String?) {
+    private fun onExecute(player: Player, content: String?) {
         if (content != null) {
-            var temp = content
-            placeholders?.forEach { temp = temp!!.replace(it.key, it.value) }
+            val temp = content
             setContent(content)
             onExecute(player)
-            setContent(temp!!)
+            setContent(temp)
         } else {
             onExecute(player)
         }

@@ -21,7 +21,7 @@ class MenuLayout(val layouts: List<Layout>) {
         icons.forEach {
             val key = it.id
             layouts.forEachIndexed { index, layout ->
-                it.display.position[index]?.firstOrNull()?.slots?.let { slots ->
+                it.defIcon.display.position[index]?.elements?.firstOrNull()?.staticSlots?.let { slots ->
                     layout.reversePositionize(key, slots)
                 }
             }
@@ -39,7 +39,7 @@ class MenuLayout(val layouts: List<Layout>) {
             val key = it.id
             pages.forEachIndexed { index, page ->
                 page[key]?.let { slots ->
-                    it.display.position[index]?.add(IconDisplay.Slot(slots))
+                    it.defIcon.display.position[index]?.addElement(IconDisplay.Position(slots))
                 }
             }
         }

@@ -8,9 +8,11 @@ import org.bukkit.entity.Player
  */
 class Animated<T>(var elements: Array<T>) {
 
-    constructor()
-
     private val id = AnimationHandler.nextId()
+
+    fun currentElement(player: Player) = getElement(currentIndex(player))
+
+    fun currentElement(player: Player, default: T) = getElement(currentIndex(player)) ?: default
 
     fun nextElement(player: Player) = getElement(nextIndex(player))
 
@@ -20,10 +22,15 @@ class Animated<T>(var elements: Array<T>) {
 
     fun currentIndex(player: Player) = AnimationHandler.getIndex(player, id)
 
-    private fun getElement(index: Int) =
-        if (index > elements.size - 1) {
-            null
-        } else elements[index]
+    fun addElement(element: T) {
+        val size = elements.size
+        elements = elements.copyOfRange(0, size + 1)
+        elements[size] = element
+    }
+
+    private fun getElement(index: Int) = if (index > elements.size - 1) {
+        null
+    } else elements[index]
 
 
 }

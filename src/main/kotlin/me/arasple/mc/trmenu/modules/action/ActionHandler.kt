@@ -102,9 +102,7 @@ object ActionHandler {
         return string
     }
 
-    fun runActions(player: Player, actions: List<Action>): Boolean = runActions(player, actions, null)
-
-    fun runActions(player: Player, actions: List<Action>, placeholders: Map<String, String>?): Boolean {
+    fun runActions(player: Player, actions: List<Action>): Boolean {
         var delay: Long = 0
         loop@ for (action in actions.stream().filter { it ->
             if (!Numbers.random(NumberUtils.toDouble(it.options[Option.CHANCE], 1.0))) return@filter false
@@ -117,8 +115,8 @@ object ActionHandler {
             when {
                 action is ActionReturn -> return false
                 action is ActionDelay -> delay += NumberUtils.toLong(action.getContent(player), 0)
-                delay > 0 -> Tasks.runDelayTask(Runnable { action.run(player, placeholders) }, delay)
-                else -> Tasks.runTask(Runnable { action.run(player, placeholders) })
+                delay > 0 -> Tasks.runDelayTask(Runnable { action.run(player) }, delay)
+                else -> Tasks.runTask(Runnable { action.run(player) })
             }
         }
         return true

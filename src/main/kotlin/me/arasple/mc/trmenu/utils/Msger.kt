@@ -60,5 +60,14 @@ object Msger {
 
     fun replaceWithBracketPlaceholders(player: Player, strings: List<String>): List<String> = PlaceholderAPI.setBracketPlaceholders(player, strings)
 
+    fun containsPlaceholders(string: String?) = PlaceholderAPI.containsPlaceholders(string) || PlaceholderAPI.containsBracketPlaceholders(string)
+
+    fun printErrors(node: String, throwable: Throwable, vararg args: String) {
+        TLocale.sendToConsole("ERRORS.$node", *args, throwable.message, throwable.stackTrace.filter { it.toString().contains("me.arasple.mc.trmenu") })
+    }
+
+    fun printErrors(node: String, vararg args: String) {
+        TLocale.sendToConsole("ERRORS.$node", *args)
+    }
 
 }

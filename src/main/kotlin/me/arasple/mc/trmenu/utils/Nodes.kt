@@ -9,6 +9,26 @@ import java.util.regex.Pattern
  */
 enum class Nodes(regex: String) {
 
+    MAT_HEAD("<((player|variable)?(-)?head):(.+)?>"),
+
+    MAT_TEXTURED_SKULL("<(((custom|texture)?(-)?skull)|custom-head)(:)?(.+)?>"),
+
+    MAT_DATA_VALUE("<(((data|id)?(-)?value)|data|value)(:)?([0-9]+[.]?[0-9]*>)"),
+
+    MAT_MODEL_DATA("<((model(-)?(value|data)))(:)?([0-9]+[.]?[0-9]*>)"),
+
+    MAT_DYE_LEATHER("<dye(-)?(leather)?:( )?([0-9]+[,]+[0-9]+[,]+[0-9]*>)"),
+
+    MAT_BANNER("<banner(-)?(dye|color|style)?:( )?(.+>)"),
+
+    MAT_HEAD_DATABASE("<((head(-)?(database))|(hdb)):( )?(([0-9]|random)+>)"),
+
+    MAT_SCRIPT("<((javascript|js)?(-)?(item)?):(.+)?>"),
+
+    MAT_JSON("<JSON>"),
+
+    MAT_ORIGINAL("<ORIGINAL>"),
+
     TITLE("<(?i)(title)[:=]( )?(.+>)"),
 
     SUBTITLE("<(?i)(sub(-)?title)[:=]( )?(.+>)"),
@@ -37,6 +57,8 @@ enum class Nodes(regex: String) {
             pattern[1].matcher(content)
         }
     }
+
+    fun isMatType() = this.name.startsWith("MAT_")
 
     companion object {
 

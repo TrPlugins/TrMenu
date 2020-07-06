@@ -1,6 +1,5 @@
 package me.arasple.mc.trmenu.modules.script
 
-import io.izzel.taboolib.module.locale.TLocale
 import me.arasple.mc.trmenu.modules.expression.ExpressionHandler
 import me.arasple.mc.trmenu.modules.script.ScriptUtils.translate
 import me.arasple.mc.trmenu.utils.Msger
@@ -46,7 +45,7 @@ object Scripts {
         content.setAttribute(ScriptUtils.function, Function<String, String> { Msger.replace(player, it) }, ScriptContext.ENGINE_SCOPE)
         ScriptResult(script.eval(content))
     } catch (e: Throwable) {
-        if (!silent) TLocale.sendToConsole("ERRORS.SCRIPT", script.toString(), e.message, e.stackTrace.filter { it.toString().contains("me.arasple.mc.trmenupro") })
+        if (!silent) Msger.printErrors("SCRIPT", e, script.toString())
         ScriptResult()
     }
 

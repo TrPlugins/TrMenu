@@ -1,28 +1,52 @@
 package me.arasple.mc.trmenu.display.icon
 
+import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import me.arasple.mc.trmenu.display.animation.Animated
+import me.arasple.mc.trmenu.display.item.BaseItem
 import me.arasple.mc.trmenu.display.item.BaseLore
-import me.arasple.mc.trmenu.display.item.BaseMaterial
 import me.arasple.mc.trmenu.display.item.Item
 import me.arasple.mc.trmenu.utils.Msger
+import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
 
 /**
  * @author Arasple
  * @date 2020/5/30 14:06
  */
-class IconDisplay(val position: MutableMap<Int, MutableSet<Slot>>, val name: Animated<String>, val material: Animated<BaseMaterial>, val lore: Animated<BaseLore>) {
+class IconDisplay(val position: MutableMap<Int, Animated<Position>>, val item: Animated<BaseItem>, val name: Animated<String>, val lore: Animated<BaseLore>) {
 
-    fun createDisplayItem(player: Player) {
+    fun createDisplayItem(player: Player) = getItem(player)?.releaseItem(player, getName(player), getLore(player)) ?: ItemStack(Material.BARRIER)
+
+    fun getPosition(player: Player, pageIndex: Int) = position[pageIndex]?.currentElement(player)!!.getSlots(player)
+
+    fun nextPosition(player: Player, pageIndex: Int) = position[pageIndex]?.nextIndex(player)
+
+    fun getItem(player: Player) = item.currentElement(player)
+
+    fun nextItem(player: Player) = item.nextIndex(player)
+
+    fun getName(player: Player) = name.currentElement(player)?.let { return@let Item.colorizeName(Msger.replace(player, it)) }
+
+    fun nextName(player: Player) = name.nextIndex(player)
+
+    fun getLore(player: Player) = lore.currentElement(player)?.formatedLore(player)
+
+    fun nextLore(player: Player) = lore.nextIndex(player)
+
+    class Position(val staticSlots: Set<Int>, val dynamicSlots: Set<String>) {
+
+        constructor(slots: Set<Int>) : this(slots, setOf())
+
+        fun getSlots(player: Player) = mutableSetOf<Int>().let { set ->
+            set.addAll(staticSlots)
+            dynamicSlots.forEach {
+                val slot = NumberUtils.toInt(Msger.replace(player, it), -1)
+                if (slot >= 0) set.add(slot)
+            }
+            return@let set
+        }
 
     }
-
-    fun getLore(player: Player) = lore.nextElement(player)?.formatedLore(player)
-
-    fun getName(player: Player) = name.nextElement(player)?.let {
-        return@let Item.colorizeName(Msger.replace(player, it))
-    }
-
-    class Slot(val slots: Set<Int>)
 
 }

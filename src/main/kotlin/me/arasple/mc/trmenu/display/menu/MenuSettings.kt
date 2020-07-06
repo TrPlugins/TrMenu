@@ -2,7 +2,7 @@ package me.arasple.mc.trmenu.display.menu
 
 import io.izzel.taboolib.internal.apache.lang3.ArrayUtils
 import me.arasple.mc.trmenu.display.function.InternalFunction
-import me.arasple.mc.trmenu.display.function.Requirement
+import me.arasple.mc.trmenu.display.function.Reaction
 import me.arasple.mc.trmenu.display.animation.Animated
 import me.arasple.mc.trmenu.modules.item.ItemIdentifier
 import org.bukkit.entity.Player
@@ -27,9 +27,9 @@ class MenuSettings(val title: Titles, val options: Options, val bindings: Bindin
 
     class Bindings(val boundCommands: Array<Regex>, val boundItems: Array<ItemIdentifier>)
 
-    class Events(val openEvent: Requirement, val closeEvent: Requirement, val clickEvent: Requirement)
+    class Events(val openEvent: Reaction, val closeEvent: Reaction, val clickEvent: Reaction)
 
-    class Tasks(val tasks: Map<Long, Requirement>)
+    class Tasks(val tasks: Map<Long, Reaction>)
 
     class Funs(val internalFunctions: Set<InternalFunction>)
 
