@@ -1,0 +1,23 @@
+name: TrMenu
+main: me.arasple.mc.trmenu.boot.PluginTransfer
+main-transfer: me.arasple.mc.trmenu.TrMenu
+
+author: Arasple
+
+api-version: 1.13
+version: 2.0
+
+github: https://github.com/Arasple/TrMenu
+description: Professional Dynamic Menu Plugin v2
+
+softdepend:
+  - PlaceholderAPI
+  - Vault
+  - PlayerPoints
+  - HeadDatabase
+  - Oraxen
+  - WorldGuard
+
+built-time: 2020-06-27 20:31:52.951+0800
+built-by: Arasple
+built-os: Windows 10 amd64 10.0

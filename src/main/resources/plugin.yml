@@ -1,0 +1,23 @@
+name: ${name}
+main: ${main}
+main-transfer: ${mainTransfer}
+
+author: Arasple
+
+api-version: 1.13
+version: ${version}
+
+github: https://github.com/Arasple/${name}
+description: Professional Dynamic Menu Plugin v2
+
+softdepend:
+  - PlaceholderAPI
+  - Vault
+  - PlayerPoints
+  - HeadDatabase
+  - Oraxen
+  - WorldGuard
+
+built-time: ${built}
+built-by: ${builder}
+built-os: ${os}

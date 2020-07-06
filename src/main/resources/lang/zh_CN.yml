@@ -1,0 +1,53 @@
+PLUGIN:
+  LOADING:
+    - ''
+    - '&3Tr&bMenu &f&lPremium &7正在载入中... &8{0}'
+    - ''
+  LOADED: '&8[&3Tr&bMenu&8] &bINFO &8| &3插件已成功载入, 当前运行版本 &2{0}&7.'
+
+LOADER:
+  MENU: '&8[&3Tr&bMenu&8] &aFINE &8| &3已载入 &a{0} &3个有效菜单 &8({1} ms)'
+  BUILDER: '&8[&3Tr&bMenu&8] &aFINE &8| &3已载入 &a{0} &3个有效构造器 &8({1} ms)'
+  EXPRESSIONS: '&8[&3Tr&bMenu&8] &eMODULES &8| &3已重载 &a{0} &3个表达式替换规则 &8({1} ms)'
+
+DEBUG:
+  PRE-COMPILE-SCRIPT:
+    - '&8[&fTr&7Menu&8] &3DEBUG &8| &6预编译脚本表达式'
+    - '&8Raw: {0}'
+    - '&8Result: {1}'
+  ACTIONS:
+    REGISTERED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6注册了 &c{0} &6个可用动作 &8({1} ms)'
+    SET-TEMP-VARIABLE: '&8[&fTr&7Menu&8] &3DEBUG &8| &6设置玩家 &c{0} &6的临时变量, &c{ key=&6{1}&c,value=&6{2}&c } &8(raw: {3})'
+    SET-TEMP-VARIABLE-FAILED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6设置玩家 &c{0} &6的临时变量失败 &8(raw: {3})'
+  ICON-ITEM-UPDATE: '&8[&fTr&7Menu&8] &3DEBUG &8| &6更新图标 &c{0} &6的物品  &8({1} ms)'
+  ARGUMENTS: '&8[&fTr&7Menu&8] &3DEBUG &8| &6更新玩家 &c{0} &6的参数 &c{ &8{1} }'
+
+COMMANDS:
+  OPEN:
+    UNKNOWN-MENU: '&8[&3Tr&bMenu&8] &7未知菜单 &6{0} &7.'
+    UNKNOWN-PLAYER: '&8[&3Tr&bMenu&8] &7未知玩家或不在线.'
+  DEBUG:
+    'ON': '&8[&3Tr&bMenu&8] &3DEBUG &8| &7已 &a开启 &7调试模式'
+    'OFF': '&8[&3Tr&bMenu&8] &3DEBUG &8| &7已 &c关闭 &7调试模式'
+
+HOOKED: '&8[&3Tr&bMenu&8] &6HOOK &8| &7已检测并支持插件 &f{0}&7.'
+
+
+ERRORS:
+  SCRIPT:
+    - '&8[&3Tr&bMenu&8] &cERROR &8| &4表达式 &c{0} &4无法编译, 请检查语法'
+    - '&8Reason: {1}'
+    - '&8Trace: {2}'
+  PACKET:
+    - '&8[&3Tr&bMenu&8] &cERROR &8| &4处理 &c{0} &4数据包时发送未知异常, 请检查以下报错'
+    - '&8Reason: {1}'
+    - '&8Trace: {2}'
+  PLAYER-HEAD:
+    - '&8[&3Tr&bMenu&8] &cERROR &8| &4异步联网取得玩家头颅材质时发生异常, 请检查以下错误'
+    - '&8Reason: {0}'
+    - '&8Trace: {1}'
+
+  HOOK: '&8[&3Tr&bMenu&8] &cERROR &8| &4试图调用执行未检测到并兼容的插件 &c{0} &4的功能'
+  SOUND: '&8[&3Tr&bMenu&8] &cERROR &8| &4音效 &c{0} &4无效或不存在，故不能播放给玩家 &c{1}'
+  ACTION: '&8[&3Tr&bMenu&8] &cERROR &8| &4动作 &c{0} &4无法识别, 请检查写法'
+  MATERIAL: '&8[&3Tr&bMenu&8] &cERROR &8| &4无法识别的物品材质 (Material) &c{0}'

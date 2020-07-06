@@ -1,0 +1,44 @@
+#
+# 插件的相关选项
+#
+Options:
+  # 是否启用调试模式 (将打印更多信息到控制台)
+  Debug: true
+  # 使用的语言文件
+  # 可用： zh_CN, zh_TW, en_US
+  Locale: zh_CN
+  # 是否隐藏插件启动时的 Logo
+  Hide-Logo: false
+
+#
+# 自定义加载菜单的文件或目录
+# 支持多级子目录
+#
+Load-Menu-Files:
+  - 'plugins/CustomMenusFolder'
+
+#
+# 动作相关设置
+#
+Actions:
+  # 指定取消捕获器的内容, 支持正则
+  Catcher-Cancel-Words:
+    - '(?i)cancel|quit|exit|end|stop'
+    - '取消|退出'
+
+#
+# 菜单物品相关
+#
+Item:
+  # 默认物品名称的颜色
+  Default-Color-Name: '&7'
+  # 默认物品描述的颜色
+  Default-Color-Lore: '&7'
+
+#
+# 控制一些插件监听的 Bukkit 事件，是否忽略已被取消的事件
+# 如果遇到一些兼容性问题可以尝试调整
+#
+Events-Ignore-Cancelled:
+  # 监听菜单打开命令
+  PlayerCommandPreprocessEvent: true

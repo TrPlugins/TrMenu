@@ -1,0 +1,56 @@
+#
+# 导出/写入 菜单的自定义格式配置
+#
+
+USE-LAYOUT: true
+
+# 布局功能
+LAYOUT:
+  # 是否使用布局格式导出
+  ENABLE: true
+  # 自定义布局格式将使用的按钮符号
+  KEYS:
+    - '#|-~=+<>*&#@$!%^`'
+    - 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    - 'abcdefghijklmnopqrstuvwxyz'
+    - '0123456789'
+
+# 导出自动进行相关优化
+OPTIMIZATION:
+
+# 导出中使用的节点名称
+# 请谨慎修改, 不要删除节点
+NODES:
+  TITLE: 'Title'
+  TITLE-UPDATE: 'Title-Update'
+  LAYOUT: 'Layout'
+  PLAYER-INVENTORY-LAYOUT: 'PlayerInventory'
+  TYPE: 'Type'
+  SIZE: 'Size'
+  OPEN-COMMANDS: 'Open-Commands'
+  OPEN-ITEMS: 'Open-Items'
+  CLICK-DELAY: 'Click-Delay'
+  HIDE-PLAYER-INVENTORY: 'Hide-Player-Inventory'
+  OPEN-REQUIREMENT: 'Open-Requirement'
+  OPEN-ACTIONS: 'Open-Actions'
+  OPEN-DENY-ACTIONS: 'Open-Deny-Actions'
+  CLOSE-REQUIREMENT: 'Close-Requirement'
+  CLOSE-ACTIONS: 'Close-Actions'
+  CLOSE-DENY-ACTIONS: 'Close-Deny-Actions'
+  KEEP-OPEN-REQUIREMENT: 'Keep-Open-Requirement'
+  KEEP-OPEN-ACTIONS: 'Keep-Open-Actions'
+  KEEP-OPEN-DENY-ACTIONS: 'Keep-Open-Deny-Actions'
+  REFRESH: 'refresh'
+  UPDATE: 'update'
+  MATERIAL: 'material'
+  NAME: 'name'
+  LORE: 'lore'
+  AMOUNT: 'amount'
+  SHINY: 'shiny'
+  FLGAS: 'flags'
+  NBT: 'nbt'
+  SLOT: 'slot'
+  ACTIONS: 'action'
+  ICONS: 'icons'
+  CONDITION: 'condition'
+  PRIORITY: 'priority'
