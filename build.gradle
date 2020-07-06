@@ -9,8 +9,6 @@ plugins {
 group 'me.arasple.mc.trmenu'
 version '2.0'
 
-sourceCompatibility = 1.8
-
 task buildJar(dependsOn: [clean, shadowJar])
 
 shadowJar {

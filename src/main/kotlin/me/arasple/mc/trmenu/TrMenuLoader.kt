@@ -23,7 +23,6 @@ class TrMenuLoader {
 
     fun active() {
         ExpressionHandler.reload()
-//        ActionHandler.init()
         TLocale.sendToConsole("PLUGIN.LOADED", TrMenu.plugin.description.version)
     }
 

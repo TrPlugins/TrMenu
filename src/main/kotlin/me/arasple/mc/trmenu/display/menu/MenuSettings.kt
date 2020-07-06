@@ -1,7 +1,9 @@
 package me.arasple.mc.trmenu.display.menu
 
 import io.izzel.taboolib.internal.apache.lang3.ArrayUtils
-import me.arasple.mc.trmenu.display.animation.AnimationHandler
+import me.arasple.mc.trmenu.display.function.InternalFunction
+import me.arasple.mc.trmenu.display.function.Requirement
+import me.arasple.mc.trmenu.display.animation.Animated
 import me.arasple.mc.trmenu.modules.item.ItemIdentifier
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -12,11 +14,11 @@ import org.bukkit.inventory.ItemStack
  */
 class MenuSettings(val title: Titles, val options: Options, val bindings: Bindings, val events: Events, val tasks: Tasks, val functions: Funs) {
 
-    class Titles(val titles: Array<String>, val update: Int) {
+    class Titles(val titles: Animated<String>, val update: Int) {
 
         fun getTitle(player: Player): String {
-            return if (titles.size == 1 || update <= 0) titles.firstOrNull() ?: "TrMenu"
-            else titles[AnimationHandler.frame(player, "MenuTitle", titles.size)]
+            return if (titles.elements.size == 1 || update <= 0) titles.elements.firstOrNull() ?: "TrMenu"
+            else titles.nextElement(player, "TrMenu")
         }
 
     }
@@ -55,7 +57,8 @@ class MenuSettings(val title: Titles, val options: Options, val bindings: Bindin
     /**
      * 匹配物品是否符合打开本菜单的条件
      */
-    fun matchItem(player: Player, itemStack: ItemStack): Boolean = bindings.boundItems.any { it.isMatch(player, itemStack) }
+    fun matchItem(player: Player, itemStack: ItemStack): Boolean =
+        bindings.boundItems.any { it.isMatch(player, itemStack) }
 
     /**
      * 更好的兼容带参打开命令的同时支持菜单传递参数
