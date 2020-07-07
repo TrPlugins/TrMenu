@@ -16,7 +16,7 @@ class ActionSetPage : Action("((set|switch)?(-)?(shape|page))|shape|page") {
     override fun onExecute(player: Player) {
         val session = MenuSession.session(player)
         if (!session.isNull()) {
-            session.menu?.open(player, max(NumberUtils.toInt(getContent(player), 0), session.menu?.layout?.layouts?.size ?: 0), MenuOpenEvent.Reason.PLAYER)
+            session.menu?.open(player, max(NumberUtils.toInt(getContent(player), 0), session.menu?.layout?.layouts?.size ?: 0), MenuOpenEvent.Reason.PLAYER_COMMAND)
         }
     }
 

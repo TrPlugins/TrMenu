@@ -12,6 +12,8 @@ import java.util.regex.Pattern
  */
 abstract class BaseConfiguration : YamlConfiguration() {
 
+    private var commentalYaml: YamlConfiguration? = null
+
     protected fun getValue(property: Property) = get(getPropertyKey(property))
 
     protected fun getValue(section: ConfigurationSection?, property: Property) = section?.get(getPropertyKey(section, property))
@@ -68,11 +70,14 @@ abstract class BaseConfiguration : YamlConfiguration() {
                 }
             }
         }
-        super.loadFromString(builder)
+        commentalYaml = YamlConfiguration()
+        commentalYaml!!.loadFromString(builder)
+
+        super.loadFromString(contents)
     }
 
     override fun saveToString() = buildString {
-        super.saveToString().split("\n").forEach {
+        commentalYaml!!.saveToString().split("\n").forEach {
             var part = it
             val matcher = toPattern.matcher(part)
             if (matcher.find() && matcher.groupCount() == 5) {

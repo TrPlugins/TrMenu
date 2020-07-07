@@ -8,6 +8,7 @@ import io.izzel.taboolib.util.Strings
 import io.izzel.taboolib.util.item.ItemBuilder
 import io.izzel.taboolib.util.item.Items
 import io.izzel.taboolib.util.lite.Materials
+import me.arasple.mc.trmenu.display.animation.Animated
 import me.arasple.mc.trmenu.modules.hook.HookHeadDatabase
 import me.arasple.mc.trmenu.modules.script.Scripts
 import me.arasple.mc.trmenu.utils.Msger
@@ -16,7 +17,7 @@ import me.arasple.mc.trmenu.utils.Nodes.*
 import me.arasple.mc.trmenu.utils.Skulls
 import org.bukkit.Color
 import org.bukkit.Material
-import org.bukkit.configuration.MemorySection
+import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemFlag
@@ -28,10 +29,14 @@ import java.util.*
  * @author Arasple
  * @date 2020/5/30 14:08
  */
-class BaseItem(val material: Mat, val meta: Meta) {
+class DynamicItem(val material: Animated<Mat>, val meta: Meta) {
 
-    fun releaseItem(player: Player, name: String?, lore: List<String>?): ItemStack {
-        val itemStack = material.createItem(player)
+    fun getItem(player: Player) = material.currentElement(player)
+
+    fun nextItem(player: Player) = material.nextIndex(player)
+
+    fun releaseItem(player: Player, name: String?, lore: List<String>?): ItemStack? {
+        val itemStack = getItem(player)?.createItem(player) ?: return null
         val itemMeta = itemStack.itemMeta
 
         if (meta.hasAmount()) {
@@ -115,7 +120,8 @@ class BaseItem(val material: Mat, val meta: Meta) {
             }
         }
 
-        fun nbt(nbt: MemorySection) {
+        fun nbt(nbt: ConfigurationSection?) {
+            if (nbt == null) return
             if (nbt.getValues(false).isEmpty()) {
                 this.nbt = NBTCompound.translateSection(NBTCompound(), nbt)
                 this.isNBTDynamic = Msger.containsPlaceholders(this.nbt?.toJsonSimplified())
@@ -183,7 +189,7 @@ class BaseItem(val material: Mat, val meta: Meta) {
             return builder
         }
 
-        fun createItem(raw: String) {
+        fun createMat(raw: String): Mat {
             val result = Nodes.read(raw)
             val nodes = result.second.entries.firstOrNull()
             val type = nodes?.key
@@ -191,7 +197,7 @@ class BaseItem(val material: Mat, val meta: Meta) {
 
             val types = if (type != null) Pair(type, value ?: "") else Pair(MAT_ORIGINAL, result.first)
 
-            Mat(raw, result.first, types, Msger.containsPlaceholders(result.first))
+            return Mat(raw, result.first, types, Msger.containsPlaceholders(result.first))
         }
 
     }

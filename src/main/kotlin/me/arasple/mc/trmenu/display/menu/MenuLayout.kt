@@ -3,6 +3,7 @@ package me.arasple.mc.trmenu.display.menu
 import io.izzel.taboolib.util.Variables
 import me.arasple.mc.trmenu.data.MenuSession.Companion.TRMENU_WINDOW_ID
 import me.arasple.mc.trmenu.display.Icon
+import me.arasple.mc.trmenu.display.animation.Animated
 import me.arasple.mc.trmenu.display.icon.IconDisplay
 import me.arasple.mc.trmenu.modules.packets.PacketsHandler
 import org.bukkit.entity.Player
@@ -42,7 +43,7 @@ class MenuLayout(val layouts: List<Layout>) {
             val key = it.id
             pages.forEachIndexed { index, page ->
                 page[key]?.let { slots ->
-                    it.defIcon.display.position[index]?.addElement(IconDisplay.Position(slots))
+                    it.defIcon.display.position.computeIfAbsent(index) { Animated(arrayOf()) }.addElement(IconDisplay.Position(slots))
                 }
             }
         }
@@ -52,6 +53,8 @@ class MenuLayout(val layouts: List<Layout>) {
      * 布局
      */
     class Layout(val type: InventoryType, var rows: Int, val layout: MutableList<String>, val layoutInventory: MutableList<String>) {
+
+        constructor(type: InventoryType, layout: List<String>?, layoutInventory: List<String>?) : this(type, -1, layout?.toMutableList() ?: mutableListOf(), layoutInventory?.toMutableList() ?: mutableListOf())
 
         /**
          * 初始化修正
@@ -106,12 +109,12 @@ class MenuLayout(val layouts: List<Layout>) {
             return mutableMapOf<String, MutableSet<Int>>().let {
                 layout.forEachIndexed { y, line ->
                     listIconsKeys(line, width).forEachIndexed { x, key ->
-                        it.computeIfAbsent(key) { mutableSetOf() }.add(y * width + x)
+                        if (key.isNotBlank()) it.computeIfAbsent(key) { mutableSetOf() }.add(y * width + x)
                     }
                 }
                 layoutInventory.forEachIndexed { y, line ->
                     listIconsKeys(line, width).forEachIndexed { x, key ->
-                        it.computeIfAbsent(key) { mutableSetOf() }.add(size + y * width + x)
+                        if (key.isNotBlank()) it.computeIfAbsent(key) { mutableSetOf() }.add(size + y * width + x)
                     }
                 }
                 return@let it

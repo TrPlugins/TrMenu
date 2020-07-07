@@ -33,6 +33,21 @@ object Utils {
 
     fun asLong(any: Any?, def: Long): Long = NumberUtils.toLong(any.toString(), def)
 
+    @Suppress("UNCHECKED_CAST")
+    fun <T> asLists(any: Any): List<List<T>> {
+        val results = mutableListOf<List<T>>()
+        when (any) {
+            is List<*> -> {
+                if (any.isNotEmpty()) {
+                    if (any[0] is List<*>) any.forEach { results.add(it as List<T>) }
+                    else results.add(any as List<T>)
+                }
+            }
+            else -> results.add(listOf(any as T))
+        }
+        return results
+    }
+
     @Suppress("DEPRECATION")
     fun isJson(string: String): Boolean = try {
         JsonParser().parse(string); true

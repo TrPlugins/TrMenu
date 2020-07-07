@@ -13,6 +13,12 @@ class MenuConfiguration : BaseConfiguration() {
 
     fun getTitleUpdate() = getValue(Property.TITLE_UPDATE)
 
+    fun getLayout() = getValue(Property.LAYOUT)
+
+    fun getLayoutInventory() = getValue(Property.LAYOUT_PLAYER_INVENTORY)
+
+    fun getInventoryType() = getValue(Property.INVENTORY_TYPE)
+
     fun getOptions() = getSection(Property.OPTIONS)
 
     fun getOption(property: Property) = getValue(getOptions(), property)
@@ -48,5 +54,7 @@ class MenuConfiguration : BaseConfiguration() {
     fun getTasks() = getEvent(Property.TASKS)
 
     fun getFunctions() = getEvent(Property.FUNCTIONS)
+
+    fun getIcons() = getValue(Property.ICONS)
 
 }

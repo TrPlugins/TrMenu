@@ -18,7 +18,7 @@ class ActionOpen : Action("open(s)?|(open)?(-)?gui|(tr)?menu") {
         Tasks.runDelayTask(Runnable {
             val openingMenu = getOpeningMenu(player)
             MetaPlayer.setArguments(player, openingMenu.second)
-            openingMenu.first?.open(player, 0, MenuOpenEvent.Reason.PLAYER)
+            openingMenu.first?.open(player, 0, MenuOpenEvent.Reason.PLAYER_COMMAND)
         }, 1)
     }
 

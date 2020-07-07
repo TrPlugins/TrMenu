@@ -22,10 +22,13 @@ class Animated<T>(var elements: Array<T>) {
 
     fun currentIndex(player: Player) = AnimationHandler.getIndex(player, id)
 
+    @Suppress("UNCHECKED_CAST")
     fun addElement(element: T) {
         val size = elements.size
-        elements = elements.copyOfRange(0, size + 1)
-        elements[size] = element
+        elements = elements.copyOf(size + 1).let {
+            it[size] = element
+            return@let it as Array<T>
+        }
     }
 
     private fun getElement(index: Int) = if (index > elements.size - 1) {

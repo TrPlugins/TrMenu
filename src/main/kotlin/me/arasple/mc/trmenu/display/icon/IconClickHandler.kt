@@ -2,6 +2,7 @@ package me.arasple.mc.trmenu.display.icon
 
 import me.arasple.mc.trmenu.api.inventory.MenuClickType
 import me.arasple.mc.trmenu.display.function.Reaction
+import me.arasple.mc.trmenu.display.function.Reactions
 import org.bukkit.entity.Player
 
 /**
@@ -16,11 +17,11 @@ class IconClickHandler(val handlers: List<Handler>) {
         }
     }
 
-    class Handler(val triggers: Set<MenuClickType>, val reactions: List<Reaction>) {
+    class Handler(val triggers: Set<MenuClickType>, val reactions: Reactions) {
 
         fun isTriggered(clickType: MenuClickType) = triggers.any { it == clickType }
 
-        fun react(player: Player) = reactions.sortedBy { it.priority }.forEach { if (!it.react(player)) return }
+        fun react(player: Player) = reactions.eval(player)
 
     }
 

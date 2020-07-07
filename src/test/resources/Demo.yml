@@ -87,6 +87,10 @@ Icons:
       name: '&3Tester'
       # 材质
       material: '<head:{player_name}>'
+      amount:
+      shiny:
+      flags:
+      nbt:
       # Lore 描述
       lore:
         - '&7Description'

@@ -1,6 +1,7 @@
+@file:Suppress("NAME_SHADOWING")
+
 package me.arasple.mc.trmenu.modules.configuration.serialize
 
-import me.arasple.mc.trmenu.display.Icon
 import me.arasple.mc.trmenu.display.Menu
 import me.arasple.mc.trmenu.display.animation.Animated
 import me.arasple.mc.trmenu.display.function.InternalFunction
@@ -12,7 +13,7 @@ import me.arasple.mc.trmenu.modules.configuration.property.Property
 import me.arasple.mc.trmenu.modules.item.ItemIdentifier
 import me.arasple.mc.trmenu.modules.item.ItemIdentifierHandler
 import me.arasple.mc.trmenu.utils.Utils
-import java.io.File
+import org.bukkit.event.inventory.InventoryType
 
 /**
  * @author Arasple
@@ -20,18 +21,17 @@ import java.io.File
  */
 object MenuSerializer {
 
-    fun loadMenu(file: File): Menu {
-        val id = file.name.split(".", limit = 2)[0]
-        val configuration = MenuConfiguration()
-        configuration.load(file)
-
+    fun loadMenu(configuration: MenuConfiguration): Menu {
         val settings = loadSettings(configuration)
         val layout = loadLayout(configuration)
-        val icons = loadIcons(configuration)
+        val icons = IconSerializer.loadIcons(configuration)
 
-        return Menu(id, configuration, settings, layout, icons)
+        return Menu(configuration.name, configuration, settings, layout, icons, mutableSetOf())
     }
 
+    /**
+     * 加载菜单设置
+     */
     private fun loadSettings(c: MenuConfiguration): MenuSettings {
         val titles = MenuSettings.Titles(
             Animated(Utils.asArray(c.getTitle())),
@@ -99,11 +99,30 @@ object MenuSerializer {
         return MenuSettings(titles, options, bindings, events, tasks, funs)
     }
 
+    /**
+     * 加载菜单布局
+     */
     private fun loadLayout(c: MenuConfiguration): MenuLayout {
+        val type = c.getInventoryType().let { InventoryType.values().firstOrNull { it.name.equals(it.toString(), true) } ?: InventoryType.CHEST }
+        val layout: List<List<String>>? = c.getLayout().let { return@let if (it != null && it is List<*>) Utils.asLists(it) else null }
+        val layoutInventory: List<List<String>>? = c.getLayoutInventory().let { return@let if (it != null && it is List<*>) Utils.asLists(it) else null }
+        val list = mutableListOf<MenuLayout.Layout>()
 
-    }
+        if (layout != null && layout.isNotEmpty()) {
+            layout.forEachIndexed { i, l ->
+                list.add(MenuLayout.Layout(type, l, if (layoutInventory?.size ?: 0 > i) layoutInventory!![i] else null))
+            }
+        }
 
-    private fun loadIcons(c: MenuConfiguration): Set<Icon> {
+        if (layoutInventory != null && layoutInventory.isNotEmpty() && layoutInventory.size > layout?.size ?: 0) {
+            layoutInventory.forEachIndexed { i, l ->
+                if (i >= layout?.size ?: 0) {
+                    list.add(MenuLayout.Layout(type, null, l))
+                }
+            }
+        }
+
+        return MenuLayout(list)
     }
 
 }

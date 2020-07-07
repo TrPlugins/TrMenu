@@ -19,7 +19,7 @@ class ListenerMenuOpen : Listener {
         val player = e.player
 
         MetaPlayer.setMeta(player, "{reason}", e.reason.name).also {
-            if (!e.menu.settings.events.openEvent.react(player)) {
+            if (!e.menu.settings.events.openEvent.eval(player)) {
                 e.isCancelled = true
                 return
             }

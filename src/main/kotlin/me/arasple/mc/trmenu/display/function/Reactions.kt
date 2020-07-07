@@ -8,7 +8,12 @@ import org.bukkit.entity.Player
  */
 class Reactions(val reactions: List<Reaction>) {
 
-    fun eval(player: Player) = reactions.sortedBy { it.priority }.forEach { if (!it.react(player)) return }
+    fun eval(player: Player): Boolean {
+        reactions.sortedBy { it.priority }.forEach {
+            if (!it.react(player)) return false
+        }
+        return true
+    }
 
     fun isNotEmpty(): Boolean = reactions.isNotEmpty()
 

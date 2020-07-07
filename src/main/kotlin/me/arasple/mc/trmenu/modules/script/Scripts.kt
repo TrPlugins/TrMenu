@@ -1,6 +1,6 @@
 package me.arasple.mc.trmenu.modules.script
 
-import me.arasple.mc.trmenu.modules.expression.ExpressionHandler
+import me.arasple.mc.trmenu.modules.expression.Expressions
 import me.arasple.mc.trmenu.modules.script.ScriptUtils.translate
 import me.arasple.mc.trmenu.utils.Msger
 import org.bukkit.Bukkit
@@ -23,7 +23,7 @@ object Scripts {
 //        bindings["utils"] = TrUtils.INST
     }
 
-    fun expression(player: Player, expression: String) = script(player, ExpressionHandler.parseExpression(expression), bindings)
+    fun expression(player: Player, expression: String) = script(player, Expressions.parseExpression(expression), bindings)
 
     fun script(player: Player, script: String) = script(player, script, bindings)
 

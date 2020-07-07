@@ -2,9 +2,9 @@ package me.arasple.mc.trmenu.display.icon
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import me.arasple.mc.trmenu.display.animation.Animated
-import me.arasple.mc.trmenu.display.item.BaseItem
-import me.arasple.mc.trmenu.display.item.BaseLore
+import me.arasple.mc.trmenu.display.item.DynamicItem
 import me.arasple.mc.trmenu.display.item.Item
+import me.arasple.mc.trmenu.display.item.Lore
 import me.arasple.mc.trmenu.utils.Msger
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -14,17 +14,15 @@ import org.bukkit.inventory.ItemStack
  * @author Arasple
  * @date 2020/5/30 14:06
  */
-class IconDisplay(val position: MutableMap<Int, Animated<Position>>, val item: Animated<BaseItem>, val name: Animated<String>, val lore: Animated<BaseLore>) {
+class IconDisplay(val position: MutableMap<Int, Animated<Position>>, val item: DynamicItem, val name: Animated<String>, val lore: Animated<Lore>) {
 
-    fun createDisplayItem(player: Player) = getItem(player)?.releaseItem(player, getName(player), getLore(player)) ?: ItemStack(Material.BARRIER)
+    fun createDisplayItem(player: Player) = item.releaseItem(player, getName(player), getLore(player)) ?: ItemStack(Material.BARRIER)
 
     fun getPosition(player: Player, pageIndex: Int) = position[pageIndex]?.currentElement(player)!!.getSlots(player)
 
     fun nextPosition(player: Player, pageIndex: Int) = position[pageIndex]?.nextIndex(player)
 
-    fun getItem(player: Player) = item.currentElement(player)
-
-    fun nextItem(player: Player) = item.nextIndex(player)
+    fun nextItem(player: Player) = item.nextItem(player)
 
     fun getName(player: Player) = name.currentElement(player)?.let { return@let Item.colorizeName(Msger.replace(player, it)) }
 
@@ -57,6 +55,20 @@ class IconDisplay(val position: MutableMap<Int, Animated<Position>>, val item: A
                 if (slot >= 0) set.add(slot)
             }
             return@let set
+        }
+
+        companion object {
+
+            fun createPosition(list: List<Any>): Position {
+                val staticSlots = mutableSetOf<Int>()
+                val dynamicSlots = mutableSetOf<String>()
+                list.forEach {
+                    val num = it.toString()
+                    if (NumberUtils.isCreatable(num)) staticSlots.add(NumberUtils.toInt(num)) else dynamicSlots.add(num)
+                }
+                return Position(staticSlots, dynamicSlots)
+            }
+
         }
 
     }

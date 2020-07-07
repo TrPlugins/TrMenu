@@ -16,7 +16,7 @@ class ListenerMenuClose : Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     fun onClosing(e: MenuCloseEvent) {
-        if (!e.silent) e.menu.settings.events.closeEvent.react(e.player)
+        if (!e.silent) e.menu.settings.events.closeEvent.eval(e.player)
         MetaPlayer.resetCache(e.player)
     }
 

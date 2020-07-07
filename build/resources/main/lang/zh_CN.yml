@@ -7,8 +7,9 @@ PLUGIN:
 
 LOADER:
   MENU: '&8[&3Tr&bMenu&8] &aFINE &8| &3已载入 &a{0} &3个有效菜单 &8({1} ms)'
-  BUILDER: '&8[&3Tr&bMenu&8] &aFINE &8| &3已载入 &a{0} &3个有效构造器 &8({1} ms)'
   EXPRESSIONS: '&8[&3Tr&bMenu&8] &eMODULES &8| &3已重载 &a{0} &3个表达式替换规则 &8({1} ms)'
+  ERRORS:
+
 
 DEBUG:
   PRE-COMPILE-SCRIPT:
@@ -31,7 +32,6 @@ COMMANDS:
     'OFF': '&8[&3Tr&bMenu&8] &3DEBUG &8| &7已 &c关闭 &7调试模式'
 
 HOOKED: '&8[&3Tr&bMenu&8] &6HOOK &8| &7已检测并支持插件 &f{0}&7.'
-
 
 ERRORS:
   SCRIPT:

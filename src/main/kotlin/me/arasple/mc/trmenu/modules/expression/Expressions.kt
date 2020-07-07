@@ -12,11 +12,11 @@ import org.bukkit.configuration.MemorySection
  * @date 2020/3/1 22:45
  * hasMoney.100 and hasPoints.15
  */
-object ExpressionHandler {
+object Expressions {
 
-    private val settings = TConfig.create(TrMenu.plugin, "modules/expressions.yml").listener { reload(Bukkit.getConsoleSender()) }
-    private val expressions = mutableListOf<Expression>()
-    private val cachedParsed = mutableMapOf<String, String>()
+    val settings: TConfig = TConfig.create(TrMenu.plugin, "modules/expressions.yml").listener { reload(Bukkit.getConsoleSender()) }
+    val expressions = mutableListOf<Expression>()
+    val cachedParsed = mutableMapOf<String, String>()
 
     fun reload() = reload(null)
 

@@ -2,7 +2,7 @@ package me.arasple.mc.trmenu
 
 import io.izzel.taboolib.Version
 import io.izzel.taboolib.module.locale.TLocale
-import me.arasple.mc.trmenu.modules.expression.ExpressionHandler
+import me.arasple.mc.trmenu.modules.expression.Expressions
 import me.clip.placeholderapi.PlaceholderAPI
 import me.clip.placeholderapi.PlaceholderAPIPlugin
 import org.bukkit.Bukkit
@@ -21,7 +21,7 @@ class TrMenuLoader {
     }
 
     fun active() {
-        ExpressionHandler.reload()
+        Expressions.reload()
         TLocale.sendToConsole("PLUGIN.LOADED", TrMenu.plugin.description.version)
     }
 

@@ -29,7 +29,7 @@ class MenuOpenEvent(val player: Player, val menu: Menu, val page: Int, val reaso
 
     enum class Reason {
 
-        PLAYER,
+        PLAYER_COMMAND,
 
         CONSOLE,
 

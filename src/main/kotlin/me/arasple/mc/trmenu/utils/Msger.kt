@@ -26,6 +26,11 @@ object Msger {
     DEBUG Utils
      */
 
+    fun debug(): Boolean {
+        this.debug = !this.debug
+        return this.debug
+    }
+
     fun debug(isDebug: Boolean) {
         this.debug = isDebug
     }

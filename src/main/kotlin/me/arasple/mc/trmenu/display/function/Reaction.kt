@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.display.function
 
+import me.arasple.mc.trmenu.modules.action.Actions
 import me.arasple.mc.trmenu.modules.action.base.Action
 import me.arasple.mc.trmenu.modules.script.Scripts
 import org.bukkit.entity.Player
@@ -20,9 +21,9 @@ class Reaction(val priority: Int, private val condition: String, private val suc
 
     fun isRequirementMatch(player: Player): Boolean = if (isNotEmpty()) Scripts.expression(player, condition).asBoolean() else true
 
-    fun runDenyActions(player: Player) = ActionHandler.runActions(player, failed)
+    fun runDenyActions(player: Player) = Actions.runActions(player, failed)
 
-    fun runActions(player: Player) = ActionHandler.runActions(player, success)
+    fun runActions(player: Player) = Actions.runActions(player, success)
 
 
 }

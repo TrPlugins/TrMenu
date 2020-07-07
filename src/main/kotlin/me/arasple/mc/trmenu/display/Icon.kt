@@ -19,6 +19,8 @@ import java.util.*
  */
 class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty, val subIcons: List<IconProperty>, val currentIndex: MutableMap<UUID, Int>) {
 
+    constructor(id: String, settings: IconSettings, defIcon: IconProperty, subIcons: List<IconProperty>) : this(id, settings, defIcon, subIcons, mutableMapOf())
+
     fun displayIcon(player: Player, menu: Menu) {
         refreshIcon(player)
         displayItemStack(player)
@@ -86,6 +88,6 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
         return false
     }
 
-    class IconProperty(val priority: Int, val condition: String, val display: IconDisplay, val clickHandler: IconClickHandler)
+    class IconProperty(var priority: Int, var condition: String, val display: IconDisplay, val clickHandler: IconClickHandler)
 
 }

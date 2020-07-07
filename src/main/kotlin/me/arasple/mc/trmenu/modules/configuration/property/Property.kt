@@ -22,6 +22,16 @@ enum class Property(val default: String, val regex: Regex) {
     LAYOUT("Layout", "(layout|shape)(s)?"),
 
     /**
+     * 菜单布局 - 玩家容器
+     */
+    LAYOUT_PLAYER_INVENTORY("PlayerInventory", "(layout|shape)(-)?player(-)?inv(entory)?(s)?"),
+
+    /**
+     * 容器类型
+     */
+    INVENTORY_TYPE("Type", "(inv(entory)?)?(-)?type(s)?"),
+
+    /**
      * 菜单选项设置
      */
     OPTIONS("Options", "(option|setting)(s)?"),
@@ -155,6 +165,21 @@ enum class Property(val default: String, val regex: Regex) {
      * 菜单图标显示 - 物品描述
      */
     ICON_DISPLAY_LORE("lore", "(display)?(-)?lore(s)?"),
+
+    /**
+     * 菜单图标显示 - 物品数量
+     */
+    ICON_DISPLAY_AMOUNT("amount", "(amt|amount)(s)?"),
+
+    /**
+     * 菜单图标显示 - 发光
+     */
+    ICON_DISPLAY_SHINY("shiny", "(shiny|glow)(s)?"),
+
+    /**
+     * 菜单图标显示 - 标签
+     */
+    ICON_DISPLAY_FLAGS("flags", "flag(s)?"),
 
     /**
      * 菜单图标显示 - NBT

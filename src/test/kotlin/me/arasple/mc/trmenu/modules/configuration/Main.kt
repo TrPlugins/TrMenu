@@ -11,17 +11,11 @@ object Main {
 
     @JvmStatic
     fun main(args: Array<String>) {
-
         val inputStream = javaClass.getResourceAsStream("/Demo.yml")
-        val menu = MenuConfiguration()
-        menu.load(InputStreamReader(inputStream))
-
+        val configuration = MenuConfiguration()
+        configuration.load(InputStreamReader(inputStream))
         val start = System.currentTimeMillis()
-
         println("--------------------------------------------------\n\n")
-
-        println("Options: ${menu.getOptionDefaultArguments()}, ${menu.getOptionHidePlayerInventory()}")
-
         println("\n\n--------------------------------------------------")
         println("[END - Took: ${System.currentTimeMillis() - start} ms]")
         println("--------------------------------------------------")
