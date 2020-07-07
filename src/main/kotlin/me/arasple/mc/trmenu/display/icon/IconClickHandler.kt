@@ -16,13 +16,11 @@ class IconClickHandler(val handlers: List<Handler>) {
         }
     }
 
-    class Handler(val triggers: Set<MenuClickType>, val reactions: Map<Int, Reaction>) {
+    class Handler(val triggers: Set<MenuClickType>, val reactions: List<Reaction>) {
 
         fun isTriggered(clickType: MenuClickType) = triggers.any { it == clickType }
 
-        fun react(player: Player) = reactions.forEach { if (!it.value.react(player)) return }
-
-        fun getReactions(player: Player) = reactions.entries.filter { it.value.isRequirementMatch(player) }.sortedBy { it.key }.map { it.value }
+        fun react(player: Player) = reactions.sortedBy { it.priority }.forEach { if (!it.react(player)) return }
 
     }
 

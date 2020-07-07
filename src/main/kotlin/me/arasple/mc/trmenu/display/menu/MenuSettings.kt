@@ -1,12 +1,19 @@
 package me.arasple.mc.trmenu.display.menu
 
 import io.izzel.taboolib.internal.apache.lang3.ArrayUtils
+import me.arasple.mc.trmenu.TrMenu
+import me.arasple.mc.trmenu.data.MenuSession
+import me.arasple.mc.trmenu.data.MenuSession.Companion.TRMENU_WINDOW_ID
+import me.arasple.mc.trmenu.display.Menu
+import me.arasple.mc.trmenu.display.animation.Animated
 import me.arasple.mc.trmenu.display.function.InternalFunction
 import me.arasple.mc.trmenu.display.function.Reaction
-import me.arasple.mc.trmenu.display.animation.Animated
+import me.arasple.mc.trmenu.display.function.Reactions
 import me.arasple.mc.trmenu.modules.item.ItemIdentifier
+import me.arasple.mc.trmenu.modules.packets.PacketsHandler
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import org.bukkit.scheduler.BukkitRunnable
 
 /**
  * @author Arasple
@@ -21,15 +28,37 @@ class MenuSettings(val title: Titles, val options: Options, val bindings: Bindin
             else titles.nextElement(player, "TrMenu")
         }
 
+        fun load(player: Player, menu: Menu, layout: MenuLayout.Layout) {
+            if (update > 0 && titles.elements.size > 1) {
+                object : BukkitRunnable() {
+                    override fun run() {
+                        if (MenuSession.session(player).menu != menu) {
+                            cancel()
+                            return
+                        }
+                        layout.displayInventory(player, getTitle(player))
+                        menu.resetIcons(player)
+                    }
+                }.runTaskTimerAsynchronously(TrMenu.plugin, update.toLong(), update.toLong())
+            }
+        }
+
     }
 
-    class Options(val defaultArguments: Array<String>, val hidePlayerInventory: Boolean, val minClickDelay: Int, val dependExpansions: Array<String>)
+    class Options(val defaultArguments: Array<String>, val hidePlayerInventory: Boolean, val minClickDelay: Long, val dependExpansions: Array<String>) {
+
+        fun run(player: Player, layout: MenuLayout.Layout) {
+            if (hidePlayerInventory)
+                PacketsHandler.clearInventory(player, layout.size(), TRMENU_WINDOW_ID)
+        }
+
+    }
 
     class Bindings(val boundCommands: Array<Regex>, val boundItems: Array<ItemIdentifier>)
 
-    class Events(val openEvent: Reaction, val closeEvent: Reaction, val clickEvent: Reaction)
+    class Events(val openEvent: Reactions, val closeEvent: Reactions, val clickEvent: Reactions)
 
-    class Tasks(val tasks: Map<Long, Reaction>)
+    class Tasks(val tasks: Map<Long, Reactions>)
 
     class Funs(val internalFunctions: Set<InternalFunction>)
 

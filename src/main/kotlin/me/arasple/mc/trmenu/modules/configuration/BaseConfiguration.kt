@@ -1,6 +1,7 @@
-package me.arasple.mc.trmenu.configuration
+package me.arasple.mc.trmenu.modules.configuration
 
-import me.arasple.mc.trmenu.configuration.property.Property
+import me.arasple.mc.trmenu.modules.configuration.property.Property
+import me.arasple.mc.trmenu.utils.Utils
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.configuration.file.YamlConfiguration
 import java.util.regex.Pattern
@@ -19,9 +20,9 @@ abstract class BaseConfiguration : YamlConfiguration() {
 
     protected fun setValue(section: ConfigurationSection?, property: Property, value: Any) = section?.set(getPropertyKey(section, property), value)
 
-    protected fun getPropertyKey(property: Property) = getKeys(false).firstOrNull { it.matches(property.regex) } ?: property.default
+    protected fun getPropertyKey(property: Property) = getPropertyKey(this, property)
 
-    protected fun getPropertyKey(section: ConfigurationSection?, property: Property) = section?.getKeys(false)?.firstOrNull { it.matches(property.regex) } ?: property.default
+    protected fun getPropertyKey(section: ConfigurationSection?, property: Property) = Utils.getSectionKey(section, property)
 
     protected fun getSection(property: Property) = getConfigurationSection(getPropertyKey(property))
 

@@ -1,4 +1,4 @@
-package me.arasple.mc.trmenu.configuration.property
+package me.arasple.mc.trmenu.modules.configuration.property
 
 /**
  * @author Arasple
@@ -72,6 +72,21 @@ enum class Property(val default: String, val regex: Regex) {
     EVENTS("Events", "event(s)?"),
 
     /**
+     * 菜单事件 - 开启菜单
+     */
+    EVENT_OPEN("Open", "open(s)?"),
+
+    /**
+     * 菜单事件 - 关闭菜单
+     */
+    EVENT_CLOSE("Close", "close(s)?"),
+
+    /**
+     * 菜单事件 - 点击菜单
+     */
+    EVENT_CLICK("Click", "click(s)?"),
+
+    /**
      * 需求条件
      */
     REQUIREMENT("condition", "(require(ment)?|condition)(s)?"),
@@ -82,17 +97,12 @@ enum class Property(val default: String, val regex: Regex) {
     PRIORITY("priority", "pri(ority)?(s)?"),
 
     /**
-     * 集合
-     */
-    LIST("list", "(list|set)(s)?"),
-
-    /**
      * 周期
      */
     PERIOD("period", "(period|time)(s)?"),
 
     /**
-     * 执行动作
+     * 执行动作集合
      */
     ACTIONS("actions", "(list|action|click|execute|cmd)(s)?"),
 

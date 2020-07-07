@@ -1,4 +1,4 @@
-package me.arasple.mc.trmenu.configuration.serialize
+package me.arasple.mc.trmenu.modules.configuration.serialize
 
 /**
  * @author Arasple

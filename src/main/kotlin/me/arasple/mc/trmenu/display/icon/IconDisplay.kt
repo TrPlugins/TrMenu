@@ -34,6 +34,18 @@ class IconDisplay(val position: MutableMap<Int, Animated<Position>>, val item: A
 
     fun nextLore(player: Player) = lore.nextIndex(player)
 
+    fun nextFrame(player: Player, type: Set<Int>, page: Int) {
+        type.forEach {
+            when (it) {
+                0 -> nextItem(player)
+                1 -> nextName(player)
+                2 -> nextLore(player)
+                3 -> nextPosition(player, page)
+                else -> throw Exception()
+            }
+        }
+    }
+
     class Position(val staticSlots: Set<Int>, val dynamicSlots: Set<String>) {
 
         constructor(slots: Set<Int>) : this(slots, setOf())

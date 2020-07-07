@@ -10,8 +10,8 @@ import org.bukkit.entity.Player
  */
 class ActionJavaScript : Action("(java)?(-)?script(s)?|js") {
 
-	override fun onExecute(player: Player) {
-		Scripts.script(player, getContent())
-	}
+    override fun onExecute(player: Player) {
+        Scripts.script(player, getContent())
+    }
 
 }

@@ -1,6 +1,6 @@
-package me.arasple.mc.trmenu.configuration
+package me.arasple.mc.trmenu.modules.configuration
 
-import me.arasple.mc.trmenu.configuration.menu.MenuConfiguration
+import me.arasple.mc.trmenu.modules.configuration.menu.MenuConfiguration
 import java.io.InputStreamReader
 
 /**

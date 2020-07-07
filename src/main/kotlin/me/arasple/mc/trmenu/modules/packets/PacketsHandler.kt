@@ -7,6 +7,8 @@ import io.izzel.taboolib.module.lite.SimpleVersionControl
 import io.izzel.taboolib.module.packet.TPacketHandler
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.inventory.MenuClickType
+import me.arasple.mc.trmenu.data.MenuSession
+import me.arasple.mc.trmenu.data.MetaPlayer
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryType
@@ -67,20 +69,18 @@ abstract class PacketsHandler {
         fun sendRemoveSlot(player: Player, windowId: Int, slot: Int) = INSTANCE.sendRemoveSlot(player, windowId, slot)
 
         fun resetInventory(player: Player, size: Int, windowId: Int) {
-//			val session = TrMenuAPI.getSession(player)
-//			val menu = session.menu
-//			val inv = session.inventory
-//
-//			if (menu != null && inv != null) {
-//				val hasSlots = menu.getSlotsHasIcon(player, session.page)
-//				val contents = Temp.getInventoryContents(player)
-//				for ((index, i) in (size..size + 35).withIndex()) {
-//					if (hasSlots.contains(i)) continue
-//					val item = contents[index]
-//					if (item != null) sendOutSlot(player, windowId, i, item)
-//					else sendRemoveSlot(player, windowId, i)
-//				}
-//			}
+            val session = MenuSession.session(player)
+            val menu = session.menu
+            if (menu != null) {
+                val hasSlots = menu.getOccupiedSlots(player, session.page)
+                val contents = MetaPlayer.getInventoryContents(player)
+                for ((index, i) in (size..size + 35).withIndex()) {
+                    if (hasSlots.contains(i)) continue
+                    val item = contents[index]
+                    if (item != null) sendOutSlot(player, windowId, i, item)
+                    else sendRemoveSlot(player, windowId, i)
+                }
+            }
         }
 
         fun getInventoryType(inventoryType: InventoryType, size: Int): Int = when (inventoryType) {
@@ -133,19 +133,13 @@ abstract class PacketsHandler {
             else -> MenuClickType.ALL
         }
 
-//		fun sendClearNonIconSlots(player: Player, session: MenuSession) {
-//			val menu = session.menu
-//			val inv = session.inventory
-//
-//			if (menu != null && inv != null) {
-//				val hasSlots = menu.getSlotsHasIcon(player, session.page)
-//				for (i in 0 until inv.getExactSize()) {
-//					if (!hasSlots.contains(i)) {
-//						sendRemoveSlot(player, MenuInventory.TRMENU_WINDOW_ID, i)
-//					}
-//				}
-//			}
-//		}
+        fun sendClearNonIconSlots(player: Player, session: MenuSession) {
+            session.menu?.let {
+                val layout = session.layout!!
+                val hasSlots = it.getOccupiedSlots(player, session.page)
+                for (i in 0 until layout.size()) if (!hasSlots.contains(i)) sendRemoveSlot(player, MenuSession.TRMENU_WINDOW_ID, i)
+            }
+        }
 
         fun sendPacket(player: Player, packetClass: Class<*>, packet: Any, fields: Map<String, Any>) {
             fields.forEach { SimpleReflection.setFieldValue(packetClass, packet, it.key, it.value) }

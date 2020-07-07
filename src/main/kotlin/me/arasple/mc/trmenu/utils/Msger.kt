@@ -20,9 +20,7 @@ object Msger {
         debug = TrMenu.SETTINGS.getBoolean("Options.Debug", false)
     }
 
-    fun cancel() {
-        TrMenu.SETTINGS.set("Options.Debug", debug)
-    }
+    fun cancel() = TrMenu.SETTINGS.set("Options.Debug", debug)
 
     /*
     DEBUG Utils
@@ -48,7 +46,7 @@ object Msger {
     PlaceholderAPI Utils
      */
 
-    fun replace(player: Player, string: String): String = replaceWithPlaceholders(player, replaceWithBracketPlaceholders(player, string))
+    fun replace(player: Player, string: String?): String = replaceWithPlaceholders(player, replaceWithBracketPlaceholders(player, string ?: ""))
 
     fun replace(player: Player, strings: List<String>): List<String> = replaceWithPlaceholders(player, replaceWithBracketPlaceholders(player, strings))
 

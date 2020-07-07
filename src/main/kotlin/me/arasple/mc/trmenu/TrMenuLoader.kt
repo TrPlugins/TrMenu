@@ -2,7 +2,6 @@ package me.arasple.mc.trmenu
 
 import io.izzel.taboolib.Version
 import io.izzel.taboolib.module.locale.TLocale
-import me.arasple.mc.trmenu.modules.action.ActionHandler
 import me.arasple.mc.trmenu.modules.expression.ExpressionHandler
 import me.clip.placeholderapi.PlaceholderAPI
 import me.clip.placeholderapi.PlaceholderAPIPlugin

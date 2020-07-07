@@ -32,5 +32,4 @@ class Animated<T>(var elements: Array<T>) {
         null
     } else elements[index]
 
-
 }

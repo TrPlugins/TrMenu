@@ -1,8 +1,11 @@
 package me.arasple.mc.trmenu.display.menu
 
 import io.izzel.taboolib.util.Variables
+import me.arasple.mc.trmenu.data.MenuSession.Companion.TRMENU_WINDOW_ID
 import me.arasple.mc.trmenu.display.Icon
 import me.arasple.mc.trmenu.display.icon.IconDisplay
+import me.arasple.mc.trmenu.modules.packets.PacketsHandler
+import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.event.inventory.InventoryType.*
 import java.util.regex.Pattern
@@ -63,6 +66,18 @@ class MenuLayout(val layouts: List<Layout>) {
         }
 
         /**
+         * 显示虚拟容器
+         */
+        fun displayInventory(player: Player, title: String) = PacketsHandler.sendOpenWindow(player, TRMENU_WINDOW_ID, type, size(), title)
+
+        /**
+         * 关闭虚拟容器
+         */
+        fun close(player: Player, closeInventory: Boolean) {
+            if (closeInventory) PacketsHandler.sendCloseWindow(player, TRMENU_WINDOW_ID)
+        }
+
+        /**
          * 写入图标标识到布局的指定位置
          */
         fun reversePositionize(key: String, slots: Set<Int>) {
@@ -106,6 +121,7 @@ class MenuLayout(val layouts: List<Layout>) {
         fun width() = if (type == CHEST || type == ENDER_CHEST || type == SHULKER_BOX || type == BARREL) 9 else 3
 
         fun size() = if (type == CHEST) rows * 9 else type.defaultSize
+
 
     }
 

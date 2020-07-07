@@ -1,6 +1,8 @@
 package me.arasple.mc.trmenu.modules.hook
 
+import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import io.izzel.taboolib.module.inject.THook
+import me.arasple.mc.trmenu.data.MetaPlayer
 import me.clip.placeholderapi.PlaceholderAPI
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
 import org.bukkit.entity.Player
@@ -19,12 +21,12 @@ object HookPlaceholderAPI {
         val params = content.split("_")
 
         return when (params[0].toLowerCase()) {
-//			"args" -> {
-//				val arguments = Temp.getArguments(player)
-//				val index = NumberUtils.toInt(if (params.size > 1) params[1] else "0", 0)
-//				if (arguments.size > index) arguments[index] else "null"
-//			}
-//			"temp", "var" -> (if (params.size > 1) params[1] else null)?.let { Temp.getTempVariable(player, it) } ?: "null"
+            "args" -> {
+                val arguments = MetaPlayer.getArguments(player)
+                val index = NumberUtils.toInt(if (params.size > 1) params[1] else "0", 0)
+                if (arguments.size > index) arguments[index] else "null"
+            }
+            "meta" -> (if (params.size > 1) params[1] else null)?.let { MetaPlayer.getMeta(player, it) }?.toString() ?: "null"
             else -> ""
         }
     }
