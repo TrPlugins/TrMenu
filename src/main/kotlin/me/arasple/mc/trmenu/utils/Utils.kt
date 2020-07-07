@@ -1,11 +1,13 @@
 package me.arasple.mc.trmenu.utils
 
 import io.izzel.taboolib.internal.gson.JsonParser
+import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.modules.configuration.property.Property
 import org.apache.commons.lang.math.NumberUtils
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.configuration.MemorySection
 import org.bukkit.configuration.file.YamlConfiguration
+import org.bukkit.event.Cancellable
 
 
 /**
@@ -54,6 +56,8 @@ object Utils {
     } catch (e: Throwable) {
         false
     }
+
+    fun isEventIgnoreCancelled(event: Cancellable): Boolean = TrMenu.SETTINGS.getBoolean("Events-Ignore-Cancelled.${event.javaClass.simpleName}", true) && event.isCancelled
 
     fun asSection(any: Any): MemorySection? = YamlConfiguration().let {
         when (any) {

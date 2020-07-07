@@ -5,7 +5,7 @@ import com.google.gson.JsonParser
 import com.mojang.authlib.GameProfile
 import com.mojang.authlib.properties.Property
 import io.izzel.taboolib.Version
-import io.izzel.taboolib.util.Files
+import io.izzel.taboolib.loader.internal.IO
 import io.izzel.taboolib.util.item.ItemBuilder
 import io.izzel.taboolib.util.lite.Materials
 import me.arasple.mc.trmenu.modules.packets.PacketsHandler
@@ -50,9 +50,9 @@ object Skulls {
             }
             Tasks.runTask(Runnable {
                 try {
-                    val userProfile = JsonParser().parse(Files.readFromURL("https://api.mojang.com/users/profiles/minecraft/$id")) as JsonObject
+                    val userProfile = JsonParser().parse(IO.readFromURL("https://api.mojang.com/users/profiles/minecraft/$id")) as JsonObject
                     val uuid = userProfile["id"].asString
-                    val textures = (JsonParser().parse(Files.readFromURL("https://sessionserver.mojang.com/session/minecraft/profile/$uuid")) as JsonObject).getAsJsonArray("properties")
+                    val textures = (JsonParser().parse(IO.readFromURL("https://sessionserver.mojang.com/session/minecraft/profile/$uuid")) as JsonObject).getAsJsonArray("properties")
                     for (element in textures) if ("textures" == element.asJsonObject["name"].asString) cachePlayerTexture[id] = element.asJsonObject["value"].asString
                     if (consumer != null) cachePlayerTexture[id]?.let { consumer.accept(it) }
                 } catch (e: Throwable) {

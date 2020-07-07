@@ -55,9 +55,9 @@ object Msger {
 
     fun replace(player: Player, strings: List<String>): List<String> = replaceWithPlaceholders(player, replaceWithBracketPlaceholders(player, strings))
 
-    fun replaceWithPlaceholders(player: Player, string: String): String = PlaceholderAPI.setPlaceholders(player, string)
+    fun replaceWithPlaceholders(player: Player, string: String): String = HexColor.translate(PlaceholderAPI.setPlaceholders(player, string))
 
-    fun replaceWithPlaceholders(player: Player, strings: List<String>): List<String> = PlaceholderAPI.setPlaceholders(player, strings)
+    fun replaceWithPlaceholders(player: Player, strings: List<String>): List<String> = HexColor.translate(PlaceholderAPI.setPlaceholders(player, strings))
 
     fun replaceWithBracketPlaceholders(player: Player, string: String): String = PlaceholderAPI.setBracketPlaceholders(player, string)
 

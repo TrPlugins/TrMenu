@@ -40,7 +40,6 @@ object ListenerWindowEvents {
                             PacketsHandler.clearInventory(player, size, TRMENU_WINDOW_ID)
                         else
                             PacketsHandler.resetInventory(player, size, TRMENU_WINDOW_ID)
-
                     }
 
                     MenuClickEvent(player, slot, menu, icon, type).async(true).call()
@@ -56,8 +55,8 @@ object ListenerWindowEvents {
 //						}, 1)
 //					}
                     session.layout?.close(player, false)
+                    MenuSession.session(player).set(null, null, -1)
                     player.updateInventory()
-
                 }
             }
         } catch (e: Throwable) {

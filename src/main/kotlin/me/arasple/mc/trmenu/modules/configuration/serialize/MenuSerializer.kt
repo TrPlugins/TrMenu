@@ -21,12 +21,12 @@ import org.bukkit.event.inventory.InventoryType
  */
 object MenuSerializer {
 
-    fun loadMenu(configuration: MenuConfiguration): Menu {
+    fun loadMenu(id: String, configuration: MenuConfiguration): Menu {
         val settings = loadSettings(configuration)
         val layout = loadLayout(configuration)
         val icons = IconSerializer.loadIcons(configuration)
 
-        return Menu(configuration.name, configuration, settings, layout, icons, mutableSetOf())
+        return Menu(id, configuration, settings, layout, icons, mutableSetOf())
     }
 
     /**

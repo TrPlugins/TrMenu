@@ -34,7 +34,7 @@ class ListenerMenuClick : Listener {
 
         @Deprecated("Require new method for click delay.")
         private fun isInClickCooldown(player: Player, menu: Menu): Boolean {
-            val clickDelay = menu.settings.options.minClickDelay * 50
+            val clickDelay = menu.settings.options.minClickDelay
             if (clickDelay <= 0) return false
             val expired = CLICK_DELAY.computeIfAbsent(player.uniqueId) { 0 }
             val left = expired - System.currentTimeMillis()

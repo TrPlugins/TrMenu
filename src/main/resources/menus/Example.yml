@@ -22,6 +22,15 @@ Layout:
   - '#########'
 
 #
+# 玩家容器菜单的布局
+#
+PlayerInventory:
+  - ''
+  - ''
+  - ''
+  - ''
+
+#
 # 菜单的选项设置
 #
 Options:
@@ -93,7 +102,7 @@ Icons:
     actions:
       # 触发方式
       left,right:
-        - 'tell: you son of bitch'
+        - 'tell: hello'
       middle:
         - condition: ''
           list:
@@ -104,6 +113,7 @@ Icons:
         condition: ''
         display: []
         actions: []
+
 #
 # 菜单自定义周期性任务
 #

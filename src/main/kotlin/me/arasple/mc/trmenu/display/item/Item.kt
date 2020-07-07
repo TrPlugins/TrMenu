@@ -15,7 +15,7 @@ object Item {
 
     private fun colorize(string: String, isLore: Boolean) =
         if (!string.startsWith(ChatColor.COLOR_CHAR) && !string.startsWith('&'))
-            TrMenu.SETTINGS.getStringColored("Default-Color-${if (isLore) "Lore" else "Name"}") + string
+            TrMenu.SETTINGS.getStringColored("Item.Default-Color-${if (isLore) "Lore" else "Name"}", "&7") + string
         else string
 
 }

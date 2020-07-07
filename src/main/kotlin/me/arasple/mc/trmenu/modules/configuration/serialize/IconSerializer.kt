@@ -111,7 +111,7 @@ object IconSerializer {
             meta.flags(display.getStringList(Utils.getSectionKey(display, Property.ICON_DISPLAY_FLAGS)))
             meta.nbt(display.getConfigurationSection(Utils.getSectionKey(display, Property.ICON_DISPLAY_NBT)))
 
-            display.getStringList(Utils.getSectionKey(display, Property.ICON_DISPLAY_MATERIAL)).forEach {
+            Utils.asList(display.get(Utils.getSectionKey(display, Property.ICON_DISPLAY_MATERIAL))).forEach {
                 mats.add(DynamicItem.createMat(it))
             }
 
@@ -120,7 +120,7 @@ object IconSerializer {
 
         // 加载显示名称、Lore 描述
 
-        val names = display.getStringList(Utils.getSectionKey(display, Property.ICON_DISPLAY_NAME))
+        val names = Utils.asList(display.get(Utils.getSectionKey(display, Property.ICON_DISPLAY_NAME)))
         val lores = mutableListOf<Lore>().let { lore ->
             display.getList(Utils.getSectionKey(display, Property.ICON_DISPLAY_LORE))?.let { it ->
                 if (it.first() is List<*>) it.forEach { lore.add(Lore(it as List<String>)) }

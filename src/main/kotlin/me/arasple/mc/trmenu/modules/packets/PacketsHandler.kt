@@ -47,7 +47,7 @@ abstract class PacketsHandler {
         @TSchedule
         fun init() {
             val version = when {
-                Version.isAfter(Version.v1_13) -> "15"
+                Version.isAfter(Version.v1_13) -> "16"
                 else -> "12"
             }
             INSTANCE = SimpleVersionControl.createNMS("me.arasple.mc.trmenu.modules.packets.impl.ImplPacketsHandler$version").useNMS().translate(TrMenu.plugin).getDeclaredConstructor().newInstance() as PacketsHandler
@@ -117,7 +117,7 @@ abstract class PacketsHandler {
         fun getClickType(rawType: Any, button: Int, slot: Int): MenuClickType = when (INSTANCE.getClickTypeIndex(rawType)) {
             0 -> if (button == 0) MenuClickType.LEFT else MenuClickType.RIGHT
             1 -> if (button == 0) MenuClickType.SHIFT_LEFT else MenuClickType.SHIFT_RIGHT
-            2 -> MenuClickType.valueOf("NUMBER_KEY${if (button > 0) "_${button + 1}" else ""}")
+            2 -> if (button == 40) MenuClickType.SWAP else MenuClickType.valueOf("NUMBER_KEY${if (button > 0) "_${button + 1}" else ""}")
             3 -> MenuClickType.MIDDLE
             4 -> when (button) {
                 0 -> if (slot >= 0) MenuClickType.DROP else MenuClickType.WINDOW_BORDER_LEFT

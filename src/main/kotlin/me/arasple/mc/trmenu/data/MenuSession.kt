@@ -13,7 +13,7 @@ class MenuSession(var menu: Menu?, var layout: MenuLayout.Layout?, var page: Int
 
     fun isNull() = menu == null
 
-    fun set(menu: Menu?, layout: MenuLayout.Layout?, page: Int){
+    fun set(menu: Menu?, layout: MenuLayout.Layout?, page: Int) {
         this.menu = menu
         this.layout = layout
         this.page = page
@@ -28,6 +28,8 @@ class MenuSession(var menu: Menu?, var layout: MenuLayout.Layout?, var page: Int
         private val sessions = mutableMapOf<UUID, MenuSession>()
 
         fun session(player: Player): MenuSession = sessions.computeIfAbsent(player.uniqueId) { MenuSession() }
+
+        fun remove(player: Player) = sessions.remove(player.uniqueId)
 
     }
 

@@ -42,6 +42,11 @@ enum class MenuClickType {
     DROP,
 
     /**
+     * 切换副手 (默认为 F) (1.16+)
+     */
+    SWAP,
+
+    /**
      * Ctrl + 丢弃键
      */
     CONTROL_DROP,

@@ -24,6 +24,7 @@ import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 import java.util.*
+import kotlin.math.min
 
 /**
  * @author Arasple
@@ -99,7 +100,6 @@ class DynamicItem(val material: Animated<Mat>, val meta: Meta) {
 
     class Meta(var amount: String, var shiny: String, var flags: MutableSet<ItemFlag>, var nbt: NBTCompound?, var isAmountDynamic: Boolean, var isShinyDynamic: Boolean, var isNBTDynamic: Boolean) {
 
-        constructor(amount: String, shiny: String, flags: MutableSet<ItemFlag>, nbt: NBTCompound) : this(amount, shiny, flags, nbt, !NumberUtils.isParsable(amount), !shiny.matches(Regex("(?i)true|false")), Msger.containsPlaceholders(nbt.toJsonSimplified()))
         constructor() : this("-1", "false", mutableSetOf(), null, false, false, false)
 
         fun amount(string: String) {
@@ -155,9 +155,9 @@ class DynamicItem(val material: Animated<Mat>, val meta: Meta) {
         fun serializeColor(color: String): Color {
             val rgb = color.split(",").toTypedArray()
             if (rgb.size == 3) {
-                val r = NumberUtils.toInt(rgb[0], 0)
-                val g = NumberUtils.toInt(rgb[1], 0)
-                val b = NumberUtils.toInt(rgb[2], 0)
+                val r = min(NumberUtils.toInt(rgb[0], 0), 255)
+                val g = min(NumberUtils.toInt(rgb[1], 0), 255)
+                val b = min(NumberUtils.toInt(rgb[2], 0), 255)
                 return Color.fromRGB(r, g, b)
             }
             return Color.BLACK
@@ -197,7 +197,7 @@ class DynamicItem(val material: Animated<Mat>, val meta: Meta) {
 
             val types = if (type != null) Pair(type, value ?: "") else Pair(MAT_ORIGINAL, result.first)
 
-            return Mat(raw, result.first, types, Msger.containsPlaceholders(result.first))
+            return Mat(raw, result.first, types, Msger.containsPlaceholders(raw))
         }
 
     }

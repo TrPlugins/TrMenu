@@ -1,3 +1,0 @@
-Manifest-Version: 1.0
-Class-Path: NMS_v1_12.jar OraxenAPI.jar PlayerPointsAPI.jar
-

@@ -3,6 +3,7 @@ package me.arasple.mc.trmenu.modules.configuration.serialize
 import me.arasple.mc.trmenu.display.function.Reaction
 import me.arasple.mc.trmenu.display.function.Reactions
 import me.arasple.mc.trmenu.modules.action.Actions
+import me.arasple.mc.trmenu.modules.action.base.Action
 import me.arasple.mc.trmenu.modules.configuration.property.Property
 import me.arasple.mc.trmenu.utils.Utils
 
@@ -16,6 +17,13 @@ object ReactionSerializer {
 
     fun serializeReactionsList(any: Any?): List<Reaction> = mutableListOf<Reaction>().let { reactions ->
         if (any is List<*>) {
+            if (any.firstOrNull() is String) {
+                reactions.add(Reaction(-1, "", mutableListOf<Action>().let {
+                    any.forEach { act -> it.addAll(Actions.readActions(act.toString())) }
+                    it
+                }, listOf()))
+                return@let reactions
+            }
             any.forEach {
                 if (it != null) serializeReaction(it)?.let { reaction -> reactions.add(reaction) }
             }

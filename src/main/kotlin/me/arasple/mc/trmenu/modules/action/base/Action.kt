@@ -52,7 +52,7 @@ abstract class Action(val name: Regex, internal var content: String, var options
     open fun newInstance(): Action = javaClass.getDeclaredConstructor().newInstance()
 
     override fun toString(): String = buildString {
-        append(javaClass.simpleName.removePrefix("Action").toLowerCase())
+        append(this@Action.javaClass.simpleName.removePrefix("Action").toLowerCase())
         append(": ")
         append(getContent())
         append(buildString { options.forEach { append("<${it.key.name.toLowerCase()}: ${it.value}>") } })
