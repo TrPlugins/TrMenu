@@ -14,7 +14,7 @@ import org.bukkit.event.Listener
 @TListener
 class ListenerMenuClose : Listener {
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     fun onClosing(e: MenuCloseEvent) {
         if (!e.silent) e.menu.settings.events.closeEvent.eval(e.player)
         MetaPlayer.resetCache(e.player)

@@ -13,8 +13,10 @@ object Main {
 
     @JvmStatic
     fun main(args: Array<String>) {
-//        println(HexColor.translate("一条测试的消息 &<FFFFFF>白色&7, &86666, &<000000>hhhh... &<256,0,0>还支持rgb"))
+        testMenu()
+    }
 
+    private fun testMenu() {
         val inputStream = javaClass.getResourceAsStream("/Demo.yml")
         val configuration = MenuConfiguration()
         configuration.load(InputStreamReader(inputStream))
@@ -25,11 +27,10 @@ object Main {
         val icon = menu.icons.first().defIcon
 
         println("--------------------------------------------------\n\n")
-
+        println(icon.display.position)
         println("\n\n--------------------------------------------------")
         println("[END - Took: ${System.currentTimeMillis() - start} ms]")
         println("--------------------------------------------------")
-
     }
 
 }

@@ -7,6 +7,7 @@ import io.izzel.taboolib.module.command.base.SubCommand
 import io.izzel.taboolib.module.command.base.display.DisplayBase
 import io.izzel.taboolib.module.command.base.display.DisplayFlat
 import me.arasple.mc.trmenu.commands.sub.CommandDebug
+import me.arasple.mc.trmenu.commands.sub.CommandListMenu
 import me.arasple.mc.trmenu.commands.sub.CommandOpenMenu
 import me.arasple.mc.trmenu.commands.sub.CommandReload
 
@@ -22,6 +23,9 @@ class CommandHandler : BaseMainCommand() {
 
     @SubCommand(permission = "trmenu.command.open", description = "Open a menu for player")
     val open: BaseSubCommand = CommandOpenMenu()
+
+    @SubCommand(permission = "trmenu.command.list", description = "List loaded menus")
+    val list: BaseSubCommand = CommandListMenu()
 
     @SubCommand(permission = "trmenu.command.debug", description = "Enable debug mode for player or print debug info to console")
     val debug: BaseSubCommand = CommandDebug()

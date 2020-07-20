@@ -24,7 +24,7 @@ class ActionTitle(var title: String, var subTitle: String, var fadeIn: Int, var 
 
     override fun setContent(content: String) {
         val text = content
-        Nodes.read(text).second.forEach { key, value ->
+        Nodes.read(text).second.forEach { (key, value) ->
             when (key) {
                 Nodes.TITLE -> title = value
                 Nodes.SUBTITLE -> subTitle = value

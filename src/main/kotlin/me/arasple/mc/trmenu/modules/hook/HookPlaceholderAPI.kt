@@ -1,7 +1,8 @@
 package me.arasple.mc.trmenu.modules.hook
 
-import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import io.izzel.taboolib.module.inject.THook
+import me.arasple.mc.trmenu.TrMenu
+import me.arasple.mc.trmenu.data.MenuSession
 import me.arasple.mc.trmenu.data.MetaPlayer
 import me.clip.placeholderapi.PlaceholderAPI
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
@@ -23,10 +24,33 @@ object HookPlaceholderAPI {
         return when (params[0].toLowerCase()) {
             "args" -> {
                 val arguments = MetaPlayer.getArguments(player)
-                val index = NumberUtils.toInt(if (params.size > 1) params[1] else "0", 0)
-                if (arguments.size > index) arguments[index] else "null"
+                if (params.size > 1) {
+                    val range: Array<Int>
+                    params[0].split("-").let {
+                        range = arrayOf(it[0].toInt(), it[0].toInt())
+                        if (it.size > 1) range[1] = it[1].toInt()
+                    }
+                    return buildString {
+                        IntRange(range[0], range[1]).forEach {
+                            append(arguments[it])
+                            append(" ")
+                        }
+                    }.removeSuffix(" ")
+                }
+                return "null"
             }
             "meta" -> (if (params.size > 1) params[1] else null)?.let { MetaPlayer.getMeta(player, it) }?.toString() ?: "null"
+            "menu" -> {
+                val session = MenuSession.session(player)
+                if (!session.isNull()) {
+                    when (params[1]) {
+                        "page" -> session.page
+                        "next" -> session.page
+                        "title" -> session.menu!!.settings.title.currentTitle(player)
+                    }
+                }
+                ""
+            }
             else -> ""
         }
     }
@@ -34,15 +58,15 @@ object HookPlaceholderAPI {
     @THook
     class Inject : PlaceholderExpansion() {
 
-        override fun getIdentifier(): String = "trmenu"
+        override fun getIdentifier() = "trmenu"
 
-        override fun getVersion(): String = "2.0"
+        override fun getVersion() = TrMenu.plugin.description.version
 
-        override fun getAuthor(): String = "Arasple"
+        override fun getAuthor() = "Arasple"
 
-        override fun persist(): Boolean = true
+        override fun persist() = true
 
-        override fun onPlaceholderRequest(plauer: Player, content: String): String = processRequest(plauer, content)
+        override fun onPlaceholderRequest(plauer: Player, content: String) = processRequest(plauer, content)
 
     }
 

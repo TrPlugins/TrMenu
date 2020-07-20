@@ -196,13 +196,14 @@ Icons:
  - You can custom almost everything you see of this plugin
  - Just take a look at locale/zh_CN.yml
 
-### In-Game GUI Editor (Fully)
- > TrMenu v2 is the only advanced dynamic menu plugin with full in-game editor support
- > It is very friendly, and you can create amazing menus with just a few clicks
-
 ### Exporter
   - To locale YAML file
   - Paste on Hastebin
+
+### Developer API
+  - `MenuFactory` allows you to create an advanced gui quickly
+  - Also, completely based on packets
+  - and more
 
 ### Much more
 

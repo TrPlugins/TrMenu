@@ -25,6 +25,8 @@ class MenuConfiguration : BaseConfiguration() {
 
     fun getOptionDefaultArguments() = getOption(Property.OPTION_DEFAULT_ARGUMENTS)
 
+    fun getOptionDefaultLayout() = getOption(Property.OPTION_DEFAULT_LAYOUT)
+
     fun getOptionHidePlayerInventory() = getOption(Property.OPTION_HIDE_PLAYER_INVENTORY)
 
     fun getOptionMinClickDelay() = getOption(Property.OPTION_MIN_CLICK_DELAY)

@@ -1,4 +1,4 @@
-package me.arasple.mc.trmenu.modules.action.impl.hook
+package me.arasple.mc.trmenu.modules.action.impl.hook.eco
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import io.izzel.taboolib.module.compat.EconomyHook

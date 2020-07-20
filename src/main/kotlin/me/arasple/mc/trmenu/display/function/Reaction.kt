@@ -9,7 +9,7 @@ import org.bukkit.entity.Player
  * @author Arasple
  * @date 2020/5/30 13:34
  */
-class Reaction(val priority: Int, private val condition: String, private val success: List<Action>, private val failed: List<Action>) {
+data class Reaction(val priority: Int, private val condition: String, private val success: List<Action>, private val failed: List<Action>) {
 
     fun react(player: Player) = if (!isRequirementMatch(player)) {
         runDenyActions(player)

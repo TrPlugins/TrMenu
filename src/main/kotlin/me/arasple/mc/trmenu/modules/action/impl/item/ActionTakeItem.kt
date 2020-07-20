@@ -15,23 +15,23 @@ import org.bukkit.inventory.ItemStack
  */
 class ActionTakeItem : Action("(take|remove)(-)?item(s)?") {
 
-	override fun onExecute(player: Player) {
-		Tasks.runTask(Runnable {
-			val ids = ItemIdentifierHandler.read(getContent()).identifiers
+    override fun onExecute(player: Player) {
+        Tasks.runTask(true) {
+            val ids = ItemIdentifierHandler.read(getContent()).identifiers
 
-			println("Matches: $ids")
+            println("Matches: $ids")
 
-			player.inventory.contents.forEach {
-				if (!Items.isNull(it)) {
-					val match = ids.firstOrNull { i -> i.match(player, it) }
-					if (match != null) {
-						val amt = NumberUtils.toInt(match.characteristic.firstOrNull { i -> i is MatchItemAmount }?.getContent(player), 1)
-						println("TAKING ITEM: $match, AMT: $amt")
-						Items.takeItem(player.inventory, { i: ItemStack -> i.isSimilar(it) }, amt)
-					}
-				}
-			}
-		}, true)
-	}
+            player.inventory.contents.forEach {
+                if (!Items.isNull(it)) {
+                    val match = ids.firstOrNull { i -> i.match(player, it) }
+                    if (match != null) {
+                        val amt = NumberUtils.toInt(match.characteristic.firstOrNull { i -> i is MatchItemAmount }?.getContent(player), 1)
+                        println("TAKING ITEM: $match, AMT: $amt")
+                        Items.takeItem(player.inventory, { i: ItemStack -> i.isSimilar(it) }, amt)
+                    }
+                }
+            }
+        }
+    }
 
 }

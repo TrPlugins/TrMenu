@@ -33,7 +33,6 @@ object ReactionSerializer {
 
     fun serializeReaction(any: Any): Reaction? {
         val reaction = Utils.asSection(any) ?: return null
-
         val keyPriority = Utils.getSectionKey(reaction, Property.PRIORITY)
         val keyRequirement = Utils.getSectionKey(reaction, Property.REQUIREMENT)
         val keyActions = Utils.getSectionKey(reaction, Property.ACTIONS)

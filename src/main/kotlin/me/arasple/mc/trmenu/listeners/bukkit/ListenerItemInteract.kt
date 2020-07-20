@@ -23,10 +23,10 @@ class ListenerItemInteract : Listener {
         val player = e.player
         val item = e.item ?: return
 
-        val menu = Menu.getMenus().find { it.settings.matchItem(player, item) }
+        val menu = Menu.getMenus().find { it.settings.bindings.matchItem(player, item) }
         if (menu != null) {
             e.isCancelled = true
-            menu.open(player, 0, MenuOpenEvent.Reason.BINDING_ITEMS)
+            menu.open(player, -1, MenuOpenEvent.Reason.BINDING_ITEMS)
         }
     }
 

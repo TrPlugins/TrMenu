@@ -9,9 +9,9 @@ import java.util.*
  * @author Arasple
  * @date 2020/7/6 21:56
  */
-class MenuSession(var menu: Menu?, var layout: MenuLayout.Layout?, var page: Int) {
+class MenuSession(var menu: Menu?, var layout: MenuLayout.Layout?, var page: Int, var fromLayout: MenuLayout.Layout?) {
 
-    fun isNull() = menu == null
+    fun isNull() = menu == null || layout == null
 
     fun set(menu: Menu?, layout: MenuLayout.Layout?, page: Int) {
         this.menu = menu
@@ -19,7 +19,7 @@ class MenuSession(var menu: Menu?, var layout: MenuLayout.Layout?, var page: Int
         this.page = page
     }
 
-    constructor() : this(null, null, 0)
+    constructor() : this(null, null, 0, null)
 
     companion object {
 

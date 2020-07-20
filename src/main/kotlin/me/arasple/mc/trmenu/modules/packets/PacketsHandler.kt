@@ -6,7 +6,8 @@ import io.izzel.taboolib.module.lite.SimpleReflection
 import io.izzel.taboolib.module.lite.SimpleVersionControl
 import io.izzel.taboolib.module.packet.TPacketHandler
 import me.arasple.mc.trmenu.TrMenu
-import me.arasple.mc.trmenu.api.inventory.MenuClickType
+import me.arasple.mc.trmenu.api.inventory.InvClickType
+import me.arasple.mc.trmenu.api.inventory.InvClickType.*
 import me.arasple.mc.trmenu.data.MenuSession
 import me.arasple.mc.trmenu.data.MetaPlayer
 import org.bukkit.Material
@@ -14,7 +15,6 @@ import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.event.inventory.InventoryType.*
 import org.bukkit.inventory.ItemStack
-import java.util.*
 
 /**
  * @author Arasple
@@ -40,7 +40,6 @@ abstract class PacketsHandler {
 
     companion object {
 
-        val SENT_OPEN_WINDOW = mutableListOf<UUID>()
         lateinit var INSTANCE: PacketsHandler
         lateinit var EMPTY_ITEM: Any
 
@@ -114,23 +113,23 @@ abstract class PacketsHandler {
             else -> 6
         }
 
-        fun getClickType(rawType: Any, button: Int, slot: Int): MenuClickType = when (INSTANCE.getClickTypeIndex(rawType)) {
-            0 -> if (button == 0) MenuClickType.LEFT else MenuClickType.RIGHT
-            1 -> if (button == 0) MenuClickType.SHIFT_LEFT else MenuClickType.SHIFT_RIGHT
-            2 -> if (button == 40) MenuClickType.SWAP else MenuClickType.valueOf("NUMBER_KEY${if (button > 0) "_${button + 1}" else ""}")
-            3 -> MenuClickType.MIDDLE
+        fun getClickType(rawType: Any, button: Int, slot: Int): InvClickType = when (INSTANCE.getClickTypeIndex(rawType)) {
+            0 -> if (button == 0) LEFT else RIGHT
+            1 -> if (button == 0) SHIFT_LEFT else SHIFT_RIGHT
+            2 -> if (button == 40) OFFHAND else InvClickType.valueOf("NUMBER_KEY${if (button > 0) "_${button + 1}" else ""}")
+            3 -> MIDDLE
             4 -> when (button) {
-                0 -> if (slot >= 0) MenuClickType.DROP else MenuClickType.WINDOW_BORDER_LEFT
-                else -> if (slot >= 0) MenuClickType.CONTROL_DROP else MenuClickType.WINDOW_BORDER_RIGHT
+                0 -> if (slot >= 0) DROP else WINDOW_BORDER_LEFT
+                else -> if (slot >= 0) CONTROL_DROP else WINDOW_BORDER_RIGHT
             }
             5 -> when (button) {
-                0, 1, 2 -> MenuClickType.LEFT
-                4, 5, 6 -> MenuClickType.RIGHT
-                8, 9, 10 -> MenuClickType.MIDDLE
-                else -> MenuClickType.ALL
+                0, 1, 2 -> LEFT
+                4, 5, 6 -> RIGHT
+                8, 9, 10 -> MIDDLE
+                else -> ALL
             }
-            6 -> MenuClickType.DOUBLE_CLICK
-            else -> MenuClickType.ALL
+            6 -> DOUBLE_CLICK
+            else -> ALL
         }
 
         fun sendClearNonIconSlots(player: Player, session: MenuSession) {

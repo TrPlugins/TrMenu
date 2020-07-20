@@ -29,15 +29,15 @@ enum class Nodes(regex: String) {
 
     MAT_ORIGINAL("<ORIGINAL>"),
 
-    TITLE("<(?i)(title)[:=]( )?(.+>)"),
+    TITLE("<(?i)(title)[:=]( )?(.+?>)"),
 
-    SUBTITLE("<(?i)(sub(-)?title)[:=]( )?(.+>)"),
+    SUBTITLE("<(?i)(sub(-)?title)[:=]( )?(.+?>)"),
 
-    FADEIN("<(?i)((fade)?(-)?in)[:=]( )?(.+>)"),
+    FADEIN("<(?i)((fade)?(-)?in)[:=]( )?([0-9]+>)"),
 
-    STAY("<(?i)stay[:=]( )?(.+>)"),
+    STAY("<(?i)stay[:=]( )?([0-9]+>)"),
 
-    FADEOUT("<(?i)((fade)?(-)?out)[:=]( )?(.+>)"),
+    FADEOUT("<(?i)((fade)?(-)?out)[:=]( )?([0-9]+>)"),
 
     CHANCE("<(?i)(c|chance|rate):( )?([0-9]+[.]?[0-9]*>)"),
 
@@ -47,15 +47,15 @@ enum class Nodes(regex: String) {
 
     REQUIREMENT("<(?i)(r|require(ment)?|condition):( )?(.+>)");
 
-    private var pattern: Array<Pattern> = arrayOf(Pattern.compile("$regex>"), Pattern.compile(regex))
+    private var pattern: Array<Pattern> = arrayOf(Pattern.compile("$regex<"), Pattern.compile(regex))
 
     fun matcher(content: String): Matcher {
         val matcher = pattern[0].matcher(content)
-        return if (matcher.find()) {
-            pattern[1].matcher(matcher.group())
-        } else {
+        return if (matcher.find())
+            pattern[0].matcher(content)
+        else
             pattern[1].matcher(content)
-        }
+
     }
 
     fun isMatType() = this.name.startsWith("MAT_")
@@ -65,11 +65,11 @@ enum class Nodes(regex: String) {
         fun read(string: String): Pair<String, Map<Nodes, String>> {
             var content = string
             val result = mutableMapOf<Nodes, String>()
-            Nodes.values().forEach {
+            values().forEach {
                 val matcher = it.matcher(content)
                 if (matcher.find()) {
-                    val group = matcher.group()
-                    val args = group.removeSuffix(">").split(delimiters = *arrayOf("?", "=", "~", ":"), limit = 2)
+                    val group = matcher.group().removeSuffix("<")
+                    val args = group.removeSuffix(">").split(delimiters = arrayOf("?", "=", "~", ":"), limit = 2)
                     result[it] = if (args.size >= 2) args[1] else ""
                     content = content.replace(group, "")
                 }

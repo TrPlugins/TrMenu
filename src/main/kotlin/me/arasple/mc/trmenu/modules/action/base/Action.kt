@@ -20,10 +20,10 @@ abstract class Action(val name: Regex, internal var content: String, var options
         if (options.containsKey(Nodes.DELAY)) {
             val delay = NumberUtils.toLong(options[Nodes.DELAY], -1)
             if (delay > 0) {
-                Tasks.runDelayTask(Runnable {
+                Tasks.runDelayTask(delay) {
                     if (options.containsKey(Nodes.PLAYERS)) Bukkit.getOnlinePlayers().filter { options[Nodes.PLAYERS]?.let { it1 -> Scripts.script(it, it1).asBoolean() } as Boolean }.forEach { onExecute(it, Msger.replaceWithBracketPlaceholders(player, content)) }
                     else onExecute(player)
-                }, delay)
+                }
             }
             return
         }
@@ -38,6 +38,10 @@ abstract class Action(val name: Regex, internal var content: String, var options
             setContent(temp)
         } else onExecute(player)
     }
+
+    fun getContentSplited(player: Player) = getContentSplited(player, "\\n", "\\r")
+
+    fun getContentSplited(player: Player, vararg delimiters: String) = getContent(player).split(*delimiters)
 
     fun getContent(player: Player): String = Msger.replace(player, content)
 

@@ -9,16 +9,16 @@ import org.bukkit.Bukkit
  */
 object Tasks {
 
-	fun runTask(runnable: Runnable) = runTask(runnable, false)
+    fun runTask(runnable: Runnable) = runTask(false, runnable)
 
-	fun runTask(runnable: Runnable, async: Boolean) = if (async) Bukkit.getScheduler().runTaskAsynchronously(TrMenu.plugin, runnable) else Bukkit.getScheduler().runTask(TrMenu.plugin, runnable)
+    fun runTask(async: Boolean, runnable: Runnable) = if (async) Bukkit.getScheduler().runTaskAsynchronously(TrMenu.plugin, runnable) else Bukkit.getScheduler().runTask(TrMenu.plugin, runnable)
 
-	fun runDelayTask(runnable: Runnable, delay: Long) = runDelayTask(runnable, delay, false)
+    fun runDelayTask(delay: Long, runnable: Runnable) = runDelayTask(delay, false, runnable)
 
-	fun runDelayTask(runnable: Runnable, delay: Long, async: Boolean) = if (async) Bukkit.getScheduler().runTaskLaterAsynchronously(TrMenu.plugin, runnable, delay) else Bukkit.getScheduler().runTaskLater(TrMenu.plugin, runnable, delay)
+    fun runDelayTask(delay: Long, async: Boolean, runnable: Runnable) = if (async) Bukkit.getScheduler().runTaskLaterAsynchronously(TrMenu.plugin, runnable, delay) else Bukkit.getScheduler().runTaskLater(TrMenu.plugin, runnable, delay)
 
-	fun runTimerTask(runnable: Runnable, delay: Long, period: Long) = runTimerTask(runnable, delay, period, false)
+    fun runTimerTask(delay: Long, period: Long, runnable: Runnable) = runTimerTask(delay, period, false, runnable)
 
-	fun runTimerTask(runnable: Runnable, delay: Long, period: Long, async: Boolean) = if (async) Bukkit.getScheduler().runTaskTimerAsynchronously(TrMenu.plugin, runnable, delay, period) else Bukkit.getScheduler().runTaskTimer(TrMenu.plugin, runnable, delay, period)
+    fun runTimerTask(delay: Long, period: Long, async: Boolean, runnable: Runnable) = if (async) Bukkit.getScheduler().runTaskTimerAsynchronously(TrMenu.plugin, runnable, delay, period) else Bukkit.getScheduler().runTaskTimer(TrMenu.plugin, runnable, delay, period)
 
 }

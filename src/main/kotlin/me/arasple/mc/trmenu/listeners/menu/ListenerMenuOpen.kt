@@ -14,7 +14,7 @@ import org.bukkit.event.Listener
 @TListener
 class ListenerMenuOpen : Listener {
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     fun onOpening(e: MenuOpenEvent) {
         val player = e.player
 

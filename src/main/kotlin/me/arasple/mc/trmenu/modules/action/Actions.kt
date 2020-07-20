@@ -4,8 +4,14 @@ import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import io.izzel.taboolib.util.lite.Numbers
 import me.arasple.mc.trmenu.modules.action.base.Action
 import me.arasple.mc.trmenu.modules.action.impl.*
-import me.arasple.mc.trmenu.modules.action.impl.hook.*
+import me.arasple.mc.trmenu.modules.action.impl.hook.eco.ActionGiveMoney
+import me.arasple.mc.trmenu.modules.action.impl.hook.eco.ActionSetMoney
+import me.arasple.mc.trmenu.modules.action.impl.hook.eco.ActionTakeMoney
+import me.arasple.mc.trmenu.modules.action.impl.hook.playerpoints.ActionGivePoints
+import me.arasple.mc.trmenu.modules.action.impl.hook.playerpoints.ActionSetPoints
+import me.arasple.mc.trmenu.modules.action.impl.hook.playerpoints.ActionTakePoints
 import me.arasple.mc.trmenu.modules.action.impl.item.ActionTakeItem
+import me.arasple.mc.trmenu.modules.action.impl.menu.*
 import me.arasple.mc.trmenu.modules.script.Scripts
 import me.arasple.mc.trmenu.utils.Msger
 import me.arasple.mc.trmenu.utils.Nodes
@@ -30,16 +36,15 @@ object Actions {
         // item
         ActionTakeItem(),
         // menu
-//            ActionClose(),
-//            ActionOpen(),
-//            ActionRefresh(),
-//            ActionRemoveTempVariable(),
-//            ActionSetArgs(),
-//            ActionSetPage(),
-//            ActionSetSlots(),
-//            ActionSetTempVariable(),
-//            ActionSetTitle(),
-//            ActionSilentClose(),
+        ActionClose(),
+        ActionOpen(),
+        ActionRefresh(),
+        ActionMetaRemove(),
+        ActionSetArgs(),
+        ActionSetPage(),
+        ActionMetaSet(),
+        ActionSetTitle(),
+        ActionSilentClose(),
         // normal
         ActionChat(),
         ActionActionbar(),
@@ -52,9 +57,9 @@ object Actions {
         ActionJavaScript(),
         ActionReturn(),
         ActionSound(),
-        ActionTell()
-//            ActionTellraw(),
-//            ActionTitle()
+        ActionTell(),
+        ActionTellraw(),
+        ActionTitle()
     )
 
     fun registerAction(action: Action) = registeredActions.add(action.newInstance())
@@ -72,7 +77,7 @@ object Actions {
             when {
                 action is ActionReturn -> return false
                 action is ActionDelay -> delay += NumberUtils.toLong(action.getContent(player), 0)
-                delay > 0 -> Tasks.runDelayTask(Runnable { action.run(player) }, delay)
+                delay > 0 -> Tasks.runDelayTask(delay) { action.run(player) }
                 else -> Tasks.runTask(Runnable { action.run(player) })
             }
         }

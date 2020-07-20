@@ -1,7 +1,7 @@
 package me.arasple.mc.trmenu.modules.configuration.serialize
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
-import me.arasple.mc.trmenu.api.inventory.MenuClickType
+import me.arasple.mc.trmenu.api.inventory.InvClickType
 import me.arasple.mc.trmenu.display.Icon
 import me.arasple.mc.trmenu.display.animation.Animated
 import me.arasple.mc.trmenu.display.icon.IconClickHandler
@@ -37,7 +37,7 @@ object IconSerializer {
 
                 val iconSettings = IconSettings(
                     iconSection.getInt(Utils.getSectionKey(iconSection, Property.ICON_REFRESH), -1),
-                    iconSection.getIntegerList(Utils.getSectionKey(iconSection, Property.ICON_UPDATE)).toTypedArray()
+                    Utils.asIntArray(iconSection.get(Utils.getSectionKey(iconSection, Property.ICON_UPDATE)))
                 )
 
                 val defIcon = loadIconProperty(iconSection) ?: return@forEach
@@ -81,22 +81,24 @@ object IconSerializer {
      * 加载图标的显示部分
      */
     fun loadIconDisplay(display: ConfigurationSection): IconDisplay {
-        val page = display.getIntegerList(Utils.getSectionKey(display, Property.ICON_DISPLAY_PAGE))
+        val page = display.getIntegerList(Utils.getSectionKey(display, Property.ICON_DISPLAY_PAGE)).let {
+            if (it.isEmpty()) it.add(0)
+            return@let it
+        }
         val slots = display.getList(Utils.getSectionKey(display, Property.ICON_DISPLAY_SLOT))
 
         // 加载坐标
         val positions = let {
             if (slots != null && slots.isNotEmpty()) {
-                val pos = Animated(mutableListOf<IconDisplay.Position>().let {
-                    if (slots.first() is List<*>) slots.forEach { s -> it.add(IconDisplay.Position.createPosition(s as List<String>)) }
-                    else it.add(IconDisplay.Position.createPosition(slots as List<Any>))
-                    it
-                }.toTypedArray())
-
+                val pos = Animated(
+                    mutableListOf<IconDisplay.Position>().let {
+                        if (slots.first() is List<*>) slots.forEach { s -> it.add(IconDisplay.Position.createPosition(s as List<String>)) }
+                        else it.add(IconDisplay.Position.createPosition(slots as List<Any>))
+                        it
+                    }.toTypedArray()
+                )
                 return@let mutableMapOf<Int, Animated<IconDisplay.Position>>().let {
-                    page.forEach { p ->
-                        it[NumberUtils.toInt(p.toString(), 0)] = pos
-                    }
+                    page.forEach { p -> it[NumberUtils.toInt(p.toString(), 0)] = pos }
                     it
                 }
             } else return@let null
@@ -139,7 +141,7 @@ object IconSerializer {
         val handlers = mutableListOf<IconClickHandler.Handler>()
 
         click?.getKeys(false)?.forEach { type ->
-            val types = MenuClickType.matches(type)
+            val types = InvClickType.matches(type)
             if (types.isNotEmpty()) {
                 val reactions = ReactionSerializer.serializeReactions(click[type])
                 if (reactions.isNotEmpty()) {

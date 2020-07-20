@@ -4,7 +4,13 @@ package me.arasple.mc.trmenu.display.icon
  * @author Arasple
  * @date 2020/5/30 13:48
  */
-class IconSettings(val refresh: Int, val update: Array<Int>) {
+class IconSettings(val refresh: Int, var update: Array<Int>) {
+
+    init {
+        val list = update.toMutableList()
+        while (list.size < 4) list.add(update.max() ?: -1)
+        update = list.toTypedArray()
+    }
 
     fun getUpdateMaterials(): Int = update[0]
 

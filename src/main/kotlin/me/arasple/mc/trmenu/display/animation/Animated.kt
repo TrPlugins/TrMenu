@@ -6,7 +6,7 @@ import org.bukkit.entity.Player
  * @author Arasple
  * @date 2020/7/6 16:26
  */
-class Animated<T>(var elements: Array<T>) {
+data class Animated<T>(var elements: Array<T>) {
 
     private val id = AnimationHandler.nextId()
 
@@ -34,5 +34,28 @@ class Animated<T>(var elements: Array<T>) {
     private fun getElement(index: Int) = if (index > elements.size - 1) {
         null
     } else elements[index]
+
+
+    /*
+    Generated
+     */
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Animated<*>
+
+        if (!elements.contentEquals(other.elements)) return false
+        if (id != other.id) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = elements.contentHashCode()
+        result = 31 * result + id
+        return result
+    }
 
 }

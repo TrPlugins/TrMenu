@@ -2,9 +2,9 @@ package me.arasple.mc.trmenu.display.function
 
 import io.izzel.taboolib.util.Strings
 import me.arasple.mc.trmenu.modules.script.Scripts
+import me.arasple.mc.trmenu.utils.Patterns.INTERNAL_FUNCTION
 import org.bukkit.entity.Player
 import java.util.regex.Matcher
-import java.util.regex.Pattern
 
 /**
  * @author Arasple
@@ -14,9 +14,7 @@ data class InternalFunction(val id: String, val value: String) {
 
     companion object {
 
-        private val PATTERN: Pattern = Pattern.compile("\\\$\\{(.*?)}")
-
-        fun match(string: String): Matcher = PATTERN.matcher(string)
+        fun match(string: String): Matcher = INTERNAL_FUNCTION.matcher(string)
 
     }
 

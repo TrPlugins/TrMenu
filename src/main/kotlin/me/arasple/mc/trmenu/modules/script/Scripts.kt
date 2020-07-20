@@ -41,7 +41,10 @@ object Scripts {
 
     private fun eval(player: Player, script: CompiledScript, bindings: SimpleBindings, silent: Boolean): ScriptResult = try {
         val content = SimpleScriptContext()
-        content.setBindings(bindings, ScriptContext.ENGINE_SCOPE)
+        content.setBindings(SimpleBindings(bindings).let {
+            it["player"] = player
+            return@let it
+        }, ScriptContext.ENGINE_SCOPE)
         content.setAttribute(ScriptUtils.function, Function<String, String> { Msger.replace(player, it) }, ScriptContext.ENGINE_SCOPE)
         ScriptResult(script.eval(content))
     } catch (e: Throwable) {

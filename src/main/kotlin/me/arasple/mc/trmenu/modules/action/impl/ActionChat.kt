@@ -9,6 +9,6 @@ import org.bukkit.entity.Player
  */
 class ActionChat : Action("chat") {
 
-	override fun onExecute(player: Player) = player.chat(getContent(player))
+    override fun onExecute(player: Player) = getContentSplited(player).forEach { player.chat(it) }
 
 }

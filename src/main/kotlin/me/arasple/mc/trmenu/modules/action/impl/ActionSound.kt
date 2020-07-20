@@ -12,23 +12,25 @@ import org.bukkit.entity.Player
  */
 class ActionSound : Action("(play)?(-)?sound") {
 
-	override fun onExecute(player: Player) {
-		val split = getContent(player).split("-")
-		if (split.isNotEmpty()) {
-			val sound: Sounds
-			try {
-				sound = Sounds.valueOf(split[0])
-			} catch (e: Throwable) {
-				TLocale.sendToConsole("ERRORS.SOUND", getContent(player), player.name)
-				return
-			}
+    override fun onExecute(player: Player) {
+        getContentSplited(player, ";").forEach {
+            val split = it.split("-")
+            if (split.isNotEmpty()) {
+                val sound = Sounds.matchSounds(split[0]).orElse(null)
+                if (sound == null) {
+                    TLocale.sendToConsole("ERRORS.SOUND", it, player.name)
+                    return
+                }
 
-			var volume = 1.0f
-			var pitch = 1.0f
-			if (split.size >= 2) volume = NumberUtils.toFloat(split[1], 1f)
-			if (split.size >= 3) pitch = NumberUtils.toFloat(split[2], 1f)
-			sound.playSound(player, volume, pitch)
-		}
-	}
+                var volume = 1.0f
+                var pitch = 1.0f
+                if (split.size >= 2) volume = NumberUtils.toFloat(split[1], 1f)
+                if (split.size >= 3) pitch = NumberUtils.toFloat(split[2], 1f)
+                sound.playSound(player, volume, pitch)
+            }
+        }
+
+
+    }
 
 }

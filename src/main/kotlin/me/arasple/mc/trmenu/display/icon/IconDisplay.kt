@@ -18,6 +18,8 @@ class IconDisplay(val position: MutableMap<Int, Animated<Position>>, val item: D
 
     fun createDisplayItem(player: Player) = item.releaseItem(player, getName(player), getLore(player)) ?: ItemStack(Material.BARRIER)
 
+    fun isAnimatedPosition(pageIndex: Int) = position[pageIndex]?.elements?.let { return@let it.size > 1 } ?: false
+
     fun getPosition(player: Player, pageIndex: Int) = position[pageIndex]?.currentElement(player)!!.getSlots(player)
 
     fun nextPosition(player: Player, pageIndex: Int) = position[pageIndex]?.nextIndex(player)

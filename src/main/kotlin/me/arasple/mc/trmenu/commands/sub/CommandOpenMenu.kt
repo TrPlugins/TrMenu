@@ -40,7 +40,7 @@ class CommandOpenMenu : BaseSubCommand() {
             return
         }
         arguments?.let { MetaPlayer.setArguments(player, it) }
-        menu.open(player, 0, if (sender is Player) MenuOpenEvent.Reason.PLAYER_COMMAND else MenuOpenEvent.Reason.CONSOLE)
+        menu.open(player, -1, if (sender is Player) MenuOpenEvent.Reason.PLAYER_COMMAND else MenuOpenEvent.Reason.CONSOLE)
     }
 
 }

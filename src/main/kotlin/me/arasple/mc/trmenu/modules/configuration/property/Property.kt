@@ -42,6 +42,11 @@ enum class Property(val default: String, val regex: Regex) {
     OPTION_DEFAULT_ARGUMENTS("Default-Arguments", "def(ault)?(-)?arg(ument)?(s)?"),
 
     /**
+     * 菜单选项 - 默认布局
+     */
+    OPTION_DEFAULT_LAYOUT("Default-Layout", "def(ault)?(-)?lay(out)?(s)?"),
+
+    /**
      * 菜单选项 - 隐藏玩家容器
      */
     OPTION_HIDE_PLAYER_INVENTORY("Hide-Player-Inventory", "hide(-)?player(-)?inv(entory)?(s)?"),

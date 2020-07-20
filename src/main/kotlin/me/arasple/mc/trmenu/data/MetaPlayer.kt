@@ -2,8 +2,10 @@ package me.arasple.mc.trmenu.data
 
 import io.izzel.taboolib.internal.apache.lang3.ArrayUtils
 import io.izzel.taboolib.util.Strings
+import io.izzel.taboolib.util.Variables
 import me.arasple.mc.trmenu.display.function.InternalFunction
 import me.arasple.mc.trmenu.utils.Msger
+import me.arasple.mc.trmenu.utils.Patterns
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import java.util.*
@@ -57,9 +59,22 @@ object MetaPlayer {
     fun getArguments(player: Player): Array<String> = this.arguments.computeIfAbsent(player.uniqueId) { arrayOf() }
 
     fun setArguments(player: Player, arguments: Array<String>) {
-        this.arguments[player.uniqueId] = filterInput(arguments.toMutableList()).toTypedArray()
+        this.arguments[player.uniqueId] = filterInput(formatArguments(arguments)).toTypedArray()
         Msger.debug("ARGUMENTS", player.name, getArguments(player))
+        Msger.debug("ARGUMENTS", player, player.name, getArguments(player))
     }
+
+    fun formatArguments(arguments: Array<String>) =
+        mutableListOf<String>().let { list ->
+            Variables(arguments.joinToString(" "), Patterns.ICON_KEY_MATCHER).find().variableList.forEach { it ->
+                if (it.isVariable) {
+                    list.add(it.text)
+                } else {
+                    list.addAll(it.text.split(" ").filter { it.isNotBlank() })
+                }
+            }
+            list
+        }
 
     fun removeArguments(player: Player) = this.arguments.remove(player.uniqueId)
 

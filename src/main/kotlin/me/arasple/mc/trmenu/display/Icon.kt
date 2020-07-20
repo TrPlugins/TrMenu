@@ -35,9 +35,15 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
             val icon = getIconProperty(player)
             val slots = icon.display.getPosition(player, session.page)
             val item = icon.display.createDisplayItem(player)
-            slots.forEach { PacketsHandler.sendOutSlot(player, TRMENU_WINDOW_ID, it, item) }
+            slots.forEach {
+                PacketsHandler.sendOutSlot(player, TRMENU_WINDOW_ID, it, item)
+            }
+            if (icon.display.isAnimatedPosition(session.page)) {
+                PacketsHandler.sendClearNonIconSlots(player, session)
+            }
         }
-        Msger.debug(player, "ICON-ITEM-UPDATE", id, System.currentTimeMillis() - start)
+
+        Msger.debug(player, "ICON.ITEM-UPDATED", id, System.currentTimeMillis() - start)
     }
 
     private fun startUpdateTasks(player: Player, menu: Menu) {
@@ -81,6 +87,7 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
         subIcons.sortedBy { it.priority }.forEachIndexed { index, subIcon ->
             if (Scripts.expression(player, subIcon.condition).asBoolean()) {
                 currentIndex[player.uniqueId] = index
+                Msger.debug(player, "ICON.SUB-ICON-REFRESHED", currentIndex[player.uniqueId].toString())
                 return true
             }
         }

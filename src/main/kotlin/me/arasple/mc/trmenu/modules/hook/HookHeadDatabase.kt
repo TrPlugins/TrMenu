@@ -13,31 +13,32 @@ import org.bukkit.inventory.ItemStack
 object HookHeadDatabase {
 
     private const val PLUGIN_NAME = "HeadDatabase"
-    private val EMPTY_ITEM = Materials.AIR.parseItem()!!
+    private var IS_HOOKED = false
     private var HEAD_DATABASE_API: HeadDatabaseAPI? = null
-    var IS_HOOKED = false
+    private val EMPTY_ITEM = Materials.AIR.parseItem()!!
+
+    fun isHooked() = IS_HOOKED
 
     fun init() {
         IS_HOOKED = Bukkit.getPluginManager().getPlugin(PLUGIN_NAME)?.isEnabled ?: false
-        if (IS_HOOKED) {
+        if (isHooked()) {
             HEAD_DATABASE_API = HeadDatabaseAPI()
             TLocale.sendToConsole("HOOKED", PLUGIN_NAME)
         }
     }
 
-    fun getHead(id: String): ItemStack = if (IS_HOOKED) {
+    fun getHead(id: String): ItemStack = if (isHooked()) {
         if (id.equals("random", true)) getRandomHead() else HEAD_DATABASE_API?.getItemHead(id) ?: EMPTY_ITEM
     } else {
         TLocale.sendToConsole("ERRORS.HOOK", PLUGIN_NAME)
         EMPTY_ITEM
     }
 
-    fun getRandomHead(): ItemStack = if (IS_HOOKED) {
+    fun getRandomHead(): ItemStack = if (isHooked()) {
         HEAD_DATABASE_API?.randomHead ?: EMPTY_ITEM
     } else {
         TLocale.sendToConsole("ERRORS.HOOK", PLUGIN_NAME)
         EMPTY_ITEM
     }
-
 
 }

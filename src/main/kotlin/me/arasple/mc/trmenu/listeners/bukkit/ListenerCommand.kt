@@ -26,10 +26,10 @@ class ListenerCommand : Listener {
 
         if (message.isNotEmpty()) {
             for (menu in Menu.getMenus()) {
-                val matches = menu.settings.matchCommand(message)
+                val matches = menu.settings.bindings.matchCommand(message)
                 if (matches != null) {
                     MetaPlayer.setArguments(player, matches)
-                    menu.open(player, 0, MenuOpenEvent.Reason.PLAYER_COMMAND)
+                    menu.open(player, -1, MenuOpenEvent.Reason.PLAYER_COMMAND)
                     e.isCancelled = true
                     break
                 }

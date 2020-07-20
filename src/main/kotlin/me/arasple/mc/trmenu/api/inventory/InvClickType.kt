@@ -4,7 +4,7 @@ package me.arasple.mc.trmenu.api.inventory
  * @author Arasple
  * @date 2020/3/22 10:23
  */
-enum class MenuClickType {
+enum class InvClickType {
 
     /**
      * 左键点击
@@ -44,7 +44,7 @@ enum class MenuClickType {
     /**
      * 切换副手 (默认为 F) (1.16+)
      */
-    SWAP,
+    OFFHAND,
 
     /**
      * Ctrl + 丢弃键
@@ -129,7 +129,7 @@ enum class MenuClickType {
 
     fun isKeyboardClick(): Boolean = isNumberKeyClick() || this == DROP || this == CONTROL_DROP
 
-    fun isNumberKeyClick(): Boolean = this.name.startsWith(NUMBER_KEY.name)
+    fun isNumberKeyClick(): Boolean = this.name.startsWith(NUMBER_KEY.name) || this == OFFHAND
 
     fun isDoubleClick(): Boolean = this == DOUBLE_CLICK
 
@@ -139,9 +139,9 @@ enum class MenuClickType {
 
     companion object {
 
-        fun match(string: String): MenuClickType = values().firstOrNull { it.name.equals(string.toUpperCase().replace(" ", "_"), true) } ?: ALL
+        fun match(string: String): InvClickType = values().firstOrNull { it.name.equals(string.replace(" ", "_"), true) } ?: ALL
 
-        fun matches(string: String): Set<MenuClickType> = mutableSetOf<MenuClickType>().let { set ->
+        fun matches(string: String): Set<InvClickType> = mutableSetOf<InvClickType>().let { set ->
             string.split(',', ';').forEach { set.add(match(it)) }
             return@let set
         }

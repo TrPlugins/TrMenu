@@ -40,6 +40,7 @@ object MenuSerializer {
 
         val options = MenuSettings.Options(
             Utils.asArray(c.getOptionDefaultArguments()),
+            Utils.asInt(c.getOptionDefaultLayout(), 0),
             Utils.asBoolean(c.getOptionHidePlayerInventory()),
             Utils.asLong(c.getOptionMinClickDelay(), 200),
             Utils.asArray(c.getOptionDependExpansions())
@@ -70,7 +71,7 @@ object MenuSerializer {
                 if (obj != null) {
                     Utils.asSection(obj)?.getValues(false)?.values?.forEach { value ->
                         Utils.asSection(value)?.let { section ->
-                            {
+                            run {
                                 val period = section.getLong(Utils.getSectionKey(section, Property.PERIOD), -1)
                                 if (period > 0) {
                                     val reactions = ReactionSerializer.serializeReactions(section[Utils.getSectionKey(section, Property.TASKS)])

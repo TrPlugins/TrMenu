@@ -26,18 +26,19 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
      * 为玩家打开此菜单
      */
     fun open(player: Player, page: Int, reason: MenuOpenEvent.Reason) {
-        val event = MenuOpenEvent(player, this, page, reason, MenuOpenEvent.Result.UNKNOWN).call()
+        val p = if (page < 0) settings.options.defaultLayout else 0
+        val e = MenuOpenEvent(player, this, p, reason, MenuOpenEvent.Result.UNKNOWN).call()
 
-        if (layout.layouts.size <= page) {
-            event.result = MenuOpenEvent.Result.ERROR_PAGE
-            event.isCancelled = true
+        if (layout.layouts.size <= e.page) {
+            e.result = MenuOpenEvent.Result.ERROR_PAGE
+            e.isCancelled = true
             return
         }
-        if (!event.isCancelled) {
-            val layout = layout.layouts[page]
+        if (!e.isCancelled) {
+            val layout = layout.layouts[p]
 
             MetaPlayer.completeArguments(player, settings.options.defaultArguments)
-            MenuSession.session(player).set(this, layout, page)
+            MenuSession.session(player).set(this, layout, p)
 
             layout.displayInventory(player, settings.title.getTitle(player))
 

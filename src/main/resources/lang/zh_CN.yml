@@ -7,11 +7,13 @@ PLUGIN:
 
 LOADER:
   MENU: '&8[&3Tr&bMenu&8] &aFINE &8| &3已载入 &a{0} &3个有效菜单 &8({1} ms)'
-  EXPRESSIONS: '&8[&3Tr&bMenu&8] &eMODULES &8| &3已重载 &a{0} &3个表达式替换规则 &8({1} ms)'
   ERRORS:
 
-
 DEBUG:
+  EXPRESSION:
+    - '&8[&fTr&7Menu&8] &3DEBUG &8| &7测试转义表达式:'
+    - '&8- Raw: &7{0}'
+    - '&8- &7Translated: &f{1}'
   PRE-COMPILE-SCRIPT:
     - '&8[&fTr&7Menu&8] &3DEBUG &8| &6预编译脚本表达式'
     - '&8Raw: {0}'
@@ -20,7 +22,9 @@ DEBUG:
     REGISTERED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6注册了 &c{0} &6个可用动作 &8({1} ms)'
     SET-TEMP-VARIABLE: '&8[&fTr&7Menu&8] &3DEBUG &8| &6设置玩家 &c{0} &6的临时变量, &c{ key=&6{1}&c,value=&6{2}&c } &8(raw: {3})'
     SET-TEMP-VARIABLE-FAILED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6设置玩家 &c{0} &6的临时变量失败 &8(raw: {3})'
-  ICON-ITEM-UPDATE: '&8[&fTr&7Menu&8] &3DEBUG &8| &6更新图标 &c{0} &6的物品  &8({1} ms)'
+  ICON:
+    ITEM-UPDATED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6更新图标 &c{0} &6的物品  &8({1} ms)'
+    SUB-ICON-REFRESHED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6更新图标 &c{0} &6的物品  &8({1} ms)'
   ARGUMENTS: '&8[&fTr&7Menu&8] &3DEBUG &8| &6更新玩家 &c{0} &6的参数 &c{ &8{1} }'
 
 COMMANDS:

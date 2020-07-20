@@ -30,7 +30,6 @@ class TrMenuLoader {
     }
 
     fun active() {
-        Expressions.reload()
         HookHeadDatabase.init()
         HookPlayerPoints.init()
 
@@ -81,7 +80,6 @@ class TrMenuLoader {
             }
 
         private fun setupMenus(): File {
-            Expressions.reload()
             Menu.clearMenus()
             val folder = File(TrMenu.plugin.dataFolder, "menus")
             if (!folder.exists()) {

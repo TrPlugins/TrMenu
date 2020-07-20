@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.modules.packets.impl
 
+import io.izzel.taboolib.module.lite.SimpleReflection
 import me.arasple.mc.trmenu.modules.packets.PacketsHandler
 import net.minecraft.server.v1_12_R1.*
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer
@@ -13,6 +14,12 @@ import org.bukkit.inventory.ItemStack
  * @date 2020/3/29 21:23
  */
 class ImplPacketsHandler12 : PacketsHandler() {
+
+    init {
+        SimpleReflection.checkAndSave(
+            PacketPlayOutOpenWindow::class.java
+        )
+    }
 
     override fun sendOpenWindow(player: Player, windowId: Int, inventoryType: InventoryType, size: Int, inventoryTitle: String) = sendPacket(
         player,

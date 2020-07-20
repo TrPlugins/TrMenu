@@ -6,10 +6,10 @@ import me.arasple.mc.trmenu.display.Icon
 import me.arasple.mc.trmenu.display.animation.Animated
 import me.arasple.mc.trmenu.display.icon.IconDisplay
 import me.arasple.mc.trmenu.modules.packets.PacketsHandler
+import me.arasple.mc.trmenu.utils.Patterns.ICON_KEY_MATCHER
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.event.inventory.InventoryType.*
-import java.util.regex.Pattern
 import kotlin.math.max
 
 /**
@@ -71,7 +71,7 @@ class MenuLayout(val layouts: List<Layout>) {
         /**
          * 显示虚拟容器
          */
-        fun displayInventory(player: Player, title: String) = PacketsHandler.sendOpenWindow(player, TRMENU_WINDOW_ID, type, size(), title)
+        fun displayInventory(player: Player, title: String) = PacketsHandler.sendOpenWindow(player, TRMENU_WINDOW_ID, type, size(type, rows), title)
 
         /**
          * 关闭虚拟容器
@@ -84,7 +84,7 @@ class MenuLayout(val layouts: List<Layout>) {
          * 写入图标标识到布局的指定位置
          */
         fun reversePositionize(key: String, slots: Set<Int>) {
-            val width = width()
+            val width = width(type)
             val size = size()
 
             slots.forEach {
@@ -103,28 +103,9 @@ class MenuLayout(val layouts: List<Layout>) {
         /**
          * 读取布局
          */
-        fun positionize(): Map<String, Set<Int>> {
-            val width = width()
-            val size = size()
-            return mutableMapOf<String, MutableSet<Int>>().let {
-                layout.forEachIndexed { y, line ->
-                    listIconsKeys(line, width).forEachIndexed { x, key ->
-                        if (key.isNotBlank()) it.computeIfAbsent(key) { mutableSetOf() }.add(y * width + x)
-                    }
-                }
-                layoutInventory.forEachIndexed { y, line ->
-                    listIconsKeys(line, width).forEachIndexed { x, key ->
-                        if (key.isNotBlank()) it.computeIfAbsent(key) { mutableSetOf() }.add(size + y * width + x)
-                    }
-                }
-                return@let it
-            }
-        }
+        fun positionize(): Map<String, Set<Int>> = positionize(width(type), size(), layout, layoutInventory)
 
-        fun width() = if (type == CHEST || type == ENDER_CHEST || type == SHULKER_BOX || type == BARREL) 9 else 3
-
-        fun size() = if (type == CHEST) rows * 9 else type.defaultSize
-
+        fun size() = size(type, rows)
 
     }
 
@@ -133,13 +114,14 @@ class MenuLayout(val layouts: List<Layout>) {
         /**
          * 列出某行的所有图标标识
          */
-        private fun listIconsKeys(line: String, maxSize: Int): Array<String> {
+        private fun listIconsKeys(line: String, size: Int): Array<String> {
             val list = mutableListOf<String>()
-            Variables(line, ICON_KEY).find().variableList.forEach { it ->
+            Variables(line, ICON_KEY_MATCHER).find().variableList.forEach { it ->
                 if (it.isVariable) list.add(it.text)
                 else it.text.toCharArray().forEach { list.add(it.toString()) }
             }
-            return list.subList(0, maxSize).toTypedArray()
+            while (list.size < size) list.add(BLANK_CHAR)
+            return list.subList(0, size).toTypedArray()
         }
 
         /**
@@ -156,8 +138,29 @@ class MenuLayout(val layouts: List<Layout>) {
                 return@buildString
             }
 
+
+        fun positionize(width: Int, size: Int, layout: List<String>, layoutInventory: List<String>): Map<String, Set<Int>> {
+            return mutableMapOf<String, MutableSet<Int>>().let {
+                layout.forEachIndexed { y, line ->
+                    listIconsKeys(line, width).forEachIndexed { x, key ->
+                        if (key.isNotBlank()) it.computeIfAbsent(key) { mutableSetOf() }.add(y * width + x)
+                    }
+                }
+                layoutInventory.forEachIndexed { y, line ->
+                    listIconsKeys(line, width).forEachIndexed { x, key ->
+                        if (key.isNotBlank()) it.computeIfAbsent(key) { mutableSetOf() }.add(size + y * width + x)
+                    }
+                }
+                return@let it
+            }
+        }
+
+        fun width(type: InventoryType) = if (type == CHEST || type == ENDER_CHEST || type == SHULKER_BOX || type == BARREL) 9 else 3
+
+        fun size(type: InventoryType, rows: Int) = if (type == CHEST) rows * 9 else type.defaultSize
+
         const val BLANK_LINE = "         "
-        val ICON_KEY: Pattern = Pattern.compile("`.*?`")
+        const val BLANK_CHAR = " "
 
     }
 

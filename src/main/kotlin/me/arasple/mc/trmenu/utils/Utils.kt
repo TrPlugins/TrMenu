@@ -27,7 +27,19 @@ object Utils {
         return result
     }
 
+    fun asIntList(any: Any?): List<Int> {
+        if (any == null) return mutableListOf()
+        val result = mutableListOf<Int>()
+        when (any) {
+            is List<*> -> any.forEach { result.add(it.toString().toInt()) }
+            else -> result.add(any.toString().toInt())
+        }
+        return result
+    }
+
     fun asArray(any: Any?): Array<String> = asList(any).toTypedArray()
+
+    fun asIntArray(any: Any?): Array<Int> = asIntList(any).toTypedArray()
 
     fun asBoolean(any: Any?): Boolean = any.toString().toBoolean()
 
@@ -62,9 +74,14 @@ object Utils {
     fun asSection(any: Any): MemorySection? = YamlConfiguration().let {
         when (any) {
             is MemorySection -> return any
+            is Map<*, *> -> {
+                any.entries.forEach { entry -> it.set(entry.key.toString(), entry.value) }
+                return@let it
+            }
             is List<*> -> any.forEach { any ->
                 val args = any.toString().split(Regex(":"), 2)
                 if (args.size == 2) it.set(args[0], args[1])
+                return@let it
             }
         }
         return@let null
@@ -77,5 +94,6 @@ object Utils {
     private fun getSectionKey(section: ConfigurationSection?, regex: Regex, default: String): String {
         return section?.getKeys(false)?.firstOrNull { it.matches(regex) } ?: default
     }
+
 
 }
