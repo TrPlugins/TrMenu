@@ -39,7 +39,7 @@ class MenuLayout(val layouts: List<Layout>) {
         val pages: MutableList<Map<String, Set<Int>>> = mutableListOf()
         layouts.forEach { pages.add(it.positionize()) }
 
-        icons.forEach {
+        icons.filter { it.defIcon.display.position.isEmpty() }.forEach {
             val key = it.id
             pages.forEachIndexed { index, page ->
                 page[key]?.let { slots ->

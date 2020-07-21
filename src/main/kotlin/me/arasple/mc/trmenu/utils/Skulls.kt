@@ -2,6 +2,8 @@ package me.arasple.mc.trmenu.utils
 
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
+import com.mojang.authlib.GameProfile
+import com.mojang.authlib.properties.Property
 import io.izzel.taboolib.Version
 import io.izzel.taboolib.loader.internal.IO
 import io.izzel.taboolib.util.item.ItemBuilder
@@ -9,6 +11,7 @@ import io.izzel.taboolib.util.lite.Materials
 import me.arasple.mc.trmenu.modules.packets.PacketsHandler
 import org.bukkit.Bukkit
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.SkullMeta
 import java.util.*
 import java.util.function.Consumer
 
@@ -63,12 +66,14 @@ object Skulls {
     fun getTextureSkull(texture: String) = getTextureSkull(texture, Materials.PLAYER_HEAD.parseItem()!!)
 
     fun getTextureSkull(texture: String, item: ItemStack): ItemStack = cache.computeIfAbsent(texture) {
-        return@computeIfAbsent @Suppress("DEPRECATION")
-
-        Bukkit.getUnsafe().modifyItemStack(
-            item,
-            "{SkullOwner:{Id:\"" + UUID.nameUUIDFromBytes(texture.toByteArray()) + "\",Properties:{textures:[{Value:\"$texture\"}]}}}"
-        );
+        val meta = item.itemMeta as SkullMeta
+        val profile = GameProfile(UUID.randomUUID(), null)
+        val field = meta.javaClass.getDeclaredField("profile")
+        profile.properties.put("textures", Property("textures", texture, "TrMenu_TexturedSkull"))
+        field.isAccessible = true
+        field[meta] = profile
+        item.itemMeta = meta
+        return@computeIfAbsent item
     }
 
 }

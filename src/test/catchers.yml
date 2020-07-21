@@ -1,0 +1,16 @@
+actions:
+  - 'tell: hhhhhh'
+  - catcher:
+      target:
+        type: SIGN
+        before: 'tell: type the player's name you wanna pay to'
+        reaction:
+          - requirement: isOnline.${input_target}
+            actions: 'tell: Name Got!'
+            deny-actions: 'tell: player not online ${input_target}'
+      money:
+        type: SIGN
+        before: 'tell: type the value'
+        reaction:
+          - requirement: isNumber.${input_money}
+            actions: 'pay: ${input_target} ${input_money}'

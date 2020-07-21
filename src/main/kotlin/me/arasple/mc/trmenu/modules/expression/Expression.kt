@@ -14,6 +14,8 @@ enum class Expression(val regex: Regex, var replace: String, var splitBy: String
 
     IS_OPERATOR("isOp(erator)?(s)?", "player.isOp()"),
 
+    IS_PLAYER_ONLINE("isOnline", "Bukkit.getPlayerExact(\"{0}\").isOnline()"),
+
     HAS_PERMISSION("ha(s|ve)(-)?(Perm(ission)?(s)?)", "player.hasPermission(\"{0}\")", "~"),
 
     HAS_LEVEL("ha(s|ve)(-)?(Level|Lv)(s)?", "layer.getLevel() >= {0}"),

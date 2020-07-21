@@ -5,9 +5,8 @@ import io.izzel.taboolib.module.locale.TLocale
 import io.izzel.taboolib.util.Files
 import io.izzel.taboolib.util.lite.Catchers
 import me.arasple.mc.trmenu.display.Menu
-import me.arasple.mc.trmenu.modules.configuration.menu.MenuConfiguration
-import me.arasple.mc.trmenu.modules.configuration.serialize.MenuSerializer
-import me.arasple.mc.trmenu.modules.expression.Expressions
+import me.arasple.mc.trmenu.configuration.menu.MenuConfiguration
+import me.arasple.mc.trmenu.configuration.serialize.MenuSerializer
 import me.arasple.mc.trmenu.modules.hook.HookHeadDatabase
 import me.arasple.mc.trmenu.modules.hook.HookPlayerPoints
 import me.clip.placeholderapi.PlaceholderAPI
@@ -52,11 +51,11 @@ class TrMenuLoader {
             val start = System.currentTimeMillis()
             val folder = setupMenus()
             grabMenuFiles(folder).forEach {
-                Menu.getMenus().add(loadMenu(it))
+                loadMenu(it)?.let { m -> Menu.getMenus().add(m) }
             }
             TrMenu.SETTINGS.getStringList("Load-Menu-Files").forEach { it ->
                 val file = File(it)
-                if (file.exists()) grabMenuFiles(file).forEach { Menu.getMenus().add(loadMenu(it)) }
+                if (file.exists()) grabMenuFiles(file).forEach { loadMenu(it)?.let { m -> Menu.getMenus().add(m) } }
             }
             TLocale.sendTo(sender, "LOADER.MENU", Menu.getMenus().size, System.currentTimeMillis() - start)
         }

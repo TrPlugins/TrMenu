@@ -6,7 +6,7 @@ import org.bukkit.entity.Player
  * @author Arasple
  * @date 2020/7/7 10:20
  */
-class Reactions(val reactions: List<Reaction>) {
+data class Reactions(val reactions: List<Reaction>) {
 
     fun eval(player: Player): Boolean {
         reactions.sortedBy { it.priority }.forEach {

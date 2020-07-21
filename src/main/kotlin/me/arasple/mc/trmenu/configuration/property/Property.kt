@@ -1,4 +1,4 @@
-package me.arasple.mc.trmenu.modules.configuration.property
+package me.arasple.mc.trmenu.configuration.property
 
 /**
  * @author Arasple
@@ -204,7 +204,18 @@ enum class Property(val default: String, val regex: Regex) {
     /**
      * 菜单内置脚本
      */
-    FUNCTIONS("Functions", "(fun(ction)?|script)(s)?");
+    FUNCTIONS("Functions", "(fun(ction)?|script)(s)?"),
+
+    /**
+     * 输入捕获器动作
+     */
+    CATCHER_TYPE("type", "type"),
+
+    CATCHER_BEFORE("before", "before"),
+
+    CATCHER_CANCEL("cancel", "cancel"),
+
+    CATCHER_REACTION("reaction", "reaction");
 
     constructor(default: String, regex: String) : this(default, Regex("(?i)$regex"))
 

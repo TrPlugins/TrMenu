@@ -1,7 +1,7 @@
-package me.arasple.mc.trmenu.modules.configuration.menu
+package me.arasple.mc.trmenu.configuration.menu
 
-import me.arasple.mc.trmenu.modules.configuration.BaseConfiguration
-import me.arasple.mc.trmenu.modules.configuration.property.Property
+import me.arasple.mc.trmenu.configuration.BaseConfiguration
+import me.arasple.mc.trmenu.configuration.property.Property
 
 /**
  * @author Arasple

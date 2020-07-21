@@ -4,6 +4,7 @@ import io.izzel.taboolib.module.inject.THook
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.data.MenuSession
 import me.arasple.mc.trmenu.data.MetaPlayer
+import me.arasple.mc.trmenu.utils.Utils
 import me.clip.placeholderapi.PlaceholderAPI
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
 import org.bukkit.entity.Player
@@ -22,37 +23,50 @@ object HookPlaceholderAPI {
         val params = content.split("_")
 
         return when (params[0].toLowerCase()) {
-            "args" -> {
-                val arguments = MetaPlayer.getArguments(player)
-                if (params.size > 1) {
-                    val range: Array<Int>
-                    params[0].split("-").let {
-                        range = arrayOf(it[0].toInt(), it[0].toInt())
-                        if (it.size > 1) range[1] = it[1].toInt()
-                    }
-                    return buildString {
-                        IntRange(range[0], range[1]).forEach {
-                            append(arguments[it])
-                            append(" ")
-                        }
-                    }.removeSuffix(" ")
-                }
-                return "null"
-            }
-            "meta" -> (if (params.size > 1) params[1] else null)?.let { MetaPlayer.getMeta(player, it) }?.toString() ?: "null"
-            "menu" -> {
-                val session = MenuSession.session(player)
-                if (!session.isNull()) {
-                    when (params[1]) {
-                        "page" -> session.page
-                        "next" -> session.page
-                        "title" -> session.menu!!.settings.title.currentTitle(player)
-                    }
-                }
-                ""
-            }
+            "args" -> arguments(player, params)
+            "meta" -> meta(player, params)
+            "menu" -> menu(player, params)
+            "emptyslot" -> freeSlot(player, params)
             else -> ""
         }
+    }
+
+    private fun arguments(player: Player, params: List<String>): String {
+        val arguments = MetaPlayer.getArguments(player)
+        if (params.size > 1) {
+            return buildString {
+                Utils.asIntRange(params[0]).forEach {
+                    append(arguments[it])
+                    append(" ")
+                }
+            }.removeSuffix(" ")
+        }
+        return "null"
+    }
+
+    private fun meta(player: Player, params: List<String>): String {
+        return (if (params.size > 1) params[1] else null)?.let { MetaPlayer.getMeta(player, it) }?.toString() ?: "null"
+    }
+
+    private fun menu(player: Player, params: List<String>): String {
+        val session = MenuSession.session(player)
+        return if (!session.isNull()) {
+            when (params[1]) {
+                "page" -> session.page.toString()
+                "next" -> session.page.toString()
+                "title" -> session.menu!!.settings.title.currentTitle(player)
+                else -> ""
+            }
+        } else ""
+    }
+
+    private fun freeSlot(player: Player, params: List<String>): String {
+        val session = MenuSession.session(player)
+        // trmenu_emptyslot_0_1-10
+        val range = Utils.asIntRange(if (params.size > 2) params[2] else "0-90")
+        val index = if (params.size > 1) params[1].toInt() else 0
+
+        return (session.menu?.getEmptySlots(player, session.page)?.filter { range.contains(it) }?.get(index) ?: -1).toString()
     }
 
     @THook

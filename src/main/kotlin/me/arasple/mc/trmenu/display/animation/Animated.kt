@@ -54,7 +54,7 @@ data class Animated<T>(var elements: Array<T>) {
 
     override fun hashCode(): Int {
         var result = elements.contentHashCode()
-        result = 31 * result + id
+        result = 31 * result + id.hashCode()
         return result
     }
 

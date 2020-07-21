@@ -45,7 +45,17 @@ enum class Nodes(regex: String) {
 
     PLAYERS("<(?i)((p|(for|all)?(-)?players))(:)?(.+)?>"),
 
-    REQUIREMENT("<(?i)(r|require(ment)?|condition):( )?(.+>)");
+    TYPE("<(?i)(type)[:=]( )?(.+>)"),
+
+    BEFORE("<(?i)(before)[:=]( )?(.+>)"),
+
+    VALID("<(?i)(valid)[:=]( )?(.+>)"),
+
+    INVALID("<(?i)(in(-)?valid)[:=]( )?(.+>)"),
+
+    CANCEL("<(?i)(cancel)[:=]( )?(.+>)"),
+
+    REQUIREMENT("<(?i)(r|require(ment)?|condition)[:=]( )?(.+>)");
 
     private var pattern: Array<Pattern> = arrayOf(Pattern.compile("$regex<"), Pattern.compile(regex))
 

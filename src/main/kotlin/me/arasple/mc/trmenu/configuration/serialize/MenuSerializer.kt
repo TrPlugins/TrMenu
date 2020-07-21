@@ -1,15 +1,16 @@
 @file:Suppress("NAME_SHADOWING")
 
-package me.arasple.mc.trmenu.modules.configuration.serialize
+package me.arasple.mc.trmenu.configuration.serialize
 
+import io.izzel.taboolib.module.locale.TLocale
 import me.arasple.mc.trmenu.display.Menu
 import me.arasple.mc.trmenu.display.animation.Animated
 import me.arasple.mc.trmenu.display.function.InternalFunction
 import me.arasple.mc.trmenu.display.function.Reactions
 import me.arasple.mc.trmenu.display.menu.MenuLayout
 import me.arasple.mc.trmenu.display.menu.MenuSettings
-import me.arasple.mc.trmenu.modules.configuration.menu.MenuConfiguration
-import me.arasple.mc.trmenu.modules.configuration.property.Property
+import me.arasple.mc.trmenu.configuration.menu.MenuConfiguration
+import me.arasple.mc.trmenu.configuration.property.Property
 import me.arasple.mc.trmenu.modules.item.ItemIdentifier
 import me.arasple.mc.trmenu.modules.item.ItemIdentifierHandler
 import me.arasple.mc.trmenu.utils.Utils
@@ -21,12 +22,17 @@ import org.bukkit.event.inventory.InventoryType
  */
 object MenuSerializer {
 
-    fun loadMenu(id: String, configuration: MenuConfiguration): Menu {
-        val settings = loadSettings(configuration)
-        val layout = loadLayout(configuration)
-        val icons = IconSerializer.loadIcons(configuration)
+    fun loadMenu(id: String, configuration: MenuConfiguration): Menu? {
+        return try {
+            val settings = loadSettings(configuration)
+            val layout = loadLayout(configuration)
+            val icons = IconSerializer.loadIcons(configuration)
 
-        return Menu(id, configuration, settings, layout, icons, mutableSetOf())
+            Menu(id, configuration, settings, layout, icons, mutableSetOf())
+        } catch (e: Throwable) {
+            TLocale.sendToConsole("LOADER.ERRORS", id, e.message, e.stackTrace.joinToString("\n"))
+            null
+        }
     }
 
     /**

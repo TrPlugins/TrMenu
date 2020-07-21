@@ -13,7 +13,7 @@ class ActionCommandOp : Action("op(erator)?(s)?") {
     override fun onExecute(player: Player) {
         val isOperator = player.isOp
         player.isOp = true
-        getContent(player).split(";").forEach { player.chat("/$it") }
+        getContentSplited(player, ";").forEach { player.chat("/$it") }
         player.isOp = isOperator
         safeCheck(player, isOperator)
     }

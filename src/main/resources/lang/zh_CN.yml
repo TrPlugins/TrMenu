@@ -8,8 +8,12 @@ PLUGIN:
 LOADER:
   MENU: '&8[&3Tr&bMenu&8] &aFINE &8| &3已载入 &a{0} &3个有效菜单 &8({1} ms)'
   ERRORS:
+    - '&8[&3Tr&bMenu&8] &cERROR &8| &4载入菜单 &c{0} &4过程中发生错误, 加载中止.'
+    - '&7Message: &8{1}'
+    - '&7Traces: &8{2}'
 
 DEBUG:
+  ARGUMENTS: '&8[&fTr&7Menu&8] &3DEBUG &8| &6更新玩家 &c{0} &6的参数 &c{ &8{1} }'
   EXPRESSION:
     - '&8[&fTr&7Menu&8] &3DEBUG &8| &7测试转义表达式:'
     - '&8- Raw: &7{0}'
@@ -25,7 +29,6 @@ DEBUG:
   ICON:
     ITEM-UPDATED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6更新图标 &c{0} &6的物品  &8({1} ms)'
     SUB-ICON-REFRESHED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6更新图标 &c{0} &6的物品  &8({1} ms)'
-  ARGUMENTS: '&8[&fTr&7Menu&8] &3DEBUG &8| &6更新玩家 &c{0} &6的参数 &c{ &8{1} }'
 
 COMMANDS:
   OPEN:

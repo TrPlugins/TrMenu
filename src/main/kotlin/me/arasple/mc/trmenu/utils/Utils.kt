@@ -2,7 +2,7 @@ package me.arasple.mc.trmenu.utils
 
 import io.izzel.taboolib.internal.gson.JsonParser
 import me.arasple.mc.trmenu.TrMenu
-import me.arasple.mc.trmenu.modules.configuration.property.Property
+import me.arasple.mc.trmenu.configuration.property.Property
 import org.apache.commons.lang.math.NumberUtils
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.configuration.MemorySection
@@ -35,6 +35,15 @@ object Utils {
             else -> result.add(any.toString().toInt())
         }
         return result
+    }
+
+    fun asIntRange(params: String): IntRange {
+        val range: Array<Int>
+        params.split("-").let {
+            range = arrayOf(it[0].toInt(), it[0].toInt())
+            if (it.size > 1) range[1] = it[1].toInt()
+        }
+        return IntRange(range[0], range[1])
     }
 
     fun asArray(any: Any?): Array<String> = asList(any).toTypedArray()

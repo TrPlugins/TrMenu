@@ -10,7 +10,7 @@ import org.bukkit.entity.Player
  */
 class ActionCommand : Action("command|cmd|player|execute") {
 
-	override fun onExecute(player: Player) = getContent(player).split(";").forEach {
+	override fun onExecute(player: Player) = getContentSplited(player,";").forEach {
 		Commands.dispatchCommand(player, it)
 	}
 

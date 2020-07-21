@@ -1,15 +1,14 @@
-package me.arasple.mc.trmenu.modules.configuration
+package me.arasple.mc.trmenu.configuration
 
-import me.arasple.mc.trmenu.modules.configuration.menu.MenuConfiguration
-import me.arasple.mc.trmenu.modules.configuration.serialize.MenuSerializer
+import me.arasple.mc.trmenu.configuration.menu.MenuConfiguration
+import me.arasple.mc.trmenu.configuration.serialize.MenuSerializer
 import java.io.InputStreamReader
-
 
 /**
  * @author Arasple
- * @date 2020/6/27 20:30
+ * @date 2020/7/21 8:30
  */
-object Main {
+object Test {
 
     @JvmStatic
     fun main(args: Array<String>) {
@@ -23,11 +22,15 @@ object Main {
 
         val start = System.currentTimeMillis()
 
-        val menu = MenuSerializer.loadMenu("Example", configuration)
-        val icon = menu.icons.first().defIcon
+        val menu = MenuSerializer.loadMenu("Example", configuration)!!
 
         println("--------------------------------------------------\n\n")
-        println(icon.display.position)
+        menu.icons.forEach {
+            val pos = it.defIcon.display.position
+            if (pos.isEmpty()) {
+                println(it.id)
+            }
+        }
         println("\n\n--------------------------------------------------")
         println("[END - Took: ${System.currentTimeMillis() - start} ms]")
         println("--------------------------------------------------")

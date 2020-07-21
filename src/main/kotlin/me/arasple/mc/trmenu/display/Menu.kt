@@ -7,7 +7,7 @@ import me.arasple.mc.trmenu.data.MenuSession
 import me.arasple.mc.trmenu.data.MetaPlayer
 import me.arasple.mc.trmenu.display.menu.MenuLayout
 import me.arasple.mc.trmenu.display.menu.MenuSettings
-import me.arasple.mc.trmenu.modules.configuration.menu.MenuConfiguration
+import me.arasple.mc.trmenu.configuration.menu.MenuConfiguration
 import me.arasple.mc.trmenu.utils.Tasks
 import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
@@ -82,7 +82,7 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
 
     fun resetIcons(player: Player) = icons.forEach { it.displayItemStack(player) }
 
-    fun getOccupiedSlots(player: Player, page: Int) = mutableListOf<Int>().let { slots ->
+    fun getOccupiedSlots(player: Player, page: Int) = mutableSetOf<Int>().let { slots ->
         icons.forEach {
             val find = it.getIconProperty(player).display.position[page]?.currentElement(player)?.getSlots(player)
             if (find != null) {
@@ -90,6 +90,11 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
             }
         }
         return@let slots
+    }
+
+    fun getEmptySlots(player: Player, page: Int) = IntRange(0, layout.layouts[page].size() + 35).toMutableSet().let {
+        it.removeAll(getOccupiedSlots(player, page))
+        it
     }
 
     fun getIcon(player: Player, page: Int, slot: Int): Icon? = getIcons(player, page).firstOrNull { it.getIconProperty(player).display.position[page]?.currentElement(player)?.getSlots(player)?.contains(slot) ?: false }

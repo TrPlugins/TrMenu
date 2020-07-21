@@ -33,7 +33,7 @@ class CommandDebug : BaseSubCommand() {
             listOf(
                 "info",
                 "parseExpression",
-                "test"
+                "configuration"
             )
         }
     )
@@ -48,7 +48,7 @@ class CommandDebug : BaseSubCommand() {
             when (args[0].toLowerCase()) {
                 "info" -> printInfo(sender)
                 "parseexpression" -> TLocale.sendTo(sender, "DEBUG.EXPRESSION", content, Expressions.parseExpression(content))
-                "test" -> {
+                "configuration" -> {
                     Bukkit.getPlayerExact(args[1])?.let { player ->
                         val range = args[2].split("-")
                         range[0].toInt().rangeTo(range[1].toInt()).forEach {

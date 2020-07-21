@@ -11,7 +11,7 @@ import org.bukkit.entity.Player
  */
 class ActionCommandConsole : Action("console") {
 
-	override fun onExecute(player: Player) = getContent(player).split(";").forEach {
+	override fun onExecute(player: Player) = getContentSplited(player, ";").forEach {
 		Commands.dispatchCommand(Bukkit.getConsoleSender(), it)
 	}
 

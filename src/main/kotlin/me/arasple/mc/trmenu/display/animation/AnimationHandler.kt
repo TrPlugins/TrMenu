@@ -9,19 +9,19 @@ import java.util.*
  */
 object AnimationHandler {
 
-    private var id = 0
-    private val indexs = mutableMapOf<UUID, MutableMap<Int, Int>>()
+    private var id = 0L
+    private val indexs = mutableMapOf<UUID, MutableMap<Long, Int>>()
 
-    fun frame(player: Player, id: Int, size: Int): Int {
+    fun frame(player: Player, id: Long, size: Int): Int {
         if (size == 0) return -1
 
         val index = indexs.computeIfAbsent(player.uniqueId) { mutableMapOf() }
         if (index.computeIfAbsent(id) { 0 } >= size - 1) index[id] = 0
-        else index[id] = index[id]!! + 1
-        return index[id]!!
+        else index[id] = index[id] ?: 0 + 1
+        return index[id] ?: 0
     }
 
-    fun getIndex(player: Player, id: Int) = indexs.computeIfAbsent(player.uniqueId) { mutableMapOf() }[id] ?: 0
+    fun getIndex(player: Player, id: Long) = indexs.computeIfAbsent(player.uniqueId) { mutableMapOf() }[id] ?: 0
 
     fun reset(player: Player) {
         indexs[player.uniqueId]?.clear()

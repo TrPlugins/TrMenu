@@ -2,6 +2,7 @@ package me.arasple.mc.trmenu.listeners.menu
 
 import io.izzel.taboolib.module.inject.TListener
 import me.arasple.mc.trmenu.api.events.MenuOpenEvent
+import me.arasple.mc.trmenu.api.factory.MenuFactory
 import me.arasple.mc.trmenu.data.MetaPlayer
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
@@ -17,6 +18,12 @@ class ListenerMenuOpen : Listener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     fun onOpening(e: MenuOpenEvent) {
         val player = e.player
+        val factorySession = MenuFactory.session(player)
+
+        if (!factorySession.isNull()) {
+            factorySession.menuFactory!!.closeTask?.run(player, factorySession.menuFactory!!)
+            factorySession.reset()
+        }
 
         MetaPlayer.setMeta(player, "{reason}", e.reason.name).also {
             if (!e.menu.settings.events.openEvent.eval(player)) {

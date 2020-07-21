@@ -23,7 +23,7 @@ class ActionOpen : Action("open(s)?|(open)?(-)?gui|(tr)?menu") {
     }
 
     fun getOpeningMenu(player: Player): Pair<Menu?, Array<String>> {
-        val args = getContent(player).split(" ")
+        val args = getContentSplited(player, " ")
         return Pair(TrMenuAPI.getMenuById(args[0]), if (args.size == 1) arrayOf() else args.toTypedArray().copyOfRange(1, args.size - 1))
     }
 

@@ -1,4 +1,4 @@
-package me.arasple.mc.trmenu.modules.configuration.serialize
+package me.arasple.mc.trmenu.configuration.serialize
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import me.arasple.mc.trmenu.api.inventory.InvClickType
@@ -9,8 +9,8 @@ import me.arasple.mc.trmenu.display.icon.IconDisplay
 import me.arasple.mc.trmenu.display.icon.IconSettings
 import me.arasple.mc.trmenu.display.item.DynamicItem
 import me.arasple.mc.trmenu.display.item.Lore
-import me.arasple.mc.trmenu.modules.configuration.menu.MenuConfiguration
-import me.arasple.mc.trmenu.modules.configuration.property.Property
+import me.arasple.mc.trmenu.configuration.menu.MenuConfiguration
+import me.arasple.mc.trmenu.configuration.property.Property
 import me.arasple.mc.trmenu.utils.Utils
 import org.bukkit.configuration.ConfigurationSection
 
@@ -125,7 +125,7 @@ object IconSerializer {
         val names = Utils.asList(display.get(Utils.getSectionKey(display, Property.ICON_DISPLAY_NAME)))
         val lores = mutableListOf<Lore>().let { lore ->
             display.getList(Utils.getSectionKey(display, Property.ICON_DISPLAY_LORE))?.let { it ->
-                if (it.first() is List<*>) it.forEach { lore.add(Lore(it as List<String>)) }
+                if (it.firstOrNull() is List<*>) it.forEach { lore.add(Lore(it as List<String>)) }
                 else lore.add(Lore(it as List<String>))
             }
             return@let lore

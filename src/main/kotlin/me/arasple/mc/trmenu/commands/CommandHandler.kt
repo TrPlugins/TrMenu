@@ -6,10 +6,7 @@ import io.izzel.taboolib.module.command.base.BaseSubCommand
 import io.izzel.taboolib.module.command.base.SubCommand
 import io.izzel.taboolib.module.command.base.display.DisplayBase
 import io.izzel.taboolib.module.command.base.display.DisplayFlat
-import me.arasple.mc.trmenu.commands.sub.CommandDebug
-import me.arasple.mc.trmenu.commands.sub.CommandListMenu
-import me.arasple.mc.trmenu.commands.sub.CommandOpenMenu
-import me.arasple.mc.trmenu.commands.sub.CommandReload
+import me.arasple.mc.trmenu.commands.sub.*
 
 /**
  * @author Arasple
@@ -29,6 +26,9 @@ class CommandHandler : BaseMainCommand() {
 
     @SubCommand(permission = "trmenu.command.debug", description = "Enable debug mode for player or print debug info to console")
     val debug: BaseSubCommand = CommandDebug()
+
+    @SubCommand(permission = "trmenu.command.test", description = "test")
+    val test: BaseSubCommand = CommandTest()
 
     override fun getDisplay(): DisplayBase = DisplayFlat()
 

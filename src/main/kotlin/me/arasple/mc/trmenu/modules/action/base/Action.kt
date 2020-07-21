@@ -51,6 +51,8 @@ abstract class Action(val name: Regex, internal var content: String, var options
         this.content = content
     }
 
+    open fun setContent(any: Any) {}
+
     open fun onExecute(player: Player) {}
 
     open fun newInstance(): Action = javaClass.getDeclaredConstructor().newInstance()
@@ -61,5 +63,6 @@ abstract class Action(val name: Regex, internal var content: String, var options
         append(getContent())
         append(buildString { options.forEach { append("<${it.key.name.toLowerCase()}: ${it.value}>") } })
     }
+
 
 }

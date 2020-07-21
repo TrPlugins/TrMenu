@@ -35,7 +35,7 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
             val icon = getIconProperty(player)
             val slots = icon.display.getPosition(player, session.page)
             val item = icon.display.createDisplayItem(player)
-            slots.forEach {
+            slots?.forEach {
                 PacketsHandler.sendOutSlot(player, TRMENU_WINDOW_ID, it, item)
             }
             if (icon.display.isAnimatedPosition(session.page)) {

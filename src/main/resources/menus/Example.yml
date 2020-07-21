@@ -80,6 +80,16 @@ Events:
 # 菜单的图标
 #
 Icons:
+  # 元素图标 - 玩家选择器
+  justPlayer:
+    update: 20
+    element: Bukkit.getOnlinePlayers()
+    slots:
+      - 10
+      - 12
+    display:
+
+
   # 图标的唯一 ID, 可配合布局使用
   '#':
     # 优先级图标存在时, 重新计算显示图标的刷新周期
@@ -112,6 +122,16 @@ Icons:
         - condition: 'player.isOp()'
           list:
             - 'tell: u just middle clicked me!'
+            - '{==: CATCHER
+              stages:
+                - catcher: ''
+                0:
+                  before: ''
+                  requirement: ''
+                  after: ''
+                1:
+                  before: 'after'}'
+
     # 子图标设置
     icons:
       - pri: 1
