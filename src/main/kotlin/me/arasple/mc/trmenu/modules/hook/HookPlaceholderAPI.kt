@@ -1,9 +1,11 @@
 package me.arasple.mc.trmenu.modules.hook
 
+import io.izzel.taboolib.module.db.local.LocalPlayer
 import io.izzel.taboolib.module.inject.THook
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.data.MenuSession
 import me.arasple.mc.trmenu.data.MetaPlayer
+import me.arasple.mc.trmenu.modules.script.Scripts
 import me.arasple.mc.trmenu.utils.Utils
 import me.clip.placeholderapi.PlaceholderAPI
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
@@ -25,8 +27,10 @@ object HookPlaceholderAPI {
         return when (params[0].toLowerCase()) {
             "args" -> arguments(player, params)
             "meta" -> meta(player, params)
+            "data" -> if (params.size > 1) LocalPlayer.get(player).getString("TrMenu.Data.${params[1]}", "")!! else ""
             "menu" -> menu(player, params)
             "emptyslot" -> freeSlot(player, params)
+            "js" -> if (params.size > 1) Scripts.script(player, params[1], true).asString() else ""
             else -> ""
         }
     }
@@ -35,7 +39,7 @@ object HookPlaceholderAPI {
         val arguments = MetaPlayer.getArguments(player)
         if (params.size > 1) {
             return buildString {
-                Utils.asIntRange(params[0]).forEach {
+                Utils.asIntRange(params[1]).forEach {
                     append(arguments[it])
                     append(" ")
                 }
@@ -80,7 +84,7 @@ object HookPlaceholderAPI {
 
         override fun persist() = true
 
-        override fun onPlaceholderRequest(plauer: Player, content: String) = processRequest(plauer, content)
+        override fun onPlaceholderRequest(player: Player, content: String) = processRequest(player, content)
 
     }
 

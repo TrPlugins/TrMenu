@@ -15,6 +15,7 @@ import me.arasple.mc.trmenu.utils.Msger
 import me.arasple.mc.trmenu.utils.Nodes
 import me.arasple.mc.trmenu.utils.Nodes.*
 import me.arasple.mc.trmenu.utils.Skulls
+import me.arasple.mc.trmenu.utils.Utils
 import org.bukkit.Color
 import org.bukkit.Material
 import org.bukkit.configuration.ConfigurationSection
@@ -46,10 +47,8 @@ class DynamicItem(val material: Animated<Mat>, val meta: Meta) {
         if (itemMeta != null) {
             meta.shiny(player, itemMeta)
             meta.flags.forEach { itemMeta.addItemFlags(it) }
-        }
-        if (name != null) {
-            itemMeta?.setDisplayName(name)
-            itemMeta?.lore = lore
+            name?.let { itemMeta.setDisplayName(it) }
+            lore?.let { itemMeta.lore = it }
         }
         itemStack.itemMeta = itemMeta
         meta.nbt(player, itemStack)?.also { itemStack.itemMeta = it }
@@ -64,11 +63,12 @@ class DynamicItem(val material: Animated<Mat>, val meta: Meta) {
         fun createItem(player: Player): ItemStack {
             val value = if (dynamic) Msger.replace(player, value) else value
             val typeValue = if (dynamic) Msger.replace(player, type.second) else type.second
+
             return when (type.first) {
                 MAT_HEAD -> Skulls.getPlayerHead(typeValue)
                 MAT_TEXTURED_SKULL -> Skulls.getTextureSkull(typeValue)
                 MAT_HEAD_DATABASE -> HookHeadDatabase.getHead(typeValue)
-                MAT_SCRIPT -> Scripts.script(player, type.second).asItemStack()!!
+                MAT_SCRIPT -> Scripts.script(player, type.second, true).asItemStack()!!
                 MAT_JSON -> Items.fromJson(typeValue)
                 else -> {
                     if (staticItem != null) {
@@ -191,13 +191,16 @@ class DynamicItem(val material: Animated<Mat>, val meta: Meta) {
 
         fun createMat(raw: String): Mat {
             val result = Nodes.read(raw)
+            val left = result.first
             val nodes = result.second.entries.firstOrNull()
-            val type = nodes?.key
-            val value = nodes?.value
-
-            val types = if (type != null) Pair(type, value ?: "") else Pair(MAT_ORIGINAL, result.first)
-
-            return Mat(raw, result.first, types, Msger.containsPlaceholders(raw))
+            var type = nodes?.key
+            var typeValue = nodes?.value
+            if (Utils.isJson(left)) {
+                type = MAT_JSON
+                typeValue = left
+            }
+            val types = if (type != null) Pair(type, typeValue ?: "") else Pair(MAT_ORIGINAL, result.first)
+            return Mat(raw, result.first, types, Msger.containsPlaceholders(raw) || type == MAT_VARIABLE)
         }
 
     }

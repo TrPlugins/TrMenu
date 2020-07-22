@@ -15,7 +15,7 @@ class Lore(val lore: MutableList<String>, val conditions: MutableMap<Int, Pair<S
 
     init {
         lore.forEachIndexed { index, lore ->
-            Nodes.read(lore).let { it ->
+            Nodes.read(lore).let {
                 it.second[Nodes.REQUIREMENT]?.let { condition ->
                     if (condition.isNotBlank()) conditions[index] = Pair(condition, it.first)
                 }

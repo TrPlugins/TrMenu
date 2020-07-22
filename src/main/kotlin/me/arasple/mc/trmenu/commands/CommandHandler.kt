@@ -24,11 +24,17 @@ class CommandHandler : BaseMainCommand() {
     @SubCommand(permission = "trmenu.command.list", description = "List loaded menus")
     val list: BaseSubCommand = CommandListMenu()
 
+    @SubCommand(permission = "trmenu.command.action", description = "Run actions for test")
+    val action: BaseSubCommand = CommandAction()
+
+    @SubCommand(permission = "trmenu.command.item", description = "Manipulate items")
+    val item: BaseSubCommand = CommandItem()
+
+    @SubCommand(permission = "trmenu.command.template", description = "Create menus quickly")
+    val template: BaseSubCommand = CommandTemplate()
+
     @SubCommand(permission = "trmenu.command.debug", description = "Enable debug mode for player or print debug info to console")
     val debug: BaseSubCommand = CommandDebug()
-
-    @SubCommand(permission = "trmenu.command.test", description = "test")
-    val test: BaseSubCommand = CommandTest()
 
     override fun getDisplay(): DisplayBase = DisplayFlat()
 

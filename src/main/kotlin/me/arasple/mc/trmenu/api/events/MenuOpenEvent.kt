@@ -29,6 +29,8 @@ class MenuOpenEvent(val player: Player, val menu: Menu, val page: Int, val reaso
 
     enum class Reason {
 
+        RELOAD,
+
         PLAYER_COMMAND,
 
         CONSOLE,

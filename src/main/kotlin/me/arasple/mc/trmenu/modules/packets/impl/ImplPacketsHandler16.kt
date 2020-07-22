@@ -38,6 +38,8 @@ class ImplPacketsHandler16 : PacketsHandler() {
 
     override fun getClickTypeIndex(clickType: Any): Int = InventoryClickType.values().indexOf(clickType)
 
-    override fun getPlayerTexture(player: Player): String = (player as CraftPlayer).profile.properties["textures"].iterator().next().value
+    override fun getPlayerTexture(player: Player): String = (player as CraftPlayer).profile.properties["textures"].iterator().let {
+        return@let if (it.hasNext()) it.next().value else ""
+    }
 
 }

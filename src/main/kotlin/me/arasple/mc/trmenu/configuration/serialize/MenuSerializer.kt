@@ -3,14 +3,14 @@
 package me.arasple.mc.trmenu.configuration.serialize
 
 import io.izzel.taboolib.module.locale.TLocale
+import me.arasple.mc.trmenu.configuration.menu.MenuConfiguration
+import me.arasple.mc.trmenu.configuration.property.Property
 import me.arasple.mc.trmenu.display.Menu
 import me.arasple.mc.trmenu.display.animation.Animated
 import me.arasple.mc.trmenu.display.function.InternalFunction
 import me.arasple.mc.trmenu.display.function.Reactions
 import me.arasple.mc.trmenu.display.menu.MenuLayout
 import me.arasple.mc.trmenu.display.menu.MenuSettings
-import me.arasple.mc.trmenu.configuration.menu.MenuConfiguration
-import me.arasple.mc.trmenu.configuration.property.Property
 import me.arasple.mc.trmenu.modules.item.ItemIdentifier
 import me.arasple.mc.trmenu.modules.item.ItemIdentifierHandler
 import me.arasple.mc.trmenu.utils.Utils
@@ -93,9 +93,8 @@ object MenuSerializer {
 
         val funs = MenuSettings.Funs(
             mutableSetOf<InternalFunction>().let { funs ->
-                val func = c.getFunctions()
-                if (func != null) {
-                    Utils.asSection(func)?.getValues(true)?.entries?.forEach {
+                c.getFunctions()?.let { it ->
+                    Utils.asSection(it)?.getValues(true)?.entries?.forEach {
                         funs.add(InternalFunction(it.key, it.value.toString()))
                     }
                 }

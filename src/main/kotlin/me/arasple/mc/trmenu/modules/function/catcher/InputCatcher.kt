@@ -41,7 +41,13 @@ class InputCatcher(val stages: Animated<Stage>) {
         }
 
         fun reaction(player: Player, input: String): Result {
-            MetaPlayer.setMeta(player, if (id.isNotBlank()) "\$\\{input_$id\\}" else "\$\\{input\\}", input)
+            if (id.isNotBlank()) {
+                MetaPlayer.setMeta(player, "\${input_$id}", input)
+            } else {
+                MetaPlayer.setMeta(player, "\${input}", input)
+                MetaPlayer.setMeta(player, "\$input", input)
+            }
+
             return if (InputCatchers.isCancelWord(input)) {
                 cancel(player)
                 Result.CANCEL

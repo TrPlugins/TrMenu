@@ -16,7 +16,7 @@ import org.bukkit.inventory.ItemStack
 class ActionTakeItem : Action("(take|remove)(-)?item(s)?") {
 
     override fun onExecute(player: Player) {
-        Tasks.runTask(true) {
+        Tasks.run(true) {
             val ids = ItemIdentifierHandler.read(getContent()).identifiers
 
             println("Matches: $ids")

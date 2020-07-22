@@ -6,11 +6,11 @@ import io.izzel.taboolib.module.command.base.Argument
 import io.izzel.taboolib.module.command.base.BaseSubCommand
 import io.izzel.taboolib.module.locale.TLocale
 import me.arasple.mc.trmenu.TrMenu
-import me.arasple.mc.trmenu.data.MenuSession.Companion.TRMENU_WINDOW_ID
+import me.arasple.mc.trmenu.data.MenuSession
+import me.arasple.mc.trmenu.data.MetaPlayer
 import me.arasple.mc.trmenu.display.Menu
 import me.arasple.mc.trmenu.metrics.MetricsHandler
 import me.arasple.mc.trmenu.modules.expression.Expressions
-import me.arasple.mc.trmenu.modules.packets.PacketsHandler
 import me.arasple.mc.trmenu.utils.Msger
 import me.arasple.mc.trmenu.utils.Skulls
 import org.bukkit.Bukkit
@@ -33,7 +33,7 @@ class CommandDebug : BaseSubCommand() {
             listOf(
                 "info",
                 "parseExpression",
-                "configuration"
+                "player"
             )
         }
     )
@@ -48,15 +48,25 @@ class CommandDebug : BaseSubCommand() {
             when (args[0].toLowerCase()) {
                 "info" -> printInfo(sender)
                 "parseexpression" -> TLocale.sendTo(sender, "DEBUG.EXPRESSION", content, Expressions.parseExpression(content))
-                "configuration" -> {
-                    Bukkit.getPlayerExact(args[1])?.let { player ->
-                        val range = args[2].split("-")
-                        range[0].toInt().rangeTo(range[1].toInt()).forEach {
-                            PacketsHandler.sendRemoveSlot(player, TRMENU_WINDOW_ID, it)
-                        }
-                    }
-                }
+                "player" -> if (args.size > 1) printPlayer(sender, Bukkit.getPlayerExact(args[1]))
             }
+        }
+    }
+
+    private fun printPlayer(sender: CommandSender, player: Player?) {
+        if (player != null) {
+            val session = MenuSession.session(player)
+            sender.sendMessage(
+                arrayOf(
+                    "§3§l「§8--------------------------------------------------§3§l」",
+                    "",
+                    "§eArguments: §6${MetaPlayer.getArguments(player).joinToString(", ", "{", "}")}",
+                    "§eMetas: §6${MetaPlayer.getMeta(player)}",
+                    "§eInternalFunctions: §6${session.menu?.settings?.functions?.internalFunctions?.map { it.id }}",
+                    "",
+                    "§3§l「§8--------------------------------------------------§3§l」"
+                )
+            )
         }
     }
 

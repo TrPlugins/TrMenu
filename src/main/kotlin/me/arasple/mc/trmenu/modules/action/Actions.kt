@@ -42,10 +42,12 @@ object Actions {
         ActionClose(),
         ActionOpen(),
         ActionRefresh(),
-        ActionMetaRemove(),
         ActionSetArgs(),
         ActionSetPage(),
         ActionMetaSet(),
+        ActionMetaRemove(),
+        ActionDataSet(),
+        ActionDataDelete(),
         ActionSetTitle(),
         ActionSilentClose(),
         // normal
@@ -80,14 +82,16 @@ object Actions {
             when {
                 action is ActionReturn -> return false
                 action is ActionDelay -> delay += NumberUtils.toLong(action.getContent(player), 0)
-                delay > 0 -> Tasks.runDelayTask(delay) { action.run(player) }
-                else -> Tasks.runTask(Runnable { action.run(player) })
+                delay > 0 -> Tasks.delay(delay) { action.run(player) }
+                else -> Tasks.run(Runnable { action.run(player) })
             }
         }
         return true
     }
 
-    fun runCachedAction(player: Player, action: String) = runActions(player, cachedActions.computeIfAbsent(action) { readActions(action) })
+    fun runCachedAction(player: Player, action: String) = runActions(player, cachedAction(player, action))
+
+    fun cachedAction(player: Player, action: String) = cachedActions.computeIfAbsent(action) { readActions(action) }
 
     fun readActions(anys: List<Any>): List<Action> = mutableListOf<Action>().let { actions ->
         anys.forEach { if (it.toString().isNotEmpty()) actions.addAll(readActions(it)) }

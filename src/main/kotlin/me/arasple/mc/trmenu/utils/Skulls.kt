@@ -28,7 +28,7 @@ object Skulls {
         val texture = getPlayerTexture(name)
         if (texture == null) {
             val head = ItemBuilder(Materials.PLAYER_HEAD.parseItem()).build()
-            getPlayerTexture(name, Consumer { getTextureSkull(it, head) })
+            getPlayerTexture(name) { getTextureSkull(it, head) }
             return@computeIfAbsent head
         } else {
             return@computeIfAbsent getTextureSkull(texture)
@@ -48,7 +48,7 @@ object Skulls {
             } else {
                 cachePlayerTexture[id] = null
             }
-            Tasks.runTask(true) {
+            Tasks.run(true) {
                 try {
                     val userProfile = JsonParser().parse(IO.readFromURL("https://api.mojang.com/users/profiles/minecraft/$id")) as JsonObject
                     val uuid = userProfile["id"].asString

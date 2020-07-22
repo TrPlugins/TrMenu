@@ -1,6 +1,6 @@
 package me.arasple.mc.trmenu.modules.action.impl.menu
 
-import me.arasple.mc.trmenu.data.MetaPlayer
+import io.izzel.taboolib.module.db.local.LocalPlayer
 import me.arasple.mc.trmenu.modules.action.base.Action
 import org.bukkit.entity.Player
 
@@ -8,10 +8,10 @@ import org.bukkit.entity.Player
  * @author Arasple
  * @date 2020/4/18 22:10
  */
-class ActionMetaRemove : Action("(remove|rem|del)(-)?(temp|var(iable)?|meta)(s)?") {
+class ActionDataDelete : Action("(set|edit)(-)?(data)(s)?") {
 
     override fun onExecute(player: Player) = getContentSplited(player, ";").forEach {
-        MetaPlayer.removeMeta(player, "{meta:$it}")
+        LocalPlayer.get(player).set("TrMenu.Data.$it", null)
     }
 
 }

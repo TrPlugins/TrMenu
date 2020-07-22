@@ -3,11 +3,11 @@ package me.arasple.mc.trmenu.display
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.events.MenuCloseEvent
 import me.arasple.mc.trmenu.api.events.MenuOpenEvent
+import me.arasple.mc.trmenu.configuration.menu.MenuConfiguration
 import me.arasple.mc.trmenu.data.MenuSession
 import me.arasple.mc.trmenu.data.MetaPlayer
 import me.arasple.mc.trmenu.display.menu.MenuLayout
 import me.arasple.mc.trmenu.display.menu.MenuSettings
-import me.arasple.mc.trmenu.configuration.menu.MenuConfiguration
 import me.arasple.mc.trmenu.utils.Tasks
 import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
@@ -43,8 +43,7 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
             layout.displayInventory(player, settings.title.getTitle(player))
 
             icons.forEach { it.displayIcon(player, this) }
-            settings.title.load(player, this, layout)
-            settings.options.run(player, layout)
+            settings.load(player, this, layout)
             viewers.add(player)
         }
     }
@@ -53,7 +52,7 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
      * 为所有正在查看此菜单的玩家关闭此菜单
      */
     fun close() {
-        Tasks.runTask(Runnable {
+        Tasks.run(Runnable {
             viewers.forEach {
                 MenuCloseEvent(it, this, -1, MenuCloseEvent.Reason.CONSOLE, true).call()
                 it.closeInventory()
@@ -66,7 +65,7 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
      * 为特定玩家关闭此菜单
      */
     fun close(player: Player, page: Int, reason: MenuCloseEvent.Reason, closeInventory: Boolean, silent: Boolean) {
-        Tasks.runTask(Runnable {
+        Tasks.run(Runnable {
             MenuCloseEvent(player, this, page, reason, silent).call()
             layout.layouts[page].close(player, closeInventory)
             MenuSession.session(player).set(null, null, -1)

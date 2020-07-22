@@ -10,14 +10,25 @@ object Expressions {
     val cachedParsed = mutableMapOf<String, String>()
 
     fun parseExpression(string: String): String = cachedParsed.computeIfAbsent(string) {
-        val type = string.split(".")[0]
         var expression = string.replace(" and ", " && ").replace(" or ", " || ")
-        expression.split("&&", "||").forEach { part ->
-            Expression.values().firstOrNull { it.regex.matches(type) }?.let {
-                expression = expression.replace(part, it.parse(part))
+        expression.split(" && ", " || ").forEach { part ->
+            val type = part.split(".")[0] + "."
+            val negtive = type.startsWith("!")
+            Expression.values().firstOrNull {
+                it.regex.matches(type.removePrefix("!"))
+            }?.let {
+                val parsed = it.parse(part)
+                expression = expression.replace(part, if (negtive) "!($parsed)" else parsed)
             }
         }
         expression
+    }
+
+    @JvmStatic
+    fun main(args: Array<String>) {
+        println(
+            parseExpression("isNumber.111 and hasPerm.trmenu.use and !is.{REASON}.PLAYER_COMMAND")
+        )
     }
 
 }

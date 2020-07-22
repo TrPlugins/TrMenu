@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.utils
 
+import io.izzel.taboolib.internal.gson.JsonObject
 import io.izzel.taboolib.internal.gson.JsonParser
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.configuration.property.Property
@@ -72,10 +73,12 @@ object Utils {
     }
 
     @Suppress("DEPRECATION")
-    fun isJson(string: String): Boolean = try {
-        JsonParser().parse(string); true
-    } catch (e: Throwable) {
-        false
+    fun isJson(string: String): Boolean {
+        return try {
+            JsonParser().parse(string) is JsonObject
+        } catch (e: Throwable) {
+            false
+        }
     }
 
     fun isEventIgnoreCancelled(event: Cancellable): Boolean = TrMenu.SETTINGS.getBoolean("Events-Ignore-Cancelled.${event.javaClass.simpleName}", true) && event.isCancelled

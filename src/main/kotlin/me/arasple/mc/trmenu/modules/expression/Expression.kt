@@ -10,9 +10,11 @@ enum class Expression(val regex: Regex, var replace: String, var splitBy: String
 
     STRING_EQUALS("equal(s)?|is", "\"{0}\" == \"{1}\""),
 
-    IS_NUMBER("isNum(ber)?", "TrUtils.isNumber(\"{0}\")"),
+    IS_NUMBER("isNum(ber)?", "utils.isNumber(\"{0}\")"),
 
     IS_OPERATOR("isOp(erator)?(s)?", "player.isOp()"),
+
+    IS_PLAYER_OPERATOR("isPlayerOp(erator)?(s)?", "Bukkit.getPlayerExact(\"{0}\").isOp()"),
 
     IS_PLAYER_ONLINE("isOnline", "Bukkit.getPlayerExact(\"{0}\").isOnline()"),
 
@@ -24,10 +26,9 @@ enum class Expression(val regex: Regex, var replace: String, var splitBy: String
 
     HAS_POINTS("ha(s|ve)(-)?(Money|Eco|Coin)(s)?", "utils.hasPoints(player, {0})");
 
-
     constructor(name: String, replace: String) : this(name, replace, ".")
 
-    constructor(name: String, replace: String, splitBy: String) : this(Regex("(?i)$name."), replace, splitBy)
+    constructor(name: String, replace: String, splitBy: String) : this(("(?i)$name.").toRegex(), replace, splitBy)
 
     fun parse(string: String): String = Strings.replaceWithOrder(replace, *getArguments(string))
 

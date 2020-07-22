@@ -1,8 +1,7 @@
-package me.arasple.mc.trmenu.modules.script
+package me.arasple.mc.trmenu.modules.script.utils
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import io.izzel.taboolib.util.Strings
-import me.arasple.mc.trmenu.utils.Patterns
 import me.clip.placeholderapi.PlaceholderAPI
 
 /**
@@ -19,18 +18,13 @@ object ScriptUtils {
         while (matcher.find()) {
             val find = matcher.group()
             val group = escape(Strings.replaceWithOrder(escapeMath(find), *getArgs(find)))
-            content = content.replace(Regex("(['\"])?${escape(find)}(['\"])?"), "$function(\'$group\')")
+            content = content.replace(Regex("['\"]?${escape(find)}['\"]?"), "$function(\'$group\')")
         }
         val bracket = PlaceholderAPI.getBracketPlaceholderPattern().matcher(content)
         while (bracket.find()) {
             val group = escape(bracket.group())
             if (NumberUtils.isParsable(group.removeSurrounding("\\{", "\\}")))
-                content = content.replace(Regex("(['\"])?${group}(['\"])?"), "$function(\'$group\')")
-        }
-        val funs = Patterns.INTERNAL_FUNCTION.matcher(content)
-        while (funs.find()) {
-            val group = escape(funs.group())
-            content = content.replace(Regex("(['\"])?${group}(['\"])?"), "$function(\'$group\')")
+                content = content.replace(Regex("['\"]?${group}['\"]?"), "$function(\'$group\')")
         }
         return content
     }

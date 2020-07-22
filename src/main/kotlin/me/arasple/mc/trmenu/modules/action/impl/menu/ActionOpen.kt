@@ -15,7 +15,7 @@ import org.bukkit.entity.Player
 class ActionOpen : Action("open(s)?|(open)?(-)?gui|(tr)?menu") {
 
     override fun onExecute(player: Player) {
-        Tasks.runDelayTask(1) {
+        Tasks.delay(1) {
             val openingMenu = getOpeningMenu(player)
             MetaPlayer.setArguments(player, openingMenu.second)
             openingMenu.first?.open(player, -1, MenuOpenEvent.Reason.PLAYER_COMMAND)

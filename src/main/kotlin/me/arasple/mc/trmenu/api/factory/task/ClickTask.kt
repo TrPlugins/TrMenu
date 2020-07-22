@@ -11,7 +11,9 @@ import org.bukkit.inventory.ItemStack
  */
 fun interface ClickTask {
 
-    fun run(player: Player, factory: MenuFactory, slot: Int, key: String, item: ItemStack?, type: InvClickType): Action
+    fun run(event: Event): Action
+
+    class Event(val player: Player, val factory: MenuFactory, val slot: Int, val key: String, val itemStack: ItemStack?, val type: InvClickType)
 
     enum class Action {
 

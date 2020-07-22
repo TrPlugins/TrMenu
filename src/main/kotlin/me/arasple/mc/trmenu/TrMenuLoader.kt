@@ -1,14 +1,18 @@
 package me.arasple.mc.trmenu
 
 import io.izzel.taboolib.Version
+import io.izzel.taboolib.module.config.TConfigWatcher
 import io.izzel.taboolib.module.locale.TLocale
 import io.izzel.taboolib.util.Files
 import io.izzel.taboolib.util.lite.Catchers
-import me.arasple.mc.trmenu.display.Menu
+import me.arasple.mc.trmenu.api.events.MenuOpenEvent
 import me.arasple.mc.trmenu.configuration.menu.MenuConfiguration
 import me.arasple.mc.trmenu.configuration.serialize.MenuSerializer
+import me.arasple.mc.trmenu.data.MenuSession
+import me.arasple.mc.trmenu.display.Menu
 import me.arasple.mc.trmenu.modules.hook.HookHeadDatabase
 import me.arasple.mc.trmenu.modules.hook.HookPlayerPoints
+import me.arasple.mc.trmenu.utils.Tasks
 import me.clip.placeholderapi.PlaceholderAPI
 import me.clip.placeholderapi.PlaceholderAPIPlugin
 import org.bukkit.Bukkit
@@ -61,10 +65,27 @@ class TrMenuLoader {
         }
 
         fun loadMenu(file: File) =
-            MenuSerializer.loadMenu(file.name.removeSuffix(".yml"), MenuConfiguration().let {
+            MenuSerializer.loadMenu(file.name.removeSuffix(".yml"), MenuConfiguration(file.absolutePath).let {
                 it.load(file)
                 return@let it
-            })
+            }).let { menu ->
+                if (menu != null) {
+                    TConfigWatcher.getInst().removeListener(file)
+                    TConfigWatcher.getInst().addSimpleListener(file) {
+                        Menu.getMenus().firstOrNull { it.conf.loadedPath == file.absolutePath }?.let { it ->
+                            Tasks.run {
+                                it.viewers.removeIf {
+                                    val session = MenuSession.session(it)
+                                    menu.open(it, session.page, MenuOpenEvent.Reason.RELOAD)
+                                    return@removeIf true
+                                }
+                                Menu.getMenus().remove(it)
+                            }
+                        }
+                    }
+                }
+                menu
+            }
 
         fun grabMenuFiles(file: File): List<File> =
             mutableListOf<File>().let { files ->
@@ -92,12 +113,12 @@ class TrMenuLoader {
          * 打印插件的 Logo 字符画到控制台
          */
         private fun printLogo() = arrayOf(
-            "§8___________         _____                     __________",
-            "§8\\__    ___/______  /     \\   ____   ____  __ _\\______   \\_______  ____",
-            "§8   |    |  \\_  __ \\/  \\ /  \\_/ __ \\ /    \\|  |  \\     ___/\\_  __ \\/  _ \\",
-            "§8   |    |   |  | \\/    Y    \\  ___/|   |  \\  |  /    |     |  | \\(  <_> )",
-            "§8   |____|   |__|  \\____|__  /\\___  >___|  /____/|____|     |__|   \\____/",
-            "§8                       \\/     \\/     \\/                               ",
+            "§8  _______   __  __                    ___  ",
+            "§8 |__   __| |  \\/  |                  |__ \\ ",
+            "§8    | |_ __| \\  / | ___ _ __  _   _     ) |",
+            "§8    | | '__| |\\/| |/ _ \\ '_ \\| | | |   / / ",
+            "§8    | | |  | |  | |  __/ | | | |_| |  / /_ ",
+            "§8    |_|_|  |_|  |_|\\___|_| |_|\\__,_| |____|",
             "                                                      "
         ).let {
             it.forEachIndexed { index, raw ->

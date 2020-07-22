@@ -21,6 +21,12 @@ import org.bukkit.scheduler.BukkitRunnable
  */
 class MenuSettings(val title: Titles, val options: Options, val bindings: Bindings, val events: Events, val tasks: Tasks, val functions: Funs) {
 
+    fun load(player: Player, menu: Menu, layout: MenuLayout.Layout) {
+        title.load(player, menu, layout)
+        options.run(player, layout)
+        tasks.run(player, menu)
+    }
+
     class Titles(val titles: Animated<String>, val update: Int) {
 
         fun currentTitle(player: Player): String {
@@ -81,7 +87,7 @@ class MenuSettings(val title: Titles, val options: Options, val bindings: Bindin
                     val read = read(it, i)
                     val c = read[0]
                     val args = ArrayUtils.remove(read, 0)
-                    if (boundCommands.any { c.matches(it) }) return@let args
+                    if (boundCommands.any { it.matches(c) }) return@let args
                 }
             }
             return@let null
@@ -116,7 +122,27 @@ class MenuSettings(val title: Titles, val options: Options, val bindings: Bindin
 
     class Events(val openEvent: Reactions, val closeEvent: Reactions, val clickEvent: Reactions)
 
-    class Tasks(val tasks: Map<Long, Reactions>)
+    class Tasks(val tasks: Map<Long, Reactions>) {
+
+        fun run(player: Player, menu: Menu) {
+            val session = MenuSession.session(player)
+
+            tasks.forEach {
+                object : BukkitRunnable() {
+
+                    override fun run() {
+                        if (session.menu != menu) cancel()
+                        else {
+                            it.value.eval(player)
+                        }
+                    }
+
+                }.runTaskTimerAsynchronously(TrMenu.plugin, it.key, it.key)
+            }
+
+        }
+
+    }
 
     class Funs(val internalFunctions: Set<InternalFunction>)
 

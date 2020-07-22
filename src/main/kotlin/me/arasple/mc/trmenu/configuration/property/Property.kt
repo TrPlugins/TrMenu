@@ -77,11 +77,6 @@ enum class Property(val default: String, val regex: Regex) {
     BINDING_ITEMS("Items", "item(s)?"),
 
     /**
-     * 菜单绑定 - 快捷动作
-     */
-    BINDING_SHORTCUT("Shortcut", "shortcut(s)?"),
-
-    /**
      * 菜单事件
      */
     EVENTS("Events", "event(s)?"),

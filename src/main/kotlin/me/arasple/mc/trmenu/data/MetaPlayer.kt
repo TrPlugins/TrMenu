@@ -1,6 +1,5 @@
 package me.arasple.mc.trmenu.data
 
-import io.izzel.taboolib.internal.apache.lang3.ArrayUtils
 import io.izzel.taboolib.util.Strings
 import io.izzel.taboolib.util.Variables
 import me.arasple.mc.trmenu.display.function.InternalFunction
@@ -30,9 +29,8 @@ object MetaPlayer {
     }
 
     fun replaceWithArguments(player: Player, strings: List<String>): List<String> = mutableListOf<String>().let { list ->
-        val args = arguments.computeIfAbsent(player.uniqueId) { arrayOf() }
         strings.forEach {
-            list.add(Strings.replaceWithOrder(it, args))
+            list.add(replaceWithArguments(player, it))
         }
         return@let list
     }
@@ -42,18 +40,9 @@ object MetaPlayer {
         var content = string.replace("{page}", session.page.toString())
         meta.computeIfAbsent(player.uniqueId) { mutableMapOf() }.forEach { if (it.value is String) content = content.replace(it.key, it.value.toString()) }
         session.menu?.settings?.functions?.let { it ->
-            val funs = it.internalFunctions
-            if (funs.isNotEmpty()) {
-                val matcher = InternalFunction.match(string)
-                while (matcher.find()) {
-                    matcher.group(1).split("_").toTypedArray().let { find ->
-                        val function = funs.firstOrNull { it.id == find[0] }
-                        if (function != null) content = content.replace(matcher.group(), function.eval(player, ArrayUtils.remove(find, 0)))
-                    }
-                }
-            }
+            content = InternalFunction.replaceWithFunctions(player, it.internalFunctions, content)
         }
-        return Strings.replaceWithOrder(content, *arguments.computeIfAbsent(player.uniqueId) { arrayOf() })
+        return Strings.replaceWithOrder(content, *getArguments(player))
     }
 
     fun getArguments(player: Player): Array<String> = this.arguments.computeIfAbsent(player.uniqueId) { arrayOf() }
@@ -78,11 +67,13 @@ object MetaPlayer {
 
     fun removeArguments(player: Player) = this.arguments.remove(player.uniqueId)
 
-    fun setMeta(player: Player, key: String, value: Any) = meta.computeIfAbsent(player.uniqueId) { mutableMapOf() }.put(key, value)
+    fun setMeta(player: Player, key: String, value: Any) = getMeta(player).put(key, value)
 
-    fun getMeta(player: Player, key: String): Any? = meta.computeIfAbsent(player.uniqueId) { mutableMapOf() }[key]
+    fun getMeta(player: Player, key: String) = getMeta(player)[key]
 
-    fun removeMeta(player: Player, key: String) = meta[player.uniqueId]?.remove(key)
+    fun getMeta(player: Player) = meta.computeIfAbsent(player.uniqueId) { mutableMapOf() }
+
+    fun removeMeta(player: Player, key: String) = getMeta(player).remove(key)
 
     fun resetCache(player: Player) {
         this.playerInventorys.remove(player.uniqueId)

@@ -6,9 +6,7 @@ import io.izzel.taboolib.util.item.Items
 import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.api.events.MenuOpenEvent
 import me.arasple.mc.trmenu.api.factory.MenuFactory
-import me.arasple.mc.trmenu.api.factory.MenuFactorySession
 import me.arasple.mc.trmenu.api.factory.task.ClickTask
-import me.arasple.mc.trmenu.api.inventory.InvClickType
 import me.arasple.mc.trmenu.display.Menu
 import me.arasple.mc.trmenu.utils.Tasks
 import org.bukkit.Material
@@ -43,7 +41,8 @@ class CommandListMenu : BaseSubCommand() {
                 "|       |",
                 "####F####"
             )
-            .build { _: Player, session: MenuFactorySession ->
+            .build { e ->
+                val session = e.session
                 val has = arrayOf(page > 0, false)
                 val menus = Menu.getMenus()
 
@@ -60,15 +59,15 @@ class CommandListMenu : BaseSubCommand() {
                     )
                 }
             }
-            .click { _: Player, _: MenuFactory, slot: Int, _: String, _: ItemStack?, _: InvClickType ->
-                indexs[slot]?.let {
-                    Tasks.runTask {
+            .click { e ->
+                indexs[e.slot]?.let {
+                    Tasks.run {
                         TrMenuAPI.getMenuById(it)?.open(sender, 0, MenuOpenEvent.Reason.PLAYER_COMMAND)
                     }
                 }
                 return@click ClickTask.Action.CANCEL_MODIFY
             }
-            .close { _: Player, _: MenuFactory ->
+            .close {
                 sender.playSound(sender.location, Sound.BLOCK_CHEST_CLOSE, 1f, 1f)
             }
             .display(sender) {

@@ -11,15 +11,15 @@ import org.bukkit.entity.Player
  */
 class ActionMetaSet : Action("set(-)?temp(var)?(iable)?(s)?") {
 
-	override fun onExecute(player: Player) {
-		val content = getContent(player)
-		val split = content.split(Regex(" "), 2)
-		if (split.size == 2) {
-			MetaPlayer.setMeta(player, split[0], split[1])
-			Msger.debug("ACTIONS.SET-TEMP-VARIABLE", player.name, split[0], split[1], content)
-		} else {
-			Msger.debug("ACTIONS.SET-TEMP-VARIABLE-FAILED", player.name, content)
-		}
-	}
+    override fun onExecute(player: Player) =
+        getContentSplited(player, ";").forEach {
+            val split = it.split(" ", limit = 2)
+            if (split.size == 2) {
+                MetaPlayer.setMeta(player, "{meta:${split[0]}}", split[1])
+                Msger.debug("ACTIONS.SET-TEMP-VARIABLE", player.name, split[0], split[1], it)
+            } else {
+                Msger.debug("ACTIONS.SET-TEMP-VARIABLE-FAILED", player.name, it)
+            }
+        }
 
 }

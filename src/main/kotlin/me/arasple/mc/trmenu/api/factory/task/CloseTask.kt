@@ -9,6 +9,8 @@ import org.bukkit.entity.Player
  */
 fun interface CloseTask {
 
-    fun run(player: Player, factory: MenuFactory)
+    fun run(event: Event)
+
+    class Event(val player: Player, val factory: MenuFactory)
 
 }

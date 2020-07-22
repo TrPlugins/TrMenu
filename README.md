@@ -151,10 +151,6 @@ Icons:
           left,right: 'refresh'
 ```
 
-### Powerful Bindings
- - More powerful bindings of three different methods  
- - `Regex Commands` `Items` and `Shortcuts`
-
 ### Menu Events
  - You can customize your own actions for menu events more fully  
  - Such as `MenuClickEvent`, `MenuCloseEvent`, `MenuClickEvent`

@@ -11,7 +11,6 @@ class MigraterTrMenu(val file: File) : Migrater {
 
     override fun run() {
         loadConfiguration(file)
-
     }
 
 }

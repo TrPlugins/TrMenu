@@ -5,8 +5,10 @@ import io.izzel.taboolib.module.packet.TPacket
 import me.arasple.mc.trmenu.api.events.MenuClickEvent
 import me.arasple.mc.trmenu.api.factory.MenuFactory
 import me.arasple.mc.trmenu.api.factory.MenuFactorySession
+import me.arasple.mc.trmenu.api.factory.task.ClickTask
 import me.arasple.mc.trmenu.api.factory.task.ClickTask.Action.ACCESS
 import me.arasple.mc.trmenu.api.factory.task.ClickTask.Action.CANCEL_MODIFY
+import me.arasple.mc.trmenu.api.factory.task.CloseTask
 import me.arasple.mc.trmenu.api.inventory.InvClickType
 import me.arasple.mc.trmenu.data.MenuSession
 import me.arasple.mc.trmenu.data.MenuSession.Companion.TRMENU_WINDOW_ID
@@ -62,7 +64,7 @@ object ListenerWindowEvents {
                 val session = MenuSession.session(player)
 
                 if (!factorySession.isNull()) {
-                    factorySession.menuFactory!!.closeTask?.run(player, factorySession.menuFactory!!)
+                    factorySession.menuFactory!!.closeTask?.run(CloseTask.Event(player, factorySession.menuFactory!!))
                     factorySession.reset()
                     player.updateInventory()
                 } else if (!session.isNull()) {
@@ -94,7 +96,7 @@ object ListenerWindowEvents {
         val factory = session.menuFactory!!
 
         (session.getItem(slot) ?: return -1).let {
-            factory.clickTask?.run(player, factory, slot, it.first, it.second, type).let { action ->
+            factory.clickTask?.run(ClickTask.Event(player, factory, slot, it.first, it.second, type)).let { action ->
                 val item = it.second
                 if (item != null && action != ACCESS) {
                     PacketsHandler.sendCancelSlot(player)

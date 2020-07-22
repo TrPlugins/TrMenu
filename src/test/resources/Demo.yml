@@ -1,306 +1,326 @@
-TITLE:
-  - '&0主菜单'
-TITLE-UPDATE: 40
-Shape:
-  - '*********'
-  - '+   C   +'
-  - '+  AEG  +'
-  - '+ H     +'
-  - '+ ----- +'
-  - '---B23---'
-# (可选 | 默认无) 若不满足关闭此菜单需满足的条件, 则执行以下动作 (不会阻止关闭菜单, 除非写打开动作)
+################################################################################
+#
+#  ____________________   _____  ________S__________   ____ ___
+#\__    ___\______   \ /     \ \_   _____/\      \ |    |   \
+#  |    |   |       _//  \ /  \ |    __)_ /   |   \|    |   /
+#  |    |   |    |   /    Y    \|        /    |    |    |  /
+#  |____|   |____|_  \____|__  /_______  \____|__  |______/
+#                  \/        \/        \/        \/
+#
+# Example menu of TrMenu
+#
+# - TrMenu Docs：https://trmenu.trixey.cn
+# - PlaceholderAPI: https://github.com/PlaceholderAPI/PlaceholderAPI/wiki/Placeholders
+# - Custom Heads: https://minecraft-heads.com/custom-heads
+#
+################################################################################
+# The inventory's title
+Title:
+  - 'Hello TrMenu'
+  - 'This are animated titles,'
+  - 'You can also use variables!'
+  - 'Thx for using, %player_name%!'
+
+# The update time of inventory's title (in ticks), Default: -1
+Title-Update: 40
+
+# Defines the layout of this menu
+# *(Each character represents a button)
+Layout:
+  - '########C'
+  - ' QTRMENU '
+  - '   SAP   '
+  - '         '
+  - '#########'
+
+# (Optional)
+Open-Requirement: 'player.hasPermission("trmenu.use") || "$openBy" == "CONSOLE"'
+
+# (Optional)
+Open-Deny-Actions:
+  - 'tell: &7You need permission &ctrmenu.use &7to open this menu.'
+
+# (Optional)
+Close-Requirement: null
+
+# (Optional)
 Close-Deny-Actions: []
 
-# 菜单打开命令
+# Defines the commands used to open this menu
 Open-Commands:
-  - 'cmd'
+  - 'example'
+  - 'menu'
 
-# 定义开启菜单时的动作 (非必须项)
+# (Optional) These run when a player successfully opened the menu
 Open-Actions:
   - 'sound: BLOCK_CHEST_OPEN-1-2'
-# 定义关闭菜单时的动作 (非必须项)
+# (Optional)
 Close-Actions:
   - 'sound: BLOCK_CHEST_CLOSE-1-2'
 
-# 菜单选项 (非必须项, 不设置则使用默认值)
+# Menu Options (All are optional)
 Options:
-  # 菜单需要依赖的 PAPI 拓展名称, 若无将自动下载!
+  # Automatically download PlaceholderAPI's expansions
   Depend-Expansions:
     - 'server'
     - 'player'
     - 'progress'
     - 'math'
-  # 是否在打开 GUI 时禁止玩家操作自己的背包? (默认:true)
+  # (Default: true)
   Lock-Player-Inv: true
-  # 是否传递命令后面的参数? (可用 {N*} 来表示) (默认:false)
+  # Use the arguments of an open command as variables (Var: {N*}) (Default: false)
   Transfer-Args: false
-  # 强制传递参数的最小数量 (默认:0)
+  # Each time when an icon updates, plugin refreshes the player's inventory
+  # [!] Do not recommend. You should only enabled this when you require fast animations in lower Minecraft version
+  Update-Inventory: false
+  # Force the arguments it needs (Default: 0)
   Force-Transfer-Args: 0
-  # 绑定物品打开 (下方需要需要识别的关键词Lore)
+  # Bind this menu with items have specific lore
   Bind-Item-Lore:
-    - '右键打开'
+    - 'OPEN_MENU'
 
-# 定义容器的按钮, 与 Shaple 模板中的字符相对应
-# （可以二次定义动态位置）
-
-
+# Buttons of this menu
+# You can re-define ones' slots
 Buttons:
-  '*':
+  # Character from 'shape'
+  '#':
+    # (Optional) The period for lore, materials and names to update (in ticks)
+    update: 25
+    # (Required) Default display part
     display:
-      mats: gray_STAINED_GLASS_PANE
-      name: '&3mc.i9gg.cn'
-      lore: []
-  '+':
+      # Materials, or specify item
+      mats: GRAY_STAINED_GLASS_PANE
+      name:
+        - '&3Tr&bMenu'
+        - '&3TrMenu'
+      lore:
+        - - '&7Tr&fMenu &7by &bArasple'
+          - '&7Advanced & Dynamic menus for Minecraft'
+        - - '&7Tr&fMenu &7by &2Arasple'
+          - '&7Thanks for using :>'
+    # Click Actions
+    actions:
+      # ClickType - [Actions]
+      all: ['sound: BLOCK_NOTE_BLOCK_PLING-1-2']
+  'C':
+    update: 3
     display:
-      mats: white_STAINED_GLASS_PANE
-      name: '&3mc.i9gg.cn'
-      lore: []
-  '-':
+      # Materials can be matched similarity, ignore case
+      mats: [
+        rd stained glss pane,red staxxed glass pane,red sined glass pane,red stained glass pane,red stained glass pane,
+        red stained glass pne,red stained glass pane,red stined glass pane,red stained glass pane,red stained glass pane,
+        oran stained glass pne
+      ]
+      name: ['&7Close','&cC&7lose','&7C&cl&7ose','&7Cl&co&7se','&7Clo&cs&7e','&7Clos&ce','&7Close']
+    actions:
+      all: ['close']
+  'S':
+    update: 6
     display:
-      mats: gray_STAINED_GLASS_PANE
-      name: '&3mc.i9gg.cn'
-      lore: []
+      mats:
+        - '<skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGE0NTRjNWI0YWFhMzgyYWE1YjdkZDU5NjdiMzliMTNjOTdkNTJlYmFkN2FmMTYyYWY1ZjE0NmMyOTEwMDk4ZSJ9fX0==>'
+        - '<skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmI5OTc5MzBkZjAwYTNkMGQ3ZDI1M2JiMDc4YWRjZmM4MjcxYmQwNzIxM2VmMTJjNjkwZDcxNmM0ZDBjODcwMiJ9fX0==>'
+      name:
+        - '&3&lSERVER'
+        - '&3&lSERVER'
+        - '&3&lSERVER'
+        - '&b&lSE&3&lRVER'
+        - '&3&lS&b&lER&3&lVER'
+        - '&3&lSE&b&lRV&3&lER'
+        - '&3&lSER&b&lVE&3&lR'
+        - '&3&lSERV&b&lER'
+      lore:
+        - ''
+        - '&8▪ &7RAM: &a%server_ram_used%&7/&2%server_ram_total% MB &8(%math_({server_ram_used}/{server_ram_total})*100[precision:2]%%&8)'
+        - '&8[ %progress_bar_{server_ram_used}_m:{server_ram_total}_c:&3■_p:&7■_r:&8■_l:15% &8]'
+        - ''
+        - '&8▪ &7ONLINE: &e%server_online% &6Player(s)'
+        - '&8▪ &7UNIQUE JOINS: &a%server_unique_joins%'
+        - '&8▪ &7UPTIME: &3%server_uptime%'
+        - '&8▪ &7TPS: &a%server_tps%'
+        - ''
+        - '&7Designed by Arasple, Using TrMenu & PlaceholderAPI'
+    actions:
+      all: ['sound: BLOCK_NOTE_BLOCK_PLING-1-2']
 
-  X:
-    display:
-      mats: STAINED_GLASS_PANE<data-value:14>
-      name: '&3退出菜单'
-    action:
-      left:
-        - 'open: 主界面'
-
-  '1':
+  'A':
     update: 20
     display:
-      mats: '<skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2NhNDVlZjU4MjFhOGIxMDdjYmZiYTdkNjZlOTk3ZmI2YWJlNTUyMWMxNTVjZWUyZjI0YjM0YjNkOTFhNSJ9fX0=\>'
-      name: '&b&l时光领土'
-      lore:
-        - '&3开服日期: &6%va_firstenable%'
-        - '&3运管时间: &6%va_sincefirstenable%'
-        - '&3历史最高在线: &6%va_maxonline%'
-        - '&3总计人流量: &6%va_total_joins%'
-        - '&3总计在线时长: &6%va_total_online%'
-        - '&3总计采矿数: &6%va_total_ore%'
-        - '&3总计破坏数: &6%va_total_break%'
-        - '&3总计放置数: &6%va_total_place%'
-        - '&3总计击杀怪物数: &6%va_total_kills_mob%'
-        - '&3总计击杀动物数: &6%va_total_kills_animals%'
-        - '&3总计击杀玩家: &6%va_total_kills_players%'
-        - '&3总计死亡数: &6%va_total_deaths%'
-
-  2:
-    update: 10
-    display:
-      mats: compass
-      name: '&6&l快捷传送'
+      mats: '<head:%player_name%>'
+      name:
+        - '&6&lWelcome, &e&l%player_name%'
       lore:
         - - ''
-          - '&7是否曾想得到一个真正快速的传送?'
+          - '&7Some of your information'
           - ''
-          - '&b▶ &3点击选择'
-          - '&f失去梦想的咸鱼'
+          - '&8▪ &7ID: &a%player_name%'
+          - '&8▪ &7LEVEL: &3Lv.&b%player_level%'
+          - '&8▪ &7FOOD: &6%player_food_level%'
+          - ''
+          - '&8▪ &7LOCATION: &2%player_world%, &b%player_x%/%player_y%/%player_z%'
+          - ''
+          - '&6&lHow about Left Click :>'
         - - ''
-          - '&7是否曾想得到一个真正快速的传送?'
+          - '&7Some of your information'
           - ''
-          - '&3▶ &3点击选择'
-          - '&f失去梦想的咸鱼'
-    actions:
-      all:
-        - 'open: 传送'
-
-  '3':
-    update: 10
-    display:
-      mats: diamond
-      name: '&a&l点券商店'
-      lore:
-        - - ''
-          - '&7激活线上加成及更多内容'
+          - '&8▪ &7ID: &a%player_name%'
+          - '&8▪ &7LEVEL: &3Lv.&b%player_level%'
+          - '&8▪ &7FOOD: &6%player_food_level%'
           - ''
-          - '&3▶ &a你已经选择了..'
-        - - ''
-          - '&7激活线上加成及更多内容'
+          - '&8▪ &7LOCATION: &2%player_world%, &b%player_x%/%player_y%/%player_z%'
           - ''
-          - '&b▶ &a你已经选择了..'
-      shiny: true
-    actions:
-      all:
-        - 'OPEN: 主界面'
-  A:
-    display:
-      mats: paper
-      name: '&8萌新指导'
-      lore:
-        - ''
-        - '&7玩家们的好帮手'
-        - '&7此处记载了服务器的游玩教程'
-        - '&7当玩家们不懂如何游玩时可以点进查询'
-        - ''
-        - '&6点击选择'
-    actions:
-      all:
-        - 'OPEN: 萌新指导'
-  A:
-    update: 10
-    display:
-      mats: chest
-      name: '&6▶ &a皮肤系统 &6◀'
-      lore:
-        - - ''
-          - '&7尊重玩家使用 &3/skin &7命令设置的皮肤'
-          - '&7并且可以在使用该命令后立即 &6更改皮肤'
-          - ''
-          - '&3▶ &3点击浏览'
-        - - ''
-          - '&7尊重玩家使用 &3/skin &7命令设置的皮肤'
-          - '&7并且可以在使用该命令后立即 &6更改皮肤'
-          - ''
-          - '&3▶ &3点击浏览'
-
-  B:
-    update: 10
-    display:
-      mats: name_tag
-      name: '&6▶ &a称号系统&7(敬请期待) &6◀'
-      lore:
-        - - ''
-          - '&7可自由切换称号的称号系统'
-          - ''
-          - '&b▶ &3点击浏览'
-        - - ''
-          - '&7可自由切换称号的称号系统'
-          - ''
-          - '&3▶ &3点击浏览'
-    actions:
-      all:
-        - 'OPEN: 称号系统'
-  C:
-    UPDATE: 10
-    display:
-      mats: book
-      name: '&6▶ &a技能管理 &6◀'
-      lore:
-        - - ''
-          - ' &7在生存过程中不断提升技能'
-          - '&7等级让你在生存路上如虎添翼'
-          - ''
-          - '&b▶ &3点击浏览'
-        - - ''
-          - ' &7在生存过程中不断提升技能'
-          - '&7等级让你在生存路上如虎添翼'
-          - ''
-          - '&3▶ &3点击浏览'
-    actions:
-      all:
-        - 'OPEN: 技能管理'
-
-  D:
-    update: 10
-    display:
-      mats: HEART_OF_TJE_SEA
-      name: '&6▶ &a宠物管理 &6◀'
-      lore:
-        - - ''
-          - ' &7宠物跟着你打猎升级,逐步提升能力,'
-          - '&7获得更多的技能'
-          - ''
-          - '&b▶ &3点击浏览'
-        - - ''
-          - ' &7宠物跟着你打猎升级,逐步提升能力,'
-          - '&7获得更多的技能'
-          - ''
-          - '&3▶ &3点击浏览'
-    actions:
-      all:
-        - 'OPEN: 宠物管理'
-
-  E:
-    update: 20
-    display:
-      mats: <skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWE2NTY5MjZhZGNkNTA3ZmYwNzljZTQyZjUxNzc0MzVjMjhlZjM2OTM1OWNmN2NhNmY5ZDgyNWY1NzY3ZGIifX19\>
-      name: '&6▶ &a领地管理 &6◀'
-      lore:
-        - - ''
-          - ' &7全界面化领地管理指令几近为零'
-          - '&7所有领地操作界面化简明易懂命令/Res'
-          - ''
-          - '&3▶ &3点击浏览'
-        - - ''
-          - ' &7全界面化领地管理指令几近为零'
-          - '&7所有领地操作界面化简明易懂命令/Res'
-          - ''
-          - '&b▶ &3点击浏览'
-    actions:
-      all:
-        - 'OPEN: 领地管理'
-
-
-  F:
-    update: -1
-    display:
-      mats: '<skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2Y3Y2RlZWZjNmQzN2ZlY2FiNjc2YzU4NGJmNjIwODMyYWFhYzg1Mzc1ZTlmY2JmZjI3MzcyNDkyZDY5ZiJ9fX0=>'
-      name: "&e&l管理家"
-      lore:
-        - ''
-        - '&7它可以让你随时随地快速设置或返回你的家'
-        - ''
-        - '&3左键点击回家'
-        - '&3右键点击设为家'
+          - '&f&lHow about Left Click :>'
+      amount: '%server_online%'
     actions:
       all: ['sound: BLOCK_NOTE_BLOCK_PLING-1-2']
       left:
-        - |-
-          Catcher:
-          <Type=chat>
-          <Before=Tell:&6▶ &7在聊天框输入 &e家名称 &7用于回家 输入 &f&lcancel &7取消操作.>
-          <Valid=TELL:&a▶ &a操作成功...;JS:player.chat("/home " + "$input")>
-          <Invalid=TELL:&c▶ &c玩家不存在或不在线.>
-          <Require=>
-          <Cancel=TELL:&a▶ &7已取消...>
+        - 'close'
+        - 'title: <title=&a&lHello, &b&l%player_name%><subtitle=&7&lReady to fly...>'
+        - 'wait: 25'
+        - 'title: <subtitle=&6&l5s>'
+        - 'wait: 20'
+        - 'title: <subtitle=&3&l4s>'
+        - 'wait: 20'
+        - 'title: <subtitle=&b&l3s>'
+        - 'wait: 20'
+        - 'title: <subtitle=&2&l2s>'
+        - 'wait: 20'
+        - 'title: <subtitle=&a&l1s>'
+        - 'wait: 20'
+        - 'title: <subtitle=&6&lWoooooooo!>'
+        - 'js: player.setVelocity(player.getVelocity().setY(15))'
+        - 'js: player.setNoDamageTicks(20*10)'
+    icons:
+      - condition: '"%player_name%" == "Arasple"'
+        display:
+          name: '&2&lWelcome, &a&lAuthor!'
+          lore:
+            - ''
+            - '&7Hello Arasple'
+            - ''
+  'P':
+    update: 20
+    display:
+      mats: 'compass'
+      amount: '%server_time_s%+1'
+      name:
+        - '&3&lTrMenu &f&lAdvanced Menu'
+        - '&3&lTrMenu &f&lPowerful Dynamic Menu'
+        - '&3&lTrMenu &f&lEasy edit, fast create'
+      lore:
+        - - ''
+          - '&3Tr&bMenu &7is an advanced & dynamic menu plugin'
+          - '&7for Minecraft servers.'
+          - ''
+          - '&2It is very powerful and easy to use.'
+        - - ''
+          - '&3Tr&bMenu &7is an advanced & dynamic menu plugin'
+          - '&7for Minecraft servers.'
+          - ''
+          - '&2Animated lores, amount, names and even materials!'
+        - - ''
+          - '&3Tr&bMenu &7is an advanced & dynamic menu plugin'
+          - '&7for Minecraft servers.'
+          - ''
+          - '&2You can created so unlimited menus with clickable-icons'
+    actions:
+      left:
+        - 'tell: &7This message can only be received by OP<Require:player.isOp()>'
+        - 'tell: &7Wow, this is a 80% percent message.<Chance:0.8>'
+        - 'js: player.sendTitle("You are a op", "and received this after 5s")<Require:player.isOp()><Wait:100>'
       right:
-        - |-
-          Catcher:
-          <Type=chat>
-          <Before=Tell:&6▶ &7在聊天框输入 &e家名称 &7用于设为家 输入 &f&lcancel &7取消操作.>
-          <Valid=TELL:&a▶ &3操作成功...;JS:player.chat("/sethome " + "$input")>
-          <Invalid=TELL:&c▶ &7玩家不存在或不在线.>
-          <Require=>
-          <Cancel=TELL:&a▶ &7已取消...>
-  G:
-    update: 20
+        - 'tell: &aA message for all players<players>'
+      all: ['sound: BLOCK_NOTE_BLOCK_PLING-1-2']
+
+  'Q':
+    update: [20,20,20,20]
     display:
-      mats: oxeye_daisy
-      name: '&6▶ &a婚宴系统 &6◀'
-      lore:
-        - - ''
-          - ' &7在这里可以快捷命令婚宴'
-          - '&7需要 &6情侣 &7称号解锁婚姻权限'
-          - ''
-          - '&b▶ &3点击浏览'
-        - - ''
-          - ' &7在这里可以快捷命令婚宴'
-          - '&7需要 &6情侣 &7称号解锁婚姻权限'
-          - ''
-          - '&3▶ &3点击浏览'
-    actions:
-      all:
-        - 'OPEN: 婚宴系统'
-  H:
-    update: 20
+      name: '&eBee~'
+      mats:
+        - '<skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTE2MmRkMGI5ZjY1YjU4YTFlNzBmODFkOGUwM2U4ZmY2YzUzZTRlOTg1YmRiZTAxODY1NThkOGE2OWE4MTE4OSJ9fX0=>'
+        - '<skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTlhYzE2ZjI5NmI0NjFkMDVlYTA3ODVkNDc3MDMzZTUyNzM1OGI0ZjMwYzI2NmFhMDJmMDIwMTU3ZmZjYTczNiJ9fX0==>'
+      slots:
+        - - 10
+        - - 19
+        - - 28
+        - - 29
+        - - 30
+        - - 31
+        - - 32
+        - - 33
+        - - 34
+        - - 25
+        - - 16
+
+  'T':
+    update: 8
     display:
-      mats: dark_oak_sign
-      name: '&6▶ &a成就系统 &6◀'
-      lore:
-        - - ''
-          - '&7这是高级成就系统, 奖励而奋斗'
-          - '&7大大扩展游戏乐趣'
-          - ''
-          - '&b▶ &3点击浏览'
-        - - ''
-          - '&7这是高级成就系统, 奖励而奋斗'
-          - '&7大大扩展游戏乐趣'
-          - ''
-          - '&b▶ &3点击浏览'
-    actions:
-      all:
-        - 'command: aach list'
+      name: '&3Tr&bMenu'
+      mats:
+        - 'cyan stained glass pane'
+        - '<skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmJhOTE1ZTMxOTRiMTc0NTZkZWIyYWM3YzhmOGM2MmRjYTIzZTUxYTQ1NjIzNzRiNTIyODAzNWVmYzFjOGFjIn19fQ==>'
+        - '<skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmJhOTE1ZTMxOTRiMTc0NTZkZWIyYWM3YzhmOGM2MmRjYTIzZTUxYTQ1NjIzNzRiNTIyODAzNWVmYzFjOGFjIn19fQ==>'
+        - '<skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmJhOTE1ZTMxOTRiMTc0NTZkZWIyYWM3YzhmOGM2MmRjYTIzZTUxYTQ1NjIzNzRiNTIyODAzNWVmYzFjOGFjIn19fQ==>'
+        - '<skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmJhOTE1ZTMxOTRiMTc0NTZkZWIyYWM3YzhmOGM2MmRjYTIzZTUxYTQ1NjIzNzRiNTIyODAzNWVmYzFjOGFjIn19fQ==>'
+        - '<skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmJhOTE1ZTMxOTRiMTc0NTZkZWIyYWM3YzhmOGM2MmRjYTIzZTUxYTQ1NjIzNzRiNTIyODAzNWVmYzFjOGFjIn19fQ==>'
+        - '<skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmJhOTE1ZTMxOTRiMTc0NTZkZWIyYWM3YzhmOGM2MmRjYTIzZTUxYTQ1NjIzNzRiNTIyODAzNWVmYzFjOGFjIn19fQ==>'
+  'R':
+    update: 8
+    display:
+      name: '&3Tr&bMenu'
+      mats:
+        - 'cyan stained glass pane'
+        - 'cyan stained glass pane'
+        - '<skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzkzZWQ4MDdkYmYxNDdjNWVmOWI4ZWM0NmQzZmE2ZTJkN2IyZGJkMzQzMWEyMzQxN2MxMzU0YmI4NjNjNCJ9fX0=>'
+        - '<skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzkzZWQ4MDdkYmYxNDdjNWVmOWI4ZWM0NmQzZmE2ZTJkN2IyZGJkMzQzMWEyMzQxN2MxMzU0YmI4NjNjNCJ9fX0=>'
+        - '<skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzkzZWQ4MDdkYmYxNDdjNWVmOWI4ZWM0NmQzZmE2ZTJkN2IyZGJkMzQzMWEyMzQxN2MxMzU0YmI4NjNjNCJ9fX0=>'
+        - '<skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzkzZWQ4MDdkYmYxNDdjNWVmOWI4ZWM0NmQzZmE2ZTJkN2IyZGJkMzQzMWEyMzQxN2MxMzU0YmI4NjNjNCJ9fX0=>'
+        - '<skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzkzZWQ4MDdkYmYxNDdjNWVmOWI4ZWM0NmQzZmE2ZTJkN2IyZGJkMzQzMWEyMzQxN2MxMzU0YmI4NjNjNCJ9fX0=>'
+  'M':
+    update: 8
+    display:
+      name: '&3Tr&bMenu'
+      mats:
+        - 'cyan stained glass pane'
+        - 'cyan stained glass pane'
+        - 'cyan stained glass pane'
+        - '<skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2VmODljMjFiN2JjY2VlMzYyMjc0MTYwYmQzNGE0NWNlMmFiMzQ3YjZkZjliMjY4OTY2MGYwZTk0YWRlZGQ1MCJ9fX0=>'
+        - '<skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2VmODljMjFiN2JjY2VlMzYyMjc0MTYwYmQzNGE0NWNlMmFiMzQ3YjZkZjliMjY4OTY2MGYwZTk0YWRlZGQ1MCJ9fX0=>'
+        - '<skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2VmODljMjFiN2JjY2VlMzYyMjc0MTYwYmQzNGE0NWNlMmFiMzQ3YjZkZjliMjY4OTY2MGYwZTk0YWRlZGQ1MCJ9fX0=>'
+        - '<skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2VmODljMjFiN2JjY2VlMzYyMjc0MTYwYmQzNGE0NWNlMmFiMzQ3YjZkZjliMjY4OTY2MGYwZTk0YWRlZGQ1MCJ9fX0=>'
+  'E':
+    update: 8
+    display:
+      name: '&3Tr&bMenu'
+      mats:
+        - 'cyan stained glass pane'
+        - 'cyan stained glass pane'
+        - 'cyan stained glass pane'
+        - 'cyan stained glass pane'
+        - '<skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmZiYzQxYWI2ZWU0Zjk3YzY1OWQ0ZjZlNDdjNDk0ZTk2MTI1NWEwNmE0OTZiZDVjNjYzOGIzMzlkYzAifX19>'
+        - '<skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmZiYzQxYWI2ZWU0Zjk3YzY1OWQ0ZjZlNDdjNDk0ZTk2MTI1NWEwNmE0OTZiZDVjNjYzOGIzMzlkYzAifX19>'
+        - '<skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmZiYzQxYWI2ZWU0Zjk3YzY1OWQ0ZjZlNDdjNDk0ZTk2MTI1NWEwNmE0OTZiZDVjNjYzOGIzMzlkYzAifX19>'
+  'N':
+    update: 8
+    display:
+      name: '&3Tr&bMenu'
+      mats:
+        - 'cyan stained glass pane'
+        - 'cyan stained glass pane'
+        - 'cyan stained glass pane'
+        - 'cyan stained glass pane'
+        - 'cyan stained glass pane'
+        - '<skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmM3OWZlNTU4MjdjYmE4ZGNiYzE5YmRmOTNiNWNkNWQwNDE2ZTVhODM2MmU2NjgzMDg0YTI1MjMzNDI4MyJ9fX0=>'
+        - '<skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmM3OWZlNTU4MjdjYmE4ZGNiYzE5YmRmOTNiNWNkNWQwNDE2ZTVhODM2MmU2NjgzMDg0YTI1MjMzNDI4MyJ9fX0=>'
+  'U':
+    update: 8
+    display:
+      name: '&3Tr&bMenu'
+      mats:
+        - 'cyan stained glass pane'
+        - 'cyan stained glass pane'
+        - 'cyan stained glass pane'
+        - 'cyan stained glass pane'
+        - 'cyan stained glass pane'
+        - 'cyan stained glass pane'
+        - '<skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTE4NGVlNzE0MjVkNmI3NGMzZTY4NzJjM2ExMTc3ZGNiZmIwZmU3OTlkMmM0NzIxMGI1YTQ0NjcyY2UxZmJhIn19fQ==>'

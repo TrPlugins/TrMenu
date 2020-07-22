@@ -27,37 +27,39 @@ enum class Nodes(regex: String) {
 
     MAT_JSON("<JSON>"),
 
+    MAT_VARIABLE("<VARIABLE>"),
+
     MAT_ORIGINAL("<ORIGINAL>"),
 
-    TITLE("<(?i)(title)[:=]( )?(.+?>)"),
+    TITLE("<(title)[:=]( )?(.+?>)"),
 
-    SUBTITLE("<(?i)(sub(-)?title)[:=]( )?(.+?>)"),
+    SUBTITLE("<(sub(-)?title)[:=]( )?(.+?>)"),
 
-    FADEIN("<(?i)((fade)?(-)?in)[:=]( )?([0-9]+>)"),
+    FADEIN("<((fade)?(-)?in)[:=]( )?([0-9]+>)"),
 
-    STAY("<(?i)stay[:=]( )?([0-9]+>)"),
+    STAY("<stay[:=]( )?([0-9]+>)"),
 
-    FADEOUT("<(?i)((fade)?(-)?out)[:=]( )?([0-9]+>)"),
+    FADEOUT("<((fade)?(-)?out)[:=]( )?([0-9]+>)"),
 
-    CHANCE("<(?i)(c|chance|rate):( )?([0-9]+[.]?[0-9]*>)"),
+    CHANCE("<(c|chance|rate):( )?([0-9]+[.]?[0-9]*>)"),
 
-    DELAY("<(?i)(d|delay|wait):( )?([0-9]+[.]?[0-9]*>)"),
+    DELAY("<(d|delay|wait):( )?([0-9]+[.]?[0-9]*>)"),
 
-    PLAYERS("<(?i)((p|(for|all)?(-)?players))(:)?(.+)?>"),
+    PLAYERS("<((p|(for|all)?(-)?players))(:)?(.+)?>"),
 
-    TYPE("<(?i)(type)[:=]( )?(.+>)"),
+    TYPE("<(type)[:=]( )?(.+>)"),
 
-    BEFORE("<(?i)(before)[:=]( )?(.+>)"),
+    BEFORE("<(before)[:=]( )?(.+>)"),
 
-    VALID("<(?i)(valid)[:=]( )?(.+>)"),
+    VALID("<(valid)[:=]( )?(.+>)"),
 
-    INVALID("<(?i)(in(-)?valid)[:=]( )?(.+>)"),
+    INVALID("<(in(-)?valid)[:=]( )?(.+>)"),
 
-    CANCEL("<(?i)(cancel)[:=]( )?(.+>)"),
+    CANCEL("<(cancel|rate)[:=]( )?(.+>)"),
 
-    REQUIREMENT("<(?i)(r|require(ment)?|condition)[:=]( )?(.+>)");
+    REQUIREMENT("<(r|require(ment)?|condition)[:=]( )?(.+>)");
 
-    private var pattern: Array<Pattern> = arrayOf(Pattern.compile("$regex<"), Pattern.compile(regex))
+    private var pattern: Array<Pattern> = arrayOf(Pattern.compile("(?i)$regex<"), Pattern.compile("(?i)$regex"))
 
     fun matcher(content: String): Matcher {
         val matcher = pattern[0].matcher(content)

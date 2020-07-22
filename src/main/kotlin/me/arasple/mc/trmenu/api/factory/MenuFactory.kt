@@ -94,7 +94,7 @@ class MenuFactory(
 
         MetaPlayer.updateInventoryContents(player)
         session.menuFactory = this
-        buildTask?.run(player, session)
+        buildTask?.run(BuildTask.Event(player, session))
         runnable.run()
 
         session.display(type, size, title)

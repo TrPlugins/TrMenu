@@ -7,7 +7,7 @@ import me.arasple.mc.trmenu.configuration.property.Property
  * @author Arasple
  * @date 2020/6/27 20:29
  */
-class MenuConfiguration : BaseConfiguration() {
+class MenuConfiguration(val loadedPath: String) : BaseConfiguration() {
 
     fun getTitle() = getValue(Property.TITLE)
 
@@ -41,8 +41,6 @@ class MenuConfiguration : BaseConfiguration() {
 
     fun getBindingItems() = getBinding(Property.BINDING_ITEMS)
 
-    fun getBindingShortcuts() = getBinding(Property.BINDING_SHORTCUT)
-
     fun getEvents() = getSection(Property.EVENTS)
 
     fun getEvent(property: Property) = getValue(getBindings(), property)
@@ -53,9 +51,9 @@ class MenuConfiguration : BaseConfiguration() {
 
     fun getEventClick() = getEvent(Property.EVENT_CLICK)
 
-    fun getTasks() = getEvent(Property.TASKS)
+    fun getTasks() = getValue(Property.TASKS)
 
-    fun getFunctions() = getEvent(Property.FUNCTIONS)
+    fun getFunctions() = getValue(Property.FUNCTIONS)
 
     fun getIcons() = getValue(Property.ICONS)
 

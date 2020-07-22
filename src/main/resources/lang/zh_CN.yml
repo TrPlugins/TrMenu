@@ -27,10 +27,27 @@ DEBUG:
     SET-TEMP-VARIABLE: '&8[&fTr&7Menu&8] &3DEBUG &8| &6设置玩家 &c{0} &6的临时变量, &c{ key=&6{1}&c,value=&6{2}&c } &8(raw: {3})'
     SET-TEMP-VARIABLE-FAILED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6设置玩家 &c{0} &6的临时变量失败 &8(raw: {3})'
   ICON:
-    ITEM-UPDATED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6更新图标 &c{0} &6的物品  &8({1} ms)'
-    SUB-ICON-REFRESHED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6更新图标 &c{0} &6的物品  &8({1} ms)'
+    DISPLAY-UPDATE: '&8[&fTr&7Menu&8] &3DEBUG &8| &6更新图标 &c{0} &6的动画, 周期 &e{1}&6, 包含 &e{2}'
+    SUB-ICON-REFRESHED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6更新优先级图标 &c{0} &6到 &e{1}'
+
+HASTEBIN:
+  PROCESSING: '&8[&3Tr&bMenu&8] &7请稍等...'
+  SUCCESS: '&8[&3Tr&bMenu&8] &3你的内容已被粘贴到 &a{0}'
+  FAILED: '&8[&3Tr&bMenu&8] &c试图粘贴到 Hastebin 过程中出错.'
 
 COMMANDS:
+  ITEM:
+    TO-JSON:
+      NO-ITEM: '&8[&3Tr&bMenu&8] &7你必须 &f手持 &7一个物品才能将其转换为 Json 格式'
+      CONVERTED:
+        ==: JSON
+        text: '&8[&3Tr&bMenu&8] &7已将物品转换为 Json 内容: <&3&n点击复制@copy>'
+        args:
+          copy:
+            hover: '&7点击复制'
+            suggest: '{0}'
+  ACTION:
+    UNKNOWN-PLAYER: '&8[&3Tr&bMenu&8] &7未知玩家或不在线.'
   OPEN:
     UNKNOWN-MENU: '&8[&3Tr&bMenu&8] &7未知菜单 &6{0} &7.'
     UNKNOWN-PLAYER: '&8[&3Tr&bMenu&8] &7未知玩家或不在线.'

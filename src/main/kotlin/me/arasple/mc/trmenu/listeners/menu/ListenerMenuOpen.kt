@@ -3,7 +3,10 @@ package me.arasple.mc.trmenu.listeners.menu
 import io.izzel.taboolib.module.inject.TListener
 import me.arasple.mc.trmenu.api.events.MenuOpenEvent
 import me.arasple.mc.trmenu.api.factory.MenuFactory
+import me.arasple.mc.trmenu.api.factory.task.CloseTask
 import me.arasple.mc.trmenu.data.MetaPlayer
+import me.arasple.mc.trmenu.modules.log.Log
+import me.arasple.mc.trmenu.modules.log.Loger
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
@@ -21,7 +24,7 @@ class ListenerMenuOpen : Listener {
         val factorySession = MenuFactory.session(player)
 
         if (!factorySession.isNull()) {
-            factorySession.menuFactory!!.closeTask?.run(player, factorySession.menuFactory!!)
+            factorySession.menuFactory!!.closeTask?.run(CloseTask.Event(player, factorySession.menuFactory!!))
             factorySession.reset()
         }
 
@@ -32,6 +35,8 @@ class ListenerMenuOpen : Listener {
             }
         }
         MetaPlayer.updateInventoryContents(player)
+
+        Loger.log(Log.MENU_EVENT_OPEN, player.name, e.menu.id)
     }
 
 }

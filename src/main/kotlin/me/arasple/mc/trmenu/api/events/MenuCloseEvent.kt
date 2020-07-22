@@ -20,7 +20,9 @@ class MenuCloseEvent(val player: Player, val menu: Menu, val page: Int, val reas
 
         MENU_RELOAD,
 
-        MENU_SWITCH
+        MENU_SWITCH,
+
+        ERROR
 
     }
 

@@ -56,15 +56,15 @@ object Msger {
 
     fun replace(player: Player, strings: List<String>): List<String> = replaceWithPlaceholders(player, replaceWithBracketPlaceholders(player, strings))
 
-    fun replaceWithPlaceholders(player: Player, string: String): String = HexColor.translate(PlaceholderAPI.setPlaceholders(player, string))
+    private fun replaceWithPlaceholders(player: Player, string: String): String = HexColor.translate(PlaceholderAPI.setPlaceholders(player, string))
 
-    fun replaceWithPlaceholders(player: Player, strings: List<String>): List<String> = HexColor.translate(PlaceholderAPI.setPlaceholders(player, strings))
+    private fun replaceWithPlaceholders(player: Player, strings: List<String>): List<String> = HexColor.translate(PlaceholderAPI.setPlaceholders(player, strings))
 
     fun replaceWithBracketPlaceholders(player: Player, string: String): String = PlaceholderAPI.setBracketPlaceholders(player, MetaPlayer.replaceWithArguments(player, string))
 
     fun replaceWithBracketPlaceholders(player: Player, strings: List<String>): List<String> = PlaceholderAPI.setBracketPlaceholders(player, MetaPlayer.replaceWithArguments(player, strings))
 
-    fun containsPlaceholders(string: String?) = PlaceholderAPI.containsPlaceholders(string) || PlaceholderAPI.containsBracketPlaceholders(string)
+    fun containsPlaceholders(string: String?) = PlaceholderAPI.containsPlaceholders(string) || PlaceholderAPI.containsBracketPlaceholders(string) || (string != null && string.contains("{") && string.contains("}"))
 
     fun printErrors(node: String, throwable: Throwable, vararg args: String) {
         TLocale.sendToConsole("ERRORS.$node", *args, throwable.message, throwable.stackTrace.filter { it.toString().contains("me.arasple.mc.trmenu") })

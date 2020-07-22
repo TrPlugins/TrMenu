@@ -20,14 +20,14 @@ abstract class Action(val name: Regex, internal var content: String, var options
         if (options.containsKey(Nodes.DELAY)) {
             val delay = NumberUtils.toLong(options[Nodes.DELAY], -1)
             if (delay > 0) {
-                Tasks.runDelayTask(delay) {
-                    if (options.containsKey(Nodes.PLAYERS)) Bukkit.getOnlinePlayers().filter { options[Nodes.PLAYERS]?.let { it1 -> Scripts.script(it, it1).asBoolean() } as Boolean }.forEach { onExecute(it, Msger.replaceWithBracketPlaceholders(player, content)) }
+                Tasks.delay(delay) {
+                    if (options.containsKey(Nodes.PLAYERS)) Bukkit.getOnlinePlayers().filter { options[Nodes.PLAYERS]?.let { it1 -> Scripts.expression(it, it1).asBoolean() } as Boolean }.forEach { onExecute(it, Msger.replaceWithBracketPlaceholders(player, content)) }
                     else onExecute(player)
                 }
             }
             return
         }
-        if (options.containsKey(Nodes.PLAYERS)) Bukkit.getOnlinePlayers().filter { options[Nodes.PLAYERS]?.let { it1 -> Scripts.script(it, it1).asBoolean() } as Boolean }.forEach { onExecute(it, Msger.replaceWithBracketPlaceholders(player, content)) }.also { return }
+        if (options.containsKey(Nodes.PLAYERS)) Bukkit.getOnlinePlayers().filter { options[Nodes.PLAYERS]?.let { it1 -> Scripts.expression(it, it1).asBoolean() } as Boolean }.forEach { onExecute(it, Msger.replaceWithBracketPlaceholders(player, content)) }.also { return }
         onExecute(player)
     }
 
@@ -56,6 +56,10 @@ abstract class Action(val name: Regex, internal var content: String, var options
     open fun onExecute(player: Player) {}
 
     open fun newInstance(): Action = javaClass.getDeclaredConstructor().newInstance()
+
+    fun toDetailedString(): String {
+        return "Action(name=${javaClass.simpleName}, content='$content', options=$options)"
+    }
 
     override fun toString(): String = buildString {
         append(this@Action.javaClass.simpleName.removePrefix("Action").toLowerCase())

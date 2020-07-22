@@ -28,22 +28,15 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
     }
 
     fun displayItemStack(player: Player) {
-        val start = System.currentTimeMillis()
         val session = MenuSession.session(player)
 
         if (!session.isNull()) {
-            val icon = getIconProperty(player)
-            val slots = icon.display.getPosition(player, session.page)
-            val item = icon.display.createDisplayItem(player)
-            slots?.forEach {
-                PacketsHandler.sendOutSlot(player, TRMENU_WINDOW_ID, it, item)
-            }
-            if (icon.display.isAnimatedPosition(session.page)) {
-                PacketsHandler.sendClearNonIconSlots(player, session)
-            }
+            val property = getIconProperty(player)
+            val slots = property.display.getPosition(player, session.page)
+            val item = property.display.createDisplayItem(player)
+            slots?.forEach { PacketsHandler.sendOutSlot(player, TRMENU_WINDOW_ID, it, item) }
+            if (property.display.isAnimatedPosition(session.page)) PacketsHandler.sendClearNonIconSlots(player, session)
         }
-
-        Msger.debug(player, "ICON.ITEM-UPDATED", id, System.currentTimeMillis() - start)
     }
 
     private fun startUpdateTasks(player: Player, menu: Menu) {
@@ -57,6 +50,7 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
                     override fun run() {
                         if (session.menu != menu) cancel()
                         else {
+                            Msger.debug(player, "ICON.DISPLAY-UPDATE", false, id, it.key, it.value.joinToString(",", "{", "}"))
                             getIconProperty(player).display.nextFrame(player, it.value, session.page)
                             displayItemStack(player)
                         }
@@ -72,7 +66,6 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
                     if (session.menu != menu) cancel()
                     else if (refreshIcon(player)) {
                         displayItemStack(player)
-                        PacketsHandler.sendClearNonIconSlots(player, session)
                     }
                 }
             }.runTaskTimerAsynchronously(TrMenu.plugin, settings.refresh.toLong(), settings.refresh.toLong())

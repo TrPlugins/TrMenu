@@ -9,6 +9,8 @@ import org.bukkit.entity.Player
  */
 fun interface BuildTask {
 
-    fun run(player: Player, session: MenuFactorySession)
+    fun run(event: Event)
+
+    class Event(val player: Player, val session: MenuFactorySession)
 
 }

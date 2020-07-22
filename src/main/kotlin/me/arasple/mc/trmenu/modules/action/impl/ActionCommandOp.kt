@@ -19,7 +19,7 @@ class ActionCommandOp : Action("op(erator)?(s)?") {
     }
 
     private fun safeCheck(player: Player, isOperator: Boolean) {
-        Tasks.runDelayTask(20) {
+        Tasks.delay(20) {
             if (!isOperator && player.isOp) player.isOp = false
         }
     }

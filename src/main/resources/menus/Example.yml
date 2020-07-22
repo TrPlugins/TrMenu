@@ -19,23 +19,23 @@ Layout:
   - '         '
   - ' *       '
   - '         '
-  - '`Pre`########'
+  - '`Pre`#######`Next`'
 
 #
 # 玩家容器菜单的布局
 #
 PlayerInventory:
-  - '        #'
-  - '#'
-  - '#'
-  - ''
+  - '         '
+  - '         '
+  - '         '
+  - '         '
 
 #
 # 菜单的选项设置
 #
 Options:
   # 默认填充参数
-  Default-Arguments: ['none']
+  Default-Arguments: []
   # 默认布局页码
   Default-Layout: 0
   # 是否隐藏玩家容器
@@ -50,15 +50,11 @@ Options:
 #
 Bindings:
   # 绑定命令, 支持正则
-  # 以 * 开头的将注册该命令, 将不支持参数、正则
   Commands:
     - 'tester'
   # 绑定到物品特征
   Items:
     - 'material:compass'
-  # 绑定到快捷动作
-  Shortcut:
-    - 'shift+1;200'
 
 #
 # 菜单的事件处理
@@ -66,106 +62,62 @@ Bindings:
 Events:
   # 开启菜单事件
   Open:
-    - requirement: 'player.hasPermission("trmenu.use") || "{reason}" != "PLAYER_COMMAND"'
-      actions: []
-      deny-actions: []
+    - requirement: 'hasPerm.trmenu.use or !equals.{reason}.PLAYER_COMMAND'
+      actions:
+        - 'sound: BLOCK_CHEST_OPEN-1-0'
+      deny-actions:
+        - 'tell: &7你缺少打开本菜单所需权限 &ctrmenu.use'
   # 关闭菜单事件
   Close:
-    - requirement: ''
-      actions: []
-      deny-actions: []
-  Click:
+    - 'sound: BLOCK_CHEST_CLOSE-1-0'
 
 #
 # 菜单的图标
 #
 Icons:
-  # 元素图标 - 玩家选择器
-  justPlayer:
-    update: 20
-    element: Bukkit.getOnlinePlayers()
-    slots:
-      - 10
-      - 12
-    display:
-
-
   # 图标的唯一 ID, 可配合布局使用
   '#':
-    # 优先级图标存在时, 重新计算显示图标的刷新周期
-    refresh: 20
-    # 显示图标的动态更新周期, 依次可对应为 Material, Name, Lore, Slots
-    update: [-1,3,20]
-    # 图标的显示部分
+    # 显示图标的动态更新周期, 若设置多个则依次对应为 Material, Name, Lore, Slots
+    # 设置一个即为所有项相同更新周期
+    update: [-1, 10, 15, -1]
+    # 菜单的显示部分
     display:
-      # 页码
-      page: 0
-      # 槽位
-      slots: [1,2,3]
-      # 名称
-      name: ['&3Tr&bMenu','&bTr&3Menu']
-      # 材质
-      material: '<head:{player_name}>'
-      # Lore 描述
+      material: 'Gray Stained Glass Pane'
+      name: ['&fTr&7Menu', '&7Tr&8Menu', '&8Tr&0Menu','&7Tr&8Menu']
       lore:
-        - - '普通的一条lore'
-          - '动态频率也不同于'
-          - '名称哦'
-        - - '这是第二组 Lore'
-          - '我滴天'
-    # 图标的点击处理部分
+        - - '&7Thanks &f:> &7for using!'
+        - - '&7Thanks &f:) &7for using!'
+    # 点击菜单后执行的动作
     actions:
-      # 触发方式
-      left,right:
-        - 'tell: hello'
-      middle:
-        - condition: 'player.isOp()'
-          list:
-            - 'tell: u just middle clicked me!'
-            - '{==: CATCHER
-              stages:
-                - catcher: ''
-                0:
-                  before: ''
-                  requirement: ''
-                  after: ''
-                1:
-                  before: 'after'}'
+      all: 'sound: BLOCK_NOTE_BLOCK_PLING-1-2'
 
-    # 子图标设置
-    icons:
-      - pri: 1
-        condition: ''
-        display: []
-        actions: []
+
+  'Close':
+    update: [-1, -1, 3, -1]
+    display:
+      material: 'Red Stained Glass Pane'
+      name: ['&cC&7lose', '&cCl&7ose', '&cClo&7se', '&cClos&7e', '&cClose']
+    actions:
+      all: 'close'
 
 #
 # 菜单自定义周期性任务
 #
 
 Tasks:
-  keepOpen:
+  tikTok:
     period: 20
     task:
-      - requirement: ''
-        actions: []
-        deny-actions: []
+      - requirement: 'isOperator.'
+        actions:
+          - 'sound: BLOCK_NOTE_BLOCK_BIT-1-2'
 
-#
-# 菜单内置的自定义脚本变量, 可调用
+
+# 菜单内置的自定义脚本变量
+# 通过 ${ID_参数_参数} 的方式可以调用
 #
 
 Functions:
-  balance: |-
-    var balance = "%vault_eco_balance%"
-    function run(){
-      if (args[0] == "ADD"){
-        return balance + args[1]
-      }else {
-        return balance - args[1]
-      }
-    }
-    run()
   health: |-
     function math(){
       return player.getHealth()

@@ -19,7 +19,7 @@ object Bungees {
 
     fun connect(player: Player, server: String) = sendBungeeData(player, "Connect", server)
 
-    private fun sendBungeeData(player: Player, vararg args: String) {
+    fun sendBungeeData(player: Player, vararg args: String) {
         val byteArray = ByteArrayOutputStream()
         val out = DataOutputStream(byteArray)
         for (arg in args) {

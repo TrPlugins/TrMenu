@@ -2,6 +2,7 @@ package me.arasple.mc.trmenu.modules.action.impl
 
 import me.arasple.mc.trmenu.modules.action.base.Action
 import me.arasple.mc.trmenu.modules.script.Scripts
+import me.arasple.mc.trmenu.utils.Msger
 import org.bukkit.entity.Player
 
 /**
@@ -11,7 +12,9 @@ import org.bukkit.entity.Player
 class ActionJavaScript : Action("(java)?(-)?script(s)?|js") {
 
     override fun onExecute(player: Player) {
-        Scripts.script(player, getContent())
+        val js = getContent()
+        val cache = js.endsWith("<cache>")
+        Scripts.script(player, if (cache) js else Msger.replace(player, js), cache)
     }
 
 }
