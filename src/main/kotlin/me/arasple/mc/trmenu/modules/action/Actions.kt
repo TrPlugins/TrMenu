@@ -110,7 +110,13 @@ object Actions {
 
                 if (action is ActionCatcher) action.setContent(content)
                 else if (content.isNotBlank()) {
-                    val result = Nodes.read(content)
+                    val result = Nodes.read(
+                        content,
+                        Nodes.CHANCE,
+                        Nodes.DELAY,
+                        Nodes.PLAYERS,
+                        Nodes.REQUIREMENT
+                    )
                     action.setContent(result.first)
                     action.options = result.second.toMutableMap()
                 }

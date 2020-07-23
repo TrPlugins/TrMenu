@@ -6,6 +6,7 @@ import io.izzel.taboolib.module.command.base.Argument
 import io.izzel.taboolib.module.command.base.BaseSubCommand
 import io.izzel.taboolib.module.locale.TLocale
 import me.arasple.mc.trmenu.TrMenu
+import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.data.MenuSession
 import me.arasple.mc.trmenu.data.MetaPlayer
 import me.arasple.mc.trmenu.display.Menu
@@ -32,8 +33,9 @@ class CommandDebug : BaseSubCommand() {
         Argument("Type", false) {
             listOf(
                 "info",
-                "parseExpression",
-                "player"
+                "player",
+                "menu",
+                "parseExpression"
             )
         }
     )
@@ -47,10 +49,23 @@ class CommandDebug : BaseSubCommand() {
             val content = ArrayUtils.remove(args, 0).joinToString("")
             when (args[0].toLowerCase()) {
                 "info" -> printInfo(sender)
-                "parseexpression" -> TLocale.sendTo(sender, "DEBUG.EXPRESSION", content, Expressions.parseExpression(content))
                 "player" -> if (args.size > 1) printPlayer(sender, Bukkit.getPlayerExact(args[1]))
+                "menu" -> if (args.size > 1) printMenu(sender, TrMenuAPI.getMenuById(args[1]))
+                "parseexpression" -> TLocale.sendTo(sender, "DEBUG.EXPRESSION", content, Expressions.parseExpression(content))
             }
         }
+    }
+
+    private fun debugSender(sender: CommandSender) {
+        if (sender is Player) {
+            if (sender.hasMetadata("TrMenu:Debug")) {
+                sender.removeMetadata("TrMenu:Debug", TrMenu.plugin)
+                TLocale.sendTo(sender, "COMMANDS.DEBUG.OFF")
+            } else {
+                sender.setMetadata("TrMenu:Debug", FixedMetadataValue(TrMenu.plugin, ""))
+                TLocale.sendTo(sender, "COMMANDS.DEBUG.ON")
+            }
+        } else TLocale.sendTo(sender, "COMMANDS.DEBUG.${if (Msger.debug()) "ON" else "OFF"}")
     }
 
     private fun printPlayer(sender: CommandSender, player: Player?) {
@@ -70,16 +85,23 @@ class CommandDebug : BaseSubCommand() {
         }
     }
 
-    private fun debugSender(sender: CommandSender) {
-        if (sender is Player) {
-            if (sender.hasMetadata("TrMenu:Debug")) {
-                sender.removeMetadata("TrMenu:Debug", TrMenu.plugin)
-                TLocale.sendTo(sender, "COMMANDS.DEBUG.OFF")
-            } else {
-                sender.setMetadata("TrMenu:Debug", FixedMetadataValue(TrMenu.plugin, ""))
-                TLocale.sendTo(sender, "COMMANDS.DEBUG.ON")
-            }
-        } else TLocale.sendTo(sender, "COMMANDS.DEBUG.${if (Msger.debug()) "ON" else "OFF"}")
+
+    private fun printMenu(sender: CommandSender, menu: Menu?) {
+        if (menu != null) {
+            sender.sendMessage(
+                arrayOf(
+                    "§3§l「§8--------------------------------------------------§3§l」",
+                    "",
+                    "§aTitle: §6${menu.settings.title.titles} / ${menu.settings.title.update}",
+                    "§aBindings: §6${menu.settings.bindings.boundCommands.joinToString(",")}",
+                    "§aIcons: §6${menu.icons.size}",
+                    "§aOpenEvent: §6${menu.settings.events.openEvent}",
+                    "§aCloseEvent: §6${menu.settings.events.closeEvent}",
+                    "",
+                    "§3§l「§8--------------------------------------------------§3§l」"
+                )
+            )
+        }
     }
 
     private fun printInfo(sender: CommandSender) {

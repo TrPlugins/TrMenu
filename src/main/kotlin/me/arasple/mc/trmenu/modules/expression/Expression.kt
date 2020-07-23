@@ -8,7 +8,7 @@ import io.izzel.taboolib.util.Strings
  */
 enum class Expression(val regex: Regex, var replace: String, var splitBy: String) {
 
-    STRING_EQUALS("equal(s)?|is", "\"{0}\" == \"{1}\""),
+    STRING_EQUALS("(equal(s)?|is)", "\"{0}\" == \"{1}\""),
 
     IS_NUMBER("isNum(ber)?", "utils.isNumber(\"{0}\")"),
 
@@ -32,9 +32,6 @@ enum class Expression(val regex: Regex, var replace: String, var splitBy: String
 
     fun parse(string: String): String = Strings.replaceWithOrder(replace, *getArguments(string))
 
-    private fun getArguments(string: String): Array<String> = string.split(splitBy).toMutableList().let {
-        it.removeAt(0)
-        return@let it.toTypedArray()
-    }
+    private fun getArguments(string: String): Array<String> = string.split(splitBy).toTypedArray()
 
 }

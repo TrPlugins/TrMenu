@@ -1,212 +1,60 @@
 # TrMenu
 
----
+##### Modern & Advanced Menu-Plugin for Minecraft Servers
 
-Discord: https://discord.gg/8CWa6KF  
-Wiki: https://trmenu.trixey.cn  
-Wiki en Español(FanMade): https://trmenu.minelatino.com
+![](https://img.shields.io/github/last-commit/Arasple/TrMenu?logo=artstation&style=for-the-badge&color=9266CC)![](https://img.shields.io/github/issues/Arasple/TrMenu?style=for-the-badge&logo=slashdot)![](https://img.shields.io/github/release/Arasple/TrMenu?style=for-the-badge&color=00C58E&logo=ionic)![](https://img.shields.io/github/downloads/Arasple/TrMenu/total?style=for-the-badge&logo=docusign)
 
 ---
 
-TrMenu was released on Oct,4, 2019, aiming to be the new modern menu plugin for Minecraft servers  
-And this is a now completly recoded premium menu plugin made with [TabooLib5](https://github.com/TabooLib)
+Discord : https://discord.gg/8CWa6KF
 
----
-#### Versions
-
-- TrMenu ([v1.x](https://github.com/Arasple/TrMenu/tree/master))
-  - Free normal version
-  - Suspend updates and support
-
-- TrMenu Premium (v2.x) **Developing**
-  - Open-Source Premium version
-  - Recoded
+Wiki: [https://trmenu.trixey.cn](https://trmenu.trixey.cn/)
 
 ---
 
-#### Features
+**Introduce**
 
-### Performance
- - TrMenu v2 is recoded with Kotlin
- - Inventorys and items are completely based on async packets. No lag.
+​	TrMenu was released on Oct,4 2019, aiming to be the new modern menu plugin for Minecraft servers. Currently developing TrMenu v2 is a completely recoded version with more features
 
-### Efficient & Simple
- - TrMenu v2's menu config support the normal version, however, there are a lot of changes
- - It is now much simpler to configure icons and menu options, you can still enjoy multiple nodes & ignore case, etc.
-
-DeluxeMenus (67 lines)
-```YAML
-items: 
-  'cooldown':
-    material: ORANGE_CONCRETE
-    slot: 13
-    priority: 1
-    update: true
-    view_requirement:
-      requirements:
-        permission:
-          type: has permission
-          permission: essentials.kits.example
-        available:
-          type: string equals ignorecase
-          input: '%essentials_kit_is_available_example%'
-          output: 'no'
-    display_name: ' '
-    lore:
-    - "&8• &bKit: &7Example"
-    - "&8• &bStatus: &7On Cooldown"
-    - "&8• &bAvailable In: &7%essentials_kit_time_until_available_example%"
-    - ""
-    left_click_commands:
-    - "[refresh]"
-    right_click_commands:
-    - "[refresh]"
-  'available':
-    material: LIME_CONCRETE
-    slot: 13
-    priority: 2
-    update: true
-    view_requirement:
-      requirements:
-        permission:
-          type: has permission
-          permission: essentials.kits.example
-        available:
-          type: string equals ignorecase
-          input: '%essentials_kit_is_available_example%'
-          output: 'yes'
-    display_name: ' '
-    lore:
-    - "&8• &bKit: &7Example"
-    - "&8• &bStatus: &7Available"
-    - ""
-    - "&8» &b&nClick to Claim"
-    - ''
-    left_click_commands:
-    - '[player] essentials:kit example'
-    - '[refresh]'
-    - '[refresh]<delay=100>'
-    right_click_commands:
-    - '[player] essentials:kit example'
-    - '[refresh]'
-    - '[refresh]<delay=100>'
-  'locked':
-    material: RED_CONCRETE
-    slot: 13
-    priority: 3
-    update: true
-    display_name: ' '
-    lore:
-    - "&8• &bKit: &7Example"
-    - "&8• &bStatus: &7Locked"
-    - ""
-    left_click_commands:
-    - "[close]"
-    right_click_commands:
-    - "[close]"
-```
-
-TrMenu (40 lines, -41%)
-```YAML
-Icons: 
-  Kit:
-    refresh: 20
-    display:
-      material: LIME_CONCRETE
-      name: ' '
-      lore:
-      - "&8• &bKit: &7Example"
-      - "&8• &bStatus: &7Available"
-      - ""
-      - "&8» &b&nClick to Claim"
-      - ''
-    actions:
-      left,right:
-      - 'player: essentials:kit example'
-      - 'refresh'
-      - 'refresh<delay:100>'
-    icons:
-      - condition: 'noPerm.essentials.kits.example'
-        priority: 1
-        display:
-          material: RED_CONCRETE
-          display_name: ' '
-          lore:
-          - "&8• &bKit: &7Example"
-          - "&8• &bStatus: &7Locked"
-          - ""
-        actions:
-          left,right: 'close'
-      - condition: 'hasPerm.essentials.kits.example and is.%essentials_kit_is_available_example%.no'
-        priority: 0
-        display:
-          material: ORANGE_CONCRETE
-          display_name: ' '
-          lore:
-          - "&8• &bKit: &7Example"
-          - "&8• &bStatus: &7On Cooldown"
-          - "&8• &bAvailable In: &7%essentials_kit_time_until_available_example%"
-          - ""
-        actions:
-          left,right: 'refresh'
-```
-
-### Menu Events
- - You can customize your own actions for menu events more fully  
- - Such as `MenuClickEvent`, `MenuCloseEvent`, `MenuClickEvent`
- 
-### Menu Tasks
- - You can create period tasks with reactions  
- - For players after opening the menu  
-
-### Internal Functions
- - Simpler way for custom script & variables
- - You can use it anywhere in the menu `${id}` 
-
-### Reactions
- - Pack mutiple actions up with priority and conditions
- - Which you can use in `Icon.ClickActions` & `MenuEvents` & `Requirement` or `Tasks`
-
-### Player Inventory as menu
- - You can now use player's inventory as extra slots
- - Setup icons & etc.
-
-### Menu ClickTypes
- - You can now enjoy a greater variety of click types
-
-### Smart Expressions
- - Much simpler expressions for requirement use
- - `player.hasPermission("demo") && %vault_eco_balance% >= 500`
- - `hasPerm.demo and hasMoney.500`
- - You can also add your own expression pattern easily
-
-### Cached Scripts
- - Faster java scripts
-
-### Hex Color (1.16+)
- - You can use hex color easily anywhere in the menu
- - Format `&<FFFFFF>` or `&<256,256,256>`
-
-### Highly Customizable
- - Based on TLocale(by TabooLib), support mutiple languages
- - You can custom almost everything you see of this plugin
- - Just take a look at locale/zh_CN.yml
-
-### Exporter
-  - To locale YAML file
-  - Paste on Hastebin
-
-### Developer API
-  - `MenuFactory` allows you to create an advanced gui quickly
-  - Also, completely based on packets
-  - and more
-
-### Much more
+​	TrMenu is using powerful *Built-in Bukkit-API Expansion* [TabooLib5](https://github.com/TabooLib)
 
 ---
 
-### Release Date
+**Features**
 
-Not sure yet
+- **Optimized performance** : An extremely optimized performance is ensured.
+  Completely packet-based inventory & async update tasks
+- **Effective and flexibility** : Aliases nodes, ignore cases, auto-reload function and template support, aims to improve the efficiency of creating menus
+- **Simple** : Create a most advanced menu with the least lines. No need for knowledge of scripting. The plugin is easy to use and menu configuration has a clear structure of every component
+- **Plentiful functions** : Animated titles & items, paged menus, arguments, editable meta, and storable data for players, use player inventory as extra slots for menus, also a great variety of click-actions and so much more while the only limit is your imagination
+  - **Animated menu** : You can have animated title, animated name & lore & amount and so on for icon item
+  - **Conditional icons** : Sub icons for each icon with different priority and requirement are allowed
+  - **Player Inventory** : Player inventory `4*9 ` are allowed to use as extra slots when open the menu
+  - **Reactions** : Almost everywhere, you can use reactions each of which are composed of priority, condition, actions, and deny-actions
+  - **Click types** : All Minecraft inventory click types are supported, including not only number keys from 1-9 and switch offhand key
+  - **Smart expressions** : From `player.hasPermission("demo") && %vault_eco_balance% >= 500` to `hasPerm.demo and hasMoney.500`
+  - **Arguments** : Open a menu with arguments, which can be used as variables anywhere in the menu with the format of `{<Index>}`, for example, `{0}` for the first argument
+  - **Meta mark** : You can set editable meta (key & value) for each player, which can be use as variables
+  - **Cached scripts** : Some cacheable scripts will be cached for better performance
+  - **PlaceholderAPI** : Completely support, and you can use it everywhere
+  - **Hex color** : For 1.16+ servers you can use hex or rgb color easily `&{FFFFFF}, &{256,256,256}`
+  - Much more ...
+
+- **Developer API**  : We have provided different menu events and `TrMenuAPI`, also `MenuFactory` to build packeted-based GUIs for your plugin quickly
+
+---
+
+**Build**
+
+1. Clone this project to your IDEA
+2. Execute Gradle task `buildJar`
+
+---
+
+**Terms**
+
+1. You are not allowed to distribute or resell any part of this plugin to anyone
+2. You are not allowed to claim any part of this plugin as your own
+3. You are not allowed to repost this plugin on anywhere without asking permission
 
 ---

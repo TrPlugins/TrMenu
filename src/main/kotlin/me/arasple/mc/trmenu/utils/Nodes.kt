@@ -74,10 +74,10 @@ enum class Nodes(regex: String) {
 
     companion object {
 
-        fun read(string: String): Pair<String, Map<Nodes, String>> {
+        fun read(string: String, vararg nodes: Nodes): Pair<String, Map<Nodes, String>> {
             var content = string
             val result = mutableMapOf<Nodes, String>()
-            values().forEach {
+            (if (nodes.isEmpty()) values() else nodes).forEach {
                 val matcher = it.matcher(content)
                 if (matcher.find()) {
                     val group = matcher.group().removeSuffix("<")

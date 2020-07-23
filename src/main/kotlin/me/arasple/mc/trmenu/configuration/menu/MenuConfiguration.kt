@@ -43,7 +43,7 @@ class MenuConfiguration(val loadedPath: String) : BaseConfiguration() {
 
     fun getEvents() = getSection(Property.EVENTS)
 
-    fun getEvent(property: Property) = getValue(getBindings(), property)
+    fun getEvent(property: Property) = getValue(getEvents(), property)
 
     fun getEventOpen() = getEvent(Property.EVENT_OPEN)
 

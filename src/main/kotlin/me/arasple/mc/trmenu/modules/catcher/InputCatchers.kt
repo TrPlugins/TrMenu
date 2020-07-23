@@ -1,4 +1,4 @@
-package me.arasple.mc.trmenu.modules.function.catcher
+package me.arasple.mc.trmenu.modules.catcher
 
 import me.arasple.mc.trmenu.TrMenu
 import org.bukkit.entity.Player

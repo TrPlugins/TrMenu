@@ -70,19 +70,20 @@ class TrMenuLoader {
                 return@let it
             }).let { menu ->
                 if (menu != null) {
-                    TConfigWatcher.getInst().removeListener(file)
-                    TConfigWatcher.getInst().addSimpleListener(file) {
-                        Menu.getMenus().firstOrNull { it.conf.loadedPath == file.absolutePath }?.let { it ->
-                            Tasks.run {
-                                it.viewers.removeIf {
-                                    val session = MenuSession.session(it)
-                                    menu.open(it, session.page, MenuOpenEvent.Reason.RELOAD)
-                                    return@removeIf true
-                                }
-                                Menu.getMenus().remove(it)
-                            }
-                        }
-                    }
+                    // TODO
+//                    TConfigWatcher.getInst().removeListener(file)
+//                    TConfigWatcher.getInst().addSimpleListener(file) {
+//                        Menu.getMenus().firstOrNull { it.conf.loadedPath == file.absolutePath }?.let { it ->
+//                            Tasks.run {
+//                                it.viewers.removeIf {
+//                                    val session = MenuSession.session(it)
+//                                    menu.open(it, session.page, MenuOpenEvent.Reason.RELOAD)
+//                                    return@removeIf true
+//                                }
+//                                Menu.getMenus().remove(it)
+//                            }
+//                        }
+//                    }
                 }
                 menu
             }

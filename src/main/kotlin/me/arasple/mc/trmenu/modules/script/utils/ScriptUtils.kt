@@ -3,6 +3,7 @@ package me.arasple.mc.trmenu.modules.script.utils
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import io.izzel.taboolib.util.Strings
 import me.clip.placeholderapi.PlaceholderAPI
+import java.util.regex.Pattern
 
 /**
  * @author Arasple
@@ -10,24 +11,33 @@ import me.clip.placeholderapi.PlaceholderAPI
  */
 object ScriptUtils {
 
-    const val function = "replaceWithPlaceholders"
+    const val function = "rwp"
 
     fun translate(string: String): String {
         var content = string
-        val matcher = PlaceholderAPI.getPlaceholderPattern().matcher(content)
-        while (matcher.find()) {
-            val find = matcher.group()
-            val group = escape(Strings.replaceWithOrder(escapeMath(find), *getArgs(find)))
-            content = content.replace(Regex("['\"]?${escape(find)}['\"]?"), "$function(\'$group\')")
+        PlaceholderAPI.getPlaceholderPattern().matcher(content).let {
+            while (it.find()) {
+                val find = it.group()
+                val group = escape(Strings.replaceWithOrder(escapeMath(find), *getArgs(find)))
+                content = replaceFind(content, escape(find), group)
+            }
         }
-        val bracket = PlaceholderAPI.getBracketPlaceholderPattern().matcher(content)
-        while (bracket.find()) {
-            val group = escape(bracket.group())
-            if (NumberUtils.isParsable(group.removeSurrounding("\\{", "\\}")))
-                content = content.replace(Regex("['\"]?${group}['\"]?"), "$function(\'$group\')")
+        return replace(content, PlaceholderAPI.getBracketPlaceholderPattern())
+    }
+
+    private fun replace(string: String, vararg patterns: Pattern): String {
+        var content = string
+        patterns.forEach { pattern ->
+            pattern.matcher(content).let {
+                while (it.find()) content = replaceFind(content, escape(it.group()))
+            }
         }
         return content
     }
+
+    private fun replaceFind(string: String, find: String): String = replaceFind(string, find, find)
+
+    private fun replaceFind(string: String, find: String, group: String): String = string.replace("['\"]?(\\$)?$find['\"]?".toRegex(), "$function(\'$group\')")
 
     private fun getArgs(content: String): Array<String> {
         val replaces = mutableListOf<String>()

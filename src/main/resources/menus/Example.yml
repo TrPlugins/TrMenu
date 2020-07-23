@@ -93,7 +93,7 @@ Icons:
 
 
   'Close':
-    update: [-1, -1, 3, -1]
+    update: [-1, 5, -1, -1]
     display:
       material: 'Red Stained Glass Pane'
       name: ['&cC&7lose', '&cCl&7ose', '&cClo&7se', '&cClos&7e', '&cClose']

@@ -55,12 +55,12 @@ object MenuSerializer {
 
         val bindings = MenuSettings.Bindings(
             mutableListOf<Regex>().let { regexs ->
-                Utils.asArray(c.getBindingCommands()).forEach { regexs.add(it.toRegex()) }
+                Utils.asList(c.getBindingCommands()).forEach { regexs.add(it.toRegex()) }
                 return@let regexs
             }.toTypedArray(),
 
             mutableListOf<ItemIdentifier>().let { itemIds ->
-                Utils.asArray(c.getBindingItems()).forEach { itemIds.add(ItemIdentifierHandler.read(it)) }
+                Utils.asList(c.getBindingItems()).forEach { itemIds.add(ItemIdentifierHandler.read(it)) }
                 return@let itemIds
             }.toTypedArray()
         )

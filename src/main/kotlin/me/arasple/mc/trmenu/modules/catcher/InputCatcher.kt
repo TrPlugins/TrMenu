@@ -1,4 +1,4 @@
-package me.arasple.mc.trmenu.modules.function.catcher
+package me.arasple.mc.trmenu.modules.catcher
 
 import io.izzel.taboolib.util.lite.Signs
 import me.arasple.mc.trmenu.data.MetaPlayer
