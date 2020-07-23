@@ -14,7 +14,7 @@ class ActionClose : Action("close") {
     override fun onExecute(player: Player) {
         val session = MenuSession.session(player)
         if (!session.isNull()) {
-            session.menu?.close(player, session.page, MenuCloseEvent.Reason.PLAYER, false, silent = false)
+            session.menu?.close(player, session.page, MenuCloseEvent.Reason.PLAYER, true, silent = false)
         }
     }
 

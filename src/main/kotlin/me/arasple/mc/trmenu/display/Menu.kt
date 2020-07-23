@@ -8,15 +8,19 @@ import me.arasple.mc.trmenu.data.MenuSession
 import me.arasple.mc.trmenu.data.MetaPlayer
 import me.arasple.mc.trmenu.display.menu.MenuLayout
 import me.arasple.mc.trmenu.display.menu.MenuSettings
+import me.arasple.mc.trmenu.utils.Tasking
 import me.arasple.mc.trmenu.utils.Tasks
 import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
+import kotlin.math.min
 
 /**
  * @author Arasple
  * @date 2020/5/30 13:24
  */
-class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettings, val layout: MenuLayout, val icons: Set<Icon>, val viewers: MutableSet<Player>) {
+class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettings, val layout: MenuLayout, val icons: Set<Icon>, val viewers: MutableSet<Player>, val tasking: Tasking) {
+
+    constructor(id: String, conf: MenuConfiguration, settings: MenuSettings, layout: MenuLayout, icons: Set<Icon>) : this(id, conf, settings, layout, icons, mutableSetOf(), Tasking())
 
     init {
         layout.locateIcons(icons)
@@ -26,7 +30,7 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
      * 为玩家打开此菜单
      */
     fun open(player: Player, page: Int, reason: MenuOpenEvent.Reason) {
-        val p = if (page < 0) settings.options.defaultLayout else 0
+        val p = if (page < 0) settings.options.defaultLayout else min(page, layout.layouts.size - 1)
         val e = MenuOpenEvent(player, this, p, reason, MenuOpenEvent.Result.UNKNOWN).call()
 
         if (layout.layouts.size <= e.page) {
@@ -41,8 +45,7 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
             MenuSession.session(player).set(this, layout, p)
 
             layout.displayInventory(player, settings.title.getTitle(player))
-
-            icons.forEach { it.displayIcon(player, this) }
+            loadIcons(player, p)
             settings.load(player, this, layout)
             viewers.add(player)
         }
@@ -52,12 +55,13 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
      * 为所有正在查看此菜单的玩家关闭此菜单
      */
     fun close() {
-        Tasks.run(Runnable {
+        Tasks.run {
             viewers.forEach {
+                tasking.reset(it)
                 MenuCloseEvent(it, this, -1, MenuCloseEvent.Reason.CONSOLE, true).call()
                 it.closeInventory()
             }
-        })
+        }
         viewers.clear()
     }
 
@@ -65,19 +69,20 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
      * 为特定玩家关闭此菜单
      */
     fun close(player: Player, page: Int, reason: MenuCloseEvent.Reason, closeInventory: Boolean, silent: Boolean) {
-        Tasks.run(Runnable {
+        Tasks.run {
+            tasking.reset(player)
             MenuCloseEvent(player, this, page, reason, silent).call()
             layout.layouts[page].close(player, closeInventory)
             MenuSession.session(player).set(null, null, -1)
-            player.closeInventory()
-        })
+            if (closeInventory) player.closeInventory() else player.updateInventory()
+        }
         viewers.remove(player)
     }
 
     /**
      * 载入图标
      */
-    fun loadIcons(player: Player) = icons.forEach { it.displayIcon(player, this) }
+    fun loadIcons(player: Player, page: Int) = icons.filter { it.isInPage(page) }.forEach { it.displayIcon(player, this) }
 
     fun resetIcons(player: Player) = icons.forEach { it.displayItemStack(player) }
 

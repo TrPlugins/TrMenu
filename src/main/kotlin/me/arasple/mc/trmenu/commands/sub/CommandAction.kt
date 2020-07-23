@@ -30,7 +30,7 @@ class CommandAction : BaseSubCommand() {
         }
         ArrayUtil.arrayJoin(args, 1).let { it ->
             val print = it.startsWith("#")
-            val action = Actions.cachedAction(player, it.removePrefix("#"))
+            val action = Actions.cachedAction(it.removePrefix("#"))
 
             Actions.runActions(player, action)
             if (print)

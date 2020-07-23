@@ -15,7 +15,7 @@ import org.bukkit.event.Cancellable
  * @author Arasple
  * @date 2020/5/30 12:26
  */
-object Utils {
+object  Utils {
 
     fun asList(any: Any?): List<String> {
         if (any == null) return mutableListOf()

@@ -3,7 +3,6 @@ package me.arasple.mc.trmenu.commands.sub
 import io.izzel.taboolib.internal.apache.lang3.ArrayUtils
 import io.izzel.taboolib.module.command.base.Argument
 import io.izzel.taboolib.module.command.base.BaseSubCommand
-import io.izzel.taboolib.module.command.base.CommandTab
 import io.izzel.taboolib.module.locale.TLocale
 import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.api.events.MenuOpenEvent
@@ -21,7 +20,7 @@ import org.bukkit.entity.Player
 class CommandOpenMenu : BaseSubCommand() {
 
     override fun getArguments(): Array<Argument> = arrayOf(
-        Argument("MenuId", true, CommandTab { Menu.getMenus().map { it.id } }),
+        Argument("MenuId", true) { Menu.getMenus().map { it.id } },
         Argument("Player", false),
         Argument("Arguments", false)
     )

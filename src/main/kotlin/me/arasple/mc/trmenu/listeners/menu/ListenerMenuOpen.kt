@@ -21,13 +21,18 @@ class ListenerMenuOpen : Listener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     fun onOpening(e: MenuOpenEvent) {
         val player = e.player
-        val factorySession = MenuFactory.session(player)
 
+        Loger.log(Log.MENU_EVENT_OPEN, player.name, e.menu.id, e.page, e.reason.name)
+
+        val factorySession = MenuFactory.session(player)
         if (!factorySession.isNull()) {
             factorySession.menuFactory!!.closeTask?.run(CloseTask.Event(player, factorySession.menuFactory!!))
             factorySession.reset()
         }
 
+        if (e.reason == MenuOpenEvent.Reason.SWITCH_PAGE) {
+            return
+        }
         MetaPlayer.setMeta(player, "{reason}", e.reason.name).also {
             if (!e.menu.settings.events.openEvent.eval(player)) {
                 e.isCancelled = true
@@ -35,8 +40,6 @@ class ListenerMenuOpen : Listener {
             }
         }
         MetaPlayer.updateInventoryContents(player)
-
-        Loger.log(Log.MENU_EVENT_OPEN, player.name, e.menu.id)
     }
 
 }

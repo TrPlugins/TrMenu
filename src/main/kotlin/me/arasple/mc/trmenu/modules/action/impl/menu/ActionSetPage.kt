@@ -4,8 +4,9 @@ import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import me.arasple.mc.trmenu.api.events.MenuOpenEvent
 import me.arasple.mc.trmenu.data.MenuSession
 import me.arasple.mc.trmenu.modules.action.base.Action
+import me.arasple.mc.trmenu.utils.Tasks
 import org.bukkit.entity.Player
-import kotlin.math.max
+import kotlin.math.min
 
 /**
  * @author Arasple
@@ -14,9 +15,12 @@ import kotlin.math.max
 class ActionSetPage : Action("((set|switch)?(-)?(shape|page))|shape|page") {
 
     override fun onExecute(player: Player) {
-        val session = MenuSession.session(player)
-        if (!session.isNull()) {
-            session.menu?.open(player, max(NumberUtils.toInt(getContent(player), 0), session.menu?.layout?.layouts?.size ?: 0), MenuOpenEvent.Reason.PLAYER_COMMAND)
+        val menu = MenuSession.session(player).menu ?: return
+        val page = min(NumberUtils.toInt(getContent(player), 0), (menu.layout.layouts.size ?: 1) - 1)
+        menu.tasking.reset(player)
+
+        Tasks.delay(1) {
+            menu.open(player, page, MenuOpenEvent.Reason.SWITCH_PAGE)
         }
     }
 

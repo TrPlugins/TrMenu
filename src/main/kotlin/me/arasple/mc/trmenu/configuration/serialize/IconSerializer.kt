@@ -2,6 +2,8 @@ package me.arasple.mc.trmenu.configuration.serialize
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import me.arasple.mc.trmenu.api.inventory.InvClickType
+import me.arasple.mc.trmenu.configuration.menu.MenuConfiguration
+import me.arasple.mc.trmenu.configuration.property.Property
 import me.arasple.mc.trmenu.display.Icon
 import me.arasple.mc.trmenu.display.animation.Animated
 import me.arasple.mc.trmenu.display.icon.IconClickHandler
@@ -9,8 +11,6 @@ import me.arasple.mc.trmenu.display.icon.IconDisplay
 import me.arasple.mc.trmenu.display.icon.IconSettings
 import me.arasple.mc.trmenu.display.item.DynamicItem
 import me.arasple.mc.trmenu.display.item.Lore
-import me.arasple.mc.trmenu.configuration.menu.MenuConfiguration
-import me.arasple.mc.trmenu.configuration.property.Property
 import me.arasple.mc.trmenu.utils.Utils
 import org.bukkit.configuration.ConfigurationSection
 
@@ -57,7 +57,7 @@ object IconSerializer {
                     }
                 }
 
-                icons.add(Icon(key, iconSettings, defIcon, subs))
+                icons.add(Icon(key, iconSettings, defIcon, subs, mutableMapOf()))
             }
         }
 

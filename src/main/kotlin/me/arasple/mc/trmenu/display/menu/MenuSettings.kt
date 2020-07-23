@@ -46,17 +46,23 @@ class MenuSettings(val title: Titles, val options: Options, val bindings: Bindin
         }
 
         fun load(player: Player, menu: Menu, layout: MenuLayout.Layout) {
+            val session = MenuSession.session(player)
+            val page = session.page
+
             if (update > 0 && titles.elements.size > 1) {
-                object : BukkitRunnable() {
-                    override fun run() {
-                        if (MenuSession.session(player).menu != menu) {
-                            cancel()
-                            return
+                menu.tasking.task(
+                    player,
+                    object : BukkitRunnable() {
+                        override fun run() {
+                            if (session.isDifferent(menu, page)) {
+                                cancel()
+                                return
+                            }
+                            layout.displayInventory(player, getTitle(player))
+                            menu.resetIcons(player)
                         }
-                        layout.displayInventory(player, getTitle(player))
-                        menu.resetIcons(player)
-                    }
-                }.runTaskTimerAsynchronously(TrMenu.plugin, update.toLong(), update.toLong())
+                    }.runTaskTimerAsynchronously(TrMenu.plugin, update.toLong(), update.toLong())
+                )
             }
         }
 
@@ -126,18 +132,20 @@ class MenuSettings(val title: Titles, val options: Options, val bindings: Bindin
 
         fun run(player: Player, menu: Menu) {
             val session = MenuSession.session(player)
+            val page = session.page
 
             tasks.forEach {
-                object : BukkitRunnable() {
-
-                    override fun run() {
-                        if (session.menu != menu) cancel()
-                        else {
-                            it.value.eval(player)
+                menu.tasking.task(
+                    player,
+                    object : BukkitRunnable() {
+                        override fun run() {
+                            if (session.isDifferent(menu, page)) cancel()
+                            else {
+                                it.value.eval(player)
+                            }
                         }
-                    }
-
-                }.runTaskTimerAsynchronously(TrMenu.plugin, it.key, it.key)
+                    }.runTaskTimerAsynchronously(TrMenu.plugin, it.key, it.key)
+                )
             }
 
         }

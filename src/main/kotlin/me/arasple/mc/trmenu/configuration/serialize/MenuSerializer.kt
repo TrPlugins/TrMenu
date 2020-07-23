@@ -28,7 +28,7 @@ object MenuSerializer {
             val layout = loadLayout(configuration)
             val icons = IconSerializer.loadIcons(configuration)
 
-            Menu(id, configuration, settings, layout, icons, mutableSetOf())
+            Menu(id, configuration, settings, layout, icons)
         } catch (e: Throwable) {
             TLocale.sendToConsole("LOADER.ERRORS", id, e.message, e.stackTrace.joinToString("\n"))
             null

@@ -75,6 +75,7 @@ class CommandDebug : BaseSubCommand() {
                 arrayOf(
                     "§3§l「§8--------------------------------------------------§3§l」",
                     "",
+                    "§eCurrentPage: §6${session.page}",
                     "§eArguments: §6${MetaPlayer.getArguments(player).joinToString(", ", "{", "}")}",
                     "§eMetas: §6${MetaPlayer.getMeta(player)}",
                     "§eInternalFunctions: §6${session.menu?.settings?.functions?.internalFunctions?.map { it.id }}",

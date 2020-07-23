@@ -2,6 +2,7 @@ package me.arasple.mc.trmenu.data
 
 import me.arasple.mc.trmenu.display.Menu
 import me.arasple.mc.trmenu.display.menu.MenuLayout
+import me.arasple.mc.trmenu.utils.Msger
 import org.bukkit.entity.Player
 import java.util.*
 
@@ -14,10 +15,15 @@ class MenuSession(var menu: Menu?, var layout: MenuLayout.Layout?, var page: Int
     fun isNull() = menu == null || layout == null
 
     fun set(menu: Menu?, layout: MenuLayout.Layout?, page: Int) {
+        Msger.debug("SESSION", menu?.id ?: "null", page)
+
         this.menu = menu
         this.layout = layout
         this.page = page
     }
+
+    fun isDifferent(menu: Menu, currentPage: Int) = this.menu != menu || page != currentPage
+
 
     constructor() : this(null, null, 0, null)
 

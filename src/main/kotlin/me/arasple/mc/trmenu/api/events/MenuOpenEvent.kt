@@ -35,6 +35,8 @@ class MenuOpenEvent(val player: Player, val menu: Menu, val page: Int, val reaso
 
         CONSOLE,
 
+        SWITCH_PAGE,
+
         BINDING_COMMANDS,
 
         BINDING_ITEMS,

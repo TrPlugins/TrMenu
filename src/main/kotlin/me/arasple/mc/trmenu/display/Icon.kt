@@ -19,8 +19,6 @@ import java.util.*
  */
 class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty, val subIcons: List<IconProperty>, val currentIndex: MutableMap<UUID, Int>) {
 
-    constructor(id: String, settings: IconSettings, defIcon: IconProperty, subIcons: List<IconProperty>) : this(id, settings, defIcon, subIcons, mutableMapOf())
-
     fun displayIcon(player: Player, menu: Menu) {
         refreshIcon(player)
         displayItemStack(player)
@@ -41,34 +39,41 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
 
     private fun startUpdateTasks(player: Player, menu: Menu) {
         val session = MenuSession.session(player)
+        val page = session.page
 
         // 图标物品更新
         settings.collectUpdatePeriods().let { it ->
             if (it.isEmpty()) return@let
             it.forEach {
-                object : BukkitRunnable() {
-                    override fun run() {
-                        if (session.menu != menu) cancel()
-                        else {
-                            Msger.debug(player, "ICON.DISPLAY-UPDATE", false, id, it.key, it.value.joinToString(",", "{", "}"))
-                            getIconProperty(player).display.nextFrame(player, it.value, session.page)
-                            displayItemStack(player)
+                menu.tasking.task(
+                    player,
+                    object : BukkitRunnable() {
+                        override fun run() {
+                            if (session.isDifferent(menu, page)) cancel()
+                            else {
+                                Msger.debug(player, "ICON.DISPLAY-UPDATE", false, id, it.key, it.value.joinToString(",", "{", "}"))
+                                getIconProperty(player).display.nextFrame(player, it.value, session.page)
+                                displayItemStack(player)
+                            }
                         }
-                    }
-                }.runTaskTimerAsynchronously(TrMenu.plugin, it.key.toLong(), it.key.toLong())
+                    }.runTaskTimerAsynchronously(TrMenu.plugin, it.key.toLong(), it.key.toLong())
+                )
             }
         }
 
         // 子图标刷新
         if (settings.refresh > 0 && subIcons.isNotEmpty()) {
-            object : BukkitRunnable() {
-                override fun run() {
-                    if (session.menu != menu) cancel()
-                    else if (refreshIcon(player)) {
-                        displayItemStack(player)
+            menu.tasking.task(
+                player,
+                object : BukkitRunnable() {
+                    override fun run() {
+                        if (session.isDifferent(menu, page)) cancel()
+                        else if (refreshIcon(player)) {
+                            displayItemStack(player)
+                        }
                     }
-                }
-            }.runTaskTimerAsynchronously(TrMenu.plugin, settings.refresh.toLong(), settings.refresh.toLong())
+                }.runTaskTimerAsynchronously(TrMenu.plugin, settings.refresh.toLong(), settings.refresh.toLong())
+            )
         }
     }
 
@@ -87,6 +92,8 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
         currentIndex[player.uniqueId] = -1
         return false
     }
+
+    fun isInPage(page: Int) = defIcon.display.position.containsKey(page) || subIcons.any { it.display.position.containsKey(page) }
 
     class IconProperty(var priority: Int, var condition: String, val display: IconDisplay, val clickHandler: IconClickHandler)
 

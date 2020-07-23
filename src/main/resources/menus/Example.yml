@@ -2,8 +2,8 @@
 # 菜单的标题, 支持动态标题周期切换
 #
 Title:
-  - 'Hello, TrMenu!'
-  - 'Support Animated Titles'
+  - 'Hello, TrMenu! {page}'
+  - 'Support Animated Titles {page}'
 
 #
 # 若有多个标题, 切换的周期 (ticks)
@@ -15,11 +15,16 @@ Title-Update: 40
 # 你可以用 ` ` 来标记设置多个字符名称图标的位置
 #
 Layout:
-  - '########`Close`'
-  - '         '
-  - ' *       '
-  - '         '
-  - '`Pre`#######`Next`'
+  - - '########`Close`'
+    - '         '
+    - ' *       '
+    - '         '
+    - '########`Next`'
+  - - '########`Close`'
+    - '         '
+    - ' *       '
+    - '         '
+    - '`Pre`########'
 
 #
 # 玩家容器菜单的布局
@@ -62,11 +67,13 @@ Bindings:
 Events:
   # 开启菜单事件
   Open:
-    - requirement: 'hasPerm.trmenu.use or !equals.{reason}.PLAYER_COMMAND'
+    - requirement: 'hasPerm.trmenu.use or is.{reason}.RELOAD or is.{reason}.CONSOLE'
       actions:
         - 'sound: BLOCK_CHEST_OPEN-1-0'
       deny-actions:
-        - 'tell: &7你缺少打开本菜单所需权限 &ctrmenu.use'
+        - 'sound: ENTITY_ITEM_BREAK-1-0'
+        - 'title: <title=&c&l权限不足><subtitle=&7&l本菜单需要权限 &6&ltrmenu.use &7&l方能浏览>'
+        - 'return'
   # 关闭菜单事件
   Close:
     - 'sound: BLOCK_CHEST_CLOSE-1-0'
@@ -91,7 +98,6 @@ Icons:
     actions:
       all: 'sound: BLOCK_NOTE_BLOCK_PLING-1-2'
 
-
   'Close':
     update: [-1, 5, -1, -1]
     display:
@@ -100,17 +106,31 @@ Icons:
     actions:
       all: 'close'
 
+  'Next':
+    display:
+      material: 'cyan Stained Glass Pane'
+      name: '&bN&3ext Page'
+    actions:
+      all: 'page: 1'
+
+  'Pre':
+    display:
+      material: 'lime Stained Glass Pane'
+      name: '&aP&2revious Page'
+    actions:
+      all: 'page: 0'
+
 #
 # 菜单自定义周期性任务
 #
 
 Tasks:
-  tikTok:
-    period: 20
-    task:
-      - requirement: 'isOperator.'
-        actions:
-          - 'sound: BLOCK_NOTE_BLOCK_BIT-1-2'
+# tikTok:
+#   period: 20
+#   task:
+#     - requirement: 'isOperator.'
+#       actions:
+#         - 'sound: BLOCK_NOTE_BLOCK_BIT-1-2'
 
 
 # 菜单内置的自定义脚本变量

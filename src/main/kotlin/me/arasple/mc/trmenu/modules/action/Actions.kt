@@ -89,9 +89,9 @@ object Actions {
         return true
     }
 
-    fun runCachedAction(player: Player, action: String) = runActions(player, cachedAction(player, action))
+    fun runCachedAction(player: Player, action: String) = runActions(player, cachedAction(action))
 
-    fun cachedAction(player: Player, action: String) = cachedActions.computeIfAbsent(action) { readActions(action) }
+    fun cachedAction(action: String) = cachedActions.computeIfAbsent(action) { readActions(action) }
 
     fun readActions(anys: List<Any>): List<Action> = mutableListOf<Action>().let { actions ->
         anys.forEach { if (it.toString().isNotEmpty()) actions.addAll(readActions(it)) }

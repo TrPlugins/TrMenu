@@ -3,6 +3,7 @@ package me.arasple.mc.trmenu.listeners.bukkit
 import io.izzel.taboolib.module.packet.Packet
 import io.izzel.taboolib.module.packet.TPacket
 import me.arasple.mc.trmenu.api.events.MenuClickEvent
+import me.arasple.mc.trmenu.api.events.MenuCloseEvent
 import me.arasple.mc.trmenu.api.factory.MenuFactory
 import me.arasple.mc.trmenu.api.factory.MenuFactorySession
 import me.arasple.mc.trmenu.api.factory.task.ClickTask
@@ -67,11 +68,8 @@ object ListenerWindowEvents {
                     factorySession.menuFactory!!.closeTask?.run(CloseTask.Event(player, factorySession.menuFactory!!))
                     factorySession.reset()
                     player.updateInventory()
-                } else if (!session.isNull()) {
-                    session.layout?.close(player, false)
-                    MenuSession.session(player).set(null, null, -1)
-                    player.updateInventory()
-                }
+                } else if (!session.isNull())
+                    session.menu?.close(player, session.page, MenuCloseEvent.Reason.SWITCH_PAGE, false, silent = false)
             }
         } catch (e: Throwable) {
             Msger.printErrors("PACKET", e, packet.javaClass.simpleName)
