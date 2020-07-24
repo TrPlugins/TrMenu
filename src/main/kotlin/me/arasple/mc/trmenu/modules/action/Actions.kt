@@ -15,7 +15,7 @@ import me.arasple.mc.trmenu.modules.action.impl.item.ActionTakeItem
 import me.arasple.mc.trmenu.modules.action.impl.menu.*
 import me.arasple.mc.trmenu.modules.script.Scripts
 import me.arasple.mc.trmenu.utils.Msger
-import me.arasple.mc.trmenu.utils.Nodes
+import me.arasple.mc.trmenu.configuration.property.Nodes
 import me.arasple.mc.trmenu.utils.Tasks
 import org.bukkit.configuration.MemorySection
 import org.bukkit.entity.Player

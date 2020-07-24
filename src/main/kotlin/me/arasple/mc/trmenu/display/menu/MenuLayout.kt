@@ -6,10 +6,10 @@ import me.arasple.mc.trmenu.display.Icon
 import me.arasple.mc.trmenu.display.animation.Animated
 import me.arasple.mc.trmenu.display.icon.IconDisplay
 import me.arasple.mc.trmenu.modules.packets.PacketsHandler
-import me.arasple.mc.trmenu.utils.Patterns.ICON_KEY_MATCHER
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.event.inventory.InventoryType.*
+import java.util.regex.Pattern
 import kotlin.math.max
 
 /**
@@ -161,6 +161,7 @@ class MenuLayout(val layouts: List<Layout>) {
 
         const val BLANK_LINE = "         "
         const val BLANK_CHAR = " "
+        val ICON_KEY_MATCHER: Pattern = Pattern.compile("`.*?`")
 
     }
 

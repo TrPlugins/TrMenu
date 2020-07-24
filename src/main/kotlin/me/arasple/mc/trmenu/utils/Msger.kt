@@ -67,7 +67,7 @@ object Msger {
     fun containsPlaceholders(string: String?) = PlaceholderAPI.containsPlaceholders(string) || PlaceholderAPI.containsBracketPlaceholders(string) || (string != null && string.contains("{") && string.contains("}"))
 
     fun printErrors(node: String, throwable: Throwable, vararg args: String) {
-        TLocale.sendToConsole("ERRORS.$node", *args, throwable.message, throwable.stackTrace.filter { it.toString().contains("me.arasple.mc.trmenu") })
+        TLocale.sendToConsole("ERRORS.$node", *args, throwable.message, throwable.stackTrace.filter { it.toString().contains("me.arasple.mc.trmenu") }.map { it.toString() + "\n" })
     }
 
     fun printErrors(node: String, vararg args: String) {

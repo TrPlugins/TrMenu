@@ -12,8 +12,8 @@ import me.arasple.mc.trmenu.display.animation.Animated
 import me.arasple.mc.trmenu.modules.hook.HookHeadDatabase
 import me.arasple.mc.trmenu.modules.script.Scripts
 import me.arasple.mc.trmenu.utils.Msger
-import me.arasple.mc.trmenu.utils.Nodes
-import me.arasple.mc.trmenu.utils.Nodes.*
+import me.arasple.mc.trmenu.configuration.property.Nodes
+import me.arasple.mc.trmenu.configuration.property.Nodes.*
 import me.arasple.mc.trmenu.utils.Skulls
 import me.arasple.mc.trmenu.utils.Utils
 import org.bukkit.Color

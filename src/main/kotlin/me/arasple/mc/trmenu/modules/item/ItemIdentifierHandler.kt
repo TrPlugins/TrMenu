@@ -10,12 +10,12 @@ import me.arasple.mc.trmenu.modules.item.impl.*
 object ItemIdentifierHandler {
 
     private val matchers = mutableListOf(
-            MatchItemType(),
-            MatchItemAmount(),
-            MatchItemDamage(),
-            MatchItemModelData(),
-            MatchItemName(),
-            MatchItemLore()
+        MatchItemType(),
+        MatchItemAmount(),
+        MatchItemDamage(),
+        MatchItemModelData(),
+        MatchItemName(),
+        MatchItemLore()
     )
 
     fun registerIdentifer(identifier: MatchItemIdentifier) {
@@ -28,8 +28,8 @@ object ItemIdentifierHandler {
             val characteristic = ItemIdentifier.Identifier()
             it.split(",").forEach { string ->
                 val args = string.split(Regex(":"), 2)
-                val matcher = this.matchers.firstOrNull { it.name.matches(args[0]) }?.newInstance()
-                if (matcher != null && args.size > 1) {
+                val matcher = this.matchers.firstOrNull { it.name.matches(args[0]) }?.newInstance() ?: matchers.last()
+                if (args.size > 1) {
                     matcher.setContent(args[1])
                     characteristic.characteristic.add(matcher)
                 }

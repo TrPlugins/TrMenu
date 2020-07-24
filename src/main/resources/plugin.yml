@@ -8,11 +8,12 @@ api-version: 1.13
 version: ${version}
 
 github: https://github.com/Arasple/${name}
-description: Professional Dynamic Menu Plugin v2
+description: Modern & Advanced Menu-Plugin for Minecraft Servers
 
 softdepend:
   - PlaceholderAPI
   - Vault
+  - Cronus
   - PlayerPoints
   - HeadDatabase
   - Oraxen

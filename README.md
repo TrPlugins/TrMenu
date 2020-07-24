@@ -39,8 +39,22 @@ Wiki: [https://trmenu.trixey.cn](https://trmenu.trixey.cn/)
   - **PlaceholderAPI** : Completely support, and you can use it everywhere
   - **Hex color** : For 1.16+ servers you can use hex or rgb color easily `&{FFFFFF}, &{256,256,256}`
   - Much more ...
-
 - **Developer API**  : We have provided different menu events and `TrMenuAPI`, also `MenuFactory` to build packeted-based GUIs for your plugin quickly
+
+---
+
+**Progress**
+
+- [ ] Migrate from other plugins
+  - [x] TrMenu v1
+  - [ ] DeluxeMenus
+  - [ ] ChestCommands
+- [ ] Action
+  - [ ] Catcher Action
+    - [x] Chat
+    - [ ] Sign
+
+
 
 ---
 

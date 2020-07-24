@@ -2,6 +2,9 @@ package me.arasple.mc.trmenu.utils
 
 import me.arasple.mc.trmenu.TrMenu
 import org.bukkit.Bukkit
+import org.bukkit.entity.Player
+import org.bukkit.scheduler.BukkitTask
+import java.util.*
 
 /**
  * @author Arasple
@@ -20,5 +23,20 @@ object Tasks {
     fun timer(delay: Long, period: Long, runnable: Runnable) = timer(delay, period, false, runnable)
 
     fun timer(delay: Long, period: Long, async: Boolean, runnable: Runnable) = if (async) Bukkit.getScheduler().runTaskTimerAsynchronously(TrMenu.plugin, runnable, delay, period) else Bukkit.getScheduler().runTaskTimer(TrMenu.plugin, runnable, delay, period)
+
+    class Tasking(val tasks: MutableMap<UUID, MutableSet<BukkitTask>>) {
+
+        constructor() : this(mutableMapOf())
+
+        fun reset(player: Player) = tasks(player).removeIf {
+            it.cancel()
+            true
+        }
+
+        fun task(player: Player, task: BukkitTask) =tasks(player).add(task)
+
+        fun tasks(player: Player) = tasks.computeIfAbsent(player.uniqueId) { mutableSetOf() }
+
+    }
 
 }

@@ -1,4 +1,4 @@
-package me.arasple.mc.trmenu.utils
+package me.arasple.mc.trmenu.configuration.property
 
 import java.util.regex.Matcher
 import java.util.regex.Pattern

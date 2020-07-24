@@ -73,7 +73,7 @@ Events:
       deny-actions:
         - 'sound: ENTITY_ITEM_BREAK-1-0'
         - 'title: <title=&c&l权限不足><subtitle=&7&l本菜单需要权限 &6&ltrmenu.use &7&l方能浏览>'
-        - 'return'
+        - 'return' # 取消事件
   # 关闭菜单事件
   Close:
     - 'sound: BLOCK_CHEST_CLOSE-1-0'
@@ -133,6 +133,7 @@ Tasks:
 #         - 'sound: BLOCK_NOTE_BLOCK_BIT-1-2'
 
 
+#
 # 菜单内置的自定义脚本变量
 # 通过 ${ID_参数_参数} 的方式可以调用
 #

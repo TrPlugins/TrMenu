@@ -2,10 +2,9 @@ package me.arasple.mc.trmenu.utils
 
 import io.izzel.taboolib.Version
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
-import me.arasple.mc.trmenu.utils.Patterns.PATTERN_HEX
-import me.arasple.mc.trmenu.utils.Patterns.PATTERN_RGB
 import net.md_5.bungee.api.ChatColor
 import java.awt.Color
+import java.util.regex.Pattern
 import kotlin.math.min
 
 
@@ -15,6 +14,8 @@ import kotlin.math.min
  */
 object HexColor {
 
+    val PATTERN_HEX: Pattern = Pattern.compile("[&#][<{]([0-9a-fA-F]{6})[>}]")
+    val PATTERN_RGB: Pattern = Pattern.compile("[&#][<{]([0-9]+[,]+[0-9]+[,]+[0-9]*)[>}]")
     val ENABLED = Version.isAfter(Version.v1_16)
 
     fun translate(list: List<String>) = if (!ENABLED) list else mutableListOf<String>().let { result ->

@@ -33,6 +33,9 @@ class CommandHandler : BaseMainCommand() {
     @SubCommand(permission = "trmenu.command.template", description = "Create menus quickly")
     val template: BaseSubCommand = CommandTemplate()
 
+    @SubCommand(permission = "trmenu.command.migrate", description = "Migrate menus for other plugins")
+    val migrate: BaseSubCommand = CommandMigrate()
+
     @SubCommand(permission = "trmenu.command.debug", description = "Enable debug mode for player or print debug info to console")
     val debug: BaseSubCommand = CommandDebug()
 

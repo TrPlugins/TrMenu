@@ -8,8 +8,8 @@ import me.arasple.mc.trmenu.data.MenuSession
 import me.arasple.mc.trmenu.data.MetaPlayer
 import me.arasple.mc.trmenu.display.menu.MenuLayout
 import me.arasple.mc.trmenu.display.menu.MenuSettings
-import me.arasple.mc.trmenu.utils.Tasking
 import me.arasple.mc.trmenu.utils.Tasks
+import me.arasple.mc.trmenu.utils.Tasks.Tasking
 import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
 import kotlin.math.min

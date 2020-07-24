@@ -15,7 +15,7 @@ import org.bukkit.event.Cancellable
  * @author Arasple
  * @date 2020/5/30 12:26
  */
-object  Utils {
+object Utils {
 
     fun asList(any: Any?): List<String> {
         if (any == null) return mutableListOf()
@@ -99,13 +99,9 @@ object  Utils {
         return@let null
     }
 
-    fun getSectionKey(section: ConfigurationSection?, property: Property): String {
-        return section?.getKeys(false)?.firstOrNull { it.matches(property.regex) } ?: property.default
-    }
+    fun getSectionKey(section: ConfigurationSection?, property: Property) = getSectionKey(section, property.regex, property.default, false)
 
-    private fun getSectionKey(section: ConfigurationSection?, regex: Regex, default: String): String {
-        return section?.getKeys(false)?.firstOrNull { it.matches(regex) } ?: default
-    }
+    fun getSectionKey(section: ConfigurationSection?, regex: Regex, default: String, deep: Boolean) = section?.getKeys(deep)?.firstOrNull { it.matches(regex) } ?: default
 
 
 }

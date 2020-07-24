@@ -3,7 +3,7 @@ package me.arasple.mc.trmenu.modules.action.base
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import me.arasple.mc.trmenu.modules.script.Scripts
 import me.arasple.mc.trmenu.utils.Msger
-import me.arasple.mc.trmenu.utils.Nodes
+import me.arasple.mc.trmenu.configuration.property.Nodes
 import me.arasple.mc.trmenu.utils.Tasks
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player

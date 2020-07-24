@@ -12,6 +12,18 @@ LOADER:
     - '&7Message: &8{1}'
     - '&7Traces: &8{2}'
 
+MIGRATE:
+  UNKNOWN-FILE: '&8[&fTr&7Menu&8] &aMIGRATE &8| &7不支持文件或不存在 &f{0}&7.'
+  EMPTY-FILE: '&8[&fTr&7Menu&8] &aMIGRATE &8| &7目标文件或目录为空&7.'
+  UNSUPPORTED-PLUGIN: '&8[&3Tr&bMenu&8] &aMIGRATE &8| &7暂不支持迁移 &f{0} &7的菜单...'
+  PROCESSING: '&8[&3Tr&bMenu&8] &aMIGRATE &8| &7正在处理中, 总计 &f{0} &7个欲迁移文件...'
+  LOAD-SUCCESS: '&8[&3Tr&bMenu&8] &aMIGRATE &8| &3成功迁入了 &a{0} &3个菜单...'
+  LOAD-ERROR: '&8[&3Tr&bMenu&8] &aMIGRATE &8| &7有 &c{0} &7个菜单迁移失败，请检查相关错误...'
+  ERROR:
+    - '&8[&3Tr&bMenu&8] &aMIGRATE &8| &4菜单 &c{0} &4加载过程中出错'
+    - '&8Reason: {1}'
+    - '&8Trace: {2}'
+
 DEBUG:
   ARGUMENTS: '&8[&fTr&7Menu&8] &3DEBUG &8| &6更新玩家 &c{0} &6的参数 &c{ &8{1} &c}'
   SESSION: '&8[&fTr&7Menu&8] &3DEBUG &8| &6更新玩家菜单信息 &c{ &8{0}. Paged {1} &c}'

@@ -2,7 +2,7 @@ package me.arasple.mc.trmenu.display.item
 
 import me.arasple.mc.trmenu.modules.script.Scripts
 import me.arasple.mc.trmenu.utils.Msger
-import me.arasple.mc.trmenu.utils.Nodes
+import me.arasple.mc.trmenu.configuration.property.Nodes
 import org.bukkit.entity.Player
 
 /**

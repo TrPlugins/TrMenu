@@ -1,8 +1,6 @@
 package me.arasple.mc.trmenu.configuration
 
 import me.arasple.mc.trmenu.configuration.menu.MenuConfiguration
-import me.arasple.mc.trmenu.configuration.serialize.MenuSerializer
-import me.arasple.mc.trmenu.utils.Nodes
 import java.io.InputStreamReader
 
 /**
@@ -13,9 +11,7 @@ object Test {
 
     @JvmStatic
     fun main(args: Array<String>) {
-        Nodes.read("<TITLE=&c&l权限不足><SUBTITLE=&7&l打开本菜单需要权限 &ctrmenu.use><FADEIN=20><STAY=20><FADEOUT=20>").second.forEach {
-            println("Key: ${it.key.name}. Value: ${it.value}")
-        }
+        testMenu()
     }
 
     private fun testMenu() {
@@ -23,18 +19,26 @@ object Test {
         val configuration = MenuConfiguration("")
         configuration.load(InputStreamReader(inputStream))
 
-        val start = System.currentTimeMillis()
+        val regex = "(?i)option(s)?.lock-player-inv".toRegex()
 
-        val menu = MenuSerializer.loadMenu("Example", configuration)!!
+        println(configuration.getKeys(true).firstOrNull { it.matches(regex) })
 
-        println("--------------------------------------------------\n\n")
-        menu.icons.forEach {
-            val pos = it.defIcon.display.position
-            println(it.id + ". Update: ${it.settings.update.joinToString(",")}  Pos: $pos")
+        configuration.getKeys(true).forEach {
+            println(it)
         }
-        println("\n\n--------------------------------------------------")
-        println("[END - Took: ${System.currentTimeMillis() - start} ms]")
-        println("--------------------------------------------------")
+
+//        val start = System.currentTimeMillis()
+//
+//        val menu = MenuSerializer.loadMenu("Example", configuration)!!
+//
+//        println("--------------------------------------------------\n\n")
+//        menu.icons.forEach {
+//            val pos = it.defIcon.display.position
+//            println(it.id + ". Update: ${it.settings.update.joinToString(",")}  Pos: $pos")
+//        }
+//        println("\n\n--------------------------------------------------")
+//        println("[END - Took: ${System.currentTimeMillis() - start} ms]")
+//        println("--------------------------------------------------")
     }
 
 }

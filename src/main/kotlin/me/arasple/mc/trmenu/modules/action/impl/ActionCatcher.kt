@@ -10,7 +10,7 @@ import me.arasple.mc.trmenu.modules.action.base.Action
 import me.arasple.mc.trmenu.modules.action.impl.menu.ActionClose
 import me.arasple.mc.trmenu.modules.catcher.InputCatcher
 import me.arasple.mc.trmenu.modules.catcher.InputCatchers
-import me.arasple.mc.trmenu.utils.Nodes
+import me.arasple.mc.trmenu.configuration.property.Nodes
 import me.arasple.mc.trmenu.utils.Utils
 import org.bukkit.configuration.MemorySection
 import org.bukkit.entity.Player
