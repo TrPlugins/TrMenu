@@ -1,173 +1,65 @@
 #
-# 菜单的标题, 支持动态标题周期切换
-#
-Title:
-  - 'Hello, TrMenu!'
-  - 'Support Animated Titles'
+# Migrated from TrMenu v1.x, by TrMenu v2Date: 2020-07-25 14:09:10
 
-#
-# 若有多个标题, 切换的周期 (ticks)
-#
-Title-Update: 40
-
-#
-# 菜单的布局功能
-# 你可以用 ` ` 来标记设置多个字符名称图标的位置
-#
+Title: '&3TrMenu &7- &fTest'
 Layout:
-  - - '########`Close`'
-    - '         '
-    - ' S       '
-    - '         '
-    - '########`Next`'
-
-  - - '########`Close`'
-    - '         '
-    - ' *       '
-    - '         '
-    - '`Pre`########'
-
-#
-# 玩家容器菜单的布局
-#
-PlayerInventory:
-  - '         '
-  - '         '
-  - '         '
-  - '         '
-
-#
-# 菜单的选项设置
-#
-Options:
-  # 默认填充参数
-  Default-Arguments: []
-  # 默认布局页码
-  Default-Layout: 0
-  # 是否隐藏玩家容器
-  Hide-Player-Inventory: true
-  # 防频繁点击的间隔
-  Min-Click-Delay: 200
-  # 强制需要依赖的 PlaceholderAPI 拓展变量
-  Depend-Expansions: ['server', 'player', 'progress']
-
-#
-# 菜单绑定的快捷打开方式
-#
-Bindings:
-  # 绑定命令, 支持正则
-  Commands:
-    - 'tester'
-  # 绑定到物品特征
-  Items:
-    - 'material:compass'
-
-#
-# 菜单的事件处理
-#
-Events:
-  # 开启菜单事件
-  Open:
-    - requirement: 'hasPerm.trmenu.use or is.{reason}.RELOAD or is.{reason}.CONSOLE'
-      actions:
-        - 'sound: BLOCK_CHEST_OPEN-1-0'
-      deny-actions:
-        - 'sound: ENTITY_ITEM_BREAK-1-0'
-        - 'title: <title=&c&l权限不足><subtitle=&7&l本菜单需要权限 &6&ltrmenu.use &7&l方能浏览>'
-        - 'return'
-  # 关闭菜单事件
-  Close:
-    - 'sound: BLOCK_CHEST_CLOSE-1-0'
-
-#
-# 菜单的图标
-#
-Icons:
-  # 图标的唯一 ID, 可配合布局使用
-  '#':
-    # 显示图标的动态更新周期, 若设置多个则依次对应为 Material, Name, Lore, Slots
-    # 设置一个即为所有项相同更新周期
-    update: [-1, 10, 15, -1]
-    # 菜单的显示部分
+  - '   A B   '
+Option:
+  Depend-Expansions:
+    - luckperms
+    - javascript
+    - player
+Buttons:
+  A:
+    refresh: 5
+    update: 20
     display:
-      material: 'Gray Stained Glass Pane'
-      name: ['&fTr&7Menu', '&7Tr&8Menu', '&8Tr&0Menu','&7Tr&8Menu']
+      mats: 'cyan wool'
+      name: '&cFirst Javascript placeholder'
       lore:
-        - - '&7Thanks &f:> &7for using!'
-        - - '&7Thanks &f:) &7for using!'
-    # 点击菜单后执行的动作
+        - '&7'
+        - '&7First Javascript placeholder. It should'
+        - '&7return "&3First Javascript&7" only when the'
+        - '&7countdown ends &8»'
+        - '&r   %javascript_first%'
+        - '&7'
+        - '&2Use &aLeft Click&2 to add 1 day to the placeholder.'
+        - '&2Use &aRight Click&2 to end the countdown instantly.'
     actions:
-      all: 'sound: BLOCK_NOTE_BLOCK_PLING-1-2'
-
-  'Close':
-    update: [-1, 5, -1, -1]
+      left:
+        - 'console: lp user %player_name% permission settemp first.javascript true 1d
+        accumulate'
+      right:
+        - 'console: lp user %player_name% permission unsettemp first.javascript'
+    icons:
+      - condition: 'is.%javascript_first%.&3First Javascript'
+        display:
+          mats: stone
+          slots: 1
+          name: 'hi'
+          lore:
+            - '  xx x fuck '
+  B:
+    refresh: 5
+    update: 20
     display:
-      material: 'Red Stained Glass Pane'
-      name: ['&cC&7lose', '&cCl&7ose', '&cClo&7se', '&cClos&7e', '&cClose']
+      mats: 'gray wool'
+      name: '&cSecond Javascript placeholder'
+      lore:
+        - '&7'
+        - '&7Second Javascript placeholder. It should'
+        - '&7return "&2Second Javascript&7" only when the'
+        - '&7countdown ends &8»'
+        - '&r   %javascript_second%'
+        - '&7'
+        - '&2Use &aLeft Click&2 to add 1 day to the placeholder.'
+        - '&2Use &aRight Click&2 to end the countdown instantly.'
     actions:
-      all: 'close'
-
-  'Next':
-    display:
-      material: 'Cyan Stained Glass Pane'
-      name: '&bN&3ext Page'
-    actions:
-      all: 'page: 1'
-
-  'Pre':
-    display:
-      material: 'Lime Stained Glass Pane'
-      name: '&aP&2revious Page'
-    actions:
-      all: 'page: 0'
-
-  'S':
-    display:
-      material: Sign
-      name: '&3Survery'
-    actions:
-      all:
-        - close
-        - catcher:
-            target:
-              type: CHAT
-              before: 'tell: &3请输入一名玩家的名称'
-              reactions:
-                - requirement: 'isOnline.${input_target}'
-                  actions: 'tell: &7名称确认. &f${input_target}'
-                  deny-actions:
-                    - 'tell: &6抱歉但玩家 &c${input_target} &6不在线'
-                    - 'cancel'
-            amount:
-              type: CHAT
-              before: 'tell: &3请提供支付数额'
-              reactions:
-                - requirement: 'isNumber.${input_amount}'
-                  actions:
-                    - 'tell: &7数额确认. &f${input_amount}'
-                    - 'command: pay ${input_target} ${input_amount}'
-                  deny-actions: 'tell: &6你打啥钱呢?'
-
-#
-# 菜单自定义周期性任务
-#
-
-Tasks:
-# tikTok:
-#   period: 20
-#   task:
-#     - requirement: 'isOperator.'
-#       actions:
-#         - 'sound: BLOCK_NOTE_BLOCK_BIT-1-2'
-
-
-# 菜单内置的自定义脚本变量
-# 通过 ${ID_参数_参数} 的方式可以调用
-#
-
-Functions:
-  health: |-
-    function math(){
-      return player.getHealth()
-    }
-    math()
+      left:
+        - 'console: lp user %player_name% permission settemp second.javascript true
+        1d accumulate'
+      right:
+        - 'console: lp user %player_name% permission unsettemp second.javascript'
+Bindings:
+  Commands:
+    - 'test-1'

@@ -25,7 +25,6 @@ object HexColor {
 
     fun translate(message: String): String {
         if (!ENABLED) return message
-
         val hex = PATTERN_HEX.matcher(message).let {
             val buffer = StringBuffer(message.length + 4 * 8)
             while (it.find()) it.appendReplacement(buffer, ChatColor.of("#${it.group(1)}").toString())

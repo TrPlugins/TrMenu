@@ -23,7 +23,7 @@ Wiki: [https://trmenu.trixey.cn](https://trmenu.trixey.cn/)
 **Features**
 
 - **Optimized performance** : An extremely optimized performance is ensured.
-  Completely packet-based inventory & async update tasks
+  Completely packet-based inventory & update only when necessary
 - **Effective and flexibility** : Aliases nodes, ignore cases, auto-reload function and template support, aims to improve the efficiency of creating menus
 - **Simple** : Create a most advanced menu with the least lines. No need for knowledge of scripting. The plugin is easy to use and menu configuration has a clear structure of every component
 - **Plentiful functions** : Animated titles & items, paged menus, arguments, editable meta, and storable data for players, use player inventory as extra slots for menus, also a great variety of click-actions and so much more while the only limit is your imagination

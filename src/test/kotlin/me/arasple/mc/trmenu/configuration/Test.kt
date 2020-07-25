@@ -1,9 +1,7 @@
 package me.arasple.mc.trmenu.configuration
 
-import com.google.gson.JsonObject
-import com.google.gson.JsonParser
-import io.izzel.taboolib.loader.internal.IO
 import me.arasple.mc.trmenu.configuration.menu.MenuConfiguration
+import me.arasple.mc.trmenu.configuration.serialize.MenuSerializer
 import java.io.InputStreamReader
 
 /**
@@ -14,32 +12,7 @@ object Test {
 
     @JvmStatic
     fun main(args: Array<String>) {
-        println(testMineTool())
-    }
-
-    private fun testMineTool(): String? {
-        val start = System.currentTimeMillis()
-
-        val id = "Arasple"
-        val userProfile = JsonParser().parse(IO.readFromURL("https://api.minetools.eu/uuid/$id")) as JsonObject
-        val uuid = userProfile["id"].asString
-        val textures = (JsonParser().parse(IO.readFromURL("https://api.minetools.eu/profile/$uuid")) as JsonObject).getAsJsonObject("raw").getAsJsonArray("properties")
-        for (element in textures) if ("textures" == element.asJsonObject["name"].asString){
-            return element.asJsonObject["value"].asString
-        }
-
-        println("Took: ${System.currentTimeMillis() - start}ms")
-        return null
-    }
-
-    private fun testMojang(): String? {
-
-        val id = "Arasple"
-        val userProfile = JsonParser().parse(IO.readFromURL("https://api.mojang.com/users/profiles/minecraft/$id")) as JsonObject
-        val uuid = userProfile["id"].asString
-        val textures = (JsonParser().parse(IO.readFromURL("https://sessionserver.mojang.com/session/minecraft/profile/$uuid")) as JsonObject).getAsJsonArray("properties")
-        for (element in textures) if ("textures" == element.asJsonObject["name"].asString) return element.asJsonObject["value"].asString
-        return null
+        testMenu()
     }
 
     private fun testMenu() {
@@ -49,20 +22,17 @@ object Test {
 
         val read = configuration.get("Icons.S.actions.all")
 
-//        val start = System.currentTimeMillis()
-//
-//        val menu = MenuSerializer.loadMenu("Example", configuration)!!
-//
-//        println("--------------------------------------------------\n\n")
-//        menu.icons.forEach {
-//            val handlers = it.defIcon.clickHandler.handlers
-//            handlers.forEach {
-////                println(it)
-//            }
-//        }
-//        println("\n\n--------------------------------------------------")
-//        println("[END - Took: ${System.currentTimeMillis() - start} ms]")
-//        println("--------------------------------------------------")
+        val start = System.currentTimeMillis()
+
+        val menu = MenuSerializer.loadMenu("Example", configuration)!!
+
+        println("--------------------------------------------------\n\n")
+        menu.icons.forEach {
+            println("${it.id} : ${it.subIcons.firstOrNull()?.display}")
+        }
+        println("\n\n--------------------------------------------------")
+        println("[END - Took: ${System.currentTimeMillis() - start} ms]")
+        println("--------------------------------------------------")
     }
 
 }

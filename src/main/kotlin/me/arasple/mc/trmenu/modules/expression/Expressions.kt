@@ -1,5 +1,7 @@
 package me.arasple.mc.trmenu.modules.expression
 
+import io.izzel.taboolib.module.locale.TLocale
+
 /**
  * @author Arasple
  * @date 2020/3/1 22:45
@@ -10,7 +12,7 @@ object Expressions {
     val cachedParsed = mutableMapOf<String, String>()
 
     fun parseExpression(string: String): String = cachedParsed.computeIfAbsent(string) {
-        var expression = string.replace(" and ", " && ").replace(" or ", " || ")
+        var expression = TLocale.Translate.setColored(string).replace(" and ", " && ").replace(" or ", " || ")
         expression.split(" && ", " || ").forEach { part ->
             var type = part.split(".")[0] + "."
             val negtive = type.startsWith("!").also { type = type.removePrefix("!") }

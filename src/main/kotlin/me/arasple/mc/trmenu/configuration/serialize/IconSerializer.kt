@@ -56,7 +56,7 @@ object IconSerializer {
                         }
                     }
                 }
-
+                subs.forEach { if (it.display.position.isEmpty()) it.display.position = defIcon.display.position }
                 icons.add(Icon(key, iconSettings, defIcon, subs, mutableMapOf()))
             }
         }
@@ -68,9 +68,8 @@ object IconSerializer {
      * 加载图标显示及点击处理属性
      */
     fun loadIconProperty(section: ConfigurationSection): Icon.IconProperty? {
-        val displaySection = section.getConfigurationSection(Utils.getSectionKey(section, Property.ICON_DISPLAY)) ?: return null
-        val clickHandlerSection = section.getConfigurationSection(Utils.getSectionKey(section, Property.ACTIONS))
-
+        val displaySection = Utils.asSection(section.get(Utils.getSectionKey(section, Property.ICON_DISPLAY))) ?: return null
+        val clickHandlerSection = Utils.asSection(section.get(Utils.getSectionKey(section, Property.ACTIONS)))
         val iconDisplay = loadIconDisplay(displaySection)
         val clickHandler = loadIconClickHandler(clickHandlerSection)
 
@@ -85,11 +84,10 @@ object IconSerializer {
             if (it.isEmpty()) it.add(0)
             return@let it
         }
-        val slots = display.getList(Utils.getSectionKey(display, Property.ICON_DISPLAY_SLOT))
-
+        val slots = Utils.asAnyList(display.get(Utils.getSectionKey(display, Property.ICON_DISPLAY_SLOT)))
         // 加载坐标
         val positions = let {
-            if (slots != null && slots.isNotEmpty()) {
+            if (slots.isNotEmpty()) {
                 val pos = Animated(
                     mutableListOf<IconDisplay.Position>().let {
                         if (slots.first() is List<*>) slots.forEach { s -> it.add(IconDisplay.Position.createPosition(s as List<String>)) }

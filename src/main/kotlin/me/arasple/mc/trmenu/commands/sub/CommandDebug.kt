@@ -5,6 +5,7 @@ import io.izzel.taboolib.loader.PluginHandle
 import io.izzel.taboolib.module.command.base.Argument
 import io.izzel.taboolib.module.command.base.BaseSubCommand
 import io.izzel.taboolib.module.locale.TLocale
+import io.izzel.taboolib.util.ArrayUtil
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.data.MetaPlayer.getArguments
@@ -36,6 +37,8 @@ class CommandDebug : BaseSubCommand() {
                 "info",
                 "player",
                 "menu",
+                "msgr",
+                "async-msgr",
                 "parseExpression"
             )
         }
@@ -52,6 +55,24 @@ class CommandDebug : BaseSubCommand() {
                 "info" -> printInfo(sender)
                 "player" -> if (args.size > 1) printPlayer(sender, Bukkit.getPlayerExact(args[1]))
                 "menu" -> if (args.size > 1) printMenu(sender, TrMenuAPI.getMenuById(args[1]))
+                "msgr" -> {
+                    val player = sender as Player
+                    val message = ArrayUtil.arrayJoin(args, 1)
+                    for (i in 0..50) {
+                        sender.sendMessage(
+                            TLocale.Translate.setPlaceholders(player, message)
+                        )
+                    }
+                }
+                "async-msgr" -> {
+                    val player = sender as Player
+                    val message = ArrayUtil.arrayJoin(args, 1)
+                    for (i in 0..50) {
+                        sender.sendMessage(
+                            TLocale.Translate.setPlaceholders(player, message)
+                        )
+                    }
+                }
                 "parseexpression" -> TLocale.sendTo(sender, "DEBUG.EXPRESSION", content, Expressions.parseExpression(content))
             }
         }

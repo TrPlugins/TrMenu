@@ -73,8 +73,8 @@ class MigraterTrMenu(val file: File) : Migrater {
         legacy.options().header(
             buildString {
                 appendLine()
-                append("Migrated from TrMenu v1.x, by TrMenu v2")
-                append("Date: ${Migrater.getExactDate()}")
+                append("Migrated from TrMenu v1.x, by TrMenu v2\n")
+                append("Date: ${Migrater.getExactDate()}\n")
                 appendLine()
             }
         )

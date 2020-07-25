@@ -1,8 +1,8 @@
 package me.arasple.mc.trmenu.display.item
 
+import me.arasple.mc.trmenu.configuration.property.Nodes
 import me.arasple.mc.trmenu.modules.script.Scripts
 import me.arasple.mc.trmenu.utils.Msger
-import me.arasple.mc.trmenu.configuration.property.Nodes
 import org.bukkit.entity.Player
 
 /**
@@ -24,15 +24,24 @@ class Lore(val lore: MutableList<String>, val conditions: MutableMap<Int, Pair<S
     }
 
     fun formatedLore(player: Player): List<String> {
+        val collect = mutableListOf<String>()
         val lores = mutableListOf<String>()
         lore.forEachIndexed { index, lore ->
             val condition = conditions[index]
             if (condition != null) {
-                lores.add(if (Scripts.expression(player, condition.first).asBoolean()) Item.colorizeLore(condition.second) else "")
-            } else lores.add(Item.colorizeLore(lore))
+                collect.add(if (Scripts.expression(player, condition.first).asBoolean()) Item.colorizeLore(condition.second) else "")
+            } else collect.add(Item.colorizeLore(lore))
         }
-
-        return Msger.replace(player, lores)
+        collect.forEach {
+            it.split("\\n").forEach { part ->
+                val msg = Msger.replace(player, part)
+                if (part.contains("%")) {
+                    println("[$part -> | $msg]")
+                }
+                lores.add(msg)
+            }
+        }
+        return lores
     }
 
 

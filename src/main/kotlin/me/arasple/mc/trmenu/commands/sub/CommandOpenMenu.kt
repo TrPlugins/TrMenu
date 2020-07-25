@@ -1,6 +1,7 @@
 package me.arasple.mc.trmenu.commands.sub
 
 import io.izzel.taboolib.internal.apache.lang3.ArrayUtils
+import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import io.izzel.taboolib.module.command.base.Argument
 import io.izzel.taboolib.module.command.base.BaseSubCommand
 import io.izzel.taboolib.module.locale.TLocale
@@ -19,6 +20,7 @@ import org.bukkit.entity.Player
  */
 class CommandOpenMenu : BaseSubCommand() {
 
+    // trmenu open Example:{page} Arasple {arguments}
     override fun getArguments(): Array<Argument> = arrayOf(
         Argument("MenuId", true) { Menu.getMenus().map { it.id } },
         Argument("Player", false),
@@ -26,7 +28,9 @@ class CommandOpenMenu : BaseSubCommand() {
     )
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>) {
-        val menu = TrMenuAPI.getMenuById(args[0])
+        val split = args[0].split(":")
+        val menu = TrMenuAPI.getMenuById(split[0])
+        val page = if (split.size > 1) NumberUtils.toInt(split[1], -1) else -1
         val player = if (args.size > 1) Bukkit.getPlayerExact(args[1]) else if (sender is Player) sender else null
         val arguments = if (args.size > 2) ArrayUtils.removeAll(args, 0, 1) else null
 
@@ -39,7 +43,7 @@ class CommandOpenMenu : BaseSubCommand() {
             return
         }
         arguments?.let { player.setArguments(it) }
-        menu.open(player, -1, if (sender is Player) MenuOpenEvent.Reason.PLAYER_COMMAND else MenuOpenEvent.Reason.CONSOLE)
+        menu.open(player, page, if (sender is Player) MenuOpenEvent.Reason.PLAYER_COMMAND else MenuOpenEvent.Reason.CONSOLE)
     }
 
 }

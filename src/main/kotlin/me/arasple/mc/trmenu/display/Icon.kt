@@ -1,7 +1,6 @@
 package me.arasple.mc.trmenu.display
 
 import me.arasple.mc.trmenu.TrMenu
-import me.arasple.mc.trmenu.data.MenuSession
 import me.arasple.mc.trmenu.data.Sessions
 import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import me.arasple.mc.trmenu.display.icon.IconClickHandler
@@ -10,6 +9,7 @@ import me.arasple.mc.trmenu.display.icon.IconSettings
 import me.arasple.mc.trmenu.modules.packets.PacketsHandler
 import me.arasple.mc.trmenu.modules.script.Scripts
 import me.arasple.mc.trmenu.utils.Msger
+import me.arasple.mc.trmenu.utils.Tasks
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 import java.util.*
@@ -27,14 +27,15 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
     }
 
     fun displayItemStack(player: Player) {
-        val session = player.getMenuSession()
-
-        if (!session.isNull()) {
-            val property = getIconProperty(player)
-            val slots = property.display.getPosition(player, session.page)
-            val item = property.display.createDisplayItem(player)
-            slots?.forEach { PacketsHandler.sendOutSlot(player, Sessions.TRMENU_WINDOW_ID, it, item) }
-            if (property.display.isAnimatedPosition(session.page)) PacketsHandler.sendClearNonIconSlots(player, session)
+        Tasks.run {
+            val session = player.getMenuSession()
+            if (!session.isNull()) {
+                val property = getIconProperty(player)
+                val slots = property.display.getPosition(player, session.page)
+                val item = property.display.createDisplayItem(player)
+                slots?.forEach { PacketsHandler.sendOutSlot(player, Sessions.TRMENU_WINDOW_ID, it, item) }
+                if (property.display.isAnimatedPosition(session.page)) PacketsHandler.sendClearNonIconSlots(player, session)
+            }
         }
     }
 
@@ -96,6 +97,6 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
 
     fun isInPage(page: Int) = defIcon.display.position.containsKey(page) || subIcons.any { it.display.position.containsKey(page) }
 
-    class IconProperty(var priority: Int, var condition: String, val display: IconDisplay, val clickHandler: IconClickHandler)
+    data class IconProperty(var priority: Int, var condition: String, val display: IconDisplay, val clickHandler: IconClickHandler)
 
 }
