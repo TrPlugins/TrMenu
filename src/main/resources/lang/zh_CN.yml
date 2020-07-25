@@ -26,7 +26,7 @@ MIGRATE:
 
 DEBUG:
   ARGUMENTS: '&8[&fTr&7Menu&8] &3DEBUG &8| &6更新玩家 &c{0} &6的参数 &c{ &8{1} &c}'
-  SESSION: '&8[&fTr&7Menu&8] &3DEBUG &8| &6更新玩家菜单信息 &c{ &8{0}. Paged {1} &c}'
+  SESSION: '&8[&fTr&7Menu&8] &3DEBUG &8| &6更新玩家 &c{0} &6菜单信息 &c{ &8{1}. Paged {2} &c}'
   EXPRESSION:
     - '&8[&fTr&7Menu&8] &3DEBUG &8| &7测试转义表达式:'
     - '&c- &8Raw: &7{0}'

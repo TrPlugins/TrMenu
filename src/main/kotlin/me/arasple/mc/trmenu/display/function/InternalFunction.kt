@@ -15,9 +15,9 @@ data class InternalFunction(val id: String, val value: String) {
 
     companion object {
 
-        val INTERNAL_FUNCTION: Pattern = Pattern.compile("\\\$\\{(.*?)}")
+        val PATTERN: Pattern = Pattern.compile("\\\$\\{(.*?)}")
 
-        fun match(string: String): Matcher = INTERNAL_FUNCTION.matcher(string)
+        fun match(string: String): Matcher = PATTERN.matcher(string)
 
         fun replaceWithFunctions(player: Player, functions: Set<InternalFunction>, string: String): String {
             val buffer = StringBuffer(string.length)

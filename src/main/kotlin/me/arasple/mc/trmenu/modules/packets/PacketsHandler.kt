@@ -9,7 +9,9 @@ import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.inventory.InvClickType
 import me.arasple.mc.trmenu.api.inventory.InvClickType.*
 import me.arasple.mc.trmenu.data.MenuSession
-import me.arasple.mc.trmenu.data.MetaPlayer
+import me.arasple.mc.trmenu.data.MetaPlayer.getInventoryContents
+import me.arasple.mc.trmenu.data.Sessions
+import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryType
@@ -68,11 +70,11 @@ abstract class PacketsHandler {
         fun sendRemoveSlot(player: Player, windowId: Int, slot: Int) = INSTANCE.sendRemoveSlot(player, windowId, slot)
 
         fun resetInventory(player: Player, size: Int, windowId: Int) {
-            val session = MenuSession.session(player)
+            val session = player.getMenuSession()
             val menu = session.menu
             if (menu != null) {
                 val hasSlots = menu.getOccupiedSlots(player, session.page)
-                val contents = MetaPlayer.getInventoryContents(player)
+                val contents = player.getInventoryContents()
                 for ((index, i) in (size..size + 35).withIndex()) {
                     if (hasSlots.contains(i)) continue
                     val item = contents[index]
@@ -136,7 +138,7 @@ abstract class PacketsHandler {
             session.menu?.let {
                 val layout = session.layout!!
                 val hasSlots = it.getOccupiedSlots(player, session.page)
-                for (i in 0 until layout.size()) if (!hasSlots.contains(i)) sendRemoveSlot(player, MenuSession.TRMENU_WINDOW_ID, i)
+                for (i in 0 until layout.size()) if (!hasSlots.contains(i)) sendRemoveSlot(player, Sessions.TRMENU_WINDOW_ID, i)
             }
         }
 

@@ -15,17 +15,11 @@ object Test {
     }
 
     private fun testMenu() {
-        val inputStream = javaClass.getResourceAsStream("/Demo.yml")
+        val inputStream = javaClass.getResourceAsStream("/ExampleX.yml")
         val configuration = MenuConfiguration("")
         configuration.load(InputStreamReader(inputStream))
 
-        val regex = "(?i)option(s)?.lock-player-inv".toRegex()
-
-        println(configuration.getKeys(true).firstOrNull { it.matches(regex) })
-
-        configuration.getKeys(true).forEach {
-            println(it)
-        }
+        val read = configuration.get("Icons.S.actions.all")
 
 //        val start = System.currentTimeMillis()
 //
@@ -33,8 +27,10 @@ object Test {
 //
 //        println("--------------------------------------------------\n\n")
 //        menu.icons.forEach {
-//            val pos = it.defIcon.display.position
-//            println(it.id + ". Update: ${it.settings.update.joinToString(",")}  Pos: $pos")
+//            val handlers = it.defIcon.clickHandler.handlers
+//            handlers.forEach {
+////                println(it)
+//            }
 //        }
 //        println("\n\n--------------------------------------------------")
 //        println("[END - Took: ${System.currentTimeMillis() - start} ms]")

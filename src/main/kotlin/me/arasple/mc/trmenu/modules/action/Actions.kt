@@ -2,6 +2,7 @@ package me.arasple.mc.trmenu.modules.action
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import io.izzel.taboolib.util.lite.Numbers
+import me.arasple.mc.trmenu.configuration.property.Nodes
 import me.arasple.mc.trmenu.modules.action.base.Action
 import me.arasple.mc.trmenu.modules.action.impl.*
 import me.arasple.mc.trmenu.modules.action.impl.hook.eco.ActionGiveMoney
@@ -15,9 +16,8 @@ import me.arasple.mc.trmenu.modules.action.impl.item.ActionTakeItem
 import me.arasple.mc.trmenu.modules.action.impl.menu.*
 import me.arasple.mc.trmenu.modules.script.Scripts
 import me.arasple.mc.trmenu.utils.Msger
-import me.arasple.mc.trmenu.configuration.property.Nodes
 import me.arasple.mc.trmenu.utils.Tasks
-import org.bukkit.configuration.MemorySection
+import me.arasple.mc.trmenu.utils.Utils
 import org.bukkit.entity.Player
 
 /**
@@ -54,6 +54,7 @@ object Actions {
         ActionChat(),
         ActionActionbar(),
         ActionCatcher(),
+        ActionReInput(),
         ActionCommand(),
         ActionCommandConsole(),
         ActionCommandOp(),
@@ -83,7 +84,9 @@ object Actions {
                 action is ActionReturn -> return false
                 action is ActionDelay -> delay += NumberUtils.toLong(action.getContent(player), 0)
                 delay > 0 -> Tasks.delay(delay) { action.run(player) }
-                else -> Tasks.run(Runnable { action.run(player) })
+                else -> Tasks.run {
+                    action.run(player)
+                }
             }
         }
         return true
@@ -91,14 +94,16 @@ object Actions {
 
     fun runCachedAction(player: Player, action: String) = runActions(player, cachedAction(action))
 
-    fun cachedAction(action: String) = cachedActions.computeIfAbsent(action) { readActions(action) }
+    fun cachedAction(action: String) = cachedActions.computeIfAbsent(action) { readAction(action) }
 
     fun readActions(anys: List<Any>): List<Action> = mutableListOf<Action>().let { actions ->
-        anys.forEach { if (it.toString().isNotEmpty()) actions.addAll(readActions(it)) }
+        anys.forEach { if (it.toString().isNotEmpty()) actions.addAll(readAction(it)) }
         return@let actions
     }
 
-    fun readActions(any: Any): List<Action> {
+    fun readAction(any: Any?): List<Action> {
+        any ?: return emptyList()
+
         val actions = mutableListOf<Action>()
         val sharedOptions = mutableMapOf<Nodes, String>()
 
@@ -124,11 +129,15 @@ object Actions {
                 action.options.forEach { (option, value) -> sharedOptions[option] = value }
                 actions.add(action)
             }
-        } else if (any is MemorySection) {
-            val action = registeredActions.firstOrNull { any.name.toLowerCase().matches(it.name) }?.newInstance() ?: ActionUnknow().also { it.setContent(any.name) }
-            action.setContent(any)
+        } else if (any is LinkedHashMap<*, *>) {
+            any.entries.firstOrNull()?.let { it ->
+                val key = it.key.toString()
+                val value = Utils.asSection(it.value) ?: return@let
+                val action = registeredActions.firstOrNull { key.toLowerCase().matches(it.name) }?.newInstance() ?: ActionUnknow().also { it.setContent(key) }
+                action.setContent(value)
+                actions.add(action)
+            }
         }
-
         actions.forEach {
             sharedOptions.forEach { (option, value) ->
                 if (!it.options.containsKey(option)) it.options[option] = value

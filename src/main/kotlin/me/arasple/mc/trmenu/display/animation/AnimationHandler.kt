@@ -24,9 +24,9 @@ object AnimationHandler {
 
     fun getIndex(player: Player) = indexs.computeIfAbsent(player.uniqueId) { mutableMapOf() }
 
-    fun reset(player: Player) {
-        indexs[player.uniqueId]?.clear()
-    }
+    fun reset(player: Player) = indexs[player.uniqueId]?.clear()
+
+    fun reset(player: Player, id: Int) = getIndex(player).remove(id)
 
     fun nextId() = id++
 

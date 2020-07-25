@@ -7,8 +7,9 @@ import io.izzel.taboolib.module.command.base.BaseSubCommand
 import io.izzel.taboolib.module.locale.TLocale
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.TrMenuAPI
-import me.arasple.mc.trmenu.data.MenuSession
-import me.arasple.mc.trmenu.data.MetaPlayer
+import me.arasple.mc.trmenu.data.MetaPlayer.getArguments
+import me.arasple.mc.trmenu.data.MetaPlayer.getMeta
+import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import me.arasple.mc.trmenu.display.Menu
 import me.arasple.mc.trmenu.metrics.MetricsHandler
 import me.arasple.mc.trmenu.modules.expression.Expressions
@@ -70,14 +71,14 @@ class CommandDebug : BaseSubCommand() {
 
     private fun printPlayer(sender: CommandSender, player: Player?) {
         if (player != null) {
-            val session = MenuSession.session(player)
+            val session = player.getMenuSession()
             sender.sendMessage(
                 arrayOf(
                     "§3§l「§8--------------------------------------------------§3§l」",
                     "",
                     "§eCurrentPage: §6${session.page}",
-                    "§eArguments: §6${MetaPlayer.getArguments(player).joinToString(", ", "{", "}")}",
-                    "§eMetas: §6${MetaPlayer.getMeta(player)}",
+                    "§eArguments: §6${player.getArguments().joinToString(", ", "{", "}")}",
+                    "§eMetas: §6${player.getMeta()}",
                     "§eInternalFunctions: §6${session.menu?.settings?.functions?.internalFunctions?.map { it.id }}",
                     "",
                     "§3§l「§8--------------------------------------------------§3§l」"

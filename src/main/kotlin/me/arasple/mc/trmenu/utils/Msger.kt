@@ -2,7 +2,7 @@ package me.arasple.mc.trmenu.utils
 
 import io.izzel.taboolib.module.locale.TLocale
 import me.arasple.mc.trmenu.TrMenu
-import me.arasple.mc.trmenu.data.MetaPlayer
+import me.arasple.mc.trmenu.data.MetaPlayer.replaceWithArguments
 import me.clip.placeholderapi.PlaceholderAPI
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
@@ -60,9 +60,9 @@ object Msger {
 
     private fun replaceWithPlaceholders(player: Player, strings: List<String>): List<String> = HexColor.translate(PlaceholderAPI.setPlaceholders(player, strings))
 
-    fun replaceWithBracketPlaceholders(player: Player, string: String): String = PlaceholderAPI.setBracketPlaceholders(player, MetaPlayer.replaceWithArguments(player, string))
+    fun replaceWithBracketPlaceholders(player: Player, string: String): String = PlaceholderAPI.setBracketPlaceholders(player, player.replaceWithArguments(string))
 
-    fun replaceWithBracketPlaceholders(player: Player, strings: List<String>): List<String> = PlaceholderAPI.setBracketPlaceholders(player, MetaPlayer.replaceWithArguments(player, strings))
+    fun replaceWithBracketPlaceholders(player: Player, strings: List<String>): List<String> = PlaceholderAPI.setBracketPlaceholders(player, player.replaceWithArguments(strings))
 
     fun containsPlaceholders(string: String?) = PlaceholderAPI.containsPlaceholders(string) || PlaceholderAPI.containsBracketPlaceholders(string) || (string != null && string.contains("{") && string.contains("}"))
 

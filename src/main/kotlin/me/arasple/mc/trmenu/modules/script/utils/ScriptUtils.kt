@@ -2,6 +2,8 @@ package me.arasple.mc.trmenu.modules.script.utils
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import io.izzel.taboolib.util.Strings
+import me.arasple.mc.trmenu.display.function.InternalFunction
+import me.arasple.mc.trmenu.modules.expression.Expressions
 import me.clip.placeholderapi.PlaceholderAPI
 import java.util.regex.Pattern
 
@@ -22,16 +24,20 @@ object ScriptUtils {
                 content = replaceFind(content, escape(find), group)
             }
         }
-        return replace(content, PlaceholderAPI.getBracketPlaceholderPattern())
+        content = replace(content, InternalFunction.PATTERN, true)
+        return replace(content, PlaceholderAPI.getBracketPlaceholderPattern(), false)
     }
 
-    private fun replace(string: String, vararg patterns: Pattern): String {
+    private fun replace(string: String, pattern: Pattern, input: Boolean): String {
         var content = string
-        patterns.forEach { pattern ->
-            pattern.matcher(content).let {
-                while (it.find()) content = replaceFind(content, escape(it.group()))
+        pattern.matcher(content).let {
+            while (it.find()) {
+                val group = it.group(1)
+                if ((!input && !NumberUtils.isCreatable(group)) || (input && !group.startsWith("input"))) return@let
+                content = replaceFind(content, escape(it.group()))
             }
         }
+
         return content
     }
 
@@ -54,6 +60,7 @@ object ScriptUtils {
             .replace("}", "\\}")
             .replace("[", "\\[")
             .replace("]", "\\]")
+            .replace("$", "\\$")
     )
 
     private fun escapeMath(string: String): String = string

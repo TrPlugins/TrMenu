@@ -3,7 +3,8 @@ package me.arasple.mc.trmenu.display.menu
 import io.izzel.taboolib.internal.apache.lang3.ArrayUtils
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.data.MenuSession
-import me.arasple.mc.trmenu.data.MenuSession.Companion.TRMENU_WINDOW_ID
+import me.arasple.mc.trmenu.data.Sessions
+import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import me.arasple.mc.trmenu.display.Menu
 import me.arasple.mc.trmenu.display.animation.Animated
 import me.arasple.mc.trmenu.display.function.InternalFunction
@@ -46,7 +47,7 @@ class MenuSettings(val title: Titles, val options: Options, val bindings: Bindin
         }
 
         fun load(player: Player, menu: Menu, layout: MenuLayout.Layout) {
-            val session = MenuSession.session(player)
+            val session = player.getMenuSession()
             val page = session.page
 
             if (update > 0 && titles.elements.size > 1) {
@@ -72,7 +73,7 @@ class MenuSettings(val title: Titles, val options: Options, val bindings: Bindin
 
         fun run(player: Player, layout: MenuLayout.Layout) {
             if (hidePlayerInventory)
-                PacketsHandler.clearInventory(player, layout.size(), TRMENU_WINDOW_ID)
+                PacketsHandler.clearInventory(player, layout.size(), Sessions.TRMENU_WINDOW_ID)
         }
 
     }
@@ -131,7 +132,7 @@ class MenuSettings(val title: Titles, val options: Options, val bindings: Bindin
     class Tasks(val tasks: Map<Long, Reactions>) {
 
         fun run(player: Player, menu: Menu) {
-            val session = MenuSession.session(player)
+            val session = player.getMenuSession()
             val page = session.page
 
             tasks.forEach {

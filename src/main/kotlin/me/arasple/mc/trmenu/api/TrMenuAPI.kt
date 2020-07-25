@@ -1,10 +1,13 @@
 package me.arasple.mc.trmenu.api
 
-import me.arasple.mc.trmenu.data.MenuSession
+import me.arasple.mc.trmenu.TrMenu
+import me.arasple.mc.trmenu.api.factory.MenuFactory
+import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import me.arasple.mc.trmenu.display.Menu
 import me.arasple.mc.trmenu.modules.action.Actions
 import me.arasple.mc.trmenu.modules.action.base.Action
 import org.bukkit.entity.Player
+import org.bukkit.plugin.Plugin
 
 /**
  * @author Arasple
@@ -18,7 +21,15 @@ object TrMenuAPI {
      * @return menus loaded by TrMenu
      */
     @JvmStatic
-    fun getMenus(): List<Menu> = Menu.getMenus()
+    fun getMenus() = Menu.getMenus()
+
+    /**
+     * Get all loaded menus
+     *
+     * @return menus loaded by all plugins
+     */
+    @JvmStatic
+    fun getAllMenus() = Menu.getAllMenus()
 
     /**
      * Get the menu loaded
@@ -36,7 +47,7 @@ object TrMenuAPI {
      * @return Menu
      */
     @JvmStatic
-    fun getOpeningMenu(player: Player): Menu? = getMenus().stream().filter { menu: Menu -> menu.viewers.contains(player) }.findFirst().orElse(null)
+    fun getOpeningMenu(player: Player) = getSession(player).menu
 
     /**
      * Get the menu session of a player
@@ -45,7 +56,7 @@ object TrMenuAPI {
      * @return MenuSession
      */
     @JvmStatic
-    fun getSession(player: Player): MenuSession = MenuSession.session(player)
+    fun getSession(player: Player) = player.getMenuSession()
 
     /**
      * Check if the player is viewing a menu
@@ -54,7 +65,7 @@ object TrMenuAPI {
      * @return is viewing a menu
      */
     @JvmStatic
-    fun isViewingMenu(player: Player): Boolean = getMenus().stream().anyMatch { menu: Menu -> menu.viewers.contains(player) }
+    fun isViewingMenu(player: Player) = !getSession(player).isNull()
 
     /**
      * Register a new action that can be use
@@ -64,5 +75,12 @@ object TrMenuAPI {
     @JvmStatic
     fun registerAction(action: Action) = Actions.registerAction(action)
 
+
+    /**
+     * Build a MenuFactory
+     */
+    fun buildMenu() = buildMenu(TrMenu.plugin)
+
+    fun buildMenu(plugin: Plugin) = MenuFactory(plugin)
 
 }

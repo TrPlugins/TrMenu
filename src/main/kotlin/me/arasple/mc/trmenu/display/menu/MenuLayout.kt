@@ -1,7 +1,7 @@
 package me.arasple.mc.trmenu.display.menu
 
 import io.izzel.taboolib.util.Variables
-import me.arasple.mc.trmenu.data.MenuSession.Companion.TRMENU_WINDOW_ID
+import me.arasple.mc.trmenu.data.Sessions
 import me.arasple.mc.trmenu.display.Icon
 import me.arasple.mc.trmenu.display.animation.Animated
 import me.arasple.mc.trmenu.display.icon.IconDisplay
@@ -71,13 +71,13 @@ class MenuLayout(val layouts: List<Layout>) {
         /**
          * 显示虚拟容器
          */
-        fun displayInventory(player: Player, title: String) = PacketsHandler.sendOpenWindow(player, TRMENU_WINDOW_ID, type, size(type, rows), title)
+        fun displayInventory(player: Player, title: String) = PacketsHandler.sendOpenWindow(player, Sessions.TRMENU_WINDOW_ID, type, size(type, rows), title)
 
         /**
          * 关闭虚拟容器
          */
         fun close(player: Player, closeInventory: Boolean) {
-            if (closeInventory) PacketsHandler.sendCloseWindow(player, TRMENU_WINDOW_ID)
+            if (closeInventory) PacketsHandler.sendCloseWindow(player, Sessions.TRMENU_WINDOW_ID)
         }
 
         /**

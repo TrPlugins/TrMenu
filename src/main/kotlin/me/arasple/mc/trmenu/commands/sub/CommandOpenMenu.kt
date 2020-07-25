@@ -6,7 +6,7 @@ import io.izzel.taboolib.module.command.base.BaseSubCommand
 import io.izzel.taboolib.module.locale.TLocale
 import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.api.events.MenuOpenEvent
-import me.arasple.mc.trmenu.data.MetaPlayer
+import me.arasple.mc.trmenu.data.MetaPlayer.setArguments
 import me.arasple.mc.trmenu.display.Menu
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
@@ -38,7 +38,7 @@ class CommandOpenMenu : BaseSubCommand() {
             TLocale.sendTo(sender, "COMMANDS.OPEN.UNKNOWN-PLAYER")
             return
         }
-        arguments?.let { MetaPlayer.setArguments(player, it) }
+        arguments?.let { player.setArguments(it) }
         menu.open(player, -1, if (sender is Player) MenuOpenEvent.Reason.PLAYER_COMMAND else MenuOpenEvent.Reason.CONSOLE)
     }
 

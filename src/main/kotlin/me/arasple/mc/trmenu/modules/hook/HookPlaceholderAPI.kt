@@ -3,8 +3,9 @@ package me.arasple.mc.trmenu.modules.hook
 import io.izzel.taboolib.module.db.local.LocalPlayer
 import io.izzel.taboolib.module.inject.THook
 import me.arasple.mc.trmenu.TrMenu
-import me.arasple.mc.trmenu.data.MenuSession
-import me.arasple.mc.trmenu.data.MetaPlayer
+import me.arasple.mc.trmenu.data.MetaPlayer.getArguments
+import me.arasple.mc.trmenu.data.MetaPlayer.getMeta
+import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import me.arasple.mc.trmenu.modules.script.Scripts
 import me.arasple.mc.trmenu.utils.Utils
 import me.clip.placeholderapi.PlaceholderAPI
@@ -36,7 +37,7 @@ object HookPlaceholderAPI {
     }
 
     private fun arguments(player: Player, params: List<String>): String {
-        val arguments = MetaPlayer.getArguments(player)
+        val arguments = player.getArguments()
         if (params.size > 1) {
             return buildString {
                 Utils.asIntRange(params[1]).forEach {
@@ -49,11 +50,11 @@ object HookPlaceholderAPI {
     }
 
     private fun meta(player: Player, params: List<String>): String {
-        return (if (params.size > 1) params[1] else null)?.let { MetaPlayer.getMeta(player, it) }?.toString() ?: "null"
+        return (if (params.size > 1) params[1] else null)?.let { player.getMeta(it) }?.toString() ?: "null"
     }
 
     private fun menu(player: Player, params: List<String>): String {
-        val session = MenuSession.session(player)
+        val session = player.getMenuSession()
         return if (!session.isNull()) {
             when (params[1]) {
                 "page" -> session.page.toString()
@@ -65,13 +66,14 @@ object HookPlaceholderAPI {
     }
 
     private fun freeSlot(player: Player, params: List<String>): String {
-        val session = MenuSession.session(player)
+        val session = player.getMenuSession()
         // trmenu_emptyslot_0_1-10
         val range = Utils.asIntRange(if (params.size > 2) params[2] else "0-90")
         val index = if (params.size > 1) params[1].toInt() else 0
 
         return (session.menu?.getEmptySlots(player, session.page)?.filter { range.contains(it) }?.get(index) ?: -1).toString()
     }
+
 
     @THook
     class Inject : PlaceholderExpansion() {

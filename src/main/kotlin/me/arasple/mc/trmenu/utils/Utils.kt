@@ -28,6 +28,16 @@ object Utils {
         return result
     }
 
+    fun asAnyList(any: Any?): List<Any> {
+        if (any == null) return mutableListOf()
+        val result = mutableListOf<Any>()
+        when (any) {
+            is List<*> -> any.forEach { it?.let { any -> result.add(any) } }
+            else -> result.add(any.toString())
+        }
+        return result
+    }
+
     fun asIntList(any: Any?): List<Int> {
         if (any == null) return mutableListOf()
         val result = mutableListOf<Int>()
@@ -83,7 +93,7 @@ object Utils {
 
     fun isEventIgnoreCancelled(event: Cancellable): Boolean = TrMenu.SETTINGS.getBoolean("Events-Ignore-Cancelled.${event.javaClass.simpleName}", true) && event.isCancelled
 
-    fun asSection(any: Any): MemorySection? = YamlConfiguration().let {
+    fun asSection(any: Any?): MemorySection? = YamlConfiguration().let {
         when (any) {
             is MemorySection -> return any
             is Map<*, *> -> {

@@ -1,10 +1,9 @@
 package me.arasple.mc.trmenu.data
 
+import me.arasple.mc.trmenu.data.Sessions.getPlayer
 import me.arasple.mc.trmenu.display.Menu
 import me.arasple.mc.trmenu.display.menu.MenuLayout
 import me.arasple.mc.trmenu.utils.Msger
-import org.bukkit.entity.Player
-import java.util.*
 
 /**
  * @author Arasple
@@ -15,7 +14,7 @@ class MenuSession(var menu: Menu?, var layout: MenuLayout.Layout?, var page: Int
     fun isNull() = menu == null || layout == null
 
     fun set(menu: Menu?, layout: MenuLayout.Layout?, page: Int) {
-        Msger.debug("SESSION", menu?.id ?: "null", page)
+        Msger.debug("SESSION", this.getPlayer()?.name ?: "null", menu?.id ?: "null", page)
 
         this.menu = menu
         this.layout = layout
@@ -26,17 +25,5 @@ class MenuSession(var menu: Menu?, var layout: MenuLayout.Layout?, var page: Int
 
 
     constructor() : this(null, null, 0, null)
-
-    companion object {
-
-        const val TRMENU_WINDOW_ID: Int = 119
-
-        private val sessions = mutableMapOf<UUID, MenuSession>()
-
-        fun session(player: Player): MenuSession = sessions.computeIfAbsent(player.uniqueId) { MenuSession() }
-
-        fun remove(player: Player) = sessions.remove(player.uniqueId)
-
-    }
 
 }

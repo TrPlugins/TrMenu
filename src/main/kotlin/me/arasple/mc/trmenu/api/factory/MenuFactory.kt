@@ -1,10 +1,11 @@
 package me.arasple.mc.trmenu.api.factory
 
-import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.factory.task.BuildTask
 import me.arasple.mc.trmenu.api.factory.task.ClickTask
 import me.arasple.mc.trmenu.api.factory.task.CloseTask
 import me.arasple.mc.trmenu.data.MetaPlayer
+import me.arasple.mc.trmenu.data.MetaPlayer.updateInventoryContents
+import me.arasple.mc.trmenu.data.Sessions.getMenuFactorySession
 import me.arasple.mc.trmenu.display.menu.MenuLayout
 import me.arasple.mc.trmenu.display.menu.MenuLayout.Companion.size
 import me.arasple.mc.trmenu.display.menu.MenuLayout.Companion.width
@@ -12,7 +13,6 @@ import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.Plugin
-import java.util.*
 
 /**
  * @author Arasple
@@ -31,8 +31,6 @@ class MenuFactory(
     var buildTask: BuildTask?,
     var closeTask: CloseTask?
 ) {
-
-    constructor() : this(TrMenu.plugin)
 
     constructor(plugin: Plugin) : this(plugin, "MenuFactory", InventoryType.CHEST, 3, mapOf(), mutableMapOf(), null, null, null)
 
@@ -84,7 +82,7 @@ class MenuFactory(
     fun display(player: Player) = display(player) {}
 
     fun display(player: Player, runnable: Runnable) {
-        val session = session(player)
+        val session = player.getMenuFactorySession()
 
         items.entries.forEach { entry ->
             val id = entry.key
@@ -92,21 +90,13 @@ class MenuFactory(
             positions[id]?.let { it -> session.def[id] = Pair(item, it) }
         }
 
-        MetaPlayer.updateInventoryContents(player)
+        player.updateInventoryContents()
         session.menuFactory = this
         buildTask?.run(BuildTask.Event(player, session))
         runnable.run()
 
         session.display(type, size, title)
         session.displayItems()
-    }
-
-    companion object {
-
-        val SESSIONS = mutableMapOf<UUID, MenuFactorySession>()
-
-        fun session(player: Player) = SESSIONS.computeIfAbsent(player.uniqueId) { MenuFactorySession(player, null, mutableMapOf(), mutableMapOf()) }
-
     }
 
 }

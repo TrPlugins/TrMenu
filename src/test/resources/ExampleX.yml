@@ -137,7 +137,7 @@ Icons:
                   actions: 'tell: &7名称确认. &f${input_target}'
                   deny-actions:
                     - 'tell: &6抱歉但玩家 &c${input_target} &6不在线'
-                    - 'retype'
+                    - 'cancel'
             amount:
               type: CHAT
               before: 'tell: &3请提供支付数额'
@@ -145,7 +145,7 @@ Icons:
                 - requirement: 'isNumber.${input_amount}'
                   actions:
                     - 'tell: &7数额确认. &f${input_amount}'
-                    - 'command: say I paied ${input_target} ${input_amount}'
+                    - 'command: pay ${input_target} ${input_amount}'
                   deny-actions: 'tell: &6你打啥钱呢?'
 
 #

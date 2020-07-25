@@ -2,7 +2,8 @@ package me.arasple.mc.trmenu.modules.script
 
 import io.izzel.taboolib.util.lite.Sounds
 import me.arasple.mc.trmenu.api.events.MenuCloseEvent
-import me.arasple.mc.trmenu.data.MenuSession
+import me.arasple.mc.trmenu.data.MetaPlayer.replaceWithMeta
+import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import me.arasple.mc.trmenu.modules.expression.Expressions
 import me.arasple.mc.trmenu.modules.script.utils.AssistUtils
 import me.arasple.mc.trmenu.modules.script.utils.ScriptUtils
@@ -59,7 +60,9 @@ object Scripts {
             it["player"] = player
             return@let it
         }, ScriptContext.ENGINE_SCOPE)
-        content.setAttribute(ScriptUtils.function, Function<String, String> { Msger.replace(player, it) }, ScriptContext.ENGINE_SCOPE)
+        content.setAttribute(ScriptUtils.function, Function<String, String> {
+            player.replaceWithMeta(Msger.replace(player, it))
+        }, ScriptContext.ENGINE_SCOPE)
         ScriptResult(script!!.eval(content))
     } catch (e: Throwable) {
         if (!silent) Msger.printErrors("SCRIPT", e, rawScript)
@@ -68,7 +71,7 @@ object Scripts {
     }
 
     private fun cancel(player: Player) {
-        MenuSession.session(player).menu?.let {
+        player.getMenuSession().menu?.let {
             it.close(player, 0, MenuCloseEvent.Reason.ERROR, true, silent = false)
             Sounds.BLOCK_ANVIL_BREAK.playSound(player)
         }

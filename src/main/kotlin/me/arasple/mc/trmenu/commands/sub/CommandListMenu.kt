@@ -5,7 +5,6 @@ import io.izzel.taboolib.util.item.ItemBuilder
 import io.izzel.taboolib.util.item.Items
 import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.api.events.MenuOpenEvent
-import me.arasple.mc.trmenu.api.factory.MenuFactory
 import me.arasple.mc.trmenu.api.factory.task.ClickTask
 import me.arasple.mc.trmenu.display.Menu
 import me.arasple.mc.trmenu.utils.Tasks
@@ -31,7 +30,7 @@ class CommandListMenu : BaseSubCommand() {
             return
         }
 
-        MenuFactory()
+        TrMenuAPI.buildMenu()
             .title("ListMenus")
             .layout(
                 "########C",

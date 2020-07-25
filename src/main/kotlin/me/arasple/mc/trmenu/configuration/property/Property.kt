@@ -210,7 +210,7 @@ enum class Property(val default: String, val regex: Regex) {
 
     CATCHER_CANCEL("cancel", "cancel"),
 
-    CATCHER_REACTION("reaction", "reaction");
+    CATCHER_REACTION("reaction", "reaction(s)?");
 
     constructor(default: String, regex: String) : this(default, Regex("(?i)$regex"))
 

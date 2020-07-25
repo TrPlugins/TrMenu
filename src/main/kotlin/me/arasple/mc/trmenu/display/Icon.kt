@@ -2,7 +2,8 @@ package me.arasple.mc.trmenu.display
 
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.data.MenuSession
-import me.arasple.mc.trmenu.data.MenuSession.Companion.TRMENU_WINDOW_ID
+import me.arasple.mc.trmenu.data.Sessions
+import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import me.arasple.mc.trmenu.display.icon.IconClickHandler
 import me.arasple.mc.trmenu.display.icon.IconDisplay
 import me.arasple.mc.trmenu.display.icon.IconSettings
@@ -26,19 +27,19 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
     }
 
     fun displayItemStack(player: Player) {
-        val session = MenuSession.session(player)
+        val session = player.getMenuSession()
 
         if (!session.isNull()) {
             val property = getIconProperty(player)
             val slots = property.display.getPosition(player, session.page)
             val item = property.display.createDisplayItem(player)
-            slots?.forEach { PacketsHandler.sendOutSlot(player, TRMENU_WINDOW_ID, it, item) }
+            slots?.forEach { PacketsHandler.sendOutSlot(player, Sessions.TRMENU_WINDOW_ID, it, item) }
             if (property.display.isAnimatedPosition(session.page)) PacketsHandler.sendClearNonIconSlots(player, session)
         }
     }
 
     private fun startUpdateTasks(player: Player, menu: Menu) {
-        val session = MenuSession.session(player)
+        val session = player.getMenuSession()
         val page = session.page
 
         // 图标物品更新

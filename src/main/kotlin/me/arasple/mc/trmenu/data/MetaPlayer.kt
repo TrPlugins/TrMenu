@@ -2,6 +2,7 @@ package me.arasple.mc.trmenu.data
 
 import io.izzel.taboolib.util.Strings
 import io.izzel.taboolib.util.Variables
+import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import me.arasple.mc.trmenu.display.function.InternalFunction
 import me.arasple.mc.trmenu.display.menu.MenuLayout
 import me.arasple.mc.trmenu.utils.Msger
@@ -19,38 +20,85 @@ object MetaPlayer {
     private val arguments = mutableMapOf<UUID, Array<String>>()
     private val meta = mutableMapOf<UUID, MutableMap<String, Any>>()
 
-    fun getInventoryContents(player: Player): Array<ItemStack?> = this.playerInventorys.computeIfAbsent(player.uniqueId) { player.inventory.contents.clone() }
+    fun Player.getInventoryContents(): Array<ItemStack?> = playerInventorys.computeIfAbsent(this.uniqueId) { this.inventory.contents.clone() }
 
-    fun updateInventoryContents(player: Player) = mutableListOf<ItemStack?>().let {
-        val contents = player.inventory.contents
+    fun Player.updateInventoryContents() = mutableListOf<ItemStack?>().let {
+        val contents = this.inventory.contents
         for (i in 9..35) it.add(contents[i])
         for (i in 0..8) it.add(contents[i])
-        this.playerInventorys[player.uniqueId] = it.toTypedArray()
+        playerInventorys[this.uniqueId] = it.toTypedArray()
     }
 
-    fun replaceWithArguments(player: Player, strings: List<String>): List<String> = mutableListOf<String>().let { list ->
+    fun Player.replaceWithArguments(strings: List<String>): List<String> = mutableListOf<String>().let { list ->
         strings.forEach {
-            list.add(replaceWithArguments(player, it))
+            list.add(this.replaceWithArguments(it))
         }
         return@let list
     }
 
-    fun replaceWithArguments(player: Player, string: String): String {
-        val session = MenuSession.session(player)
+    fun Player.replaceWithArguments(string: String): String {
+        val session = this.getMenuSession()
         var content = string.replace("{page}", session.page.toString())
-        meta.computeIfAbsent(player.uniqueId) { mutableMapOf() }.forEach { if (it.value is String) content = content.replace(it.key, it.value.toString()) }
+        meta.computeIfAbsent(this.uniqueId) { mutableMapOf() }.forEach { if (it.value is String) content = content.replace(it.key, it.value.toString()) }
         session.menu?.settings?.functions?.let { it ->
-            content = InternalFunction.replaceWithFunctions(player, it.internalFunctions, content)
+            content = InternalFunction.replaceWithFunctions(this, it.internalFunctions, content)
         }
-        return Strings.replaceWithOrder(content, *getArguments(player))
+        return Strings.replaceWithOrder(content, *this.getArguments())
     }
 
-    fun getArguments(player: Player): Array<String> = this.arguments.computeIfAbsent(player.uniqueId) { arrayOf() }
+    fun Player.getArguments() = arguments.computeIfAbsent(this.uniqueId) { arrayOf() }
 
-    fun setArguments(player: Player, arguments: Array<String>) {
-        this.arguments[player.uniqueId] = filterInput(formatArguments(arguments)).toTypedArray()
-        Msger.debug("ARGUMENTS", player.name, getArguments(player))
-        Msger.debug("ARGUMENTS", player, player.name, getArguments(player))
+    fun Player.setArguments(arguments: Array<String>) {
+        this@MetaPlayer.arguments[this.uniqueId] = filterInput(formatArguments(arguments)).toTypedArray()
+        Msger.debug("ARGUMENTS", this.name, this.getArguments().joinToString(","))
+        Msger.debug(this, "ARGUMENTS", this.name, this.getArguments().joinToString(","))
+    }
+
+    fun Player.removeArguments() = arguments.remove(this.uniqueId)
+
+    fun Player.setMeta(key: String, value: Any) = this.getMeta().put(key, value)
+
+    fun Player.getMeta(key: String) = this.getMeta()[key]
+
+    fun Player.getMeta() = meta.computeIfAbsent(this.uniqueId) { mutableMapOf() }
+
+    fun Player.removeMeta(key: String) = this.getMeta().remove(key)
+
+    fun Player.removeMetaStartsWith(key: String) = this.getMeta().entries.removeIf { it.key.startsWith(key) }
+
+    fun Player.replaceWithMeta(string: String): String {
+        var content = string
+        this.getMeta().forEach {
+            content = content.replace(it.key, it.value.toString())
+        }
+        return content
+    }
+
+    fun Player.resetCache() {
+        playerInventorys.remove(this.uniqueId)
+        meta.remove(this.uniqueId)
+    }
+
+    fun Player.completeArguments(arguments: Array<String>) {
+        if (arguments.isNotEmpty()) {
+            val currentArgs = this.getArguments()
+            if (currentArgs.isEmpty()) {
+                this.setArguments(currentArgs)
+            } else if (currentArgs.size < currentArgs.size) {
+                val args = currentArgs.toMutableList()
+                for (i in args.size until currentArgs.size) args.add(currentArgs[i])
+                this.setArguments(args.toTypedArray())
+            }
+        }
+    }
+
+    fun filterInput(string: String): String = string.replace(Regex("(?i)\\(|\\)|;|\"|bukkitServer|player"), "")
+
+    fun filterInput(strings: MutableList<String>): List<String> {
+        strings.indices.forEach {
+            strings[it] = filterInput(strings[it])
+        }
+        return strings
     }
 
     fun formatArguments(arguments: Array<String>) =
@@ -64,41 +112,5 @@ object MetaPlayer {
             }
             list
         }
-
-    fun removeArguments(player: Player) = this.arguments.remove(player.uniqueId)
-
-    fun setMeta(player: Player, key: String, value: Any) = getMeta(player).put(key, value)
-
-    fun getMeta(player: Player, key: String) = getMeta(player)[key]
-
-    fun getMeta(player: Player) = meta.computeIfAbsent(player.uniqueId) { mutableMapOf() }
-
-    fun removeMeta(player: Player, key: String) = getMeta(player).remove(key)
-
-    fun resetCache(player: Player) {
-        this.playerInventorys.remove(player.uniqueId)
-        this.meta.remove(player.uniqueId)
-    }
-
-    fun filterInput(string: String): String = string.replace(Regex("(?i)\\(|\\)|;|\"|bukkitServer|player"), "")
-
-    fun filterInput(strings: MutableList<String>): List<String> {
-        strings.indices.forEach {
-            strings[it] = filterInput(strings[it])
-        }
-        return strings
-    }
-
-    fun completeArguments(player: Player, arguments: Array<String>) {
-        if (arguments.isNotEmpty()) {
-            if (getArguments(player).isEmpty()) {
-                setArguments(player, arguments)
-            } else if (getArguments(player).size < arguments.size) {
-                val args = getArguments(player).toMutableList()
-                for (i in getArguments(player).size until arguments.size) args.add(arguments[i])
-                setArguments(player, args.toTypedArray())
-            }
-        }
-    }
 
 }

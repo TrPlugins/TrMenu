@@ -4,7 +4,6 @@ import io.izzel.taboolib.module.packet.Packet
 import io.izzel.taboolib.module.packet.TPacket
 import me.arasple.mc.trmenu.api.events.MenuClickEvent
 import me.arasple.mc.trmenu.api.events.MenuCloseEvent
-import me.arasple.mc.trmenu.api.factory.MenuFactory
 import me.arasple.mc.trmenu.api.factory.MenuFactorySession
 import me.arasple.mc.trmenu.api.factory.task.ClickTask
 import me.arasple.mc.trmenu.api.factory.task.ClickTask.Action.ACCESS
@@ -12,7 +11,9 @@ import me.arasple.mc.trmenu.api.factory.task.ClickTask.Action.CANCEL_MODIFY
 import me.arasple.mc.trmenu.api.factory.task.CloseTask
 import me.arasple.mc.trmenu.api.inventory.InvClickType
 import me.arasple.mc.trmenu.data.MenuSession
-import me.arasple.mc.trmenu.data.MenuSession.Companion.TRMENU_WINDOW_ID
+import me.arasple.mc.trmenu.data.Sessions
+import me.arasple.mc.trmenu.data.Sessions.getMenuFactorySession
+import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import me.arasple.mc.trmenu.modules.packets.PacketsHandler
 import me.arasple.mc.trmenu.utils.Msger
 import org.bukkit.entity.Player
@@ -34,8 +35,8 @@ object ListenerWindowEvents {
 
                 val slot = packet.read("slot") as Int
                 val type = PacketsHandler.getClickType(packet.read("shift"), packet.read("button") as Int, slot)
-                val factorySession = MenuFactory.session(player)
-                val session = MenuSession.session(player)
+                val factorySession = player.getMenuFactorySession()
+                val session = player.getMenuSession()
 
                 if (!factorySession.isNull() || !session.isNull()) {
                     val size: Int =
@@ -53,16 +54,16 @@ object ListenerWindowEvents {
                         val factory = factorySession.menuFactory
 
                         if ((menu != null && menu.settings.options.hidePlayerInventory) || factory != null)
-                            PacketsHandler.clearInventory(player, size, TRMENU_WINDOW_ID)
+                            PacketsHandler.clearInventory(player, size, Sessions.TRMENU_WINDOW_ID)
                         else
-                            PacketsHandler.resetInventory(player, size, TRMENU_WINDOW_ID)
+                            PacketsHandler.resetInventory(player, size, Sessions.TRMENU_WINDOW_ID)
                     }
 
                     return false
                 }
             } else if (packet.`is`("PacketPlayInCloseWindow")) {
-                val factorySession = MenuFactory.session(player)
-                val session = MenuSession.session(player)
+                val factorySession = player.getMenuFactorySession()
+                val session = player.getMenuSession()
 
                 if (!factorySession.isNull()) {
                     factorySession.menuFactory!!.closeTask?.run(CloseTask.Event(player, factorySession.menuFactory!!))

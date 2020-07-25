@@ -58,4 +58,6 @@ data class Animated<T>(var elements: Array<T>) {
         return result
     }
 
+    fun reset(player: Player) = AnimationHandler.reset(player, id)
+
 }

@@ -4,8 +4,9 @@ import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.events.MenuCloseEvent
 import me.arasple.mc.trmenu.api.events.MenuOpenEvent
 import me.arasple.mc.trmenu.configuration.menu.MenuConfiguration
-import me.arasple.mc.trmenu.data.MenuSession
-import me.arasple.mc.trmenu.data.MetaPlayer
+import me.arasple.mc.trmenu.data.MetaPlayer.completeArguments
+import me.arasple.mc.trmenu.data.Sessions.getMenuSession
+import me.arasple.mc.trmenu.data.Sessions.setMenuSession
 import me.arasple.mc.trmenu.display.menu.MenuLayout
 import me.arasple.mc.trmenu.display.menu.MenuSettings
 import me.arasple.mc.trmenu.utils.Tasks
@@ -41,8 +42,8 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
         if (!e.isCancelled) {
             val layout = layout.layouts[p]
 
-            MetaPlayer.completeArguments(player, settings.options.defaultArguments)
-            MenuSession.session(player).set(this, layout, p)
+            player.completeArguments(settings.options.defaultArguments)
+            player.getMenuSession().set(this, layout, p)
 
             layout.displayInventory(player, settings.title.getTitle(player))
             loadIcons(player, p)
@@ -73,7 +74,7 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
             tasking.reset(player)
             MenuCloseEvent(player, this, page, reason, silent).call()
             layout.layouts[page].close(player, closeInventory)
-            MenuSession.session(player).set(null, null, -1)
+            player.setMenuSession(null, null, -1)
             if (closeInventory) player.closeInventory() else player.updateInventory()
         }
         viewers.remove(player)

@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.modules.item
 
+import joptsimple.internal.Strings
 import me.arasple.mc.trmenu.modules.item.base.MatchItemIdentifier
 import me.arasple.mc.trmenu.modules.item.impl.*
 
@@ -27,9 +28,14 @@ object ItemIdentifierHandler {
         string.split(";").forEach { it ->
             val characteristic = ItemIdentifier.Identifier()
             it.split(",").forEach { string ->
-                val args = string.split(Regex(":"), 2)
-                val matcher = this.matchers.firstOrNull { it.name.matches(args[0]) }?.newInstance() ?: matchers.last()
-                if (args.size > 1) {
+                val args = string.split(":", limit = 2)
+                val matcher = this.matchers.firstOrNull { it.name.matches(args[0]) }?.newInstance()
+                if (matcher == null && args.size == 1 && !Strings.isNullOrEmpty(args[0])) {
+                    characteristic.characteristic.add(MatchItemLore().let {
+                        it.setContent(args[0])
+                        return@let it
+                    })
+                } else if (args.size > 1 && matcher != null) {
                     matcher.setContent(args[1])
                     characteristic.characteristic.add(matcher)
                 }

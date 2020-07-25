@@ -1,6 +1,5 @@
 package me.arasple.mc.trmenu.modules.action.impl.menu
 
-import me.arasple.mc.trmenu.data.MenuSession
 import me.arasple.mc.trmenu.modules.action.base.Action
 import org.bukkit.entity.Player
 
@@ -11,7 +10,7 @@ import org.bukkit.entity.Player
 class ActionRefresh : Action("(icon)?(-)?(refresh|update)") {
 
     override fun onExecute(player: Player) {
-        val session = MenuSession.session(player)
+        val session = getSession(player)
         if (!session.isNull()) {
             session.menu?.icons?.forEach {
                 it.refreshIcon(player)

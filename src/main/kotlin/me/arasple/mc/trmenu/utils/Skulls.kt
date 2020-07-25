@@ -25,14 +25,14 @@ object Skulls {
     val cachePlayerTexture = mutableMapOf<String, String?>()
 
     fun getPlayerHead(name: String): ItemStack = cache.computeIfAbsent(name) {
-        val texture = getPlayerTexture(name)
-        if (texture == null) {
+        val texture = getPlayerTexture(name) ?: kotlin.run {
             val head = ItemBuilder(Materials.PLAYER_HEAD.parseItem()).build()
-            getPlayerTexture(name) { getTextureSkull(it, head) }
+            getPlayerTexture(name) {
+                setTextureSkull(it, head)
+            }
             return@computeIfAbsent head
-        } else {
-            return@computeIfAbsent getTextureSkull(texture)
         }
+        return@computeIfAbsent getTextureSkull(texture)
     }
 
     private fun getPlayerTexture(id: String) = getPlayerTexture(id, null)
@@ -63,9 +63,9 @@ object Skulls {
         return cachePlayerTexture[id]
     }
 
-    fun getTextureSkull(texture: String) = getTextureSkull(texture, Materials.PLAYER_HEAD.parseItem()!!)
+    fun getTextureSkull(texture: String) = setTextureSkull(texture, Materials.PLAYER_HEAD.parseItem()!!)
 
-    fun getTextureSkull(texture: String, item: ItemStack): ItemStack = cache.computeIfAbsent(texture) {
+    fun setTextureSkull(texture: String, item: ItemStack): ItemStack = cache.computeIfAbsent(texture) {
         val meta = item.itemMeta as SkullMeta
         val profile = GameProfile(UUID.randomUUID(), null)
         val field = meta.javaClass.getDeclaredField("profile")

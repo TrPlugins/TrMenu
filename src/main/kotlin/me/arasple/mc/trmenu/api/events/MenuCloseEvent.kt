@@ -20,11 +20,13 @@ class MenuCloseEvent(val player: Player, val menu: Menu, val page: Int, val reas
 
         MENU_RELOAD,
 
-        MENU_SWITCH,
+        SWITCH_MENU,
 
         SWITCH_PAGE,
 
-        ERROR
+        ERROR;
+
+        fun isSwitch() = this == SWITCH_MENU || this == SWITCH_PAGE || this == MENU_RELOAD
 
     }
 

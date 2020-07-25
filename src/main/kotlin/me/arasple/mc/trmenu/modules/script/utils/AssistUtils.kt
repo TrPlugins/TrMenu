@@ -4,7 +4,7 @@ import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import io.izzel.taboolib.module.tellraw.TellrawJson
 import io.izzel.taboolib.util.item.ItemBuilder
 import io.izzel.taboolib.util.lite.Numbers
-import me.arasple.mc.trmenu.data.MetaPlayer
+import me.arasple.mc.trmenu.data.MetaPlayer.getArguments
 import me.arasple.mc.trmenu.modules.action.Actions
 import me.arasple.mc.trmenu.utils.Bungees
 import me.clip.placeholderapi.PlaceholderAPI
@@ -29,7 +29,9 @@ class AssistUtils {
 
     fun sendBungeeData(player: Player, vararg data: String) = Bungees.sendBungeeData(player, *data)
 
-    fun getPlayerArgs(player: String): Array<String> = getPlayer(player)?.let { MetaPlayer.getArguments(it) } ?: arrayOf()
+    fun getPlayerArgs(player: String): Array<String> = getPlayer(player)?.getArguments() ?: arrayOf()
+
+    fun isPlayerOperator(player: String) = getPlayer(player).let { return@let it != null && it.isOp }
 
     fun isPlayerOnline(player: String) = getPlayer(player).let { return@let it != null && it.isOnline }
 

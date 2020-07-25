@@ -1,9 +1,10 @@
 package me.arasple.mc.trmenu.modules.action.base
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
+import me.arasple.mc.trmenu.configuration.property.Nodes
+import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import me.arasple.mc.trmenu.modules.script.Scripts
 import me.arasple.mc.trmenu.utils.Msger
-import me.arasple.mc.trmenu.configuration.property.Nodes
 import me.arasple.mc.trmenu.utils.Tasks
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
@@ -38,6 +39,8 @@ abstract class Action(val name: Regex, internal var content: String, var options
             setContent(temp)
         } else onExecute(player)
     }
+
+    fun getSession(player: Player) = player.getMenuSession()
 
     fun getContentSplited(player: Player) = getContentSplited(player, "\\n", "\\r")
 

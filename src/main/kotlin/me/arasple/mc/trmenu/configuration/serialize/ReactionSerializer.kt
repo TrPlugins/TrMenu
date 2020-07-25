@@ -18,21 +18,21 @@ object ReactionSerializer {
     fun serializeReactionsList(any: Any?) = mutableListOf<Reaction>().let { reactions ->
         if (any is List<*>) {
             if (any.firstOrNull() is String) {
-                reactions.add(Reaction(-1, "", mutableListOf<Action>().let {
-                    any.forEach { act -> it.addAll(Actions.readActions(act.toString())) }
-                    it
-                }, listOf()))
+                reactions.add(
+                    Reaction(-1, "", mutableListOf<Action>().let {
+                        any.forEach { action -> it.addAll(Actions.readAction(action)) }
+                        it
+                    }, listOf())
+                )
                 return@let reactions
             }
-            any.forEach {
-                if (it != null) serializeReaction(it)?.let { reaction -> reactions.add(reaction) }
-            }
+            any.forEach { if (it != null) serializeReaction(it)?.let { reaction -> reactions.add(reaction) } }
         } else if (any != null) serializeReaction(any)?.let { reactions.add(it) }
         return@let reactions
     }
 
     fun serializeReaction(any: Any): Reaction? {
-        if (any is String) return Reaction(-1, "", Actions.readActions(any), listOf())
+        if (any is String) return Reaction(-1, "", Actions.readAction(any), listOf())
 
         val reaction = Utils.asSection(any) ?: return null
         val keyPriority = Utils.getSectionKey(reaction, Property.PRIORITY)
@@ -43,8 +43,8 @@ object ReactionSerializer {
         return Reaction(
             reaction.getInt(keyPriority, -1),
             reaction.getString(keyRequirement) ?: "",
-            Actions.readActions(reaction.getStringList(keyActions)),
-            Actions.readActions(reaction.getStringList(keyDenyActions))
+            Actions.readActions(Utils.asAnyList(reaction.get(keyActions))),
+            Actions.readActions(Utils.asAnyList(reaction.get(keyDenyActions)))
         )
     }
 

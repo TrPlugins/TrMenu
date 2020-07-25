@@ -29,10 +29,11 @@ shadowJar {
 
 processResources {
     from(sourceSets.main.resources.srcDirs) {
-        include 'plugin.yml'
+        include 'plugin.yml', 'bungee.yml'
         expand(
                 'name': project.name,
                 'main': project.group + ".boot.PluginTransfer",
+                'mainBungee': project.group + ".TrMenuBungee",
                 'mainTransfer': project.group + "." + project.name,
                 'version': project.version + "_" + new SimpleDateFormat("yyyy-MM-dd' 'HH:mm").format(new Date()),
                 'built': new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss.SSSZ").format(new Date()),

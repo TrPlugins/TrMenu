@@ -3,6 +3,7 @@ package me.arasple.mc.trmenu.modules.action.impl.menu
 import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.api.events.MenuOpenEvent
 import me.arasple.mc.trmenu.data.MetaPlayer
+import me.arasple.mc.trmenu.data.MetaPlayer.setArguments
 import me.arasple.mc.trmenu.display.Menu
 import me.arasple.mc.trmenu.modules.action.base.Action
 import me.arasple.mc.trmenu.utils.Tasks
@@ -17,7 +18,7 @@ class ActionOpen : Action("open(s)?|(open)?(-)?gui|(tr)?menu") {
     override fun onExecute(player: Player) {
         Tasks.delay(1) {
             val openingMenu = getOpeningMenu(player)
-            MetaPlayer.setArguments(player, openingMenu.second)
+            player.setArguments(openingMenu.second)
             openingMenu.first?.open(player, -1, MenuOpenEvent.Reason.PLAYER_COMMAND)
         }
     }
