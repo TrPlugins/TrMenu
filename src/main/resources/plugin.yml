@@ -18,6 +18,7 @@ softdepend:
   - HeadDatabase
   - Oraxen
   - WorldGuard
+  - SkinRestorer
 
 built-time: ${built}
 built-by: ${builder}

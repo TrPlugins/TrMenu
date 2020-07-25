@@ -11,9 +11,6 @@ import org.bukkit.metadata.FixedMetadataValue
  */
 class ActionReInput : Action("re(-)?(catcher|input|type)(s)?") {
 
-    override fun onExecute(player: Player) {
-        player.setMetadata("RE_ENTER", FixedMetadataValue(TrMenu.plugin, ""))
-        println("Re-enter meta set.")
-    }
+    override fun onExecute(player: Player) = player.setMetadata("RE_ENTER", FixedMetadataValue(TrMenu.plugin, ""))
 
 }

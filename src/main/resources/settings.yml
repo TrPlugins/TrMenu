@@ -9,6 +9,9 @@ Options:
   Locale: zh_CN
   # 是否隐藏插件启动时的 Logo
   Hide-Logo: false
+  # 联网加载头颅材质是否使用 Mojang API
+  # 不启用则默认使用 https://api.minetools.eu/
+  Skull-Mojang-API: false
 
 #
 # 自定义加载菜单的文件或目录

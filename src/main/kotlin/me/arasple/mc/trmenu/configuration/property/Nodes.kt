@@ -23,6 +23,8 @@ enum class Nodes(regex: String) {
 
     MAT_HEAD_DATABASE("<((head(-)?(database))|(hdb)):( )?(([0-9]|random)+>)"),
 
+    MAT_HEAD_SKINSRESTORER("<skin(s)?(-)?restorer(s)?:(.+)?>"),
+
     MAT_SCRIPT("<((javascript|js)?(-)?(item)?):(.+)?>"),
 
     MAT_JSON("<JSON>"),

@@ -28,9 +28,11 @@ class Catchers(val catchers: Animated<Stage>) {
 
         fun run(player: Player) {
             beforeReactions.eval(player)
-            if (type == SIGN) {
-                Signs.fakeSign(player) {
-                    input(player, it.joinToString(""))
+            Tasks.delay(3) {
+                if (type == SIGN) {
+                    Signs.fakeSign(player) {
+                        input(player, it.joinToString(""))
+                    }
                 }
             }
         }

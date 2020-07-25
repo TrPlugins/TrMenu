@@ -20,7 +20,7 @@ class CommandTemplate : BaseSubCommand() {
         )
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>) {
-        TODO("Not yet implemented")
+        sender.sendMessage("模板你妈呢 还没写")
     }
 
 }

@@ -8,12 +8,13 @@ import io.izzel.taboolib.util.Strings
 import io.izzel.taboolib.util.item.ItemBuilder
 import io.izzel.taboolib.util.item.Items
 import io.izzel.taboolib.util.lite.Materials
-import me.arasple.mc.trmenu.display.animation.Animated
-import me.arasple.mc.trmenu.modules.hook.HookHeadDatabase
-import me.arasple.mc.trmenu.modules.script.Scripts
-import me.arasple.mc.trmenu.utils.Msger
 import me.arasple.mc.trmenu.configuration.property.Nodes
 import me.arasple.mc.trmenu.configuration.property.Nodes.*
+import me.arasple.mc.trmenu.display.animation.Animated
+import me.arasple.mc.trmenu.modules.hook.HookHeadDatabase
+import me.arasple.mc.trmenu.modules.hook.HookSkinsRestorer
+import me.arasple.mc.trmenu.modules.script.Scripts
+import me.arasple.mc.trmenu.utils.Msger
 import me.arasple.mc.trmenu.utils.Skulls
 import me.arasple.mc.trmenu.utils.Utils
 import org.bukkit.Color
@@ -68,6 +69,7 @@ class DynamicItem(val material: Animated<Mat>, val meta: Meta) {
                 MAT_HEAD -> Skulls.getPlayerHead(typeValue)
                 MAT_TEXTURED_SKULL -> Skulls.getTextureSkull(typeValue)
                 MAT_HEAD_DATABASE -> HookHeadDatabase.getHead(typeValue)
+                MAT_HEAD_SKINSRESTORER -> Skulls.getTextureSkull(HookSkinsRestorer.getSkin(typeValue))
                 MAT_SCRIPT -> Scripts.script(player, type.second, true).asItemStack()!!
                 MAT_JSON -> Items.fromJson(typeValue)
                 else -> {
