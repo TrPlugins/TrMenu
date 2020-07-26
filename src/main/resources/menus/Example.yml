@@ -17,7 +17,7 @@ Title-Update: 40
 Layout:
   - - '########`Close`'
     - '         '
-    - ' S       '
+    - '         '
     - '         '
     - '########`Next`'
 
@@ -125,7 +125,14 @@ Icons:
     display:
       material: Sign
       name: '&3Survery'
+
     actions:
+      all:
+        - condition: 'utils.chance(0.1)'
+          actions:
+            - 'tell: Prize 3'
+
+    actionxxs:
       all:
         - close
         - catcher:
@@ -153,12 +160,12 @@ Icons:
 #
 
 Tasks:
-# tikTok:
-#   period: 20
-#   task:
-#     - requirement: 'isOperator.'
-#       actions:
-#         - 'sound: BLOCK_NOTE_BLOCK_BIT-1-2'
+  tikTok:
+    period: 20
+    task:
+      - requirement: 'isOperator.'
+        actions:
+          - 'sound: BLOCK_NOTE_BLOCK_BIT-1-2'
 
 
 # 菜单内置的自定义脚本变量

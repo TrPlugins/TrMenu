@@ -16,7 +16,7 @@ object AnimationHandler {
         if (size == 0) return -1
         val index = getIndex(player)
         if (index.computeIfAbsent(id) { 0 } >= size - 1) index[id] = 0
-        else index[id] = index[id]!! + 1
+        else index[id] = (index[id] ?: 0) + 1
         return index[id] ?: 0
     }
 

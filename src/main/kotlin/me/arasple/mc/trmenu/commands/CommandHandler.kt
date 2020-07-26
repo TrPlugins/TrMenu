@@ -30,6 +30,9 @@ class CommandHandler : BaseMainCommand() {
     @SubCommand(permission = "trmenu.command.item", description = "Manipulate items")
     val item: BaseSubCommand = CommandItem()
 
+    @SubCommand(permission = "trmenu.command.itemRepository", description = "Store and access itemStacks")
+    val itemRepo: BaseSubCommand = CommandItemRepository()
+
     @SubCommand(permission = "trmenu.command.template", description = "Create menus quickly")
     val template: BaseSubCommand = CommandTemplate()
 

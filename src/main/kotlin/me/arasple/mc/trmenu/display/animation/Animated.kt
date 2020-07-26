@@ -60,4 +60,6 @@ data class Animated<T>(var elements: Array<T>) {
 
     fun reset(player: Player) = AnimationHandler.reset(player, id)
 
+    fun isEmpty(): Boolean = elements.isEmpty()
+
 }

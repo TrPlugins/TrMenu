@@ -26,7 +26,7 @@ class ActionSound : Action("(play)?(-)?sound") {
                 var pitch = 1.0f
                 if (split.size >= 2) volume = NumberUtils.toFloat(split[1], 1f)
                 if (split.size >= 3) pitch = NumberUtils.toFloat(split[2], 1f)
-                sound.playSound(player, volume, pitch)
+                sound.play(player, volume, pitch)
             }
         }
 

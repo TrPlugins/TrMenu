@@ -1,9 +1,9 @@
 package me.arasple.mc.trmenu.api.factory
 
+import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.factory.task.BuildTask
 import me.arasple.mc.trmenu.api.factory.task.ClickTask
 import me.arasple.mc.trmenu.api.factory.task.CloseTask
-import me.arasple.mc.trmenu.data.MetaPlayer
 import me.arasple.mc.trmenu.data.MetaPlayer.updateInventoryContents
 import me.arasple.mc.trmenu.data.Sessions.getMenuFactorySession
 import me.arasple.mc.trmenu.display.menu.MenuLayout
@@ -31,6 +31,8 @@ class MenuFactory(
     var buildTask: BuildTask?,
     var closeTask: CloseTask?
 ) {
+
+    constructor() : this(TrMenu.plugin)
 
     constructor(plugin: Plugin) : this(plugin, "MenuFactory", InventoryType.CHEST, 3, mapOf(), mutableMapOf(), null, null, null)
 

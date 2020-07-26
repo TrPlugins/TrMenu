@@ -56,7 +56,12 @@ object IconSerializer {
                         }
                     }
                 }
-                subs.forEach { if (it.display.position.isEmpty()) it.display.position = defIcon.display.position }
+                subs.forEach {
+                    if (it.display.position.isEmpty())
+                        it.display.position = defIcon.display.position
+                    if (it.display.item.material.isEmpty())
+                        it.display.item.material = defIcon.display.item.material
+                }
                 icons.add(Icon(key, iconSettings, defIcon, subs, mutableMapOf()))
             }
         }
@@ -91,7 +96,7 @@ object IconSerializer {
                 val pos = Animated(
                     mutableListOf<IconDisplay.Position>().let {
                         if (slots.first() is List<*>) slots.forEach { s -> it.add(IconDisplay.Position.createPosition(s as List<String>)) }
-                        else it.add(IconDisplay.Position.createPosition(slots as List<Any>))
+                        else it.add(IconDisplay.Position.createPosition(slots))
                         it
                     }.toTypedArray()
                 )

@@ -34,11 +34,7 @@ class Lore(val lore: MutableList<String>, val conditions: MutableMap<Int, Pair<S
         }
         collect.forEach {
             it.split("\\n").forEach { part ->
-                val msg = Msger.replace(player, part)
-                if (part.contains("%")) {
-                    println("[$part -> | $msg]")
-                }
-                lores.add(msg)
+                lores.add(Msger.replace(player, part))
             }
         }
         return lores

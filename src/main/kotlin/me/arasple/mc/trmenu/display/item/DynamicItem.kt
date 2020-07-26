@@ -13,6 +13,7 @@ import me.arasple.mc.trmenu.configuration.property.Nodes.*
 import me.arasple.mc.trmenu.display.animation.Animated
 import me.arasple.mc.trmenu.modules.hook.HookHeadDatabase
 import me.arasple.mc.trmenu.modules.hook.HookSkinsRestorer
+import me.arasple.mc.trmenu.modules.repo.ItemRepository
 import me.arasple.mc.trmenu.modules.script.Scripts
 import me.arasple.mc.trmenu.utils.Msger
 import me.arasple.mc.trmenu.utils.Skulls
@@ -32,14 +33,14 @@ import kotlin.math.min
  * @author Arasple
  * @date 2020/5/30 14:08
  */
-class DynamicItem(val material: Animated<Mat>, val meta: Meta) {
+class DynamicItem(var material: Animated<Mat>, val meta: Meta) {
 
     fun getItem(player: Player) = material.currentElement(player)
 
     fun nextItem(player: Player) = material.nextIndex(player)
 
     fun releaseItem(player: Player, name: String?, lore: List<String>?): ItemStack? {
-        val itemStack = getItem(player)?.createItem(player) ?: return null
+        val itemStack = getItem(player)?.createItem(player)?.clone() ?: return null
         val itemMeta = itemStack.itemMeta
 
         if (meta.hasAmount()) {
@@ -66,6 +67,7 @@ class DynamicItem(val material: Animated<Mat>, val meta: Meta) {
             val typeValue = if (dynamic) Msger.replace(player, type.second) else type.second
 
             return when (type.first) {
+                MAT_REPOSITORY -> ItemRepository.getItem(typeValue) ?: ItemStack(Material.BARRIER)
                 MAT_HEAD -> Skulls.getPlayerHead(typeValue)
                 MAT_TEXTURED_SKULL -> Skulls.getTextureSkull(typeValue)
                 MAT_HEAD_DATABASE -> HookHeadDatabase.getHead(typeValue)

@@ -44,6 +44,8 @@ class AssistUtils {
 
     fun getTellraw(): TellrawJson = TellrawJson.create()
 
+    fun chance(number: String) = Numbers.random(NumberUtils.toDouble(number, 0.0))
+
     fun randomInteger(low: Int, high: Int): Int = IntRange(low, high).random()
 
     fun randomDouble(low: Double, high: Double) = Numbers.getRandomDouble(low, high)
@@ -85,7 +87,6 @@ class AssistUtils {
     fun createLocation(world: World?, x: Double, y: Double, z: Double, yaw: Float, pitch: Float): Location? {
         return Location(world, x, y, z, yaw, pitch)
     }
-
 
     companion object {
 

@@ -9,6 +9,8 @@ import java.util.regex.Pattern
  */
 enum class Nodes(regex: String) {
 
+    MAT_REPOSITORY("<repo(sitory)?(s)?:(.+)?>"),
+
     MAT_HEAD("<((player|variable)?(-)?head):(.+)?>"),
 
     MAT_TEXTURED_SKULL("<(((custom|texture)?(-)?skull)|custom-head)(:)?(.+)?>"),

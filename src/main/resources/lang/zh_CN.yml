@@ -59,6 +59,10 @@ COMMANDS:
           copy:
             hover: '&7点击复制'
             suggest: '{0}'
+  ITEM-REPOSITORY:
+    NO-ITEM: '&8[&3Tr&bMenu&8] &7你必须 &f手持 &7一个物品才能将其转换为 Json 格式'
+    NOT-EXIST: '&8[&3Tr&bMenu&8] &7无法在物品仓库中找到目标物品 Id &f{0} &7.'
+    EXISTED: '&8[&3Tr&bMenu&8] &7已经存在物品 Id 名为 &f{0} &7的物品.'
   ACTION:
     UNKNOWN-PLAYER: '&8[&3Tr&bMenu&8] &7未知玩家或不在线.'
   OPEN:

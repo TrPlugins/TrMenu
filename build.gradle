@@ -59,7 +59,7 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4-M2"
     compile 'org.spigotmc:spigot:1.16.1-R0.1-20200718.075154-22'
     compile 'org.bstats:bstats-bukkit:1.7'
-    compile 'io.izzel.taboolib:TabooLib:5.3:all'
+    compile 'io.izzel.taboolib:TabooLib:5.31:all'
     compile 'io.izzel.taboolib:TabooLibLoader:2.1:all'
     compile 'me.clip:placeholderapi:2.10.5'
     compile 'com.github.shynixn.headdatabase:hdb-api:1.0'

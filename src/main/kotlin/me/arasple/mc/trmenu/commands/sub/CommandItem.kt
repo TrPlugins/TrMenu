@@ -21,7 +21,7 @@ class CommandItem : BaseSubCommand() {
 
     override fun getArguments(): Array<Argument> = arrayOf(
         Argument("Type", true) {
-            listOf("toJson", "fromJson", "repository")
+            listOf("toJson", "fromJson")
         }
     )
 
@@ -32,9 +32,6 @@ class CommandItem : BaseSubCommand() {
         when (args[0].toLowerCase()) {
             "tojson" -> toJson(player)
             "fromJson" -> fromJson(player, args.joinToString(""))
-            "repository" -> {
-                // TODO
-            }
         }
     }
 

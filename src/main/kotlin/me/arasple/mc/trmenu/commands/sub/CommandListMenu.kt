@@ -5,6 +5,7 @@ import io.izzel.taboolib.util.item.ItemBuilder
 import io.izzel.taboolib.util.item.Items
 import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.api.events.MenuOpenEvent
+import me.arasple.mc.trmenu.api.factory.MenuFactory
 import me.arasple.mc.trmenu.api.factory.task.ClickTask
 import me.arasple.mc.trmenu.display.Menu
 import me.arasple.mc.trmenu.utils.Tasks
@@ -30,7 +31,7 @@ class CommandListMenu : BaseSubCommand() {
             return
         }
 
-        TrMenuAPI.buildMenu()
+        MenuFactory()
             .title("ListMenus")
             .layout(
                 "########C",
@@ -40,8 +41,8 @@ class CommandListMenu : BaseSubCommand() {
                 "|       |",
                 "####F####"
             )
-            .build { e ->
-                val session = e.session
+            .build {
+                val session = it.session
                 val has = arrayOf(page > 0, false)
                 val menus = Menu.getMenus()
 
@@ -58,8 +59,8 @@ class CommandListMenu : BaseSubCommand() {
                     )
                 }
             }
-            .click { e ->
-                indexs[e.slot]?.let {
+            .click {
+                indexs[it.slot]?.let {
                     Tasks.run {
                         TrMenuAPI.getMenuById(it)?.open(sender, 0, MenuOpenEvent.Reason.PLAYER_COMMAND)
                     }

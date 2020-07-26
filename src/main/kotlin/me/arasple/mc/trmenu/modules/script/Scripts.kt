@@ -5,6 +5,8 @@ import me.arasple.mc.trmenu.api.events.MenuCloseEvent
 import me.arasple.mc.trmenu.data.MetaPlayer.replaceWithMeta
 import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import me.arasple.mc.trmenu.modules.expression.Expressions
+import me.arasple.mc.trmenu.modules.log.Log
+import me.arasple.mc.trmenu.modules.log.Loger
 import me.arasple.mc.trmenu.modules.script.utils.AssistUtils
 import me.arasple.mc.trmenu.modules.script.utils.ScriptUtils
 import me.arasple.mc.trmenu.modules.script.utils.ScriptUtils.translate
@@ -63,7 +65,11 @@ object Scripts {
         content.setAttribute(ScriptUtils.function, Function<String, String> {
             player.replaceWithMeta(Msger.replace(player, it))
         }, ScriptContext.ENGINE_SCOPE)
-        ScriptResult(script!!.eval(content))
+
+        ScriptResult(script!!.eval(content)).let {
+            Loger.log(Log.SCRIPT, player.name, rawScript, it.toString())
+            return@let it
+        }
     } catch (e: Throwable) {
         if (!silent) Msger.printErrors("SCRIPT", e, rawScript)
         cancel(player)
@@ -73,7 +79,7 @@ object Scripts {
     private fun cancel(player: Player) {
         player.getMenuSession().menu?.let {
             it.close(player, 0, MenuCloseEvent.Reason.ERROR, true, silent = false)
-            Sounds.BLOCK_ANVIL_BREAK.playSound(player)
+            Sounds.BLOCK_ANVIL_BREAK.play(player)
         }
     }
 
