@@ -9,7 +9,7 @@ import org.bukkit.entity.Player
  * @author Arasple
  * @date 2020/4/18 22:10
  */
-class ActionMetaSet : Action("set(-)?temp(var)?(iable)?(s)?") {
+class ActionMetaSet : Action("set(-)?(temp|var(iable)?|meta)(s)?") {
 
     override fun onExecute(player: Player) =
         getContentSplited(player, ";").forEach {

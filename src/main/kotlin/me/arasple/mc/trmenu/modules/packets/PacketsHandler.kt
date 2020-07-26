@@ -76,7 +76,9 @@ abstract class PacketsHandler {
                 val hasSlots = menu.getOccupiedSlots(player, session.page)
                 val contents = player.getInventoryContents()
                 for ((index, i) in (size..size + 35).withIndex()) {
-                    if (hasSlots.contains(i)) continue
+                    if (hasSlots.contains(i)) {
+                        continue
+                    }
                     val item = contents[index]
                     if (item != null) sendOutSlot(player, windowId, i, item)
                     else sendRemoveSlot(player, windowId, i)

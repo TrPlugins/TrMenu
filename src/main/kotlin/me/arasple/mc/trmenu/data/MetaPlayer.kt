@@ -38,8 +38,7 @@ object MetaPlayer {
 
     fun Player.replaceWithArguments(string: String): String {
         val session = this.getMenuSession()
-        var content = string.replace("{page}", session.page.toString())
-        meta.computeIfAbsent(this.uniqueId) { mutableMapOf() }.forEach { if (it.value is String) content = content.replace(it.key, it.value.toString()) }
+        var content = replaceWithMeta(string.replace("{page}", session.page.toString()))
         session.menu?.settings?.functions?.let { it ->
             content = InternalFunction.replaceWithFunctions(this, it.internalFunctions, content)
         }

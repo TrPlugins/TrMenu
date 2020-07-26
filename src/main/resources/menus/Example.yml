@@ -111,6 +111,7 @@ Icons:
     display:
       material: 'Cyan Stained Glass Pane'
       name: '&bN&3ext Page'
+      slots: '%trmenu_emptyslot_0_1-54%'
     actions:
       all: 'page: 1'
 
@@ -125,13 +126,22 @@ Icons:
     display:
       material: Sign
       name: '&3Survery'
-
     actions:
       all:
         - condition: 'utils.chance(0.1)'
+          priority: 3
+          actions:
+            - 'tell: Prize 1'
+            - 'return'
+        - condition: 'utils.chance(0.5)'
+          priority: 2
+          actions:
+            - 'tell: Prize 2'
+            - 'return'
+        - condition: 'true'
+          priority: 1
           actions:
             - 'tell: Prize 3'
-
     actionxxs:
       all:
         - close

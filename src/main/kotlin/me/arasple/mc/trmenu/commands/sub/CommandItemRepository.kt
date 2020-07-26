@@ -37,7 +37,7 @@ class CommandItemRepository : BaseSubCommand() {
         when (args[0].toLowerCase()) {
 //            "list" -> listItems(player, NumberUtils.toInt(args[1], 0).coerceAtLeast(0))
             "give" -> {
-                val id = args[0]
+                val id = args[1]
                 val item = ItemRepository.getItem(id).let {
                     if (it == null) {
                         TLocale.sendTo(sender, "COMMANDS.ITEM-REPOSITORY.NOT-EXIST", id)
@@ -48,7 +48,7 @@ class CommandItemRepository : BaseSubCommand() {
                 CronusUtils.addItem(player, item)
             }
             "add" -> {
-                val id = args[0]
+                val id = args[1]
                 ItemRepository.getItem(id)?.let {
                     TLocale.sendTo(sender, "COMMANDS.ITEM-REPOSITORY.EXISTED", id)
                     return
@@ -57,7 +57,7 @@ class CommandItemRepository : BaseSubCommand() {
                 ItemRepository.addItem(id, item)
             }
             "remove" -> {
-                val id = args[0]
+                val id = args[1]
                 ItemRepository.getItem(id).let {
                     if (it == null) {
                         TLocale.sendTo(sender, "COMMANDS.ITEM-REPOSITORY.NOT-EXIST", id)

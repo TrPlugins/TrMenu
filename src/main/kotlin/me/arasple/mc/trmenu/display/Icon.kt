@@ -74,7 +74,7 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
                             displayItemStack(player)
                         }
                     }
-                }.runTaskTimerAsynchronously(TrMenu.plugin, settings.refresh.toLong(), settings.refresh.toLong())
+                }.runTaskTimer(TrMenu.plugin, settings.refresh.toLong(), settings.refresh.toLong())
             )
         }
     }
@@ -84,7 +84,7 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
     fun getIconPropertyIndex(player: Player) = currentIndex.computeIfAbsent(player.uniqueId) { -1 }
 
     fun refreshIcon(player: Player): Boolean {
-        subIcons.sortedBy { it.priority }.forEachIndexed { index, subIcon ->
+        subIcons.sortedByDescending { it.priority }.forEachIndexed { index, subIcon ->
             if (Scripts.expression(player, subIcon.condition).asBoolean()) {
                 currentIndex[player.uniqueId] = index
                 Msger.debug(player, "ICON.SUB-ICON-REFRESHED", currentIndex[player.uniqueId].toString())

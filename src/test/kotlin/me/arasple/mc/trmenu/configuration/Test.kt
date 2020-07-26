@@ -19,16 +19,12 @@ object Test {
         val inputStream = javaClass.getResourceAsStream("/ExampleX.yml")
         val configuration = MenuConfiguration("")
         configuration.load(InputStreamReader(inputStream))
-
-        val read = configuration.get("Icons.S.actions.all")
-
         val start = System.currentTimeMillis()
-
         val menu = MenuSerializer.loadMenu("Example", configuration)!!
 
         println("--------------------------------------------------\n\n")
         menu.icons.forEach {
-            println("${it.id} : ${it.subIcons.firstOrNull()?.display}")
+            println("${it.id} : ${it.defIcon.display.item.meta.hasAmount()}")
         }
         println("\n\n--------------------------------------------------")
         println("[END - Took: ${System.currentTimeMillis() - start} ms]")

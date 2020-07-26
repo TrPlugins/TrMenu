@@ -68,9 +68,9 @@ object HookPlaceholderAPI {
     private fun freeSlot(player: Player, params: List<String>): String {
         val session = player.getMenuSession()
         // trmenu_emptyslot_0_1-10
+        // trmenu_emptyslot_0_1-10
         val range = Utils.asIntRange(if (params.size > 2) params[2] else "0-90")
         val index = if (params.size > 1) params[1].toInt() else 0
-
         return (session.menu?.getEmptySlots(player, session.page)?.filter { range.contains(it) }?.get(index) ?: -1).toString()
     }
 

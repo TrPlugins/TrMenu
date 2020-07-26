@@ -37,8 +37,8 @@ class CommandDebug : BaseSubCommand() {
                 "info",
                 "player",
                 "menu",
-                "msgr",
-                "async-msgr",
+                "msgreplace",
+                "skulls",
                 "parseExpression"
             )
         }
@@ -53,29 +53,32 @@ class CommandDebug : BaseSubCommand() {
             val content = ArrayUtils.remove(args, 0).joinToString("")
             when (args[0].toLowerCase()) {
                 "info" -> printInfo(sender)
+                "skulls" -> printSkulls(sender)
                 "player" -> if (args.size > 1) printPlayer(sender, Bukkit.getPlayerExact(args[1]))
                 "menu" -> if (args.size > 1) printMenu(sender, TrMenuAPI.getMenuById(args[1]))
-                "msgr" -> {
+                "msgreplace" -> {
                     val player = sender as Player
                     val message = ArrayUtil.arrayJoin(args, 1)
-                    for (i in 0..50) {
-                        sender.sendMessage(
-                            TLocale.Translate.setPlaceholders(player, message)
-                        )
-                    }
-                }
-                "async-msgr" -> {
-                    val player = sender as Player
-                    val message = ArrayUtil.arrayJoin(args, 1)
-                    for (i in 0..50) {
-                        sender.sendMessage(
-                            TLocale.Translate.setPlaceholders(player, message)
-                        )
-                    }
+                    sender.sendMessage(
+                        Msger.replace(player, message)
+                    )
                 }
                 "parseexpression" -> TLocale.sendTo(sender, "DEBUG.EXPRESSION", content, Expressions.parseExpression(content))
             }
         }
+    }
+
+    private fun printSkulls(sender: CommandSender) {
+        sender.sendMessage(
+            arrayOf(
+                "§3§l「§8--------------------------------------------------§3§l」",
+                "",
+                "§cCached_Skulls: §4${Skulls.cache.keys}",
+                "§cCached_PlayerTextures: §4${Skulls.cachePlayerTexture}",
+                "",
+                "§3§l「§8--------------------------------------------------§3§l」"
+            )
+        )
     }
 
     private fun debugSender(sender: CommandSender) {

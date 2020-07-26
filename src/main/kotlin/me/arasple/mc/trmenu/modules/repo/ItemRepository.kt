@@ -1,7 +1,6 @@
 package me.arasple.mc.trmenu.modules.repo
 
 import io.izzel.taboolib.module.config.TConfig
-import io.izzel.taboolib.module.inject.TFunction
 import io.izzel.taboolib.module.inject.TSchedule
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.utils.Tasks
@@ -17,7 +16,7 @@ object ItemRepository {
     private var writing = false
     private val itemStacks = mutableMapOf<String, ItemStack>()
 
-    @TSchedule(period = 20 * 60, async = true)
+    @TSchedule(delay = 20 * 60, period = 20 * 60, async = true)
     fun init() {
         writing = true
         data.getKeys(true).filter { !itemStacks.keys.contains(it) }.forEach {
@@ -31,7 +30,7 @@ object ItemRepository {
         }
     }
 
-    @TFunction.Load
+    @TSchedule(delay = 20)
     private fun load() {
         if (writing) return
         Tasks.run(true) {

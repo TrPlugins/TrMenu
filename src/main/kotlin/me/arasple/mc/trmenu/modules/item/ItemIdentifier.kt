@@ -15,20 +15,20 @@ import org.bukkit.inventory.ItemStack
  */
 data class ItemIdentifier(val raw: String, val identifiers: MutableList<Identifier>) {
 
-	constructor(raw: String) : this(raw, mutableListOf())
+    constructor(raw: String) : this(raw, mutableListOf())
 
-	fun isMatch(player: Player, itemStack: ItemStack): Boolean = identifiers.none { !it.match(player, itemStack) }
+    fun isMatch(player: Player, itemStack: ItemStack): Boolean = identifiers.none { !it.match(player, itemStack) }
 
-	fun isInvalid(): Boolean = identifiers.isEmpty() || identifiers.none { it.characteristic.isNotEmpty() }
+    fun isInvalid(): Boolean = identifiers.isEmpty() || identifiers.none { it.characteristic.isNotEmpty() }
 
-	data class Identifier(val characteristic: MutableList<MatchItemIdentifier>) {
+    data class Identifier(val characteristic: MutableList<MatchItemIdentifier>) {
 
-		constructor() : this(mutableListOf())
+        constructor() : this(mutableListOf())
 
-		fun match(player: Player, itemStack: ItemStack): Boolean = characteristic.none { !it.match(player, itemStack) }
+        fun match(player: Player, itemStack: ItemStack): Boolean = characteristic.none { !it.match(player, itemStack) }
 
-	}
+    }
 
-	override fun toString(): String = raw
+    override fun toString(): String = raw
 
 }

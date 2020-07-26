@@ -1,6 +1,7 @@
 package me.arasple.mc.trmenu.modules.packets.impl
 
 import io.izzel.taboolib.module.lite.SimpleReflection
+import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import me.arasple.mc.trmenu.modules.packets.PacketsHandler
 import net.minecraft.server.v1_16_R1.*
 import org.bukkit.craftbukkit.v1_16_R1.entity.CraftPlayer
@@ -18,7 +19,8 @@ class ImplPacketsHandler16 : PacketsHandler() {
 
     init {
         SimpleReflection.checkAndSave(
-            PacketPlayOutOpenWindow::class.java
+            PacketPlayOutOpenWindow::class.java,
+            PacketPlayOutSetSlot::class.java
         )
     }
 
@@ -31,7 +33,12 @@ class ImplPacketsHandler16 : PacketsHandler() {
     override fun sendRemoveSlot(player: Player, windowId: Int, slot: Int) = sendPacket(player, PacketPlayOutSetSlot::class.java, PacketPlayOutSetSlot(), mapOf(Pair("a", windowId), Pair("b", slot), Pair("c", EMPTY_ITEM)))
 
     override fun clearInventory(player: Player, startSlot: Int, windowId: Int) {
-        for (i in startSlot..startSlot + 35) sendRemoveSlot(player, windowId, i)
+        val session = player.getMenuSession()
+        val slots = session.menu?.getOccupiedSlots(player, session.page) ?: return
+
+        for (i in (startSlot..startSlot + 35).filter { !slots.contains(it) }) {
+            sendRemoveSlot(player, windowId, i)
+        }
     }
 
     override fun asNMSItem(itemStack: ItemStack): Any = CraftItemStack.asNMSCopy(itemStack)

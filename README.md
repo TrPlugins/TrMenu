@@ -43,18 +43,14 @@ Wiki: [https://trmenu.trixey.cn](https://trmenu.trixey.cn/)
 
 ---
 
-**Progress**
+**TO-DO**
 
 - [ ] Migrate from other plugins
   - [x] TrMenu v1
   - [ ] DeluxeMenus
   - [ ] ChestCommands
 - [ ] Action
-  - [ ] Catcher Action
-    - [x] Chat
-    - [ ] Sign
-
-
+  - [ ] Particle Display
 
 ---
 
@@ -68,7 +64,10 @@ Wiki: [https://trmenu.trixey.cn](https://trmenu.trixey.cn/)
 **Terms**
 
 1. You are not allowed to distribute or resell any part of this plugin to anyone
-2. You are not allowed to claim any part of this plugin as your own
-3. You are not allowed to repost this plugin on anywhere without asking permission
+2. You are only allowed to use this plugin on your own servers
+3. You are not allowed to claim any part of this plugin as your own
+4. You are not allowed to repost this plugin on anywhere without asking permission
+5. You are not allowed to request a refund for any reason
+6. 
 
 ---

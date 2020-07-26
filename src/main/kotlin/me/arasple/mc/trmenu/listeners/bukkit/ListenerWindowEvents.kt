@@ -53,10 +53,11 @@ object ListenerWindowEvents {
                         val menu = session.menu
                         val factory = factorySession.menuFactory
 
-                        if ((menu != null && menu.settings.options.hidePlayerInventory) || factory != null)
+                        if ((menu != null && menu.settings.options.hidePlayerInventory) || factory != null) {
                             PacketsHandler.clearInventory(player, size, Sessions.TRMENU_WINDOW_ID)
-                        else
+                        } else {
                             PacketsHandler.resetInventory(player, size, Sessions.TRMENU_WINDOW_ID)
+                        }
                     }
 
                     return false

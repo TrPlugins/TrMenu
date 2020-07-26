@@ -8,6 +8,7 @@ import io.izzel.taboolib.Version
 import io.izzel.taboolib.loader.internal.IO
 import io.izzel.taboolib.util.item.ItemBuilder
 import io.izzel.taboolib.util.lite.Materials
+import joptsimple.internal.Strings
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.modules.packets.PacketsHandler
 import org.bukkit.Bukkit
@@ -49,11 +50,13 @@ object Skulls {
         } else {
             val player = Bukkit.getPlayerExact(id)
             if (player != null && Version.isAfter(Version.v1_13)) {
-                cachePlayerTexture[id] = PacketsHandler.getPlayerTexture(player)
-                return cachePlayerTexture[id]
-            } else {
-                cachePlayerTexture[id] = null
+                val nms = PacketsHandler.getPlayerTexture(player)
+                if (!Strings.isNullOrEmpty(nms)) {
+                    cachePlayerTexture[id] = nms
+                    return cachePlayerTexture[id]
+                }
             }
+            cachePlayerTexture[id] = null
             Tasks.run(true) {
                 try {
                     // https://api.minetools.eu/profile/%uuid%

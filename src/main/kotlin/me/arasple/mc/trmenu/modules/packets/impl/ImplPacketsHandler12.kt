@@ -17,7 +17,8 @@ class ImplPacketsHandler12 : PacketsHandler() {
 
     init {
         SimpleReflection.checkAndSave(
-            PacketPlayOutOpenWindow::class.java
+            PacketPlayOutOpenWindow::class.java,
+            PacketPlayOutSetSlot::class.java
         )
     }
 

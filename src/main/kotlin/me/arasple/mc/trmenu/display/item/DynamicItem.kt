@@ -102,7 +102,7 @@ class DynamicItem(var material: Animated<Mat>, val meta: Meta) {
         }
     }
 
-    class Meta(var amount: String, var shiny: String, var flags: MutableSet<ItemFlag>, var nbt: NBTCompound?, var isAmountDynamic: Boolean, var isShinyDynamic: Boolean, var isNBTDynamic: Boolean) {
+    data class Meta(var amount: String, var shiny: String, var flags: MutableSet<ItemFlag>, var nbt: NBTCompound?, var isAmountDynamic: Boolean, var isShinyDynamic: Boolean, var isNBTDynamic: Boolean) {
 
         constructor() : this("-1", "false", mutableSetOf(), null, false, false, false)
 
@@ -150,7 +150,7 @@ class DynamicItem(var material: Animated<Mat>, val meta: Meta) {
             return null
         }
 
-        fun hasAmount(): Boolean = amount.isNotEmpty() && NumberUtils.toInt(amount, -1) >= 0
+        fun hasAmount() = amount.isNotEmpty() || NumberUtils.toInt(amount, -1) >= 0
 
     }
 
