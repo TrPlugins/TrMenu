@@ -107,6 +107,11 @@ enum class Property(val default: String, val regex: Regex) {
     PRIORITY("priority", "pri(ority)?(s)?"),
 
     /**
+     * 继承（默认图标）
+     */
+    INHERIT("inherit", "inherit(s)?"),
+
+    /**
      * 周期
      */
     PERIOD("period", "(period|time)(s)?"),

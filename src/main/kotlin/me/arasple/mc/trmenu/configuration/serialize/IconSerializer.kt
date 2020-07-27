@@ -50,6 +50,7 @@ object IconSerializer {
                                 loadIconProperty(sub)?.let { subIcon ->
                                     subIcon.priority = sub.getInt(Utils.getSectionKey(sub, Property.PRIORITY), 0)
                                     subIcon.condition = sub.getString(Utils.getSectionKey(sub, Property.REQUIREMENT)) ?: "false"
+                                    subIcon.inherit = sub.getBoolean(Utils.getSectionKey(sub, Property.INHERIT))
                                     subs.add(subIcon)
                                 }
                             }
@@ -57,10 +58,14 @@ object IconSerializer {
                     }
                 }
                 subs.forEach {
-                    if (it.display.position.isEmpty())
-                        it.display.position = defIcon.display.position
-                    if (it.display.item.material.isEmpty())
-                        it.display.item.material = defIcon.display.item.material
+                    // 继承位置, 材质
+                    if (it.display.position.isEmpty()) it.display.position = defIcon.display.position
+                    if (it.display.item.material.isEmpty()) it.display.item.material = defIcon.display.item.material
+                    // 深度继承
+                    if (it.inherit) {
+                        if (it.display.name.isEmpty()) it.display.name = defIcon.display.name
+                        if (it.display.lore.isEmpty()) it.display.lore = defIcon.display.lore
+                    }
                 }
                 icons.add(Icon(key, iconSettings, defIcon, subs, mutableMapOf()))
             }
@@ -78,7 +83,7 @@ object IconSerializer {
         val iconDisplay = loadIconDisplay(displaySection)
         val clickHandler = loadIconClickHandler(clickHandlerSection)
 
-        return Icon.IconProperty(-1, "", iconDisplay, clickHandler)
+        return Icon.IconProperty(-1, "", false, iconDisplay, clickHandler)
     }
 
     /**

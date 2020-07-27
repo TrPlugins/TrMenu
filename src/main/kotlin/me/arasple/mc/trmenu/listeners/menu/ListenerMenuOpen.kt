@@ -6,6 +6,7 @@ import me.arasple.mc.trmenu.api.factory.task.CloseTask
 import me.arasple.mc.trmenu.data.MetaPlayer.setMeta
 import me.arasple.mc.trmenu.data.MetaPlayer.updateInventoryContents
 import me.arasple.mc.trmenu.data.Sessions.getMenuFactorySession
+import me.arasple.mc.trmenu.metrics.MetricsHandler
 import me.arasple.mc.trmenu.modules.log.Log
 import me.arasple.mc.trmenu.modules.log.Loger
 import org.bukkit.event.EventHandler
@@ -21,8 +22,9 @@ class ListenerMenuOpen : Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     fun onOpening(e: MenuOpenEvent) {
-        val player = e.player
+        MetricsHandler.increase(0)
 
+        val player = e.player
         Loger.log(Log.MENU_EVENT_OPEN, player.name, e.menu.id, e.page, e.reason.name)
 
         val factorySession = player.getMenuFactorySession()

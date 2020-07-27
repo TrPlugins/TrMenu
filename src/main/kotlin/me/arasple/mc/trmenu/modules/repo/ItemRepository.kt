@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack
  */
 object ItemRepository {
 
-    private val data = TConfig.create(TrMenu.plugin, "itemRepo.yml").listener { load() }
+    private val data = TConfig.create(TrMenu.plugin, "items.yml").listener { load() }
     private var writing = false
     private val itemStacks = mutableMapOf<String, ItemStack>()
 

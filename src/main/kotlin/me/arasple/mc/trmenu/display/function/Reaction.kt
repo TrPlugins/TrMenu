@@ -25,5 +25,4 @@ data class Reaction(val priority: Int, private val condition: String, private va
 
     fun runActions(player: Player) = Actions.runActions(player, success)
 
-
 }

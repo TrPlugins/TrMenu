@@ -3,6 +3,7 @@ package me.arasple.mc.trmenu.modules.action.base
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import me.arasple.mc.trmenu.configuration.property.Nodes
 import me.arasple.mc.trmenu.data.Sessions.getMenuSession
+import me.arasple.mc.trmenu.metrics.MetricsHandler
 import me.arasple.mc.trmenu.modules.script.Scripts
 import me.arasple.mc.trmenu.utils.Msger
 import me.arasple.mc.trmenu.utils.Tasks
@@ -18,6 +19,8 @@ abstract class Action(val name: Regex, internal var content: String, var options
     constructor(name: String) : this(Regex(name), "", mutableMapOf())
 
     fun run(player: Player) {
+        MetricsHandler.increase(1)
+
         if (options.containsKey(Nodes.DELAY)) {
             val delay = NumberUtils.toLong(options[Nodes.DELAY], -1)
             if (delay > 0) {

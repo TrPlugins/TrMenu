@@ -97,6 +97,6 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
 
     fun isInPage(page: Int) = defIcon.display.position.containsKey(page) || subIcons.any { it.display.position.containsKey(page) }
 
-    data class IconProperty(var priority: Int, var condition: String, val display: IconDisplay, val clickHandler: IconClickHandler)
+    data class IconProperty(var priority: Int, var condition: String, var inherit: Boolean, val display: IconDisplay, val clickHandler: IconClickHandler)
 
 }

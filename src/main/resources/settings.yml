@@ -15,7 +15,7 @@ Options:
 
 #
 # 自定义加载菜单的文件或目录
-# 支持多级子目录
+# 支持多级子目录itemRepo
 #
 Load-Menu-Files:
   - 'plugins/CustomMenusFolder'

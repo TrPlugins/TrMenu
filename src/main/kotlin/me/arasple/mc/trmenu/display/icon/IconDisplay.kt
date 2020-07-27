@@ -14,7 +14,7 @@ import org.bukkit.inventory.ItemStack
  * @author Arasple
  * @date 2020/5/30 14:06
  */
-data class IconDisplay(var position: MutableMap<Int, Animated<Position>>, val item: DynamicItem, val name: Animated<String>, val lore: Animated<Lore>) {
+data class IconDisplay(var position: MutableMap<Int, Animated<Position>>, val item: DynamicItem, var name: Animated<String>, var lore: Animated<Lore>) {
 
     fun createDisplayItem(player: Player) = item.releaseItem(player, getName(player), getLore(player)) ?: ItemStack(Material.BARRIER)
 
