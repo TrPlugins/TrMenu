@@ -3,38 +3,31 @@
 #
 Title:
   - 'Hello, TrMenu!'
-  - 'Support Animated Titles'
+  # - 'Support Animated Titles'
 
 #
 # 若有多个标题, 切换的周期 (ticks)
 #
 Title-Update: 40
 
-#
-# 菜单的布局功能
-# 你可以用 ` ` 来标记设置多个字符名称图标的位置
-#
 Layout:
   - - '########`Close`'
     - '         '
     - '         '
     - '         '
-    - '########`Next`'
+    - '####*###`Next`'
 
   - - '########`Close`'
     - '         '
-    - ' *       '
+    - '         '
     - '         '
     - '`Pre`########'
 
-#
-# 玩家容器菜单的布局
-#
 PlayerInventory:
-  - '         '
-  - '         '
-  - '         '
-  - '         '
+  - - '         '
+    - '         '
+    - '         '
+    - '         '
 
 #
 # 菜单的选项设置
@@ -49,7 +42,7 @@ Options:
   # 防频繁点击的间隔
   Min-Click-Delay: 200
   # 强制需要依赖的 PlaceholderAPI 拓展变量
-  Depend-Expansions: ['server', 'player', 'progress']
+  Depend-Expansions: ['server', 'player', 'progress', 'animations']
 
 #
 # 菜单绑定的快捷打开方式
@@ -57,10 +50,11 @@ Options:
 Bindings:
   # 绑定命令, 支持正则
   Commands:
-    - 'tester'
+    - '(?i)example(-)?(gui)?(s)?'
   # 绑定到物品特征
   Items:
     - 'material:compass'
+    - 'material:clock,lore:OPEN_MENU'
 
 #
 # 菜单的事件处理
@@ -68,10 +62,10 @@ Bindings:
 Events:
   # 开启菜单事件
   Open:
-    - requirement: 'hasPerm.trmenu.use or is.{reason}.RELOAD or is.{reason}.CONSOLE'
+    - condition: 'hasPerm.trmenu.use or is.{reason}.RELOAD or is.{reason}.CONSOLE'
       actions:
         - 'sound: BLOCK_CHEST_OPEN-1-0'
-      deny-actions:
+      deny:
         - 'sound: ENTITY_ITEM_BREAK-1-0'
         - 'title: <title=&c&l权限不足><subtitle=&7&l本菜单需要权限 &6&ltrmenu.use &7&l方能浏览>'
         - 'return'
@@ -83,6 +77,7 @@ Events:
 # 菜单的图标
 #
 Icons:
+
   # 图标的唯一 ID, 可配合布局使用
   '#':
     # 显示图标的动态更新周期, 若设置多个则依次对应为 Material, Name, Lore, Slots
@@ -90,7 +85,7 @@ Icons:
     update: [-1, 10, 15, -1]
     # 菜单的显示部分
     display:
-      material: 'Gray Stained Glass Pane'
+      material: Gray Stained Glass Pane
       name: ['&fTr&7Menu', '&7Tr&8Menu', '&8Tr&0Menu','&7Tr&8Menu']
       lore:
         - - '&7Thanks &f:> &7for using!'
@@ -102,85 +97,89 @@ Icons:
   'Close':
     update: [-1, 5, -1, -1]
     display:
-      material: 'Red Stained Glass Pane'
+      material: Red Stained Glass Pane
       name: ['&cC&7lose', '&cCl&7ose', '&cClo&7se', '&cClos&7e', '&cClose']
     actions:
-      all: 'close'
-
+      all: close
   'Next':
     display:
-      material: 'Cyan Stained Glass Pane'
+      material: Cyan Stained Glass Pane
       name: '&bN&3ext Page'
-      slots: '%trmenu_emptyslot_0_1-54%'
     actions:
-      all: 'page: 1'
-
+      all:
+        - 'page: 1'
+        - 'sound: BLOCK_CHEST_OPEN-1-2'
   'Pre':
     display:
-      material: 'Lime Stained Glass Pane'
+      material: Lime Stained Glass Pane
       name: '&aP&2revious Page'
     actions:
-      all: 'page: 0'
-
-  'S':
+      all:
+        - 'page: 0'
+        - 'sound: BLOCK_CHEST_OPEN-1-2'
+  '*':
+    update: [-1, 5, 20, -1]
     display:
-      material: Sign
-      name: '&3Survery'
+      material: '<skull:9842dc3b917b1a796c303e15105474a8e315de7982b6ca54feafb5a4d13d4e95>'
+      name:
+        - '&3&lSERVER'
+        - '&b&lSE&3&lRVER'
+        - '&3&lS&b&lER&3&lVER'
+        - '&3&lSE&b&lRV&3&lER'
+        - '&3&lSER&b&lVE&3&lR'
+        - '&3&lSERV&b&lER'
+      lore:
+        - ''
+        - '&8| &7RAM: &2%server_ram_used%/%server_ram_total% &7MB'
+        - '&8[ %progress_bar_{server_ram_used}_m:{server_ram_total}_c:&3■_p:&7■_r:&8■_l:20% &8]'
+        - ''
+        - '&b${flash_➥} &3Left-Click &7to display more info.'
     actions:
-      all:
-        - condition: 'utils.chance(0.1)'
-          priority: 3
-          actions:
-            - 'tell: Prize 1'
-            - 'return'
-        - condition: 'utils.chance(0.5)'
-          priority: 2
-          actions:
-            - 'tell: Prize 2'
-            - 'return'
-        - condition: 'true'
-          priority: 1
-          actions:
-            - 'tell: Prize 3'
-    actionxxs:
-      all:
-        - close
-        - catcher:
-            target:
-              type: CHAT
-              before: 'tell: &3请输入一名玩家的名称'
-              reactions:
-                - requirement: 'isOnline.${input_target}'
-                  actions: 'tell: &7名称确认. &f${input_target}'
-                  deny-actions:
-                    - 'tell: &6抱歉但玩家 &c${input_target} &6不在线'
-                    - 're-enter'
-            amount:
-              type: CHAT
-              before: 'tell: &3请提供支付数额'
-              reactions:
-                - requirement: 'isNumber.${input_amount}'
-                  actions:
-                    - 'tell: &7数额确认. &f${input_amount}'
-                    - 'command: say I paied ${input_target} ${input_amount}'
-                  deny-actions: 'tell: &6你打啥钱呢?'
+      left:
+        - 'set-meta: icon_server_hide true'
+        - 'sound: BLOCK_NOTE_BLOCK_BIT-1-0'
+        - 'refresh'
+    icons:
+      - condition: 'is.{meta:icon_server_hide}.true'
+        inherit: true
+        display:
+          lore:
+            - ''
+            - '&8| &7RAM: &2%server_ram_used%/%server_ram_total% &7MB'
+            - '&8[ %progress_bar_{server_ram_used}_m:{server_ram_total}_c:&3■_p:&7■_r:&8■_l:20% &8]'
+            - ''
+            - '&8| &7ONLINE: &e%server_online% &6${js: utils.getOnlinePlayers().size() > 1 ? "Players" : "Player"}'
+            - '&8| &7UPTIME: &e%server_uptime%'
+            - '&8| &7TPS: &a%server_tps%'
+            - ''
+            - '&a${flash_➥} &2Right-Click &7to hide extra-info.'
+        actions:
+          right:
+            - 'rem-meta: icon_server_hide'
+            - 'sound: BLOCK_NOTE_BLOCK_BIT-1-2'
+            - 'refresh'
 
 #
 # 菜单自定义周期性任务
 #
 
 Tasks:
-  tikTok:
-    period: 20
-    task:
-      - requirement: 'isOperator.'
-        actions:
-          - 'sound: BLOCK_NOTE_BLOCK_BIT-1-2'
+# tikTok:
+#   period: 20
+#   task:
+#     - condition: 'isOperator.'
+#       actions:
+#         - 'sound: BLOCK_NOTE_BLOCK_BIT-1-2'
 
-
+#
 # 菜单内置的自定义脚本变量
 # 通过 ${ID_参数_参数} 的方式可以调用
 #
 
 Functions:
-  isSneaking: player.isSneaking()
+  flash: |-
+    function flash() {
+      var parsed = "%animations_<flash>{0}</flash>%"
+      return parsed.isEmpty() ? utils.emptyString("{0}".length()) : parsed
+    }
+    flash()

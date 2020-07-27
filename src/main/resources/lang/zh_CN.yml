@@ -4,6 +4,10 @@ PLUGIN:
     - '&3Tr&bMenu &f&lPremium &7正在载入中... &8{0}'
     - ''
   LOADED: '&8[&3Tr&bMenu&8] &bINFO &8| &3插件已成功载入, 当前运行版本 &2{0}&7.'
+  DEPEND:
+    DOWNLOAD: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7正在下载前置插件 &f{0} &7...'
+    INSTALL: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7已成功下载前置 &3{0} &7, 即将重启服务端完成安装...'
+    INSTALL-FAILED: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7自动下载前置 &c{0} &7过程出错, 请手动安装, 服务器即将停止...'
 
 LOADER:
   MENU: '&8[&3Tr&bMenu&8] &aFINE &8| &3已载入 &a{0} &3个有效菜单 &8({1} ms)'
@@ -11,6 +15,19 @@ LOADER:
     - '&8[&3Tr&bMenu&8] &cERROR &8| &4载入菜单 &c{0} &4过程中发生错误, 加载中止.'
     - '&7Message: &8{1}'
     - '&7Traces: &8{2}'
+
+MENU:
+  DEPEND-EXPANSIONS:
+    - ''
+    - '&8[&fTr&7Menu&8] &7你还需要安装 &f{0} &7个 PlaceholderAPI 拓展才能使用本菜单'
+    - ''
+  DEPEND-EXPANSIONS-FORMAT:
+    ==: JSON
+    text: '&8- <&3&n{0}@expansion>&r'
+    args:
+      expansion:
+        hover: '&7点击安装'
+        command: '/placeholderapi ecloud download {0}'
 
 MIGRATE:
   UNKNOWN-FILE: '&8[&fTr&7Menu&8] &aMIGRATE &8| &7不支持文件或不存在 &f{0}&7.'
@@ -34,7 +51,7 @@ DEBUG:
   PRE-COMPILE-SCRIPT:
     - '&8[&fTr&7Menu&8] &3DEBUG &8| &6预编译脚本:'
     - '&c- &8Raw: {0}'
-    - '&c- &8Translated: {0}'
+    - '&c- &8Translated: {1}'
   ACTIONS:
     REGISTERED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6注册了 &c{0} &6个可用动作 &8({1} ms)'
     SET-META: '&8[&fTr&7Menu&8] &3DEBUG &8| &6设置玩家 &c{0} &6的临时变量, &c{ key=&6{1}&c,value=&6{2}&c } &8(raw: {3})'

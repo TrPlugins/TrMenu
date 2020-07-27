@@ -3,19 +3,21 @@ package me.arasple.mc.trmenu.modules.packets.impl
 import io.izzel.taboolib.module.lite.SimpleReflection
 import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import me.arasple.mc.trmenu.modules.packets.PacketsHandler
-import net.minecraft.server.v1_16_R1.*
-import org.bukkit.craftbukkit.v1_16_R1.entity.CraftPlayer
-import org.bukkit.craftbukkit.v1_16_R1.inventory.CraftItemStack
+import net.minecraft.server.v1_8_R3.ChatComponentText
+import net.minecraft.server.v1_8_R3.PacketPlayOutCloseWindow
+import net.minecraft.server.v1_8_R3.PacketPlayOutOpenWindow
+import net.minecraft.server.v1_8_R3.PacketPlayOutSetSlot
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer
+import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.ItemStack
-
 
 /**
  * @author Arasple
  * @date 2020/3/5 19:41
  */
-class ImplPacketsHandler16 : PacketsHandler() {
+class ImplPacketsHandler8 : PacketsHandler() {
 
     init {
         SimpleReflection.checkAndSave(
@@ -24,7 +26,16 @@ class ImplPacketsHandler16 : PacketsHandler() {
         )
     }
 
-    override fun sendOpenWindow(player: Player, windowId: Int, inventoryType: InventoryType, size: Int, inventoryTitle: String) = sendPacket(player, PacketPlayOutOpenWindow::class.java, PacketPlayOutOpenWindow(), mapOf(Pair("a", windowId), Pair("b", getInventoryType(inventoryType, size)), Pair("c", ChatComponentText(inventoryTitle))))
+    override fun sendOpenWindow(player: Player, windowId: Int, inventoryType: InventoryType, size: Int, inventoryTitle: String) {
+        sendPacket(
+            player, PacketPlayOutOpenWindow(
+                windowId,
+                "minecraft:${inventoryType.name.toLowerCase()}",
+                ChatComponentText(inventoryTitle),
+                size
+            )
+        )
+    }
 
     override fun sendCloseWindow(player: Player, windowId: Int) = sendPacket(player, PacketPlayOutCloseWindow(windowId))
 
@@ -43,7 +54,7 @@ class ImplPacketsHandler16 : PacketsHandler() {
 
     override fun asNMSItem(itemStack: ItemStack): Any = CraftItemStack.asNMSCopy(itemStack)
 
-    override fun getClickTypeIndex(clickType: Any): Int = InventoryClickType.values().indexOf(clickType)
+    override fun getClickTypeIndex(clickType: Any): Int = clickType as Int
 
     override fun getPlayerTexture(player: Player): String = (player as CraftPlayer).profile.properties["textures"].iterator().let {
         return@let if (it.hasNext()) it.next().value else ""

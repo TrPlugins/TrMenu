@@ -25,6 +25,9 @@ class TrMenuLoader {
         if (!TrMenu.SETTINGS.getBoolean("Options.Hide-Logo", false)) {
             printLogo()
         }
+        if (installDepend()) {
+            return;
+        }
         TLocale.sendToConsole("PLUGIN.LOADING", Version.getBukkitVersion())
     }
 
@@ -41,6 +44,21 @@ class TrMenuLoader {
         // 注销插件提供的 PlaceholderAPI 变量拓展
         PlaceholderAPI.unregisterExpansion(PlaceholderAPIPlugin.getInstance().expansionManager.getRegisteredExpansion("trmenu"))
         Catchers.getPlayerdata().clear()
+    }
+
+    private fun installDepend(): Boolean {
+        val plugin = Bukkit.getPluginManager().getPlugin("PlaceholderAPI")
+        val jarFile = File("plugins/PlaceholderAPI.jar")
+        val url = "https://api.spiget.org/v2/resources/6245/download"
+        if (plugin == null) {
+            jarFile.delete()
+            TLocale.sendToConsole("PLUGIN.DEPEND.DOWNLOAD", "PlaceholderAPI")
+            if (Files.downloadFile(url, jarFile)) TLocale.sendToConsole("PLUGIN.DEPEND.INSTALL", "PlaceholderAPI")
+            else TLocale.sendToConsole("PLUGIN.DEPEND.INSTALL-FAILED", "PlaceholderAPI")
+            Bukkit.shutdown()
+            return true
+        }
+        return false
     }
 
     companion object {

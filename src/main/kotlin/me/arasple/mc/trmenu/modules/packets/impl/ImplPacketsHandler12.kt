@@ -38,7 +38,7 @@ class ImplPacketsHandler12 : PacketsHandler() {
 
     override fun sendOutSlot(player: Player, windowId: Int, slot: Int, itemStack: ItemStack) = sendPacket(player, PacketPlayOutSetSlot::class.java, PacketPlayOutSetSlot(), mapOf(Pair("a", windowId), Pair("b", slot), Pair("c", asNMSItem(itemStack))))
 
-    override fun sendRemoveSlot(player: Player, windowId: Int, slot: Int) = sendPacket(player, PacketPlayOutSetSlot::class.java, PacketPlayOutSetSlot(), mapOf(Pair("a", windowId), Pair("b", slot), Pair("c", EMPTY_ITEM)))
+    override fun sendRemoveSlot(player: Player, windowId: Int, slot: Int) = sendPacket(player, PacketPlayOutSetSlot::class.java, PacketPlayOutSetSlot(), mapOf(Pair("a", windowId), Pair("b", slot), Pair("c", null)))
 
     override fun clearInventory(player: Player, startSlot: Int, windowId: Int) {
         val session = player.getMenuSession()

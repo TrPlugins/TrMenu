@@ -1,6 +1,7 @@
 package me.arasple.mc.trmenu.listeners.menu
 
 import io.izzel.taboolib.module.inject.TListener
+import io.izzel.taboolib.module.locale.TLocale
 import me.arasple.mc.trmenu.api.events.MenuOpenEvent
 import me.arasple.mc.trmenu.api.factory.task.CloseTask
 import me.arasple.mc.trmenu.data.MetaPlayer.setMeta
@@ -29,15 +30,33 @@ class ListenerMenuOpen : Listener {
 
         val factorySession = player.getMenuFactorySession()
         if (!factorySession.isNull()) {
-            factorySession.menuFactory!!.closeTask?.run(CloseTask.Event(player, factorySession.menuFactory!!))
+            factorySession.menuFactory!!.closeTask?.run(
+                CloseTask.Event(
+                    player, factorySession.menuFactory!!
+                )
+            )
             factorySession.reset()
-        }
-
-        if (e.reason == MenuOpenEvent.Reason.SWITCH_PAGE) {
             return
         }
-        player.setMeta("{reason}", e.reason.name).also {
-            if (!e.menu.settings.events.openEvent.eval(player)) {
+
+        val menu = e.menu
+        val reason = e.reason
+        val expansions = menu.settings.options.expansions()
+
+        if (reason == MenuOpenEvent.Reason.SWITCH_PAGE) {
+            return
+        }
+        if (expansions.isNotEmpty()) {
+            TLocale.sendTo(player, "MENU.DEPEND-EXPANSIONS", expansions.size)
+            expansions.forEach {
+                TLocale.sendTo(player, "MENU.DEPEND-EXPANSIONS-FORMAT", it)
+            }
+            e.isCancelled = true
+            return
+        }
+
+        player.setMeta("{reason}", reason.name).also {
+            if (!menu.settings.events.openEvent.eval(player)) {
                 e.isCancelled = true
                 return
             }

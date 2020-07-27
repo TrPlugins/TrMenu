@@ -43,16 +43,15 @@ abstract class PacketsHandler {
     companion object {
 
         lateinit var INSTANCE: PacketsHandler
-        lateinit var EMPTY_ITEM: Any
 
         @TSchedule
         fun init() {
             val version = when {
                 Version.isAfter(Version.v1_13) -> "16"
-                else -> "12"
+                Version.isAfter(Version.v1_9) -> "12"
+                else -> "8"
             }
             INSTANCE = SimpleVersionControl.createNMS("me.arasple.mc.trmenu.modules.packets.impl.ImplPacketsHandler$version").useNMS().translate(TrMenu.plugin).getDeclaredConstructor().newInstance() as PacketsHandler
-            EMPTY_ITEM = INSTANCE.asNMSItem(ItemStack(Material.AIR))
         }
 
         fun sendOpenWindow(player: Player, windowId: Int, inventoryType: InventoryType, size: Int, inventoryTitle: String) = INSTANCE.sendOpenWindow(player, windowId, inventoryType, size, inventoryTitle)
@@ -144,7 +143,7 @@ abstract class PacketsHandler {
             }
         }
 
-        fun sendPacket(player: Player, packetClass: Class<*>, packet: Any, fields: Map<String, Any>) {
+        fun sendPacket(player: Player, packetClass: Class<*>, packet: Any, fields: Map<String, Any?>) {
             fields.forEach { SimpleReflection.setFieldValue(packetClass, packet, it.key, it.value) }
             sendPacket(player, packet)
         }

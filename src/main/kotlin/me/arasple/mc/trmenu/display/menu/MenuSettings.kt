@@ -2,7 +2,6 @@ package me.arasple.mc.trmenu.display.menu
 
 import io.izzel.taboolib.internal.apache.lang3.ArrayUtils
 import me.arasple.mc.trmenu.TrMenu
-import me.arasple.mc.trmenu.data.MenuSession
 import me.arasple.mc.trmenu.data.Sessions
 import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import me.arasple.mc.trmenu.display.Menu
@@ -12,6 +11,7 @@ import me.arasple.mc.trmenu.display.function.Reactions
 import me.arasple.mc.trmenu.modules.item.ItemIdentifier
 import me.arasple.mc.trmenu.modules.packets.PacketsHandler
 import me.arasple.mc.trmenu.utils.Msger
+import me.clip.placeholderapi.PlaceholderAPI
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitRunnable
@@ -74,6 +74,11 @@ class MenuSettings(val title: Titles, val options: Options, val bindings: Bindin
         fun run(player: Player, layout: MenuLayout.Layout) {
             if (hidePlayerInventory)
                 PacketsHandler.clearInventory(player, layout.size(), Sessions.TRMENU_WINDOW_ID)
+        }
+
+        fun expansions(): List<String> {
+            val registered = PlaceholderAPI.getRegisteredIdentifiers()
+            return dependExpansions.filter { ex -> registered.none { it.equals(ex, true) } }
         }
 
     }

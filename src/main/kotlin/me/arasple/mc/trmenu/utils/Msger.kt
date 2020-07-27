@@ -15,7 +15,7 @@ import org.bukkit.entity.Player
  */
 object Msger {
 
-    private var debug = true
+    private var debug = false
 
     fun init() {
         debug = TrMenu.SETTINGS.getBoolean("Options.Debug", false)

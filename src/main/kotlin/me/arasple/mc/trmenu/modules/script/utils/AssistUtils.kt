@@ -47,6 +47,10 @@ class AssistUtils {
 
     fun getTellraw(): TellrawJson = TellrawJson.create()
 
+    fun emptyString(length: Int) = buildString {
+        for (i in 0..length) append(" ")
+    }
+
     fun chance(number: String) = Numbers.random(NumberUtils.toDouble(number, 0.0))
 
     fun randomInteger(low: Int, high: Int): Int = IntRange(low, high).random()

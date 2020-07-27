@@ -14,13 +14,6 @@ object ScriptUtils {
     const val function = "rwp"
     val argumentPattern: Pattern = Pattern.compile("[$]?\\{(.*?)}")
 
-    @JvmStatic
-    fun main(args: Array<String>) {
-        println(
-            translate("%vault_eco_balance% < %math_{3}*{6}[precision:0]%")
-        )
-    }
-
     fun translate(string: String): String {
         var content = string
         PlaceholderAPI.getPlaceholderPattern().matcher(content).let {
