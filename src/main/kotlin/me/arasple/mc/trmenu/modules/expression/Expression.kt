@@ -10,6 +10,8 @@ enum class Expression(val regex: Regex, var replace: String, var splitBy: String
 
     STRING_EQUALS("(equal(s)?|is)", "\"{0}\" == \"{1}\""),
 
+    STRING_EQUALS_IGNORE_CASE("(equal(s)?|is)IgnoreCase(s)?", "utils.equalsIgnoreCase(\"{0}\", \"{1}\")"),
+
     IS_NUMBER("isNum(ber)?", "utils.isNumber(\"{0}\")"),
 
     IS_OPERATOR("isOp(erator)?(s)?", "player.isOp()"),

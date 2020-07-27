@@ -51,6 +51,8 @@ class AssistUtils {
         for (i in 0..length) append(" ")
     }
 
+    fun equalsIgnoreCase(sample: String, temp: String) = sample.equals(temp, true)
+
     fun chance(number: String) = Numbers.random(NumberUtils.toDouble(number, 0.0))
 
     fun randomInteger(low: Int, high: Int): Int = IntRange(low, high).random()
@@ -58,6 +60,10 @@ class AssistUtils {
     fun randomDouble(low: Double, high: Double) = Numbers.getRandomDouble(low, high)
 
     fun isNumber(number: String) = NumberUtils.isParsable(number)
+
+    fun toInt(number: String) = NumberUtils.toInt(number, -1)
+
+    fun toDouble(number: String) = NumberUtils.toDouble(number, -1.0)
 
     fun isWithin(input: String, low: String, high: String) = IntRange(low.toInt(), high.toInt()).contains(input.toInt())
 

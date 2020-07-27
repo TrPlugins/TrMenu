@@ -17,8 +17,6 @@ enum class Nodes(regex: String) {
 
     MAT_DATA_VALUE("<(((data|id)?(-)?value)|data|value)(:)?([0-9]+[.]?[0-9]*>)"),
 
-     // {0}xx{1}
-
     MAT_MODEL_DATA("<((model(-)?(value|data)))(:)?([0-9]+[.]?[0-9]*>)"),
 
     MAT_DYE_LEATHER("<dye(-)?(leather)?:( )?([0-9]+[,]+[0-9]+[,]+[0-9]*>)"),
@@ -26,6 +24,8 @@ enum class Nodes(regex: String) {
     MAT_BANNER("<banner(-)?(dye|color|style)?:( )?(.+>)"),
 
     MAT_HEAD_DATABASE("<((head(-)?(database))|(hdb)):( )?(([0-9]|random)+>)"),
+
+    MAT_ORAXEN("<oraxen(s)?:(.+)?>"),
 
     MAT_HEAD_SKINSRESTORER("<skin(s)?(-)?restorer(s)?:(.+)?>"),
 

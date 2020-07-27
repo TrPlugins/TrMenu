@@ -170,6 +170,8 @@ Tasks:
 #     - condition: 'isOperator.'
 #       actions:
 #         - 'sound: BLOCK_NOTE_BLOCK_BIT-1-2'
+actions:
+  left,middle,number_key_8:
 
 #
 # 菜单内置的自定义脚本变量

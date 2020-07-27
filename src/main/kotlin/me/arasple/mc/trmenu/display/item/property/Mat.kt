@@ -6,6 +6,7 @@ import io.izzel.taboolib.util.Strings
 import io.izzel.taboolib.util.item.ItemBuilder
 import io.izzel.taboolib.util.item.Items
 import io.izzel.taboolib.util.lite.Materials
+import io.th0rgal.oraxen.items.OraxenItems
 import me.arasple.mc.trmenu.configuration.property.Nodes
 import me.arasple.mc.trmenu.modules.hook.HookHeadDatabase
 import me.arasple.mc.trmenu.modules.hook.HookSkinsRestorer
@@ -39,6 +40,7 @@ data class Mat(val raw: String, val value: String, val type: Pair<Nodes, String>
             Nodes.MAT_HEAD -> Skulls.getPlayerHead(typeValue)
             Nodes.MAT_TEXTURED_SKULL -> Skulls.getTextureSkull(typeValue)
             Nodes.MAT_HEAD_DATABASE -> HookHeadDatabase.getHead(typeValue)
+            Nodes.MAT_ORAXEN -> OraxenItems.getItemById(typeValue).build()
             Nodes.MAT_HEAD_SKINSRESTORER -> Skulls.getTextureSkull(HookSkinsRestorer.getSkin(typeValue))
             Nodes.MAT_SCRIPT -> Scripts.script(player, type.second, true).asItemStack()!!
             Nodes.MAT_JSON -> Items.fromJson(typeValue)

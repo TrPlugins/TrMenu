@@ -109,7 +109,7 @@ object MenuSerializer {
      * 加载菜单布局
      */
     private fun loadLayout(c: MenuConfiguration): MenuLayout {
-        val type = c.getInventoryType().let { InventoryType.values().firstOrNull { it.name.equals(it.toString(), true) } ?: InventoryType.CHEST }
+        val type = c.getInventoryType().let { type -> InventoryType.values().firstOrNull { it.name.equals(type.toString(), true) } ?: InventoryType.CHEST }
         val layout: List<List<String>>? = c.getLayout().let { return@let if (it != null && it is List<*>) Utils.asLists(it) else null }
         val layoutInventory: List<List<String>>? = c.getLayoutInventory().let { return@let if (it != null && it is List<*>) Utils.asLists(it) else null }
         val list = mutableListOf<MenuLayout.Layout>()

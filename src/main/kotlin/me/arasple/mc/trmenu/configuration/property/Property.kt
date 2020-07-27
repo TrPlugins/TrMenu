@@ -119,7 +119,7 @@ enum class Property(val default: String, val regex: Regex) {
     /**
      * 执行动作集合
      */
-    ACTIONS("actions", "(|list|action|click|execute|cmd)(s)?"),
+    ACTIONS("actions", "(list|action|click|execute|cmd)(s)?"),
 
     /**
      * (拒绝) 反馈动作
