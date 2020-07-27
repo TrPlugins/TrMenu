@@ -1,11 +1,9 @@
 package me.arasple.mc.trmenu.display.icon
 
-import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import me.arasple.mc.trmenu.display.animation.Animated
 import me.arasple.mc.trmenu.display.item.DynamicItem
-import me.arasple.mc.trmenu.display.item.Item
-import me.arasple.mc.trmenu.display.item.Lore
-import me.arasple.mc.trmenu.utils.Msger
+import me.arasple.mc.trmenu.display.item.property.Lore
+import me.arasple.mc.trmenu.display.position.Position
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -16,7 +14,14 @@ import org.bukkit.inventory.ItemStack
  */
 data class IconDisplay(var position: MutableMap<Int, Animated<Position>>, val item: DynamicItem, var name: Animated<String>, var lore: Animated<Lore>) {
 
-    fun createDisplayItem(player: Player) = item.releaseItem(player, getName(player), getLore(player)) ?: ItemStack(Material.BARRIER)
+    fun createDisplayItem(player: Player): ItemStack {
+        if (!item.cache.containsKey(player.uniqueId)) {
+            item.displayName(player, name.currentElement(player))
+            item.displayLore(player, lore.currentElement(player))
+        }
+
+        return item.releaseItem(player) ?: ItemStack(Material.BARRIER)
+    }
 
     fun isAnimatedPosition(pageIndex: Int) = position[pageIndex]?.elements?.let { return@let it.size > 1 } ?: false
 
@@ -26,13 +31,9 @@ data class IconDisplay(var position: MutableMap<Int, Animated<Position>>, val it
 
     fun nextItem(player: Player) = item.nextItem(player)
 
-    fun getName(player: Player) = name.currentElement(player)?.let { return@let Item.colorizeName(Msger.replace(player, it)) }
+    fun nextName(player: Player) = item.displayName(player, name.nextElement(player))
 
-    fun nextName(player: Player) = name.nextIndex(player)
-
-    fun getLore(player: Player) = lore.currentElement(player)?.formatedLore(player)
-
-    fun nextLore(player: Player) = lore.nextIndex(player)
+    fun nextLore(player: Player) = item.displayLore(player, lore.nextElement(player))
 
     fun nextFrame(player: Player, type: Set<Int>, page: Int) {
         type.forEach {
@@ -44,45 +45,6 @@ data class IconDisplay(var position: MutableMap<Int, Animated<Position>>, val it
                 else -> throw Exception()
             }
         }
-    }
-
-    data class Position(val staticSlots: Set<Int>, val dynamicSlots: Set<String>, val currentDynamic: MutableSet<Int>) {
-
-        constructor(slots: Set<Int>) : this(slots, setOf(), mutableSetOf())
-
-        fun getSlots(player: Player) = mutableSetOf<Int>().let { set ->
-            set.addAll(staticSlots)
-            currentDynamic.clear()
-            dynamicSlots.forEach {
-                val slot = NumberUtils.toInt(Msger.replace(player, it), -1)
-                if (slot >= 0) {
-                    set.add(slot)
-                    currentDynamic.add(slot)
-                }
-            }
-            return@let set
-        }
-
-        fun getOccupiedSlots(player: Player) = mutableSetOf<Int>().let {
-            it.addAll(staticSlots)
-            it.addAll(currentDynamic)
-            it
-        }
-
-        companion object {
-
-            fun createPosition(list: List<Any>): Position {
-                val staticSlots = mutableSetOf<Int>()
-                val dynamicSlots = mutableSetOf<String>()
-                list.forEach {
-                    val num = it.toString()
-                    if (NumberUtils.isCreatable(num)) staticSlots.add(NumberUtils.toInt(num)) else dynamicSlots.add(num)
-                }
-                return Position(staticSlots, dynamicSlots, mutableSetOf())
-            }
-
-        }
-
     }
 
 }

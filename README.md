@@ -43,14 +43,9 @@ Wiki: [https://trmenu.trixey.cn](https://trmenu.trixey.cn/)
 
 ---
 
-**TO-DO**
+**bStats**
 
-- [ ] Migrate from other plugins
-  - [x] TrMenu v1
-  - [ ] DeluxeMenus
-  - [ ] ChestCommands
-- [ ] Action
-  - [ ] Particle Display
+![bStats](https://bstats.org/signatures/bukkit/TrMenu.svg)
 
 ---
 
@@ -68,6 +63,5 @@ Wiki: [https://trmenu.trixey.cn](https://trmenu.trixey.cn/)
 3. You are not allowed to claim any part of this plugin as your own
 4. You are not allowed to repost this plugin on anywhere without asking permission
 5. You are not allowed to request a refund for any reason
-6. 
 
 ---

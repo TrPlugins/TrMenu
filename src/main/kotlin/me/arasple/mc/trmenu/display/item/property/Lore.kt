@@ -1,6 +1,7 @@
-package me.arasple.mc.trmenu.display.item
+package me.arasple.mc.trmenu.display.item.property
 
 import me.arasple.mc.trmenu.configuration.property.Nodes
+import me.arasple.mc.trmenu.display.item.Item
 import me.arasple.mc.trmenu.modules.script.Scripts
 import me.arasple.mc.trmenu.utils.Msger
 import org.bukkit.entity.Player

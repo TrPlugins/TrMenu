@@ -2,7 +2,6 @@ package me.arasple.mc.trmenu.listeners.bukkit
 
 import io.izzel.taboolib.module.inject.TListener
 import me.arasple.mc.trmenu.api.events.MenuOpenEvent
-import me.arasple.mc.trmenu.data.MetaPlayer
 import me.arasple.mc.trmenu.data.MetaPlayer.setArguments
 import me.arasple.mc.trmenu.display.Menu
 import me.arasple.mc.trmenu.utils.Utils

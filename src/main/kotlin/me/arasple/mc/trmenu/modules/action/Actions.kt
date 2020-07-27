@@ -68,8 +68,10 @@ object Actions {
         ActionTitle()
     )
 
+    @JvmStatic
     fun registerAction(action: Action) = registeredActions.add(action.newInstance())
 
+    @JvmStatic
     fun runActions(player: Player, actions: List<Action>): Boolean {
         var delay: Long = 0
         loop@ for (action in actions.stream().filter {
@@ -92,15 +94,19 @@ object Actions {
         return true
     }
 
+    @JvmStatic
     fun runCachedAction(player: Player, action: String) = runActions(player, cachedAction(action))
 
+    @JvmStatic
     fun cachedAction(action: String) = cachedActions.computeIfAbsent(action) { readAction(action) }
 
+    @JvmStatic
     fun readActions(anys: List<Any>): List<Action> = mutableListOf<Action>().let { actions ->
         anys.forEach { if (it.toString().isNotEmpty()) actions.addAll(readAction(it)) }
         return@let actions
     }
 
+    @JvmStatic
     fun readAction(any: Any?): List<Action> {
         any ?: return emptyList()
 
@@ -146,6 +152,7 @@ object Actions {
         return actions
     }
 
+    @JvmStatic
     fun writeActions(actions: List<Action>): List<String> = mutableListOf<String>().let { list ->
         actions.forEach { list.add(it.toString()) }
         return@let list

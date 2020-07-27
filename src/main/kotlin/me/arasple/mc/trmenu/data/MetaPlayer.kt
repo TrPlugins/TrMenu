@@ -5,6 +5,7 @@ import io.izzel.taboolib.util.Variables
 import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import me.arasple.mc.trmenu.display.function.InternalFunction
 import me.arasple.mc.trmenu.display.menu.MenuLayout
+import me.arasple.mc.trmenu.modules.script.Scripts
 import me.arasple.mc.trmenu.utils.Msger
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -38,11 +39,24 @@ object MetaPlayer {
 
     fun Player.replaceWithArguments(string: String): String {
         val session = this.getMenuSession()
-        var content = replaceWithMeta(string.replace("{page}", session.page.toString()))
+        var content = this.replaceWithJs(this, replaceWithMeta(string.replace("{page}", session.page.toString())))
         session.menu?.settings?.functions?.let { it ->
             content = InternalFunction.replaceWithFunctions(this, it.internalFunctions, content)
         }
         return Strings.replaceWithOrder(content, *this.getArguments())
+    }
+
+    fun Player.replaceWithJs(player: Player, string: String): String {
+        val buffer = StringBuffer(string.length)
+        return InternalFunction.match(string).let {
+            while (it.find()) {
+                val group = it.group(1)
+                if (group.startsWith("js:")) {
+                    it.appendReplacement(buffer, Scripts.expression(player, group.removePrefix("js:")).asString())
+                }
+            }
+            it.appendTail(buffer).toString()
+        }
     }
 
     fun Player.getArguments() = arguments.computeIfAbsent(this.uniqueId) { arrayOf() }

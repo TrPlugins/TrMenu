@@ -15,7 +15,7 @@ Layout:
     - '         '
     - ' S X     '
     - '         '
-    - '########`Next`'
+    - '####*###`Next`'
 
   - - '########`Close`'
     - '         '
@@ -25,11 +25,7 @@ Layout:
 
 PlayerInventory:
   - - '         '
-    - '  `Pre` `Welcome` `Next`  '
     - '         '
-    - '         '
-  - - '         '
-    - '  `Pre` `Close` `Next`  '
     - '         '
     - '         '
 
@@ -46,7 +42,7 @@ Options:
   # 防频繁点击的间隔
   Min-Click-Delay: 200
   # 强制需要依赖的 PlaceholderAPI 拓展变量
-  Depend-Expansions: ['server', 'player', 'progress']
+  Depend-Expansions: ['server', 'player', 'progress', 'animations']
 
 #
 # 菜单绑定的快捷打开方式
@@ -54,10 +50,11 @@ Options:
 Bindings:
   # 绑定命令, 支持正则
   Commands:
-    - 'tester'
+    - '(?i)example(-)?(gui)?(s)?'
   # 绑定到物品特征
   Items:
     - 'material:compass'
+    - 'material:clock,lore:OPEN_MENU'
 
 #
 # 菜单的事件处理
@@ -65,10 +62,10 @@ Bindings:
 Events:
   # 开启菜单事件
   Open:
-    - requirement: 'hasPerm.trmenu.use or is.{reason}.RELOAD or is.{reason}.CONSOLE'
+    - condition: 'hasPerm.trmenu.use or is.{reason}.RELOAD or is.{reason}.CONSOLE'
       actions:
         - 'sound: BLOCK_CHEST_OPEN-1-0'
-      deny-actions:
+      deny:
         - 'sound: ENTITY_ITEM_BREAK-1-0'
         - 'title: <title=&c&l权限不足><subtitle=&7&l本菜单需要权限 &6&ltrmenu.use &7&l方能浏览>'
         - 'return'
@@ -80,12 +77,6 @@ Events:
 # 菜单的图标
 #
 Icons:
-  'X':
-    update: 20
-    display:
-      material: APPLE
-      amount: '{0}'
-      name: '{0}'
 
   # 图标的唯一 ID, 可配合布局使用
   '#':
@@ -94,7 +85,7 @@ Icons:
     update: [-1, 10, 15, -1]
     # 菜单的显示部分
     display:
-      material: 'Gray Stained Glass Pane'
+      material: Gray Stained Glass Pane
       name: ['&fTr&7Menu', '&7Tr&8Menu', '&8Tr&0Menu','&7Tr&8Menu']
       lore:
         - - '&7Thanks &f:> &7for using!'
@@ -106,24 +97,89 @@ Icons:
   'Close':
     update: [-1, 5, -1, -1]
     display:
-      material: 'Red Stained Glass Pane'
+      material: Red Stained Glass Pane
       name: ['&cC&7lose', '&cCl&7ose', '&cClo&7se', '&cClos&7e', '&cClose']
     actions:
-      all: 'close'
-
+      all: close
   'Next':
     display:
-      material: 'Cyan Stained Glass Pane'
+      material: Cyan Stained Glass Pane
       name: '&bN&3ext Page'
     actions:
-      all: 'page: 1'
-
+      all:
+        - 'page: 1'
+        - 'sound: BLOCK_CHEST_OPEN-1-2'
   'Pre':
     display:
-      material: 'Lime Stained Glass Pane'
+      material: Lime Stained Glass Pane
       name: '&aP&2revious Page'
     actions:
-      all: 'page: 0'
+      all:
+        - 'page: 0'
+        - 'sound: BLOCK_CHEST_OPEN-1-2'
+  '*':
+    update: [-1, 5, 80, -1]
+    display:
+      material: '<skull:9842dc3b917b1a796c303e15105474a8e315de7982b6ca54feafb5a4d13d4e95>'
+      name:
+        - '&3&lSERVER'
+        - '&b&lSE&3&lRVER'
+        - '&3&lS&b&lER&3&lVER'
+        - '&3&lSE&b&lRV&3&lER'
+        - '&3&lSER&b&lVE&3&lR'
+        - '&3&lSERV&b&lER'
+      lore:
+        - ''
+        - '&8| &7RAM: &2%server_ram_used%/%server_ram_total% &7MB'
+        - '&8[ %progress_bar_{server_ram_used}_m:{server_ram_total}_c:&3■_p:&7■_r:&8■_l:20% &8]'
+        - ''
+        - '&8| &7ONLINE: &e%server_online% &6${js: utils.getOnlinePlayers().size() > 1 ? "Players" : "Player"}'
+        - '&8| &7UPTIME: &e%server_uptime%'
+        - '&8| &7TPS: &a%server_tps%'
+        - ''
+        - '%animations_<flash>➥</flash>%'
+
+          # - ''
+          # - '&8▪ &7RAM: &a%server_ram_used%&7/&2%server_ram_total% MB &8(%math_({server_ram_used}/{server_ram_total})*100[precision:2]%%&8)'
+          # - '&8[ %progress_bar_{server_ram_used}_m:{server_ram_total}_c:&3■_p:&7■_r:&8■_l:15% &8]'
+          # - ''
+          # - '&8▪ &7ONLINE: &e%server_online% &6Player(s)'
+          # - '&8▪ &7UNIQUE JOINS: &a%server_unique_joins%'
+          # - '&8▪ &7UPTIME: &3%server_uptime%'
+          # - '&8▪ &7TPS: &a%server_tps%'
+          # - ''
+        # - '&7Designed by Arasple, Using TrMenu & PlaceholderAPI'
+
+  # 'X':
+  #   update: 20
+  #   display:
+  #     material: APPLE
+  #     amount: '%server_time_ss%'
+  #     name: '&3Tip'
+  #     lore:
+  #     - 'Text ....'
+  #     - 'Text ....'
+  #     - ''
+  #     - '&f↓ &7Left-Click to show more info'
+  #   actions:
+  #     left:
+  #       - 'set-meta: x_hide true'
+  #       - 'refresh'
+  #   icons:
+  #     - condition: 'is.{meta:x_hide}.true'
+  #       display:
+  #         name: '&3Tip'
+  #         lore:
+  #         - 'Text ....'
+  #         - 'Text ....'
+  #         - 'Text ....'
+  #         - '&bMore Text'
+  #         - ''
+  #         - '&f↑ &7Right-Click to hide extra-info'
+  #       actions:
+  #         right:
+  #         - 'rem-meta: x_hide'
+  #         - 'refresh'
 
   'S':
     display:
@@ -137,7 +193,7 @@ Icons:
               type: CHAT
               before: 'tell: &3请输入一名玩家的名称'
               reactions:
-                - requirement: 'isOnline.${input_target}'
+                - condition: 'isOnline.${input_target}'
                   actions: 'tell: &7名称确认. &f${input_target}'
                   deny-actions:
                     - 'tell: &6抱歉但玩家 &c${input_target} &6不在线'
@@ -146,7 +202,7 @@ Icons:
               type: CHAT
               before: 'tell: &3请提供支付数额'
               reactions:
-                - requirement: 'isNumber.${input_amount}'
+                - condition: 'isNumber.${input_amount}'
                   actions:
                     - 'tell: &7数额确认. &f${input_amount}'
                     - 'command: say I paied ${input_target} ${input_amount}'
@@ -160,7 +216,7 @@ Tasks:
 # tikTok:
 #   period: 20
 #   task:
-#     - requirement: 'isOperator.'
+#     - condition: 'isOperator.'
 #       actions:
 #         - 'sound: BLOCK_NOTE_BLOCK_BIT-1-2'
 

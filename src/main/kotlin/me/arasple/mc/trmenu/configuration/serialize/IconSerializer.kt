@@ -10,7 +10,10 @@ import me.arasple.mc.trmenu.display.icon.IconClickHandler
 import me.arasple.mc.trmenu.display.icon.IconDisplay
 import me.arasple.mc.trmenu.display.icon.IconSettings
 import me.arasple.mc.trmenu.display.item.DynamicItem
-import me.arasple.mc.trmenu.display.item.Lore
+import me.arasple.mc.trmenu.display.item.property.Lore
+import me.arasple.mc.trmenu.display.item.property.Mat
+import me.arasple.mc.trmenu.display.item.property.Meta
+import me.arasple.mc.trmenu.display.position.Position
 import me.arasple.mc.trmenu.utils.Utils
 import org.bukkit.configuration.ConfigurationSection
 
@@ -99,13 +102,13 @@ object IconSerializer {
         val positions = let {
             if (slots.isNotEmpty()) {
                 val pos = Animated(
-                    mutableListOf<IconDisplay.Position>().let {
-                        if (slots.first() is List<*>) slots.forEach { s -> it.add(IconDisplay.Position.createPosition(s as List<String>)) }
-                        else it.add(IconDisplay.Position.createPosition(slots))
+                    mutableListOf<Position>().let {
+                        if (slots.first() is List<*>) slots.forEach { s -> it.add(Position.createPosition(s as List<String>)) }
+                        else it.add(Position.createPosition(slots))
                         it
                     }.toTypedArray()
                 )
-                return@let mutableMapOf<Int, Animated<IconDisplay.Position>>().let {
+                return@let mutableMapOf<Int, Animated<Position>>().let {
                     page.forEach { p -> it[NumberUtils.toInt(p.toString(), 0)] = pos }
                     it
                 }
@@ -114,18 +117,18 @@ object IconSerializer {
 
         // 加载显示物品
         val items = let {
-            val mats = mutableListOf<DynamicItem.Mat>()
-            val meta = DynamicItem.Meta()
+            val mats = mutableListOf<Mat>()
+            val meta = Meta()
             meta.amount(display.getString(Utils.getSectionKey(display, Property.ICON_DISPLAY_AMOUNT)) ?: "1")
             meta.shiny(display.getString(Utils.getSectionKey(display, Property.ICON_DISPLAY_SHINY)) ?: "false")
             meta.flags(display.getStringList(Utils.getSectionKey(display, Property.ICON_DISPLAY_FLAGS)))
             meta.nbt(display.getConfigurationSection(Utils.getSectionKey(display, Property.ICON_DISPLAY_NBT)))
 
             Utils.asList(display.get(Utils.getSectionKey(display, Property.ICON_DISPLAY_MATERIAL))).forEach {
-                mats.add(DynamicItem.createMat(it))
+                mats.add(Mat.createMat(it))
             }
 
-            return@let DynamicItem(Animated(mats.toTypedArray()), meta)
+            return@let DynamicItem(Animated(mats.toTypedArray()), meta, mutableMapOf())
         }
 
         // 加载显示名称、Lore 描述

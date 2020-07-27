@@ -4,7 +4,7 @@ import io.izzel.taboolib.util.Variables
 import me.arasple.mc.trmenu.data.Sessions
 import me.arasple.mc.trmenu.display.Icon
 import me.arasple.mc.trmenu.display.animation.Animated
-import me.arasple.mc.trmenu.display.icon.IconDisplay
+import me.arasple.mc.trmenu.display.position.Position
 import me.arasple.mc.trmenu.modules.packets.PacketsHandler
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryType
@@ -43,7 +43,7 @@ class MenuLayout(val layouts: List<Layout>) {
             val key = it.id
             pages.forEachIndexed { index, page ->
                 page[key]?.let { slots ->
-                    it.defIcon.display.position.computeIfAbsent(index) { Animated(arrayOf()) }.addElement(IconDisplay.Position(slots))
+                    it.defIcon.display.position.computeIfAbsent(index) { Animated(arrayOf()) }.addElement(Position(slots))
                 }
             }
         }

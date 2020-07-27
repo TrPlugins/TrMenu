@@ -24,7 +24,7 @@ object Test {
 
         println("--------------------------------------------------\n\n")
         menu.icons.forEach {
-            println("${it.id} : ${it.defIcon.display.item.meta.hasAmount()}")
+            println("${it.id} : ${it.settings.collectUpdatePeriods()}")
         }
         println("\n\n--------------------------------------------------")
         println("[END - Took: ${System.currentTimeMillis() - start} ms]")

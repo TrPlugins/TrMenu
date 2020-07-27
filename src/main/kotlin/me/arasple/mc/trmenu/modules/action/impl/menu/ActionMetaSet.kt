@@ -16,9 +16,9 @@ class ActionMetaSet : Action("set(-)?(temp|var(iable)?|meta)(s)?") {
             val split = it.split(" ", limit = 2)
             if (split.size == 2) {
                 player.setMeta("{meta:${split[0]}}", split[1])
-                Msger.debug("ACTIONS.SET-TEMP-VARIABLE", player.name, split[0], split[1], it)
+                Msger.debug("ACTIONS.SET-META", player.name, split[0], split[1], it)
             } else {
-                Msger.debug("ACTIONS.SET-TEMP-VARIABLE-FAILED", player.name, it)
+                Msger.debug("ACTIONS.SET-META-FAILED", player.name, it)
             }
         }
 

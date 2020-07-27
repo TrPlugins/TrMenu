@@ -56,7 +56,7 @@ object Utils {
                 return IntRange(start, end)
             }
         } catch (e: Throwable) {
-            println("IntRange parse error!")
+            Msger.printErrors("INT-RANGE", e, params)
             return IntRange(0, 1)
         }
     }

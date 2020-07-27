@@ -6,6 +6,7 @@ import io.izzel.taboolib.util.item.ItemBuilder
 import io.izzel.taboolib.util.lite.Numbers
 import me.arasple.mc.trmenu.data.MetaPlayer.getArguments
 import me.arasple.mc.trmenu.modules.action.Actions
+import me.arasple.mc.trmenu.modules.web.WebData
 import me.arasple.mc.trmenu.utils.Bungees
 import me.clip.placeholderapi.PlaceholderAPI
 import org.bukkit.Bukkit
@@ -36,6 +37,8 @@ class AssistUtils {
     fun isPlayerOnline(player: String) = getPlayer(player).let { return@let it != null && it.isOnline }
 
     fun getPlayer(player: String): Player? = Bukkit.getPlayerExact(player)
+
+    fun getOnlinePlayers(): Collection<Player> = Bukkit.getOnlinePlayers()
 
     @ExperimentalStdlibApi
     fun getRandomPlayer(): Player? = Bukkit.getOnlinePlayers().randomOrNull()
@@ -88,10 +91,13 @@ class AssistUtils {
         return Location(world, x, y, z, yaw, pitch)
     }
 
+    fun readWebData(url: String) = WebData.query(url)
+
     companion object {
 
         val INSTANCE = AssistUtils()
 
     }
+
 
 }

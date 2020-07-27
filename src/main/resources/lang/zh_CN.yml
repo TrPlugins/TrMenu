@@ -28,17 +28,17 @@ DEBUG:
   ARGUMENTS: '&8[&fTr&7Menu&8] &3DEBUG &8| &6更新玩家 &c{0} &6的参数 &c{ &8{1} &c}'
   SESSION: '&8[&fTr&7Menu&8] &3DEBUG &8| &6更新玩家 &c{0} &6菜单信息 &c{ &8{1}. Paged {2} &c}'
   EXPRESSION:
-    - '&8[&fTr&7Menu&8] &3DEBUG &8| &7测试转义表达式:'
+    - '&8[&fTr&7Menu&8] &3DEBUG &8| &6翻译条件表达式:'
     - '&c- &8Raw: &7{0}'
     - '&c- &8Translated: &7{1}'
   PRE-COMPILE-SCRIPT:
-    - '&8[&fTr&7Menu&8] &3DEBUG &8| &6预编译脚本表达式'
+    - '&8[&fTr&7Menu&8] &3DEBUG &8| &6预编译脚本:'
     - '&c- &8Raw: {0}'
     - '&c- &8Translated: {0}'
   ACTIONS:
     REGISTERED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6注册了 &c{0} &6个可用动作 &8({1} ms)'
-    SET-TEMP-VARIABLE: '&8[&fTr&7Menu&8] &3DEBUG &8| &6设置玩家 &c{0} &6的临时变量, &c{ key=&6{1}&c,value=&6{2}&c } &8(raw: {3})'
-    SET-TEMP-VARIABLE-FAILED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6设置玩家 &c{0} &6的临时变量失败 &8(raw: {3})'
+    SET-META: '&8[&fTr&7Menu&8] &3DEBUG &8| &6设置玩家 &c{0} &6的临时变量, &c{ key=&6{1}&c,value=&6{2}&c } &8(raw: {3})'
+    SET-META-FAILED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6设置玩家 &c{0} &6的临时变量失败 &8(raw: {3})'
   ICON:
     DISPLAY-UPDATE: '&8[&fTr&7Menu&8] &3DEBUG &8| &6更新图标 &c{0} &6的动画, 周期 &e{1}&6, 包含 &e{2}'
     SUB-ICON-REFRESHED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6更新优先级图标 &c{0} &6到 &e{1}'
@@ -87,7 +87,14 @@ ERRORS:
     - '&8[&3Tr&bMenu&8] &cERROR &8| &4异步联网取得玩家头颅材质时发生异常, 请检查以下错误'
     - '&8Reason: {0}'
     - '&8Trace: {1}'
-
+  WEB-DATA:
+    - '&8[&3Tr&bMenu&8] &cERROR &8| &4联网访问 &c{0} &4读取数据时出错!'
+    - '&8Reason: {1}'
+    - '&8Trace: {2}'
+  INT-RANGE:
+    - '&8[&3Tr&bMenu&8] &cERROR &8| &4转换字符串 &c{0} &4为整数范围时出错!'
+    - '&8Reason: {1}'
+    - '&8Trace: {2}'
   HOOK: '&8[&3Tr&bMenu&8] &cERROR &8| &4试图调用执行未检测到并兼容的插件 &c{0} &4的功能'
   SOUND: '&8[&3Tr&bMenu&8] &cERROR &8| &4音效 &c{0} &4无效或不存在，故不能播放给玩家 &c{1}'
   ACTION: '&8[&3Tr&bMenu&8] &cERROR &8| &4动作 &c{0} &4无法识别, 请检查写法'
