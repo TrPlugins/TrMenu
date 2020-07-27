@@ -3,6 +3,7 @@ package me.arasple.mc.trmenu.commands.sub
 import io.izzel.taboolib.module.command.base.BaseSubCommand
 import io.izzel.taboolib.util.item.ItemBuilder
 import io.izzel.taboolib.util.item.Items
+import io.izzel.taboolib.util.lite.Sounds
 import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.api.events.MenuOpenEvent
 import me.arasple.mc.trmenu.api.factory.MenuFactory
@@ -68,10 +69,10 @@ class CommandListMenu : BaseSubCommand() {
                 return@click ClickTask.Action.CANCEL_MODIFY
             }
             .close {
-                sender.playSound(sender.location, Sound.BLOCK_CHEST_CLOSE, 1f, 1f)
+                Sounds.BLOCK_CHEST_CLOSE.play(sender)
             }
             .display(sender) {
-                sender.playSound(sender.location, Sound.BLOCK_NOTE_BLOCK_PLING, 1f, 1f)
+                Sounds.BLOCK_NOTE_BLOCK_PLING.play(sender)
             }
 
     }

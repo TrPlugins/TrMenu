@@ -33,7 +33,7 @@ object Tasks {
             true
         }
 
-        fun task(player: Player, task: BukkitTask) =tasks(player).add(task)
+        fun task(player: Player, task: BukkitTask) = tasks(player).add(task)
 
         fun tasks(player: Player) = tasks.computeIfAbsent(player.uniqueId) { mutableSetOf() }
 

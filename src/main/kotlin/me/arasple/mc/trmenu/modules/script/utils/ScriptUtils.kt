@@ -2,7 +2,6 @@ package me.arasple.mc.trmenu.modules.script.utils
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import io.izzel.taboolib.util.Strings
-import me.arasple.mc.trmenu.display.function.InternalFunction
 import me.clip.placeholderapi.PlaceholderAPI
 import java.util.regex.Pattern
 
@@ -13,7 +12,14 @@ import java.util.regex.Pattern
 object ScriptUtils {
 
     const val function = "rwp"
-    val argumentPattern: Pattern = Pattern.compile("\\{(.*)}")
+    val argumentPattern: Pattern = Pattern.compile("[$]?\\{(.*?)}")
+
+    @JvmStatic
+    fun main(args: Array<String>) {
+        println(
+            translate("%vault_eco_balance% < %math_{3}*{6}[precision:0]%")
+        )
+    }
 
     fun translate(string: String): String {
         var content = string
@@ -24,24 +30,17 @@ object ScriptUtils {
                 content = replaceFind(content, escape(find), group)
             }
         }
-        content = replace(content, InternalFunction.PATTERN, true)
-        return replace(content, argumentPattern, false)
-    }
-
-    private fun replace(string: String, pattern: Pattern, input: Boolean): String {
-        var content = string
-        pattern.matcher(content).let {
+        argumentPattern.matcher(content).let {
             while (it.find()) {
                 val group = it.group(1)
-                if (!input && (!NumberUtils.isParsable(group) && !group.startsWith("meta"))) {
-                    return@let
-                } else if (input && !group.startsWith("input")) {
-                    return@let
+                val find = it.group()
+                val isFunction = find.startsWith("$")
+                if (!isFunction && !group.startsWith("meta") && !group.startsWith("input") && !NumberUtils.isParsable(group)) {
+                    continue
                 }
-                content = replaceFind(content, escape(it.group()))
+                content = replaceFind(content, escape(find))
             }
         }
-
         return content
     }
 

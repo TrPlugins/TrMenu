@@ -30,11 +30,11 @@ DEBUG:
   EXPRESSION:
     - '&8[&fTr&7Menu&8] &3DEBUG &8| &7测试转义表达式:'
     - '&c- &8Raw: &7{0}'
-    - '&c- &7Translated: &f{1}'
+    - '&c- &8Translated: &7{1}'
   PRE-COMPILE-SCRIPT:
     - '&8[&fTr&7Menu&8] &3DEBUG &8| &6预编译脚本表达式'
     - '&c- &8Raw: {0}'
-    - '&c- &8Result: {1}'
+    - '&c- &8Translated: {0}'
   ACTIONS:
     REGISTERED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6注册了 &c{0} &6个可用动作 &8({1} ms)'
     SET-TEMP-VARIABLE: '&8[&fTr&7Menu&8] &3DEBUG &8| &6设置玩家 &c{0} &6的临时变量, &c{ key=&6{1}&c,value=&6{2}&c } &8(raw: {3})'

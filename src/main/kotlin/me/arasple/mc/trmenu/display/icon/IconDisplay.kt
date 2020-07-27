@@ -46,17 +46,27 @@ data class IconDisplay(var position: MutableMap<Int, Animated<Position>>, val it
         }
     }
 
-    data class Position(val staticSlots: Set<Int>, val dynamicSlots: Set<String>) {
+    data class Position(val staticSlots: Set<Int>, val dynamicSlots: Set<String>, val currentDynamic: MutableSet<Int>) {
 
-        constructor(slots: Set<Int>) : this(slots, setOf())
+        constructor(slots: Set<Int>) : this(slots, setOf(), mutableSetOf())
 
         fun getSlots(player: Player) = mutableSetOf<Int>().let { set ->
             set.addAll(staticSlots)
+            currentDynamic.clear()
             dynamicSlots.forEach {
                 val slot = NumberUtils.toInt(Msger.replace(player, it), -1)
-                if (slot >= 0) set.add(slot)
+                if (slot >= 0) {
+                    set.add(slot)
+                    currentDynamic.add(slot)
+                }
             }
             return@let set
+        }
+
+        fun getOccupiedSlots(player: Player) = mutableSetOf<Int>().let {
+            it.addAll(staticSlots)
+            it.addAll(currentDynamic)
+            it
         }
 
         companion object {
@@ -68,7 +78,7 @@ data class IconDisplay(var position: MutableMap<Int, Animated<Position>>, val it
                     val num = it.toString()
                     if (NumberUtils.isCreatable(num)) staticSlots.add(NumberUtils.toInt(num)) else dynamicSlots.add(num)
                 }
-                return Position(staticSlots, dynamicSlots)
+                return Position(staticSlots, dynamicSlots, mutableSetOf())
             }
 
         }

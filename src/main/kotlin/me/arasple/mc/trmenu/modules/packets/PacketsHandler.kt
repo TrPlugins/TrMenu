@@ -120,7 +120,7 @@ abstract class PacketsHandler {
         fun getClickType(rawType: Any, button: Int, slot: Int): InvClickType = when (INSTANCE.getClickTypeIndex(rawType)) {
             0 -> if (button == 0) LEFT else RIGHT
             1 -> if (button == 0) SHIFT_LEFT else SHIFT_RIGHT
-            2 -> if (button == 40) OFFHAND else InvClickType.valueOf("NUMBER_KEY${if (button > 0) "_${button + 1}" else ""}")
+            2 -> if (button == 40) OFFHAND else InvClickType.valueOf("NUMBER_KEY${if (button >= 0) "_${(button + 1)}" else ""}")
             3 -> MIDDLE
             4 -> when (button) {
                 0 -> if (slot >= 0) DROP else WINDOW_BORDER_LEFT

@@ -183,8 +183,4 @@ Tasks:
 #
 
 Functions:
-  health: |-
-    function math(){
-      return player.getHealth()
-    }
-    math()
+  isSneaking: player.isSneaking()

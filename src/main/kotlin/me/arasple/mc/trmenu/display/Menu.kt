@@ -89,7 +89,7 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
 
     fun getOccupiedSlots(player: Player, page: Int) = mutableSetOf<Int>().let { slots ->
         icons.forEach {
-            val find = it.getIconProperty(player).display.position[page]?.currentElement(player)?.getSlots(player)
+            val find = it.getIconProperty(player).display.position[page]?.currentElement(player)?.getOccupiedSlots(player)
             if (find != null) {
                 slots.addAll(find)
             }

@@ -22,7 +22,6 @@ shadowJar {
     dependencies {
         include(dependency('org.bstats:bstats-bukkit:1.7'))
         include(dependency('io.izzel.taboolib:TabooLibLoader:2.1:all'))
-        include(dependency('org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4-M2'))
     }
     relocate 'io.izzel.taboolib.loader', project.group + ".boot"
     relocate "org.bstats.bukkit", project.group + '.modules.metrics'

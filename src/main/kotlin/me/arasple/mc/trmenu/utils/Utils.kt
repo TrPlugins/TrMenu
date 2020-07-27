@@ -49,12 +49,16 @@ object Utils {
     }
 
     fun asIntRange(params: String): IntRange {
-        val range: Array<Int>
-        params.split("-").let {
-            range = arrayOf(it[0].toInt(), it[0].toInt())
-            if (it.size > 1) range[1] = it[1].toInt()
+        try {
+            params.split("-").let {
+                val start = NumberUtils.toInt(it[0], 0)
+                val end = NumberUtils.toInt(it[1], 1)
+                return IntRange(start, end)
+            }
+        } catch (e: Throwable) {
+            println("IntRange parse error!")
+            return IntRange(0, 1)
         }
-        return IntRange(range[0], range[1])
     }
 
     fun asArray(any: Any?): Array<String> = asList(any).toTypedArray()

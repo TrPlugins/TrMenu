@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.modules.hook
 
+import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import io.izzel.taboolib.module.db.local.LocalPlayer
 import io.izzel.taboolib.module.inject.THook
 import me.arasple.mc.trmenu.TrMenu
@@ -69,8 +70,8 @@ object HookPlaceholderAPI {
         val session = player.getMenuSession()
         // trmenu_emptyslot_0_1-10
         // trmenu_emptyslot_0_1-10
+        val index = if (params.size > 1) NumberUtils.toInt(params[1], 0) else 0
         val range = Utils.asIntRange(if (params.size > 2) params[2] else "0-90")
-        val index = if (params.size > 1) params[1].toInt() else 0
         return (session.menu?.getEmptySlots(player, session.page)?.filter { range.contains(it) }?.get(index) ?: -1).toString()
     }
 

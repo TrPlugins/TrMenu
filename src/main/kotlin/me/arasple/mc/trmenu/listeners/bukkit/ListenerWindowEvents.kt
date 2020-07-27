@@ -35,6 +35,7 @@ object ListenerWindowEvents {
 
                 val slot = packet.read("slot") as Int
                 val type = PacketsHandler.getClickType(packet.read("shift"), packet.read("button") as Int, slot)
+
                 val factorySession = player.getMenuFactorySession()
                 val session = player.getMenuSession()
 

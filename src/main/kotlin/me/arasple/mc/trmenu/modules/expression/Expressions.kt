@@ -1,6 +1,7 @@
 package me.arasple.mc.trmenu.modules.expression
 
 import io.izzel.taboolib.module.locale.TLocale
+import me.arasple.mc.trmenu.utils.Msger
 
 /**
  * @author Arasple
@@ -24,7 +25,8 @@ object Expressions {
                 expression = expression.replace(part, if (negtive) "!($parsed)" else parsed)
             }
         }
-        expression
+        Msger.debug("EXPRESSION", string, expression)
+        return@computeIfAbsent expression
     }
 
 }
