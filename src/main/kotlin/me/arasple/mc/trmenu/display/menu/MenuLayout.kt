@@ -155,6 +155,11 @@ class MenuLayout(val layouts: List<Layout>) {
             }
         }
 
+        fun blankLayout(rows: Int) = mutableListOf<String>().let {
+            for (i in 0..rows) it.add(BLANK_LINE)
+            it
+        }
+
         fun width(type: InventoryType) = if (type == CHEST || type == ENDER_CHEST || type == SHULKER_BOX || type == BARREL) 9 else 3
 
         fun size(type: InventoryType, rows: Int) = if (type == CHEST) rows * 9 else type.defaultSize

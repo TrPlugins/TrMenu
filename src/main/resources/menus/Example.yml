@@ -3,7 +3,7 @@
 #
 Title:
   - 'Hello, TrMenu!'
-  # - 'Support Animated Titles'
+  - 'Support Animated Titles'
 
 #
 # 若有多个标题, 切换的周期 (ticks)
@@ -106,9 +106,16 @@ Icons:
       material: Cyan Stained Glass Pane
       name: '&bN&3ext Page'
     actions:
-      all:
-        - 'page: 1'
-        - 'sound: BLOCK_CHEST_OPEN-1-2'
+      - condition: 'is.%checkitem.......%.yes'
+        actions:
+          - 'tell: 111111'
+        deny-actions:
+          - 'tell: 你没有足够的物品'
+
+#    actions:
+#      all:
+#        - 'page: 1'
+#        - 'sound: BLOCK_CHEST_OPEN-1-2'
   'Pre':
     display:
       material: Lime Stained Glass Pane

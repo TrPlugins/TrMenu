@@ -3,6 +3,7 @@ package me.arasple.mc.trmenu.display
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.events.MenuCloseEvent
 import me.arasple.mc.trmenu.api.events.MenuOpenEvent
+import me.arasple.mc.trmenu.configuration.MenuLoader
 import me.arasple.mc.trmenu.configuration.menu.MenuConfiguration
 import me.arasple.mc.trmenu.data.MetaPlayer.completeArguments
 import me.arasple.mc.trmenu.data.Sessions.getMenuSession
@@ -13,6 +14,7 @@ import me.arasple.mc.trmenu.utils.Tasks
 import me.arasple.mc.trmenu.utils.Tasks.Tasking
 import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
+import java.io.File
 import kotlin.math.min
 
 /**
@@ -105,6 +107,22 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
     fun getIcon(player: Player, page: Int, slot: Int): Icon? = getIcons(player, page).firstOrNull { it.getIconProperty(player).display.position[page]?.currentElement(player)?.getSlots(player)?.contains(slot) ?: false }
 
     fun getIcons(player: Player, page: Int) = icons.filter { it.getIconProperty(player).display.position.containsKey(page) }
+
+    fun reload() {
+        val file = File(conf.loadedPath)
+        if (file.exists()) {
+            MenuLoader.loadMenu(file, false)?.let { menu ->
+                getMenus().remove(this)
+                getMenus().add(menu)
+                Tasks.run {
+                    viewers.forEach {
+                        val session = it.getMenuSession()
+                        menu.open(it, session.page, MenuOpenEvent.Reason.RELOAD)
+                    }
+                }
+            }
+        }
+    }
 
     companion object {
 

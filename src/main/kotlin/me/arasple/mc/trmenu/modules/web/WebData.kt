@@ -2,7 +2,7 @@ package me.arasple.mc.trmenu.modules.web
 
 import io.izzel.taboolib.internal.gson.JsonElement
 import io.izzel.taboolib.internal.gson.JsonParser
-import joptsimple.internal.Strings
+import io.izzel.taboolib.util.Strings
 import me.arasple.mc.trmenu.utils.Msger
 import me.arasple.mc.trmenu.utils.Tasks
 import java.io.BufferedInputStream
@@ -42,7 +42,7 @@ class WebData(val url: String, var data: String, val period: Long, val lastUpdat
     @Suppress("DEPRECATION")
     fun getJsonElement(): JsonElement? = JsonParser().parse(get())
 
-    fun hasData() = !Strings.isNullOrEmpty(data)
+    fun hasData() = !Strings.isBlank(data)
 
     fun update() {
         Tasks.run(true) {

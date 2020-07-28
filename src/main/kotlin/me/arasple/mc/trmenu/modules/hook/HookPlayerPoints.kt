@@ -22,7 +22,7 @@ object HookPlayerPoints {
         PLAYER_POINTS = Bukkit.getPluginManager().getPlugin(PLUGIN_NAME)
         IS_HOOKED = PLAYER_POINTS?.isEnabled ?: false
         if (IS_HOOKED) {
-            TLocale.sendToConsole("HOOKED", PLUGIN_NAME)
+            TLocale.sendToConsole("PLUGIN.HOOKED", PLUGIN_NAME)
         }
     }
 

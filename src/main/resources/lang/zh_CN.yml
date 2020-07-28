@@ -4,6 +4,7 @@ PLUGIN:
     - '&3Tr&bMenu &f&lPremium &7正在载入中... &8{0}'
     - ''
   LOADED: '&8[&3Tr&bMenu&8] &bINFO &8| &3插件已成功载入, 当前运行版本 &2{0}&7.'
+  HOOKED: '&8[&3Tr&bMenu&8] &6HOOK &8| &7已检测并支持插件 &f{0}&7.'
   DEPEND:
     DOWNLOAD: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7正在下载前置插件 &f{0} &7...'
     INSTALL: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7已成功下载前置 &3{0} &7, 即将重启服务端完成安装...'
@@ -15,6 +16,18 @@ LOADER:
     - '&8[&3Tr&bMenu&8] &cERROR &8| &4载入菜单 &c{0} &4过程中发生错误, 加载中止.'
     - '&7Message: &8{1}'
     - '&7Traces: &8{2}'
+
+MIGRATE:
+  UNKNOWN-FILE: '&8[&fTr&7Menu&8] &aMIGRATE &8| &7不支持文件或不存在 &f{0}&7.'
+  EMPTY-FILE: '&8[&fTr&7Menu&8] &aMIGRATE &8| &7目标文件或目录为空&7.'
+  UNSUPPORTED-PLUGIN: '&8[&3Tr&bMenu&8] &aMIGRATE &8| &7暂不支持迁移 &f{0} &7的菜单...'
+  PROCESSING: '&8[&3Tr&bMenu&8] &aMIGRATE &8| &7正在处理中, 总计 &f{0} &7个欲迁移文件...'
+  LOAD-SUCCESS: '&8[&3Tr&bMenu&8] &aMIGRATE &8| &3成功迁入了 &a{0} &3个菜单...'
+  LOAD-ERROR: '&8[&3Tr&bMenu&8] &aMIGRATE &8| &7有 &c{0} &7个菜单迁移失败，请检查相关错误...'
+  ERROR:
+    - '&8[&3Tr&bMenu&8] &aMIGRATE &8| &4菜单 &c{0} &4加载过程中出错'
+    - '&8Reason: {1}'
+    - '&8Trace: {2}'
 
 MENU:
   DEPEND-EXPANSIONS:
@@ -29,17 +42,48 @@ MENU:
         hover: '&7点击安装'
         command: '/placeholderapi ecloud download {0}'
 
-MIGRATE:
-  UNKNOWN-FILE: '&8[&fTr&7Menu&8] &aMIGRATE &8| &7不支持文件或不存在 &f{0}&7.'
-  EMPTY-FILE: '&8[&fTr&7Menu&8] &aMIGRATE &8| &7目标文件或目录为空&7.'
-  UNSUPPORTED-PLUGIN: '&8[&3Tr&bMenu&8] &aMIGRATE &8| &7暂不支持迁移 &f{0} &7的菜单...'
-  PROCESSING: '&8[&3Tr&bMenu&8] &aMIGRATE &8| &7正在处理中, 总计 &f{0} &7个欲迁移文件...'
-  LOAD-SUCCESS: '&8[&3Tr&bMenu&8] &aMIGRATE &8| &3成功迁入了 &a{0} &3个菜单...'
-  LOAD-ERROR: '&8[&3Tr&bMenu&8] &aMIGRATE &8| &7有 &c{0} &7个菜单迁移失败，请检查相关错误...'
-  ERROR:
-    - '&8[&3Tr&bMenu&8] &aMIGRATE &8| &4菜单 &c{0} &4加载过程中出错'
-    - '&8Reason: {1}'
-    - '&8Trace: {2}'
+COMMANDS:
+  OPEN:
+    UNKNOWN-MENU: '&8[&3Tr&bMenu&8] &7未知菜单 &6{0} &7.'
+    UNKNOWN-PLAYER: '&8[&3Tr&bMenu&8] &7未知玩家或不在线.'
+  ACTION:
+    UNKNOWN-PLAYER: '&8[&3Tr&bMenu&8] &7未知玩家或不在线.'
+  DEBUG:
+    'ON': '&8[&3Tr&bMenu&8] &3DEBUG &8| &7已 &a开启 &7调试模式'
+    'OFF': '&8[&3Tr&bMenu&8] &3DEBUG &8| &7已 &c关闭 &7调试模式'
+  ITEM:
+    TO-JSON:
+      NO-ITEM: '&8[&3Tr&bMenu&8] &7你必须 &f手持 &7一个物品才能将其转换为 Json 格式'
+      CONVERTED:
+        ==: JSON
+        text: '&8[&3Tr&bMenu&8] &7已将物品转换为 Json 内容: <&3&n点击复制@copy>'
+        args:
+          copy:
+            hover: '&7点击复制'
+            suggest: '{0}'
+  ITEM-REPOSITORY:
+    NO-ITEM: '&8[&3Tr&bMenu&8] &7你必须 &f手持 &7一个物品才能将其转换为 Json 格式.'
+    NOT-EXIST: '&8[&3Tr&bMenu&8] &7无法在物品仓库中找到目标物品 Id &f{0} &7.'
+    EXISTED: '&8[&3Tr&bMenu&8] &7已经存在物品 Id 名为 &f{0} &7的物品.'
+    GIVED: '&8[&3Tr&bMenu&8] &3已给予你 &a{0} &3从物品仓库.'
+    ADDED: '&8[&3Tr&bMenu&8] &3已添加 &a{0} &3到物品仓库.'
+    REMOVED: '&8[&3Tr&bMenu&8] &3已从物品仓库移除物品 &a{0} &3.'
+  TEMPLATE:
+    EMPTY: '&8[&3Tr&bMenu&8] &7该容器为空, 取消处理...'
+    PROCESSING: '&8[&3Tr&bMenu&8] &7正在转换你的容器模板为 TrMenu 格式中...'
+    SUCCESS:
+      ==: JSON
+      text: '&8[&3Tr&bMenu&8] &3成功转换为 TrMenu 格式, 请点击 <&a&n这里@paste> &3查看'
+      args:
+        paste:
+          hover: '&7点击访问并复制你的模板'
+          url: '{0}'
+    FAILED: '&8[&3Tr&bMenu&8] &c转换失败... 请检查网络连接!'
+
+HASTEBIN:
+  PROCESSING: '&8[&3Tr&bMenu&8] &7请稍等...'
+  SUCCESS: '&8[&3Tr&bMenu&8] &3你的内容已被粘贴到 &a{0}'
+  FAILED: '&8[&3Tr&bMenu&8] &c试图粘贴到 Hastebin 过程中出错.'
 
 DEBUG:
   ARGUMENTS: '&8[&fTr&7Menu&8] &3DEBUG &8| &6更新玩家 &c{0} &6的参数 &c{ &8{1} &c}'
@@ -59,37 +103,6 @@ DEBUG:
   ICON:
     DISPLAY-UPDATE: '&8[&fTr&7Menu&8] &3DEBUG &8| &6更新图标 &c{0} &6的动画, 周期 &e{1}&6, 包含 &e{2}'
     SUB-ICON-REFRESHED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6更新优先级图标 &c{0} &6到 &e{1}'
-
-HASTEBIN:
-  PROCESSING: '&8[&3Tr&bMenu&8] &7请稍等...'
-  SUCCESS: '&8[&3Tr&bMenu&8] &3你的内容已被粘贴到 &a{0}'
-  FAILED: '&8[&3Tr&bMenu&8] &c试图粘贴到 Hastebin 过程中出错.'
-
-COMMANDS:
-  ITEM:
-    TO-JSON:
-      NO-ITEM: '&8[&3Tr&bMenu&8] &7你必须 &f手持 &7一个物品才能将其转换为 Json 格式'
-      CONVERTED:
-        ==: JSON
-        text: '&8[&3Tr&bMenu&8] &7已将物品转换为 Json 内容: <&3&n点击复制@copy>'
-        args:
-          copy:
-            hover: '&7点击复制'
-            suggest: '{0}'
-  ITEM-REPOSITORY:
-    NO-ITEM: '&8[&3Tr&bMenu&8] &7你必须 &f手持 &7一个物品才能将其转换为 Json 格式'
-    NOT-EXIST: '&8[&3Tr&bMenu&8] &7无法在物品仓库中找到目标物品 Id &f{0} &7.'
-    EXISTED: '&8[&3Tr&bMenu&8] &7已经存在物品 Id 名为 &f{0} &7的物品.'
-  ACTION:
-    UNKNOWN-PLAYER: '&8[&3Tr&bMenu&8] &7未知玩家或不在线.'
-  OPEN:
-    UNKNOWN-MENU: '&8[&3Tr&bMenu&8] &7未知菜单 &6{0} &7.'
-    UNKNOWN-PLAYER: '&8[&3Tr&bMenu&8] &7未知玩家或不在线.'
-  DEBUG:
-    'ON': '&8[&3Tr&bMenu&8] &3DEBUG &8| &7已 &a开启 &7调试模式'
-    'OFF': '&8[&3Tr&bMenu&8] &3DEBUG &8| &7已 &c关闭 &7调试模式'
-
-HOOKED: '&8[&3Tr&bMenu&8] &6HOOK &8| &7已检测并支持插件 &f{0}&7.'
 
 ERRORS:
   SCRIPT:

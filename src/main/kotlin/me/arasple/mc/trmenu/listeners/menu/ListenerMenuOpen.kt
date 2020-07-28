@@ -28,14 +28,10 @@ class ListenerMenuOpen : Listener {
         val player = e.player
         Loger.log(Log.MENU_EVENT_OPEN, player.name, e.menu.id, e.page, e.reason.name)
 
-        val factorySession = player.getMenuFactorySession()
-        if (!factorySession.isNull()) {
-            factorySession.menuFactory!!.closeTask?.run(
-                CloseTask.Event(
-                    player, factorySession.menuFactory!!
-                )
-            )
-            factorySession.reset()
+        val session = player.getMenuFactorySession()
+        if (!session.isNull()) {
+            session.menuFactory!!.closeTask?.run(CloseTask.Event(player, session, session.menuFactory!!))
+            session.reset()
             return
         }
 

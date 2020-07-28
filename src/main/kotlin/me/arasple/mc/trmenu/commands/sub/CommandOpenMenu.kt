@@ -20,8 +20,7 @@ import org.bukkit.entity.Player
  */
 class CommandOpenMenu : BaseSubCommand() {
 
-    // trmenu open Example:{page} Arasple {arguments}
-    override fun getArguments(): Array<Argument> = arrayOf(
+    override fun getArguments() = arrayOf(
         Argument("MenuId", true) { Menu.getMenus().map { it.id } },
         Argument("Player", false),
         Argument("Arguments", false)

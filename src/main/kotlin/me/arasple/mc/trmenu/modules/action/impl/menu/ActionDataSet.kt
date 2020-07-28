@@ -8,7 +8,7 @@ import org.bukkit.entity.Player
  * @author Arasple
  * @date 2020/4/18 22:10
  */
-class ActionDataSet : Action("(remove|rem|del)(-)?(data)(s)?") {
+class ActionDataSet : Action("(set|edit)(-)?(data)(s)?") {
 
     override fun onExecute(player: Player) = getContentSplited(player, ";").forEach {
         val split = it.split(" ", limit = 2)

@@ -1,6 +1,7 @@
 package me.arasple.mc.trmenu.api.factory.task
 
 import me.arasple.mc.trmenu.api.factory.MenuFactory
+import me.arasple.mc.trmenu.api.factory.MenuFactorySession
 import org.bukkit.entity.Player
 
 /**
@@ -11,6 +12,6 @@ fun interface CloseTask {
 
     fun run(event: Event)
 
-    class Event(val player: Player, val factory: MenuFactory)
+    class Event(val player: Player, val session: MenuFactorySession, val factory: MenuFactory)
 
 }

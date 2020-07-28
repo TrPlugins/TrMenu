@@ -6,9 +6,9 @@ import com.mojang.authlib.GameProfile
 import com.mojang.authlib.properties.Property
 import io.izzel.taboolib.Version
 import io.izzel.taboolib.loader.internal.IO
+import io.izzel.taboolib.util.Strings
 import io.izzel.taboolib.util.item.ItemBuilder
 import io.izzel.taboolib.util.lite.Materials
-import joptsimple.internal.Strings
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.modules.packets.PacketsHandler
 import org.bukkit.Bukkit
@@ -16,6 +16,7 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
 import java.util.*
 import java.util.function.Consumer
+
 
 /**
  * @author Arasple
@@ -51,7 +52,7 @@ object Skulls {
             val player = Bukkit.getPlayerExact(id)
             if (player != null && Version.isAfter(Version.v1_13)) {
                 val nms = PacketsHandler.getPlayerTexture(player)
-                if (!Strings.isNullOrEmpty(nms)) {
+                if (!Strings.isBlank(nms)) {
                     cachePlayerTexture[id] = nms
                     return cachePlayerTexture[id]
                 }
@@ -59,7 +60,6 @@ object Skulls {
             cachePlayerTexture[id] = null
             Tasks.run(true) {
                 try {
-                    // https://api.minetools.eu/profile/%uuid%
                     val mojang = TrMenu.SETTINGS.getBoolean("Options.Skull-Mojang-API", false)
                     val api = if (mojang) apis[1] else apis[0]
                     val userProfile = JsonParser().parse(IO.readFromURL("${api[0]}$id")) as JsonObject
@@ -95,6 +95,16 @@ object Skulls {
         field[meta] = profile
         item.itemMeta = meta
         return@computeIfAbsent item
+    }
+
+    fun getSkullTexture(skull: ItemStack): String? {
+        val meta = skull.itemMeta ?: return null
+        val field = meta.javaClass.getDeclaredField("profile").also { it.isAccessible = true }
+        (field.get(meta) as GameProfile?)?.properties?.values()?.forEach {
+            if (it.name == "textures")
+                return it.value
+        }
+        return null
     }
 
 }

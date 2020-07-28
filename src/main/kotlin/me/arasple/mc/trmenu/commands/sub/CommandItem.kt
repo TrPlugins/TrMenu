@@ -19,7 +19,7 @@ import org.bukkit.entity.Player
  */
 class CommandItem : BaseSubCommand() {
 
-    override fun getArguments(): Array<Argument> = arrayOf(
+    override fun getArguments() = arrayOf(
         Argument("Type", true) {
             listOf("toJson", "fromJson")
         }

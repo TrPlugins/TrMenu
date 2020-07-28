@@ -17,6 +17,7 @@ import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import me.arasple.mc.trmenu.modules.packets.PacketsHandler
 import me.arasple.mc.trmenu.utils.Msger
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
 
 /**
  * @author Arasple
@@ -28,11 +29,6 @@ object ListenerWindowEvents {
     fun playInWindowClick(player: Player, packet: Packet): Boolean {
         try {
             if (packet.`is`("PacketPlayInWindowClick")) {
-
-                if (player.hasMetadata("TrMenu:Debug")) {
-                    player.sendMessage(arrayOf("§3Packet§fInfo §7WindowClick: ", "", "§7Window ID: §a${packet.read("a")}", "§7Window Slot/Button: §a${packet.read("slot")} / ${packet.read("button")}", "§7Window D: §a${packet.read("d")}", "§7Window ClickType: §a${packet.read("shift")}"))
-                }
-
                 val slot = packet.read("slot") as Int
                 val type = PacketsHandler.getClickType(packet.read("shift"), packet.read("button") as Int, slot)
 
@@ -42,7 +38,7 @@ object ListenerWindowEvents {
                 if (!factorySession.isNull() || !session.isNull()) {
                     val size: Int =
                         if (!factorySession.isNull())
-                            processMenuFactory(player, factorySession, slot, type)
+                            processMenuFactory(player, factorySession, slot, PacketsHandler.INSTANCE.asBukkitItem(packet.read("item")), type)
                         else
                             processMenuSession(player, session, slot, type)
 
@@ -68,7 +64,7 @@ object ListenerWindowEvents {
                 val session = player.getMenuSession()
 
                 if (!factorySession.isNull()) {
-                    factorySession.menuFactory!!.closeTask?.run(CloseTask.Event(player, factorySession.menuFactory!!))
+                    factorySession.menuFactory!!.closeTask?.run(CloseTask.Event(player, factorySession, factorySession.menuFactory!!))
                     factorySession.reset()
                     player.updateInventory()
                 } else if (!session.isNull())
@@ -93,11 +89,11 @@ object ListenerWindowEvents {
         return size
     }
 
-    private fun processMenuFactory(player: Player, session: MenuFactorySession, slot: Int, type: InvClickType): Int {
+    private fun processMenuFactory(player: Player, session: MenuFactorySession, slot: Int, itemStack: ItemStack?, type: InvClickType): Int {
         val factory = session.menuFactory!!
 
         (session.getItem(slot) ?: return -1).let {
-            factory.clickTask?.run(ClickTask.Event(player, factory, slot, it.first, it.second, type)).let { action ->
+            factory.clickTask?.run(ClickTask.Event(player, session, factory, slot, it.first, it.second, itemStack, type)).let { action ->
                 val item = it.second
                 if (item != null && action != ACCESS) {
                     PacketsHandler.sendCancelSlot(player)

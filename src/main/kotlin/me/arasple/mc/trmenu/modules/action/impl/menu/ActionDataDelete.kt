@@ -8,7 +8,7 @@ import org.bukkit.entity.Player
  * @author Arasple
  * @date 2020/4/18 22:10
  */
-class ActionDataDelete : Action("(set|edit)(-)?(data)(s)?") {
+class ActionDataDelete : Action("(remove|rem|del)(-)?(data)(s)?") {
 
     override fun onExecute(player: Player) = getContentSplited(player, ";").forEach {
         LocalPlayer.get(player).set("TrMenu.Data.$it", null)

@@ -23,7 +23,7 @@ object HookHeadDatabase {
         IS_HOOKED = Bukkit.getPluginManager().getPlugin(PLUGIN_NAME)?.isEnabled ?: false
         if (isHooked()) {
             HEAD_DATABASE_API = HeadDatabaseAPI()
-            TLocale.sendToConsole("HOOKED", PLUGIN_NAME)
+            TLocale.sendToConsole("PLUGIN.HOOKED", PLUGIN_NAME)
         }
     }
 
@@ -39,6 +39,13 @@ object HookHeadDatabase {
     } else {
         TLocale.sendToConsole("ERRORS.HOOK", PLUGIN_NAME)
         EMPTY_ITEM
+    }
+
+    fun getId(item: ItemStack): String = if (isHooked()) {
+        HEAD_DATABASE_API?.getItemID(item) ?: ""
+    } else {
+        TLocale.sendToConsole("ERRORS.HOOK", PLUGIN_NAME)
+        ""
     }
 
 }

@@ -16,7 +16,7 @@ import org.bukkit.command.CommandSender
  */
 class CommandAction : BaseSubCommand() {
 
-    override fun getArguments(): Array<Argument> = arrayOf(
+    override fun getArguments() = arrayOf(
         Argument("Player", true),
         Argument("Action", true)
     )

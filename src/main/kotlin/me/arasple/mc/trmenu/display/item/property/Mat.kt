@@ -4,10 +4,10 @@ import io.izzel.taboolib.Version
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import io.izzel.taboolib.util.Strings
 import io.izzel.taboolib.util.item.ItemBuilder
-import io.izzel.taboolib.util.item.Items
 import io.izzel.taboolib.util.lite.Materials
 import io.th0rgal.oraxen.items.OraxenItems
 import me.arasple.mc.trmenu.configuration.property.Nodes
+import me.arasple.mc.trmenu.display.item.Item
 import me.arasple.mc.trmenu.modules.hook.HookHeadDatabase
 import me.arasple.mc.trmenu.modules.hook.HookSkinsRestorer
 import me.arasple.mc.trmenu.modules.repo.ItemRepository
@@ -19,6 +19,8 @@ import org.bukkit.Color
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.LeatherArmorMeta
+import org.bukkit.inventory.meta.SkullMeta
 import java.util.*
 import kotlin.math.min
 
@@ -43,7 +45,7 @@ data class Mat(val raw: String, val value: String, val type: Pair<Nodes, String>
             Nodes.MAT_ORAXEN -> OraxenItems.getItemById(typeValue).build()
             Nodes.MAT_HEAD_SKINSRESTORER -> Skulls.getTextureSkull(HookSkinsRestorer.getSkin(typeValue))
             Nodes.MAT_SCRIPT -> Scripts.script(player, type.second, true).asItemStack()!!
-            Nodes.MAT_JSON -> Items.fromJson(typeValue)
+            Nodes.MAT_JSON -> Item.fromJson(typeValue)
             else -> {
                 if (staticItem != null) {
                     return staticItem!!
@@ -112,6 +114,31 @@ data class Mat(val raw: String, val value: String, val type: Pair<Nodes, String>
             return builder
         }
 
+        fun createMat(item: ItemStack): String {
+            val meta = item.itemMeta
+            val material = toMaterialFormateed(item)
+            // Skull & Head
+            if (meta is SkullMeta) {
+                if (HookHeadDatabase.isHooked()) {
+                    val id = HookHeadDatabase.getId(item)
+                    if (!Strings.isBlank(id)) return "<hdb:$id>"
+                }
+                val owner = meta.owningPlayer
+                return if (owner != null) "<head:${owner.name}>"
+                else "<skull:${Skulls.getSkullTexture(item)}>"
+            }
+            // ModelData
+            if (Version.isAfter(Version.v1_14) && meta != null && meta.hasCustomModelData()) {
+                return "$material<model-data:${meta.customModelData}>"
+            }
+            // Dye Leather TODO
+            if (meta is LeatherArmorMeta) {
+                return "$material<dye:${meta.color}>"
+            }
+            // Banner TODO
+            return material
+        }
+
         fun createMat(raw: String): Mat {
             val result = Nodes.read(raw)
             val left = result.first
@@ -124,6 +151,10 @@ data class Mat(val raw: String, val value: String, val type: Pair<Nodes, String>
             }
             val types = if (type != null) Pair(type, typeValue ?: "") else Pair(Nodes.MAT_ORIGINAL, result.first)
             return Mat(raw, result.first, types, Msger.containsPlaceholders(raw) || type == Nodes.MAT_VARIABLE)
+        }
+
+        private fun toMaterialFormateed(item: ItemStack): String {
+            return item.type.name.toLowerCase().replace("_", " ")
         }
 
     }

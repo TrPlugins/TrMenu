@@ -3,6 +3,8 @@ package me.arasple.mc.trmenu.modules.hook
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import io.izzel.taboolib.module.db.local.LocalPlayer
 import io.izzel.taboolib.module.inject.THook
+import io.izzel.taboolib.module.locale.TLocale
+import io.izzel.taboolib.util.Files
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.data.MetaPlayer.getArguments
 import me.arasple.mc.trmenu.data.MetaPlayer.getMeta
@@ -11,7 +13,9 @@ import me.arasple.mc.trmenu.modules.script.Scripts
 import me.arasple.mc.trmenu.utils.Utils
 import me.clip.placeholderapi.PlaceholderAPI
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
+import java.io.File
 
 /**
  * @author Arasple
@@ -22,6 +26,21 @@ object HookPlaceholderAPI {
     fun replace(plauer: Player, content: String): String = PlaceholderAPI.setPlaceholders(plauer, PlaceholderAPI.setBracketPlaceholders(plauer, content))
 
     fun replace(plauer: Player, content: List<String>): List<String> = PlaceholderAPI.setPlaceholders(plauer, PlaceholderAPI.setBracketPlaceholders(plauer, content))
+
+    fun installDepend(): Boolean {
+        val plugin = Bukkit.getPluginManager().getPlugin("PlaceholderAPI")
+        val jarFile = File("plugins/PlaceholderAPI.jar")
+        val url = "https://api.spiget.org/v2/resources/6245/download"
+        if (plugin == null) {
+            jarFile.delete()
+            TLocale.sendToConsole("PLUGIN.DEPEND.DOWNLOAD", "PlaceholderAPI")
+            if (Files.downloadFile(url, jarFile)) TLocale.sendToConsole("PLUGIN.DEPEND.INSTALL", "PlaceholderAPI")
+            else TLocale.sendToConsole("PLUGIN.DEPEND.INSTALL-FAILED", "PlaceholderAPI")
+            Bukkit.shutdown()
+            return true
+        }
+        return false
+    }
 
     private fun processRequest(player: Player, content: String): String {
         val params = content.split("_")

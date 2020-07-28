@@ -1,233 +1,264 @@
 #
-# 菜单的标题, 支持动态标题周期切换
-#
+# Migrated from TrMenu v1.x, by TrMenu v2
+# Date: 2020-07-28 14:03:12
+
+
 Title:
-  - 'Hello, TrMenu!'
-  # - 'Support Animated Titles'
-
-#
-# 若有多个标题, 切换的周期 (ticks)
-#
-Title-Update: 40
-
-Layout:
-  - - '########`Close`'
-    - '         '
-    - ' S X     '
-    - '         '
-    - '####*###`Next`'
-
-  - - '########`Close`'
-    - '         '
-    - ' *       '
-    - '         '
-    - '`Pre`########'
-
-PlayerInventory:
-  - - '         '
-    - '         '
-    - '         '
-    - '         '
-
-#
-# 菜单的选项设置
-#
-Options:
-  # 默认填充参数
-  Default-Arguments: []
-  # 默认布局页码
-  Default-Layout: 0
-  # 是否隐藏玩家容器
-  Hide-Player-Inventory: true
-  # 防频繁点击的间隔
-  Min-Click-Delay: 200
-  # 强制需要依赖的 PlaceholderAPI 拓展变量
-  Depend-Expansions: ['server', 'player', 'progress', 'animations']
-
-#
-# 菜单绑定的快捷打开方式
-#
-Bindings:
-  # 绑定命令, 支持正则
-  Commands:
-    - '(?i)example(-)?(gui)?(s)?'
-  # 绑定到物品特征
-  Items:
-    - 'material:compass'
-    - 'material:clock,lore:OPEN_MENU'
-
-#
-# 菜单的事件处理
-#
-Events:
-  # 开启菜单事件
-  Open:
-    - condition: 'hasPerm.trmenu.use or is.{reason}.RELOAD or is.{reason}.CONSOLE'
-      actions:
-        - 'sound: BLOCK_CHEST_OPEN-1-0'
-      deny:
-        - 'sound: ENTITY_ITEM_BREAK-1-0'
-        - 'title: <title=&c&l权限不足><subtitle=&7&l本菜单需要权限 &6&ltrmenu.use &7&l方能浏览>'
-        - 'return'
-  # 关闭菜单事件
-  Close:
-    - 'sound: BLOCK_CHEST_CLOSE-1-0'
-
-#
-# 菜单的图标
-#
-Icons:
-
-  # 图标的唯一 ID, 可配合布局使用
-  '#':
-    # 显示图标的动态更新周期, 若设置多个则依次对应为 Material, Name, Lore, Slots
-    # 设置一个即为所有项相同更新周期
-    update: [-1, 10, 15, -1]
-    # 菜单的显示部分
-    display:
-      material: Gray Stained Glass Pane
-      name: ['&fTr&7Menu', '&7Tr&8Menu', '&8Tr&0Menu','&7Tr&8Menu']
-      lore:
-        - - '&7Thanks &f:> &7for using!'
-        - - '&7Thanks &f:) &7for using!'
-    # 点击菜单后执行的动作
-    actions:
-      all: 'sound: BLOCK_NOTE_BLOCK_PLING-1-2'
-
-  'Close':
-    update: [-1, 5, -1, -1]
-    display:
-      material: Red Stained Glass Pane
-      name: ['&cC&7lose', '&cCl&7ose', '&cClo&7se', '&cClos&7e', '&cClose']
-    actions:
-      all: close
-  'Next':
-    display:
-      material: Cyan Stained Glass Pane
-      name: '&bN&3ext Page'
-    actions:
-      all:
-        - 'page: 1'
-        - 'sound: BLOCK_CHEST_OPEN-1-2'
-  'Pre':
-    display:
-      material: Lime Stained Glass Pane
-      name: '&aP&2revious Page'
-    actions:
-      all:
-        - 'page: 0'
-        - 'sound: BLOCK_CHEST_OPEN-1-2'
-  '*':
-    update: [-1, 5, 80, -1]
-    display:
-      material: '<skull:9842dc3b917b1a796c303e15105474a8e315de7982b6ca54feafb5a4d13d4e95>'
-      name:
-        - '&3&lSERVER'
-        - '&b&lSE&3&lRVER'
-        - '&3&lS&b&lER&3&lVER'
-        - '&3&lSE&b&lRV&3&lER'
-        - '&3&lSER&b&lVE&3&lR'
-        - '&3&lSERV&b&lER'
-      lore:
-        - ''
-        - '&8| &7RAM: &2%server_ram_used%/%server_ram_total% &7MB'
-        - '&8[ %progress_bar_{server_ram_used}_m:{server_ram_total}_c:&3■_p:&7■_r:&8■_l:20% &8]'
-        - ''
-        - '&8| &7ONLINE: &e%server_online% &6${js: utils.getOnlinePlayers().size() > 1 ? "Players" : "Player"}'
-        - '&8| &7UPTIME: &e%server_uptime%'
-        - '&8| &7TPS: &a%server_tps%'
-        - ''
-        - '%animations_<flash>➥</flash>%'
-
-          # - ''
-          # - '&8▪ &7RAM: &a%server_ram_used%&7/&2%server_ram_total% MB &8(%math_({server_ram_used}/{server_ram_total})*100[precision:2]%%&8)'
-          # - '&8[ %progress_bar_{server_ram_used}_m:{server_ram_total}_c:&3■_p:&7■_r:&8■_l:15% &8]'
-          # - ''
-          # - '&8▪ &7ONLINE: &e%server_online% &6Player(s)'
-          # - '&8▪ &7UNIQUE JOINS: &a%server_unique_joins%'
-          # - '&8▪ &7UPTIME: &3%server_uptime%'
-          # - '&8▪ &7TPS: &a%server_tps%'
-          # - ''
-        # - '&7Designed by Arasple, Using TrMenu & PlaceholderAPI'
-
-  # 'X':
-  #   update: 20
+  - '            &b&l« &6&l快捷菜单 &b&l»            '
+Title-Update: 10
+Shape:
+  - - '####a####'
+    - '#bc-=-de#'
+    - '#f-   -g#'
+    - '#-+ =  -#'
+    - '---------'
+    - -h#i#j#k-
+Buttons:
+  # '#':
   #   display:
-  #     material: APPLE
-  #     amount: '%server_time_ss%'
-  #     name: '&3Tip'
+  #     mats: GRAY_STAINED_GLASS_PANE
+  #     name: ' '
+  # '-':
+  #   display:
+  #     mats: BLACK_STAINED_GLASS_PANE
+  #     name: ' '
+  # =:
+  #   update: 5
+  #   display:
+  #     mats:
+  #     - MAGENTA_STAINED_GLASS_PANE
+  #     - PURPLE_STAINED_GLASS_PANE
+  #     - MAGENTA_STAINED_GLASS_PANE
+  #     - PINK_STAINED_GLASS_PANE
+  #     name: ' '
+  +:
+    update: 5
+    display:
+      mats: LIME_STAINED_GLASS_PANE
+      name: ' '
+      slots:
+        - - 33
+          - 32
+          - 29
+        - - 30
+          - 29
+          - 33
+        - - 21
+          - 30
+          - 29
+        - - 22
+          - 21
+          - 30
+        - - 23
+          - 22
+          - 21
+        - - 32
+          - 23
+          - 22
+        - - 33
+          - 32
+          - 23
+  # a:
+  #   display:
+  #     mats: <head:%player_name%>
+  #     name: '&f&l &a个人信息'
   #     lore:
-  #     - 'Text ....'
-  #     - 'Text ....'
+  #     - '&8&l&m                   '
+  #     - '&7昵称: &a%player_name%'
+  #     - '&7称号: '
+  #     - '&7身份: '
+  #     - '&8&l&m                   '
+  #     - '&7金币: &e%vault_eco_balance_formatted%'
+  #     - '&7点券: &b%playerpoints_points%'
+  #     - '&8&l&m                   '
+  #     - '&7当前位置: &a%player_world%'
+  #     - '&8&l&m                   '
+  # b:
+  #   display:
+  #     mats: <skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTRjZjk0ZGJlZWY4YWNjNDE1ZjM3MjRhZDYyM2Q0OWM4NzdlOTM2YTNmZjgzMzk4MWJmMTJiMGVhIn19fQ==>
+  #     name: '&f&l▫ &a家列表'
+  #     lore:
+  #     - '&8&l&m                   '
+  #     - '&7列出你所有的家的列表'
+  #     - '&7并选择一个返回'
+  #     - '&8&l&m                   '
+  #     - '&a▶ 点击查看'
+  #     - '&8&l&m                   '
+  #   actions:
+  #     all:
+  #     - Close
+  #     - 'op: homes'
+  # c:
+  #   display:
+  #     mats: <skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODcyZDM0MWQ3N2RiZGU2ZDUzZGFkNjFiZjE5MjUyNGRiZGI5NmFmMTM1OGUwNzQ4ZmVlYTE0ODFiMWY4In19fQ==>
+  #     name: '&f&l▫ &a返回重生点'
+  #     lore:
+  #     - '&8&l&m                   '
+  #     - '&7返回当前分区的重生点'
+  #     - '&8&l&m                   '
+  #     - '&7快捷指令: &c/spawn'
+  #     - '&8&l&m                   '
+  #     - '&7那里是最安全的地方'
   #     - ''
-  #     - '&f↓ &7Left-Click to show more info'
+  #     - '&a▶ 点击传送'
+  #     - '&8&l&m                   '
   #   actions:
   #     left:
-  #       - 'set-meta: x_hide true'
-  #       - 'refresh'
+  #     - Close
+  #     - 'op: spawn'
+  # e:
+  #   display:
+  #     mats: <skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjFkZDRmZTRhNDI5YWJkNjY1ZGZkYjNlMjEzMjFkNmVmYTZhNmI1ZTdiOTU2ZGI5YzVkNTljOWVmYWIyNSJ9fX0=>
+  #     name: '&f&l▫ &6随机传送'
+  #     lore:
+  #     - '&8&l&m                   '
+  #     - '&7随机传送到一个位置'
+  #     - '&7仅可在%world_world_name%可用'
+  #     - '&8&l&m                   '
+  #     - '&7快捷指令: &c/rt'
+  #     - '&8&l&m                   '
+  #     - '&a▶ 点击随机传送'
+  #     - '&8&l&m                   '
+  #   actions:
+  #     left:
+  #     - Close
+  #     - 'Command: rt'
   #   icons:
-  #     - condition: 'is.{meta:x_hide}.true'
-  #       display:
-  #         name: '&3Tip'
-  #         lore:
-  #         - 'Text ....'
-  #         - 'Text ....'
-  #         - 'Text ....'
-  #         - '&bMore Text'
-  #         - ''
-  #         - '&f↑ &7Right-Click to hide extra-info'
-  #       actions:
-  #         right:
-  #         - 'rem-meta: x_hide'
-  #         - 'refresh'
-
-  'S':
-    display:
-      material: Sign
-      name: '&3Survery'
-    actions:
-      all:
-        - close
-        - catcher:
-            target:
-              type: CHAT
-              before: 'tell: &3请输入一名玩家的名称'
-              reactions:
-                - condition: 'isOnline.${input_target}'
-                  actions: 'tell: &7名称确认. &f${input_target}'
-                  deny-actions:
-                    - 'tell: &6抱歉但玩家 &c${input_target} &6不在线'
-                    - 're-enter'
-            amount:
-              type: CHAT
-              before: 'tell: &3请提供支付数额'
-              reactions:
-                - condition: 'isNumber.${input_amount}'
-                  actions:
-                    - 'tell: &7数额确认. &f${input_amount}'
-                    - 'command: say I paied ${input_target} ${input_amount}'
-                  deny-actions: 'tell: &6你打啥钱呢?'
-
-#
-# 菜单自定义周期性任务
-#
-
-Tasks:
-# tikTok:
-#   period: 20
-#   task:
-#     - condition: 'isOperator.'
-#       actions:
-#         - 'sound: BLOCK_NOTE_BLOCK_BIT-1-2'
-
-
-# 菜单内置的自定义脚本变量
-# 通过 ${ID_参数_参数} 的方式可以调用
-#
-
-Functions:
-  health: |-
-    function math(){
-      return player.getHealth()
-    }
-    math()
+  #   - condition: '"%multiverse_world_alias%" != "%world_world_name%"'
+  #     display:
+  #       mats: <skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjFkZDRmZTRhNDI5YWJkNjY1ZGZkYjNlMjEzMjFkNmVmYTZhNmI1ZTdiOTU2ZGI5YzVkNTljOWVmYWIyNSJ9fX0=>
+  #       name: '&f&l▫ &6随机传送'
+  #       lore:
+  #       - '&8&l&m                   '
+  #       - '&7随机传送到一个位置'
+  #       - '&7仅可在&a%world_world_name%&7可用'
+  #       - '&8&l&m                   '
+  #       - '&7快捷指令: &c/rt'
+  #       - '&8&l&m                   '
+  #       - '&a▶ 点击随机传送'
+  #       - '&8&l&m                   '
+  #     actions:
+  #       all:
+  #       - 'sound: ENTITY_ENDERMEN_TELEPORT'
+  #       - close
+  #       - 'tell: &8[&a%server_name%&8] &eWARN &8| &c该世界禁止随机传送 请先前往%world_world_name%'
+  # f:
+  #   display:
+  #     mats: <skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjc3OTlmMDkyODk1YzFmZjFjMTI1MTI3MTlmZjI2MjlmZDNmMWNlZTZkOTMyYWE5ODczYWNkOTA2YjY0ZCJ9fX0=>
+  #     name: '&f&l▫ &c返回上个位置'
+  #     lore:
+  #     - '&8&l&m                   '
+  #     - '&7回到上次&b传送&7或&c死亡&7地点'
+  #     - '&8&l&m                   '
+  #     - '&7快捷指令: &c/back'
+  #     - '&8&l&m                   '
+  #     - '&a▶ 点击传送'
+  #     - '&8&l&m                   '
+  #   actions:
+  #     left:
+  #     - Close
+  #     - 'Command: back'
+  # i:
+  #   display:
+  #     mats: <skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDVjNmRjMmJiZjUxYzM2Y2ZjNzcxNDU4NWE2YTU2ODNlZjJiMTRkNDdkOGZmNzE0NjU0YTg5M2Y1ZGE2MjIifX19>
+  #     name: '&f&l▫ &e收购面板'
+  #     lore:
+  #     - '&8&l&m                   '
+  #     - '&7通过物资来换取金币'
+  #     - '&8&l&m                   '
+  #     - '&7每种类型的物品会有&c收购上限'
+  #     - '&7在每周一的凌晨五点会刷新'
+  #     - '&8&l&m                   '
+  #     - '&a▶ 点击打开'
+  #     - '&8&l&m                   '
+  #   actions:
+  #     left:
+  #     - 'menu: 收购面板'
+  # j:
+  #   display:
+  #     mats: <skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjQ5NmE5NGQ5ZjUxZWZmMTQ0MmMxYmJjNzk2Y2RhM2Q3YTNmMDIxOTk4NmMyZTljODFhODFhOWZiN2E5OGE2In19fQ==>
+  #     name: '&f&l▫ &a宠物面板'
+  #     lore:
+  #     - '&8&l&m                   '
+  #     - '&7快速便捷的控制自己的宠物'
+  #     - '&8&l&m                   '
+  #     - '&7宠物捕捉需要拥有&b捕捉许可'
+  #     - '&7可在主城区找到&a宠物大师'
+  #     - '&7完成一定的条件即可获得'
+  #     - '&8&l&m                   '
+  #     - '&a▶ 点击打开'
+  #     - '&8&l&m                   '
+  #   actions:
+  #     left:
+  #     - 'menu: 宠物面板'
+  # d:
+  #   display:
+  #     mats: <skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmFlNGJlM2ZjNzg1ZjZjN2NjNzc3YzkzN2Y1YWRlOGZlOGQ3MWY2ZGZhNDhkYTg4ODllOThhZjA3NTI1ZmVmZiJ9fX0=>
+  #     name: '&f&l▫ &b会员商城'
+  #     lore:
+  #     - '&8&l&m                   '
+  #     - '&7会员拥有诸多专属功能'
+  #     - '&8&l&m                   '
+  #     - '&7你可以选择购买多种时长'
+  #     - '&f天卡&8|&a周卡&8|&b月卡&8|&e季卡&8|&c年卡&8|&d永久'
+  #     - '&8&l&m                   '
+  #     - '&7会员会随着服务器的不断完善'
+  #     - '&7添加更多的专属功能在内'
+  #     - '&8&l&m                   '
+  #     - '&a▶ 点击打开'
+  #     - '&8&l&m                   '
+  #   actions:
+  #     left:
+  #     - 'menu: 会员商城'
+  # g:
+  #   display:
+  #     mats: <skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjYyNGM5MjdjZmVhMzEzNTU0Mjc5OTNkOGI3OTcxMmU4NmY5NGQ1OTUzNDMzZjg0ODg0OWEzOWE2ODc5In19fQ==>
+  #     name: '&f&l▫ &b会员面板'
+  #     lore:
+  #     - '&8&l&m                   '
+  #     - '&7特权会员的专属功能'
+  #     - '&8&l&m                   '
+  #     - '&7通过点击菜单内的按钮'
+  #     - '&7可以快速地执行特权功能'
+  #     - '&8&l&m                   '
+  #     - '&a▶ 点击打开'
+  #     - '&8&l&m                   '
+  #   actions:
+  #     left:
+  #     - 'menu: 会员面板'
+  # h:
+  #   display:
+  #     mats: <skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2NhNDVlZjU4MjFhOGIxMDdjYmZiYTdkNjZlOTk3ZmI2YWJlNTUyMWMxNTVjZWUyZjI0YjM0YjNkOTFhNSJ9fX0=>
+  #     name: '&f&l▫ &a跨服面板'
+  #     lore:
+  #     - '&8&l&m                   '
+  #     - '&7开启时间: &a2020-7-8'
+  #     - '&8&l&m                   '
+  #     - '&7运行时间: &a%server_uptime%'
+  #     - '&7记录人数: &a%server_unique_joins%'
+  #     - '&7在线人数: &a%server_online%'
+  #     - '&7服务版本: &a%server_version%'
+  #     - '&8&l&m                   '
+  #     - '&a▶ 点击打开'
+  #     - '&8&l&m                   '
+  #   actions:
+  #     left:
+  #     - Close
+  #     - 'menu: sc'
+  # k:
+  #   display:
+  #     mats: <skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzJiMGEyNzA5YWQyN2M1NzgzYmE3YWNiZGFlODc4N2QxNzY3M2YwODg4ZjFiNmQ0ZTI0ZWUxMzI5OGQ0In19fQ==>
+  #     name: '&f&l▫ &a退出主菜单'
+  #     lore:
+  #     - '&8&l&m                   '
+  #     - '&7退出主菜单'
+  #     - '&7白白~玩得开心'
+  #     - '&8&l&m                   '
+  #     - '&a▶ 点击退出主菜单'
+  #     - '&8&l&m                   '
+  #   actions:
+  #     left:
+  #     - Close
+Bindings:
+  Commands:
+    - cmd

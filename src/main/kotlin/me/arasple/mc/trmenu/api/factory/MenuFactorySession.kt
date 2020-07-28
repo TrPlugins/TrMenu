@@ -51,6 +51,7 @@ class MenuFactorySession(val player: Player, var menuFactory: MenuFactory?, val 
 
     fun reset() {
         menuFactory = null
+        items.clear()
         def.clear()
     }
 

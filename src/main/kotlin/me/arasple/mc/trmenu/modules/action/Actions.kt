@@ -12,7 +12,9 @@ import me.arasple.mc.trmenu.modules.action.impl.hook.eco.ActionTransferPay
 import me.arasple.mc.trmenu.modules.action.impl.hook.playerpoints.ActionGivePoints
 import me.arasple.mc.trmenu.modules.action.impl.hook.playerpoints.ActionSetPoints
 import me.arasple.mc.trmenu.modules.action.impl.hook.playerpoints.ActionTakePoints
-import me.arasple.mc.trmenu.modules.action.impl.item.*
+import me.arasple.mc.trmenu.modules.action.impl.item.ActionEnchantItem
+import me.arasple.mc.trmenu.modules.action.impl.item.ActionGiveItem
+import me.arasple.mc.trmenu.modules.action.impl.item.ActionTakeItem
 import me.arasple.mc.trmenu.modules.action.impl.menu.*
 import me.arasple.mc.trmenu.modules.script.Scripts
 import me.arasple.mc.trmenu.utils.Msger
@@ -37,8 +39,9 @@ object Actions {
         ActionTakeMoney(),
         ActionTakePoints(),
         // item
-        ActionTakeItem(),
         ActionEnchantItem(),
+        ActionGiveItem(),
+        ActionTakeItem(),
         // menu
         ActionClose(),
         ActionOpen(),

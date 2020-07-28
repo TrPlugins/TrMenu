@@ -31,7 +31,7 @@ import org.bukkit.scheduler.BukkitWorker
  */
 class CommandDebug : BaseSubCommand() {
 
-    override fun getArguments(): Array<Argument> = arrayOf(
+    override fun getArguments() = arrayOf(
         Argument("Type", false) {
             listOf(
                 "info",
