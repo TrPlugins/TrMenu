@@ -6,6 +6,7 @@ import io.izzel.taboolib.util.item.ItemBuilder
 import io.izzel.taboolib.util.lite.Numbers
 import me.arasple.mc.trmenu.data.MetaPlayer.getArguments
 import me.arasple.mc.trmenu.modules.action.Actions
+import me.arasple.mc.trmenu.modules.hook.HookCronus
 import me.arasple.mc.trmenu.modules.web.WebData
 import me.arasple.mc.trmenu.utils.Bungees
 import me.clip.placeholderapi.PlaceholderAPI
@@ -102,6 +103,10 @@ class AssistUtils {
     }
 
     fun readWebData(url: String) = WebData.query(url)
+
+    fun evalCronusCondition(player: String, condition: String) = getPlayer(player)?.let { return@let evalCronusCondition(it, condition) } ?: false
+
+    fun evalCronusCondition(player: Player, condition: String) = HookCronus.parseCondition(condition).check(player)
 
     companion object {
 

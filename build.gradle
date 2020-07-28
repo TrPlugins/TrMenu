@@ -59,6 +59,7 @@ repositories {
     maven { url "http://repo.dakanilabs.com/repository/public/" }
     maven { url "http://repo.ptms.ink/repository/codemc-nms/" }
     maven { url "http://repo.ptms.ink/repository/maven-releases/" }
+    maven { url "https://mvn.lumine.io/repository/maven-public/" }
     // Reop
     maven { url "https://jitpack.io" }
     maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
@@ -73,5 +74,6 @@ dependencies {
     compile 'me.clip:placeholderapi:2.10.5'
     compile 'com.github.shynixn.headdatabase:hdb-api:1.0'
     compile 'ink.ptms.cronus:Cronus:1.1.0.2019.8.31-SNAPSHOT-4'
+    compile 'io.lumine.xikage:MythicMobs:4.9.1'
     shadow fileTree(dir: 'libs', includes: ['*.jar'])
 }

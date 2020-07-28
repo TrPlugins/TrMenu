@@ -5,6 +5,7 @@ import io.izzel.taboolib.util.lite.Numbers
 import me.arasple.mc.trmenu.configuration.property.Nodes
 import me.arasple.mc.trmenu.modules.action.base.Action
 import me.arasple.mc.trmenu.modules.action.impl.*
+import me.arasple.mc.trmenu.modules.action.impl.hook.cronus.ActionCronusEffect
 import me.arasple.mc.trmenu.modules.action.impl.hook.eco.ActionGiveMoney
 import me.arasple.mc.trmenu.modules.action.impl.hook.eco.ActionSetMoney
 import me.arasple.mc.trmenu.modules.action.impl.hook.eco.ActionTakeMoney
@@ -16,6 +17,7 @@ import me.arasple.mc.trmenu.modules.action.impl.item.ActionEnchantItem
 import me.arasple.mc.trmenu.modules.action.impl.item.ActionGiveItem
 import me.arasple.mc.trmenu.modules.action.impl.item.ActionTakeItem
 import me.arasple.mc.trmenu.modules.action.impl.menu.*
+import me.arasple.mc.trmenu.modules.hook.HookCronus
 import me.arasple.mc.trmenu.modules.script.Scripts
 import me.arasple.mc.trmenu.utils.Msger
 import me.arasple.mc.trmenu.utils.Tasks
@@ -38,6 +40,7 @@ object Actions {
         ActionSetPoints(),
         ActionTakeMoney(),
         ActionTakePoints(),
+        ActionCronusEffect(),
         // item
         ActionEnchantItem(),
         ActionGiveItem(),
@@ -65,6 +68,7 @@ object Actions {
         ActionConnect(),
         ActionDelay(),
         ActionJavaScript(),
+        ActionParticle(),
         ActionReturn(),
         ActionSound(),
         ActionTell(),
@@ -95,6 +99,7 @@ object Actions {
                 }
             }
         }
+        HookCronus.reset(player)
         return true
     }
 

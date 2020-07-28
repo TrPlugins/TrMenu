@@ -10,11 +10,6 @@ import java.io.InputStreamReader
  */
 object Test {
 
-    @JvmStatic
-    fun main(args: Array<String>) {
-        testMenu()
-    }
-
     private fun testMenu() {
         val inputStream = javaClass.getResourceAsStream("/ExampleX.yml")
         val configuration = MenuConfiguration("")
