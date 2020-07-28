@@ -1,6 +1,5 @@
 package me.arasple.mc.trmenu.display.function
 
-import io.izzel.taboolib.internal.apache.lang3.ArrayUtils
 import io.izzel.taboolib.util.Strings
 import me.arasple.mc.trmenu.modules.script.Scripts
 import org.bukkit.entity.Player

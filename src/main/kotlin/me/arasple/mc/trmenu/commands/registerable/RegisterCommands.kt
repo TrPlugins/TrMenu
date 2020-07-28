@@ -17,8 +17,9 @@ object RegisterCommands {
     val registered = mutableSetOf<String>()
 
     fun load() {
-        registered.forEach {
+        registered.removeIf {
             Bukkit.getPluginCommand(it)?.unregister(TCommandHandler.getCommandMap())
+            true
         }
 
         TrMenu.SETTINGS.getConfigurationSection("RegisterCommands")?.let { it ->
@@ -49,14 +50,11 @@ object RegisterCommands {
                             }
                         }
                     }
+                    .forceRegister()
                     .permission(section.getString("permission"))
                     .build()
                 registered.add(main)
             }
-        }
-
-        Bukkit.getOnlinePlayers().forEach {
-            it.updateCommands()
         }
     }
 

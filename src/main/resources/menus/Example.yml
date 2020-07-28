@@ -106,16 +106,9 @@ Icons:
       material: Cyan Stained Glass Pane
       name: '&bN&3ext Page'
     actions:
-      - condition: 'is.%checkitem.......%.yes'
-        actions:
-          - 'tell: 111111'
-        deny-actions:
-          - 'tell: 你没有足够的物品'
-
-  #    actions:
-  #      all:
-  #        - 'page: 1'
-  #        - 'sound: BLOCK_CHEST_OPEN-1-2'
+      all:
+        - 'page: 1'
+        - 'sound: BLOCK_CHEST_OPEN-1-2'
   'Pre':
     display:
       material: Lime Stained Glass Pane
@@ -178,11 +171,11 @@ Tasks:
 #       actions:
 #         - 'sound: BLOCK_NOTE_BLOCK_BIT-1-2'
 
+
 #
 # 菜单内置的自定义脚本变量
 # 通过 ${ID_参数_参数} 的方式可以调用
 #
-
 Functions:
   flash: |-
     function flash() {

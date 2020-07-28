@@ -56,7 +56,7 @@ object MetaPlayer {
         this.getMeta().forEach {
             content = content.replace(it.key, it.value.toString())
         }
-        return string
+        return content
     }
 
     fun Player.getArguments() = arguments.computeIfAbsent(this.uniqueId) { arrayOf() }

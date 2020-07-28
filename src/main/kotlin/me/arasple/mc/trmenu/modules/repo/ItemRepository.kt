@@ -58,7 +58,7 @@ object ItemRepository {
 
     fun hasItem(id: String) = itemStacks.containsKey(id)
 
-    fun addItem(id: String, itemStack: ItemStack) = itemStacks.put(id, itemStack)
+    fun addItem(id: String, itemStack: ItemStack) = itemStacks.put(id, itemStack.clone())
 
     fun removeItem(id: String) = itemStacks.remove(id)
 

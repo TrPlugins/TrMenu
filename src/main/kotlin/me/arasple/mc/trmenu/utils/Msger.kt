@@ -48,10 +48,6 @@ object Msger {
         }
     }
 
-    /*
-    PlaceholderAPI Utils
-     */
-
     fun replace(player: Player, string: String?): String {
         return replaceWithPlaceholders(player, replaceWithBracketPlaceholders(player, string ?: ""))
     }

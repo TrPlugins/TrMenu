@@ -51,18 +51,20 @@ Shortcuts:
 
 #
 # 注册命令执行动作
+# (增改命令需要重启服务器, TAB补全才能生效)
 #
 RegisterCommands:
   # 主命令
   openMenus:
     # 别称
     aliases: []
-    permission: 'noNeed'
+    # 权限
+    permission: null
+    # 无参数执行时
     execute:
-      - 'tell: no argument!'
+      - 'tell: &7Argument Required!'
+    # 参数及对应的反应
     arguments:
-      temp1: 'open: temp'
-      temp2: 'open: temp2'
       example: 'open: example'
 
 #

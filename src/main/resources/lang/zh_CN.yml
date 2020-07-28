@@ -36,7 +36,7 @@ MENU:
     - ''
   DEPEND-EXPANSIONS-FORMAT:
     ==: JSON
-    text: '&8- <&3&n{0}@expansion>&r'
+    text: '&8- <&3{0}@expansion>&r'
     args:
       expansion:
         hover: '&7点击安装'
@@ -55,11 +55,11 @@ COMMANDS:
       - ''
     FORMAT:
       ==: JSON
-        text: '&8- <&3&n{0}@menu>&r'
-        args:
-          menu:
-            hover: '&7点击打孔'
-            command: '/trmenu open {0}'
+      text: '&8- <&2{0}@menu>&r'
+      args:
+        menu:
+          hover: '&7点击打开'
+          command: '/trmenu open {0}'
   DEBUG:
     'ON': '&8[&3Tr&bMenu&8] &3DEBUG &8| &7已 &a开启 &7调试模式'
     'OFF': '&8[&3Tr&bMenu&8] &3DEBUG &8| &7已 &c关闭 &7调试模式'

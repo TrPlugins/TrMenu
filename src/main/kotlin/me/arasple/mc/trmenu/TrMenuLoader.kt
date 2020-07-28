@@ -26,10 +26,8 @@ class TrMenuLoader {
         if (HookPlaceholderAPI.installDepend()) {
             return;
         }
-        TrMenu.SETTINGS.listener {
-            Shortcuts.load()
-            RegisterCommands.load()
-        }
+        register()
+        TrMenu.SETTINGS.listener { register() }
         TLocale.sendToConsole("PLUGIN.LOADING", Version.getBukkitVersion())
     }
 
@@ -39,14 +37,17 @@ class TrMenuLoader {
 
         TLocale.sendToConsole("PLUGIN.LOADED", TrMenu.plugin.description.version)
         MenuLoader.loadMenus()
-        Shortcuts.load()
-        RegisterCommands.load()
     }
 
     fun cancel() {
         // 注销插件提供的 PlaceholderAPI 变量拓展
         PlaceholderAPI.unregisterExpansion(PlaceholderAPIPlugin.getInstance().expansionManager.getRegisteredExpansion("trmenu"))
         FileWatcher.watcher.unregisterAll()
+    }
+
+    private fun register() {
+        RegisterCommands.load()
+        Shortcuts.load()
     }
 
     private fun printLogo() = arrayOf(

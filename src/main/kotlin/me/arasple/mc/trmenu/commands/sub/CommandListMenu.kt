@@ -14,14 +14,14 @@ import org.bukkit.command.CommandSender
 class CommandListMenu : BaseSubCommand() {
 
     override fun getArguments() = arrayOf(
-        Argument("Filter")
+        Argument("Filter", false)
     )
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>) {
         val filter = if (args.isNotEmpty()) args.joinToString(" ") else null
         val menus = Menu.getMenus().filter {
             filter == null || it.id.contains(filter, true)
-        }
+        }.sortedBy { it.id }
 
         TLocale.sendTo(sender, "COMMANDS.LIST.HEADER", menus.size, filter ?: "*")
         menus.forEach {
