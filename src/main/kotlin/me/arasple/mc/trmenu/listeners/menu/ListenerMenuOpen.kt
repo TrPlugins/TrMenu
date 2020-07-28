@@ -7,7 +7,7 @@ import me.arasple.mc.trmenu.api.factory.task.CloseTask
 import me.arasple.mc.trmenu.data.MetaPlayer.setMeta
 import me.arasple.mc.trmenu.data.MetaPlayer.updateInventoryContents
 import me.arasple.mc.trmenu.data.Sessions.getMenuFactorySession
-import me.arasple.mc.trmenu.metrics.MetricsHandler
+import me.arasple.mc.trmenu.modules.metrics.MetricsHandler
 import me.arasple.mc.trmenu.modules.log.Log
 import me.arasple.mc.trmenu.modules.log.Loger
 import org.bukkit.event.EventHandler

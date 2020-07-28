@@ -12,7 +12,7 @@ import me.arasple.mc.trmenu.data.MetaPlayer.getArguments
 import me.arasple.mc.trmenu.data.MetaPlayer.getMeta
 import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import me.arasple.mc.trmenu.display.Menu
-import me.arasple.mc.trmenu.metrics.MetricsHandler
+import me.arasple.mc.trmenu.modules.metrics.MetricsHandler
 import me.arasple.mc.trmenu.modules.expression.Expressions
 import me.arasple.mc.trmenu.utils.Msger
 import me.arasple.mc.trmenu.utils.Skulls
