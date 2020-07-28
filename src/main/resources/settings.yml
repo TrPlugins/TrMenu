@@ -39,6 +39,33 @@ Item:
   Default-Color-Lore: '&7'
 
 #
+# 快捷操作执行动作
+#
+Shortcuts:
+  Offhand: []
+  Sneaking-Offhand:
+    - condition: 'hasPerm.trmenu.shortcut'
+      execute: 'open: Example'
+  Right-Click-Player: []
+  Sneaking-Right-Click-Player: []
+
+#
+# 注册命令执行动作
+#
+RegisterCommands:
+  # 主命令
+  openMenus:
+    # 别称
+    aliases: []
+    permission: 'noNeed'
+    execute:
+      - 'tell: no argument!'
+    arguments:
+      temp1: 'open: temp'
+      temp2: 'open: temp2'
+      example: 'open: example'
+
+#
 # 控制一些插件监听的 Bukkit 事件，是否忽略已被取消的事件
 # 如果遇到一些兼容性问题可以尝试调整
 #

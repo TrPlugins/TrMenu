@@ -7,10 +7,12 @@ import me.arasple.mc.trmenu.configuration.MenuLoader
 import me.arasple.mc.trmenu.configuration.menu.MenuConfiguration
 import me.arasple.mc.trmenu.data.MenuSession
 import me.arasple.mc.trmenu.data.MetaPlayer.completeArguments
+import me.arasple.mc.trmenu.data.Sessions.TRMENU_WINDOW_ID
 import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import me.arasple.mc.trmenu.data.Sessions.setMenuSession
 import me.arasple.mc.trmenu.display.menu.MenuLayout
 import me.arasple.mc.trmenu.display.menu.MenuSettings
+import me.arasple.mc.trmenu.modules.packets.PacketsHandler
 import me.arasple.mc.trmenu.utils.Tasks
 import me.arasple.mc.trmenu.utils.Tasks.Tasking
 import org.bukkit.entity.Player
@@ -81,6 +83,13 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
             if (closeInventory) player.closeInventory() else player.updateInventory()
         }
         viewers.remove(player)
+
+        // 防止关闭菜单后, 动态标题周期未及时停止
+        Tasks.delay(3, true) {
+            if (player.getMenuSession().isNull()) {
+                PacketsHandler.sendCloseWindow(player, TRMENU_WINDOW_ID)
+            }
+        }
     }
 
     /**

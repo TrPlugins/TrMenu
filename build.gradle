@@ -44,7 +44,7 @@ processResources {
                 'main': project.group + ".boot.PluginTransfer",
                 'mainBungee': project.group + ".TrMenuBungee",
                 'mainTransfer': project.group + "." + project.name,
-                'version': project.version + "_" + new SimpleDateFormat("yyyy-MM-dd' 'HH:mm").format(new Date()),
+                'version': project.version + "_" + new SimpleDateFormat("MM-dd' 'HH:mm").format(new Date()),
                 'built': new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss.SSSZ").format(new Date()),
                 'builder': System.properties['user.name'],
                 'os': "${System.properties['os.name']} ${System.properties['os.arch']} ${System.properties['os.version']}"

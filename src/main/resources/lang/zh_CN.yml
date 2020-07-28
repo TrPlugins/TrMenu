@@ -48,6 +48,18 @@ COMMANDS:
     UNKNOWN-PLAYER: '&8[&3Tr&bMenu&8] &7未知玩家或不在线.'
   ACTION:
     UNKNOWN-PLAYER: '&8[&3Tr&bMenu&8] &7未知玩家或不在线.'
+  LIST:
+    HEADER:
+      - ''
+      - '&8[&3Tr&bMenu&8] &7已加载 &f{0} &7个有效菜单, 列出如下 &8*(过滤: {1}): '
+      - ''
+    FORMAT:
+      ==: JSON
+        text: '&8- <&3&n{0}@menu>&r'
+        args:
+          menu:
+            hover: '&7点击打孔'
+            command: '/trmenu open {0}'
   DEBUG:
     'ON': '&8[&3Tr&bMenu&8] &3DEBUG &8| &7已 &a开启 &7调试模式'
     'OFF': '&8[&3Tr&bMenu&8] &3DEBUG &8| &7已 &c关闭 &7调试模式'

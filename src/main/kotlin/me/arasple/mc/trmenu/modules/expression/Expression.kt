@@ -16,6 +16,8 @@ enum class Expression(val regex: Regex, var replace: String, var splitBy: String
 
     IS_OPERATOR("isOp(erator)?(s)?", "player.isOp()"),
 
+    IS_SNEAKING("isSneak(ing)?", "player.isSneaking()"),
+
     IS_PLAYER_OPERATOR("isPlayerOp(erator)?(s)?", "utils.isPlayerOperator(\"{0}\")"),
 
     IS_PLAYER_ONLINE("isOnline", "utils.isPlayerOnline(\"{0}\")"),

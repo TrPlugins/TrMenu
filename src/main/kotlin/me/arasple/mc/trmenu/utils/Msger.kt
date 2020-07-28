@@ -52,19 +52,23 @@ object Msger {
     PlaceholderAPI Utils
      */
 
-    fun replace(player: Player, string: String?) = replaceWithPlaceholders(player, replaceWithBracketPlaceholders(player, string ?: ""))
+    fun replace(player: Player, string: String?): String {
+        return replaceWithPlaceholders(player, replaceWithBracketPlaceholders(player, string ?: ""))
+    }
 
-    fun replace(player: Player, strings: List<String>) = replaceWithPlaceholders(player, replaceWithBracketPlaceholders(player, strings))
+    fun replace(player: Player, strings: List<String>): List<String> {
+        return replaceWithPlaceholders(player, replaceWithBracketPlaceholders(player, strings))
+    }
 
-    private fun replaceWithPlaceholders(player: Player, string: String) = HexColor.translate(PlaceholderAPI.setPlaceholders(player, string))
+    private fun replaceWithPlaceholders(player: Player, string: String): String = HexColor.translate(PlaceholderAPI.setPlaceholders(player, string))
 
-    private fun replaceWithPlaceholders(player: Player, strings: List<String>) = HexColor.translate(PlaceholderAPI.setPlaceholders(player, strings))
+    private fun replaceWithPlaceholders(player: Player, strings: List<String>): List<String> = strings.map { replaceWithPlaceholders(player, it) }
 
     fun replaceWithBracketPlaceholders(player: Player, string: String): String = PlaceholderAPI.setBracketPlaceholders(player, player.replaceWithArguments(string))
 
-    fun replaceWithBracketPlaceholders(player: Player, strings: List<String>): List<String> = PlaceholderAPI.setBracketPlaceholders(player, player.replaceWithArguments(strings))
+    fun replaceWithBracketPlaceholders(player: Player, strings: List<String>) = strings.map { replaceWithBracketPlaceholders(player, it) }
 
-    fun containsPlaceholders(string: String?) = PlaceholderAPI.containsPlaceholders(string) || PlaceholderAPI.containsBracketPlaceholders(string) || (string != null && string.contains("{") && string.contains("}"))
+    fun containsPlaceholders(string: String?): Boolean = PlaceholderAPI.containsPlaceholders(string) || PlaceholderAPI.containsBracketPlaceholders(string) || (string != null && string.contains("{") && string.contains("}"))
 
     fun printErrors(node: String, throwable: Throwable, vararg args: String) = TLocale.sendToConsole("ERRORS.$node", *args, throwable.message, throwable.stackTrace.filter { it.toString().contains("me.arasple.mc.trmenu") }.map { it.toString() + "\n" })
 

@@ -72,12 +72,11 @@ class CommandMigrate : BaseSubCommand() {
     }
 
     private fun getFolderFiles() =
-        mutableListOf<String>().let {
-            TrMenu.plugin.dataFolder.listFiles()?.forEach { file ->
-                if (!file.name.matches("lang|menus|migrated|settings.yml".toRegex()) && (file.isDirectory || file.name.endsWith(".yml")))
-                    it.add(file.name)
-            }
-            return@let it
+        TrMenu.plugin.dataFolder.listFiles()?.map {
+            if (!it.name.matches("lang|menus|migrated|settings.yml".toRegex()) && (it.isDirectory || it.name.endsWith(".yml")))
+                it.name
+            else
+                ""
         }
 
 

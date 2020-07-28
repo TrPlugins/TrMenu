@@ -112,10 +112,10 @@ Icons:
         deny-actions:
           - 'tell: 你没有足够的物品'
 
-#    actions:
-#      all:
-#        - 'page: 1'
-#        - 'sound: BLOCK_CHEST_OPEN-1-2'
+  #    actions:
+  #      all:
+  #        - 'page: 1'
+  #        - 'sound: BLOCK_CHEST_OPEN-1-2'
   'Pre':
     display:
       material: Lime Stained Glass Pane
@@ -177,8 +177,6 @@ Tasks:
 #     - condition: 'isOperator.'
 #       actions:
 #         - 'sound: BLOCK_NOTE_BLOCK_BIT-1-2'
-actions:
-  left,middle,number_key_8:
 
 #
 # 菜单内置的自定义脚本变量

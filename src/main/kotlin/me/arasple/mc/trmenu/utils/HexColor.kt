@@ -18,10 +18,7 @@ object HexColor {
     val PATTERN_RGB: Pattern = Pattern.compile("[&#][<{]([0-9]+[,]+[0-9]+[,]+[0-9]*)[>}]")
     val ENABLED = Version.isAfter(Version.v1_16)
 
-    fun translate(list: List<String>) = if (!ENABLED) list else mutableListOf<String>().let { result ->
-        list.forEach { result.add(translate(it)) }
-        return@let result
-    }
+    fun translate(list: List<String>) = if (!ENABLED) list else list.map { translate(it) }
 
     fun translate(message: String): String {
         if (!ENABLED) return message

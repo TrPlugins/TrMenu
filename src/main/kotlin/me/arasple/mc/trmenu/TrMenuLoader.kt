@@ -2,10 +2,12 @@ package me.arasple.mc.trmenu
 
 import io.izzel.taboolib.Version
 import io.izzel.taboolib.module.locale.TLocale
+import me.arasple.mc.trmenu.commands.registerable.RegisterCommands
 import me.arasple.mc.trmenu.configuration.MenuLoader
 import me.arasple.mc.trmenu.modules.hook.HookHeadDatabase
 import me.arasple.mc.trmenu.modules.hook.HookPlaceholderAPI
 import me.arasple.mc.trmenu.modules.hook.HookPlayerPoints
+import me.arasple.mc.trmenu.modules.shortcut.Shortcuts
 import me.arasple.mc.trmenu.utils.FileWatcher
 import me.clip.placeholderapi.PlaceholderAPI
 import me.clip.placeholderapi.PlaceholderAPIPlugin
@@ -24,6 +26,10 @@ class TrMenuLoader {
         if (HookPlaceholderAPI.installDepend()) {
             return;
         }
+        TrMenu.SETTINGS.listener {
+            Shortcuts.load()
+            RegisterCommands.load()
+        }
         TLocale.sendToConsole("PLUGIN.LOADING", Version.getBukkitVersion())
     }
 
@@ -33,6 +39,8 @@ class TrMenuLoader {
 
         TLocale.sendToConsole("PLUGIN.LOADED", TrMenu.plugin.description.version)
         MenuLoader.loadMenus()
+        Shortcuts.load()
+        RegisterCommands.load()
     }
 
     fun cancel() {

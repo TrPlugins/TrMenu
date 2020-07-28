@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.data
 
+import io.izzel.taboolib.internal.apache.lang3.ArrayUtils
 import io.izzel.taboolib.util.Strings
 import io.izzel.taboolib.util.Variables
 import me.arasple.mc.trmenu.data.Sessions.getMenuSession
@@ -30,33 +31,32 @@ object MetaPlayer {
         playerInventorys[this.uniqueId] = it.toTypedArray()
     }
 
-    fun Player.replaceWithArguments(strings: List<String>): List<String> = mutableListOf<String>().let { list ->
-        strings.forEach {
-            list.add(this.replaceWithArguments(it))
-        }
-        return@let list
-    }
-
     fun Player.replaceWithArguments(string: String): String {
         val session = this.getMenuSession()
-        var content = this.replaceWithJs(this, replaceWithMeta(string.replace("{page}", session.page.toString())))
-        session.menu?.settings?.functions?.let { it ->
-            content = InternalFunction.replaceWithFunctions(this, it.internalFunctions, content)
-        }
-        return Strings.replaceWithOrder(content, *this.getArguments())
-    }
-
-    fun Player.replaceWithJs(player: Player, string: String): String {
-        val buffer = StringBuffer(string.length)
-        return InternalFunction.match(string).let {
-            while (it.find()) {
-                val group = it.group(1)
+        val functions = session.menu?.settings?.functions?.internalFunctions
+        val argumented = Strings.replaceWithOrder(string, *this.getArguments())
+        val buffer = StringBuffer(argumented.length)
+        // Js & Placeholders from Menu
+        var content = InternalFunction.match(argumented).let { m ->
+            while (m.find()) {
+                val group = m.group(1)
+                val split = group.split("_").toTypedArray()
+                // Internal Functions
+                functions?.firstOrNull { it.id.equals(split[0], true) }?.let {
+                    m.appendReplacement(buffer, it.eval(this, ArrayUtils.remove(split, 0)))
+                }
+                // Global Js
                 if (group.startsWith("js:")) {
-                    it.appendReplacement(buffer, Scripts.expression(player, group.removePrefix("js:")).asString())
+                    m.appendReplacement(buffer, Scripts.expression(this, group.removePrefix("js:")).asString())
                 }
             }
-            it.appendTail(buffer).toString()
+            m.appendTail(buffer).toString()
+        }.replace("{page}", session.page.toString())
+        // Meta
+        this.getMeta().forEach {
+            content = content.replace(it.key, it.value.toString())
         }
+        return string
     }
 
     fun Player.getArguments() = arguments.computeIfAbsent(this.uniqueId) { arrayOf() }
@@ -78,14 +78,6 @@ object MetaPlayer {
     fun Player.removeMeta(key: String) = this.getMeta().remove(key)
 
     fun Player.removeMetaStartsWith(key: String) = this.getMeta().entries.removeIf { it.key.startsWith(key) }
-
-    fun Player.replaceWithMeta(string: String): String {
-        var content = string
-        this.getMeta().forEach {
-            content = content.replace(it.key, it.value.toString())
-        }
-        return content
-    }
 
     fun Player.resetCache() {
         playerInventorys.remove(this.uniqueId)
