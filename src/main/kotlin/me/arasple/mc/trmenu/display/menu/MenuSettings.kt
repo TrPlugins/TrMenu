@@ -60,7 +60,7 @@ class MenuSettings(val title: Titles, val options: Options, val bindings: Bindin
                                 return
                             }
                             layout.displayInventory(player, getTitle(player))
-                            menu.resetIcons(player)
+                            menu.resetIcons(player, session)
                         }
                     }.runTaskTimerAsynchronously(TrMenu.plugin, update.toLong(), update.toLong())
                 )
@@ -146,9 +146,7 @@ class MenuSettings(val title: Titles, val options: Options, val bindings: Bindin
                     object : BukkitRunnable() {
                         override fun run() {
                             if (session.isDifferent(menu, page)) cancel()
-                            else {
-                                it.value.eval(player)
-                            }
+                            else it.value.eval(player)
                         }
                     }.runTaskTimerAsynchronously(TrMenu.plugin, it.key, it.key)
                 )

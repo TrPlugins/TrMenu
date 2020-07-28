@@ -1,6 +1,7 @@
 package me.arasple.mc.trmenu.display
 
 import me.arasple.mc.trmenu.TrMenu
+import me.arasple.mc.trmenu.data.MenuSession
 import me.arasple.mc.trmenu.data.Sessions
 import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import me.arasple.mc.trmenu.display.icon.IconClickHandler
@@ -24,6 +25,14 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
         refreshIcon(player)
         displayItemStack(player)
         startUpdateTasks(player, menu)
+    }
+
+    fun setItemStack(player: Player, session: MenuSession) {
+        val property = getIconProperty(player)
+        val slots = property.display.getPosition(player, session.page)
+        val item = property.display.createDisplayItem(player)
+        slots?.forEach { PacketsHandler.sendOutSlot(player, Sessions.TRMENU_WINDOW_ID, it, item) }
+        if (property.display.isAnimatedPosition(session.page)) PacketsHandler.sendClearNonIconSlots(player, session)
     }
 
     fun displayItemStack(player: Player) {

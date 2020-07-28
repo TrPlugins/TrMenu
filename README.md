@@ -6,7 +6,7 @@
 
 ---
 
-Discord : https://discord.gg/8CWa6KF
+Discord : https://discord.gg/8CWa6KF  
 Wiki: [https://trmenu.trixey.cn](https://trmenu.trixey.cn/)
 
 ---
@@ -50,7 +50,7 @@ Wiki: [https://trmenu.trixey.cn](https://trmenu.trixey.cn/)
 
 **Contribution**
 
-For now, Any meaningful contributions are welcome
+For now, any meaningful contributions are welcome
 
 ---
 

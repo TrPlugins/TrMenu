@@ -5,6 +5,7 @@ import me.arasple.mc.trmenu.api.events.MenuCloseEvent
 import me.arasple.mc.trmenu.api.events.MenuOpenEvent
 import me.arasple.mc.trmenu.configuration.MenuLoader
 import me.arasple.mc.trmenu.configuration.menu.MenuConfiguration
+import me.arasple.mc.trmenu.data.MenuSession
 import me.arasple.mc.trmenu.data.MetaPlayer.completeArguments
 import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import me.arasple.mc.trmenu.data.Sessions.setMenuSession
@@ -87,7 +88,7 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
      */
     fun loadIcons(player: Player, page: Int) = icons.filter { it.isInPage(page) }.forEach { it.displayIcon(player, this) }
 
-    fun resetIcons(player: Player) = icons.forEach { it.displayItemStack(player) }
+    fun resetIcons(player: Player, session: MenuSession) = icons.forEach { it.setItemStack(player, session) }
 
     fun getOccupiedSlots(player: Player, page: Int) = mutableSetOf<Int>().let { slots ->
         icons.forEach {
