@@ -7,7 +7,6 @@
 ---
 
 Discord : https://discord.gg/8CWa6KF
-
 Wiki: [https://trmenu.trixey.cn](https://trmenu.trixey.cn/)
 
 ---
@@ -46,6 +45,12 @@ Wiki: [https://trmenu.trixey.cn](https://trmenu.trixey.cn/)
 **bStats**
 
 ![bStats](https://bstats.org/signatures/bukkit/TrMenu.svg)
+
+---
+
+**Contribution**
+
+For now, Any meaningful contributions are welcome
 
 ---
 
