@@ -10,12 +10,19 @@ import org.bukkit.inventory.ItemStack
  */
 class MatchItemLore : MatchItemIdentifier("(display)?(-)?lore(s)?") {
 
-	override fun match(player: Player, itemStack: ItemStack): Boolean = itemStack.itemMeta.let { it ->
-		if (it != null) {
-			val lore = it.lore
-			if (lore != null) return lore.any { it.contains(getContent(player), true) }
-		}
-		return false
-	}
+    override fun match(player: Player, itemStack: ItemStack): Boolean = itemStack.itemMeta.let { it ->
+        if (it != null) {
+            val lore = it.lore
+            if (lore != null) return lore.any { it.contains(getContent(player), true) }
+        }
+        return false
+    }
+
+    override fun apply(player: Player, itemStack: ItemStack): ItemStack {
+        val itemMeta = itemStack.itemMeta ?: return itemStack
+        itemMeta.lore = getContent(player).split("\\n")
+        itemStack.itemMeta = itemMeta
+        return itemStack
+    }
 
 }

@@ -3,6 +3,7 @@ package me.arasple.mc.trmenu.modules.action.impl.item
 import io.izzel.taboolib.cronus.CronusUtils
 import io.izzel.taboolib.util.item.Items
 import me.arasple.mc.trmenu.modules.action.base.Action
+import me.arasple.mc.trmenu.modules.item.ItemIdentifierHandler
 import me.arasple.mc.trmenu.utils.Tasks
 import me.arasple.mc.trmenu.utils.Utils
 import org.bukkit.entity.Player
@@ -18,6 +19,12 @@ class ActionGiveItem : Action("(give|add)(-)?item(s)?") {
         Tasks.run(true) {
             if (Utils.isJson(item)) {
                 CronusUtils.addItem(player, Items.fromJson(item))
+            } else {
+                ItemIdentifierHandler.read(item).identifiers.forEach {
+                    it.buildItem(player)?.let { item ->
+                        CronusUtils.addItem(player, item)
+                    }
+                }
             }
         }
     }
