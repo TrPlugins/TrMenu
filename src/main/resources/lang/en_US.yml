@@ -17,7 +17,7 @@ PLUGIN:
     INSTALL-FAILED: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7An error occurred when donwloading &c{0}&7. Download the plugin manually to complete the installation, stopping server...'
 
 LOADER:
-  MENU: '&8[&3Tr&bMenu&8] &aSUCCES &8| &a{0} &3menus were loaded &8({1} ms)'
+  MENU: '&8[&3Tr&bMenu&8] &aSUCCESS &8| &a{0} &3menus were loaded &8({1} ms)'
   ERRORS:
     - '&8[&3Tr&bMenu&8] &cERROR &8| &4An error occurred when loading the menu &c{0}&4.'
     - '&7Message: &8{1}'
@@ -132,7 +132,7 @@ ERRORS:
     - '&8Reason: {1}'
     - '&8Trace: {2}'
   PLAYER-HEAD:
-    - '&8[&3Tr&bMenu&8] &cERROR &8| &4An exception occurred when obtaining the player's head texture asynchronously, check the following errors!'
+    - '&8[&3Tr&bMenu&8] &cERROR &8| &4An exception occurred when obtaining the player''s head texture asynchronously, check the following errors!'
     - '&8Reason: {0}'
     - '&8Trace: {1}'
   WEB-DATA:

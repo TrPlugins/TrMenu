@@ -1,0 +1,149 @@
+#
+# Translated by Tanguygab
+#
+PLUGIN:
+  LOADING:
+    - ''
+    - '&7Chargement de &3Tr&bMenu &f&lPremium... &8{0}'
+    - ''
+  LOADED: '&8[&3Tr&bMenu&8] &bINFO &8| &3Plugin chargé! Vous utilisez la Version &2{0}&7.'
+  HOOKED: '&8[&3Tr&bMenu&8] &6DÉPENDANCES &8| &7Dépendance optionnelle détéctée! Chargement du support de &f{0}&7.'
+  UPDATE:
+    - '&8[&3Tr&bMenu&8] &bMAJ &8| &3Mise à jour &a{0}&3 disponible ! Télécharge la à partir du lieu ci-dessous pour avoir de nouvelles fonctionnalités et des fix de bugs!'
+    - '&bhttps://www.spigotmc.org/resources/authors/435323/'
+  DEPEND:
+    DOWNLOAD: '&8[&3Tr&bMenu&8] &eDÉPENDANCE &8| &7Téléchargment du plugin &f{0} &7...'
+    INSTALL: '&8[&3Tr&bMenu&8] &eDÉPENDANCE &8| &7Plugin &3{0} &7téléchargé avec succès, redémmarage du serveur pour compléter l''installation...'
+    INSTALL-FAILED: '&8[&3Tr&bMenu&8] &eDÉPENDANCE &8| &7Une érreur est survenue pendant le téléchargement du plugin &c{0}&7. Téléchargez le manuellement pour compléter l''installation, arrêt du server...'
+
+LOADER:
+  MENU: '&8[&3Tr&bMenu&8] &aSUCCÉS &8| &a{0} &3menus chargés &8({1} ms)'
+  ERRORS:
+    - '&8[&3Tr&bMenu&8] &cERREUR &8| &4Une érreur est survenue pendant le chargement du menu &c{0}&4.'
+    - '&7Message: &8{1}'
+    - '&7Trace: &8{2}'
+
+MIGRATE:
+  UNKNOWN-FILE: '&8[&fTr&7Menu&8] &aCONVERSION &8| &7Fichier &f{0}&7 introuvable ou non supporté.'
+  EMPTY-FILE: '&8[&fTr&7Menu&8] &aCONVERSION &8| &7Le fichier/dossier spécifié est vide.'
+  UNSUPPORTED-PLUGIN: '&8[&3Tr&bMenu&8] &aCONVERSION &8| &7Le plugin &f{0} &7n''est pas supporté...'
+  PROCESSING: '&8[&3Tr&bMenu&8] &aCONVERSION &8| &f{0} &7fichiers détéctés, conversion...'
+  LOAD-SUCCESS: '&8[&3Tr&bMenu&8] &aCONVERSION &8| &a{0} &3menus ont été convertis avec succés et transférés dans le dossier `/plugins/TrMenu/migrated/`'
+  LOAD-ERROR: '&8[&3Tr&bMenu&8] &aCONVERSION &8| &c{0} &7menus n''ont pas été chargés, vérifiez les erreurs dans la console...'
+  ERROR:
+    - '&8[&3Tr&bMenu&8] &aCONVERSION &8| &4Une érreur est survenue pendant la conversion du menu &c{0}&4.'
+    - '&8Raison: {1}'
+    - '&8Trace: {2}'
+
+MENU:
+  DEPEND-EXPANSIONS:
+    - ''
+    - '&8[&fTr&7Menu&8] &Vous devez installer l''expansion &f{0} &7pour PlaceholderAPI pour utiliser ce menu.'
+    - ''
+  DEPEND-EXPANSIONS-FORMAT:
+    ==: JSON
+    text: '&8- <&3{0}@expansion>&r'
+    args:
+      expansion:
+        hover: '&7Clique pour télécharger'
+        command: '/placeholderapi ecloud download {0}'
+
+COMMANDS:
+  OPEN:
+    UNKNOWN-MENU: '&8[&3Tr&bMenu&8] &7Menu introuvable &6{0} &7.'
+    UNKNOWN-PLAYER: '&8[&3Tr&bMenu&8] &7Ce joueur n''est pas connecté.'
+  ACTION:
+    UNKNOWN-PLAYER: '&8[&3Tr&bMenu&8] &7Ce joueur n''est pas connecté.'
+  LIST:
+    HEADER:
+      - ''
+      - '&8[&3Tr&bMenu&8] &f{0} &7menus chargés &8(filtre: {1}): '
+      - ''
+    FORMAT:
+      ==: JSON
+      text: '&8- <&2{0}@menu>&r'
+      args:
+        menu:
+          hover: '&7Clique pour ouvrir'
+          command: '/trmenu open {0}'
+  DEBUG:
+    'ON': '&8[&3Tr&bMenu&8] &3DEBUG &8| &7Mode debug &aactivé&7.'
+    'OFF': '&8[&3Tr&bMenu&8] &3DEBUG &8| &7Mode debug &cdésactivé&7.'
+  ITEM:
+    TO-JSON:
+      NO-ITEM: '&8[&3Tr&bMenu&8] &7Tu dois &ftenir un item en main &7pour le convertir en format JSON'
+      CONVERTED:
+        ==: JSON
+        text: '&8[&3Tr&bMenu&8] &7L''item a été converti en format JSON: <&3&nClique pour copier@copy>'
+        args:
+          copy:
+            hover: '&7Clique pour copier'
+            suggest: '{0}'
+  ITEM-REPOSITORY:
+    NO-ITEM: '&8[&3Tr&bMenu&8] &7Tu dois &ftenir un item en main &7pour le convertir en format JSON.'
+    NOT-EXIST: '&8[&3Tr&bMenu&8] &7Un item avec l''ID &f{0} &7n''a pas été trouvé.'
+    EXISTED: '&8[&3Tr&bMenu&8] &7Un item avec l''ID &f{0} &7existe déjà.'
+    GIVED: '&8[&3Tr&bMenu&8] &3Tu as reçu l''item &a{0}&3.'
+    ADDED: '&8[&3Tr&bMenu&8] &3Ajout de l''item &a{0} &3au répertoir.'
+    REMOVED: '&8[&3Tr&bMenu&8] &3Item &a{0} &3supprimé du répertoir.'
+  TEMPLATE:
+    EMPTY: '&8[&3Tr&bMenu&8] &7Le modèle est vide, création du menu annulée...'
+    PROCESSING: '&8[&3Tr&bMenu&8] &7Création de votre menu à partir du modèle...'
+    SUCCESS:
+      ==: JSON
+      text: '&8[&3Tr&bMenu&8] &3Menu créé avec succès. Clique <&a&nici@paste> &3pour obtenir le lien'
+      args:
+        paste:
+          hover: '&7Clique pour obtenir le lien de ton menu'
+          url: '{0}'
+    FAILED: '&8[&3Tr&bMenu&8] &cLa création du menu a échouée... vérifiez votre connexion Internet!'
+
+HASTEBIN:
+  PROCESSING: '&8[&3Tr&bMenu&8] &7Chargement, Veuillez patientiez...'
+  SUCCESS: '&8[&3Tr&bMenu&8] &3Votre menu a été exporté sur &a{0}'
+  FAILED: '&8[&3Tr&bMenu&8] &cUne erreur est apparu pendant l''exportation de votre menu sur Hastebin.'
+
+DEBUG:
+  ARGUMENTS: '&8[&fTr&7Menu&8] &3DEBUG &8| &6Modification des arguments du joueur &c{0} &c{ &8{1} &c}'
+  SESSION: '&8[&fTr&7Menu&8] &3DEBUG &8| &6Modification de la page du menu du joueur &c{0} &c{ &8{1}. Page: {2} &c}'
+  EXPRESSION:
+    - '&8[&fTr&7Menu&8] &3DEBUG &8| &6Traduction de l''expression de la condition:'
+    - '&c- &8Raw: &7{0}'
+    - '&c- &8Traduit: &7{1}'
+  PRE-COMPILE-SCRIPT:
+    - '&8[&fTr&7Menu&8] &3DEBUG &8| &6Mise en cache de script:'
+    - '&c- &8Raw: {0}'
+    - '&c- &8Traduit: {1}'
+  ACTIONS:
+    REGISTERED: '&8[&fTr&7Menu&8] &3DEBUG &8| &c{0} &6actions enregistrés &8({1} ms)'
+    SET-META: '&8[&fTr&7Menu&8] &3DEBUG &8| &6Set a meta for player &c{0} &c{ key=&6{1}&c,value=&6{2}&c } &8(raw: {3})'
+    SET-META-FAILED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6Failed to set meta for player &c{0} &8(raw: {3})'
+  ICON:
+    DISPLAY-UPDATE: '&8[&fTr&7Menu&8] &3DEBUG &8| &6Updating the item/icon &c{0} &6's animations, cycle &e{1}&6, including &e{2}'
+    SUB-ICON-REFRESHED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6Updating the conditionnal icon &c{0} &6to &e{1}'
+
+ERRORS:
+  SCRIPT:
+    - '&8[&3Tr&bMenu&8] &cERREUR &8| &4L''expression &c{0} &4n''a pas pus être mise en cache, vérifiez la syntaxe!'
+    - '&8Reason: {1}'
+    - '&8Trace: {2}'
+  PACKET:
+    - '&8[&3Tr&bMenu&8] &cERREUR &8| &4Une érreur est survenue pendant l''envoie d''un &c{0} &4data packet, vérifiez l''erreur suivante!'
+    - '&8Reason: {1}'
+    - '&8Trace: {2}'
+  PLAYER-HEAD:
+    - '&8[&3Tr&bMenu&8] &cERREUR &8| &4Une érreur est survenue pendant l''obtention de la texture de la tête d''un joueur de manière asynchrone, vérifiez les erreurs suivantes!'
+    - '&8Reason: {0}'
+    - '&8Trace: {1}'
+  WEB-DATA:
+    - '&8[&3Tr&bMenu&8] &cERREUR &8| &4An error occured when reading data from Internet &c{0}&4!'
+    - '&8Reason: {1}'
+    - '&8Trace: {2}'
+  INT-RANGE:
+    - '&8[&3Tr&bMenu&8] &cERREUR &8| &4Une erreur est survenue en essayer de traduire un string &c{0} &4en un integer!'
+    - '&8Reason: {1}'
+    - '&8Trace: {2}'
+  HOOK: '&8[&3Tr&bMenu&8] &cERREUR &8| &4attempt to call a function from an undetected and compatible plugin &c{0}'
+  SOUND: '&8[&3Tr&bMenu&8] &cERREUR &8| &4Le son &c{0} &4n''existe pas. Il n''a pas pu être jouer au joueur &c{1}'
+  ACTION: '&8[&3Tr&bMenu&8] &cERREUR &8| &4L''action &c{0} &4n''éxiste pas, vérifiez votre orthographe!'
+  MATERIAL: '&8[&3Tr&bMenu&8] &cERREUR &8| &4Material d''item inconnu (Material) &c{0}'
