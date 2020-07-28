@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.utils
 
+import io.izzel.taboolib.module.inject.TFunction
 import io.izzel.taboolib.module.locale.TLocale
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.data.MetaPlayer.replaceWithArguments
@@ -21,6 +22,7 @@ object Msger {
         debug = TrMenu.SETTINGS.getBoolean("Options.Debug", false)
     }
 
+    @TFunction.Cancel
     fun cancel() = TrMenu.SETTINGS.set("Options.Debug", debug)
 
     /*

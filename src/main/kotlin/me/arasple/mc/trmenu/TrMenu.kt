@@ -12,7 +12,7 @@ import io.izzel.taboolib.module.inject.TInject
 @Plugin.Version(5.32)
 object TrMenu : PluginRedefine() {
 
-    @TInject("settings.yml", locale = "Locale", migrate = true)
+    @TInject("settings.yml", locale = "Options.Locale", migrate = true)
     lateinit var SETTINGS: TConfig
 
     @TInject(state = TInject.State.STARTING, init = "init", active = "active", cancel = "cancel")

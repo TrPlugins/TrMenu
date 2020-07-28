@@ -18,7 +18,7 @@ LOADER:
   ERRORS:
     - '&8[&3Tr&bMenu&8] &cERROR &8| &4载入菜单 &c{0} &4过程中发生错误, 加载中止.'
     - '&7Message: &8{1}'
-    - '&7Traces: &8{2}'
+    - '&7Trace: &8{2}'
 
 MIGRATE:
   UNKNOWN-FILE: '&8[&fTr&7Menu&8] &aMIGRATE &8| &7不支持文件或不存在 &f{0}&7.'

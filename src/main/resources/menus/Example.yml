@@ -141,6 +141,7 @@ Icons:
         - 'refresh'
     icons:
       - condition: 'is.{meta:icon_server_hide}.true'
+        priority: 5
         inherit: true
         display:
           lore:

@@ -1,12 +1,15 @@
 package me.arasple.mc.trmenu.modules.script.utils
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
+import io.izzel.taboolib.module.compat.EconomyHook
 import io.izzel.taboolib.module.tellraw.TellrawJson
 import io.izzel.taboolib.util.item.ItemBuilder
+import io.izzel.taboolib.util.item.Items
 import io.izzel.taboolib.util.lite.Numbers
 import me.arasple.mc.trmenu.data.MetaPlayer.getArguments
 import me.arasple.mc.trmenu.modules.action.Actions
 import me.arasple.mc.trmenu.modules.hook.HookCronus
+import me.arasple.mc.trmenu.modules.hook.HookPlayerPoints
 import me.arasple.mc.trmenu.modules.web.WebData
 import me.arasple.mc.trmenu.utils.Bungees
 import me.clip.placeholderapi.PlaceholderAPI
@@ -15,6 +18,7 @@ import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.World
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
 
 
 /**
@@ -101,6 +105,16 @@ class AssistUtils {
     fun createLocation(world: World?, x: Double, y: Double, z: Double, yaw: Float, pitch: Float): Location? {
         return Location(world, x, y, z, yaw, pitch)
     }
+
+    fun hasMoney(player: Player, money: String) = hasMoney(player, NumberUtils.toDouble(money, 0.0))
+
+    fun hasMoney(player: Player, money: Double) = EconomyHook.get(player) >= money
+
+    fun hasPoints(player: Player, points: String) = hasPoints(player, NumberUtils.toInt(points, 0))
+
+    fun hasPoints(player: Player, points: Int) = HookPlayerPoints.hasPoints(player, points)
+
+    fun getItemName(itemStack: ItemStack): String = Items.getName(itemStack)
 
     fun readWebData(url: String) = WebData.query(url)
 

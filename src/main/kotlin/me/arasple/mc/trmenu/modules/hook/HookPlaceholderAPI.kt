@@ -78,6 +78,7 @@ object HookPlaceholderAPI {
         return if (!session.isNull()) {
             when (params[1]) {
                 "page" -> session.page.toString()
+                "pages" -> session.menu?.layout?.layouts?.size.toString()
                 "next" -> session.page.toString()
                 "title" -> session.menu!!.settings.title.currentTitle(player)
                 else -> ""
