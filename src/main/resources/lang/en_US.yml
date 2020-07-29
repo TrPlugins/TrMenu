@@ -119,7 +119,7 @@ DEBUG:
     SET-META: '&8[&fTr&7Menu&8] &3DEBUG &8| &6Set a meta for player &c{0} &c{ key=&6{1}&c,value=&6{2}&c } &8(raw: {3})'
     SET-META-FAILED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6Failed to set meta for player &c{0} &8(raw: {3})'
   ICON:
-    DISPLAY-UPDATE: '&8[&fTr&7Menu&8] &3DEBUG &8| &6Updating the item/icon &c{0} &6's animations, cycle &e{1}&6, including &e{2}'
+    DISPLAY-UPDATE: '&8[&fTr&7Menu&8] &3DEBUG &8| &6Updating the item/icon &c{0} &6''s animations, cycle &e{1}&6, including &e{2}'
     SUB-ICON-REFRESHED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6Updating the conditionnal icon &c{0} &6to &e{1}'
 
 ERRORS:
