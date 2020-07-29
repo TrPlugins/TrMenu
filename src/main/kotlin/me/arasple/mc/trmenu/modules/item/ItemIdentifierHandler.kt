@@ -16,7 +16,8 @@ object ItemIdentifierHandler {
         MatchItemDamage(),
         MatchItemModelData(),
         MatchItemName(),
-        MatchItemLore()
+        MatchItemLore(),
+        MatchItemTexture(),
     )
 
     fun registerIdentifer(identifier: MatchItemIdentifier) {

@@ -18,6 +18,8 @@ abstract class MatchItemIdentifier(val name: Regex, private var content: String)
 
     fun getContent(player: Player): String = Msger.replace(player, content)
 
+    fun getContent() = content
+
     fun setContent(content: String) {
         this.content = content
     }

@@ -19,7 +19,7 @@ data class ItemIdentifier(val raw: String, val identifiers: MutableSet<Identifie
 
     constructor(raw: String) : this(raw, mutableSetOf())
 
-    fun isMatch(player: Player, itemStack: ItemStack): Boolean = identifiers.none { !it.match(player, itemStack) }
+    fun isMatch(player: Player, itemStack: ItemStack) = identifiers.none { !it.match(player, itemStack) }
 
     fun isInvalid(): Boolean = identifiers.isEmpty() || identifiers.none { it.characteristic.isNotEmpty() }
 
