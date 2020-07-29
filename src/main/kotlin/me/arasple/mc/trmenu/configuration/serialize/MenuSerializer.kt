@@ -46,7 +46,7 @@ object MenuSerializer {
 
         val options = MenuSettings.Options(
             Utils.asArray(c.getOptionDefaultArguments()),
-            Utils.asInt(c.getOptionDefaultLayout(), 0),
+            c.getOptionDefaultLayout().toString(),
             Utils.asBoolean(c.getOptionHidePlayerInventory()),
             Utils.asLong(c.getOptionMinClickDelay(), 200),
             Utils.asArray(c.getOptionDependExpansions())

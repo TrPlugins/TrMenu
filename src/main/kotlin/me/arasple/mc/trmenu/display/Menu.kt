@@ -36,7 +36,7 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
      * 为玩家打开此菜单
      */
     fun open(player: Player, page: Int, reason: MenuOpenEvent.Reason) {
-        val p = if (page < 0) settings.options.defaultLayout else min(page, layout.layouts.size - 1)
+        val p = if (page < 0) settings.options.getDefaultLayout(player) else min(page, layout.layouts.size - 1)
         val e = MenuOpenEvent(player, this, p, reason, MenuOpenEvent.Result.UNKNOWN).call()
 
         if (layout.layouts.size <= e.page) {

@@ -1,6 +1,7 @@
 package me.arasple.mc.trmenu.display.menu
 
 import io.izzel.taboolib.internal.apache.lang3.ArrayUtils
+import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.data.Sessions
 import me.arasple.mc.trmenu.data.Sessions.getMenuSession
@@ -69,12 +70,14 @@ class MenuSettings(val title: Titles, val options: Options, val bindings: Bindin
 
     }
 
-    class Options(val defaultArguments: Array<String>, val defaultLayout: Int, val hidePlayerInventory: Boolean, val minClickDelay: Long, val dependExpansions: Array<String>) {
+    class Options(val defaultArguments: Array<String>, val defaultLayout: String, val hidePlayerInventory: Boolean, val minClickDelay: Long, val dependExpansions: Array<String>) {
 
         fun run(player: Player, layout: MenuLayout.Layout) {
             if (hidePlayerInventory)
                 PacketsHandler.clearInventory(player, layout.size(), Sessions.TRMENU_WINDOW_ID)
         }
+
+        fun getDefaultLayout(player: Player): Int = NumberUtils.toInt(Msger.replace(player, defaultLayout), 0)
 
         fun expansions(): List<String> {
             val registered = PlaceholderAPI.getRegisteredIdentifiers()
