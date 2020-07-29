@@ -1,13 +1,7 @@
-#
-# 菜单的标题, 支持动态标题周期切换
-#
 Title:
   - 'Hello, TrMenu!'
   - 'Support Animated Titles'
 
-#
-# 若有多个标题, 切换的周期 (ticks)
-#
 Title-Update: 40
 
 Layout:
@@ -29,68 +23,41 @@ PlayerInventory:
     - '         '
     - '         '
 
-#
-# 菜单的选项设置
-#
 Options:
-  # 默认填充参数
   Default-Arguments: []
-  # 默认布局页码
   Default-Layout: 0
-  # 是否隐藏玩家容器
   Hide-Player-Inventory: true
-  # 防频繁点击的间隔
   Min-Click-Delay: 200
-  # 强制需要依赖的 PlaceholderAPI 拓展变量
   Depend-Expansions: ['server', 'player', 'progress', 'animations']
 
-#
-# 菜单绑定的快捷打开方式
-#
 Bindings:
-  # 绑定命令, 支持正则
   Commands:
     - '(?i)example(-)?(gui)?(s)?'
-  # 绑定到物品特征
   Items:
     - 'material:compass'
     - 'material:clock,lore:OPEN_MENU'
 
-#
-# 菜单的事件处理
-#
 Events:
-  # 开启菜单事件
   Open:
     - condition: 'hasPerm.trmenu.use or is.{reason}.RELOAD or is.{reason}.CONSOLE'
       actions:
         - 'sound: BLOCK_CHEST_OPEN-1-0'
       deny:
         - 'sound: ENTITY_ITEM_BREAK-1-0'
-        - 'title: <title=&c&l权限不足><subtitle=&7&l本菜单需要权限 &6&ltrmenu.use &7&l方能浏览>'
+        - 'title: <title=&c&lPermission Required><subtitle=&7&lYou need permission &6&ltrmenu.use &7&lto open this menu>'
         - 'return'
-  # 关闭菜单事件
   Close:
     - 'sound: BLOCK_CHEST_CLOSE-1-0'
 
-#
-# 菜单的图标
-#
 Icons:
-
-  # 图标的唯一 ID, 可配合布局使用
   '#':
-    # 显示图标的动态更新周期, 若设置多个则依次对应为 Material, Name, Lore, Slots
-    # 设置一个即为所有项相同更新周期
     update: [-1, 10, 15, -1]
-    # 菜单的显示部分
     display:
       material: Gray Stained Glass Pane
       name: ['&fTr&7Menu', '&7Tr&8Menu', '&8Tr&0Menu','&7Tr&8Menu']
       lore:
         - - '&7Thanks &f:> &7for using!'
         - - '&7Thanks &f:) &7for using!'
-    # 点击菜单后执行的动作
     actions:
       all: 'sound: BLOCK_NOTE_BLOCK_PLING-1-2'
 
@@ -101,6 +68,7 @@ Icons:
       name: ['&cC&7lose', '&cCl&7ose', '&cClo&7se', '&cClos&7e', '&cClose']
     actions:
       all: close
+
   'Next':
     display:
       material: Cyan Stained Glass Pane
@@ -109,6 +77,7 @@ Icons:
       all:
         - 'page: 1'
         - 'sound: BLOCK_CHEST_OPEN-1-2'
+
   'Pre':
     display:
       material: Lime Stained Glass Pane
@@ -117,6 +86,7 @@ Icons:
       all:
         - 'page: 0'
         - 'sound: BLOCK_CHEST_OPEN-1-2'
+
   '*':
     update: [-1, 5, 20, -1]
     display:
@@ -160,10 +130,6 @@ Icons:
             - 'sound: BLOCK_NOTE_BLOCK_BIT-1-2'
             - 'refresh'
 
-#
-# 菜单自定义周期性任务
-#
-
 Tasks:
 # tikTok:
 #   period: 20
@@ -173,10 +139,6 @@ Tasks:
 #         - 'sound: BLOCK_NOTE_BLOCK_BIT-1-2'
 
 
-#
-# 菜单内置的自定义脚本变量
-# 通过 ${ID_参数_参数} 的方式可以调用
-#
 Functions:
   flash: |-
     function flash() {
