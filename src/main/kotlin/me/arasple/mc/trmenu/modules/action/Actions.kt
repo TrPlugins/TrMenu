@@ -112,7 +112,7 @@ object Actions {
 
         if (any is String) {
             any.split(optionsBound).forEach { it ->
-                val name = it.replace(Regex("<.+>"), "").split(':')[0]
+                val name = it.replace("<.+>".toRegex(), "").split(':')[0]
                 val content = it.removePrefix(name).removePrefix(":").removePrefix(" ")
                 val action = registeredActions.firstOrNull { name.toLowerCase().matches(it.name) }?.newInstance() ?: ActionUnknow().also { it.setContent(any) }
 

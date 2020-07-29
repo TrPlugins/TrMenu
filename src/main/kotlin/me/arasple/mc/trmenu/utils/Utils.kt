@@ -87,12 +87,10 @@ object Utils {
     }
 
     @Suppress("DEPRECATION")
-    fun isJson(string: String): Boolean {
-        return try {
-            JsonParser().parse(string) is JsonObject
-        } catch (e: Throwable) {
-            false
-        }
+    fun isJson(string: String) = try {
+        JsonParser().parse(string) is JsonObject
+    } catch (e: Throwable) {
+        false
     }
 
     fun isEventIgnoreCancelled(event: Cancellable): Boolean = TrMenu.SETTINGS.getBoolean("Events-Ignore-Cancelled.${event.javaClass.simpleName}", true) && event.isCancelled

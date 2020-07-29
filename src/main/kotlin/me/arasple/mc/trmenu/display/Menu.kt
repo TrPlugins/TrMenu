@@ -36,24 +36,26 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
      * 为玩家打开此菜单
      */
     fun open(player: Player, page: Int, reason: MenuOpenEvent.Reason) {
-        val p = if (page < 0) settings.options.getDefaultLayout(player) else min(page, layout.layouts.size - 1)
-        val e = MenuOpenEvent(player, this, p, reason, MenuOpenEvent.Result.UNKNOWN).async(true).call() as MenuOpenEvent
+        Tasks.run(true) {
+            val p = if (page < 0) settings.options.getDefaultLayout(player) else min(page, layout.layouts.size - 1)
+            val e = MenuOpenEvent(player, this, p, reason, MenuOpenEvent.Result.UNKNOWN).async(true).call() as MenuOpenEvent
 
-        if (layout.layouts.size <= e.page) {
-            e.result = MenuOpenEvent.Result.ERROR_PAGE
-            e.isCancelled = true
-            return
-        }
-        if (!e.isCancelled) {
-            val layout = layout.layouts[p]
+            if (layout.layouts.size <= e.page) {
+                e.result = MenuOpenEvent.Result.ERROR_PAGE
+                e.isCancelled = true
+                return@run
+            }
+            if (!e.isCancelled) {
+                val layout = layout.layouts[p]
 
-            player.completeArguments(settings.options.defaultArguments)
-            player.getMenuSession().set(this, layout, p)
+                player.completeArguments(settings.options.defaultArguments)
+                player.getMenuSession().set(this, layout, p)
 
-            layout.displayInventory(player, settings.title.getTitle(player))
-            loadIcons(player, p)
-            settings.load(player, this, layout)
-            viewers.add(player)
+                layout.displayInventory(player, settings.title.getTitle(player))
+                loadIcons(player, p)
+                settings.load(player, this, layout)
+                viewers.add(player)
+            }
         }
     }
 
