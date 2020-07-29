@@ -33,4 +33,5 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
+          name: TrMenu Artifact
           path: build/libs/*.jar
