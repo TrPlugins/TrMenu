@@ -46,7 +46,7 @@ class ActionTellraw : Action("tellraw|json") {
                 }
                 args.firstOrNull()?.split('&')?.forEach { it ->
                     it.split('&').forEach {
-                        val event = it.split(':', '=')
+                        val event = it.split(':', '=', limit = 2)
                         if (event.size >= 2) event[1].let { value ->
                             when (event[0].toLowerCase()) {
                                 "hover" -> tellraw.hoverText(value)

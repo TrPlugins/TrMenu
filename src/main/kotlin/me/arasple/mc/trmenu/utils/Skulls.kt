@@ -69,7 +69,9 @@ object Skulls {
                         else return@let it.getAsJsonObject("raw").getAsJsonArray("properties")
                     }
                     for (element in textures) if ("textures" == element.asJsonObject["name"].asString) cachePlayerTexture[id] = element.asJsonObject["value"].asString
-                    if (consumer != null) cachePlayerTexture[id]?.let { consumer.accept(it) }
+                    if (consumer != null) cachePlayerTexture[id]?.let {
+                        consumer.accept(it)
+                    }
                 } catch (e: Throwable) {
                     Msger.printErrors("PLAYER-HEAD", e)
                 }
