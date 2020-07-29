@@ -13,7 +13,7 @@ import java.util.*
  */
 object Sessions {
 
-    const val TRMENU_WINDOW_ID: Int = 119
+    const val TRMENU_WINDOW_ID = 119
 
     private val sessions = mutableMapOf<UUID, MenuSession>()
     private val factorySessions = mutableMapOf<UUID, MenuFactorySession>()
