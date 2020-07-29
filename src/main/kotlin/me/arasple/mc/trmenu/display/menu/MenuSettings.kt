@@ -70,7 +70,7 @@ class MenuSettings(val title: Titles, val options: Options, val bindings: Bindin
 
     }
 
-    class Options(val defaultArguments: Array<String>, val defaultLayout: String, val hidePlayerInventory: Boolean, val minClickDelay: Long, val dependExpansions: Array<String>) {
+    class Options(val enableArguments: Boolean, val defaultArguments: Array<String>, val defaultLayout: String, val hidePlayerInventory: Boolean, val minClickDelay: Long, val dependExpansions: Array<String>) {
 
         fun run(player: Player, layout: MenuLayout.Layout) {
             if (hidePlayerInventory)
@@ -96,13 +96,15 @@ class MenuSettings(val title: Titles, val options: Options, val bindings: Bindin
          *         -> 不为空：命令匹配该菜单，支持打开，且携带传递参数
          *         -> Null： 命令与该菜单不匹配
          */
-        fun matchCommand(command: String): Array<String>? = command.split(" ").toTypedArray().let { it ->
+        fun matchCommand(menu: Menu, command: String): Array<String>? = command.split(" ").toTypedArray().let { it ->
             if (it.isNotEmpty()) {
                 for (i in it.indices) {
                     val read = read(it, i)
                     val c = read[0]
                     val args = ArrayUtils.remove(read, 0)
-                    if (boundCommands.any { it.matches(c) }) return@let args
+                    if (boundCommands.any { it.matches(c) } && !(!menu.settings.options.enableArguments && args.isNotEmpty())) {
+                        return@let args
+                    }
                 }
             }
             return@let null

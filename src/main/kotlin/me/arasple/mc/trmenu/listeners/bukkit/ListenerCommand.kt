@@ -10,6 +10,7 @@ import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerCommandPreprocessEvent
 
+
 /**
  * @author Arasple
  * @date 2020/2/29 17:43
@@ -26,7 +27,7 @@ class ListenerCommand : Listener {
 
         if (message.isNotEmpty()) {
             for (menu in Menu.getMenus()) {
-                val matches = menu.settings.bindings.matchCommand(message)
+                val matches = menu.settings.bindings.matchCommand(menu, message)
                 if (matches != null) {
                     player.setArguments(matches)
                     menu.open(player, -1, MenuOpenEvent.Reason.PLAYER_COMMAND)

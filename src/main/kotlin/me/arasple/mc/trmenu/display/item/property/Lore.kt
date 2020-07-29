@@ -18,28 +18,24 @@ class Lore(val lore: MutableList<String>, val conditions: MutableMap<Int, Pair<S
         lore.forEachIndexed { index, lore ->
             Nodes.read(lore).let {
                 it.second[Nodes.REQUIREMENT]?.let { condition ->
-                    if (condition.isNotBlank()) conditions[index] = Pair(condition, it.first)
+                    if (condition.isNotBlank()) conditions[index] = Pair(condition, Item.colorizeLore(it.first))
                 }
             }
         }
     }
 
-    fun formatedLore(player: Player): List<String> {
-        val collect = mutableListOf<String>()
+    fun formatedLore(player: Player): MutableList<String> {
         val lores = mutableListOf<String>()
         lore.forEachIndexed { index, lore ->
             val condition = conditions[index]
             if (condition != null) {
-                collect.add(if (Scripts.expression(player, condition.first).asBoolean()) Item.colorizeLore(condition.second) else "")
-            } else collect.add(Item.colorizeLore(lore))
-        }
-        collect.forEach {
-            it.split("\\n").forEach { part ->
-                lores.add(Msger.replace(player, part))
-            }
+                if (Scripts.expression(player, condition.first).asBoolean()) lores.addAll(formatLores(player, condition.second))
+                else lores.add("")
+            } else lores.addAll(formatLores(player, Item.colorizeLore(lore)))
         }
         return lores
     }
 
+    private fun formatLores(player: Player, string: String) = Msger.replace(player, string.split("\\n"))
 
 }

@@ -71,7 +71,7 @@ object Updater {
         @EventHandler(priority = EventPriority.HIGHEST)
         fun onJoin(e: PlayerJoinEvent) {
             val player = e.player
-            if (player.isOp && !NOTIFIES.contains(player.uniqueId)) {
+            if (player.isOp && LATEST_VERSION > CURRENT_VERSION && !NOTIFIES.contains(player.uniqueId)) {
                 TLocale.sendTo(player, "PLUGIN.UPDATE", LATEST_VERSION)
                 NOTIFIES.add(player.uniqueId)
             }

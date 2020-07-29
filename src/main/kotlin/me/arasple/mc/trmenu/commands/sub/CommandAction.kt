@@ -25,7 +25,7 @@ class CommandAction : BaseSubCommand() {
         val player = Bukkit.getPlayerExact(args[0])
 
         if (player == null || !player.isOnline) {
-            TLocale.sendTo(sender, "COMMANDS.UNKNOWN-PLAYER")
+            TLocale.sendTo(sender, "COMMANDS.ACTIONS.UNKNOWN-PLAYER")
             return
         }
         ArrayUtil.arrayJoin(args, 1).let { it ->

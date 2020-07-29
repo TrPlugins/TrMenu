@@ -67,7 +67,7 @@ COMMANDS:
           hover: '&7Click to open'
           command: '/trmenu open {0}'
   DEBUG:
-    'ON': '&8[&3Tr&bMenu&8] &3DEBUG &8| &7Debug mod &aenabled&7.'
+    'ON': '&8[&3Tr&bMenu&8] &3DEBUG &8| &7Debug mode &aenabled&7.'
     'OFF': '&8[&3Tr&bMenu&8] &3DEBUG &8| &7Debug mode &cdisabled&7.'
   ITEM:
     TO-JSON:
@@ -141,6 +141,10 @@ ERRORS:
     - '&8Trace: {2}'
   INT-RANGE:
     - '&8[&3Tr&bMenu&8] &cERROR &8| &4Error converting string &c{0} &4to integer!'
+    - '&8Reason: {1}'
+    - '&8Trace: {2}'
+  ARGUMENT-REPLACE:
+    - '&8[&3Tr&bMenu&8] &cERROR &8| &4Error replacing string &c{0} &4with arguments and metas!'
     - '&8Reason: {1}'
     - '&8Trace: {2}'
   HOOK: '&8[&3Tr&bMenu&8] &cERROR &8| &4attempt to call a function from an undetected and compatible plugin &c{0}'

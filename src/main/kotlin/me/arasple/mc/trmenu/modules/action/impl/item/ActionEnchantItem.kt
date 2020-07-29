@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack
  */
 class ActionEnchantItem : Action("enchant(-)?item(s)?") {
 
-    override fun onExecute(player: Player) = getContentSplited(player, ";").forEach {
+    override fun onExecute(player: Player) = getSplitedBySemicolon(player).forEach {
         val part = it.split(",").toTypedArray()
         val enchant = Enchantment.getByName(part[1].toUpperCase())
         val l = part[2].split("-").toTypedArray()

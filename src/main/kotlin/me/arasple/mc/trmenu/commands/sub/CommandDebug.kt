@@ -12,8 +12,9 @@ import me.arasple.mc.trmenu.data.MetaPlayer.getArguments
 import me.arasple.mc.trmenu.data.MetaPlayer.getMeta
 import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import me.arasple.mc.trmenu.display.Menu
-import me.arasple.mc.trmenu.modules.metrics.MetricsHandler
 import me.arasple.mc.trmenu.modules.expression.Expressions
+import me.arasple.mc.trmenu.modules.metrics.MetricsHandler
+import me.arasple.mc.trmenu.modules.script.utils.ScriptUtils
 import me.arasple.mc.trmenu.utils.Msger
 import me.arasple.mc.trmenu.utils.Skulls
 import org.bukkit.Bukkit
@@ -63,7 +64,12 @@ class CommandDebug : BaseSubCommand() {
                         Msger.replace(player, message)
                     )
                 }
-                "parseexpression" -> TLocale.sendTo(sender, "DEBUG.EXPRESSION", content, Expressions.parseExpression(content))
+                "parseexpression" -> {
+                    val parsed = Expressions.parseExpression(content)
+                    val translated = ScriptUtils.translate(parsed)
+                    TLocale.sendTo(sender, "DEBUG.EXPRESSION", content, parsed)
+                    TLocale.sendTo(sender, "DEBUG.PRE-COMPILE-SCRIPT", parsed, translated)
+                }
             }
         }
     }
@@ -135,6 +141,7 @@ class CommandDebug : BaseSubCommand() {
             arrayOf(
                 "§3§l「§8--------------------------------------------------§3§l」",
                 "",
+                "§2Server: §6${Bukkit.getServer().name}",
                 "§2Total Menus: §6"
             )
         )

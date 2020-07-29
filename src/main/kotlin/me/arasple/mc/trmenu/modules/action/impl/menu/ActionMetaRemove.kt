@@ -10,7 +10,7 @@ import org.bukkit.entity.Player
  */
 class ActionMetaRemove : Action("(remove|rem|del)(-)?(temp|var(iable)?|meta)(s)?") {
 
-    override fun onExecute(player: Player) = getContentSplited(player, ";").forEach {
+    override fun onExecute(player: Player) = getSplitedBySemicolon(player).forEach {
         player.removeMeta("{meta:$it}")
     }
 

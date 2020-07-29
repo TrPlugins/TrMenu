@@ -10,7 +10,7 @@ import org.bukkit.entity.Player
  */
 class ActionDataDelete : Action("(remove|rem|del)(-)?(data)(s)?") {
 
-    override fun onExecute(player: Player) = getContentSplited(player, ";").forEach {
+    override fun onExecute(player: Player) = getSplitedBySemicolon(player).forEach {
         LocalPlayer.get(player).set("TrMenu.Data.$it", null)
     }
 

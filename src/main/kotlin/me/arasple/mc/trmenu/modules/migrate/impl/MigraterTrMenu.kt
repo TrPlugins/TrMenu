@@ -65,7 +65,6 @@ class MigraterTrMenu(val file: File) : Migrater {
             legacy,
             true,
             "option(s)?.lock-player-inv",
-            "option(s)?.transfer-arg(s)?",
             "option(s)?.update-inventory",
             "option(s)?.force-transfer-arg(s)?",
         )

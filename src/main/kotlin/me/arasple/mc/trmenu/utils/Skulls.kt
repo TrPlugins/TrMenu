@@ -85,7 +85,7 @@ object Skulls {
         val profile = GameProfile(UUID.randomUUID(), null)
         val field = meta.javaClass.getDeclaredField("profile")
         profile.properties.put("textures", Property("textures", let {
-            if (!texture.startsWith("eyJ0Z") && texture.length == 64) {
+            if (!texture.startsWith("eyJ0Z") && texture.length >= 60) {
                 Base64.getEncoder().encodeToString("{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/$texture\"}}}".toByteArray())
             } else {
                 texture

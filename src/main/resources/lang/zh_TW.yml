@@ -11,7 +11,7 @@ PLUGIN:
   DEPEND:
     DOWNLOAD: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7正在下載前置插件 &f{0} &7...'
     INSTALL: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7已成功下載前置 &3{0} &7, 即將重啟服務端完成安裝...'
-    INSTALL-FAILED: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7自動下載前置 &c{0} &7過程出錯, 請手動安裝, 服務器即將停止...'
+    INSTALL-FAILED: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7自動下載前置 &c{0} &7過程出錯, 請手動安裝, 伺服器即將停止...'
 
 LOADER:
   MENU: '&8[&3Tr&bMenu&8] &aFINE &8| &3已載入 &a{0} &3個有效菜單 &8({1} ms)'
@@ -35,7 +35,7 @@ MIGRATE:
 MENU:
   DEPEND-EXPANSIONS:
     - ''
-    - '&8[&fTr&7Menu&8] &7妳還需要安裝 &f{0} &7個 PlaceholderAPI 拓展才能使用本菜單'
+    - '&8[&fTr&7Menu&8] &7你還需要安裝 &f{0} &7個 PlaceholderAPI 拓展才能使用本菜單'
     - ''
   DEPEND-EXPANSIONS-FORMAT:
     ==: JSON
@@ -68,36 +68,36 @@ COMMANDS:
     'OFF': '&8[&3Tr&bMenu&8] &3DEBUG &8| &7已 &c關閉 &7調試模式'
   ITEM:
     TO-JSON:
-      NO-ITEM: '&8[&3Tr&bMenu&8] &7妳必須 &f手持 &7壹個物品才能將其轉換為 Json 格式'
+      NO-ITEM: '&8[&3Tr&bMenu&8] &7你必須 &f手持 &7一個物品才能將其轉換為 Json 格式'
       CONVERTED:
         ==: JSON
-        text: '&8[&3Tr&bMenu&8] &7已將物品轉換為 Json 內容: <&3&n點擊復制@copy>'
+        text: '&8[&3Tr&bMenu&8] &7已將物品轉換為 Json 內容: <&3&n點擊複製@copy>'
         args:
           copy:
-            hover: '&7點擊復制'
+            hover: '&7點擊複製'
             suggest: '{0}'
   ITEM-REPOSITORY:
-    NO-ITEM: '&8[&3Tr&bMenu&8] &7妳必須 &f手持 &7壹個物品才能將其轉換為 Json 格式.'
+    NO-ITEM: '&8[&3Tr&bMenu&8] &7你必須 &f手持 &7一個物品才能將其轉換為 Json 格式.'
     NOT-EXIST: '&8[&3Tr&bMenu&8] &7無法在物品倉庫中找到目標物品 Id &f{0} &7.'
     EXISTED: '&8[&3Tr&bMenu&8] &7已經存在物品 Id 名為 &f{0} &7的物品.'
-    GIVED: '&8[&3Tr&bMenu&8] &3已給予妳 &a{0} &3從物品倉庫.'
+    GIVED: '&8[&3Tr&bMenu&8] &3已給予你 &a{0} &3從物品倉庫.'
     ADDED: '&8[&3Tr&bMenu&8] &3已添加 &a{0} &3到物品倉庫.'
     REMOVED: '&8[&3Tr&bMenu&8] &3已從物品倉庫移除物品 &a{0} &3.'
   TEMPLATE:
     EMPTY: '&8[&3Tr&bMenu&8] &7該容器為空, 取消處理...'
-    PROCESSING: '&8[&3Tr&bMenu&8] &7正在轉換妳的容器模板為 TrMenu 格式中...'
+    PROCESSING: '&8[&3Tr&bMenu&8] &7正在轉換你的容器模板為 TrMenu 格式中...'
     SUCCESS:
       ==: JSON
-      text: '&8[&3Tr&bMenu&8] &3成功轉換為 TrMenu 格式, 請點擊 <&a&n這裏@paste> &3查看'
+      text: '&8[&3Tr&bMenu&8] &3成功轉換為 TrMenu 格式, 請點擊 <&a&n這裡@paste> &3查看'
       args:
         paste:
-          hover: '&7點擊訪問並復制妳的模板'
+          hover: '&7點擊訪問並複製你的模板'
           url: '{0}'
     FAILED: '&8[&3Tr&bMenu&8] &c轉換失敗... 請檢查網絡連接!'
 
 HASTEBIN:
   PROCESSING: '&8[&3Tr&bMenu&8] &7請稍等...'
-  SUCCESS: '&8[&3Tr&bMenu&8] &3妳的內容已被粘貼到 &a{0}'
+  SUCCESS: '&8[&3Tr&bMenu&8] &3你的內容已被粘貼到 &a{0}'
   FAILED: '&8[&3Tr&bMenu&8] &c試圖粘貼到 Hastebin 過程中出錯.'
 
 DEBUG:
@@ -140,7 +140,11 @@ ERRORS:
     - '&8[&3Tr&bMenu&8] &cERROR &8| &4轉換字符串 &c{0} &4為整數範圍時出錯!'
     - '&8Reason: {1}'
     - '&8Trace: {2}'
-  HOOK: '&8[&3Tr&bMenu&8] &cERROR &8| &4試圖調用執行未檢測到並兼容的插件 &c{0} &4的功能'
+  ARGUMENT-REPLACE:
+    - '&8[&3Tr&bMenu&8] &cERROR &8| &4替換字符串 &c{0} &4的參數變量時出錯!'
+    - '&8Reason: {1}'
+    - '&8Trace: {2}'
+  HOOK: '&8[&3Tr&bMenu&8] &cERROR &8| &4試圖調用執行未檢測到併兼容的插件 &c{0} &4的功能'
   SOUND: '&8[&3Tr&bMenu&8] &cERROR &8| &4音效 &c{0} &4無效或不存在，故不能播放給玩家 &c{1}'
   ACTION: '&8[&3Tr&bMenu&8] &cERROR &8| &4動作 &c{0} &4無法識別, 請檢查寫法'
   MATERIAL: '&8[&3Tr&bMenu&8] &cERROR &8| &4無法識別的物品材質 (Material) &c{0}'

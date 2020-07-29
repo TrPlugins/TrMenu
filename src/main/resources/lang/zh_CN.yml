@@ -140,6 +140,10 @@ ERRORS:
     - '&8[&3Tr&bMenu&8] &cERROR &8| &4转换字符串 &c{0} &4为整数范围时出错!'
     - '&8Reason: {1}'
     - '&8Trace: {2}'
+  ARGUMENT-REPLACE:
+    - '&8[&3Tr&bMenu&8] &cERROR &8| &4替换字符串 &c{0} &4的参数变量时出错!'
+    - '&8Reason: {1}'
+    - '&8Trace: {2}'
   HOOK: '&8[&3Tr&bMenu&8] &cERROR &8| &4试图调用执行未检测到并兼容的插件 &c{0} &4的功能'
   SOUND: '&8[&3Tr&bMenu&8] &cERROR &8| &4音效 &c{0} &4无效或不存在，故不能播放给玩家 &c{1}'
   ACTION: '&8[&3Tr&bMenu&8] &cERROR &8| &4动作 &c{0} &4无法识别, 请检查写法'

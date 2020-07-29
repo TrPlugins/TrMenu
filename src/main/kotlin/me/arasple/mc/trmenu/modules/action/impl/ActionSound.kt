@@ -13,7 +13,7 @@ import org.bukkit.entity.Player
 class ActionSound : Action("(play)?(-)?sound") {
 
     override fun onExecute(player: Player) {
-        getContentSplited(player, ";").forEach {
+        getSplitedBySemicolon(player).forEach {
             val split = it.split("-")
             if (split.isNotEmpty()) {
                 val sound = Sounds.matchSounds(split[0]).orElse(null)

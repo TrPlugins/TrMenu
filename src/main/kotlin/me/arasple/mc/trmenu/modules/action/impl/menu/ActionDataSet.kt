@@ -10,7 +10,7 @@ import org.bukkit.entity.Player
  */
 class ActionDataSet : Action("(set|edit)(-)?(data)(s)?") {
 
-    override fun onExecute(player: Player) = getContentSplited(player, ";").forEach {
+    override fun onExecute(player: Player) = getSplitedBySemicolon(player).forEach {
         val split = it.split(" ", limit = 2)
         if (split.size == 2) {
             LocalPlayer.get(player).set("TrMenu.Data.${split[0]}", split[1])

@@ -36,7 +36,7 @@ object ListenerWindowEvents {
                 val session = player.getMenuSession()
 
                 if (!factorySession.isNull() || !session.isNull()) {
-                    val size: Int =
+                    val size =
                         if (!factorySession.isNull())
                             processMenuFactory(player, factorySession, slot, PacketsHandler.INSTANCE.asBukkitItem(packet.read("item")), type)
                         else

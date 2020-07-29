@@ -93,20 +93,23 @@ data class Mat(val raw: String, val value: String, val type: Pair<Nodes, String>
             var builder = ItemBuilder(Material.BARRIER)
             val data = if (split.size >= 2) NumberUtils.toInt(split[1], 0) else 0
             try {
-                if (NumberUtils.isParsable(split[0])) {
+                if (NumberUtils.isCreatable(split[0])) {
                     val id = NumberUtils.toInt(split[0], -1)
                     if (id >= 0) builder.material(id)
                     if (data > 0) builder.damage(data)
                 } else {
-                    val name = split[0].toUpperCase(Locale.ENGLISH).replace(Regex("( )|-"), "_")
-                    val materials = Materials.values().maxBy { Strings.similarDegree(name, it.name) }
+                    val name = split[0].toUpperCase(Locale.ENGLISH).replace("( )|-".toRegex(), "_")
+                    val materials = Materials.values().firstOrNull {
+                        it.name == name || it.legacy.any { legacy -> legacy == name }
+                    } ?: Materials.values().maxBy {
+                        Strings.similarDegree(name, it.name)
+                    }
+
                     if (materials != null) {
                         val pared = materials.parseItem()
                         builder = if (data > 0) ItemBuilder(pared).damage(data)
                         else ItemBuilder(pared)
-                    } else {
-                        builder.material(Material.valueOf(split[0]))
-                    }
+                    } else builder.material(Material.valueOf(split[0]))
                 }
             } catch (e: Throwable) {
                 Msger.printErrors("MATERIAL", value)

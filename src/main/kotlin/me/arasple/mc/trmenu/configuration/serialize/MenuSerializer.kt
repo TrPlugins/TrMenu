@@ -45,13 +45,13 @@ object MenuSerializer {
         )
 
         val options = MenuSettings.Options(
+            c.getOptionEnableArguments()?.let { it.toString().toBoolean() } ?: true,
             Utils.asArray(c.getOptionDefaultArguments()),
             c.getOptionDefaultLayout().toString(),
             Utils.asBoolean(c.getOptionHidePlayerInventory()),
             Utils.asLong(c.getOptionMinClickDelay(), 200),
             Utils.asArray(c.getOptionDependExpansions())
         )
-
 
         val bindings = MenuSettings.Bindings(
             mutableListOf<Regex>().let { regexs ->

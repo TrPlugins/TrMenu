@@ -1,5 +1,6 @@
 Title:
   - 'Hello, TrMenu!'
+  - 'Hello, {player_name}!'
   - 'Support Animated Titles'
 
 Title-Update: 40
@@ -24,6 +25,7 @@ PlayerInventory:
     - '         '
 
 Options:
+  Arguments: false
   Default-Arguments: []
   Default-Layout: 0
   Hide-Player-Inventory: true
@@ -61,7 +63,7 @@ Icons:
     actions:
       all: 'sound: BLOCK_NOTE_BLOCK_PLING-1-2'
 
-  'Close':
+  Close:
     update: [-1, 5, -1, -1]
     display:
       material: Red Stained Glass Pane
@@ -69,7 +71,7 @@ Icons:
     actions:
       all: close
 
-  'Next':
+  Next:
     display:
       material: Cyan Stained Glass Pane
       name: '&bN&3ext Page'
@@ -78,7 +80,7 @@ Icons:
         - 'page: 1'
         - 'sound: BLOCK_CHEST_OPEN-1-2'
 
-  'Pre':
+  Pre:
     display:
       material: Lime Stained Glass Pane
       name: '&aP&2revious Page'
@@ -110,7 +112,7 @@ Icons:
         - 'sound: BLOCK_NOTE_BLOCK_BIT-1-0'
         - 'refresh'
     icons:
-      - condition: 'is.{meta:icon_server_hide}.true'
+      - condition: 'equals.{meta:icon_server_hide}.true'
         priority: 5
         inherit: true
         display:
@@ -130,6 +132,44 @@ Icons:
             - 'sound: BLOCK_NOTE_BLOCK_BIT-1-2'
             - 'refresh'
 
+  Bee:
+    update: [-1, -1, -1, 20]
+    display:
+      name: '&eBee ~'
+      material: '<skull:b727d0ab03f5cd022f8705d3f7f133ca4920eae8e1e47b5074433a137e691e4e>'
+      slots:
+        - [9]
+        - [18]
+        - [28]
+        - [29]
+        - [30]
+        - [31]
+        - [32]
+        - [33]
+        - [34]
+        - [35]
+        - [26]
+        - [16]
+        - [15]
+        - [14]
+        - [13]
+        - [12]
+        - [11]
+        - [10]
+    actions:
+      all:
+        - 'set-meta: angryBee true'
+        - 'sound: ENTITY_ENDERMAN_HURT-1-2'
+        - 'rem-meta: angryBee &&& refresh &&& sound: ENTITY_SPIDER_STEP-1-2<delay:80>'
+        - 'refresh'
+    icons:
+      - condition: 'equals.{meta:angryBee}.true'
+        inherit: true
+        display:
+          name: '&cBee &4~'
+          material: '<skull:e6b74e052b74288799ba6d9f35c5d0221cf8b04331547ec2f68d73597ae2c9b>'
+        actions:
+          all: 'sound: ENTITY_ENDERMAN_HURT-1-2'
 Tasks:
 # tikTok:
 #   period: 20

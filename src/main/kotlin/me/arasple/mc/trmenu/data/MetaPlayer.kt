@@ -32,31 +32,37 @@ object MetaPlayer {
     }
 
     fun Player.replaceWithArguments(string: String): String {
-        val session = this.getMenuSession()
-        val functions = session.menu?.settings?.functions?.internalFunctions
-        val argumented = Strings.replaceWithOrder(string, *this.getArguments())
-        val buffer = StringBuffer(argumented.length)
-        // Js & Placeholders from Menu
-        var content = InternalFunction.match(argumented).let { m ->
-            while (m.find()) {
-                val group = m.group(1)
-                val split = group.split("_").toTypedArray()
-                // Internal Functions
-                functions?.firstOrNull { it.id.equals(split[0], true) }?.let {
-                    m.appendReplacement(buffer, it.eval(this, ArrayUtils.remove(split, 0)))
+        try {
+
+            val session = this.getMenuSession()
+            val functions = session.menu?.settings?.functions?.internalFunctions
+            val argumented = Strings.replaceWithOrder(string, *this.getArguments())
+            val buffer = StringBuffer(argumented.length)
+            // Js & Placeholders from Menu
+            var content = InternalFunction.match(argumented).let { m ->
+                while (m.find()) {
+                    val group = m.group(1)
+                    val split = group.split("_").toTypedArray()
+                    // Internal Functions
+                    functions?.firstOrNull { it.id.equals(split[0], true) }?.let {
+                        m.appendReplacement(buffer, it.eval(this, ArrayUtils.remove(split, 0)))
+                    }
+                    // Global Js
+                    if (group.startsWith("js:")) {
+                        m.appendReplacement(buffer, Scripts.expression(this, group.removePrefix("js:")).asString())
+                    }
                 }
-                // Global Js
-                if (group.startsWith("js:")) {
-                    m.appendReplacement(buffer, Scripts.expression(this, group.removePrefix("js:")).asString())
-                }
+                m.appendTail(buffer).toString()
+            }.replace("{page}", session.page.toString())
+            // Meta
+            this.getMeta().forEach {
+                content = content.replace(it.key, it.value.toString())
             }
-            m.appendTail(buffer).toString()
-        }.replace("{page}", session.page.toString())
-        // Meta
-        this.getMeta().forEach {
-            content = content.replace(it.key, it.value.toString())
+            return content
+        } catch (e: Throwable) {
+            Msger.printErrors("ARGUMENT-REPLACE", e, string)
+            return string
         }
-        return content
     }
 
     fun Player.getArguments() = arguments.computeIfAbsent(this.uniqueId) { arrayOf() }

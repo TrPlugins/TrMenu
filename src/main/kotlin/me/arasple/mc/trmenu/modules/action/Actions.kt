@@ -1,7 +1,5 @@
 package me.arasple.mc.trmenu.modules.action
 
-import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
-import io.izzel.taboolib.util.lite.Numbers
 import me.arasple.mc.trmenu.configuration.property.Nodes
 import me.arasple.mc.trmenu.modules.action.base.Action
 import me.arasple.mc.trmenu.modules.action.impl.*
@@ -18,8 +16,6 @@ import me.arasple.mc.trmenu.modules.action.impl.item.ActionGiveItem
 import me.arasple.mc.trmenu.modules.action.impl.item.ActionTakeItem
 import me.arasple.mc.trmenu.modules.action.impl.menu.*
 import me.arasple.mc.trmenu.modules.hook.HookCronus
-import me.arasple.mc.trmenu.modules.script.Scripts
-import me.arasple.mc.trmenu.utils.Msger
 import me.arasple.mc.trmenu.utils.Tasks
 import me.arasple.mc.trmenu.utils.Utils
 import org.bukkit.entity.Player
@@ -30,6 +26,7 @@ import org.bukkit.entity.Player
  */
 object Actions {
 
+    val optionsBound = "( )?(_\\|\\|_|&&&)( )?".toRegex()
     val cachedActions = mutableMapOf<String, List<Action>>()
     val registeredActions = mutableListOf(
         // hook
@@ -81,22 +78,13 @@ object Actions {
 
     @JvmStatic
     fun runActions(player: Player, actions: List<Action>): Boolean {
-        var delay: Long = 0
-        loop@ for (action in actions.stream().filter {
-            if (!Numbers.random(NumberUtils.toDouble(Msger.replace(player, it.options[Nodes.CHANCE]), 1.0))) return@filter false
-            if (it.options.containsKey(Nodes.REQUIREMENT)) {
-                val v = it.options[Nodes.REQUIREMENT]
-                if (v != null && !(Scripts.expression(player, v).asBoolean())) return@filter false
-            }
-            return@filter true
-        }) {
+        var delay = 0L
+        actions.filter { it.evalChance(player) && it.evalCondition(player) }.forEach {
             when {
-                action is ActionReturn -> return false
-                action is ActionDelay -> delay += NumberUtils.toLong(action.getContent(player), 0)
-                delay > 0 -> Tasks.delay(delay) { action.run(player) }
-                else -> Tasks.run {
-                    action.run(player)
-                }
+                it is ActionReturn -> return false
+                it is ActionDelay -> delay += it.getDelay(player)
+                delay > 0 -> Tasks.delay(delay, true) { it.run(player) }
+                else -> Tasks.run(true) { it.run(player) }
             }
         }
         HookCronus.reset(player)
@@ -123,7 +111,7 @@ object Actions {
         val sharedOptions = mutableMapOf<Nodes, String>()
 
         if (any is String) {
-            any.split("_||_", "#>>").forEach { it ->
+            any.split(optionsBound).forEach { it ->
                 val name = it.replace(Regex("<.+>"), "").split(':')[0]
                 val content = it.removePrefix(name).removePrefix(":").removePrefix(" ")
                 val action = registeredActions.firstOrNull { name.toLowerCase().matches(it.name) }?.newInstance() ?: ActionUnknow().also { it.setContent(any) }

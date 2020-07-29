@@ -37,7 +37,7 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
      */
     fun open(player: Player, page: Int, reason: MenuOpenEvent.Reason) {
         val p = if (page < 0) settings.options.getDefaultLayout(player) else min(page, layout.layouts.size - 1)
-        val e = MenuOpenEvent(player, this, p, reason, MenuOpenEvent.Result.UNKNOWN).call()
+        val e = MenuOpenEvent(player, this, p, reason, MenuOpenEvent.Result.UNKNOWN).async(true).call() as MenuOpenEvent
 
         if (layout.layouts.size <= e.page) {
             e.result = MenuOpenEvent.Result.ERROR_PAGE
