@@ -33,5 +33,4 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: my-artifact
           path: build/libs/*.jar

@@ -14,7 +14,7 @@ compileKotlin {
 }
 
 group 'me.arasple.mc.trmenu'
-version '2.0'
+version '2.0-BETA'
 
 task buildJar(dependsOn: [clean, shadowJar])
 
