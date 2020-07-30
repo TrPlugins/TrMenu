@@ -41,7 +41,9 @@ class MenuOpenEvent(val player: Player, val menu: Menu, val page: Int, val reaso
 
         BINDING_ITEMS,
 
-        BINDING_SHORTCUT
+        BINDING_SHORTCUT,
+
+        UNKNOWN
 
     }
 

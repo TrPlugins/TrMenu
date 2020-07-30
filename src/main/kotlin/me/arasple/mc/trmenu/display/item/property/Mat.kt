@@ -42,7 +42,9 @@ data class Mat(val raw: String, val value: String, val type: Pair<Nodes, String>
             Nodes.MAT_HEAD -> Skulls.getPlayerHead(typeValue)
             Nodes.MAT_TEXTURED_SKULL -> Skulls.getTextureSkull(typeValue)
             Nodes.MAT_HEAD_DATABASE -> HookHeadDatabase.getHead(typeValue)
-            Nodes.MAT_ORAXEN -> OraxenItems.getItemById(typeValue).build()
+            Nodes.MAT_ORAXEN -> {
+                OraxenItems.getItemById(typeValue).build()
+            }
             Nodes.MAT_HEAD_SKINSRESTORER -> Skulls.getTextureSkull(HookSkinsRestorer.getSkin(typeValue))
             Nodes.MAT_SCRIPT -> Scripts.script(player, type.second, true).asItemStack()!!
             Nodes.MAT_JSON -> Item.fromJson(typeValue)

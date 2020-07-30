@@ -76,5 +76,15 @@
       <option name="name" value="maven6" />
       <option name="url" value="https://mvn.lumine.io/repository/maven-public/" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven" />
+      <option name="name" value="maven" />
+      <option name="url" value="https://repo.extendedclip.com/content/repositories/placeholderapi/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven2" />
+      <option name="name" value="maven2" />
+      <option name="url" value="https://rayzr.dev/repo/" />
+    </remote-repository>
   </component>
 </project>

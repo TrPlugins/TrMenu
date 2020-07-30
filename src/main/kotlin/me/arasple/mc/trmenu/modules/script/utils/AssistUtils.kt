@@ -13,10 +13,7 @@ import me.arasple.mc.trmenu.modules.hook.HookPlayerPoints
 import me.arasple.mc.trmenu.modules.web.WebData
 import me.arasple.mc.trmenu.utils.Bungees
 import me.clip.placeholderapi.PlaceholderAPI
-import org.bukkit.Bukkit
-import org.bukkit.Location
-import org.bukkit.Material
-import org.bukkit.World
+import org.bukkit.*
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
@@ -29,7 +26,7 @@ class AssistUtils {
 
     fun runAction(player: Player, vararg actions: String) = actions.filter { it.isNotBlank() }.forEach { Actions.runCachedAction(player, it) }
 
-    fun parseBracketPlaceholders(player: Player, string: String): String = PlaceholderAPI.setBracketPlaceholders(player, string)
+    fun parseBracketPlaceholders(player: OfflinePlayer, string: String): String = PlaceholderAPI.setBracketPlaceholders(player, string)
 
     fun connect(player: Player, server: String) = Bungees.connect(player, server)
 

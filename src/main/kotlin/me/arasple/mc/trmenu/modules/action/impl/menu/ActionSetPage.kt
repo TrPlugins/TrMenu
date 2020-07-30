@@ -4,7 +4,6 @@ import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import me.arasple.mc.trmenu.api.events.MenuOpenEvent
 import me.arasple.mc.trmenu.modules.action.base.Action
 import me.arasple.mc.trmenu.modules.packets.PacketsHandler
-import me.arasple.mc.trmenu.utils.Tasks
 import org.bukkit.entity.Player
 import kotlin.math.min
 
@@ -18,11 +17,7 @@ class ActionSetPage : Action("((set|switch)?(-)?(shape|page))|shape|page") {
         val menu = getSession(player).menu ?: return
         val page = min(NumberUtils.toInt(getContent(player), 0), menu.layout.layouts.size - 1)
         menu.tasking.reset(player)
-
-        Tasks.delay(1) {
-            menu.open(player, page, MenuOpenEvent.Reason.SWITCH_PAGE)
-            PacketsHandler.sendClearNonIconSlots(player, getSession(player))
-        }
+        menu.open(player, page, MenuOpenEvent.Reason.SWITCH_PAGE)
     }
 
 }

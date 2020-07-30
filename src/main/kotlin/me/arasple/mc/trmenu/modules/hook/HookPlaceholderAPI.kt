@@ -14,6 +14,7 @@ import me.arasple.mc.trmenu.utils.Utils
 import me.clip.placeholderapi.PlaceholderAPI
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
 import org.bukkit.Bukkit
+import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 import java.io.File
 
@@ -23,9 +24,9 @@ import java.io.File
  */
 object HookPlaceholderAPI {
 
-    fun replace(plauer: Player, content: String): String = PlaceholderAPI.setPlaceholders(plauer, PlaceholderAPI.setBracketPlaceholders(plauer, content))
+    fun replace(player: OfflinePlayer, content: String): String = PlaceholderAPI.setPlaceholders(player, PlaceholderAPI.setBracketPlaceholders(player, content))
 
-    fun replace(plauer: Player, content: List<String>): List<String> = PlaceholderAPI.setPlaceholders(plauer, PlaceholderAPI.setBracketPlaceholders(plauer, content))
+    fun replace(player: OfflinePlayer, content: List<String>): List<String> = PlaceholderAPI.setPlaceholders(player, PlaceholderAPI.setBracketPlaceholders(player, content))
 
     fun installDepend(): Boolean {
         val plugin = Bukkit.getPluginManager().getPlugin("PlaceholderAPI")
@@ -42,7 +43,8 @@ object HookPlaceholderAPI {
         return false
     }
 
-    private fun processRequest(player: Player, content: String): String {
+    private fun processRequest(player: OfflinePlayer, content: String): String {
+        if (player !is Player) return ""
         val params = content.split("_")
 
         return when (params[0].toLowerCase()) {
@@ -107,7 +109,8 @@ object HookPlaceholderAPI {
 
         override fun persist() = true
 
-        override fun onPlaceholderRequest(player: Player, content: String) = processRequest(player, content)
+        override fun onRequest(player: OfflinePlayer?, params: String) = player?.let { processRequest(it, params) }
+
 
     }
 

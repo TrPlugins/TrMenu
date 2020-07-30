@@ -10,7 +10,7 @@ import org.bukkit.inventory.meta.SkullMeta
  * @author Arasple
  * @date 2020/7/29 20:04
  */
-class MatchItemTexture : MatchItemIdentifier("(skull|head)?(-)?texture") {
+class MatchItemTexture : MatchItemIdentifier("(skull|head)?(-)?texture(s)?") {
 
     override fun match(player: Player, itemStack: ItemStack): Boolean {
         val itemMeta = itemStack.itemMeta ?: return false

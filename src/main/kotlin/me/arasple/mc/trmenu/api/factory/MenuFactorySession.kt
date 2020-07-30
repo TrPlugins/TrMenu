@@ -24,7 +24,7 @@ class MenuFactorySession(val player: Player, var menuFactory: MenuFactory?, val 
     fun displayItems() {
         def.values.forEach { it ->
             val item = it.first
-            it.second.forEach {
+            it.second.filter { !items.containsKey(it) }.forEach {
                 PacketsHandler.sendOutSlot(player, Sessions.TRMENU_WINDOW_ID, it, item)
             }
         }

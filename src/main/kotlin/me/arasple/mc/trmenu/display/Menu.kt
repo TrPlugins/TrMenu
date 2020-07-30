@@ -32,13 +32,15 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
         layout.locateIcons(icons)
     }
 
-    /**
-     * 为玩家打开此菜单
-     */
+    fun open(player: Player) = open(player, -1)
+
+    fun open(player: Player, page: Int) = open(player, page, MenuOpenEvent.Reason.UNKNOWN)
+
     fun open(player: Player, page: Int, reason: MenuOpenEvent.Reason) {
         Tasks.run(true) {
-            val p = if (page < 0) settings.options.getDefaultLayout(player) else min(page, layout.layouts.size - 1)
+            val p = (if (page < 0) settings.options.getDefaultLayout(player) else min(page, layout.layouts.size - 1)).coerceAtLeast(0)
             val e = MenuOpenEvent(player, this, p, reason, MenuOpenEvent.Result.UNKNOWN).async(true).call() as MenuOpenEvent
+            val s = player.getMenuSession()
 
             if (layout.layouts.size <= e.page) {
                 e.result = MenuOpenEvent.Result.ERROR_PAGE
@@ -49,12 +51,15 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
                 val layout = layout.layouts[p]
 
                 player.completeArguments(settings.options.defaultArguments)
-                player.getMenuSession().set(this, layout, p)
+                s.set(this, layout, p)
 
                 layout.displayInventory(player, settings.title.getTitle(player))
                 loadIcons(player, p)
                 settings.load(player, this, layout)
                 viewers.add(player)
+            }
+            if (reason == MenuOpenEvent.Reason.SWITCH_PAGE) {
+                PacketsHandler.sendClearNonIconSlots(player, s)
             }
         }
     }

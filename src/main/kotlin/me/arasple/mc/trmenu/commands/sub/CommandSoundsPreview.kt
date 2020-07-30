@@ -16,7 +16,6 @@ import org.bukkit.Sound
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
-import java.util.*
 
 
 /**
@@ -36,7 +35,7 @@ class CommandSoundsPreview : BaseSubCommand() {
     }
 
     private fun open(player: Player, page: Int, filter: String?) {
-        val map: MutableMap<Int, Sound> = HashMap()
+        val map = mutableMapOf<Int, Sound>()
         val has = booleanArrayOf(false, false)
 
         MenuFactory()

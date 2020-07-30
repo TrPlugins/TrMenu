@@ -9,7 +9,6 @@ import me.arasple.mc.trmenu.modules.hook.HookPlaceholderAPI
 import me.arasple.mc.trmenu.modules.hook.HookPlayerPoints
 import me.arasple.mc.trmenu.modules.shortcut.Shortcuts
 import me.arasple.mc.trmenu.utils.FileWatcher
-import me.clip.placeholderapi.PlaceholderAPI
 import me.clip.placeholderapi.PlaceholderAPIPlugin
 import org.bukkit.Bukkit
 
@@ -41,7 +40,9 @@ class TrMenuLoader {
 
     fun cancel() {
         // 注销插件提供的 PlaceholderAPI 变量拓展
-        PlaceholderAPI.unregisterExpansion(PlaceholderAPIPlugin.getInstance().expansionManager.getRegisteredExpansion("trmenu"))
+        PlaceholderAPIPlugin.getInstance().localExpansionManager.findExpansionByIdentifier("trmenu").ifPresent {
+            it.unregister()
+        }
         FileWatcher.watcher.unregisterAll()
     }
 
