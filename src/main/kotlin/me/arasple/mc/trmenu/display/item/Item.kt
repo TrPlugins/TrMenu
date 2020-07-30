@@ -1,7 +1,7 @@
 package me.arasple.mc.trmenu.display.item
 
-import io.izzel.taboolib.internal.gson.JsonObject
-import io.izzel.taboolib.internal.gson.JsonParser
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import io.izzel.taboolib.module.locale.TLocale
 import io.izzel.taboolib.module.nms.NMS
 import io.izzel.taboolib.module.nms.nbt.NBTCompound
@@ -21,7 +21,6 @@ object Item {
 
     fun colorizeName(string: String) = colorize(string, false)
 
-    @Suppress("DEPRECATION")
     fun fromJson(item: String): ItemStack {
         val json = JsonParser().parse(TLocale.Translate.setColored(item))
         if (json is JsonObject) {

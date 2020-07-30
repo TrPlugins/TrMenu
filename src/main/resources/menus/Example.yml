@@ -8,7 +8,7 @@ Title-Update: 40
 Layout:
   - - '########`Close`'
     - '         '
-    - '         '
+    - '    PT   '
     - '         '
     - '####*###`Next`'
 
@@ -38,6 +38,7 @@ Bindings:
   Items:
     - 'material:compass'
     - 'material:clock,lore:OPEN_MENU'
+    - 'texture:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDRmNDUyZDk5OGVhYmFjNDY0MmM2YjBmZTVhOGY0ZTJlNjczZWRjYWUyYTZkZmQ5ZTZhMmU4NmU3ODZlZGFjMCJ9fX0='
 
 Events:
   Open:
@@ -92,7 +93,7 @@ Icons:
   '*':
     update: [-1, 5, 20, -1]
     display:
-      material: '<skull:9842dc3b917b1a796c303e15105474a8e315de7982b6ca54feafb5a4d13d4e95>'
+      material: <skull:9842dc3b917b1a796c303e15105474a8e315de7982b6ca54feafb5a4d13d4e95>
       name:
         - '&3&lSERVER'
         - '&b&lSE&3&lRVER'
@@ -132,11 +133,62 @@ Icons:
             - 'sound: BLOCK_NOTE_BLOCK_BIT-1-2'
             - 'refresh'
 
+  P:
+    update: 20
+    display:
+      material: <head:%player_name%>
+      name: '&2&l%player_name%'
+      lore:
+        - ''
+        - 'Hello, %player_name%! There''s your profile.'
+        - ''
+        - '&8| &7HEALTH: &c%player_health_rounded% ♥'
+        - '&8| &7LEVEL: &3Lv.%player_level%'
+        - '&8| &7TIME: &3%player_world_time_24%'
+        - ''
+        - '&8| &7REGISTER DATE: &3%player_first_join_date%'
+        - '&8| &7IP: &3%player_ip%'
+        - '&8| &7PING: ${js: %player_ping% < 60 ? "&a" : "&2"}%player_ping% ms'
+        - ''
+        - '&8➥ &7Press number key &66 &7to high jump'
+        - ''
+        - '&8%player_uuid%'
+    actions:
+      all: 'sound: BLOCK_NOTE_BLOCK_PLING-1-2'
+      number_key_6:
+        - 'close'
+        - 'particle: EXPLOSION_HUGE{offset=0,0,0}'
+        - 'title: <TITLE=&b&LGET READY><FADEIN=10><STAY=20><FADEOUT=40><SUBTITLE=&6&l3> &&& sound: ENTITY_ENDER_DRAGON_FLAP-1-0'
+        - 'title: <TITLE=&3&LGET READY><SUBTITLE=&6&l2> &&& sound: ENTITY_ENDER_DRAGON_FLAP-1-0<Delay=20>'
+        - 'title: <TITLE=&9&LGET READY><SUBTITLE=&c&l1> &&& sound: ENTITY_ENDER_DRAGON_FLAP-1-0<Delay=40>'
+        - 'js: player.setVelocity(player.getVelocity().setY(25)) &&& js: player.setNoDamageTicks(600) &&& sound: ENTITY_ENDER_DRAGON_FLAP-1-1<Delay=50>'
+        - 'js: player.setVelocity(player.getVelocity().setY(45)) &&& title: <TITLE=&d&LAGAIN><SUBTITLE=&7&lHIGHER!> &&& sound: ENTITY_ENDER_DRAGON_FLAP-1-2<Delay=100>'
+
+  T:
+    update: 20
+    display:
+      material: compass
+      name: '&3&lTrMenu'
+      amount: '${js: parseInt(%server_time_s%) + 1}'
+      lore:
+        - ''
+        - 'The following is the relevant statistics'
+        - 'of TrMenu, from the bStats'
+        - '&8(https://bstats.org/)'
+        - ''
+        - '&8| &3Servers: ${bStats.servers}'
+        - '&8| &3Players: ${bStats.players}'
+        - '&8| &3Menus: ${bStats.menus}'
+        - ''
+        - 'In the past half an hour,'
+        - 'Menus have been opened ${bStats.opens} times'
+        - ''
+
   Bee:
     update: [-1, -1, -1, 20]
     display:
-      name: '&eBee ~'
       material: '<skull:b727d0ab03f5cd022f8705d3f7f133ca4920eae8e1e47b5074433a137e691e4e>'
+      name: '&eBee ~'
       slots:
         - [9]
         - [18]
@@ -160,7 +212,7 @@ Icons:
       all:
         - 'set-meta: angryBee true'
         - 'sound: ENTITY_ENDERMAN_HURT-1-2'
-        - 'rem-meta: angryBee &&& refresh &&& sound: ENTITY_SPIDER_STEP-1-2<delay:80>'
+        - 'rem-meta: angryBee &&& refresh &&& sound: ENTITY_SPIDER_STEP-1-2<Delay=80>'
         - 'refresh'
     icons:
       - condition: 'equals.{meta:angryBee}.true'
@@ -170,6 +222,9 @@ Icons:
           material: '<skull:e6b74e052b74288799ba6d9f35c5d0221cf8b04331547ec2f68d73597ae2c9b>'
         actions:
           all: 'sound: ENTITY_ENDERMAN_HURT-1-2'
+
+
+
 Tasks:
 # tikTok:
 #   period: 20
@@ -182,7 +237,30 @@ Tasks:
 Functions:
   flash: |-
     function flash() {
-      var parsed = "%animations_<flash>{0}</flash>%"
-      return parsed.isEmpty() ? utils.emptyString("{0}".length()) : parsed
+      var display = new Date().getSeconds() % 2 == 0
+      return display ? "{0}" : "  "
     }
     flash()
+
+  bStats:
+    servers: '${bStats.query_servers_&a_&7 servers}'
+    players: '${bStats.query_players_&6_&7 players}'
+    menus: '${bStats.query_menus_&2_&7 menus}'
+    opens:  |-
+      function opens() {
+        var data = utils.query("https://bstats.org/api/v1/plugins/5742/charts/menu_open_counts/data?maxElements=1")
+        if (data != null && data.hasData()){
+          return "&b" + data.getJsonElement().getAsJsonArray().get(0).getAsJsonArray().get(1) + "&7"
+        }
+        return "&8Loading." + ${flash_.} + "&7"
+      }
+      opens()
+    query:  |-
+      function query() {
+        var data = utils.query("https://bstats.org/api/v1/plugins/5742/charts/" + "{0}" + "/data?maxElements=1")
+        if (data != null && data.hasData()){
+          return "{1}" + data.getJsonElement().getAsJsonArray().get(0).getAsJsonArray().get(1) + "{2}"
+        }
+        return "&8Loading." + ${flash_.}
+      }
+      query()

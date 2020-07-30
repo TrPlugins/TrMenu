@@ -1,7 +1,7 @@
 package me.arasple.mc.trmenu.utils
 
-import io.izzel.taboolib.internal.gson.JsonObject
-import io.izzel.taboolib.internal.gson.JsonParser
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.configuration.property.Property
 import org.apache.commons.lang.math.NumberUtils
@@ -86,7 +86,6 @@ object Utils {
         return results
     }
 
-    @Suppress("DEPRECATION")
     fun isJson(string: String) = try {
         JsonParser().parse(string) is JsonObject
     } catch (e: Throwable) {

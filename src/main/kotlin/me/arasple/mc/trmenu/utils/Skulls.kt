@@ -29,37 +29,37 @@ object Skulls {
         arrayOf("https://api.mojang.com/users/profiles/minecraft/", "https://sessionserver.mojang.com/session/minecraft/profile/")
     )
 
-    val userName = "[a-zA-Z0-9_]*".toRegex()
-    val defaultHead = Materials.PLAYER_HEAD.parseItem()!!
-    val cache = mutableMapOf<String, ItemStack>()
-    val cachePlayerTexture = mutableMapOf<String, String?>()
+    val USER_NAME = "[a-zA-Z0-9_]*".toRegex()
+    val DEFAULT_HEAD = Materials.PLAYER_HEAD.parseItem()!!
+    val CACHED_SKULLS = mutableMapOf<String, ItemStack>()
+    val CACHED_PLAYER_TEXTURE = mutableMapOf<String, String?>()
 
-    fun getPlayerHead(name: String): ItemStack = if (userName.matches(name)) cache.computeIfAbsent(name) {
+    fun getPlayerHead(name: String): ItemStack = if (USER_NAME.matches(name)) CACHED_SKULLS.computeIfAbsent(name) {
         val texture = getPlayerTexture(name) ?: kotlin.run {
-            val head = ItemBuilder(defaultHead.clone()).build()
+            val head = ItemBuilder(DEFAULT_HEAD.clone()).build()
             getPlayerTexture(name) {
                 setTextureSkull(it, head)
             }
             return@computeIfAbsent head
         }
         return@computeIfAbsent getTextureSkull(texture)
-    } else defaultHead
+    } else DEFAULT_HEAD
 
     private fun getPlayerTexture(id: String) = getPlayerTexture(id, null)
 
     private fun getPlayerTexture(id: String, consumer: Consumer<String>?): String? {
-        if (cachePlayerTexture.containsKey(id)) {
-            return cachePlayerTexture[id]
+        if (CACHED_PLAYER_TEXTURE.containsKey(id)) {
+            return CACHED_PLAYER_TEXTURE[id]
         } else {
             val player = Bukkit.getPlayerExact(id)
             if (player != null && Version.isAfter(Version.v1_13)) {
                 val nms = PacketsHandler.getPlayerTexture(player)
                 if (!Strings.isBlank(nms)) {
-                    cachePlayerTexture[id] = nms
-                    return cachePlayerTexture[id]
+                    CACHED_PLAYER_TEXTURE[id] = nms
+                    return CACHED_PLAYER_TEXTURE[id]
                 }
             }
-            cachePlayerTexture[id] = null
+            CACHED_PLAYER_TEXTURE[id] = null
             Tasks.run(true) {
                 try {
                     val mojang = TrMenu.SETTINGS.getBoolean("Options.Skull-Mojang-API", false)
@@ -70,8 +70,8 @@ object Skulls {
                         if (mojang) return@let it.getAsJsonArray("properties")
                         else return@let it.getAsJsonObject("raw").getAsJsonArray("properties")
                     }
-                    for (element in textures) if ("textures" == element.asJsonObject["name"].asString) cachePlayerTexture[id] = element.asJsonObject["value"].asString
-                    if (consumer != null) cachePlayerTexture[id]?.let {
+                    for (element in textures) if ("textures" == element.asJsonObject["name"].asString) CACHED_PLAYER_TEXTURE[id] = element.asJsonObject["value"].asString
+                    if (consumer != null) CACHED_PLAYER_TEXTURE[id]?.let {
                         consumer.accept(it)
                     }
                 } catch (e: Throwable) {
@@ -79,22 +79,27 @@ object Skulls {
                 }
             }
         }
-        return cachePlayerTexture[id]
+        return CACHED_PLAYER_TEXTURE[id]
     }
 
-    fun getTextureSkull(texture: String) = setTextureSkull(texture, defaultHead.clone())
+    fun getTextureSkull(texture: String) = setTextureSkull(texture, DEFAULT_HEAD.clone())
 
-    fun setTextureSkull(texture: String, item: ItemStack): ItemStack = cache.computeIfAbsent(texture) {
+    fun setTextureSkull(texture: String, item: ItemStack): ItemStack = CACHED_SKULLS.computeIfAbsent(texture) {
         val meta = item.itemMeta as SkullMeta
         val profile = GameProfile(UUID.randomUUID(), null)
         val field = meta.javaClass.getDeclaredField("profile")
-        profile.properties.put("textures", Property("textures", let {
-            if (!texture.startsWith("eyJ0Z") && texture.length >= 60) {
-                Base64.getEncoder().encodeToString("{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/$texture\"}}}".toByteArray())
-            } else {
-                texture
-            }
-        }, "TrMenu_TexturedSkull"))
+        profile.properties.put(
+            "textures",
+            Property(
+                "textures",
+                if (texture.length in 60..100) {
+                    Base64.getEncoder().encodeToString("{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/$texture\"}}}".toByteArray())
+                } else {
+                    texture
+                },
+                "TrMenu_TexturedSkull"
+            )
+        )
         field.isAccessible = true
         field[meta] = profile
         item.itemMeta = meta

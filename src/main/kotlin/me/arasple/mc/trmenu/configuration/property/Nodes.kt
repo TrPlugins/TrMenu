@@ -47,11 +47,11 @@ enum class Nodes(regex: String) {
 
     FADEOUT("<((fade)?(-)?out)[:=]( )?([0-9]+>)"),
 
-    CHANCE("<(c|chance|rate):( )?([0-9]+[.]?[0-9]*>)"),
+    CHANCE("<(c|chance|rate)[:=]( )?([0-9]+[.]?[0-9]*>)"),
 
-    DELAY("<(d|delay|wait):( )?([0-9]+[.]?[0-9]*>)"),
+    DELAY("<(d|delay|wait)[:=]( )?([0-9]+[.]?[0-9]*>)"),
 
-    PLAYERS("<((p|(for|all)?(-)?players))(:)?(.+)?>"),
+    PLAYERS("<((p|(for|all)?(-)?players))[:=]?(.+)?>"),
 
     TYPE("<(type)[:=]( )?(.+>)"),
 

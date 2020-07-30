@@ -113,7 +113,7 @@ class AssistUtils {
 
     fun getItemName(itemStack: ItemStack): String = Items.getName(itemStack)
 
-    fun readWebData(url: String) = WebData.query(url)
+    fun query(url: String) = WebData.query(url)
 
     fun evalCronusCondition(player: String, condition: String) = getPlayer(player)?.let { return@let evalCronusCondition(it, condition) } ?: false
 

@@ -9,6 +9,7 @@ import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.data.MetaPlayer.getArguments
 import me.arasple.mc.trmenu.data.MetaPlayer.getMeta
 import me.arasple.mc.trmenu.data.Sessions.getMenuSession
+import me.arasple.mc.trmenu.display.Menu
 import me.arasple.mc.trmenu.modules.script.Scripts
 import me.arasple.mc.trmenu.utils.Utils
 import me.clip.placeholderapi.PlaceholderAPI
@@ -48,6 +49,7 @@ object HookPlaceholderAPI {
         val params = content.split("_")
 
         return when (params[0].toLowerCase()) {
+            "menus" -> Menu.getMenus().size.toString()
             "args" -> arguments(player, params)
             "meta" -> meta(player, params)
             "data" -> if (params.size > 1) LocalPlayer.get(player).getString("TrMenu.Data.${params[1]}", "")!! else ""

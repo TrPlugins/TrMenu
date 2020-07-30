@@ -1,8 +1,8 @@
 package me.arasple.mc.trmenu.modules.update
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
-import io.izzel.taboolib.internal.gson.JsonObject
-import io.izzel.taboolib.internal.gson.JsonParser
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import io.izzel.taboolib.module.inject.TFunction
 import io.izzel.taboolib.module.inject.TListener
 import io.izzel.taboolib.module.inject.TSchedule
@@ -39,7 +39,6 @@ object Updater {
     }
 
     @TSchedule(delay = 20, period = 10 * 60 * 20, async = true)
-    @Suppress("DEPRECATION")
     private fun grabInfo() {
         if (LATEST_VERSION < 0) {
             return

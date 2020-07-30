@@ -4,7 +4,12 @@ import io.izzel.taboolib.util.Variables
 import me.arasple.mc.trmenu.configuration.menu.MenuConfiguration
 import me.arasple.mc.trmenu.configuration.serialize.MenuSerializer
 import me.arasple.mc.trmenu.utils.Utils
+import java.io.BufferedInputStream
+import java.io.ByteArrayOutputStream
 import java.io.InputStreamReader
+import java.net.HttpURLConnection
+import java.net.URL
+import java.nio.charset.StandardCharsets
 
 /**
  * @author Arasple
@@ -14,7 +19,6 @@ object Test {
 
     @JvmStatic
     fun main(args: Array<String>) {
-        test()
     }
 
     fun test() {
