@@ -41,7 +41,7 @@ class CommandOpenMenu : BaseSubCommand() {
             TLocale.sendTo(sender, "COMMANDS.OPEN.UNKNOWN-PLAYER")
             return
         }
-        arguments?.let { player.setArguments(it) }
+        player.setArguments(arguments)
         menu.open(player, page, if (sender is Player) MenuOpenEvent.Reason.PLAYER_COMMAND else MenuOpenEvent.Reason.CONSOLE)
     }
 

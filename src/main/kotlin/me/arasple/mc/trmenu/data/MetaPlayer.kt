@@ -67,7 +67,11 @@ object MetaPlayer {
 
     fun Player.getArguments() = arguments.computeIfAbsent(this.uniqueId) { arrayOf() }
 
-    fun Player.setArguments(arguments: Array<String>) {
+    fun Player.setArguments(arguments: Array<String>?) {
+        if (arguments == null) {
+            removeArguments()
+            return
+        }
         this@MetaPlayer.arguments[this.uniqueId] = filterInput(formatArguments(arguments)).toTypedArray()
         Msger.debug("ARGUMENTS", this.name, this.getArguments().joinToString(","))
         Msger.debug(this, "ARGUMENTS", this.name, this.getArguments().joinToString(","))
@@ -94,7 +98,7 @@ object MetaPlayer {
         if (arguments.isNotEmpty()) {
             val currentArgs = this.getArguments()
             if (currentArgs.isEmpty()) {
-                this.setArguments(currentArgs)
+                this.setArguments(arguments)
             } else if (currentArgs.size < currentArgs.size) {
                 val args = currentArgs.toMutableList()
                 for (i in args.size until currentArgs.size) args.add(currentArgs[i])

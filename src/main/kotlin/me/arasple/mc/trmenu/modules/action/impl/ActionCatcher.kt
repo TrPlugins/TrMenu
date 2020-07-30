@@ -9,6 +9,7 @@ import me.arasple.mc.trmenu.display.function.Reactions
 import me.arasple.mc.trmenu.modules.action.Actions
 import me.arasple.mc.trmenu.modules.action.base.Action
 import me.arasple.mc.trmenu.modules.inputer.Catchers
+import me.arasple.mc.trmenu.modules.inputer.InputCatcher
 import me.arasple.mc.trmenu.modules.inputer.InputCatcher.clearCatcherMeta
 import me.arasple.mc.trmenu.modules.inputer.InputCatcher.setCatcher
 import me.arasple.mc.trmenu.utils.Utils
@@ -25,9 +26,13 @@ class ActionCatcher : Action("catcher") {
     private var catcher: Catchers? = null
 
     override fun onExecute(player: Player) {
+        if (InputCatcher.cooldown.isCooldown(player.name)) return
+
         catcher?.let {
             player.clearCatcherMeta()
-            catcher?.let { player.setCatcher(it.run(player)) }
+            catcher?.let {
+                player.setCatcher(it.run(player))
+            }
         }
     }
 
