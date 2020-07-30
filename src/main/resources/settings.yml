@@ -47,6 +47,8 @@ Shortcuts:
       execute: 'open: Example'
   Right-Click-Player: []
   Sneaking-Right-Click-Player: []
+  PlayerInventory-Border-Left: []
+  PlayerInventory-Border-Right: []
 
 #
 # Register commands with actions and arguments
@@ -74,3 +76,5 @@ RegisterCommands:
 Events-Ignore-Cancelled:
   PlayerCommandPreprocessEvent: true
   InventoryOpenEvent: true
+  InventoryClickEvent: true
+

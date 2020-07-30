@@ -24,11 +24,25 @@ object Shortcuts {
                 serialize("Sneaking-Offhand"),
                 serialize("Right-Click-Player"),
                 serialize("Sneaking-Right-Click-Player"),
+                serialize("PlayerInventory-Border-Left"),
+                serialize("PlayerInventory-Border-Right"),
             )
         }
     }
 
     fun serialize(type: String) = ReactionSerializer.serializeReactions(TrMenu.SETTINGS.get("Shortcuts.$type"))
+
+    fun borderLeft(player: Player) {
+        reactions[4].let {
+            if (it.isNotEmpty()) it.eval(player)
+        }
+    }
+
+    fun borderRight(player: Player) {
+        reactions[5].let {
+            if (it.isNotEmpty()) it.eval(player)
+        }
+    }
 
     fun offhand(player: Player): Boolean {
         val sneaking = player.isSneaking
