@@ -29,19 +29,21 @@ object Skulls {
         arrayOf("https://api.mojang.com/users/profiles/minecraft/", "https://sessionserver.mojang.com/session/minecraft/profile/")
     )
 
+    val userName = "[a-zA-Z0-9_]*".toRegex()
+    val defaultHead = Materials.PLAYER_HEAD.parseItem()!!
     val cache = mutableMapOf<String, ItemStack>()
     val cachePlayerTexture = mutableMapOf<String, String?>()
 
-    fun getPlayerHead(name: String): ItemStack = cache.computeIfAbsent(name) {
+    fun getPlayerHead(name: String): ItemStack = if (userName.matches(name)) cache.computeIfAbsent(name) {
         val texture = getPlayerTexture(name) ?: kotlin.run {
-            val head = ItemBuilder(Materials.PLAYER_HEAD.parseItem()).build()
+            val head = ItemBuilder(defaultHead.clone()).build()
             getPlayerTexture(name) {
                 setTextureSkull(it, head)
             }
             return@computeIfAbsent head
         }
         return@computeIfAbsent getTextureSkull(texture)
-    }
+    } else defaultHead
 
     private fun getPlayerTexture(id: String) = getPlayerTexture(id, null)
 
@@ -80,7 +82,7 @@ object Skulls {
         return cachePlayerTexture[id]
     }
 
-    fun getTextureSkull(texture: String) = setTextureSkull(texture, Materials.PLAYER_HEAD.parseItem()!!)
+    fun getTextureSkull(texture: String) = setTextureSkull(texture, defaultHead.clone())
 
     fun setTextureSkull(texture: String, item: ItemStack): ItemStack = cache.computeIfAbsent(texture) {
         val meta = item.itemMeta as SkullMeta
