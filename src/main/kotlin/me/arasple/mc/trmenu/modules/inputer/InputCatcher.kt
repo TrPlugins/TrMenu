@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.modules.inputer
 
+import io.izzel.taboolib.util.lite.cooldown.Cooldown
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.data.MetaPlayer.removeMeta
 import me.arasple.mc.trmenu.data.MetaPlayer.removeMetaStartsWith
@@ -12,7 +13,8 @@ import java.util.*
  */
 object InputCatcher {
 
-    private val catchers = mutableMapOf<UUID, Catchers?>()
+    val catchers = mutableMapOf<UUID, Catchers?>()
+    val cooldown = Cooldown("CATCHER", 2)
 
     fun Player.setCatcher(catcher: Catchers) = catchers.put(this.uniqueId, catcher)
 

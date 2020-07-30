@@ -1,6 +1,6 @@
 package me.arasple.mc.trmenu.modules.item
 
-import joptsimple.internal.Strings
+import io.izzel.taboolib.util.Strings
 import me.arasple.mc.trmenu.modules.item.base.MatchItemIdentifier
 import me.arasple.mc.trmenu.modules.item.impl.*
 
@@ -16,7 +16,8 @@ object ItemIdentifierHandler {
         MatchItemDamage(),
         MatchItemModelData(),
         MatchItemName(),
-        MatchItemLore()
+        MatchItemLore(),
+        MatchItemTexture(),
     )
 
     fun registerIdentifer(identifier: MatchItemIdentifier) {
@@ -30,7 +31,7 @@ object ItemIdentifierHandler {
             it.split(",").forEach { string ->
                 val args = string.split(":", limit = 2)
                 val matcher = this.matchers.firstOrNull { it.name.matches(args[0]) }?.newInstance()
-                if (matcher == null && args.size == 1 && !Strings.isNullOrEmpty(args[0])) {
+                if (matcher == null && args.size == 1 && !Strings.isBlank(args[0])) {
                     characteristic.characteristic.add(MatchItemLore().let {
                         it.setContent(args[0])
                         return@let it

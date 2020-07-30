@@ -1,7 +1,7 @@
 package me.arasple.mc.trmenu.commands.sub
 
 import io.izzel.taboolib.module.command.base.BaseSubCommand
-import me.arasple.mc.trmenu.TrMenuLoader
+import me.arasple.mc.trmenu.configuration.MenuLoader
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 
@@ -12,7 +12,7 @@ import org.bukkit.command.CommandSender
 class CommandReload : BaseSubCommand() {
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>) {
-        TrMenuLoader.loadMenus(sender)
+        MenuLoader.loadMenus(sender)
     }
 
 }

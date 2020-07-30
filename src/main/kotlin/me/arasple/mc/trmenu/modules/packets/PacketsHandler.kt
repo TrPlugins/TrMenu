@@ -12,7 +12,6 @@ import me.arasple.mc.trmenu.data.MenuSession
 import me.arasple.mc.trmenu.data.MetaPlayer.getInventoryContents
 import me.arasple.mc.trmenu.data.Sessions
 import me.arasple.mc.trmenu.data.Sessions.getMenuSession
-import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.event.inventory.InventoryType.*
@@ -35,6 +34,8 @@ abstract class PacketsHandler {
     abstract fun clearInventory(player: Player, startSlot: Int, windowId: Int)
 
     abstract fun asNMSItem(itemStack: ItemStack): Any
+
+    abstract fun asBukkitItem(itemStack: Any): ItemStack?
 
     abstract fun getClickTypeIndex(clickType: Any): Int
 

@@ -6,9 +6,9 @@ import com.mojang.authlib.GameProfile
 import com.mojang.authlib.properties.Property
 import io.izzel.taboolib.Version
 import io.izzel.taboolib.loader.internal.IO
+import io.izzel.taboolib.util.Strings
 import io.izzel.taboolib.util.item.ItemBuilder
 import io.izzel.taboolib.util.lite.Materials
-import joptsimple.internal.Strings
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.modules.packets.PacketsHandler
 import org.bukkit.Bukkit
@@ -16,6 +16,7 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
 import java.util.*
 import java.util.function.Consumer
+
 
 /**
  * @author Arasple
@@ -28,38 +29,39 @@ object Skulls {
         arrayOf("https://api.mojang.com/users/profiles/minecraft/", "https://sessionserver.mojang.com/session/minecraft/profile/")
     )
 
-    val cache = mutableMapOf<String, ItemStack>()
-    val cachePlayerTexture = mutableMapOf<String, String?>()
+    val USER_NAME = "[a-zA-Z0-9_]*".toRegex()
+    val DEFAULT_HEAD = Materials.PLAYER_HEAD.parseItem()!!
+    val CACHED_SKULLS = mutableMapOf<String, ItemStack>()
+    val CACHED_PLAYER_TEXTURE = mutableMapOf<String, String?>()
 
-    fun getPlayerHead(name: String): ItemStack = cache.computeIfAbsent(name) {
+    fun getPlayerHead(name: String): ItemStack = if (USER_NAME.matches(name)) CACHED_SKULLS.computeIfAbsent(name) {
         val texture = getPlayerTexture(name) ?: kotlin.run {
-            val head = ItemBuilder(Materials.PLAYER_HEAD.parseItem()).build()
+            val head = ItemBuilder(DEFAULT_HEAD.clone()).build()
             getPlayerTexture(name) {
                 setTextureSkull(it, head)
             }
             return@computeIfAbsent head
         }
         return@computeIfAbsent getTextureSkull(texture)
-    }
+    } else DEFAULT_HEAD
 
     private fun getPlayerTexture(id: String) = getPlayerTexture(id, null)
 
     private fun getPlayerTexture(id: String, consumer: Consumer<String>?): String? {
-        if (cachePlayerTexture.containsKey(id)) {
-            return cachePlayerTexture[id]
+        if (CACHED_PLAYER_TEXTURE.containsKey(id)) {
+            return CACHED_PLAYER_TEXTURE[id]
         } else {
             val player = Bukkit.getPlayerExact(id)
             if (player != null && Version.isAfter(Version.v1_13)) {
                 val nms = PacketsHandler.getPlayerTexture(player)
-                if (!Strings.isNullOrEmpty(nms)) {
-                    cachePlayerTexture[id] = nms
-                    return cachePlayerTexture[id]
+                if (!Strings.isBlank(nms)) {
+                    CACHED_PLAYER_TEXTURE[id] = nms
+                    return CACHED_PLAYER_TEXTURE[id]
                 }
             }
-            cachePlayerTexture[id] = null
+            CACHED_PLAYER_TEXTURE[id] = null
             Tasks.run(true) {
                 try {
-                    // https://api.minetools.eu/profile/%uuid%
                     val mojang = TrMenu.SETTINGS.getBoolean("Options.Skull-Mojang-API", false)
                     val api = if (mojang) apis[1] else apis[0]
                     val userProfile = JsonParser().parse(IO.readFromURL("${api[0]}$id")) as JsonObject
@@ -68,33 +70,50 @@ object Skulls {
                         if (mojang) return@let it.getAsJsonArray("properties")
                         else return@let it.getAsJsonObject("raw").getAsJsonArray("properties")
                     }
-                    for (element in textures) if ("textures" == element.asJsonObject["name"].asString) cachePlayerTexture[id] = element.asJsonObject["value"].asString
-                    if (consumer != null) cachePlayerTexture[id]?.let { consumer.accept(it) }
+                    for (element in textures) if ("textures" == element.asJsonObject["name"].asString) CACHED_PLAYER_TEXTURE[id] = element.asJsonObject["value"].asString
+                    if (consumer != null) CACHED_PLAYER_TEXTURE[id]?.let {
+                        consumer.accept(it)
+                    }
                 } catch (e: Throwable) {
                     Msger.printErrors("PLAYER-HEAD", e)
                 }
             }
         }
-        return cachePlayerTexture[id]
+        return CACHED_PLAYER_TEXTURE[id]
     }
 
-    fun getTextureSkull(texture: String) = setTextureSkull(texture, Materials.PLAYER_HEAD.parseItem()!!)
+    fun getTextureSkull(texture: String) = setTextureSkull(texture, DEFAULT_HEAD.clone())
 
-    fun setTextureSkull(texture: String, item: ItemStack): ItemStack = cache.computeIfAbsent(texture) {
+    fun setTextureSkull(texture: String, item: ItemStack): ItemStack = CACHED_SKULLS.computeIfAbsent(texture) {
         val meta = item.itemMeta as SkullMeta
         val profile = GameProfile(UUID.randomUUID(), null)
         val field = meta.javaClass.getDeclaredField("profile")
-        profile.properties.put("textures", Property("textures", let {
-            if (!texture.startsWith("eyJ0Z") && texture.length == 64) {
-                Base64.getEncoder().encodeToString("{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/$texture\"}}}".toByteArray())
-            } else {
-                texture
-            }
-        }, "TrMenu_TexturedSkull"))
+        profile.properties.put(
+            "textures",
+            Property(
+                "textures",
+                if (texture.length in 60..100) {
+                    Base64.getEncoder().encodeToString("{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/$texture\"}}}".toByteArray())
+                } else {
+                    texture
+                },
+                "TrMenu_TexturedSkull"
+            )
+        )
         field.isAccessible = true
         field[meta] = profile
         item.itemMeta = meta
         return@computeIfAbsent item
+    }
+
+    fun getSkullTexture(skull: ItemStack): String? {
+        val meta = skull.itemMeta ?: return null
+        val field = meta.javaClass.getDeclaredField("profile").also { it.isAccessible = true }
+        (field.get(meta) as GameProfile?)?.properties?.values()?.forEach {
+            if (it.name == "textures")
+                return it.value
+        }
+        return null
     }
 
 }

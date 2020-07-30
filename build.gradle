@@ -14,16 +14,22 @@ compileKotlin {
 }
 
 group 'me.arasple.mc.trmenu'
-version '2.0-BETA'
+version '2.0'
 
 task buildJar(dependsOn: [clean, shadowJar])
 
 shadowJar {
     dependencies {
-        include(dependency('org.bstats:bstats-bukkit:1.7'))
-        include(dependency('io.izzel.taboolib:TabooLibLoader:2.1:all'))
+        [
+                'org.bstats:bstats-bukkit:1.7',
+                'io.izzel.taboolib:TabooLibLoader:2.1:all',
+                'com.github.WesJD.AnvilGUI:anvilgui:-SNAPSHOT'
+        ].forEach {
+            include(dependency(it))
+        }
     }
     relocate 'io.izzel.taboolib.loader', project.group + ".boot"
+    relocate 'net.wesjd', project.group + ".modules.inputer.anvil"
     relocate "org.bstats.bukkit", project.group + '.modules.metrics'
 }
 
@@ -35,7 +41,7 @@ processResources {
                 'main': project.group + ".boot.PluginTransfer",
                 'mainBungee': project.group + ".TrMenuBungee",
                 'mainTransfer': project.group + "." + project.name,
-                'version': project.version + "_" + new SimpleDateFormat("yyyy-MM-dd' 'HH:mm").format(new Date()),
+                'version': project.version,
                 'built': new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss.SSSZ").format(new Date()),
                 'builder': System.properties['user.name'],
                 'os': "${System.properties['os.name']} ${System.properties['os.arch']} ${System.properties['os.version']}"
@@ -45,7 +51,8 @@ processResources {
 
 repositories {
     // SoftDepend Plugins
-    maven { url "http://repo.extendedclip.com/content/repositories/placeholderapi/" }
+    maven { url "https://repo.extendedclip.com/content/repositories/placeholderapi/" }
+    maven { url "https://rayzr.dev/repo/" }
     maven { url "https://repo.codemc.org/repository/maven-public" }
     maven { url "http://repo.dakanilabs.com/repository/public/" }
     maven { url "http://repo.ptms.ink/repository/codemc-nms/" }
@@ -61,7 +68,8 @@ dependencies {
     compile 'org.bstats:bstats-bukkit:1.7'
     compile 'io.izzel.taboolib:TabooLib:5.31:all'
     compile 'io.izzel.taboolib:TabooLibLoader:2.1:all'
-    compile 'me.clip:placeholderapi:2.10.5'
+    compile 'com.github.WesJD.AnvilGUI:anvilgui:-SNAPSHOT'
+    compile 'me.clip:placeholderapi:2.10.7'
     compile 'com.github.shynixn.headdatabase:hdb-api:1.0'
     compile 'ink.ptms.cronus:Cronus:1.1.0.2019.8.31-SNAPSHOT-4'
     shadow fileTree(dir: 'libs', includes: ['*.jar'])

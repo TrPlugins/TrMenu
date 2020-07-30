@@ -1,19 +1,21 @@
 package me.arasple.mc.trmenu.modules.script.utils
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
+import io.izzel.taboolib.module.compat.EconomyHook
 import io.izzel.taboolib.module.tellraw.TellrawJson
 import io.izzel.taboolib.util.item.ItemBuilder
+import io.izzel.taboolib.util.item.Items
 import io.izzel.taboolib.util.lite.Numbers
 import me.arasple.mc.trmenu.data.MetaPlayer.getArguments
 import me.arasple.mc.trmenu.modules.action.Actions
+import me.arasple.mc.trmenu.modules.hook.HookCronus
+import me.arasple.mc.trmenu.modules.hook.HookPlayerPoints
 import me.arasple.mc.trmenu.modules.web.WebData
 import me.arasple.mc.trmenu.utils.Bungees
 import me.clip.placeholderapi.PlaceholderAPI
-import org.bukkit.Bukkit
-import org.bukkit.Location
-import org.bukkit.Material
-import org.bukkit.World
+import org.bukkit.*
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
 
 
 /**
@@ -24,7 +26,7 @@ class AssistUtils {
 
     fun runAction(player: Player, vararg actions: String) = actions.filter { it.isNotBlank() }.forEach { Actions.runCachedAction(player, it) }
 
-    fun parseBracketPlaceholders(player: Player, string: String): String = PlaceholderAPI.setBracketPlaceholders(player, string)
+    fun parseBracketPlaceholders(player: OfflinePlayer, string: String): String = PlaceholderAPI.setBracketPlaceholders(player, string)
 
     fun connect(player: Player, server: String) = Bungees.connect(player, server)
 
@@ -101,7 +103,21 @@ class AssistUtils {
         return Location(world, x, y, z, yaw, pitch)
     }
 
-    fun readWebData(url: String) = WebData.query(url)
+    fun hasMoney(player: Player, money: String) = hasMoney(player, NumberUtils.toDouble(money, 0.0))
+
+    fun hasMoney(player: Player, money: Double) = EconomyHook.get(player) >= money
+
+    fun hasPoints(player: Player, points: String) = hasPoints(player, NumberUtils.toInt(points, 0))
+
+    fun hasPoints(player: Player, points: Int) = HookPlayerPoints.hasPoints(player, points)
+
+    fun getItemName(itemStack: ItemStack): String = Items.getName(itemStack)
+
+    fun query(url: String) = WebData.query(url)
+
+    fun evalCronusCondition(player: String, condition: String) = getPlayer(player)?.let { return@let evalCronusCondition(it, condition) } ?: false
+
+    fun evalCronusCondition(player: Player, condition: String) = HookCronus.parseCondition(condition).check(player)
 
     companion object {
 

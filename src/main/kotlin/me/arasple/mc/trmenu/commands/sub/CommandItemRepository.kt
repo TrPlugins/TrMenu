@@ -18,11 +18,11 @@ import org.bukkit.entity.Player
  */
 class CommandItemRepository : BaseSubCommand() {
 
-    override fun getArguments(): Array<Argument> = arrayOf(
+    override fun getArguments() = arrayOf(
         Argument("Type", true) {
             listOf("give", "add", "remove")
         },
-        Argument("Page or ID", true) {
+        Argument("ID", true) {
             ItemRepository.getItemStacks().map { it.key }
         }
     )
@@ -35,7 +35,6 @@ class CommandItemRepository : BaseSubCommand() {
         Sounds.ITEM_BOTTLE_FILL.play(player, 1f, 0f)
 
         when (args[0].toLowerCase()) {
-//            "list" -> listItems(player, NumberUtils.toInt(args[1], 0).coerceAtLeast(0))
             "give" -> {
                 val id = args[1]
                 val item = ItemRepository.getItem(id).let {
@@ -46,6 +45,7 @@ class CommandItemRepository : BaseSubCommand() {
                     return@let it
                 }
                 CronusUtils.addItem(player, item)
+                TLocale.sendTo(sender, "COMMANDS.ITEM-REPOSITORY.GIVED", id)
             }
             "add" -> {
                 val id = args[1]
@@ -55,6 +55,7 @@ class CommandItemRepository : BaseSubCommand() {
                 }
                 val item = player.inventory.itemInMainHand
                 ItemRepository.addItem(id, item)
+                TLocale.sendTo(sender, "COMMANDS.ITEM-REPOSITORY.ADDED", id)
             }
             "remove" -> {
                 val id = args[1]
@@ -65,6 +66,7 @@ class CommandItemRepository : BaseSubCommand() {
                     }
                 }
                 ItemRepository.removeItem(id)
+                TLocale.sendTo(sender, "COMMANDS.ITEM-REPOSITORY.REMOVED", id)
             }
         }
     }

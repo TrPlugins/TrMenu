@@ -1,10 +1,10 @@
 package me.arasple.mc.trmenu.modules.action.impl.item
 
+import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import me.arasple.mc.trmenu.modules.action.base.Action
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import java.util.*
 
 /**
  * @author Rubenicos
@@ -12,29 +12,22 @@ import java.util.*
  */
 class ActionEnchantItem : Action("enchant(-)?item(s)?") {
 
-    override fun onExecute(player: Player) = getContentSplited(player, ";").forEach {
+    override fun onExecute(player: Player) = getSplitedBySemicolon(player).forEach {
         val part = it.split(",").toTypedArray()
         val enchant = Enchantment.getByName(part[1].toUpperCase())
         val l = part[2].split("-").toTypedArray()
         val level = if (l.size > 1) (l[0].toInt()..l[1].toInt()).random() else l[0].toInt()
-        var item: ItemStack?
+        val item: ItemStack?
 
         if (level != 0) {
-            when (part[0]) {
-                "hand" -> item = player.inventory.itemInMainHand
-                "offhand" -> item = player.inventory.itemInOffHand
-                "helmet" -> item = player.inventory.armorContents[3]
-                "chestplate" -> item = player.inventory.armorContents[2]
-                "leggings" -> item = player.inventory.armorContents[1]
-                "boots" -> item = player.inventory.armorContents[0]
-                else -> {
-                    item = try {
-                        part[0].toInt()
-                        player.inventory.getItem(part[0].toInt())
-                    } catch (e: NumberFormatException) {
-                        player.inventory.getItem(0)
-                    }
-                }
+            item = when (part[0].toLowerCase()) {
+                "hand" -> player.inventory.itemInMainHand
+                "offhand" -> player.inventory.itemInOffHand
+                "helmet" -> player.inventory.armorContents[3]
+                "chestplate" -> player.inventory.armorContents[2]
+                "leggings" -> player.inventory.armorContents[1]
+                "boots" -> player.inventory.armorContents[0]
+                else -> player.inventory.getItem(NumberUtils.toInt(part[0], 0))
             }
 
             if (part[1].toLowerCase().startsWith("custom:") || part[1].toLowerCase().startsWith("c:")) {
@@ -42,21 +35,16 @@ class ActionEnchantItem : Action("enchant(-)?item(s)?") {
                 val lore = (loreConfig[1] + " " + convertLevelString(level)).replace("&", "§")
                 val meta = item!!.itemMeta
                 if (meta!!.hasLore()) {
-                    val ItemLore = meta.lore
-                    val lineNumber = if (loreConfig.size > 2 && ItemLore!!.size >= loreConfig[2].toInt()) loreConfig[2].toInt() else 0
-                    ItemLore?.add(lineNumber, lore)
-                    meta.lore = ItemLore
+                    val itemLore = meta.lore
+                    val lineNumber = if (loreConfig.size > 2 && itemLore!!.size >= loreConfig[2].toInt()) loreConfig[2].toInt() else 0
+                    itemLore?.add(lineNumber, lore)
+                    meta.lore = itemLore
                 } else {
-                    val newLore: MutableList<String> = ArrayList()
-                    newLore.add(lore)
-                    meta.lore = newLore
+                    meta.lore = listOf(lore)
                 }
                 item.itemMeta = meta
             }
-
-            if (enchant != null) {
-                item!!.addUnsafeEnchantment(enchant, level)
-            }
+            if (enchant != null) item!!.addUnsafeEnchantment(enchant, level)
         }
     }
 

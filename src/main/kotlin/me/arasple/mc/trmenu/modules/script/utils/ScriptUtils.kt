@@ -2,7 +2,6 @@ package me.arasple.mc.trmenu.modules.script.utils
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import io.izzel.taboolib.util.Strings
-import me.clip.placeholderapi.PlaceholderAPI
 import java.util.regex.Pattern
 
 /**
@@ -13,10 +12,12 @@ object ScriptUtils {
 
     const val function = "rwp"
     val argumentPattern: Pattern = Pattern.compile("[$]?\\{(.*?)}")
+    val placeholderPattern: Pattern = Pattern.compile("[%]([^%]+)[%]")
+    val bracketPlaceholderPattern: Pattern = Pattern.compile("[{]([^{}]+)[}]")
 
     fun translate(string: String): String {
         var content = string
-        PlaceholderAPI.getPlaceholderPattern().matcher(content).let {
+        placeholderPattern.matcher(content).let {
             while (it.find()) {
                 val find = it.group()
                 val group = escape(Strings.replaceWithOrder(escapeMath(find), *getArgs(find)))
@@ -43,7 +44,7 @@ object ScriptUtils {
 
     private fun getArgs(content: String): Array<String> {
         val replaces = mutableListOf<String>()
-        val bracker = PlaceholderAPI.getBracketPlaceholderPattern().matcher(content)
+        val bracker = bracketPlaceholderPattern.matcher(content)
         var size = -1
         while (bracker.find()) size = size.coerceAtLeast(NumberUtils.toInt(bracker.group().removeSurrounding("{", "}"), -1))
         for (i in 0..size) replaces.add("{trmenu_args_$i}")

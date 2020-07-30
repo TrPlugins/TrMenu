@@ -1,9 +1,10 @@
 package me.arasple.mc.trmenu.modules.action.base
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
+import io.izzel.taboolib.util.lite.Numbers
 import me.arasple.mc.trmenu.configuration.property.Nodes
 import me.arasple.mc.trmenu.data.Sessions.getMenuSession
-import me.arasple.mc.trmenu.metrics.MetricsHandler
+import me.arasple.mc.trmenu.modules.metrics.MetricsHandler
 import me.arasple.mc.trmenu.modules.script.Scripts
 import me.arasple.mc.trmenu.utils.Msger
 import me.arasple.mc.trmenu.utils.Tasks
@@ -22,7 +23,7 @@ abstract class Action(val name: Regex, internal var content: String, var options
         MetricsHandler.increase(1)
 
         if (options.containsKey(Nodes.DELAY)) {
-            val delay = NumberUtils.toLong(options[Nodes.DELAY], -1)
+            val delay = evalDelay(player)
             if (delay > 0) {
                 Tasks.delay(delay) {
                     if (options.containsKey(Nodes.PLAYERS)) Bukkit.getOnlinePlayers().filter { options[Nodes.PLAYERS]?.let { it1 -> Scripts.expression(it, it1).asBoolean() } as Boolean }.forEach { onExecute(it, Msger.replaceWithBracketPlaceholders(player, content)) }
@@ -32,6 +33,7 @@ abstract class Action(val name: Regex, internal var content: String, var options
             return
         }
         if (options.containsKey(Nodes.PLAYERS)) Bukkit.getOnlinePlayers().filter { options[Nodes.PLAYERS]?.let { it1 -> Scripts.expression(it, it1).asBoolean() } as Boolean }.forEach { onExecute(it, Msger.replaceWithBracketPlaceholders(player, content)) }.also { return }
+
         onExecute(player)
     }
 
@@ -43,11 +45,19 @@ abstract class Action(val name: Regex, internal var content: String, var options
         } else onExecute(player)
     }
 
+    fun evalDelay(player: Player) = NumberUtils.toLong(Msger.replace(player, options[Nodes.DELAY]), 0L)
+
+    fun evalChance(player: Player) = options[Nodes.CHANCE]?.let { Numbers.random(NumberUtils.toDouble(Msger.replace(player, it), 1.0)) } ?: true
+
+    fun evalCondition(player: Player) = options[Nodes.REQUIREMENT]?.let { Scripts.expression(player, it).asBoolean() } ?: true
+
     fun getSession(player: Player) = player.getMenuSession()
 
     fun getContentSplited(player: Player) = getContentSplited(player, "\\n", "\\r")
 
     fun getContentSplited(player: Player, vararg delimiters: String) = getContent(player).split(*delimiters)
+
+    fun getSplitedBySemicolon(player: Player) = getContent(player).split(SEMICOLON)
 
     fun getContent(player: Player): String = Msger.replace(player, content)
 
@@ -72,6 +82,12 @@ abstract class Action(val name: Regex, internal var content: String, var options
         append(": ")
         append(getContent())
         append(buildString { options.forEach { append("<${it.key.name.toLowerCase()}: ${it.value}>") } })
+    }
+
+    companion object {
+
+        val SEMICOLON = "( )?([;；])( )?".toRegex()
+
     }
 
 

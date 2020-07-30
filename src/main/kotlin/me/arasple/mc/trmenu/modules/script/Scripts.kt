@@ -2,7 +2,6 @@ package me.arasple.mc.trmenu.modules.script
 
 import io.izzel.taboolib.util.lite.Sounds
 import me.arasple.mc.trmenu.api.events.MenuCloseEvent
-import me.arasple.mc.trmenu.data.MetaPlayer.replaceWithMeta
 import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import me.arasple.mc.trmenu.modules.expression.Expressions
 import me.arasple.mc.trmenu.modules.script.utils.AssistUtils
@@ -61,7 +60,7 @@ object Scripts {
             return@let it
         }, ScriptContext.ENGINE_SCOPE)
         content.setAttribute(ScriptUtils.function, Function<String, String> {
-            player.replaceWithMeta(Msger.replace(player, it))
+            Msger.replace(player, it)
         }, ScriptContext.ENGINE_SCOPE)
         ScriptResult(script!!.eval(content)).let {
             return@let it

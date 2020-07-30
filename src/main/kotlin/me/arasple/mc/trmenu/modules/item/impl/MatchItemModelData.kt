@@ -12,7 +12,14 @@ import org.bukkit.inventory.ItemStack
  */
 class MatchItemModelData : MatchItemIdentifier("") {
 
-	override fun match(player: Player, itemStack: ItemStack): Boolean = Version.isAfter(Version.v1_14) && itemStack.itemMeta?.customModelData == NumberUtils.toInt(getContent(player), 0)
+    override fun match(player: Player, itemStack: ItemStack): Boolean = Version.isAfter(Version.v1_14) && itemStack.itemMeta?.customModelData == NumberUtils.toInt(getContent(player), 0)
+
+    override fun apply(player: Player, itemStack: ItemStack): ItemStack {
+        val itemMeta = itemStack.itemMeta ?: return itemStack
+        itemMeta.setCustomModelData(NumberUtils.toInt(getContent(player), 0))
+        itemStack.itemMeta = itemMeta
+        return itemStack
+    }
 
 
 }

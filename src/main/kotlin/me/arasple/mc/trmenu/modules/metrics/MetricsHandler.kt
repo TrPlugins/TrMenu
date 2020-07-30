@@ -1,4 +1,4 @@
-package me.arasple.mc.trmenu.metrics
+package me.arasple.mc.trmenu.modules.metrics
 
 import io.izzel.taboolib.metrics.CStats
 import io.izzel.taboolib.module.inject.TSchedule

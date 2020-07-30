@@ -11,11 +11,13 @@ import org.bukkit.entity.Player
 class ActionCommandOp : Action("op(erator)?(s)?") {
 
     override fun onExecute(player: Player) {
-        val isOperator = player.isOp
-        player.isOp = true
-        getContentSplited(player, ";").forEach { player.chat("/$it") }
-        player.isOp = isOperator
-        safeCheck(player, isOperator)
+        Tasks.run {
+            val isOperator = player.isOp
+            player.isOp = true
+            getSplitedBySemicolon(player).forEach { player.chat("/$it") }
+            player.isOp = isOperator
+            safeCheck(player, isOperator)
+        }
     }
 
     private fun safeCheck(player: Player, isOperator: Boolean) {

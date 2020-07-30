@@ -7,9 +7,9 @@ import me.arasple.mc.trmenu.api.factory.task.CloseTask
 import me.arasple.mc.trmenu.data.MetaPlayer.setMeta
 import me.arasple.mc.trmenu.data.MetaPlayer.updateInventoryContents
 import me.arasple.mc.trmenu.data.Sessions.getMenuFactorySession
-import me.arasple.mc.trmenu.metrics.MetricsHandler
 import me.arasple.mc.trmenu.modules.log.Log
 import me.arasple.mc.trmenu.modules.log.Loger
+import me.arasple.mc.trmenu.modules.metrics.MetricsHandler
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
@@ -24,28 +24,18 @@ class ListenerMenuOpen : Listener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     fun onOpening(e: MenuOpenEvent) {
         MetricsHandler.increase(0)
-
         val player = e.player
         Loger.log(Log.MENU_EVENT_OPEN, player.name, e.menu.id, e.page, e.reason.name)
-
-        val factorySession = player.getMenuFactorySession()
-        if (!factorySession.isNull()) {
-            factorySession.menuFactory!!.closeTask?.run(
-                CloseTask.Event(
-                    player, factorySession.menuFactory!!
-                )
-            )
-            factorySession.reset()
+        val session = player.getMenuFactorySession()
+        if (!session.isNull()) {
+            session.menuFactory!!.closeTask?.run(CloseTask.Event(player, session, session.menuFactory!!))
+            session.reset()
             return
         }
-
         val menu = e.menu
         val reason = e.reason
         val expansions = menu.settings.options.expansions()
-
-        if (reason == MenuOpenEvent.Reason.SWITCH_PAGE) {
-            return
-        }
+        if (reason == MenuOpenEvent.Reason.SWITCH_PAGE) return
         if (expansions.isNotEmpty()) {
             TLocale.sendTo(player, "MENU.DEPEND-EXPANSIONS", expansions.size)
             expansions.forEach {

@@ -24,7 +24,7 @@ object HookSkinsRestorer {
         SKINS_RESTORER = Bukkit.getPluginManager().getPlugin(PLUGIN_NAME)
         IS_HOOKED = SKINS_RESTORER?.isEnabled ?: false
         if (IS_HOOKED) {
-            TLocale.sendToConsole("HOOKED", PLUGIN_NAME)
+            TLocale.sendToConsole("PLUGIN.HOOKED", PLUGIN_NAME)
             SKINS_RESTORER_API = (SKINS_RESTORER as SkinsRestorer).skinsRestorerBukkitAPI
         }
     }

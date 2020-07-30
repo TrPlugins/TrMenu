@@ -1,6 +1,8 @@
 package me.arasple.mc.trmenu.modules.item
 
+import io.izzel.taboolib.util.item.ItemBuilder
 import me.arasple.mc.trmenu.modules.item.base.MatchItemIdentifier
+import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
@@ -13,19 +15,27 @@ import org.bukkit.inventory.ItemStack
  * , - 分割特征匹配内容
  * : - 特征值
  */
-data class ItemIdentifier(val raw: String, val identifiers: MutableList<Identifier>) {
+data class ItemIdentifier(val raw: String, val identifiers: MutableSet<Identifier>) {
 
-    constructor(raw: String) : this(raw, mutableListOf())
+    constructor(raw: String) : this(raw, mutableSetOf())
 
-    fun isMatch(player: Player, itemStack: ItemStack): Boolean = identifiers.none { !it.match(player, itemStack) }
+    fun isMatch(player: Player, itemStack: ItemStack) = identifiers.none { !it.match(player, itemStack) }
 
     fun isInvalid(): Boolean = identifiers.isEmpty() || identifiers.none { it.characteristic.isNotEmpty() }
 
-    data class Identifier(val characteristic: MutableList<MatchItemIdentifier>) {
+    data class Identifier(val characteristic: MutableSet<MatchItemIdentifier>) {
 
-        constructor() : this(mutableListOf())
+        constructor() : this(mutableSetOf())
 
         fun match(player: Player, itemStack: ItemStack): Boolean = characteristic.none { !it.match(player, itemStack) }
+
+        fun buildItem(player: Player): ItemStack? {
+            val itemStack = ItemBuilder(Material.AIR).build()
+            characteristic.forEach {
+                it.apply(player, itemStack)
+            }
+            return itemStack
+        }
 
     }
 

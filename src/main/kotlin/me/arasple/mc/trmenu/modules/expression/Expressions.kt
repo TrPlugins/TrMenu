@@ -10,9 +10,9 @@ import me.arasple.mc.trmenu.utils.Msger
  */
 object Expressions {
 
-    val cachedParsed = mutableMapOf<String, String>()
+    val CACHED_PARSED = mutableMapOf<String, String>()
 
-    fun parseExpression(string: String): String = cachedParsed.computeIfAbsent(string) {
+    fun parseExpression(string: String): String = CACHED_PARSED.computeIfAbsent(string) {
         var expression = TLocale.Translate.setColored(string).replace(" and ", " && ").replace(" or ", " || ")
         expression.split(" && ", " || ").forEach { part ->
             var type = part.split(".")[0] + "."

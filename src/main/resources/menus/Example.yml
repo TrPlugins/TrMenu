@@ -1,19 +1,14 @@
-#
-# 菜单的标题, 支持动态标题周期切换
-#
 Title:
   - 'Hello, TrMenu!'
-  # - 'Support Animated Titles'
+  - 'Hello, {player_name}!'
+  - 'Support Animated Titles'
 
-#
-# 若有多个标题, 切换的周期 (ticks)
-#
 Title-Update: 40
 
 Layout:
   - - '########`Close`'
     - '         '
-    - '         '
+    - '    PT   '
     - '         '
     - '####*###`Next`'
 
@@ -29,79 +24,55 @@ PlayerInventory:
     - '         '
     - '         '
 
-#
-# 菜单的选项设置
-#
 Options:
-  # 默认填充参数
+  Arguments: false
   Default-Arguments: []
-  # 默认布局页码
   Default-Layout: 0
-  # 是否隐藏玩家容器
   Hide-Player-Inventory: true
-  # 防频繁点击的间隔
   Min-Click-Delay: 200
-  # 强制需要依赖的 PlaceholderAPI 拓展变量
   Depend-Expansions: ['server', 'player', 'progress', 'animations']
 
-#
-# 菜单绑定的快捷打开方式
-#
 Bindings:
-  # 绑定命令, 支持正则
   Commands:
     - '(?i)example(-)?(gui)?(s)?'
-  # 绑定到物品特征
   Items:
     - 'material:compass'
     - 'material:clock,lore:OPEN_MENU'
+    - 'texture:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDRmNDUyZDk5OGVhYmFjNDY0MmM2YjBmZTVhOGY0ZTJlNjczZWRjYWUyYTZkZmQ5ZTZhMmU4NmU3ODZlZGFjMCJ9fX0='
 
-#
-# 菜单的事件处理
-#
 Events:
-  # 开启菜单事件
   Open:
     - condition: 'hasPerm.trmenu.use or is.{reason}.RELOAD or is.{reason}.CONSOLE'
       actions:
         - 'sound: BLOCK_CHEST_OPEN-1-0'
       deny:
         - 'sound: ENTITY_ITEM_BREAK-1-0'
-        - 'title: <title=&c&l权限不足><subtitle=&7&l本菜单需要权限 &6&ltrmenu.use &7&l方能浏览>'
+        - 'title: <title=&c&lPermission Required><subtitle=&7&lYou need permission &6&ltrmenu.use &7&lto open this menu>'
         - 'return'
-  # 关闭菜单事件
   Close:
     - 'sound: BLOCK_CHEST_CLOSE-1-0'
 
-#
-# 菜单的图标
-#
 Icons:
-
-  # 图标的唯一 ID, 可配合布局使用
   '#':
-    # 显示图标的动态更新周期, 若设置多个则依次对应为 Material, Name, Lore, Slots
-    # 设置一个即为所有项相同更新周期
     update: [-1, 10, 15, -1]
-    # 菜单的显示部分
     display:
       material: Gray Stained Glass Pane
       name: ['&fTr&7Menu', '&7Tr&8Menu', '&8Tr&0Menu','&7Tr&8Menu']
       lore:
         - - '&7Thanks &f:> &7for using!'
         - - '&7Thanks &f:) &7for using!'
-    # 点击菜单后执行的动作
     actions:
       all: 'sound: BLOCK_NOTE_BLOCK_PLING-1-2'
 
-  'Close':
+  Close:
     update: [-1, 5, -1, -1]
     display:
       material: Red Stained Glass Pane
       name: ['&cC&7lose', '&cCl&7ose', '&cClo&7se', '&cClos&7e', '&cClose']
     actions:
       all: close
-  'Next':
+
+  Next:
     display:
       material: Cyan Stained Glass Pane
       name: '&bN&3ext Page'
@@ -109,7 +80,8 @@ Icons:
       all:
         - 'page: 1'
         - 'sound: BLOCK_CHEST_OPEN-1-2'
-  'Pre':
+
+  Pre:
     display:
       material: Lime Stained Glass Pane
       name: '&aP&2revious Page'
@@ -117,10 +89,11 @@ Icons:
       all:
         - 'page: 0'
         - 'sound: BLOCK_CHEST_OPEN-1-2'
+
   '*':
     update: [-1, 5, 20, -1]
     display:
-      material: '<skull:9842dc3b917b1a796c303e15105474a8e315de7982b6ca54feafb5a4d13d4e95>'
+      material: <skull:9842dc3b917b1a796c303e15105474a8e315de7982b6ca54feafb5a4d13d4e95>
       name:
         - '&3&lSERVER'
         - '&b&lSE&3&lRVER'
@@ -140,7 +113,8 @@ Icons:
         - 'sound: BLOCK_NOTE_BLOCK_BIT-1-0'
         - 'refresh'
     icons:
-      - condition: 'is.{meta:icon_server_hide}.true'
+      - condition: 'equals.{meta:icon_server_hide}.true'
+        priority: 5
         inherit: true
         display:
           lore:
@@ -159,9 +133,97 @@ Icons:
             - 'sound: BLOCK_NOTE_BLOCK_BIT-1-2'
             - 'refresh'
 
-#
-# 菜单自定义周期性任务
-#
+  P:
+    update: 20
+    display:
+      material: <head:%player_name%>
+      name: '&2&l%player_name%'
+      lore:
+        - ''
+        - 'Hello, %player_name%! There''s your profile.'
+        - ''
+        - '&8| &7HEALTH: &c%player_health_rounded% ♥'
+        - '&8| &7LEVEL: &3Lv.%player_level%'
+        - '&8| &7TIME: &3%player_world_time_24%'
+        - ''
+        - '&8| &7REGISTER DATE: &3%player_first_join_date%'
+        - '&8| &7IP: &3%player_ip%' 
+        - '&8| &7PING: ${js: %player_ping% < 60 ? "&a" : "&2"}%player_ping% ms'
+        - ''
+        - '&8➥ &7Press number key &66 &7to high jump'
+        - ''
+        - '&8%player_uuid%'
+    actions:
+      all: 'sound: BLOCK_NOTE_BLOCK_PLING-1-2'
+      number_key_6:
+        - 'close'
+        - 'particle: EXPLOSION_HUGE{offset=0,0,0}'
+        - 'title: <TITLE=&b&LGET READY><FADEIN=10><STAY=20><FADEOUT=40><SUBTITLE=&6&l3> &&& sound: ENTITY_ENDER_DRAGON_FLAP-1-0'
+        - 'title: <TITLE=&3&LGET READY><SUBTITLE=&6&l2> &&& sound: ENTITY_ENDER_DRAGON_FLAP-1-0<Delay=20>'
+        - 'title: <TITLE=&9&LGET READY><SUBTITLE=&c&l1> &&& sound: ENTITY_ENDER_DRAGON_FLAP-1-0<Delay=40>'
+        - 'js: player.setVelocity(player.getVelocity().setY(25)) &&& js: player.setNoDamageTicks(600) &&& sound: ENTITY_ENDER_DRAGON_FLAP-1-1<Delay=50>'
+        - 'js: player.setVelocity(player.getVelocity().setY(45)) &&& title: <TITLE=&d&LAGAIN><SUBTITLE=&7&lHIGHER!> &&& sound: ENTITY_ENDER_DRAGON_FLAP-1-2<Delay=100>'
+
+  T:
+    update: 20
+    display:
+      material: compass
+      name: '&3&lTrMenu'
+      amount: '${js: parseInt(%server_time_s%) + 1}'
+      lore:
+        - ''
+        - 'The following is the relevant statistics'
+        - 'of TrMenu, from the bStats'
+        - '&8(https://bstats.org/)'
+        - ''
+        - '&8| &3Servers: ${bStats.servers}'
+        - '&8| &3Players: ${bStats.players}'
+        - '&8| &3Menus: ${bStats.menus}'
+        - ''
+        - 'In the past half an hour,'
+        - 'Menus have been opened ${bStats.opens} times'
+        - ''
+
+  Bee:
+    update: [-1, -1, -1, 20]
+    display:
+      material: '<skull:b727d0ab03f5cd022f8705d3f7f133ca4920eae8e1e47b5074433a137e691e4e>'
+      name: '&eBee ~'
+      slots:
+        - [9]
+        - [18]
+        - [28]
+        - [29]
+        - [30]
+        - [31]
+        - [32]
+        - [33]
+        - [34]
+        - [35]
+        - [26]
+        - [16]
+        - [15]
+        - [14]
+        - [13]
+        - [12]
+        - [11]
+        - [10]
+    actions:
+      all:
+        - 'set-meta: angryBee true'
+        - 'sound: ENTITY_ENDERMAN_HURT-1-2'
+        - 'rem-meta: angryBee &&& refresh &&& sound: ENTITY_SPIDER_STEP-1-2<Delay=80>'
+        - 'refresh'
+    icons:
+      - condition: 'equals.{meta:angryBee}.true'
+        inherit: true
+        display:
+          name: '&cBee &4~'
+          material: '<skull:e6b74e052b74288799ba6d9f35c5d0221cf8b04331547ec2f68d73597ae2c9b>'
+        actions:
+          all: 'sound: ENTITY_ENDERMAN_HURT-1-2'
+
+
 
 Tasks:
 # tikTok:
@@ -170,18 +232,35 @@ Tasks:
 #     - condition: 'isOperator.'
 #       actions:
 #         - 'sound: BLOCK_NOTE_BLOCK_BIT-1-2'
-actions:
-  left,middle,number_key_8:
 
-#
-# 菜单内置的自定义脚本变量
-# 通过 ${ID_参数_参数} 的方式可以调用
-#
 
 Functions:
   flash: |-
     function flash() {
-      var parsed = "%animations_<flash>{0}</flash>%"
-      return parsed.isEmpty() ? utils.emptyString("{0}".length()) : parsed
+      var display = new Date().getSeconds() % 2 == 0
+      return display ? "{0}" : "  "
     }
     flash()
+
+  bStats:
+    servers: '${bStats.query_servers_&a_&7 servers}'
+    players: '${bStats.query_players_&6_&7 players}'
+    menus: '${bStats.query_menus_&2_&7 menus}'
+    opens:  |-
+      function opens() {
+        var data = utils.query("https://bstats.org/api/v1/plugins/5742/charts/menu_open_counts/data?maxElements=1")
+        if (data != null && data.hasData()){
+          return "&b" + data.getJsonElement().getAsJsonArray().get(0).getAsJsonArray().get(1) + "&7"
+        }
+        return "&8Loading." + ${flash_.} + "&7"
+      }
+      opens()
+    query:  |-
+      function query() {
+        var data = utils.query("https://bstats.org/api/v1/plugins/5742/charts/" + "{0}" + "/data?maxElements=1")
+        if (data != null && data.hasData()){
+          return "{1}" + data.getJsonElement().getAsJsonArray().get(0).getAsJsonArray().get(1) + "{2}"
+        }
+        return "&8Loading." + ${flash_.}
+      }
+      query()

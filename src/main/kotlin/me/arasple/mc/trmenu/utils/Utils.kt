@@ -1,7 +1,7 @@
 package me.arasple.mc.trmenu.utils
 
-import io.izzel.taboolib.internal.gson.JsonObject
-import io.izzel.taboolib.internal.gson.JsonParser
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.configuration.property.Property
 import org.apache.commons.lang.math.NumberUtils
@@ -51,13 +51,13 @@ object Utils {
     fun asIntRange(params: String): IntRange {
         try {
             params.split("-").let {
-                val start = NumberUtils.toInt(it[0], 0)
-                val end = NumberUtils.toInt(it[1], 1)
+                val start = it[0].toInt()
+                val end = if (it.size > 1) it[1].toInt() else start
                 return IntRange(start, end)
             }
-        } catch (e: Throwable) {
+        } catch (e: NumberFormatException) {
             Msger.printErrors("INT-RANGE", e, params)
-            return IntRange(0, 1)
+            return IntRange(0, 0)
         }
     }
 
@@ -86,13 +86,10 @@ object Utils {
         return results
     }
 
-    @Suppress("DEPRECATION")
-    fun isJson(string: String): Boolean {
-        return try {
-            JsonParser().parse(string) is JsonObject
-        } catch (e: Throwable) {
-            false
-        }
+    fun isJson(string: String) = try {
+        JsonParser().parse(string) is JsonObject
+    } catch (e: Throwable) {
+        false
     }
 
     fun isEventIgnoreCancelled(event: Cancellable): Boolean = TrMenu.SETTINGS.getBoolean("Events-Ignore-Cancelled.${event.javaClass.simpleName}", true) && event.isCancelled

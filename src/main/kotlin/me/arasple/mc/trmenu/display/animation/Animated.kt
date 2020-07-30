@@ -31,7 +31,7 @@ data class Animated<T>(var elements: Array<T>) {
         }
     }
 
-    private fun getElement(index: Int) = if (index > elements.size - 1) null else elements[index]
+    private fun getElement(index: Int) = if (index < 0 || index > elements.size - 1) null else elements[index]
 
     /*
     Generated

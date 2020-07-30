@@ -47,7 +47,7 @@ data class Meta(var amount: String, var shiny: String, var flags: MutableSet<Ite
         }
     }
 
-    fun amount(player: Player): Int = NumberUtils.toInt(if (isAmountDynamic) Msger.replace(player, amount) else amount, 1)
+    fun amount(player: Player) = NumberUtils.toDouble(if (isAmountDynamic) Msger.replace(player, amount) else amount, 1.0).toInt()
 
     fun shiny(player: Player, itemMeta: ItemMeta) {
         if ((shiny.toBoolean()) || (isShinyDynamic && Scripts.expression(player, shiny).asBoolean())) {

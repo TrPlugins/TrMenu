@@ -12,7 +12,7 @@ import org.bukkit.entity.Player
 class ActionMetaSet : Action("set(-)?(temp|var(iable)?|meta)(s)?") {
 
     override fun onExecute(player: Player) =
-        getContentSplited(player, ";").forEach {
+        getSplitedBySemicolon(player).forEach {
             val split = it.split(" ", limit = 2)
             if (split.size == 2) {
                 player.setMeta("{meta:${split[0]}}", split[1])

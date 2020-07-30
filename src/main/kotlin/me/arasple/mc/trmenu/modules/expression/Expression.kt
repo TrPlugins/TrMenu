@@ -16,6 +16,8 @@ enum class Expression(val regex: Regex, var replace: String, var splitBy: String
 
     IS_OPERATOR("isOp(erator)?(s)?", "player.isOp()"),
 
+    IS_SNEAKING("isSneak(ing)?", "player.isSneaking()"),
+
     IS_PLAYER_OPERATOR("isPlayerOp(erator)?(s)?", "utils.isPlayerOperator(\"{0}\")"),
 
     IS_PLAYER_ONLINE("isOnline", "utils.isPlayerOnline(\"{0}\")"),
@@ -24,9 +26,11 @@ enum class Expression(val regex: Regex, var replace: String, var splitBy: String
 
     HAS_LEVEL("ha(s|ve)(-)?(Level|Lv)(s)?", "player.getLevel() >= {0}"),
 
-    HAS_MONEY("ha(s|ve)(-)?(Money|Eco|Coin)(s)?", "utils.hasMoney(player, {0})"),
+    HAS_MONEY("ha(s|ve)(-)?(Money|Eco|Coin)(s)?", "utils.hasMoney(player, {0})", "~"),
 
-    HAS_POINTS("ha(s|ve)(-)?(Money|Eco|Coin)(s)?", "utils.hasPoints(player, {0})");
+    HAS_POINTS("ha(s|ve)(-)?(Money|Eco|Coin)(s)?", "utils.hasPoints(player, {0})"),
+
+    CRONUS_CONDITION("(cq|cronus)Condition", "utils.evalCronusCondition(player, {0})");
 
     constructor(name: String, replace: String) : this(name, replace, ".")
 

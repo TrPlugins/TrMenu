@@ -1,6 +1,7 @@
 package me.arasple.mc.trmenu.display.menu
 
 import io.izzel.taboolib.internal.apache.lang3.ArrayUtils
+import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.data.Sessions
 import me.arasple.mc.trmenu.data.Sessions.getMenuSession
@@ -60,7 +61,7 @@ class MenuSettings(val title: Titles, val options: Options, val bindings: Bindin
                                 return
                             }
                             layout.displayInventory(player, getTitle(player))
-                            menu.resetIcons(player)
+                            menu.resetIcons(player, session)
                         }
                     }.runTaskTimerAsynchronously(TrMenu.plugin, update.toLong(), update.toLong())
                 )
@@ -69,12 +70,14 @@ class MenuSettings(val title: Titles, val options: Options, val bindings: Bindin
 
     }
 
-    class Options(val defaultArguments: Array<String>, val defaultLayout: Int, val hidePlayerInventory: Boolean, val minClickDelay: Long, val dependExpansions: Array<String>) {
+    class Options(val enableArguments: Boolean, val defaultArguments: Array<String>, val defaultLayout: String, val hidePlayerInventory: Boolean, val minClickDelay: Long, val dependExpansions: Array<String>) {
 
         fun run(player: Player, layout: MenuLayout.Layout) {
             if (hidePlayerInventory)
                 PacketsHandler.clearInventory(player, layout.size(), Sessions.TRMENU_WINDOW_ID)
         }
+
+        fun getDefaultLayout(player: Player): Int = NumberUtils.toInt(Msger.replace(player, defaultLayout), 0)
 
         fun expansions(): List<String> {
             val registered = PlaceholderAPI.getRegisteredIdentifiers()
@@ -93,13 +96,15 @@ class MenuSettings(val title: Titles, val options: Options, val bindings: Bindin
          *         -> 不为空：命令匹配该菜单，支持打开，且携带传递参数
          *         -> Null： 命令与该菜单不匹配
          */
-        fun matchCommand(command: String): Array<String>? = command.split(" ").toTypedArray().let { it ->
+        fun matchCommand(menu: Menu, command: String): Array<String>? = command.split(" ").toTypedArray().let { it ->
             if (it.isNotEmpty()) {
                 for (i in it.indices) {
                     val read = read(it, i)
                     val c = read[0]
                     val args = ArrayUtils.remove(read, 0)
-                    if (boundCommands.any { it.matches(c) }) return@let args
+                    if (boundCommands.any { it.matches(c) } && !(!menu.settings.options.enableArguments && args.isNotEmpty())) {
+                        return@let args
+                    }
                 }
             }
             return@let null
@@ -146,9 +151,7 @@ class MenuSettings(val title: Titles, val options: Options, val bindings: Bindin
                     object : BukkitRunnable() {
                         override fun run() {
                             if (session.isDifferent(menu, page)) cancel()
-                            else {
-                                it.value.eval(player)
-                            }
+                            else it.value.eval(player)
                         }
                     }.runTaskTimerAsynchronously(TrMenu.plugin, it.key, it.key)
                 )

@@ -54,6 +54,8 @@ class ImplPacketsHandler8 : PacketsHandler() {
 
     override fun asNMSItem(itemStack: ItemStack): Any = CraftItemStack.asNMSCopy(itemStack)
 
+    override fun asBukkitItem(itemStack: Any): ItemStack? = CraftItemStack.asBukkitCopy(itemStack as net.minecraft.server.v1_8_R3.ItemStack?)
+
     override fun getClickTypeIndex(clickType: Any): Int = clickType as Int
 
     override fun getPlayerTexture(player: Player): String = (player as CraftPlayer).profile.properties["textures"].iterator().let {

@@ -20,8 +20,7 @@ import org.bukkit.entity.Player
  */
 class CommandOpenMenu : BaseSubCommand() {
 
-    // trmenu open Example:{page} Arasple {arguments}
-    override fun getArguments(): Array<Argument> = arrayOf(
+    override fun getArguments() = arrayOf(
         Argument("MenuId", true) { Menu.getMenus().map { it.id } },
         Argument("Player", false),
         Argument("Arguments", false)
@@ -42,7 +41,7 @@ class CommandOpenMenu : BaseSubCommand() {
             TLocale.sendTo(sender, "COMMANDS.OPEN.UNKNOWN-PLAYER")
             return
         }
-        arguments?.let { player.setArguments(it) }
+        player.setArguments(arguments)
         menu.open(player, page, if (sender is Player) MenuOpenEvent.Reason.PLAYER_COMMAND else MenuOpenEvent.Reason.CONSOLE)
     }
 

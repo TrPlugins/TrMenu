@@ -1,16 +1,19 @@
 package me.arasple.mc.trmenu.modules.inputer
 
 import io.izzel.taboolib.util.lite.Signs
+import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.data.MetaPlayer
 import me.arasple.mc.trmenu.data.MetaPlayer.setMeta
 import me.arasple.mc.trmenu.display.animation.Animated
 import me.arasple.mc.trmenu.display.function.Reactions
+import me.arasple.mc.trmenu.modules.inputer.Catchers.Type.ANVIL
 import me.arasple.mc.trmenu.modules.inputer.Catchers.Type.SIGN
 import me.arasple.mc.trmenu.modules.inputer.InputCatcher.cancelCatcherReInputing
 import me.arasple.mc.trmenu.modules.inputer.InputCatcher.getCatcher
 import me.arasple.mc.trmenu.modules.inputer.InputCatcher.isCatcherReInputing
 import me.arasple.mc.trmenu.modules.inputer.InputCatcher.removeCatcher
 import me.arasple.mc.trmenu.utils.Tasks
+import net.wesjd.anvilgui.AnvilGUI
 import org.bukkit.entity.Player
 
 /**
@@ -26,6 +29,17 @@ class Catchers(val catchers: Animated<Stage>) {
 
     class Stage(val id: String, val type: Type, val beforeReactions: Reactions, val cancelReactions: Reactions, val afterReactions: Reactions) {
 
+        val anvilBuilder =
+            if (type == ANVIL)
+                AnvilGUI.Builder()
+                    .plugin(TrMenu.plugin)
+                    .preventClose()
+                    .onComplete { player, text ->
+                        input(player, text)
+                        return@onComplete AnvilGUI.Response.close()
+                    }
+            else null
+
         fun run(player: Player) {
             beforeReactions.eval(player)
             Tasks.delay(3) {
@@ -33,7 +47,7 @@ class Catchers(val catchers: Animated<Stage>) {
                     Signs.fakeSign(player) {
                         input(player, it.joinToString(""))
                     }
-                }
+                } else if (type == ANVIL) anvilBuilder!!.open(player)
             }
         }
 

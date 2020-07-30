@@ -11,7 +11,6 @@ import java.text.SimpleDateFormat
  */
 interface Migrater {
 
-
     fun run(): YamlConfiguration
 
     fun loadConfiguration(file: File) = YamlConfiguration().let {
@@ -22,6 +21,7 @@ interface Migrater {
     companion object {
 
         val exact = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val keys = listOf('#', '-', '@', '|', '=', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z')
 
         fun getExactDate(): String = exact.format(System.currentTimeMillis())
 

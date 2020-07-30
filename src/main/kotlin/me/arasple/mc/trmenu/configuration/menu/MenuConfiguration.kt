@@ -23,6 +23,8 @@ class MenuConfiguration(val loadedPath: String) : BaseConfiguration() {
 
     fun getOption(property: Property) = getValue(getOptions(), property)
 
+    fun getOptionEnableArguments() = getOption(Property.OPTION_ENABLE_ARGUMENTS)
+
     fun getOptionDefaultArguments() = getOption(Property.OPTION_DEFAULT_ARGUMENTS)
 
     fun getOptionDefaultLayout() = getOption(Property.OPTION_DEFAULT_LAYOUT)

@@ -6,7 +6,7 @@ import io.izzel.taboolib.module.command.base.CommandType
 import io.izzel.taboolib.module.locale.TLocale
 import io.izzel.taboolib.util.ArrayUtil
 import me.arasple.mc.trmenu.TrMenu
-import me.arasple.mc.trmenu.TrMenuLoader
+import me.arasple.mc.trmenu.configuration.MenuLoader
 import me.arasple.mc.trmenu.modules.migrate.impl.MigraterTrMenu
 import me.arasple.mc.trmenu.utils.Tasks
 import org.bukkit.command.Command
@@ -22,7 +22,7 @@ class CommandMigrate : BaseSubCommand() {
 
     private val folder = File(TrMenu.plugin.dataFolder, "migrated")
 
-    override fun getArguments(): Array<Argument> = arrayOf(
+    override fun getArguments() = arrayOf(
         Argument("From Plugin", true) {
             listOf("TrMenuV1")
         },
@@ -41,7 +41,7 @@ class CommandMigrate : BaseSubCommand() {
             return
         }
 
-        val files = TrMenuLoader.grabMenuFiles(file)
+        val files = MenuLoader.grabMenuFiles(file)
 
         if (files.isEmpty()) {
             TLocale.sendTo(sender, "MIGRATE.EMPTY-FILE")
@@ -72,12 +72,11 @@ class CommandMigrate : BaseSubCommand() {
     }
 
     private fun getFolderFiles() =
-        mutableListOf<String>().let {
-            TrMenu.plugin.dataFolder.listFiles()?.forEach { file ->
-                if (!file.name.matches("lang|menus|migrated|settings.yml".toRegex()) && (file.isDirectory || file.name.endsWith(".yml")))
-                    it.add(file.name)
-            }
-            return@let it
+        TrMenu.plugin.dataFolder.listFiles()?.map {
+            if (!it.name.matches("lang|menus|migrated|settings.yml".toRegex()) && (it.isDirectory || it.name.endsWith(".yml")))
+                it.name
+            else
+                ""
         }
 
 

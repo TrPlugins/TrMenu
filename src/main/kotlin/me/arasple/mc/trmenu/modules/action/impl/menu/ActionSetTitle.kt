@@ -14,12 +14,11 @@ class ActionSetTitle : Action("set(-)?title") {
         Tasks.delay(3) {
             val session = getSession(player)
             if (!session.isNull()) {
-                val layout = session.layout
-                val icons = session.menu?.icons
-                if (layout != null && icons != null) {
-                    layout.displayInventory(player, getContent(player))
-                    icons.forEach { it.displayItemStack(player) }
-                }
+                val menu = session.menu ?: return@delay
+                val layout = session.layout ?: return@delay
+
+                layout.displayInventory(player, getContent(player))
+                menu.resetIcons(player, session)
             }
         }
     }

@@ -1,6 +1,7 @@
 package me.arasple.mc.trmenu.modules.repo
 
 import io.izzel.taboolib.module.config.TConfig
+import io.izzel.taboolib.module.inject.TFunction
 import io.izzel.taboolib.module.inject.TSchedule
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.utils.Tasks
@@ -17,16 +18,20 @@ object ItemRepository {
     private val itemStacks = mutableMapOf<String, ItemStack>()
 
     @TSchedule(delay = 20 * 60, period = 20 * 60, async = true)
-    fun init() {
+    fun saveTask() = save(false)
+
+    @TFunction.Cancel
+    fun cancel() = save(true)
+
+    fun save(isCanceling: Boolean) {
         writing = true
-        data.getKeys(true).filter { !itemStacks.keys.contains(it) }.forEach {
-            data.set(it, null)
-        }
-        itemStacks.forEach { (id, item) ->
-            data.set(id, item)
-        }
-        Tasks.delay(2) {
-            writing = false
+        data.getKeys(true).filter { !itemStacks.keys.contains(it) }.forEach { data.set(it, null) }
+        itemStacks.forEach { (id, item) -> data.set(id, item) }
+        data.saveToFile()
+        if (!isCanceling) {
+            Tasks.delay(2) {
+                writing = false
+            }
         }
     }
 
@@ -53,7 +58,7 @@ object ItemRepository {
 
     fun hasItem(id: String) = itemStacks.containsKey(id)
 
-    fun addItem(id: String, itemStack: ItemStack) = itemStacks.put(id, itemStack)
+    fun addItem(id: String, itemStack: ItemStack) = itemStacks.put(id, itemStack.clone())
 
     fun removeItem(id: String) = itemStacks.remove(id)
 

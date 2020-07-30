@@ -37,6 +37,11 @@ enum class Property(val default: String, val regex: Regex) {
     OPTIONS("Options", "(option|setting)(s)?"),
 
     /**
+     * 菜单选项 - 是否启用传递参数
+     */
+    OPTION_ENABLE_ARGUMENTS("Arguments", "(transfer)?(-)?arg(ument)?(s)?"),
+
+    /**
      * 菜单选项 - 默认参数
      */
     OPTION_DEFAULT_ARGUMENTS("Default-Arguments", "def(ault)?(-)?arg(ument)?(s)?"),

@@ -4,9 +4,9 @@ import io.izzel.taboolib.module.command.base.BaseCommand
 import io.izzel.taboolib.module.command.base.BaseMainCommand
 import io.izzel.taboolib.module.command.base.BaseSubCommand
 import io.izzel.taboolib.module.command.base.SubCommand
-import io.izzel.taboolib.module.command.base.display.DisplayBase
 import io.izzel.taboolib.module.command.base.display.DisplayFlat
 import me.arasple.mc.trmenu.commands.sub.*
+
 
 /**
  * @author Arasple
@@ -36,12 +36,15 @@ class CommandHandler : BaseMainCommand() {
     @SubCommand(permission = "trmenu.command.template", description = "Create menus quickly")
     val template: BaseSubCommand = CommandTemplate()
 
+    @SubCommand(permission = "trmenu.command.sounds", description = "Preview sounds")
+    var sounds: BaseSubCommand = CommandSoundsPreview()
+
     @SubCommand(permission = "trmenu.command.migrate", description = "Migrate menus for other plugins")
     val migrate: BaseSubCommand = CommandMigrate()
 
     @SubCommand(permission = "trmenu.command.debug", description = "Enable debug mode for player or print debug info to console")
     val debug: BaseSubCommand = CommandDebug()
 
-    override fun getDisplay(): DisplayBase = DisplayFlat()
+    override fun getDisplay() = DisplayFlat()
 
 }

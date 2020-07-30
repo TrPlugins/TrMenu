@@ -14,12 +14,15 @@ abstract class MatchItemIdentifier(val name: Regex, private var content: String)
 
     abstract fun match(player: Player, itemStack: ItemStack): Boolean
 
+    abstract fun apply(player: Player, itemStack: ItemStack): ItemStack
+
     fun getContent(player: Player): String = Msger.replace(player, content)
+
+    fun getContent() = content
 
     fun setContent(content: String) {
         this.content = content
     }
-
 
     fun newInstance(): MatchItemIdentifier = javaClass.getDeclaredConstructor().newInstance()
 

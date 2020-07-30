@@ -22,6 +22,8 @@ class MenuCloseEvent(val player: Player, val menu: Menu, val page: Int, val reas
 
         SWITCH_MENU,
 
+        SWITCH_BUKKIT_INVENTORY,
+
         SWITCH_PAGE,
 
         ERROR;

@@ -16,7 +16,7 @@ import org.bukkit.command.CommandSender
  */
 class CommandAction : BaseSubCommand() {
 
-    override fun getArguments(): Array<Argument> = arrayOf(
+    override fun getArguments() = arrayOf(
         Argument("Player", true),
         Argument("Action", true)
     )
@@ -25,7 +25,7 @@ class CommandAction : BaseSubCommand() {
         val player = Bukkit.getPlayerExact(args[0])
 
         if (player == null || !player.isOnline) {
-            TLocale.sendTo(sender, "COMMANDS.UNKNOWN-PLAYER")
+            TLocale.sendTo(sender, "COMMANDS.ACTION.UNKNOWN-PLAYER")
             return
         }
         ArrayUtil.arrayJoin(args, 1).let { it ->

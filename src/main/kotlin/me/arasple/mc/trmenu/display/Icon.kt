@@ -1,6 +1,7 @@
 package me.arasple.mc.trmenu.display
 
 import me.arasple.mc.trmenu.TrMenu
+import me.arasple.mc.trmenu.data.MenuSession
 import me.arasple.mc.trmenu.data.Sessions
 import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import me.arasple.mc.trmenu.display.icon.IconClickHandler
@@ -26,16 +27,19 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
         startUpdateTasks(player, menu)
     }
 
+    fun setItemStack(player: Player, session: MenuSession) {
+        val property = getIconProperty(player)
+        val slots = property.display.getPosition(player, session.page)
+        val item = property.display.createDisplayItem(player)
+        slots?.forEach { PacketsHandler.sendOutSlot(player, Sessions.TRMENU_WINDOW_ID, it, item) }
+        if (property.display.isAnimatedPosition(session.page)) PacketsHandler.sendClearNonIconSlots(player, session)
+    }
+
     fun displayItemStack(player: Player) {
-        Tasks.run {
-            val session = player.getMenuSession()
-            if (!session.isNull()) {
-                val property = getIconProperty(player)
-                val slots = property.display.getPosition(player, session.page)
-                val item = property.display.createDisplayItem(player)
-                slots?.forEach { PacketsHandler.sendOutSlot(player, Sessions.TRMENU_WINDOW_ID, it, item) }
-                if (property.display.isAnimatedPosition(session.page)) PacketsHandler.sendClearNonIconSlots(player, session)
-            }
+        val session = player.getMenuSession()
+
+        Tasks.run(true) {
+            if (!session.isNull()) setItemStack(player, session)
         }
     }
 
@@ -55,10 +59,10 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
                             else {
                                 Msger.debug(player, "ICON.DISPLAY-UPDATE", false, id, it.key, it.value.joinToString(",", "{", "}"))
                                 getIconProperty(player).display.nextFrame(player, it.value, session.page)
-                                displayItemStack(player)
+                                setItemStack(player, session)
                             }
                         }
-                    }.runTaskTimerAsynchronously(TrMenu.plugin, it.key.toLong(), it.key.toLong())
+                    }.runTaskTimer(TrMenu.plugin, it.key.toLong(), it.key.toLong())
                 )
             }
         }

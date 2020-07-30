@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.commands.sub
 
+import io.izzel.taboolib.cronus.CronusUtils
 import io.izzel.taboolib.internal.apache.lang3.ArrayUtils
 import io.izzel.taboolib.loader.PluginHandle
 import io.izzel.taboolib.module.command.base.Argument
@@ -12,8 +13,11 @@ import me.arasple.mc.trmenu.data.MetaPlayer.getArguments
 import me.arasple.mc.trmenu.data.MetaPlayer.getMeta
 import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import me.arasple.mc.trmenu.display.Menu
-import me.arasple.mc.trmenu.metrics.MetricsHandler
+import me.arasple.mc.trmenu.display.item.property.Mat
 import me.arasple.mc.trmenu.modules.expression.Expressions
+import me.arasple.mc.trmenu.modules.metrics.MetricsHandler
+import me.arasple.mc.trmenu.modules.script.utils.ScriptUtils
+import me.arasple.mc.trmenu.modules.web.WebData
 import me.arasple.mc.trmenu.utils.Msger
 import me.arasple.mc.trmenu.utils.Skulls
 import org.bukkit.Bukkit
@@ -31,7 +35,7 @@ import org.bukkit.scheduler.BukkitWorker
  */
 class CommandDebug : BaseSubCommand() {
 
-    override fun getArguments(): Array<Argument> = arrayOf(
+    override fun getArguments() = arrayOf(
         Argument("Type", false) {
             listOf(
                 "info",
@@ -39,7 +43,9 @@ class CommandDebug : BaseSubCommand() {
                 "menu",
                 "msgreplace",
                 "skulls",
-                "parseExpression"
+                "reset",
+                "parseExpression",
+                "parseMat"
             )
         }
     )
@@ -56,14 +62,30 @@ class CommandDebug : BaseSubCommand() {
                 "skulls" -> printSkulls(sender)
                 "player" -> if (args.size > 1) printPlayer(sender, Bukkit.getPlayerExact(args[1]))
                 "menu" -> if (args.size > 1) printMenu(sender, TrMenuAPI.getMenuById(args[1]))
-                "msgreplace" -> {
-                    val player = sender as Player
-                    val message = ArrayUtil.arrayJoin(args, 1)
-                    sender.sendMessage(
-                        Msger.replace(player, message)
-                    )
+                "reset" -> {
+                    Skulls.CACHED_SKULLS.clear()
+                    Skulls.CACHED_PLAYER_TEXTURE.clear()
+                    WebData.CACHED_WEB_DATA.clear()
                 }
-                "parseexpression" -> TLocale.sendTo(sender, "DEBUG.EXPRESSION", content, Expressions.parseExpression(content))
+                "msgreplace" -> {
+                    if (sender is Player) {
+                        val message = ArrayUtil.arrayJoin(args, 1)
+                        sender.sendMessage(
+                            Msger.replace(sender, message)
+                        )
+                    }
+                }
+                "parseexpression" -> {
+                    val parsed = Expressions.parseExpression(content)
+                    val translated = ScriptUtils.translate(parsed)
+                    TLocale.sendTo(sender, "DEBUG.EXPRESSION", content, parsed)
+                    TLocale.sendTo(sender, "DEBUG.PRE-COMPILE-SCRIPT", parsed, translated)
+                }
+                "parsemat" -> {
+                    if (sender is Player) {
+                        CronusUtils.addItem(sender, Mat.createMat(content).createItem(sender))
+                    }
+                }
             }
         }
     }
@@ -73,8 +95,8 @@ class CommandDebug : BaseSubCommand() {
             arrayOf(
                 "§3§l「§8--------------------------------------------------§3§l」",
                 "",
-                "§cCached_Skulls: §4${Skulls.cache.keys}",
-                "§cCached_PlayerTextures: §4${Skulls.cachePlayerTexture}",
+                "§cCached_Skulls: §4${Skulls.CACHED_SKULLS.keys}",
+                "§cCached_PlayerTextures: §4${Skulls.CACHED_PLAYER_TEXTURE}",
                 "",
                 "§3§l「§8--------------------------------------------------§3§l」"
             )
@@ -135,14 +157,16 @@ class CommandDebug : BaseSubCommand() {
             arrayOf(
                 "§3§l「§8--------------------------------------------------§3§l」",
                 "",
+                "§2Server: §6${Bukkit.getServer().name}",
                 "§2Total Menus: §6"
             )
         )
         Menu.getAllMenus().forEach { if (it.value.isNotEmpty()) sender.sendMessage("§r  §8▪ ${it.key}§8: §7${it.value.size}") }
         sender.sendMessage(
             arrayOf(
-                "§2Cached Skulls: §6${Skulls.cache.size}",
-                "§2Cached Expressions: §6${Expressions.cachedParsed.size}",
+                "§2Cached WebDatas: §6${WebData.CACHED_WEB_DATA.size}",
+                "§2Cached Skulls: §6${Skulls.CACHED_SKULLS.size}",
+                "§2Cached Expressions: §6${Expressions.CACHED_PARSED.size}",
                 "§2Running Tasks: §6${Bukkit.getScheduler().activeWorkers.stream().filter { t: BukkitWorker -> t.owner === TrMenu.plugin }.count() + Bukkit.getScheduler().pendingTasks.stream().filter { t: BukkitTask -> t.owner === TrMenu.plugin }.count()}",
                 "§2bStats: §3${MetricsHandler.B_STATS?.isEnabled}", "§2cStats: §3${MetricsHandler.C_STATS?.isEnabled}", "§2TabooLib: §f${PluginHandle.getVersion()}", "",
                 "§3TrMenu Built-Info: §b${description.getString("built-time")}§7, §3By §a${description.getString("built-by")}",

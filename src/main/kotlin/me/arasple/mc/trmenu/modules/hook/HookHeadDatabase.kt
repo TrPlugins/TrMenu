@@ -15,7 +15,7 @@ object HookHeadDatabase {
     private const val PLUGIN_NAME = "HeadDatabase"
     private var IS_HOOKED = false
     private var HEAD_DATABASE_API: HeadDatabaseAPI? = null
-    private val EMPTY_ITEM = Materials.AIR.parseItem()!!
+    private val EMPTY_ITEM = Materials.PLAYER_HEAD.parseItem()!!
 
     fun isHooked() = IS_HOOKED
 
@@ -23,14 +23,18 @@ object HookHeadDatabase {
         IS_HOOKED = Bukkit.getPluginManager().getPlugin(PLUGIN_NAME)?.isEnabled ?: false
         if (isHooked()) {
             HEAD_DATABASE_API = HeadDatabaseAPI()
-            TLocale.sendToConsole("HOOKED", PLUGIN_NAME)
+            TLocale.sendToConsole("PLUGIN.HOOKED", PLUGIN_NAME)
         }
     }
 
-    fun getHead(id: String): ItemStack = if (isHooked()) {
-        if (id.equals("random", true)) getRandomHead() else HEAD_DATABASE_API?.getItemHead(id) ?: EMPTY_ITEM
-    } else {
-        TLocale.sendToConsole("ERRORS.HOOK", PLUGIN_NAME)
+    fun getHead(id: String): ItemStack = try {
+        if (isHooked()) {
+            if (id.equals("random", true)) getRandomHead() else HEAD_DATABASE_API?.getItemHead(id) ?: EMPTY_ITEM
+        } else {
+            TLocale.sendToConsole("ERRORS.HOOK", PLUGIN_NAME)
+            EMPTY_ITEM
+        }
+    } catch (e: ConcurrentModificationException) {
         EMPTY_ITEM
     }
 
@@ -39,6 +43,13 @@ object HookHeadDatabase {
     } else {
         TLocale.sendToConsole("ERRORS.HOOK", PLUGIN_NAME)
         EMPTY_ITEM
+    }
+
+    fun getId(item: ItemStack): String = if (isHooked()) {
+        HEAD_DATABASE_API?.getItemID(item) ?: ""
+    } else {
+        TLocale.sendToConsole("ERRORS.HOOK", PLUGIN_NAME)
+        ""
     }
 
 }

@@ -3,16 +3,21 @@ package me.arasple.mc.trmenu.display
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.events.MenuCloseEvent
 import me.arasple.mc.trmenu.api.events.MenuOpenEvent
+import me.arasple.mc.trmenu.configuration.MenuLoader
 import me.arasple.mc.trmenu.configuration.menu.MenuConfiguration
+import me.arasple.mc.trmenu.data.MenuSession
 import me.arasple.mc.trmenu.data.MetaPlayer.completeArguments
+import me.arasple.mc.trmenu.data.Sessions.TRMENU_WINDOW_ID
 import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import me.arasple.mc.trmenu.data.Sessions.setMenuSession
 import me.arasple.mc.trmenu.display.menu.MenuLayout
 import me.arasple.mc.trmenu.display.menu.MenuSettings
+import me.arasple.mc.trmenu.modules.packets.PacketsHandler
 import me.arasple.mc.trmenu.utils.Tasks
 import me.arasple.mc.trmenu.utils.Tasks.Tasking
 import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
+import java.io.File
 import kotlin.math.min
 
 /**
@@ -27,28 +32,35 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
         layout.locateIcons(icons)
     }
 
-    /**
-     * 为玩家打开此菜单
-     */
+    fun open(player: Player) = open(player, -1)
+
+    fun open(player: Player, page: Int) = open(player, page, MenuOpenEvent.Reason.UNKNOWN)
+
     fun open(player: Player, page: Int, reason: MenuOpenEvent.Reason) {
-        val p = if (page < 0) settings.options.defaultLayout else min(page, layout.layouts.size - 1)
-        val e = MenuOpenEvent(player, this, p, reason, MenuOpenEvent.Result.UNKNOWN).call()
+        Tasks.run(true) {
+            val p = (if (page < 0) settings.options.getDefaultLayout(player) else min(page, layout.layouts.size - 1)).coerceAtLeast(0)
+            val e = MenuOpenEvent(player, this, p, reason, MenuOpenEvent.Result.UNKNOWN).async(true).call() as MenuOpenEvent
+            val s = player.getMenuSession()
 
-        if (layout.layouts.size <= e.page) {
-            e.result = MenuOpenEvent.Result.ERROR_PAGE
-            e.isCancelled = true
-            return
-        }
-        if (!e.isCancelled) {
-            val layout = layout.layouts[p]
+            if (layout.layouts.size <= e.page) {
+                e.result = MenuOpenEvent.Result.ERROR_PAGE
+                e.isCancelled = true
+                return@run
+            }
+            if (!e.isCancelled) {
+                val layout = layout.layouts[p]
 
-            player.completeArguments(settings.options.defaultArguments)
-            player.getMenuSession().set(this, layout, p)
+                player.completeArguments(settings.options.defaultArguments)
+                s.set(this, layout, p)
 
-            layout.displayInventory(player, settings.title.getTitle(player))
-            loadIcons(player, p)
-            settings.load(player, this, layout)
-            viewers.add(player)
+                layout.displayInventory(player, settings.title.getTitle(player))
+                loadIcons(player, p)
+                settings.load(player, this, layout)
+                viewers.add(player)
+            }
+            if (reason == MenuOpenEvent.Reason.SWITCH_PAGE) {
+                PacketsHandler.sendClearNonIconSlots(player, s)
+            }
         }
     }
 
@@ -78,6 +90,13 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
             if (closeInventory) player.closeInventory() else player.updateInventory()
         }
         viewers.remove(player)
+
+        // 防止关闭菜单后, 动态标题周期未及时停止
+        Tasks.delay(3, true) {
+            if (player.getMenuSession().isNull()) {
+                PacketsHandler.sendCloseWindow(player, TRMENU_WINDOW_ID)
+            }
+        }
     }
 
     /**
@@ -85,7 +104,7 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
      */
     fun loadIcons(player: Player, page: Int) = icons.filter { it.isInPage(page) }.forEach { it.displayIcon(player, this) }
 
-    fun resetIcons(player: Player) = icons.forEach { it.displayItemStack(player) }
+    fun resetIcons(player: Player, session: MenuSession) = icons.forEach { it.setItemStack(player, session) }
 
     fun getOccupiedSlots(player: Player, page: Int) = mutableSetOf<Int>().let { slots ->
         icons.forEach {
@@ -105,6 +124,22 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
     fun getIcon(player: Player, page: Int, slot: Int): Icon? = getIcons(player, page).firstOrNull { it.getIconProperty(player).display.position[page]?.currentElement(player)?.getSlots(player)?.contains(slot) ?: false }
 
     fun getIcons(player: Player, page: Int) = icons.filter { it.getIconProperty(player).display.position.containsKey(page) }
+
+    fun reload() {
+        val file = File(conf.loadedPath)
+        if (file.exists()) {
+            MenuLoader.loadMenu(file, false)?.let { menu ->
+                getMenus().remove(this)
+                getMenus().add(menu)
+                Tasks.run {
+                    viewers.forEach {
+                        val session = it.getMenuSession()
+                        menu.open(it, session.page, MenuOpenEvent.Reason.RELOAD)
+                    }
+                }
+            }
+        }
+    }
 
     companion object {
 

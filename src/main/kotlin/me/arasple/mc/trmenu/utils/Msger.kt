@@ -1,10 +1,12 @@
 package me.arasple.mc.trmenu.utils
 
+import io.izzel.taboolib.module.inject.TFunction
 import io.izzel.taboolib.module.locale.TLocale
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.data.MetaPlayer.replaceWithArguments
 import me.clip.placeholderapi.PlaceholderAPI
 import org.bukkit.Bukkit
+import org.bukkit.OfflinePlayer
 import org.bukkit.command.CommandSender
 import org.bukkit.command.ConsoleCommandSender
 import org.bukkit.entity.Player
@@ -21,6 +23,7 @@ object Msger {
         debug = TrMenu.SETTINGS.getBoolean("Options.Debug", false)
     }
 
+    @TFunction.Cancel
     fun cancel() = TrMenu.SETTINGS.set("Options.Debug", debug)
 
     /*
@@ -48,23 +51,24 @@ object Msger {
         }
     }
 
-    /*
-    PlaceholderAPI Utils
-     */
+    fun replace(player: Player, string: String?): String {
+        return replaceWithPlaceholders(player, replaceWithBracketPlaceholders(player, string ?: ""))
+    }
 
-    fun replace(player: Player, string: String?) = replaceWithPlaceholders(player, replaceWithBracketPlaceholders(player, string ?: ""))
+    fun replace(player: Player, strings: List<String>): List<String> {
+        return replaceWithPlaceholders(player, replaceWithBracketPlaceholders(player, strings))
+    }
 
-    fun replace(player: Player, strings: List<String>) = replaceWithPlaceholders(player, replaceWithBracketPlaceholders(player, strings))
+    private fun replaceWithPlaceholders(player: Player, string: String): String = HexColor.translate(PlaceholderAPI.setPlaceholders(player as OfflinePlayer, string))
 
-    private fun replaceWithPlaceholders(player: Player, string: String) = HexColor.translate(PlaceholderAPI.setPlaceholders(player, string))
+    private fun replaceWithPlaceholders(player: Player, strings: List<String>): List<String> = strings.map { replaceWithPlaceholders(player, it) }
 
-    private fun replaceWithPlaceholders(player: Player, strings: List<String>) = HexColor.translate(PlaceholderAPI.setPlaceholders(player, strings))
+    fun replaceWithBracketPlaceholders(player: Player, string: String): String = PlaceholderAPI.setBracketPlaceholders(player as OfflinePlayer, player.replaceWithArguments(string))
 
-    fun replaceWithBracketPlaceholders(player: Player, string: String): String = PlaceholderAPI.setBracketPlaceholders(player, player.replaceWithArguments(string))
+    fun replaceWithBracketPlaceholders(player: Player, strings: List<String>) = strings.map { replaceWithBracketPlaceholders(player, it) }
 
-    fun replaceWithBracketPlaceholders(player: Player, strings: List<String>): List<String> = PlaceholderAPI.setBracketPlaceholders(player, player.replaceWithArguments(strings))
-
-    fun containsPlaceholders(string: String?) = PlaceholderAPI.containsPlaceholders(string) || PlaceholderAPI.containsBracketPlaceholders(string) || (string != null && string.contains("{") && string.contains("}"))
+    @Suppress("DEPRECATION")
+    fun containsPlaceholders(string: String?): Boolean = PlaceholderAPI.containsPlaceholders(string) || PlaceholderAPI.containsBracketPlaceholders(string) || (string != null && string.contains("{") && string.contains("}"))
 
     fun printErrors(node: String, throwable: Throwable, vararg args: String) = TLocale.sendToConsole("ERRORS.$node", *args, throwable.message, throwable.stackTrace.filter { it.toString().contains("me.arasple.mc.trmenu") }.map { it.toString() + "\n" })
 

@@ -10,12 +10,19 @@ import org.bukkit.inventory.ItemStack
  */
 class MatchItemName : MatchItemIdentifier("(display)?(-)?name(s)?") {
 
-	override fun match(player: Player, itemStack: ItemStack): Boolean = itemStack.itemMeta.let {
-		if (it != null) {
-			val displayName = it.displayName
-			return displayName.equals(getContent(player), true)
-		}
-		return false
-	}
+    override fun match(player: Player, itemStack: ItemStack): Boolean = itemStack.itemMeta.let {
+        if (it != null) {
+            val displayName = it.displayName
+            return displayName.equals(getContent(player), true)
+        }
+        return false
+    }
+
+    override fun apply(player: Player, itemStack: ItemStack): ItemStack {
+        val itemMeta = itemStack.itemMeta ?: return itemStack
+        itemMeta.setDisplayName(getContent(player))
+        itemStack.itemMeta = itemMeta
+        return itemStack
+    }
 
 }

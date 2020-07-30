@@ -1,0 +1,149 @@
+PLUGIN:
+  LOADING:
+    - ''
+    - '&7Loading &3Tr&bMenu &f&lPremium... &8{0}'
+    - ''
+  LOADED: '&8[&3Tr&bMenu&8] &bINFO &8| &3ปลั๊กอินทำงานแล้ว! ตอนนี้เป็นเวอร์ชั่น &2{0}&7.'
+  HOOKED: '&8[&3Tr&bMenu&8] &6HOOK &8| &7ตรวจพบปลั๊กอินที่ซัพพอร์ท: &f{0}&7.'
+  UPDATE:
+    - '&8[&3Tr&bMenu&8] &bUPDATE &8| &3พบอัพเดท &a{0} ! โหลดปลั๊กอินจากลิงก์ด้านล่างเพื่อรับฟีเจอร์ใหม่หรือแก้ไขบัค!'
+    - '&bhttps://www.spigotmc.org/resources/authors/435323/'
+  DEPEND:
+    DOWNLOAD: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7กำลังดาวน์โหลดปลั๊กอิน &f{0} &7...'
+    INSTALL: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7ดาวน์โหลดปลั๊กอิน &3{0} สำเร็จ&7, รีสตาร์ทเซิร์ฟเวอร์เพื่อสิ้นสุดการติดตั้ง...'
+    INSTALL-FAILED: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7มีข้อผิดพลาดเมื่อดาวน์โหลด &c{0}&7. กรุณาดาวน์โหลดปลั๊กอินด้วยตัวของคุณเอง, กำลังปิดเซิร์ฟ...'
+LOADER:
+  MENU: '&8[&3Tr&bMenu&8] &aSUCCESS &8| &3เมนู &a{0} &3ถูกโหลดขึ้นมาแล้ว &8({1} ms)'
+  ERRORS:
+    - '&8[&3Tr&bMenu&8] &cERROR &8| &4พบเจอข้อผิดพลาดในเมนู &c{0}&4.'
+    - '&7ข้อความ: &8{1}'
+    - '&7ข้อผิดพลาด: &8{2}'
+
+MIGRATE:
+  UNKNOWN-FILE: '&8[&fTr&7Menu&8] &aMIGRATE &8| &7ไฟล์ไม่รองรับหรือไม่ตรวจพบ &f{0}&7.'
+  EMPTY-FILE: '&8[&fTr&7Menu&8] &aMIGRATE &8| &7ไฟล์ว่างเปล่า'
+  UNSUPPORTED-PLUGIN: '&8[&3Tr&bMenu&8] &aMIGRATE &8| &7ปลั๊กอิน &f{0} &7ยังไม่ถูกรองรับ...'
+  PROCESSING: '&8[&3Tr&bMenu&8] &aMIGRATE &8| &f{0} &7เจอไฟล์แล้ว, กำลังย้ายข้อมูล...'
+  LOAD-SUCCESS: '&8[&3Tr&bMenu&8] &aMIGRATE &8| &a{0} &3ไฟล์ถูกย้ายข้อมูลแล้ว, สามารถตรวจสอบได้ที่ `/plugins/TrMenu/migrated/`'
+  LOAD-ERROR: '&8[&3Tr&bMenu&8] &aMIGRATE &8| &c{0} &7เมนูย้ายไม่สำเร็จ กรุณาตรวจสอบข้อผิดพลาด...'
+  ERROR:
+    - '&8[&3Tr&bMenu&8] &aMIGRATE &8| &4เจอข้อผิดพลาดจากการย้ายข้อมูล &c{0}&4.'
+    - '&8เหตุผล: {1}'
+    - '&8ข้อผิดพลาด: {2}'
+
+MENU:
+  DEPEND-EXPANSIONS:
+    - ''
+    - '&8[&fTr&7Menu&8] &กรุณาโหลดส่วนเสริม &f{0} &7ของ PlaceholderAPI ก่อนใช้เมนู.'
+    - ''
+  DEPEND-EXPANSIONS-FORMAT:
+    ==: JSON
+    text: '&8- <&3{0}@expansion>&r'
+    args:
+      expansion:
+        hover: '&7คลิกเพื่อดาวน์โหลด'
+        command: '/placeholderapi ecloud download {0}'
+
+COMMANDS:
+  OPEN:
+    UNKNOWN-MENU: '&8[&3Tr&bMenu&8] &7ไม่พบเมนู &6{0} &7.'
+    UNKNOWN-PLAYER: '&8[&3Tr&bMenu&8] &7ไม่พบผู้เล่น.'
+  ACTION:
+    UNKNOWN-PLAYER: '&8[&3Tr&bMenu&8] &7ไม่พบผู้เล่น.'
+  LIST:
+    HEADER:
+      - ''
+      - '&8[&3Tr&bMenu&8] &7โหลดเมนู &f{0} &8(filter: {1}): '
+      - ''
+    FORMAT:
+      ==: JSON
+      text: '&8- <&2{0}@menu>&r'
+      args:
+        menu:
+          hover: '&7คลิกเพื่อดาวน์โหลด'
+          command: '/trmenu open {0}'
+  DEBUG:
+    'ON': '&8[&3Tr&bMenu&8] &3DEBUG &8| &7โหมด Debug ถูก &aเปิดใช้งาน&7.'
+    'OFF': '&8[&3Tr&bMenu&8] &3DEBUG &8| &7โหมด Debug ถูก &cปิดใช้งาน&7.'
+  ITEM:
+    TO-JSON:
+      NO-ITEM: '&8[&3Tr&bMenu&8] &7คุณต้อง &fถือไอเท็ม &7เพื่อแปลงข้อมูลเป็น JSON'
+      CONVERTED:
+        ==: JSON
+        text: '&8[&3Tr&bMenu&8] &7ไอเท็มถูกแปลงเป็น JSON แล้ว: <&3&nClick to copy@copy>'
+        args:
+          copy:
+            hover: '&7คลิกเพื่อคัดลอก'
+            suggest: '{0}'
+  ITEM-REPOSITORY:
+    NO-ITEM: '&8[&3Tr&bMenu&8] &7คุณต้อง &fถือไอเท็ม &7เพื่อแปลงข้อมูลเป็น JSON'
+    NOT-EXIST: '&8[&3Tr&bMenu&8] &7ไม่พบไอเท็มไอดี &f{0}'
+    EXISTED: '&8[&3Tr&bMenu&8] &7ไอเท็มไอดี &f{0} &7มีอยู่แล้ว.'
+    GIVED: '&8[&3Tr&bMenu&8] &3คุณได้รับไอเท็ม &a{0}&3.'
+    ADDED: '&8[&3Tr&bMenu&8] &3เพิ่มไอเท็ม &a{0} &3ไปยังที่เก็บไอเท็ม.'
+    REMOVED: '&8[&3Tr&bMenu&8] &3ไอเท็ม &a{0} &3ถูกลบออกไปยังที่เก็บ.'
+  TEMPLATE:
+    EMPTY: '&8[&3Tr&bMenu&8] &7Template ว่างเปล่า, การสร้างเมนูจึงถูกยกเลิก...'
+    PROCESSING: '&8[&3Tr&bMenu&8] &7กำลังสร้างเมนูจาก Template...'
+    SUCCESS:
+      ==: JSON
+      text: '&8[&3Tr&bMenu&8] &3เมนูสร้างเสร็จแล้ว. คลิก <&a&nhere@paste> &3เพื่อรับลิงก์'
+      args:
+        paste:
+          hover: '&7คลิกเพื่อรับลิงก์'
+          url: '{0}'
+    FAILED: '&8[&3Tr&bMenu&8] &cเมนูสร้างไม่สำเร็จ... กรุณาตรวจสอบเครือข่ายอินเตอร์เน็ต!'
+
+HASTEBIN:
+  PROCESSING: '&8[&3Tr&bMenu&8] &7กำลังโหลด, กรุณารอสักครู่...'
+  SUCCESS: '&8[&3Tr&bMenu&8] &3เมนูถูกวางบนลิงก์ &a{0}'
+  FAILED: '&8[&3Tr&bMenu&8] &cพบข้อผิดพลาดจากการวางเมนู.'
+
+DEBUG:
+  ARGUMENTS: '&8[&fTr&7Menu&8] &3DEBUG &8| &6เปลี่ยนตัวแปรให้กับผู้เล่น &c{0} &c{ &8{1} &c}'
+  SESSION: '&8[&fTr&7Menu&8] &3DEBUG &8| &6เปลี่ยนหน้าเมนูเป็น &c{0} &c{ &8{1}. Page: {2} &c}'
+  EXPRESSION:
+    - '&8[&fTr&7Menu&8] &3DEBUG &8| &6เงื่อนไขการแปล:'
+    - '&c- &8ไฟล์ดิบ: &7{0}'
+    - '&c- &8ถูกแปลแล้ว: &7{1}'
+  PRE-COMPILE-SCRIPT:
+    - '&8[&fTr&7Menu&8] &3DEBUG &8| &6ตรวจจับสคริปท์:'
+    - '&c- &8ไฟล์ดิบ: {0}'
+    - '&c- &8ถูกแปลแล้ว: {1}'
+  ACTIONS:
+    REGISTERED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6ลงทะเบียนการกระทำ &c{0} &6แล้ว &8({1} ms)'
+    SET-META: '&8[&fTr&7Menu&8] &3DEBUG &8| &6เปลี่ยน Meta ของผู้เล่น &c{0} &c{ key=&6{1}&c,value=&6{2}&c } &8(raw: {3})'
+    SET-META-FAILED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6ตรวจพบข้อผิดพลาดหลังจากเปลี่ยน Meta ของผู้เล่น &c{0} &8(raw: {3})'
+  ICON:
+    DISPLAY-UPDATE: '&8[&fTr&7Menu&8] &3DEBUG &8| &6อัพเดทอนิเมชั่น ไอเท็ม/ไอคอน &c{0}, หมุน &e{1}&6, รวมทั้ง &e{2}'
+    SUB-ICON-REFRESHED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6อัพเดทเงื่อนไขแสดงไอคอน &c{0} &6เป็น &e{1}'
+
+ERRORS:
+  SCRIPT:
+    - '&8[&3Tr&bMenu&8] &cERROR &8| &4ตัวแสดง &c{0} &4ไม่พบในข้อมูล, กรุณาตรวจสอบไวยากรณ์!'
+    - '&8เหตุผล: {1}'
+    - '&8ข้อผิดพลาด: {2}'
+  PACKET:
+    - '&8[&3Tr&bMenu&8] &cERROR &8| &4ตรวจพบข้อผิดพลาดหลังจากส่ง Data Packet &c{0}, กรุณาตรวจสอบข้อผิดพลาด!'
+    - '&8เหตุผล: {1}'
+    - '&8ข้อผิดพลาด: {2}'
+  PLAYER-HEAD:
+    - '&8[&3Tr&bMenu&8] &cERROR &8| &4ตรวจพบข้อผิดพลาดเกิดขึ้นเกี่ยวกับสกินของหัวผู้เล่น, กรุณาตรวจสอบข้อผิดพลาด!'
+    - '&8เหตุผล: {0}'
+    - '&8ข้อผิดพลาด: {1}'
+  WEB-DATA:
+    - '&8[&3Tr&bMenu&8] &cERROR &8| &4ตรวจพบข้อผิดพลาดเกี่ยวกับอินเตอร์เน็ต &c{0}&4!'
+    - '&8เหตุผล: {1}'
+    - '&8ข้อผิดพลาด: {2}'
+  INT-RANGE:
+    - '&8[&3Tr&bMenu&8] &cERROR &8| &4ตรวจพบข้อผิดพลาดในการแปลงตัวหนังสือ &c{0} &4เป็นตัวเลข!'
+    - '&8เหตุผล: {1}'
+    - '&8ข้อผิดพลาด: {2}'
+  ARGUMENT-REPLACE:
+    - '&8[&3Tr&bMenu&8] &cERROR &8| &4Error replacing string &c{0} &4with arguments and metas!'
+    - '&8Reason: {1}'
+    - '&8Trace: {2}'
+  HOOK: '&8[&3Tr&bMenu&8] &cERROR &8| &4ระบบกำลังพยายามเรียกใช้ฟังก์ชันจากปลั๊กอินที่ตรวจไม่พบและเข้ากันได้ &c{0}'
+  SOUND: '&8[&3Tr&bMenu&8] &cERROR &8| &4ไม่พบเสียง &c{0}. ไม่สามารถเล่นกับผู้เล่น &c{1} &4ได้ '
+  ACTION: '&8[&3Tr&bMenu&8] &cERROR &8| &4ไม่พบ Action &c{0}, คุณเขียนผิดหรือเปล่า!'
+  MATERIAL: '&8[&3Tr&bMenu&8] &cERROR &8| &4ไม่พบไอเท็ม &c{0}'

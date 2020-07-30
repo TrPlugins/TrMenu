@@ -1,47 +1,80 @@
 #
-# 插件的相关选项
+# Configuration
 #
 Options:
-  # 是否启用调试模式 (将打印更多信息到控制台)
-  Debug: true
-  # 使用的语言文件
-  # 可用： zh_CN, zh_TW, en_US
-  Locale: zh_CN
-  # 是否隐藏插件启动时的 Logo
+  # Whether the debug mode should be enabled or not (more information will be sent to the console)
+  Debug: false
+  # Language of the plugin
+  # Available： zh_CN, zh_TW, en_US, fr_FR, th_TH
+  Locale: en_US
+  # Whether to hide the Logo of the plugin in the console on startup
   Hide-Logo: false
-  # 联网加载头颅材质是否使用 Mojang API
-  # 不启用则默认使用 https://api.minetools.eu/
+  # When enabled TrMenu will get the player heads datas from Mojang's API
+  # [RECOMMENDED] If disabled, it will get them from https://api.minetools.eu/
   Skull-Mojang-API: false
 
 #
-# 自定义加载菜单的文件或目录
-# 支持多级子目录itemRepo
+# Get menus from a path leading to a folder or directly a menu
+# Supports ItemRepo files to get pre-made items for your menus
 #
 Load-Menu-Files:
   - 'plugins/CustomMenusFolder'
 
 #
-# 动作相关设置
+# Actions Configuration
 #
 Actions:
-  # 指定取消捕获器的内容, 支持正则
+  # Customize the words used to cancel an input catcher, supports regex
   Catcher-Cancel-Words:
     - '(?i)cancel|quit|exit|end|stop'
-    - '取消|退出'
 
 #
-# 菜单物品相关
+# Menu Items Configuration
 #
 Item:
-  # 默认物品名称的颜色
+  # Default color for items' names
   Default-Color-Name: '&7'
-  # 默认物品描述的颜色
+  # Default color for items' lores
   Default-Color-Lore: '&7'
 
 #
-# 控制一些插件监听的 Bukkit 事件，是否忽略已被取消的事件
-# 如果遇到一些兼容性问题可以尝试调整
+# Actions Shortcuts Configuration
+#
+Shortcuts:
+  Offhand: 'open: Example'
+  Sneaking-Offhand:
+    - condition: 'hasPerm.trmenu.shortcut'
+      execute: 'open: Example'
+  Right-Click-Player: []
+  Sneaking-Right-Click-Player: []
+  PlayerInventory-Border-Left: []
+  PlayerInventory-Border-Right: []
+
+#
+# Register commands with actions and arguments
+# Supports tab-completition !
+# (WARNING: A server restart is required to add, change or remove commands)
+#
+RegisterCommands:
+  # Command name
+  openMenus:
+    # Command Aliases
+    aliases: []
+    # Required permission
+    permission: null
+    # Actions executed without any arguments
+    execute:
+      - 'tell: &7Argument `example` Required!'
+    # Arguments with their actions
+    arguments:
+      example: 'open: example'
+
+#
+# When enabled, TrMenu will ignore cancelled events monitored by some plugins
+# If you encouter compatibilities issues, try to toggle the option.
 #
 Events-Ignore-Cancelled:
-  # 监听菜单打开命令
   PlayerCommandPreprocessEvent: true
+  InventoryOpenEvent: true
+  InventoryClickEvent: true
+

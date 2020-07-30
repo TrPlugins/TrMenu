@@ -1,0 +1,153 @@
+#
+# Translated by Tanguygab
+#
+PLUGIN:
+  LOADING:
+    - ''
+    - '&7Loading &3Tr&bMenu &f&lPremium... &8{0}'
+    - ''
+  LOADED: '&8[&3Tr&bMenu&8] &bINFO &8| &3Plugin loaded! Currently running version &2{0}&7.'
+  HOOKED: '&8[&3Tr&bMenu&8] &6HOOK &8| &7Soft-Dependencies detected! Hooking into &f{0}&7.'
+  UPDATE:
+    - '&8[&3Tr&bMenu&8] &bUPDATE &8| &3Update &a{0}&3 found ! Download it from the link below for new features and bug fix!'
+    - '&bhttps://www.spigotmc.org/resources/authors/435323/'
+  DEPEND:
+    DOWNLOAD: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7Downloading plugin &f{0} &7...'
+    INSTALL: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7Successfully downloaded the plugin &3{0} &7, restarting the server to complete the installation...'
+    INSTALL-FAILED: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7An error occurred when donwloading &c{0}&7. Download the plugin manually to complete the installation, stopping server...'
+
+LOADER:
+  MENU: '&8[&3Tr&bMenu&8] &aSUCCESS &8| &a{0} &3menus were loaded &8({1} ms)'
+  ERRORS:
+    - '&8[&3Tr&bMenu&8] &cERROR &8| &4An error occurred when loading the menu &c{0}&4.'
+    - '&7Message: &8{1}'
+    - '&7Trace: &8{2}'
+
+MIGRATE:
+  UNKNOWN-FILE: '&8[&fTr&7Menu&8] &aMIGRATE &8| &7File unsupported or does not exist &f{0}&7.'
+  EMPTY-FILE: '&8[&fTr&7Menu&8] &aMIGRATE &8| &7The specified file/directory is empty.'
+  UNSUPPORTED-PLUGIN: '&8[&3Tr&bMenu&8] &aMIGRATE &8| &7The plugin &f{0} &7is not supported...'
+  PROCESSING: '&8[&3Tr&bMenu&8] &aMIGRATE &8| &f{0} &7files detected, migrating...'
+  LOAD-SUCCESS: '&8[&3Tr&bMenu&8] &aMIGRATE &8| &a{0} &3menu files were successfully migrated and moved to `/plugins/TrMenu/migrated/`'
+  LOAD-ERROR: '&8[&3Tr&bMenu&8] &aMIGRATE &8| &c{0} &7menus failed to load, check the errors in console...'
+  ERROR:
+    - '&8[&3Tr&bMenu&8] &aMIGRATE &8| &4An error occurred when migrating &c{0}&4.'
+    - '&8Reason: {1}'
+    - '&8Trace: {2}'
+
+MENU:
+  DEPEND-EXPANSIONS:
+    - ''
+    - '&8[&fTr&7Menu&8] &You have to install the &f{0} &7expansion for PlaceholderAPI to use this menu.'
+    - ''
+  DEPEND-EXPANSIONS-FORMAT:
+    ==: JSON
+    text: '&8- <&3{0}@expansion>&r'
+    args:
+      expansion:
+        hover: '&7Click to download'
+        command: '/placeholderapi ecloud download {0}'
+
+COMMANDS:
+  OPEN:
+    UNKNOWN-MENU: '&8[&3Tr&bMenu&8] &7Unkown menu &6{0} &7.'
+    UNKNOWN-PLAYER: '&8[&3Tr&bMenu&8] &7This player is not connected.'
+  ACTION:
+    UNKNOWN-PLAYER: '&8[&3Tr&bMenu&8] &7This player is not connected.'
+  LIST:
+    HEADER:
+      - ''
+      - '&8[&3Tr&bMenu&8] &7Loaded &f{0} &7menus &8(filter: {1}): '
+      - ''
+    FORMAT:
+      ==: JSON
+      text: '&8- <&2{0}@menu>&r'
+      args:
+        menu:
+          hover: '&7Click to open'
+          command: '/trmenu open {0}'
+  DEBUG:
+    'ON': '&8[&3Tr&bMenu&8] &3DEBUG &8| &7Debug mode &aenabled&7.'
+    'OFF': '&8[&3Tr&bMenu&8] &3DEBUG &8| &7Debug mode &cdisabled&7.'
+  ITEM:
+    TO-JSON:
+      NO-ITEM: '&8[&3Tr&bMenu&8] &7You must &fhold an item &7to convert it to JSON'
+      CONVERTED:
+        ==: JSON
+        text: '&8[&3Tr&bMenu&8] &7The item has been converted to JSON: <&3&nClick to copy@copy>'
+        args:
+          copy:
+            hover: '&7Click to copy'
+            suggest: '{0}'
+  ITEM-REPOSITORY:
+    NO-ITEM: '&8[&3Tr&bMenu&8] &7You must &fhold an item &7to convert it to JSON.'
+    NOT-EXIST: '&8[&3Tr&bMenu&8] &7An item with the ID &f{0} &7couldn''t be found.'
+    EXISTED: '&8[&3Tr&bMenu&8] &7An item with the ID &f{0} &7already existed.'
+    GIVED: '&8[&3Tr&bMenu&8] &3You received the item &a{0}&3.'
+    ADDED: '&8[&3Tr&bMenu&8] &3Added the item &a{0} &3to the item repository.'
+    REMOVED: '&8[&3Tr&bMenu&8] &3Item &a{0} &3removed from the repository.'
+  TEMPLATE:
+    EMPTY: '&8[&3Tr&bMenu&8] &7The template is empty, menu creation cancelled...'
+    PROCESSING: '&8[&3Tr&bMenu&8] &7Creating your menu from the template...'
+    SUCCESS:
+      ==: JSON
+      text: '&8[&3Tr&bMenu&8] &3Menu successfully createad. Click <&a&nhere@paste> &3to get the link'
+      args:
+        paste:
+          hover: '&7Click to get the link to your menu'
+          url: '{0}'
+    FAILED: '&8[&3Tr&bMenu&8] &cMenu creation failed... check your network connection!'
+
+HASTEBIN:
+  PROCESSING: '&8[&3Tr&bMenu&8] &7Loading, Please wait...'
+  SUCCESS: '&8[&3Tr&bMenu&8] &3Your menu has been pasted to &a{0}'
+  FAILED: '&8[&3Tr&bMenu&8] &cAn error occurred while pasting the menu to Hastebin.'
+
+DEBUG:
+  ARGUMENTS: '&8[&fTr&7Menu&8] &3DEBUG &8| &6Change arguments for the player &c{0} &c{ &8{1} &c}'
+  SESSION: '&8[&fTr&7Menu&8] &3DEBUG &8| &6Change menu page for &c{0} &c{ &8{1}. Page: {2} &c}'
+  EXPRESSION:
+    - '&8[&fTr&7Menu&8] &3DEBUG &8| &6Translating condition expression:'
+    - '&c- &8Raw: &7{0}'
+    - '&c- &8Translated: &7{1}'
+  PRE-COMPILE-SCRIPT:
+    - '&8[&fTr&7Menu&8] &3DEBUG &8| &6Caching script:'
+    - '&c- &8Raw: {0}'
+    - '&c- &8Translated: {1}'
+  ACTIONS:
+    REGISTERED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6Registered &c{0} &6available actions &8({1} ms)'
+    SET-META: '&8[&fTr&7Menu&8] &3DEBUG &8| &6Set a meta for player &c{0} &c{ key=&6{1}&c,value=&6{2}&c } &8(raw: {3})'
+    SET-META-FAILED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6Failed to set meta for player &c{0} &8(raw: {3})'
+  ICON:
+    DISPLAY-UPDATE: '&8[&fTr&7Menu&8] &3DEBUG &8| &6Updating the item/icon &c{0} &6''s animations, cycle &e{1}&6, including &e{2}'
+    SUB-ICON-REFRESHED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6Updating the conditionnal icon &c{0} &6to &e{1}'
+
+ERRORS:
+  SCRIPT:
+    - '&8[&3Tr&bMenu&8] &cERROR &8| &4The expression &c{0} &4couldn''t be cached, check the syntax!'
+    - '&8Reason: {1}'
+    - '&8Trace: {2}'
+  PACKET:
+    - '&8[&3Tr&bMenu&8] &cERROR &8| &4An unknown exception occurred when sending the &c{0} &4data packet, check the following error!'
+    - '&8Reason: {1}'
+    - '&8Trace: {2}'
+  PLAYER-HEAD:
+    - '&8[&3Tr&bMenu&8] &cERROR &8| &4An exception occurred when obtaining the player''s head texture asynchronously, check the following errors!'
+    - '&8Reason: {0}'
+    - '&8Trace: {1}'
+  WEB-DATA:
+    - '&8[&3Tr&bMenu&8] &cERROR &8| &4An error occured when reading data from Internet &c{0}&4!'
+    - '&8Reason: {1}'
+    - '&8Trace: {2}'
+  INT-RANGE:
+    - '&8[&3Tr&bMenu&8] &cERROR &8| &4Error converting string &c{0} &4to integer!'
+    - '&8Reason: {1}'
+    - '&8Trace: {2}'
+  ARGUMENT-REPLACE:
+    - '&8[&3Tr&bMenu&8] &cERROR &8| &4Error replacing string &c{0} &4with arguments and metas!'
+    - '&8Reason: {1}'
+    - '&8Trace: {2}'
+  HOOK: '&8[&3Tr&bMenu&8] &cERROR &8| &4attempt to call a function from an undetected and compatible plugin &c{0}'
+  SOUND: '&8[&3Tr&bMenu&8] &cERROR &8| &4The sound effect &c{0} &4does not exist. It couldn''t be played to player &c{1}'
+  ACTION: '&8[&3Tr&bMenu&8] &cERROR &8| &4The action &c{0} &4does not exist, check your spelling!'
+  MATERIAL: '&8[&3Tr&bMenu&8] &cERROR &8| &4Unknown item material (Material) &c{0}'

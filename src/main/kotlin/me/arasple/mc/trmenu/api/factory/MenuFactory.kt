@@ -19,6 +19,7 @@ import org.bukkit.plugin.Plugin
  * @date 2020/7/20 15:17
  * 皆在提供更简单的数据包 GUI 构建服务
  * 部分代码参考来自 io.izzel.taboolib.util.item.inventory
+ * 目前仅适合做展示性 GUI,功能性容器 GUI 请使用 MenuBuilder
  */
 class MenuFactory(
     val plugin: Plugin,
@@ -46,6 +47,15 @@ class MenuFactory(
         return this
     }
 
+    fun rows(rows: Int): MenuFactory {
+        return layout(
+            *mutableListOf<String>().let {
+                for (i in 0..rows) it.add("         ")
+                it
+            }.toTypedArray()
+        )
+    }
+
     fun size() = size
 
     fun layout(vararg layout: String) = layout(layout.toList(), listOf())
@@ -60,6 +70,8 @@ class MenuFactory(
         )
         return this
     }
+
+    fun item(key: Char, item: ItemStack) = item(key.toString(), item)
 
     fun item(key: String, item: ItemStack): MenuFactory {
         items[key] = item
