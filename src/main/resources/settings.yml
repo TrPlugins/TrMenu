@@ -41,7 +41,7 @@ Item:
 # Actions Shortcuts Configuration
 #
 Shortcuts:
-  Offhand: []
+  Offhand: 'open: Example'
   Sneaking-Offhand:
     - condition: 'hasPerm.trmenu.shortcut'
       execute: 'open: Example'

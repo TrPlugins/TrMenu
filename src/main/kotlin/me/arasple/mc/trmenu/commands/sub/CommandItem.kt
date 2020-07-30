@@ -7,6 +7,7 @@ import io.izzel.taboolib.module.command.base.CommandType
 import io.izzel.taboolib.module.locale.TLocale
 import io.izzel.taboolib.util.Hastebin
 import io.izzel.taboolib.util.item.Items
+import me.arasple.mc.trmenu.display.item.Item
 import me.arasple.mc.trmenu.utils.Tasks
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -55,7 +56,7 @@ class CommandItem : BaseSubCommand() {
     }
 
     private fun fromJson(player: Player, json: String) {
-        CronusUtils.addItem(player, Items.fromJson(json))
+        CronusUtils.addItem(player, Item.fromJson(json))
     }
 
 }

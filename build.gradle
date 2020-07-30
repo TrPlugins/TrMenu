@@ -24,14 +24,9 @@ shadowJar {
                 'org.bstats:bstats-bukkit:1.7',
                 'io.izzel.taboolib:TabooLibLoader:2.1:all',
                 'com.github.WesJD.AnvilGUI:anvilgui:-SNAPSHOT'
-//                'org.jetbrains.kotlin:kotlin-stdlib-common:1.4-M2',
-//                'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4-M2',
-//                'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4-M2',
-//                'org.jetbrains.kotlin:kotlin-stdlib:1.4-M2'
         ].forEach {
             include(dependency(it))
         }
-
     }
     relocate 'io.izzel.taboolib.loader', project.group + ".boot"
     relocate 'net.wesjd', project.group + ".modules.inputer.anvil"

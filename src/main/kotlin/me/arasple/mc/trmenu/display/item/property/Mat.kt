@@ -4,7 +4,6 @@ import io.izzel.taboolib.Version
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import io.izzel.taboolib.util.Strings
 import io.izzel.taboolib.util.item.ItemBuilder
-import io.izzel.taboolib.util.lite.Materials
 import io.th0rgal.oraxen.items.OraxenItems
 import me.arasple.mc.trmenu.configuration.property.Nodes
 import me.arasple.mc.trmenu.display.item.Item
@@ -21,7 +20,6 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.LeatherArmorMeta
 import org.bukkit.inventory.meta.SkullMeta
-import java.util.*
 import kotlin.math.min
 
 /**
@@ -100,13 +98,8 @@ data class Mat(val raw: String, val value: String, val type: Pair<Nodes, String>
                     if (id >= 0) builder.material(id)
                     if (data > 0) builder.damage(data)
                 } else {
-                    val name = split[0].toUpperCase(Locale.ENGLISH).replace("( )|-".toRegex(), "_")
-                    val materials = Materials.values().firstOrNull {
-                        it.name == name || it.legacy.any { legacy -> legacy == name }
-                    } ?: Materials.values().maxBy {
-                        Strings.similarDegree(name, it.name)
-                    }
-
+                    val name = split[0].replace("( )|-".toRegex(), "_").toUpperCase()
+                    val materials = Item.fromMaterials(name)
                     if (materials != null) {
                         val pared = materials.parseItem()
                         builder = if (data > 0) ItemBuilder(pared).damage(data)

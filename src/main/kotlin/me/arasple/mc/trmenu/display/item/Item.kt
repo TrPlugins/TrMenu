@@ -5,7 +5,9 @@ import com.google.gson.JsonParser
 import io.izzel.taboolib.module.locale.TLocale
 import io.izzel.taboolib.module.nms.NMS
 import io.izzel.taboolib.module.nms.nbt.NBTCompound
+import io.izzel.taboolib.util.Strings
 import io.izzel.taboolib.util.item.ItemBuilder
+import io.izzel.taboolib.util.lite.Materials
 import me.arasple.mc.trmenu.TrMenu
 import org.bukkit.ChatColor
 import org.bukkit.Material
@@ -36,6 +38,13 @@ object Item {
         }
         return ItemStack(Material.BARRIER)
     }
+
+    fun fromMaterials(name: String) =
+        Materials.values().firstOrNull {
+            it.name == name
+        } ?: Materials.values().firstOrNull { it.legacy.any { legacy -> legacy == name } } ?: Materials.values().maxBy {
+            Strings.similarDegree(name, it.name)
+        }
 
     private fun colorize(string: String, isLore: Boolean) =
         if (string.isNotBlank() && !string.startsWith(ChatColor.COLOR_CHAR) && !string.startsWith('&'))
