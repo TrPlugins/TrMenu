@@ -13,6 +13,7 @@ import me.arasple.mc.trmenu.modules.action.impl.hook.playerpoints.ActionSetPoint
 import me.arasple.mc.trmenu.modules.action.impl.hook.playerpoints.ActionTakePoints
 import me.arasple.mc.trmenu.modules.action.impl.item.ActionEnchantItem
 import me.arasple.mc.trmenu.modules.action.impl.item.ActionGiveItem
+import me.arasple.mc.trmenu.modules.action.impl.item.ActionRepairItem
 import me.arasple.mc.trmenu.modules.action.impl.item.ActionTakeItem
 import me.arasple.mc.trmenu.modules.action.impl.menu.*
 import me.arasple.mc.trmenu.modules.hook.HookCronus
@@ -41,6 +42,7 @@ object Actions {
         // item
         ActionEnchantItem(),
         ActionGiveItem(),
+        ActionRepairItem(),
         ActionTakeItem(),
         // menu
         ActionClose(),
