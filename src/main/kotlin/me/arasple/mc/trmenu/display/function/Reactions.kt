@@ -9,13 +9,13 @@ import org.bukkit.entity.Player
 data class Reactions(val reactions: List<Reaction>) {
 
     fun eval(player: Player): Boolean {
-        if (!isNotEmpty()) return false
+        if (isEmpty()) return true
         reactions.sortedBy { it.priority }.forEach {
             if (!it.react(player)) return false
         }
         return true
     }
 
-    fun isNotEmpty(): Boolean = reactions.isNotEmpty()
+    fun isEmpty() = reactions.isEmpty()
 
 }
