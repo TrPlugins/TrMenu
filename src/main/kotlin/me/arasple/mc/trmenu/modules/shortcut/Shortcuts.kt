@@ -47,7 +47,7 @@ object Shortcuts {
 
     fun rightClickPlayer(player: Player, clicked: Player): Boolean {
         reactions[if (player.isSneaking) 3 else 2].let {
-            if (it.isNotEmpty()) {
+            if (!it.isEmpty()) {
                 player.setArguments(arrayOf(clicked.name))
                 it.eval(player)
                 return true

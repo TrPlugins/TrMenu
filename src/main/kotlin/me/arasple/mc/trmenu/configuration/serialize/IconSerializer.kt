@@ -157,7 +157,7 @@ object IconSerializer {
             val types = InvClickType.matches(type)
             if (types.isNotEmpty()) {
                 val reactions = ReactionSerializer.serializeReactions(click[type])
-                if (reactions.isNotEmpty()) {
+                if (!reactions.isEmpty()) {
                     handlers.add(IconClickHandler.Handler(types, reactions))
                 }
             }

@@ -81,7 +81,7 @@ object MenuSerializer {
                                 val period = section.getLong(Utils.getSectionKey(section, Property.PERIOD), -1)
                                 if (period > 0) {
                                     val reactions = ReactionSerializer.serializeReactions(section[Utils.getSectionKey(section, Property.TASKS)])
-                                    if (reactions.isNotEmpty()) map[period] = reactions
+                                    if (!reactions.isEmpty()) map[period] = reactions
                                 }
                             }
                         }

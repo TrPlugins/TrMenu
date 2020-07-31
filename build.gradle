@@ -6,13 +6,6 @@ plugins {
     id 'com.github.johnrengelman.shadow' version '4.0.4'
 }
 
-compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
-    kotlinOptions {
-        languageVersion = "1.4"
-    }
-}
-
 group 'me.arasple.mc.trmenu'
 version '2.0'
 
