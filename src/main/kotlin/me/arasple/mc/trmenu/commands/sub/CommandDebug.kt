@@ -43,6 +43,7 @@ class CommandDebug : BaseSubCommand() {
                 "menu",
                 "msgreplace",
                 "skulls",
+                "expressions",
                 "reset",
                 "parseExpression",
                 "parseMat"
@@ -60,6 +61,7 @@ class CommandDebug : BaseSubCommand() {
             when (args[0].toLowerCase()) {
                 "info" -> printInfo(sender)
                 "skulls" -> printSkulls(sender)
+                "expressions" -> printExpressions(sender)
                 "player" -> if (args.size > 1) printPlayer(sender, Bukkit.getPlayerExact(args[1]))
                 "menu" -> if (args.size > 1) printMenu(sender, TrMenuAPI.getMenuById(args[1]))
                 "reset" -> {
@@ -97,6 +99,20 @@ class CommandDebug : BaseSubCommand() {
                 "",
                 "§cCached_Skulls: §4${Skulls.CACHED_SKULLS.keys}",
                 "§cCached_PlayerTextures: §4${Skulls.CACHED_PLAYER_TEXTURE}",
+                "",
+                "§3§l「§8--------------------------------------------------§3§l」"
+            )
+        )
+    }
+
+    private fun printExpressions(sender: CommandSender) {
+        sender.sendMessage(
+            arrayOf(
+                "§3§l「§8--------------------------------------------------§3§l」",
+                "",
+                "§8${Expressions.CACHED_PARSED.map {
+                    "\n§8${it.key} §3-> §f${it.value}"
+                }}",
                 "",
                 "§3§l「§8--------------------------------------------------§3§l」"
             )

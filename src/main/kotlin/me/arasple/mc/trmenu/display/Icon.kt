@@ -4,11 +4,9 @@ import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.data.MenuSession
 import me.arasple.mc.trmenu.data.Sessions
 import me.arasple.mc.trmenu.data.Sessions.getMenuSession
-import me.arasple.mc.trmenu.display.icon.IconClickHandler
-import me.arasple.mc.trmenu.display.icon.IconDisplay
+import me.arasple.mc.trmenu.display.icon.IconProperty
 import me.arasple.mc.trmenu.display.icon.IconSettings
 import me.arasple.mc.trmenu.modules.packets.PacketsHandler
-import me.arasple.mc.trmenu.modules.script.Scripts
 import me.arasple.mc.trmenu.utils.Msger
 import me.arasple.mc.trmenu.utils.Tasks
 import org.bukkit.entity.Player
@@ -88,10 +86,10 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
     fun getIconPropertyIndex(player: Player) = currentIndex.computeIfAbsent(player.uniqueId) { -1 }
 
     fun refreshIcon(player: Player): Boolean {
-        subIcons.sortedByDescending { it.priority }.forEachIndexed { index, subIcon ->
-            if (Scripts.expression(player, subIcon.condition).asBoolean()) {
+        subIcons.sortedByDescending { it.priority }.forEachIndexed { index, it ->
+            if (it.evalCondition(player)) {
                 currentIndex[player.uniqueId] = index
-                Msger.debug(player, "ICON.SUB-ICON-REFRESHED", currentIndex[player.uniqueId].toString())
+                Msger.debug(player, "ICON.SUB-ICON-REFRESHED", id, currentIndex[player.uniqueId].toString())
                 return true
             }
         }
@@ -100,7 +98,5 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
     }
 
     fun isInPage(page: Int) = defIcon.display.position.containsKey(page) || subIcons.any { it.display.position.containsKey(page) }
-
-    data class IconProperty(var priority: Int, var condition: String, var inherit: Boolean, val display: IconDisplay, val clickHandler: IconClickHandler)
 
 }

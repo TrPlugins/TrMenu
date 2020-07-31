@@ -8,7 +8,6 @@ import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
-import org.bukkit.event.inventory.ClickType
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryOpenEvent
 
@@ -37,12 +36,8 @@ class ListenerBukkitInventory : Listener {
 
         val player = e.whoClicked as Player
 
-        if (e.clickedInventory == player.inventory && player.openInventory.topInventory == player.inventory) {
-            if (e.click == ClickType.WINDOW_BORDER_LEFT) {
-                Shortcuts.borderLeft(player)
-            } else if (e.click == ClickType.WINDOW_BORDER_RIGHT) {
-                Shortcuts.borderRight(player)
-            }
+        if (player.openInventory.topInventory.holder == player.inventory.holder && e.slot < 0) {
+            Shortcuts.borderClick(player, e.click)
         }
     }
 

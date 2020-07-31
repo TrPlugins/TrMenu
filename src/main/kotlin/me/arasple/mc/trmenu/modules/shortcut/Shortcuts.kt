@@ -6,6 +6,7 @@ import me.arasple.mc.trmenu.data.MetaPlayer.setArguments
 import me.arasple.mc.trmenu.display.function.Reactions
 import me.arasple.mc.trmenu.utils.Tasks
 import org.bukkit.entity.Player
+import org.bukkit.event.inventory.ClickType
 import java.util.*
 
 /**
@@ -26,34 +27,22 @@ object Shortcuts {
                 serialize("Sneaking-Right-Click-Player"),
                 serialize("PlayerInventory-Border-Left"),
                 serialize("PlayerInventory-Border-Right"),
+                serialize("PlayerInventory-Border-Middle")
             )
         }
     }
 
     fun serialize(type: String) = ReactionSerializer.serializeReactions(TrMenu.SETTINGS.get("Shortcuts.$type"))
 
-    fun borderLeft(player: Player) {
-        reactions[4].let {
-            if (it.isNotEmpty()) it.eval(player)
-        }
-    }
-
-    fun borderRight(player: Player) {
-        reactions[5].let {
-            if (it.isNotEmpty()) it.eval(player)
-        }
+    fun borderClick(player: Player, clickType: ClickType) {
+        val index = if (clickType.isLeftClick) 4 else if (clickType.isRightClick) 5 else 6
+        reactions[index].eval(player)
     }
 
     fun offhand(player: Player): Boolean {
         val sneaking = player.isSneaking
         val index = if (sneaking && (System.currentTimeMillis() - getSneaking(player)) <= 1000) 1 else 0
-        reactions[index].let {
-            if (it.isNotEmpty()) {
-                it.eval(player)
-                return true
-            }
-        }
-        return false
+        return reactions[index].eval(player)
     }
 
     fun rightClickPlayer(player: Player, clicked: Player): Boolean {

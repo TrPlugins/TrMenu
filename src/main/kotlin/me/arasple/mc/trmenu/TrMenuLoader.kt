@@ -19,6 +19,7 @@ import org.bukkit.Bukkit
 class TrMenuLoader {
 
     fun init() {
+        TrMenu.SETTINGS.listener { register() }
         if (!TrMenu.SETTINGS.getBoolean("Options.Hide-Logo", false)) {
             printLogo()
         }
@@ -26,7 +27,6 @@ class TrMenuLoader {
             return;
         }
         register()
-        TrMenu.SETTINGS.listener { register() }
         TLocale.sendToConsole("PLUGIN.LOADING", Version.getBukkitVersion())
     }
 

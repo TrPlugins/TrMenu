@@ -8,6 +8,7 @@ import me.arasple.mc.trmenu.display.Icon
 import me.arasple.mc.trmenu.display.animation.Animated
 import me.arasple.mc.trmenu.display.icon.IconClickHandler
 import me.arasple.mc.trmenu.display.icon.IconDisplay
+import me.arasple.mc.trmenu.display.icon.IconProperty
 import me.arasple.mc.trmenu.display.icon.IconSettings
 import me.arasple.mc.trmenu.display.item.DynamicItem
 import me.arasple.mc.trmenu.display.item.property.Lore
@@ -44,13 +45,14 @@ object IconSerializer {
                 )
 
                 val defIcon = loadIconProperty(iconSection) ?: return@forEach
-                val subs = mutableListOf<Icon.IconProperty>()
+                val subs = mutableListOf<IconProperty>()
 
                 if (subIcons != null && subIcons.isNotEmpty()) {
                     subIcons.forEach {
                         it?.let {
                             Utils.asSection(it)?.let { sub ->
-                                loadIconProperty(sub)?.let { subIcon ->
+                                val subIcon = loadIconProperty(sub)
+                                if (subIcon != null) {
                                     subIcon.priority = sub.getInt(Utils.getSectionKey(sub, Property.PRIORITY), 0)
                                     subIcon.condition = sub.getString(Utils.getSectionKey(sub, Property.REQUIREMENT)) ?: "false"
                                     subIcon.inherit = sub.getBoolean(Utils.getSectionKey(sub, Property.INHERIT))
@@ -80,13 +82,13 @@ object IconSerializer {
     /**
      * 加载图标显示及点击处理属性
      */
-    fun loadIconProperty(section: ConfigurationSection): Icon.IconProperty? {
+    fun loadIconProperty(section: ConfigurationSection): IconProperty? {
         val displaySection = Utils.asSection(section.get(Utils.getSectionKey(section, Property.ICON_DISPLAY))) ?: return null
         val clickHandlerSection = Utils.asSection(section.get(Utils.getSectionKey(section, Property.ACTIONS)))
         val iconDisplay = loadIconDisplay(displaySection)
         val clickHandler = loadIconClickHandler(clickHandlerSection)
 
-        return Icon.IconProperty(-1, "", false, iconDisplay, clickHandler)
+        return IconProperty(-1, "", false, iconDisplay, clickHandler)
     }
 
     /**

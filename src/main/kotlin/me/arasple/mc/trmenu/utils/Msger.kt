@@ -74,4 +74,6 @@ object Msger {
 
     fun printErrors(node: String, vararg args: String) = TLocale.sendToConsole("ERRORS.$node", *args)
 
+    fun color(string: String) = HexColor.translate(TLocale.Translate.setColored(string))
+
 }

@@ -1,6 +1,5 @@
 package me.arasple.mc.trmenu.modules.expression
 
-import io.izzel.taboolib.module.locale.TLocale
 import me.arasple.mc.trmenu.utils.Msger
 
 /**
@@ -12,8 +11,8 @@ object Expressions {
 
     val CACHED_PARSED = mutableMapOf<String, String>()
 
-    fun parseExpression(string: String): String = CACHED_PARSED.computeIfAbsent(string) {
-        var expression = TLocale.Translate.setColored(string).replace(" and ", " && ").replace(" or ", " || ")
+    fun parseExpression(string: String) = CACHED_PARSED.computeIfAbsent(string) {
+        var expression = Msger.color(string).replace(" and ", " && ").replace(" or ", " || ")
         expression.split(" && ", " || ").forEach { part ->
             var type = part.split(".")[0] + "."
             val negtive = type.startsWith("!").also { type = type.removePrefix("!") }

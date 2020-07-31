@@ -1,0 +1,277 @@
+#
+# 菜单的标题, 支持动态标题周期切换
+#
+Title:
+  - '&0升级 | 家'
+
+#
+# 若有多个标题, 切换的周期 (ticks)
+#
+Title-Update: 40
+
+#
+# 菜单的布局功能
+# 你可以用 ` ` 来标记设置多个字符名称图标的位置
+#
+Layout:
+  - '#########'
+  - '##A#B#C##'
+  - '#########'
+  - '####`返回`####'
+
+#
+# 玩家容器菜单的布局
+#
+PlayerInventory:
+  - '#########'
+  - '####`帮助`####'
+  - '#########'
+  - '#########'
+
+#
+# 菜单的选项设置
+#
+Options:
+  # 默认填充参数
+  Default-Arguments: []
+  # 默认布局页码
+  Default-Layout: 0
+  # 是否隐藏玩家容器
+  Hide-Player-Inventory: false
+  # 防频繁点击的间隔
+  Min-Click-Delay: 200
+  # 强制需要依赖的 PlaceholderAPI 拓展变量
+  Depend-Expansions: ['server', 'player', 'progress']
+
+Bound:
+  Command: test
+
+#
+# 菜单绑定的快捷打开方式
+#
+
+#
+# 菜单的事件处理
+#
+Events:
+  # 开启菜单事件
+  Open:
+    - requirement: 'hasPerm.trmenu.use or !equals.{reason}.PLAYER_COMMAND'
+      deny-actions:
+        - 'tell: &7你缺少打开本菜单所需权限 &ctrmenu.use'
+  # 关闭菜单事件
+  Close:
+    - 'sound: BLOCK_CHEST_CLOSE-1-0'
+
+#
+# 菜单的图标
+#
+Icons:
+  # 图标的唯一 ID, 可配合布局使用
+  '#':
+    # 显示图标的动态更新周期, 若设置多个则依次对应为 Material, Name, Lore, Slots
+    # 设置一个即为所有项相同更新周期
+    update: [-1, 10, 15, -1]
+    # 菜单的显示部分
+    display:
+      material: 'black Stained Glass Pane'
+      name: ''
+    # 点击菜单后执行的动作
+    actions:
+      all: 'sound: BLOCK_NOTE_BLOCK_PLING-1-2'
+  '返回':
+    display:
+      material: <skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWE2Nzg3YmEzMjU2NGU3YzJmM2EwY2U2NDQ5OGVjYmIyM2I4OTg0NWU1YTY2YjVjZWM3NzM2ZjcyOWVkMzcifX19>
+      name: '&a&l返回'
+      lore: []
+    actions:
+      left:
+        - 'open: 升级'
+  '帮助':
+    update: 20
+    display:
+      mats: <skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTljMzJhYThiZDc1YTQ5YmZkMWE1YjRhYzIyZGJhNGU3NDUwNDc1NTkxOTNlNGJhOTJjMTc3MzhmMzQ5MjQ5ZCJ9fX0=>
+      name: '&x&F&F&A&0&7&A&l快速帮助'
+      lore:
+        - ''
+        - ' &7当玩家们不懂如何游玩时'
+        - '&7可以点进查询'
+        - ''
+        - '&f▶ &7点击打开'
+    actions:
+      all:
+        - 'OPEN: 快速帮助'
+  'A':
+    refresh: 20
+    display:
+      material: <skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDc2ZDRjNWE4YTQxOTdkODZkM2ExNjQ3ZmQzZjllNmQ0OGUwZTBhYjdhOGFlMWU5YmU1MGY2N2UyNWMifX19>
+      name: '&6&l家 &7#1'
+      lore:
+        - '&8第1个家升级'
+        - ''
+        - '&8* &7当前: &31'
+        - '&8* &7升级: &b2'
+        - ''
+        - '&8* &7花费: &6100000 金币'
+        - ''
+        - '&8&l▪ &7状态: &c&l已锁定'
+        - ''
+        - '&8▶ &7按住 &6Shift并左键 &7点击购买'
+    actions:
+      SHIFT_LEFT:
+        requirement: 'hasMoney.100000'
+        execute:
+          - 'close'
+          - 'take-money: 100000'
+          - 'tell: &b[升级] &a恭喜玩家&e{player_name}&a居然买了家#1'
+          - 'sound: ENTITY_PLAYER_LEVELUP'
+          - 'console: lp user %player_name% perm set Home.bar.1'
+          - 'console: lp user %player_name% perm set essentials.sethome.multiple.default2'
+        deny:
+          - 'tell: &b[升级] &c您的金币不足, 需要&e100000&c金币才能买这个.'
+          - 'sound: BLOCK_ANVIL_LAND'
+    icons:
+      - condition: 'hasPerm.essentials.sethome.multiple.default2'
+        display:
+          material: <skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2RhZWEzZTEzYTUxM2RhMTA1MWVhNTlkMTdlZGZiMDNlOGQ4Mzg4ZWRlODg4ODg0NzZkZmI2OTNmMmM4Mzk4In19fQ==>
+          name: '&6&l家 &7#1'
+          lore:
+            - '&8第1个家升级'
+            - ''
+            - '&8* &7花费: &6100000 金币'
+            - ''
+            - '&8&l▪ &7状态: &a&l已解锁'
+            - ''
+            - '&a&l✔ 已经购买'
+  'B':
+    refresh: 20
+    update: 20
+    display:
+      material: <skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmViOTExZWE5NGI1YTFjZjc3ZjNjYTYzN2EzYjE2NjJiMzUxMjFiZDcyZTExODY1MTE4NGYyZmIxMDYwZDEifX19>
+      name: '&6&l家 &7#2'
+      lore:
+        - '&8第2个家升级'
+        - ''
+        - '&8* &7当前: &32'
+        - '&8* &7升级: &b3'
+        - ''
+        - '&8* &7花费: &6200000 金币'
+        - ''
+        - '&8&l▪ &7状态: &c&l已锁定'
+        - ''
+        - '&c&l✖ 您不能购买此升级'
+    actions:
+      all:
+        - 'tell: &b[升级] &e首先购买第一个家的升级.'
+        - 'sound: BLOCK_ANVIL_LAND'
+        - 'close'
+    icons:
+      - condition: 'hasPerm.Home.bar.1'
+        priority: 1
+        display:
+          material: <skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2RhZWEzZTEzYTUxM2RhMTA1MWVhNTlkMTdlZGZiMDNlOGQ4Mzg4ZWRlODg4ODg0NzZkZmI2OTNmMmM4Mzk4In19fQ==>
+          name: '&6&l家 &7#2'
+          lore:
+            - '&8第2个家升级'
+            - ''
+            - '&8* &7花费: &6200000 金币'
+            - ''
+            - '&8&l▪ &7状态: &a&l已解锁'
+            - ''
+            - '&a&l✔ 已经购买'
+      - condition: 'hasPerm.essentials.sethome.multiple.default2'
+        priority: 2
+        update: 20
+        display:
+          material: <skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDc2ZDRjNWE4YTQxOTdkODZkM2ExNjQ3ZmQzZjllNmQ0OGUwZTBhYjdhOGFlMWU5YmU1MGY2N2UyNWMifX19>
+          name: '&6&l家 &7#2'
+          lore:
+            - '&8第2个家升级'
+            - ''
+            - '&8* &7当前: &32'
+            - '&8* &7升级: &b3'
+            - ''
+            - '&8* &7花费: &6200000 金币'
+            - ''
+            - '&8&l▪ &7状态: &c&l已锁定'
+            - ''
+            - '&8▶ &7按住 &6Shift并左键 &7点击购买'
+        actions:
+          SHIFT_LEFT:
+            requirement: 'hasMoney.200000'
+            execute:
+              - 'tell: &b[升级] &a你买了 &e家 #2&7.'
+              - 'sound: ENTITY_PLAYER_LEVELUP'
+              - close
+              - 'take-money: 200000'
+              - 'console: lp user %player_name% perm set Home.bar.2'
+              - 'console: lp user %player_name% perm set essentials.sethome.multiple.default3'
+            deny:
+              - 'tell: &b[升级] &c您的金币不足, 需要&e200000&c金币才能买这个.'
+              - 'sound: BLOCK_ANVIL_LAND'
+
+  'C':
+    refresh: 20
+    update: 20
+    display:
+      material: <skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmViOTExZWE5NGI1YTFjZjc3ZjNjYTYzN2EzYjE2NjJiMzUxMjFiZDcyZTExODY1MTE4NGYyZmIxMDYwZDEifX19>
+      name: '&6&l家 &7#3'
+      lore:
+        - '&8第3个家升级'
+        - ''
+        - '&8* &7当前: &33'
+        - '&8* &7升级: &b4'
+        - ''
+        - '&8* &7花费: &6300000 金币'
+        - ''
+        - '&8&l▪ &7状态: &c&l已锁定'
+        - ''
+        - '&c&l✖ 您不能购买此升级'
+    actions:
+      all:
+        - 'tell: &b[升级] &e首先购买第一个家的升级.'
+        - 'sound: BLOCK_ANVIL_LAND'
+        - 'close'
+    icons:
+      - condition: 'hasPerm.essentials.sethome.multiple.default4'
+        priority: 1
+        display:
+          material: <skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2RhZWEzZTEzYTUxM2RhMTA1MWVhNTlkMTdlZGZiMDNlOGQ4Mzg4ZWRlODg4ODg0NzZkZmI2OTNmMmM4Mzk4In19fQ==>
+          name: '&6&l家 &7#3'
+          lore:
+            - '&8第3个家升级'
+            - ''
+            - '&8* &7花费: &6300.000 ⛁'
+            - ''
+            - '&8&l▪ &7状态: &a&l已解锁'
+            - ''
+            - '&a&l✔ 已经购买'
+      - condition: 'hasPerm.Home.bar.2'
+        priority: 2
+        display:
+          material: <skull:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDc2ZDRjNWE4YTQxOTdkODZkM2ExNjQ3ZmQzZjllNmQ0OGUwZTBhYjdhOGFlMWU5YmU1MGY2N2UyNWMifX19>
+          name: '&6&l家 &7#3'
+          lore:
+            - '&8第3个家升级'
+            - ''
+            - '&8* &7当前: &33'
+            - '&8* &7升级: &b4'
+            - ''
+            - '&8* &7花费: &6300.000 ⛁'
+            - ''
+            - '&8&l▪ &7状态: &c&l已锁定'
+            - ''
+            - '&8▶ &7按住 &6Shift并左键 &7点击购买'
+        actions:
+          SHIFT_LEFT:
+            requirement: 'hasMoney.300000'
+            execute:
+              - 'tell: &b[升级] &a你买了 &e家 #3&7.'
+              - 'sound: ENTITY_PLAYER_LEVELUP'
+              - close
+              - 'take-money: 300000'
+              - 'console: lp user %player_name% perm set Home.bar.3'
+              - 'console: lp user %player_name% perm set essentials.sethome.multiple.default4'
+            deny:
+              - 'tell: &b[升级] &c您的金币不足, 需要&e300000&c金币才能买这个.'
+              - 'sound: BLOCK_ANVIL_LAND'

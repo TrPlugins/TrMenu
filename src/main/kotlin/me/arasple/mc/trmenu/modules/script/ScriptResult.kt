@@ -13,7 +13,7 @@ class ScriptResult(private val result: Any?, private val throwable: Throwable?) 
 
     fun isSucceed() = throwable == null && result != null
 
-    fun asBoolean() = if (result is Boolean) result else false
+    fun asBoolean() = if (result is Boolean) result else result.toString().equals("yes", true)
 
     fun asString() = result.toString()
 
