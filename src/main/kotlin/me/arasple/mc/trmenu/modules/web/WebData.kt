@@ -48,7 +48,7 @@ data class WebData(val url: String, var data: String, val period: Long, var last
 
     fun update() {
         if (updating) return
-        Tasks.run(true) {
+        Tasks.task(true) {
             updating = true
             try {
                 val connection = URL(url).openConnection() as HttpURLConnection

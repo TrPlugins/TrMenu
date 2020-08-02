@@ -39,7 +39,11 @@ object MetaPlayer {
             val argumented = Strings.replaceWithOrder(string, *this.getArguments())
             val buffer = StringBuffer(argumented.length)
             // Js & Placeholders from Menu
-            var content = InternalFunction.match(argumented).let { m ->
+            var content = InternalFunction.match(
+                argumented
+                    .replace("{page}", session.page.toString())
+                    .replace("{displayPage}", (session.page + 1).toString())
+            ).let { m ->
                 while (m.find()) {
                     val group = m.group(1)
                     val split = group.split("_").toTypedArray()
@@ -53,7 +57,7 @@ object MetaPlayer {
                     }
                 }
                 m.appendTail(buffer).toString()
-            }.replace("{page}", session.page.toString())
+            }
             // Meta
             this.getMeta().forEach {
                 content = content.replace(it.key, it.value.toString())

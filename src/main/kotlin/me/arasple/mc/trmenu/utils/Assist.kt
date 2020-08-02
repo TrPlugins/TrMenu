@@ -1,4 +1,4 @@
-package me.arasple.mc.trmenu.modules.script.utils
+package me.arasple.mc.trmenu.utils
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import io.izzel.taboolib.module.compat.EconomyHook
@@ -10,8 +10,8 @@ import me.arasple.mc.trmenu.data.MetaPlayer.getArguments
 import me.arasple.mc.trmenu.modules.action.Actions
 import me.arasple.mc.trmenu.modules.hook.HookCronus
 import me.arasple.mc.trmenu.modules.hook.HookPlayerPoints
+import me.arasple.mc.trmenu.modules.item.ItemIdentifierHandler
 import me.arasple.mc.trmenu.modules.web.WebData
-import me.arasple.mc.trmenu.utils.Bungees
 import me.clip.placeholderapi.PlaceholderAPI
 import org.bukkit.*
 import org.bukkit.entity.Player
@@ -22,7 +22,7 @@ import org.bukkit.inventory.ItemStack
  * @author Arasple
  * @date 2020/7/21 20:57
  */
-class AssistUtils {
+class Assist {
 
     fun runAction(player: Player, vararg actions: String) = actions.filter { it.isNotBlank() }.forEach { Actions.runCachedAction(player, it) }
 
@@ -115,13 +115,17 @@ class AssistUtils {
 
     fun query(url: String) = WebData.query(url)
 
+    fun hasItem(player: String, identify: String) = getPlayer(player)?.let { ItemIdentifierHandler.read(identify).hasItem(it) } ?: false
+
+    fun hasItem(player: Player, identify: String) = ItemIdentifierHandler.read(identify).hasItem(player)
+
     fun evalCronusCondition(player: String, condition: String) = getPlayer(player)?.let { return@let evalCronusCondition(it, condition) } ?: false
 
     fun evalCronusCondition(player: Player, condition: String) = HookCronus.parseCondition(condition).check(player)
 
     companion object {
 
-        val INSTANCE = AssistUtils()
+        val INSTANCE = Assist()
 
     }
 

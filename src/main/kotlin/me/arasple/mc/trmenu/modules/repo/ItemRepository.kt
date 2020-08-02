@@ -38,7 +38,7 @@ object ItemRepository {
     @TSchedule(delay = 20)
     private fun load() {
         if (writing) return
-        Tasks.run(true) {
+        Tasks.task(true) {
             val keys = data.getKeys(true)
             itemStacks.clear()
             keys.removeIf {

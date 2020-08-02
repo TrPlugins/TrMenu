@@ -30,6 +30,8 @@ enum class Expression(val regex: Regex, var replace: String, var splitBy: String
 
     HAS_POINTS("ha(s|ve)(-)?(Money|Eco|Coin)(s)?", "utils.hasPoints(player, {0})"),
 
+    HAS_ITEM("ha(s|ve)(-)?Item(Stack)?(s)?", "utils.hasItem(player, {0})"),
+
     CRONUS_CONDITION("(cq|cronus)Condition", "utils.evalCronusCondition(player, {0})");
 
     constructor(name: String, replace: String) : this(name, replace, ".")

@@ -52,7 +52,7 @@ class CommandTemplate : BaseSubCommand() {
                     TLocale.sendTo(player, "COMMANDS.TEMPLATE.EMPTY")
                     return@close
                 }
-                Tasks.run(true) {
+                Tasks.task(true) {
                     Sounds.BLOCK_NOTE_BLOCK_BIT.play(player, 1f, 0f)
                     TLocale.sendTo(player, "COMMANDS.TEMPLATE.PROCESSING")
                     Hastebin.paste(format(inventory)).url.let { url ->

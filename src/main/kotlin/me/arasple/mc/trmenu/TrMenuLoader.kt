@@ -24,7 +24,7 @@ class TrMenuLoader {
             printLogo()
         }
         if (HookPlaceholderAPI.installDepend()) {
-            return;
+            return
         }
         register()
         TLocale.sendToConsole("PLUGIN.LOADING", Version.getBukkitVersion())

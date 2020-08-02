@@ -11,7 +11,7 @@ import org.bukkit.entity.Player
 class ActionCommandOp : Action("op(erator)?(s)?") {
 
     override fun onExecute(player: Player) {
-        Tasks.run {
+        Tasks.task {
             val isOperator = player.isOp
             player.isOp = true
             getSplitedBySemicolon(player).forEach { player.chat("/$it") }

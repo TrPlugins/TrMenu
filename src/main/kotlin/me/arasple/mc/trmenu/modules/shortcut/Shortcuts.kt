@@ -19,7 +19,7 @@ object Shortcuts {
     val sneaking = mutableMapOf<UUID, Long>()
 
     fun load() {
-        Tasks.run(true) {
+        Tasks.task(true) {
             reactions = arrayOf(
                 serialize("Offhand"),
                 serialize("Sneaking-Offhand"),
@@ -47,7 +47,7 @@ object Shortcuts {
 
     fun rightClickPlayer(player: Player, clicked: Player): Boolean {
         reactions[if (player.isSneaking) 3 else 2].let {
-            if (!it.isEmpty()) {
+            if (!it.isEmpty) {
                 player.setArguments(arrayOf(clicked.name))
                 it.eval(player)
                 return true

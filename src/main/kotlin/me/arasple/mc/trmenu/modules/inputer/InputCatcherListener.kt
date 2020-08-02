@@ -1,10 +1,7 @@
 package me.arasple.mc.trmenu.modules.inputer
 
 import io.izzel.taboolib.module.inject.TListener
-import io.izzel.taboolib.module.packet.Packet
-import io.izzel.taboolib.module.packet.TPacket
 import me.arasple.mc.trmenu.modules.inputer.InputCatcher.getCatcher
-import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener

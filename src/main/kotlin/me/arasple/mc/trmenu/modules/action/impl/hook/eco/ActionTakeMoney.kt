@@ -11,8 +11,8 @@ import org.bukkit.entity.Player
  */
 class ActionTakeMoney : Action("(take|remove|withdraw)(-)?(money|eco|coin)(s)?") {
 
-	override fun onExecute(player: Player) = NumberUtils.toDouble(getContent(player), -1.0).let {
-		if (it > 0) EconomyHook.remove(player, it)
-	}
+    override fun onExecute(player: Player) = NumberUtils.toDouble(getContent(player), -1.0).let {
+        if (it > 0) EconomyHook.remove(player, it)
+    }
 
 }

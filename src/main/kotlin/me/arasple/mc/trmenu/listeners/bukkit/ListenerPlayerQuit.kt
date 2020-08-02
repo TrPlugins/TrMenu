@@ -19,7 +19,7 @@ class ListenerPlayerQuit : Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     fun onQuit(e: PlayerQuitEvent) {
         val player = e.player
-        Tasks.run(true) {
+        Tasks.task(true) {
             player.resetCache()
             player.removeMenuSession()
         }

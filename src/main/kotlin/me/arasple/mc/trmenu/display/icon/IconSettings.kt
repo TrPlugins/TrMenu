@@ -8,7 +8,7 @@ class IconSettings(val refresh: Int, var update: Array<Int>) {
 
     init {
         val list = update.toMutableList()
-        while (list.size < 4) list.add(update.max() ?: -1)
+        while (list.size < 4) list.add(update.maxOrNull() ?: -1)
         update = list.toTypedArray()
     }
 

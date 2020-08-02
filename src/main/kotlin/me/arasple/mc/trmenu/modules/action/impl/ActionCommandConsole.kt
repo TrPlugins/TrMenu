@@ -13,7 +13,7 @@ import org.bukkit.entity.Player
 class ActionCommandConsole : Action("console") {
 
     override fun onExecute(player: Player) = getSplitedBySemicolon(player).forEach {
-        Tasks.run {
+        Tasks.task {
             Commands.dispatchCommand(Bukkit.getConsoleSender(), it)
         }
     }

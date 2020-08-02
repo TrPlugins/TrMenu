@@ -12,9 +12,9 @@ import java.util.*
  */
 object Tasks {
 
-    fun run(runnable: Runnable) = run(false, runnable)
+    fun task(runnable: Runnable) = task(false, runnable)
 
-    fun run(async: Boolean, runnable: Runnable) = if (async) Bukkit.getScheduler().runTaskAsynchronously(TrMenu.plugin, runnable) else Bukkit.getScheduler().runTask(TrMenu.plugin, runnable)
+    fun task(async: Boolean, runnable: Runnable) = if (async) Bukkit.getScheduler().runTaskAsynchronously(TrMenu.plugin, runnable) else Bukkit.getScheduler().runTask(TrMenu.plugin, runnable)
 
     fun delay(delay: Long, runnable: Runnable) = delay(delay, false, runnable)
 

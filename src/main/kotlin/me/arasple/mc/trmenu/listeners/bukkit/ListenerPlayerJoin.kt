@@ -19,7 +19,7 @@ class ListenerPlayerJoin : Listener {
     fun onJoin(e: PlayerJoinEvent) {
         val player = e.player
 
-        Tasks.run(true) {
+        Tasks.task(true) {
             LocalPlayer.get(player).getConfigurationSection("TrMenu.Data")?.let {
                 val keys = it.getKeys(true)
                 keys.forEach { key ->

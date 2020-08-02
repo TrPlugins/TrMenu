@@ -11,8 +11,8 @@ import org.bukkit.entity.Player
  */
 class ActionGivePoints : Action("(give|add|deposit)(-)?point(s)?") {
 
-	override fun onExecute(player: Player) = NumberUtils.toInt(getContent(player), -1).let {
-		if (it > 0) HookPlayerPoints.addPoints(player, it)
-	}
+    override fun onExecute(player: Player) = NumberUtils.toInt(getContent(player), -1).let {
+        if (it > 0) HookPlayerPoints.addPoints(player, it)
+    }
 
 }

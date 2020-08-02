@@ -10,6 +10,6 @@ import org.bukkit.entity.Player
  */
 class ActionUnknow : Action("trmenu_action_unknow") {
 
-	override fun onExecute(player: Player) = TLocale.sendTo(player, "ERRORS.ACTION", getContent())
+    override fun onExecute(player: Player) = TLocale.sendTo(player, "ERRORS.ACTION", getContent())
 
 }

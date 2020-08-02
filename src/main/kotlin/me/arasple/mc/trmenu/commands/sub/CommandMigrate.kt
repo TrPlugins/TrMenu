@@ -50,7 +50,7 @@ class CommandMigrate : BaseSubCommand() {
 
         when (args[0].toLowerCase()) {
             "trmenuv1" -> {
-                Tasks.run(true) {
+                Tasks.task(true) {
                     var count = 0
                     TLocale.sendTo(sender, "MIGRATE.PROCESSING", files.size)
                     files.forEach {

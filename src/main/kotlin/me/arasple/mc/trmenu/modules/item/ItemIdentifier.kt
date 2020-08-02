@@ -1,7 +1,9 @@
 package me.arasple.mc.trmenu.modules.item
 
 import io.izzel.taboolib.util.item.ItemBuilder
+import io.izzel.taboolib.util.item.Items
 import me.arasple.mc.trmenu.modules.item.base.MatchItemIdentifier
+import me.arasple.mc.trmenu.modules.item.impl.MatchItemAmount
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -20,6 +22,17 @@ data class ItemIdentifier(val raw: String, val identifiers: MutableSet<Identifie
     constructor(raw: String) : this(raw, mutableSetOf())
 
     fun isMatch(player: Player, itemStack: ItemStack) = identifiers.none { !it.match(player, itemStack) }
+
+    fun hasItem(player: Player) = Items.hasItem(player.inventory, { isMatch(player, it) }, amount(player))
+
+    fun amount(player: Player): Int {
+        return identifiers.sumBy { it ->
+            it.characteristic.firstOrNull { it is MatchItemAmount }?.let {
+                return@sumBy (it as MatchItemAmount).getAmount(player)
+            }
+            1
+        }
+    }
 
     fun isInvalid(): Boolean = identifiers.isEmpty() || identifiers.none { it.characteristic.isNotEmpty() }
 

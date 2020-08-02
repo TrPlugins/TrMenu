@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack
  */
 class ActionEnchantItem : Action("enchant(-)?item(s)?") {
 
+    @Suppress("DEPRECATION")
     override fun onExecute(player: Player) = getSplitedBySemicolon(player).forEach {
         val part = it.split(",").toTypedArray()
         val enchant = Enchantment.getByName(part[1].toUpperCase())

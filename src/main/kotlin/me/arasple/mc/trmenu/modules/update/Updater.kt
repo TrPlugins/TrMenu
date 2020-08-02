@@ -1,8 +1,8 @@
 package me.arasple.mc.trmenu.modules.update
 
-import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
+import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import io.izzel.taboolib.module.inject.TFunction
 import io.izzel.taboolib.module.inject.TListener
 import io.izzel.taboolib.module.inject.TSchedule

@@ -59,7 +59,7 @@ object Msger {
         return replaceWithPlaceholders(player, replaceWithBracketPlaceholders(player, strings))
     }
 
-    private fun replaceWithPlaceholders(player: Player, string: String): String = HexColor.translate(PlaceholderAPI.setPlaceholders(player as OfflinePlayer, string))
+    private fun replaceWithPlaceholders(player: Player, string: String): String = Colors.translate(PlaceholderAPI.setPlaceholders(player as OfflinePlayer, string))
 
     private fun replaceWithPlaceholders(player: Player, strings: List<String>): List<String> = strings.map { replaceWithPlaceholders(player, it) }
 
@@ -74,6 +74,6 @@ object Msger {
 
     fun printErrors(node: String, vararg args: String) = TLocale.sendToConsole("ERRORS.$node", *args)
 
-    fun color(string: String) = HexColor.translate(TLocale.Translate.setColored(string))
+    fun color(string: String) = Colors.translate(TLocale.Translate.setColored(string))
 
 }

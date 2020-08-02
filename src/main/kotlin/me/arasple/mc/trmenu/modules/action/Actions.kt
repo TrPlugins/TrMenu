@@ -3,6 +3,10 @@ package me.arasple.mc.trmenu.modules.action
 import me.arasple.mc.trmenu.configuration.property.Nodes
 import me.arasple.mc.trmenu.modules.action.base.Action
 import me.arasple.mc.trmenu.modules.action.impl.*
+import me.arasple.mc.trmenu.modules.action.impl.data.ActionDataDelete
+import me.arasple.mc.trmenu.modules.action.impl.data.ActionDataSet
+import me.arasple.mc.trmenu.modules.action.impl.data.ActionMetaRemove
+import me.arasple.mc.trmenu.modules.action.impl.data.ActionMetaSet
 import me.arasple.mc.trmenu.modules.action.impl.hook.cronus.ActionCronusEffect
 import me.arasple.mc.trmenu.modules.action.impl.hook.eco.ActionGiveMoney
 import me.arasple.mc.trmenu.modules.action.impl.hook.eco.ActionSetMoney
@@ -86,7 +90,7 @@ object Actions {
                 it is ActionReturn -> return false
                 it is ActionDelay -> delay += it.getDelay(player)
                 delay > 0 -> Tasks.delay(delay, true) { it.run(player) }
-                else -> Tasks.run(true) { it.run(player) }
+                else -> Tasks.task(true) { it.run(player) }
             }
         }
         HookCronus.reset(player)

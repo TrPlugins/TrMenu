@@ -17,6 +17,7 @@ import java.util.*
 @TListener
 class ListenerMenuClick : Listener {
 
+    @Suppress("DEPRECATION")
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     fun onClick(e: MenuClickEvent) {
         val player = e.player

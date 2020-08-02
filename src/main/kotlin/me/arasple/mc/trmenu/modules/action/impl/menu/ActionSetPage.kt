@@ -3,7 +3,6 @@ package me.arasple.mc.trmenu.modules.action.impl.menu
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import me.arasple.mc.trmenu.api.events.MenuOpenEvent
 import me.arasple.mc.trmenu.modules.action.base.Action
-import me.arasple.mc.trmenu.modules.packets.PacketsHandler
 import org.bukkit.entity.Player
 import kotlin.math.min
 

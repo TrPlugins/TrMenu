@@ -2,12 +2,12 @@ import java.text.SimpleDateFormat
 
 plugins {
     id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '1.4-M2'
+    id 'org.jetbrains.kotlin.jvm' version '1.4.0-rc'
     id 'com.github.johnrengelman.shadow' version '4.0.4'
 }
 
 group 'me.arasple.mc.trmenu'
-version '2.0'
+version '2.01'
 
 task buildJar(dependsOn: [clean, shadowJar])
 
@@ -15,15 +15,15 @@ shadowJar {
     dependencies {
         [
                 'org.bstats:bstats-bukkit:1.7',
-                'io.izzel.taboolib:TabooLibLoader:2.1:all',
+                'io.izzel.taboolib:TabooLibLoader:2.2:all',
                 'com.github.WesJD.AnvilGUI:anvilgui:-SNAPSHOT'
         ].forEach {
             include(dependency(it))
         }
     }
-    relocate 'io.izzel.taboolib.loader', project.group + ".boot"
-    relocate 'net.wesjd', project.group + ".modules.inputer.anvil"
-    relocate "org.bstats.bukkit", project.group + '.modules.metrics'
+    relocate 'io.izzel.taboolib.loader', project.group + '.boot'
+    relocate 'net.wesjd', project.group + '.modules.inputer.anvil'
+    relocate 'org.bstats.bukkit', project.group + '.modules.metrics'
 }
 
 processResources {
@@ -56,11 +56,11 @@ repositories {
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4-M2"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.0-rc"
     compile 'org.spigotmc:spigot:1.16.1-R0.1-20200718.075154-22'
     compile 'org.bstats:bstats-bukkit:1.7'
     compile 'io.izzel.taboolib:TabooLib:5.31:all'
-    compile 'io.izzel.taboolib:TabooLibLoader:2.1:all'
+    compile 'io.izzel.taboolib:TabooLibLoader:2.2:all'
     compile 'com.github.WesJD.AnvilGUI:anvilgui:-SNAPSHOT'
     compile 'me.clip:placeholderapi:2.10.7'
     compile 'com.github.shynixn.headdatabase:hdb-api:1.0'

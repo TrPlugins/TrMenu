@@ -48,7 +48,7 @@ class CommandItem : BaseSubCommand() {
             TLocale.sendTo(player, "COMMANDS.ITEM.TO-JSON.CONVERTED", json);
         } else {
             TLocale.sendTo(player, "HASTEBIN.PROCESSING")
-            Tasks.run(true) {
+            Tasks.task(true) {
                 val url = Hastebin.paste(json).url
                 TLocale.sendTo(player, if (url != null) "HASTEBIN.SUCCESS" else "HASTEBIN.FAILED", url)
             }

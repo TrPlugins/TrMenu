@@ -37,7 +37,7 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
     fun open(player: Player, page: Int) = open(player, page, MenuOpenEvent.Reason.UNKNOWN)
 
     fun open(player: Player, page: Int, reason: MenuOpenEvent.Reason) {
-        Tasks.run(true) {
+        Tasks.task(true) {
             val p = (if (page < 0) settings.options.getDefaultLayout(player) else min(page, layout.layouts.size - 1)).coerceAtLeast(0)
             val e = MenuOpenEvent(player, this, p, reason, MenuOpenEvent.Result.UNKNOWN).async(true).call() as MenuOpenEvent
             val s = player.getMenuSession()
@@ -45,7 +45,7 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
             if (layout.layouts.size <= e.page) {
                 e.result = MenuOpenEvent.Result.ERROR_PAGE
                 e.isCancelled = true
-                return@run
+                return@task
             }
             if (!e.isCancelled) {
                 val layout = layout.layouts[p]
@@ -68,10 +68,10 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
      * 为所有正在查看此菜单的玩家关闭此菜单
      */
     fun close() {
-        Tasks.run {
+        Tasks.task {
             viewers.forEach {
                 tasking.reset(it)
-                MenuCloseEvent(it, this, -1, MenuCloseEvent.Reason.CONSOLE, true).call()
+                MenuCloseEvent(it, this@Menu, -1, MenuCloseEvent.Reason.CONSOLE, true).call()
                 it.closeInventory()
             }
         }
@@ -82,13 +82,14 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
      * 为特定玩家关闭此菜单
      */
     fun close(player: Player, page: Int, reason: MenuCloseEvent.Reason, closeInventory: Boolean, silent: Boolean) {
-        Tasks.run {
+        Tasks.task {
             tasking.reset(player)
-            MenuCloseEvent(player, this, page, reason, silent).call()
+            MenuCloseEvent(player, this@Menu, page, reason, silent).call()
             layout.layouts[page].close(player, closeInventory)
             player.setMenuSession(null, null, -1)
             if (closeInventory) player.closeInventory() else player.updateInventory()
         }
+
         viewers.remove(player)
 
         // 防止关闭菜单后, 动态标题周期未及时停止
@@ -131,7 +132,7 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
             MenuLoader.loadMenu(file, false)?.let { menu ->
                 getMenus().remove(this)
                 getMenus().add(menu)
-                Tasks.run {
+                Tasks.task {
                     viewers.forEach {
                         val session = it.getMenuSession()
                         menu.open(it, session.page, MenuOpenEvent.Reason.RELOAD)

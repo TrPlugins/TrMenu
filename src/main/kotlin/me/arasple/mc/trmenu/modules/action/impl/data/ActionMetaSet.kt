@@ -1,4 +1,4 @@
-package me.arasple.mc.trmenu.modules.action.impl.menu
+package me.arasple.mc.trmenu.modules.action.impl.data
 
 import me.arasple.mc.trmenu.data.MetaPlayer.setMeta
 import me.arasple.mc.trmenu.modules.action.base.Action
@@ -15,8 +15,11 @@ class ActionMetaSet : Action("set(-)?(temp|var(iable)?|meta)(s)?") {
         getSplitedBySemicolon(player).forEach {
             val split = it.split(" ", limit = 2)
             if (split.size == 2) {
-                player.setMeta("{meta:${split[0]}}", split[1])
-                Msger.debug("ACTIONS.SET-META", player.name, split[0], split[1], it)
+                val key = split[0]
+                val value = replaceWithSpaces(split[1])
+
+                player.setMeta("{meta:$key}", value)
+                Msger.debug("ACTIONS.SET-META", player.name, key, value, it)
             } else {
                 Msger.debug("ACTIONS.SET-META-FAILED", player.name, it)
             }

@@ -16,7 +16,7 @@ class ActionGiveItem : Action("(give|add)(-)?item(s)?") {
 
     override fun onExecute(player: Player) {
         val item = getContent(player)
-        Tasks.run(true) {
+        Tasks.task(true) {
             if (Utils.isJson(item)) {
                 CronusUtils.addItem(player, Items.fromJson(item))
             } else {

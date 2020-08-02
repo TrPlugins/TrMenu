@@ -59,6 +59,8 @@ abstract class Action(val name: Regex, internal var content: String, var options
 
     fun getSplitedBySemicolon(player: Player) = getContent(player).split(SEMICOLON)
 
+    fun replaceWithSpaces(string: String) = string.replace("\\s", " ")
+
     fun getContent(player: Player): String = Msger.replace(player, content)
 
     fun getContent(): String = content

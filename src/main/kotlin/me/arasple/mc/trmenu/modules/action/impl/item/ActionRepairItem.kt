@@ -13,6 +13,7 @@ import java.util.*
  * @date 2020/7/30 17:30
  */
 class ActionRepairItem : Action("repair(-)?item(s)?") {
+
     override fun onExecute(player: Player) = getSplitedBySemicolon(player).forEach {
         if (it.toLowerCase() == "all") {
             val items: MutableList<ItemStack> = ArrayList()
@@ -20,7 +21,8 @@ class ActionRepairItem : Action("repair(-)?item(s)?") {
                 if (slot.type != Material.AIR && !slot.type.isBlock && !slot.type.isEdible && slot.type.maxDurability <= 0) items.add(slot)
             }
             if (items.isNotEmpty()) {
-                items.forEach {item ->
+                items.forEach { item ->
+                    @Suppress("DEPRECATION")
                     item.durability = 0.toShort()
                     player.updateInventory() // <--- maybe?
                 }
@@ -36,9 +38,11 @@ class ActionRepairItem : Action("repair(-)?item(s)?") {
                 else -> player.inventory.getItem(NumberUtils.toInt(it, 0))
             }
             if (item != null && item.type != Material.AIR && !item.type.isBlock && !item.type.isEdible && item.type.maxDurability <= 0) {
-                    item.durability = 0.toShort()
-                    player.updateInventory() // <--- maybe?
+                @Suppress("DEPRECATION")
+                item.durability = 0.toShort()
+                player.updateInventory() // <--- maybe?
             }
         }
     }
+
 }

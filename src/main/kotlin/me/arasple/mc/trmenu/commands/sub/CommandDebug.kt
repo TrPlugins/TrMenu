@@ -16,7 +16,7 @@ import me.arasple.mc.trmenu.display.Menu
 import me.arasple.mc.trmenu.display.item.property.Mat
 import me.arasple.mc.trmenu.modules.expression.Expressions
 import me.arasple.mc.trmenu.modules.metrics.MetricsHandler
-import me.arasple.mc.trmenu.modules.script.utils.ScriptUtils
+import me.arasple.mc.trmenu.modules.script.Scripts
 import me.arasple.mc.trmenu.modules.web.WebData
 import me.arasple.mc.trmenu.utils.Msger
 import me.arasple.mc.trmenu.utils.Skulls
@@ -79,7 +79,8 @@ class CommandDebug : BaseSubCommand() {
                 }
                 "parseexpression" -> {
                     val parsed = Expressions.parseExpression(content)
-                    val translated = ScriptUtils.translate(parsed)
+                    val translated =
+                        Scripts.translate(parsed)
                     TLocale.sendTo(sender, "DEBUG.EXPRESSION", content, parsed)
                     TLocale.sendTo(sender, "DEBUG.PRE-COMPILE-SCRIPT", parsed, translated)
                 }
@@ -110,9 +111,11 @@ class CommandDebug : BaseSubCommand() {
             arrayOf(
                 "§3§l「§8--------------------------------------------------§3§l」",
                 "",
-                "§8${Expressions.CACHED_PARSED.map {
-                    "\n§8${it.key} §3-> §f${it.value}"
-                }}",
+                "§8${
+                    Expressions.CACHED_PARSED.map {
+                        "\n§8${it.key} §3-> §f${it.value}"
+                    }
+                }",
                 "",
                 "§3§l「§8--------------------------------------------------§3§l」"
             )

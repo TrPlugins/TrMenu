@@ -60,7 +60,7 @@ object Skulls {
                 }
             }
             CACHED_PLAYER_TEXTURE[id] = null
-            Tasks.run(true) {
+            Tasks.task(true) {
                 try {
                     val mojang = TrMenu.SETTINGS.getBoolean("Options.Skull-Mojang-API", false)
                     val api = if (mojang) apis[1] else apis[0]

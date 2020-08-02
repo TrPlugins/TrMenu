@@ -10,6 +10,6 @@ import org.bukkit.entity.Player
  */
 class ActionConnect : Action("bungee|server|connect") {
 
-	override fun onExecute(player: Player) = Bungees.connect(player, getContent(player))
+    override fun onExecute(player: Player) = Bungees.connect(player, getContent(player))
 
 }

@@ -1,16 +1,18 @@
 package me.arasple.mc.trmenu.modules.script
 
+import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
+import io.izzel.taboolib.util.Strings
 import io.izzel.taboolib.util.lite.Sounds
 import me.arasple.mc.trmenu.api.events.MenuCloseEvent
 import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import me.arasple.mc.trmenu.modules.expression.Expressions
-import me.arasple.mc.trmenu.modules.script.utils.AssistUtils
-import me.arasple.mc.trmenu.modules.script.utils.ScriptUtils
-import me.arasple.mc.trmenu.modules.script.utils.ScriptUtils.translate
+import me.arasple.mc.trmenu.utils.Assist
 import me.arasple.mc.trmenu.utils.Msger
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
 import java.util.function.Function
+import java.util.regex.Pattern
 import javax.script.*
 
 /**
@@ -23,10 +25,15 @@ object Scripts {
     private val engine: ScriptEngine = ScriptEngineManager(null).getEngineByName("nashorn")
     private val compiledScripts = mutableMapOf<String, CompiledScript>()
 
+    const val function = "rwp"
+    val argumentPattern: Pattern = Pattern.compile("[$]?\\{(.*?)}")
+    val placeholderPattern: Pattern = Pattern.compile("[%]([^%]+)[%]")
+    val bracketPlaceholderPattern: Pattern = Pattern.compile("[{]([^{}]+)[}]")
+
     init {
         bindings["bukkitServer"] = Bukkit.getServer()
-        bindings["TrUtils"] = AssistUtils.INSTANCE
-        bindings["utils"] = AssistUtils.INSTANCE
+        bindings["TrUtils"] = Assist.INSTANCE
+        bindings["utils"] = Assist.INSTANCE
     }
 
     fun expression(player: Player, expression: String) = script(player, Expressions.parseExpression(expression), bindings, true)
@@ -53,22 +60,22 @@ object Scripts {
 
     private fun eval(player: Player, rawScript: String, script: CompiledScript?, bindings: SimpleBindings) = eval(player, rawScript, script, bindings, false)
 
-    private fun eval(player: Player, rawScript: String, script: CompiledScript?, bindings: SimpleBindings, silent: Boolean): ScriptResult = try {
+    private fun eval(player: Player, rawScript: String, script: CompiledScript?, bindings: SimpleBindings, silent: Boolean): Result = try {
         val content = SimpleScriptContext()
         content.setBindings(SimpleBindings(bindings).let {
             it["player"] = player
             return@let it
         }, ScriptContext.ENGINE_SCOPE)
-        content.setAttribute(ScriptUtils.function, Function<String, String> {
+        content.setAttribute(function, Function<String, String> {
             Msger.replace(player, it)
         }, ScriptContext.ENGINE_SCOPE)
-        ScriptResult(script!!.eval(content)).let {
+        Result(script!!.eval(content)).let {
             return@let it
         }
     } catch (e: Throwable) {
         if (!silent) Msger.printErrors("SCRIPT", e, rawScript)
         cancel(player)
-        ScriptResult()
+        Result()
     }
 
     private fun cancel(player: Player) {
@@ -78,5 +85,70 @@ object Scripts {
         }
     }
 
+    fun translate(string: String): String {
+        var content = string
+        placeholderPattern.matcher(content).let {
+            while (it.find()) {
+                val find = it.group()
+                val group = escape(Strings.replaceWithOrder(escapeMath(find), *getArgs(find)))
+                content = replaceFind(content, escape(find), group)
+            }
+        }
+        argumentPattern.matcher(content).let {
+            while (it.find()) {
+                val group = it.group(1)
+                val find = it.group()
+                val isFunction = find.startsWith("$")
+                if (!isFunction && !group.startsWith("meta") && !group.startsWith("input") && !NumberUtils.isParsable(group)) {
+                    continue
+                }
+                content = replaceFind(content, escape(find))
+            }
+        }
+        return content
+    }
+
+    private fun replaceFind(string: String, find: String): String = replaceFind(string, find, find)
+
+    private fun replaceFind(string: String, find: String, group: String): String = string.replace("['\"]?(\\$)?$find['\"]?".toRegex(), "$function(\'$group\')")
+
+    private fun getArgs(content: String): Array<String> {
+        val replaces = mutableListOf<String>()
+        val bracker = bracketPlaceholderPattern.matcher(content)
+        var size = -1
+        while (bracker.find()) size = size.coerceAtLeast(NumberUtils.toInt(bracker.group().removeSurrounding("{", "}"), -1))
+        for (i in 0..size) replaces.add("{trmenu_args_$i}")
+        return replaces.toTypedArray()
+    }
+
+    private fun escape(string: String): String = escapeMath(
+        string
+            .replace("{", "\\{")
+            .replace("}", "\\}")
+            .replace("[", "\\[")
+            .replace("]", "\\]")
+            .replace("$", "\\$")
+    )
+
+    private fun escapeMath(string: String): String = string
+        .replace("+", "\\+")
+        .replace("*", "\\*")
+
+    class Result(private val result: Any?, private val throwable: Throwable?) {
+
+        constructor(result: Any?) : this(result, null)
+        constructor() : this(null, null)
+
+        fun isSucceed() = throwable == null && result != null
+
+        fun asBoolean() = if (result is Boolean) result else result.toString().equals("yes", true)
+
+        fun asString() = result.toString()
+
+        fun asItemStack() = if (result is ItemStack) result else null
+
+        fun asCollection() = if (result is Collection<*>) result else null
+
+    }
 
 }

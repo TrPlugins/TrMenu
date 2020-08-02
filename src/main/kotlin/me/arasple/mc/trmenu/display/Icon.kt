@@ -36,7 +36,7 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
     fun displayItemStack(player: Player) {
         val session = player.getMenuSession()
 
-        Tasks.run(true) {
+        Tasks.task(true) {
             if (!session.isNull()) setItemStack(player, session)
         }
     }

@@ -9,7 +9,7 @@ import org.bukkit.entity.Player
  * @author Arasple
  * @date 2020/5/30 13:34
  */
-data class Reaction(val priority: Int, private val condition: String, private val success: List<Action>, private val failed: List<Action>) {
+data class Reaction(val priority: Int, private val condition: String, private val success: List<Action>, private val failed: List<Action>, val hasCondition: Boolean = condition.isNotEmpty(), val isEmpty: Boolean = success.isEmpty() && failed.isEmpty()) {
 
     fun react(player: Player) = if (!isRequirementMatch(player)) {
         runDenyActions(player)
@@ -17,9 +17,7 @@ data class Reaction(val priority: Int, private val condition: String, private va
         runActions(player)
     }
 
-    fun isNotEmpty(): Boolean = condition.isNotEmpty()
-
-    fun isRequirementMatch(player: Player): Boolean = if (isNotEmpty()) Scripts.expression(player, condition).asBoolean() else true
+    fun isRequirementMatch(player: Player): Boolean = if (hasCondition) Scripts.expression(player, condition).asBoolean() else true
 
     fun runDenyActions(player: Player) = Actions.runActions(player, failed)
 

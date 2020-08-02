@@ -42,7 +42,7 @@ object Item {
     fun fromMaterials(name: String) =
         Materials.values().firstOrNull {
             it.name == name
-        } ?: Materials.values().firstOrNull { it.legacy.any { legacy -> legacy == name } } ?: Materials.values().maxBy {
+        } ?: Materials.values().firstOrNull { it.legacy.any { legacy -> legacy == name } } ?: Materials.values().maxByOrNull {
             Strings.similarDegree(name, it.name)
         }
 

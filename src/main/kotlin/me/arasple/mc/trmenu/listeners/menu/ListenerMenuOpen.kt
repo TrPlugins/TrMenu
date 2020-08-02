@@ -24,18 +24,24 @@ class ListenerMenuOpen : Listener {
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     fun onOpening(e: MenuOpenEvent) {
         MetricsHandler.increase(0)
+
         val player = e.player
-        Loger.log(Log.MENU_EVENT_OPEN, player.name, e.menu.id, e.page, e.reason.name)
+        val menu = e.menu
+        val page = e.page
+        val reason = e.reason
         val session = player.getMenuFactorySession()
+
+        Loger.log(Log.MENU_EVENT_OPEN, player.name, menu.id, page, reason.name)
+
         if (!session.isNull()) {
             session.menuFactory!!.closeTask?.run(CloseTask.Event(player, session, session.menuFactory!!))
             session.reset()
             return
         }
-        val menu = e.menu
-        val reason = e.reason
-        val expansions = menu.settings.options.expansions()
+
         if (reason == MenuOpenEvent.Reason.SWITCH_PAGE) return
+
+        val expansions = menu.settings.options.expansions()
         if (expansions.isNotEmpty()) {
             TLocale.sendTo(player, "MENU.DEPEND-EXPANSIONS", expansions.size)
             expansions.forEach {
@@ -47,6 +53,7 @@ class ListenerMenuOpen : Listener {
 
         player.setMeta("{reason}", reason.name).also {
             if (!menu.settings.events.openEvent.eval(player)) {
+                player.sendMessage("Cancelled: ${menu.settings.events.openEvent.isEmpty}")
                 e.isCancelled = true
                 return
             }

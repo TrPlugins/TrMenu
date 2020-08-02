@@ -44,7 +44,7 @@ object MenuLoader {
             if (listener && menu != null && file.exists() && !FileWatcher.isListening(file)) {
                 val id = menu.id
                 FileWatcher.listener(file) {
-                    Tasks.run(true) {
+                    Tasks.task(true) {
                         TrMenuAPI.getMenuById(id)?.reload()
                     }
                 }

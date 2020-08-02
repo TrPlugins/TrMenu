@@ -5,7 +5,7 @@ import io.izzel.taboolib.module.tellraw.TellrawJson
 import io.izzel.taboolib.util.Strings
 import io.izzel.taboolib.util.Variables
 import me.arasple.mc.trmenu.modules.action.base.Action
-import me.arasple.mc.trmenu.utils.HexColor
+import me.arasple.mc.trmenu.utils.Colors
 import me.arasple.mc.trmenu.utils.Msger
 import me.arasple.mc.trmenu.utils.Utils
 import net.md_5.bungee.chat.ComponentSerializer
@@ -30,7 +30,7 @@ class ActionTellraw : Action("tellraw|json") {
     )
 
     override fun setContent(content: String) {
-        var text = HexColor.translate(TLocale.Translate.setColored(content))
+        var text = Colors.translate(TLocale.Translate.setColored(content))
         if (Utils.isJson(text)) {
             rawJson = text
             return

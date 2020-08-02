@@ -10,6 +10,6 @@ import org.bukkit.entity.Player
  */
 class ActionActionbar : Action("action(bar)?(s)?") {
 
-	override fun onExecute(player: Player) = TLocale.Display.sendActionBar(player, getContent(player))
+    override fun onExecute(player: Player) = TLocale.Display.sendActionBar(player, getContent(player))
 
 }
