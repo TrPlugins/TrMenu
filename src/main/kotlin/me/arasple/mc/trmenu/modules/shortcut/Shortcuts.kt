@@ -42,7 +42,10 @@ object Shortcuts {
     fun offhand(player: Player): Boolean {
         val sneaking = player.isSneaking
         val index = if (sneaking && (System.currentTimeMillis() - getSneaking(player)) <= 1000) 1 else 0
-        return reactions[index].eval(player)
+        return reactions[index].let {
+            it.eval(player)
+            !it.isEmpty
+        }
     }
 
     fun rightClickPlayer(player: Player, clicked: Player): Boolean {
