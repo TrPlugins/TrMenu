@@ -17,7 +17,8 @@ object ReactionSerializer {
 
     fun serializeReactionsList(any: Any?) = mutableListOf<Reaction>().let { reactions ->
         if (any is List<*>) {
-            if (any.firstOrNull() is String) {
+            val first = any.firstOrNull()
+            if (first is String || (first is Map<*, *>) && first.entries.firstOrNull()?.key.toString().equals("catcher", true)) {
                 reactions.add(
                     Reaction(-1, "", mutableListOf<Action>().let {
                         any.forEach { action -> it.addAll(Actions.readAction(action)) }

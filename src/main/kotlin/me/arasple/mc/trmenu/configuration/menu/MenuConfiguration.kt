@@ -19,6 +19,8 @@ class MenuConfiguration(val loadedPath: String) : BaseConfiguration() {
 
     fun getInventoryType() = getValue(Property.INVENTORY_TYPE)
 
+    fun getSize() = getValue(Property.SIZE)
+
     fun getOptions() = getSection(Property.OPTIONS)
 
     fun getOption(property: Property) = getValue(getOptions(), property)

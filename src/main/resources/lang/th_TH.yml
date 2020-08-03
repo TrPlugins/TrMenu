@@ -115,7 +115,6 @@ DEBUG:
     SET-META: '&8[&fTr&7Menu&8] &3DEBUG &8| &6เปลี่ยน Meta ของผู้เล่น &c{0} &c{ key=&6{1}&c,value=&6{2}&c } &8(raw: {3})'
     SET-META-FAILED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6ตรวจพบข้อผิดพลาดหลังจากเปลี่ยน Meta ของผู้เล่น &c{0} &8(raw: {3})'
   ICON:
-    DISPLAY-UPDATE: '&8[&fTr&7Menu&8] &3DEBUG &8| &6อัพเดทอนิเมชั่น ไอเท็ม/ไอคอน &c{0}, หมุน &e{1}&6, รวมทั้ง &e{2}'
     SUB-ICON-REFRESHED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6อัพเดทเงื่อนไขแสดงไอคอน &c{0} &6เป็น &e{1}'
 
 ERRORS:

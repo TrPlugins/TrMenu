@@ -63,6 +63,15 @@ class Assist {
 
     fun isNumber(number: String) = NumberUtils.isParsable(number)
 
+    fun isInt(number: String) =
+        try {
+            number.toInt()
+            true
+        } catch (e: Throwable) {
+            false
+        }
+
+
     fun toInt(number: String) = NumberUtils.toInt(number, -1)
 
     fun toDouble(number: String) = NumberUtils.toDouble(number, -1.0)

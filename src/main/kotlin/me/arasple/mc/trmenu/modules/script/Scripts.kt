@@ -26,8 +26,8 @@ object Scripts {
     private val compiledScripts = mutableMapOf<String, CompiledScript>()
 
     const val function = "rwp"
-    val argumentPattern: Pattern = Pattern.compile("[$]?\\{(.*?)}")
-    val placeholderPattern: Pattern = Pattern.compile("[%]([^%]+)[%]")
+    val argumentPattern: Pattern = Pattern.compile("['\"]?([\$]?\\{(.*?)})['\"]?")
+    val placeholderPattern: Pattern = Pattern.compile("['\"]?[$]?(%.*%)['\"]?")
     val bracketPlaceholderPattern: Pattern = Pattern.compile("[{]([^{}]+)[}]")
 
     init {
@@ -58,8 +58,6 @@ object Scripts {
         }
     }
 
-    private fun eval(player: Player, rawScript: String, script: CompiledScript?, bindings: SimpleBindings) = eval(player, rawScript, script, bindings, false)
-
     private fun eval(player: Player, rawScript: String, script: CompiledScript?, bindings: SimpleBindings, silent: Boolean): Result = try {
         val content = SimpleScriptContext()
         content.setBindings(SimpleBindings(bindings).let {
@@ -86,31 +84,30 @@ object Scripts {
     }
 
     fun translate(string: String): String {
-        var content = string
-        placeholderPattern.matcher(content).let {
+        val buffer = StringBuffer(string.length)
+        val content = placeholderPattern.matcher(string).let {
             while (it.find()) {
-                val find = it.group()
-                val group = escape(Strings.replaceWithOrder(escapeMath(find), *getArgs(find)))
-                content = replaceFind(content, escape(find), group)
+                val find = it.group(1)
+                val group = Strings.replaceWithOrder(find, *getArgs(find))
+                it.appendReplacement(buffer, "$function('${escape(group)}')")
             }
+            it.appendTail(buffer).toString()
         }
-        argumentPattern.matcher(content).let {
+        val buffer2 = StringBuffer(content.length)
+        return argumentPattern.matcher(content).let {
             while (it.find()) {
-                val group = it.group(1)
-                val find = it.group()
+                val group = it.group(2)
+                val find = it.group(1)
                 val isFunction = find.startsWith("$")
-                if (!isFunction && !group.startsWith("meta") && !group.startsWith("input") && !NumberUtils.isParsable(group)) {
+//                println("Group: $group\nFind: $find --- $isFunction")
+                if (!isFunction && !group.startsWith("meta") && !group.startsWith("input") && !NumberUtils.isParsable(group) && group != "reason") {
                     continue
                 }
-                content = replaceFind(content, escape(find))
+                it.appendReplacement(buffer2, "$function('${escape(find)}')")
             }
-        }
-        return content
+            it.appendTail(buffer2)
+        }.toString()
     }
-
-    private fun replaceFind(string: String, find: String): String = replaceFind(string, find, find)
-
-    private fun replaceFind(string: String, find: String, group: String): String = string.replace("['\"]?(\\$)?$find['\"]?".toRegex(), "$function(\'$group\')")
 
     private fun getArgs(content: String): Array<String> {
         val replaces = mutableListOf<String>()
@@ -127,6 +124,8 @@ object Scripts {
             .replace("}", "\\}")
             .replace("[", "\\[")
             .replace("]", "\\]")
+            .replace("(", "\\(")
+            .replace(")", "\\)")
             .replace("$", "\\$")
     )
 

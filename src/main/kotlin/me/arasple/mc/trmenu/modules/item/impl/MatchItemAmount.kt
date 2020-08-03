@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack
  */
 class MatchItemAmount : MatchItemIdentifier("(amount|amt)(s)?") {
 
-    override fun match(player: Player, itemStack: ItemStack): Boolean = itemStack.amount >= getAmount(player)
+    override fun match(player: Player, itemStack: ItemStack): Boolean = true
 
     override fun apply(player: Player, itemStack: ItemStack): ItemStack {
         itemStack.amount = getAmount(player)

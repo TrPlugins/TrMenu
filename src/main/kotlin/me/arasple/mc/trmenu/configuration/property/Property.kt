@@ -32,6 +32,11 @@ enum class Property(val default: String, val regex: Regex) {
     INVENTORY_TYPE("Type", "(inv(entory)?)?(-)?type(s)?"),
 
     /**
+     * 容器大小
+     */
+    SIZE("Size", "(size|row)(s)?"),
+
+    /**
      * 菜单选项设置
      */
     OPTIONS("Options", "(option|setting)(s)?"),

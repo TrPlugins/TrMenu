@@ -1,7 +1,9 @@
 package me.arasple.mc.trmenu
 
+import io.izzel.taboolib.TabooLib
 import io.izzel.taboolib.Version
 import io.izzel.taboolib.module.locale.TLocale
+import io.izzel.taboolib.module.locale.TLocaleLoader
 import me.arasple.mc.trmenu.commands.registerable.RegisterCommands
 import me.arasple.mc.trmenu.configuration.MenuLoader
 import me.arasple.mc.trmenu.modules.hook.HookHeadDatabase
@@ -19,7 +21,9 @@ import org.bukkit.Bukkit
 class TrMenuLoader {
 
     fun init() {
-        TrMenu.SETTINGS.listener { register() }
+        TrMenu.SETTINGS.listener {
+            register()
+        }
         if (!TrMenu.SETTINGS.getBoolean("Options.Hide-Logo", false)) {
             printLogo()
         }
@@ -47,8 +51,19 @@ class TrMenuLoader {
     }
 
     private fun register() {
+        syncLocale()
         RegisterCommands.load()
         Shortcuts.load()
+    }
+
+    private fun syncLocale() {
+        if (TLocaleLoader.getLocalPriorityFirst(TrMenu.plugin) != "zh_CN" && TLocaleLoader.getLocalPriorityFirst(TabooLib.getPlugin()) == "zh_CN") {
+            TabooLib.getConfig().also {
+                it.set("LOCALE.PRIORITY", listOf("en_US", "zh_CN"))
+                it.saveToFile()
+            }
+//            TLocaleLoader.load(TabooLib.getPlugin(), true, true)
+        }
     }
 
     private fun printLogo() = arrayOf(

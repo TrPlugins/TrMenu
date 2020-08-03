@@ -55,7 +55,6 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
                         override fun run() {
                             if (session.isDifferent(menu, page)) cancel()
                             else {
-                                Msger.debug(player, "ICON.DISPLAY-UPDATE", false, id, it.key, it.value.joinToString(",", "{", "}"))
                                 getIconProperty(player).display.nextFrame(player, it.value, session.page)
                                 setItemStack(player, session)
                             }
@@ -86,7 +85,7 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
     fun getIconPropertyIndex(player: Player) = currentIndex.computeIfAbsent(player.uniqueId) { -1 }
 
     fun refreshIcon(player: Player): Boolean {
-        subIcons.sortedByDescending { it.priority }.forEachIndexed { index, it ->
+        subIcons.forEachIndexed { index, it ->
             if (it.evalCondition(player)) {
                 currentIndex[player.uniqueId] = index
                 Msger.debug(player, "ICON.SUB-ICON-REFRESHED", id, currentIndex[player.uniqueId].toString())

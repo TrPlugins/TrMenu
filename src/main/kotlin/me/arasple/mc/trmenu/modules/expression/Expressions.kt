@@ -12,20 +12,24 @@ object Expressions {
     val CACHED_PARSED = mutableMapOf<String, String>()
 
     fun parseExpression(string: String) = CACHED_PARSED.computeIfAbsent(string) {
-        var expression = Msger.color(string).replace(" and ", " && ").replace(" or ", " || ")
-        expression.split(" && ", " || ").forEach { part ->
-            var type = part.split(".")[0] + "."
-            val negtive = type.startsWith("!").also { type = type.removePrefix("!") }
-            Expression.values().firstOrNull { it.regex.matches(type) }?.let { it ->
-                val parsed = it.parse(part.split(".", limit = 2).let {
-                    if (it.size > 1) it[1]
-                    else ""
-                })
-                expression = expression.replace(part, if (negtive) "!($parsed)" else parsed)
+        string
+            .replace(" and ", " && ")
+            .replace(" or ", " || ").let { ex ->
+                var e = ex
+                e.split(" && ", " || ").forEach { part ->
+                    var type = part.split(".")[0] + "."
+                    val negtive = type.startsWith("!").also { type = type.removePrefix("!") }
+                    Expression.values().firstOrNull { it.regex.matches(type) }?.let { it ->
+                        val parsed = it.parse(part.split(".", limit = 2).let {
+                            if (it.size > 1) it[1]
+                            else ""
+                        })
+                        e = e.replace(part, if (negtive) "!($parsed)" else parsed)
+                    }
+                }
+                Msger.debug("EXPRESSION", string, e)
+                return@computeIfAbsent e
             }
-        }
-        Msger.debug("EXPRESSION", string, expression)
-        return@computeIfAbsent expression
     }
 
 }

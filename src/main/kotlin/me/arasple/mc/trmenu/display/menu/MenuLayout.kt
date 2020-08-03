@@ -107,6 +107,11 @@ class MenuLayout(val layouts: List<Layout>) {
 
         fun size() = size(type, rows)
 
+        fun setRows(rows: Int): Layout {
+            this.rows = rows
+            return this
+        }
+
     }
 
     companion object {

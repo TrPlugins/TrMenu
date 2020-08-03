@@ -7,7 +7,6 @@ import me.arasple.mc.trmenu.modules.item.ItemIdentifierHandler
 import me.arasple.mc.trmenu.modules.item.impl.MatchItemAmount
 import me.arasple.mc.trmenu.utils.Tasks
 import org.bukkit.entity.Player
-import org.bukkit.inventory.ItemStack
 
 /**
  * @author Arasple
@@ -23,7 +22,7 @@ class ActionTakeItem : Action("(take|remove)(-)?item(s)?") {
                     val match = ids.firstOrNull { i -> i.match(player, it) }
                     if (match != null) {
                         val amt = NumberUtils.toInt(match.characteristic.firstOrNull { i -> i is MatchItemAmount }?.getContent(player), 1)
-                        Items.takeItem(player.inventory, { i: ItemStack -> i.isSimilar(it) }, amt)
+                        Items.takeItem(player.inventory, { i -> i.isSimilar(it) }, amt)
                     }
                 }
             }

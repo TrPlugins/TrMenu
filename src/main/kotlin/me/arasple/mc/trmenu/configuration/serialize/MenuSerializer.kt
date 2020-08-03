@@ -2,6 +2,7 @@
 
 package me.arasple.mc.trmenu.configuration.serialize
 
+import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import io.izzel.taboolib.module.locale.TLocale
 import me.arasple.mc.trmenu.configuration.menu.MenuConfiguration
 import me.arasple.mc.trmenu.configuration.property.Property
@@ -109,6 +110,13 @@ object MenuSerializer {
      * 加载菜单布局
      */
     private fun loadLayout(c: MenuConfiguration): MenuLayout {
+        val size = NumberUtils.toInt(c.getSize().toString(), -1).let {
+            if (it > 0) {
+                return@let (if (it > 6) (it / 9) else it).coerceAtMost(6).coerceAtLeast(1) * 9
+            }
+            return@let -1
+        }
+
         val type = c.getInventoryType().let { type -> InventoryType.values().firstOrNull { it.name.equals(type.toString(), true) } ?: InventoryType.CHEST }
         val layout: List<List<String>>? = c.getLayout().let { return@let if (it != null && it is List<*>) Utils.asLists(it) else null }
         val layoutInventory: List<List<String>>? = c.getLayoutInventory().let { return@let if (it != null && it is List<*>) Utils.asLists(it) else null }
@@ -118,7 +126,7 @@ object MenuSerializer {
             layout.forEachIndexed { i, l ->
                 list.add(MenuLayout.Layout(type, l, if (layoutInventory?.size ?: 0 > i) layoutInventory!![i] else null))
             }
-        }
+        } else if (size > 0) list.add(MenuLayout.Layout(type, listOf(), if (layoutInventory?.isNotEmpty() == true) layoutInventory[0] else null).setRows(size / 9))
 
         if (layoutInventory != null && layoutInventory.isNotEmpty() && layoutInventory.size > layout?.size ?: 0) {
             layoutInventory.forEachIndexed { i, l ->

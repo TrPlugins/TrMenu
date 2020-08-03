@@ -24,7 +24,10 @@ object Msger {
     }
 
     @TFunction.Cancel
-    fun cancel() = TrMenu.SETTINGS.set("Options.Debug", debug)
+    fun cancel() = TrMenu.SETTINGS.also {
+        it.set("Options.Debug", debug)
+        it.saveToFile()
+    }
 
     /*
     DEBUG Utils

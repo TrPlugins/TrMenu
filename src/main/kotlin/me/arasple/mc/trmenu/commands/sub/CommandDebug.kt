@@ -39,6 +39,7 @@ class CommandDebug : BaseSubCommand() {
         Argument("Type", false) {
             listOf(
                 "info",
+                "dump",
                 "player",
                 "menu",
                 "msgreplace",
@@ -57,9 +58,10 @@ class CommandDebug : BaseSubCommand() {
         if (args.isEmpty()) {
             debugSender(sender)
         } else {
-            val content = ArrayUtils.remove(args, 0).joinToString("")
+            val content = ArrayUtils.remove(args, 0).joinToString(" ")
             when (args[0].toLowerCase()) {
                 "info" -> printInfo(sender)
+                "dump" -> dumpInfo(sender)
                 "skulls" -> printSkulls(sender)
                 "expressions" -> printExpressions(sender)
                 "player" -> if (args.size > 1) printPlayer(sender, Bukkit.getPlayerExact(args[1]))
@@ -91,6 +93,10 @@ class CommandDebug : BaseSubCommand() {
                 }
             }
         }
+    }
+
+    private fun dumpInfo(sender: CommandSender) {
+        // TODO
     }
 
     private fun printSkulls(sender: CommandSender) {

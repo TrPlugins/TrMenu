@@ -23,16 +23,16 @@ data class ItemIdentifier(val raw: String, val identifiers: MutableSet<Identifie
 
     fun isMatch(player: Player, itemStack: ItemStack) = identifiers.none { !it.match(player, itemStack) }
 
-    fun hasItem(player: Player) = Items.hasItem(player.inventory, { isMatch(player, it) }, amount(player))
-
-    fun amount(player: Player): Int {
-        return identifiers.sumBy { it ->
-            it.characteristic.firstOrNull { it is MatchItemAmount }?.let {
-                return@sumBy (it as MatchItemAmount).getAmount(player)
-            }
-            1
-        }
+    fun hasItem(player: Player) = identifiers.all {
+        Items.hasItem(
+            player.inventory, { itemStack ->
+                it.match(player, itemStack)
+            },
+            it.amount(player)
+        )
     }
+
+    fun amount(player: Player) = identifiers.sumBy { it.amount(player) }
 
     fun isInvalid(): Boolean = identifiers.isEmpty() || identifiers.none { it.characteristic.isNotEmpty() }
 
@@ -41,6 +41,12 @@ data class ItemIdentifier(val raw: String, val identifiers: MutableSet<Identifie
         constructor() : this(mutableSetOf())
 
         fun match(player: Player, itemStack: ItemStack): Boolean = characteristic.none { !it.match(player, itemStack) }
+
+        fun amount(player: Player): Int {
+            return characteristic.firstOrNull { it is MatchItemAmount }?.let {
+                (it as MatchItemAmount).getAmount(player)
+            } ?: 1
+        }
 
         fun buildItem(player: Player): ItemStack? {
             val itemStack = ItemBuilder(Material.AIR).build()

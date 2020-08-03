@@ -7,6 +7,7 @@ import me.arasple.mc.trmenu.modules.action.impl.data.ActionDataDelete
 import me.arasple.mc.trmenu.modules.action.impl.data.ActionDataSet
 import me.arasple.mc.trmenu.modules.action.impl.data.ActionMetaRemove
 import me.arasple.mc.trmenu.modules.action.impl.data.ActionMetaSet
+import me.arasple.mc.trmenu.modules.action.impl.entity.ActionHologram
 import me.arasple.mc.trmenu.modules.action.impl.hook.cronus.ActionCronusEffect
 import me.arasple.mc.trmenu.modules.action.impl.hook.eco.ActionGiveMoney
 import me.arasple.mc.trmenu.modules.action.impl.hook.eco.ActionSetMoney
@@ -76,7 +77,8 @@ object Actions {
         ActionSound(),
         ActionTell(),
         ActionTellraw(),
-        ActionTitle()
+        ActionTitle(),
+        ActionHologram()
     )
 
     @JvmStatic

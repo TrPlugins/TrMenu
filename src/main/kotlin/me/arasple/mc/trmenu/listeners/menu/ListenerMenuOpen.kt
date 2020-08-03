@@ -53,7 +53,6 @@ class ListenerMenuOpen : Listener {
 
         player.setMeta("{reason}", reason.name).also {
             if (!menu.settings.events.openEvent.eval(player)) {
-                player.sendMessage("Cancelled: ${menu.settings.events.openEvent.isEmpty}")
                 e.isCancelled = true
                 return
             }

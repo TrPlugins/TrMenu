@@ -20,7 +20,7 @@ object Colors {
 
     fun translate(list: List<String>) = if (!ENABLED) list else list.map { translate(it) }
 
-    fun translate(message: String): String = replace(PATTERN_RGB, replace(PATTERN_HEX, message, false), true)
+    fun translate(message: String) = if (!ENABLED) message else replace(PATTERN_RGB, replace(PATTERN_HEX, message, false), true)
 
     private fun replace(pattern: Pattern, message: String, rgb: Boolean) =
         pattern.matcher(message).let {

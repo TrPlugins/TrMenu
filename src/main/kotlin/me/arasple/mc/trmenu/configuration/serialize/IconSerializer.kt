@@ -72,7 +72,7 @@ object IconSerializer {
                         if (it.display.lore.isEmpty()) it.display.lore = defIcon.display.lore
                     }
                 }
-                icons.add(Icon(key, iconSettings, defIcon, subs, mutableMapOf()))
+                icons.add(Icon(key, iconSettings, defIcon, subs.sortedByDescending { it.priority }, mutableMapOf()))
             }
         }
 
