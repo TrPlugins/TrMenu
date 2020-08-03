@@ -87,14 +87,16 @@ object Actions {
     @JvmStatic
     fun runActions(player: Player, actions: List<Action>): Boolean {
         var delay = 0L
+        val run = mutableListOf<Action>()
         actions.filter { it.evalChance(player) && it.evalCondition(player) }.forEach {
             when {
                 it is ActionReturn -> return false
                 it is ActionDelay -> delay += it.getDelay(player)
                 delay > 0 -> Tasks.delay(delay, true) { it.run(player) }
-                else -> Tasks.task(true) { it.run(player) }
+                else -> run.add(it)
             }
         }
+        Tasks.task(true) { run.forEach { it.run(player) } }
         HookCronus.reset(player)
         return true
     }

@@ -22,7 +22,6 @@ object InputCatcher {
 
     fun Player.removeCatcher() {
         catchers.remove(this.uniqueId)
-        this.clearCatcherMeta()
     }
 
     fun Player.clearCatcherMeta() {

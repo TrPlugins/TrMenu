@@ -42,11 +42,9 @@ data class ItemIdentifier(val raw: String, val identifiers: MutableSet<Identifie
 
         fun match(player: Player, itemStack: ItemStack): Boolean = characteristic.none { !it.match(player, itemStack) }
 
-        fun amount(player: Player): Int {
-            return characteristic.firstOrNull { it is MatchItemAmount }?.let {
-                (it as MatchItemAmount).getAmount(player)
-            } ?: 1
-        }
+        fun amount(player: Player) = characteristic.firstOrNull { it is MatchItemAmount }?.let {
+            (it as MatchItemAmount).getAmount(player)
+        } ?: 1
 
         fun buildItem(player: Player): ItemStack? {
             val itemStack = ItemBuilder(Material.AIR).build()

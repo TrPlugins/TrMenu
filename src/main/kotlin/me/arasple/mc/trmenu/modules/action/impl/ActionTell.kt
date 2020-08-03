@@ -9,6 +9,8 @@ import org.bukkit.entity.Player
  */
 class ActionTell : Action("tell|send|message|msg|talk|say") {
 
-    override fun onExecute(player: Player) = getContentSplited(player).forEach { player.sendMessage(it) }
+    override fun onExecute(player: Player) = getContentSplited(player).forEach {
+        player.sendMessage(it)
+    }
 
 }
