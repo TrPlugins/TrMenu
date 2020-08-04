@@ -100,7 +100,7 @@ object Scripts {
                 val find = it.group(1)
                 val isFunction = find.startsWith("$")
 //                println("Group: $group\nFind: $find --- $isFunction")
-                if (!isFunction && !group.startsWith("meta") && !group.startsWith("input") && !NumberUtils.isParsable(group) && group != "reason") {
+                if (!isFunction && !group.startsWith("meta") && !group.startsWith("data") && !group.startsWith("input") && !NumberUtils.isParsable(group) && group != "reason") {
                     continue
                 }
                 it.appendReplacement(buffer2, "$function('${escape(find)}')")

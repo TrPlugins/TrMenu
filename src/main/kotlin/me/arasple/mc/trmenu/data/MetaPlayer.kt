@@ -33,7 +33,6 @@ object MetaPlayer {
 
     fun Player.replaceWithArguments(string: String): String {
         try {
-
             val session = this.getMenuSession()
             val functions = session.menu?.settings?.functions?.internalFunctions
             val argumented = Strings.replaceWithOrder(string, *this.getArguments())
