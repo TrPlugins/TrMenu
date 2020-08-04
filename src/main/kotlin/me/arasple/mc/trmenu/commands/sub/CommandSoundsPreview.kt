@@ -11,6 +11,7 @@ import io.izzel.taboolib.util.lite.Sounds
 import me.arasple.mc.trmenu.api.factory.MenuFactory
 import me.arasple.mc.trmenu.api.factory.task.ClickTask
 import me.arasple.mc.trmenu.api.inventory.InvClickType.*
+import me.arasple.mc.trmenu.data.Sessions.getMenuFactorySession
 import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.command.Command
@@ -75,12 +76,14 @@ class CommandSoundsPreview : BaseSubCommand() {
                 return@click ClickTask.Action.CANCEL_MODIFY
             }
             .build {
+
                 val sounds = Sound.values().filter { s -> Strings.isBlank(filter) || s.name.toLowerCase().contains(filter!!, true) }.let { list ->
                     return@let list.subList(36 * (page - 1), list.size)
                 }
 
                 has[0] = sounds.size > 36
                 has[1] = page > 1
+
                 for (i in 9..44) {
                     if (i >= sounds.size) break
                     map[i] = sounds[i]
@@ -98,8 +101,13 @@ class CommandSoundsPreview : BaseSubCommand() {
                             )
                             .build()
                     )
-                    if (has[0]) it.session.setItem(53, ItemBuilder(Materials.LIME_STAINED_GLASS_PANE.parseItem()).name("§aNext Page").build())
-                    if (has[1]) it.session.setItem(45, ItemBuilder(Materials.CYAN_STAINED_GLASS_PANE.parseItem()).name("§3Previous Page").build())
+                }
+
+                if (has[0]){
+                    it.session.setItem(53, ItemBuilder(Materials.LIME_STAINED_GLASS_PANE.parseItem()).name("§aNext Page").build())
+                }
+                if (has[1]){
+                    it.session.setItem(45, ItemBuilder(Materials.CYAN_STAINED_GLASS_PANE.parseItem()).name("§3Previous Page").build())
                 }
             }
             .display(player)

@@ -3,6 +3,7 @@ package me.arasple.mc.trmenu.listeners.bukkit
 import io.izzel.taboolib.module.inject.TListener
 import me.arasple.mc.trmenu.data.MetaPlayer.resetCache
 import me.arasple.mc.trmenu.data.Sessions.removeMenuSession
+import me.arasple.mc.trmenu.modules.inputer.InputCatcher.removeCatcher
 import me.arasple.mc.trmenu.utils.Tasks
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
@@ -20,6 +21,7 @@ class ListenerPlayerQuit : Listener {
     fun onQuit(e: PlayerQuitEvent) {
         val player = e.player
         Tasks.task(true) {
+            player.removeCatcher()
             player.resetCache()
             player.removeMenuSession()
         }

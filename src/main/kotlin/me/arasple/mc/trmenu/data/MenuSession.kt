@@ -4,6 +4,7 @@ import me.arasple.mc.trmenu.data.Sessions.getPlayer
 import me.arasple.mc.trmenu.display.Menu
 import me.arasple.mc.trmenu.display.menu.MenuLayout
 import me.arasple.mc.trmenu.utils.Msger
+import org.bukkit.entity.Player
 
 /**
  * @author Arasple
@@ -19,6 +20,13 @@ class MenuSession(var menu: Menu?, var layout: MenuLayout.Layout?, var page: Int
         this.menu = menu
         this.layout = layout
         this.page = page
+    }
+
+    fun safeClose(player: Player) {
+        if (!isNull()){
+            menu!!.viewers.remove(player)
+            set(null, null, -1)
+        }
     }
 
     fun isDifferent(menu: Menu, currentPage: Int) = this.menu != menu || page != currentPage

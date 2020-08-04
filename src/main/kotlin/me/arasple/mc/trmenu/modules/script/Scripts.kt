@@ -27,7 +27,7 @@ object Scripts {
 
     const val function = "rwp"
     val argumentPattern: Pattern = Pattern.compile("['\"]?([\$]?\\{(.*?)})['\"]?")
-    val placeholderPattern: Pattern = Pattern.compile("['\"]?[$]?(%.*%)['\"]?")
+    val placeholderPattern: Pattern = Pattern.compile("['\"]?[$]?(%.*?%)['\"]?")
     val bracketPlaceholderPattern: Pattern = Pattern.compile("[{]([^{}]+)[}]")
 
     init {

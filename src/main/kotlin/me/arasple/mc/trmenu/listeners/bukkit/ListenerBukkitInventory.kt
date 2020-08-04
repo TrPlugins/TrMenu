@@ -22,12 +22,9 @@ class ListenerBukkitInventory : Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     fun onOpen(e: InventoryOpenEvent) {
         if (Utils.isEventIgnoreCancelled(e)) return
-        val player = (e.player as Player)
-        val session = player.getMenuSession()
+        val player = e.player as Player
 
-        if (!session.isNull()) {
-            session.set(null, null, -1)
-        }
+        player.getMenuSession().safeClose(player)
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)

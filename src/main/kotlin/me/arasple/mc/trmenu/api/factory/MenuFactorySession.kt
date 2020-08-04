@@ -28,8 +28,8 @@ class MenuFactorySession(val player: Player, var menuFactory: MenuFactory?, val 
                 PacketsHandler.sendOutSlot(player, Sessions.TRMENU_WINDOW_ID, it, item)
             }
         }
-        items.forEach {
-            PacketsHandler.sendOutSlot(player, Sessions.TRMENU_WINDOW_ID, it.key, it.value)
+        items.forEach { (slot, item) ->
+            PacketsHandler.sendOutSlot(player, Sessions.TRMENU_WINDOW_ID, slot, item)
         }
     }
 
@@ -51,6 +51,10 @@ class MenuFactorySession(val player: Player, var menuFactory: MenuFactory?, val 
 
     fun reset() {
         menuFactory = null
+        clear()
+    }
+
+    fun clear() {
         items.clear()
         def.clear()
     }

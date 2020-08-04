@@ -6,6 +6,7 @@ import me.arasple.mc.trmenu.api.factory.task.ClickTask
 import me.arasple.mc.trmenu.api.factory.task.CloseTask
 import me.arasple.mc.trmenu.data.MetaPlayer.updateInventoryContents
 import me.arasple.mc.trmenu.data.Sessions.getMenuFactorySession
+import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import me.arasple.mc.trmenu.display.menu.MenuLayout
 import me.arasple.mc.trmenu.display.menu.MenuLayout.Companion.size
 import me.arasple.mc.trmenu.display.menu.MenuLayout.Companion.width
@@ -97,6 +98,7 @@ class MenuFactory(
 
     fun display(player: Player, runnable: Runnable) {
         val session = player.getMenuFactorySession()
+        (player).getMenuSession().safeClose(player)
 
         items.entries.forEach { entry ->
             val id = entry.key
