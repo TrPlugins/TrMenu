@@ -42,41 +42,43 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
     }
 
     private fun startUpdateTasks(player: Player, menu: Menu) {
-        val session = player.getMenuSession()
-        val page = session.page
+        Tasks.task(true) {
+            val session = player.getMenuSession()
+            val page = session.page
 
-        // 图标物品更新
-        settings.collectUpdatePeriods().let { it ->
-            if (it.isEmpty()) return@let
-            it.forEach {
+            // 图标物品更新
+            settings.collectUpdatePeriods().let { it ->
+                if (it.isEmpty()) return@let
+                it.forEach {
+                    menu.tasking.task(
+                        player,
+                        object : BukkitRunnable() {
+                            override fun run() {
+                                if (session.isDifferent(menu, page)) cancel()
+                                else {
+                                    getIconProperty(player).display.nextFrame(player, it.value, session.page)
+                                    setItemStack(player, session)
+                                }
+                            }
+                        }.runTaskTimer(TrMenu.plugin, it.key.toLong(), it.key.toLong())
+                    )
+                }
+            }
+
+            // 子图标刷新
+            if (settings.refresh > 0 && subIcons.isNotEmpty()) {
                 menu.tasking.task(
                     player,
                     object : BukkitRunnable() {
                         override fun run() {
                             if (session.isDifferent(menu, page)) cancel()
-                            else {
-                                getIconProperty(player).display.nextFrame(player, it.value, session.page)
-                                setItemStack(player, session)
+                            else if (refreshIcon(player)) {
+                                displayItemStack(player)
                             }
                         }
-                    }.runTaskTimer(TrMenu.plugin, it.key.toLong(), it.key.toLong())
+                    }.runTaskTimer(TrMenu.plugin, settings.refresh.toLong(), settings.refresh.toLong())
                 )
             }
-        }
-
-        // 子图标刷新
-        if (settings.refresh > 0 && subIcons.isNotEmpty()) {
-            menu.tasking.task(
-                player,
-                object : BukkitRunnable() {
-                    override fun run() {
-                        if (session.isDifferent(menu, page)) cancel()
-                        else if (refreshIcon(player)) {
-                            displayItemStack(player)
-                        }
-                    }
-                }.runTaskTimer(TrMenu.plugin, settings.refresh.toLong(), settings.refresh.toLong())
-            )
         }
     }
 

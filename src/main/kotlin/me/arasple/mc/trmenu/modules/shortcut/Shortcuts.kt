@@ -43,8 +43,11 @@ object Shortcuts {
         val sneaking = player.isSneaking
         val index = if (sneaking && (System.currentTimeMillis() - getSneaking(player)) <= 1000) 1 else 0
         return reactions[index].let {
-            it.eval(player)
-            !it.isEmpty
+            if (it.isEmpty) false
+            else {
+                it.eval(player)
+                true
+            }
         }
     }
 
@@ -59,9 +62,7 @@ object Shortcuts {
         return false
     }
 
-    fun setSneaking(player: Player) {
-        sneaking[player.uniqueId] = System.currentTimeMillis()
-    }
+    fun setSneaking(player: Player) = sneaking.put(player.uniqueId, System.currentTimeMillis())
 
     fun getSneaking(player: Player) = sneaking.computeIfAbsent(player.uniqueId) { System.currentTimeMillis() }
 

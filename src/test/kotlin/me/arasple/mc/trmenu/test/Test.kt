@@ -1,9 +1,11 @@
 package me.arasple.mc.trmenu.test
 
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
+import io.izzel.taboolib.loader.internal.IO
 import me.arasple.mc.trmenu.configuration.menu.MenuConfiguration
 import me.arasple.mc.trmenu.configuration.serialize.MenuSerializer
 import me.arasple.mc.trmenu.display.Menu
-import me.arasple.mc.trmenu.modules.script.Scripts
 import java.io.InputStreamReader
 
 /**
@@ -12,15 +14,28 @@ import java.io.InputStreamReader
  */
 object Test {
 
+    val MOJANG_API = arrayOf("https://api.mojang.com/users/profiles/minecraft/", "https://sessionserver.mojang.com/session/minecraft/profile/")
+
     @JvmStatic
     fun main(args: Array<String>) {
+        val start = System.currentTimeMillis()
+//        println(AshconAPI.getSkinTexture("Arasple"))
+
         arrayOf(
-//            "\"%checkitem_mat:{0},amt:{math_CEILING(\${input_amount})[precision:0]}%\" == \"yes\"",
-//            "\${meta_player} == \"yes\"",
-            "\${bStats.query_servers_&a_&7 servers}"
-        ).forEach {
-            println(Scripts.translate(it))
+            "Arasple"
+        ).forEach { id ->
+            val profile = JsonParser().parse(IO.readFromURL("${MOJANG_API[0]}$id")) as JsonObject
+            val uuid = profile["id"].asString
+            val textures = (JsonParser().parse(IO.readFromURL("${MOJANG_API[1]}$uuid")) as JsonObject).let {
+                return@let it.getAsJsonArray("properties")
+            }
+
+            for (element in textures) if ("textures" == element.asJsonObject["name"].asString) {
+                println(element.asJsonObject["value"].asString)
+            }
         }
+
+        println("Took: ${System.currentTimeMillis() - start}")
     }
 
     private fun loadMenu(): Menu {

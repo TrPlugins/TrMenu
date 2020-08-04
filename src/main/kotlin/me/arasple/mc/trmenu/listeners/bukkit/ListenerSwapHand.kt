@@ -2,6 +2,7 @@ package me.arasple.mc.trmenu.listeners.bukkit
 
 import io.izzel.taboolib.module.inject.TListener
 import me.arasple.mc.trmenu.modules.shortcut.Shortcuts
+import me.arasple.mc.trmenu.utils.Tasks
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
@@ -17,8 +18,10 @@ class ListenerSwapHand : Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     fun offHand(e: PlayerSwapHandItemsEvent) {
-        if (Shortcuts.offhand(e.player)) {
-            e.isCancelled = true
+        Tasks.task(true) {
+            if (Shortcuts.offhand(e.player)) {
+                e.isCancelled = true
+            }
         }
     }
 

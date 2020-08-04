@@ -1,0 +1,13 @@
+### Version 2.01
+- Date: Aug 3, 2020
+- Updates:
+  - Fixed priority icons sorting issue
+  - Fixed a catcher serialize issue
+  - Fixed `F key` shortcut disabled offhand
+  - Fixed actions execute in disorder
+  - Fixed ActionTakeItem amount issue
+  - You can now use `title` action easier, `title: MAINTITLE SUB\sTITLE 20 60 20`
+  - Added `PlayerInventory-Border-Left/Right/Middle` shortcuts
+  - Added `hasItem` condition check
+  - Added `size`/`rows` support for those do not wish to use Layout feature
+  - Updated Kotlin to 1.4.0-RC, and now support Forge server

@@ -10,7 +10,7 @@ Options:
   # Whether to hide the Logo of the plugin in the console on startup
   Hide-Logo: false
   # When enabled TrMenu will get the player heads datas from Mojang's API
-  # [RECOMMENDED] If disabled, it will get them from https://api.minetools.eu/
+  # [RECOMMENDED] If disabled, it will get them with https://github.com/Electroid/mojang-api
   Skull-Mojang-API: false
 
 #

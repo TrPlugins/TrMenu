@@ -46,6 +46,16 @@ data class ItemIdentifier(val raw: String, val identifiers: MutableSet<Identifie
             (it as MatchItemAmount).getAmount(player)
         } ?: 1
 
+        fun take(player: Player) {
+            Items.takeItem(
+                player.inventory,
+                {
+                    match(player, it)
+                },
+                amount(player)
+            )
+        }
+
         fun buildItem(player: Player): ItemStack? {
             val itemStack = ItemBuilder(Material.AIR).build()
             characteristic.forEach {

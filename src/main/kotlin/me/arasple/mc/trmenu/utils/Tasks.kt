@@ -28,9 +28,14 @@ object Tasks {
 
         constructor() : this(mutableMapOf())
 
-        fun reset(player: Player) = tasks(player).removeIf {
-            it.cancel()
-            true
+        fun reset(player: Player) {
+            try {
+                tasks(player).removeIf {
+                    it.cancel()
+                    true
+                }
+            } catch (e: Throwable) {
+            }
         }
 
         fun task(player: Player, task: BukkitTask) = tasks(player).add(task)
