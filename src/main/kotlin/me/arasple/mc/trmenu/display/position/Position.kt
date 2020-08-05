@@ -15,14 +15,15 @@ data class Position(val staticSlots: Set<Int>, val dynamicSlots: Set<String>, va
 
     fun getSlots(player: Player) = mutableSetOf<Int>().let { set ->
         set.addAll(staticSlots)
-        currentDynamic.remove(player.uniqueId)
+        val current = mutableSetOf<Int>()
         dynamicSlots.forEach {
             val slot = NumberUtils.toInt(Msger.replace(player, it), -1)
             if (slot >= 0) {
                 set.add(slot)
-                currentDynamicSlots(player).add(slot)
+                current.add(slot)
             }
         }
+        currentDynamic[player.uniqueId] = current
         return@let set
     }
 

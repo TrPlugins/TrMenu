@@ -67,8 +67,9 @@ object ListenerWindowEvents {
                     factorySession.menuFactory!!.closeTask?.run(CloseTask.Event(player, factorySession, factorySession.menuFactory!!))
                     factorySession.reset()
                     player.updateInventory()
-                } else if (!session.isNull())
-                    session.menu?.close(player, session.page, MenuCloseEvent.Reason.SWITCH_PAGE, false, silent = false)
+                } else if (!session.isNull()) {
+                    session.menu?.close(player, session.page, MenuCloseEvent.Reason.PLAYER, false, silent = false)
+                }
             }
         } catch (e: Throwable) {
             Msger.printErrors("PACKET", e, packet.javaClass.simpleName)

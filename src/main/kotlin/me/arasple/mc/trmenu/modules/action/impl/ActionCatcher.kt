@@ -21,7 +21,7 @@ import org.bukkit.entity.Player
  * @author Arasple
  * @date 2020/7/21 8:56
  */
-class ActionCatcher : Action("catcher") {
+class ActionCatcher : Action("(input)?(-)?catcher(s)?") {
 
     private var catcher: Catchers? = null
 

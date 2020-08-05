@@ -30,6 +30,9 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
 
     init {
         layout.locateIcons(icons)
+        icons.forEach { icon ->
+            icon.settings.fixUpdate(icon)
+        }
     }
 
     fun open(player: Player) = open(player, -1)
@@ -42,6 +45,11 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
             val e = MenuOpenEvent(player, this, p, reason, MenuOpenEvent.Result.UNKNOWN).async(true).call() as MenuOpenEvent
             val s = player.getMenuSession()
 
+            if (!s.isDifferent(this, page)) {
+                e.result = MenuOpenEvent.Result.ERROR_PAGE
+                e.isCancelled = true
+                return@task
+            }
             if (layout.layouts.size <= e.page) {
                 e.result = MenuOpenEvent.Result.ERROR_PAGE
                 e.isCancelled = true

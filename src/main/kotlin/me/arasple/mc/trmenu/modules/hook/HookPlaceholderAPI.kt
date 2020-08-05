@@ -64,9 +64,11 @@ object HookPlaceholderAPI {
         val arguments = player.getArguments()
         if (params.size > 1) {
             return buildString {
-                Utils.asIntRange(params[1]).forEach {
-                    append(arguments[it])
-                    append(" ")
+                Utils.asIntRange(params[1]).forEach { it ->
+                    arguments.getOrNull(it)?.let {
+                        append(it)
+                        append(" ")
+                    }
                 }
             }.removeSuffix(" ")
         }
@@ -83,7 +85,7 @@ object HookPlaceholderAPI {
             when (params[1]) {
                 "page" -> session.page.toString()
                 "pages" -> session.menu?.layout?.layouts?.size.toString()
-                "next" -> session.page.toString()
+                "next" -> (session.page + 1).toString()
                 "title" -> session.menu!!.settings.title.currentTitle(player)
                 else -> ""
             }
@@ -92,10 +94,8 @@ object HookPlaceholderAPI {
 
     private fun freeSlot(player: Player, params: List<String>): String {
         val session = player.getMenuSession()
-        // trmenu_emptyslot_0_1-10
-        // trmenu_emptyslot_0_1-10
-        val index = if (params.size > 1) NumberUtils.toInt(params[1], 0) else 0
-        val range = Utils.asIntRange(if (params.size > 2) params[2] else "0-90")
+        val index = NumberUtils.toInt(params.getOrElse(1) { "0" }, 0)
+        val range = Utils.asIntRange(params.getOrElse(2) { "0-90" })
         return (session.menu?.getEmptySlots(player, session.page)?.filter { range.contains(it) }?.get(index) ?: -1).toString()
     }
 

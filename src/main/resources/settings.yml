@@ -78,4 +78,3 @@ Events-Ignore-Cancelled:
   PlayerCommandPreprocessEvent: true
   InventoryOpenEvent: true
   InventoryClickEvent: true
-

@@ -29,8 +29,8 @@ class ActionTitle(var title: String, var subTitle: String, var fadeIn: Int, var 
         Nodes.read(text).second.let { map ->
             if (map.isEmpty() || map.none { TITLE_NODES.contains(it.key) }) {
                 text.split(" ").let {
-                    title = it.getOrElse(0) { "" }
-                    subTitle = it.getOrElse(1) { "" }
+                    title = replaceWithSpaces(it.getOrElse(0) { "" })
+                    subTitle = replaceWithSpaces(it.getOrElse(1) { "" })
                     fadeIn = NumberUtils.toInt(it.getOrElse(2) { "10" }, 10)
                     stay = NumberUtils.toInt(it.getOrElse(3) { "35" }, 35)
                     fadeOut = NumberUtils.toInt(it.getOrElse(4) { "10" }, 10)

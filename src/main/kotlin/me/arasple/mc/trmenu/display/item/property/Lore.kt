@@ -24,6 +24,12 @@ class Lore(val lore: MutableList<String>, val conditions: MutableMap<Int, Pair<S
         }
     }
 
+    fun isUpdateable(): Boolean {
+        return lore.any {
+            Msger.containsPlaceholders(it)
+        }
+    }
+
     fun formatedLore(player: Player): MutableList<String> {
         val lores = mutableListOf<String>()
         lore.forEachIndexed { index, lore ->

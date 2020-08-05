@@ -1,3 +1,16 @@
+### Version 2.02
+- Date: Aug 5, 2020
+- Updates:
+  - Fixed lots of icon erros
+  - Fixed loading player head errors
+  - Fixed argument/layout kept issue
+  - Fixed script's placeholder parse issue
+  - Fixed data placeholder `{data:Key}`
+  - Fixed options combined issue with `&&&`
+  - Fixed the `MenuEvents.Close` doesn't work
+  - Added action `Reset` for resetting animation frames
+  - Automatically identify and allocate update cycle for necessary properties
+
 ### Version 2.01
 - Date: Aug 3, 2020
 - Updates:

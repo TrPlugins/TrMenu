@@ -61,6 +61,7 @@ object Actions {
         ActionDataDelete(),
         ActionSetTitle(),
         ActionSilentClose(),
+        ActionReset(),
         // normal
         ActionChat(),
         ActionActionbar(),
@@ -90,13 +91,16 @@ object Actions {
         val run = mutableListOf<Action>()
         actions.filter { it.evalChance(player) && it.evalCondition(player) }.forEach {
             when {
-                it is ActionReturn -> return false
+                it is ActionReturn -> {
+                    run(player, run)
+                    return false
+                }
                 it is ActionDelay -> delay += it.getDelay(player)
                 delay > 0 -> Tasks.delay(delay, true) { it.run(player) }
                 else -> run.add(it)
             }
         }
-        Tasks.task(true) { run.forEach { it.run(player) } }
+        run(player, run)
         HookCronus.reset(player)
         return true
     }
@@ -163,6 +167,12 @@ object Actions {
     fun writeActions(actions: List<Action>): List<String> = mutableListOf<String>().let { list ->
         actions.forEach { list.add(it.toString()) }
         return@let list
+    }
+
+    private fun run(player: Player, run: List<Action>) {
+        if (run.isNotEmpty()) {
+            Tasks.task(true) { run.forEach { it.run(player) } }
+        }
     }
 
 }

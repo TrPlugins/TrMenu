@@ -23,6 +23,9 @@ class ListenerItemInteract : Listener {
         val player = e.player
         val item = e.item ?: return
 
+        if (player.openInventory.topInventory.holder != player.inventory.holder) {
+            return
+        }
         val menu = Menu.getMenus().find { it.settings.bindings.matchItem(player, item) }
         if (menu != null) {
             e.isCancelled = true

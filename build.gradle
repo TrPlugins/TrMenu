@@ -7,7 +7,7 @@ plugins {
 }
 
 group 'me.arasple.mc.trmenu'
-version '2.02-DEV'
+version '2.02'
 
 task buildJar(dependsOn: [clean, shadowJar])
 
@@ -43,27 +43,27 @@ processResources {
 }
 
 repositories {
-    // SoftDepend Plugins
-    maven { url "https://repo.extendedclip.com/content/repositories/placeholderapi/" }
-    maven { url "https://rayzr.dev/repo/" }
-    maven { url "https://repo.codemc.org/repository/maven-public" }
-    maven { url "http://repo.dakanilabs.com/repository/public/" }
-    maven { url "http://repo.ptms.ink/repository/codemc-nms/" }
-    maven { url "http://repo.ptms.ink/repository/maven-releases/" }
+    // Ptms Mirror
+    maven { url 'http://repo.ptms.ink/repository/codemc-nms/' }
+    maven { url 'http://repo.ptms.ink/repository/maven-releases/' }
     // Reop
-    maven { url "https://jitpack.io" }
+    maven { url 'https://jitpack.io' }
     maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
+    // SoftDepend Plugins
+    maven { url 'https://repo.extendedclip.com/content/repositories/placeholderapi/' }
+    maven { url 'https://rayzr.dev/repo/' }
+    maven { url "http://repo.dakanilabs.com/repository/public/" }
+    maven { url 'https://repo.codemc.org/repository/maven-public' }
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.0-rc"
-    compile 'org.spigotmc:spigot:1.16.1-R0.1-20200718.075154-22'
+    compile 'org.jetbrains.kotlin:kotlin-stdlib'
+    compile 'org.spigotmc:spigot:1.16.1-R0.1-SNAPSHOT'
     compile 'org.bstats:bstats-bukkit:1.7'
-    compile 'io.izzel.taboolib:TabooLib:5.31:all'
+    compile 'io.izzel.taboolib:TabooLib:5.34:all'
     compile 'io.izzel.taboolib:TabooLibLoader:2.2:all'
     compile 'com.github.WesJD.AnvilGUI:anvilgui:-SNAPSHOT'
     compile 'me.clip:placeholderapi:2.10.7'
-    compile 'com.github.shynixn.headdatabase:hdb-api:1.0'
     compile 'ink.ptms.cronus:Cronus:1.1.0.2019.8.31-SNAPSHOT-4'
     shadow fileTree(dir: 'libs', includes: ['*.jar'])
 }

@@ -147,6 +147,7 @@ class CommandDebug : BaseSubCommand() {
                 arrayOf(
                     "§3§l「§8--------------------------------------------------§3§l」",
                     "",
+                    "§eCurrentMenu: §6${session.menu?.id}",
                     "§eCurrentPage: §6${session.page}",
                     "§eArguments: §6${player.getArguments().joinToString(", ", "{", "}")}",
                     "§eMetas: §6${player.getMeta()}",
