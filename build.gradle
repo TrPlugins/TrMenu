@@ -50,10 +50,10 @@ repositories {
     maven { url 'https://jitpack.io' }
     maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
     // SoftDepend Plugins
+    maven { url 'https://repo.codemc.org/repository/maven-public' }
     maven { url 'https://repo.extendedclip.com/content/repositories/placeholderapi/' }
     maven { url 'https://rayzr.dev/repo/' }
     maven { url "http://repo.dakanilabs.com/repository/public/" }
-    maven { url 'https://repo.codemc.org/repository/maven-public' }
 }
 
 dependencies {

@@ -38,21 +38,20 @@ class IconSettings(val refresh: Int, var update: Array<Int>) {
         }
     }
 
-    @OptIn(ExperimentalStdlibApi::class)
     private fun getAnimatbles(display: IconDisplay): Set<Int> {
-        buildSet {
-            if (display.item.material.isUpdatable()) this.add(0)
-            if (display.name.isUpdatable()) this.add(1)
-            if (display.lore.animatable || display.lore.elements.any { it.isUpdateable() }) this.add(2)
+        mutableSetOf<Int>().let { set ->
+            if (display.item.material.isUpdatable()) set.add(0)
+            if (display.name.isUpdatable()) set.add(1)
+            if (display.lore.animatable || display.lore.elements.any { it.isUpdateable() }) set.add(2)
             if (display.position.values
                     .any { it ->
                         it.animatable || it.elements.any { it.dynamicSlots.isNotEmpty() }
                     }
             ) {
-                this.add(3)
+                set.add(3)
             }
 
-            return this
+            return set
         }
     }
 

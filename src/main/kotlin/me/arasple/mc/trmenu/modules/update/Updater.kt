@@ -40,7 +40,7 @@ object Updater {
 
     @TSchedule(delay = 20, period = 10 * 60 * 20, async = true)
     private fun grabInfo() {
-        if (LATEST_VERSION < 0) {
+        if (LATEST_VERSION > 0) {
             return
         }
         val read: String
