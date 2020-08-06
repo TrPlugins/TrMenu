@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.display
 
+import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.data.MenuSession
 import me.arasple.mc.trmenu.data.Sessions
 import me.arasple.mc.trmenu.data.Sessions.getMenuSession
@@ -9,6 +10,7 @@ import me.arasple.mc.trmenu.modules.packets.PacketsHandler
 import me.arasple.mc.trmenu.utils.Msger
 import me.arasple.mc.trmenu.utils.Tasks
 import org.bukkit.entity.Player
+import org.bukkit.scheduler.BukkitRunnable
 import java.util.*
 
 /**
@@ -42,31 +44,39 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
     private fun startUpdateTasks(player: Player, menu: Menu) {
         Tasks.task(true) {
             val session = player.getMenuSession()
+            val sessionId = session.id
             val page = session.page
 
             // 图标物品更新
             settings.collectUpdatePeriods().let { it ->
                 if (it.isEmpty()) return@let
                 it.forEach {
-                    menu.tasking.task(
-                        player,
-                        Tasks.timer(it.key.toLong(), it.key.toLong()) {
-                            getIconProperty(player).display.nextFrame(player, it.value, session.page)
-                            setItemStack(player, session)
-                        },
-                    )
+                    val period = it.key.toLong()
+                    object : BukkitRunnable() {
+                        override fun run() {
+                            if (session.isDifferent(sessionId)) cancel()
+                            else {
+                                getIconProperty(player).display.nextFrame(player, it.value, session.page)
+                                setItemStack(player, session)
+                            }
+                        }
+                    }.runTaskTimer(TrMenu.plugin, period, period)
                 }
             }
 
             // 子图标刷新
             if (settings.refresh > 0 && subIcons.isNotEmpty()) {
+                val period = settings.refresh.toLong()
                 menu.tasking.task(
                     player,
-                    Tasks.timer(settings.refresh.toLong(), settings.refresh.toLong()) {
-                        if (refreshIcon(player)) {
-                            displayItemStack(player)
+                    object : BukkitRunnable() {
+                        override fun run() {
+                            if (session.isDifferent(sessionId)) cancel()
+                            else if (refreshIcon(player)) {
+                                displayItemStack(player)
+                            }
                         }
-                    },
+                    }.runTaskTimer(TrMenu.plugin, period, period)
                 )
             }
         }

@@ -10,7 +10,7 @@ import org.bukkit.entity.Player
  * @author Arasple
  * @date 2020/7/6 21:56
  */
-class MenuSession(var menu: Menu?, var layout: MenuLayout.Layout?, var page: Int, var fromLayout: MenuLayout.Layout?) {
+class MenuSession(var menu: Menu?, var layout: MenuLayout.Layout?, var page: Int, var fromLayout: MenuLayout.Layout?, var id: Int = 0) {
 
     fun isNull() = menu == null || layout == null
 
@@ -20,6 +20,7 @@ class MenuSession(var menu: Menu?, var layout: MenuLayout.Layout?, var page: Int
         this.menu = menu
         this.layout = layout
         this.page = page
+        this.id++
     }
 
     fun safeClose(player: Player) {
@@ -35,7 +36,9 @@ class MenuSession(var menu: Menu?, var layout: MenuLayout.Layout?, var page: Int
         }
     }
 
-    fun isDifferent(menu: Menu, currentPage: Int) = this.menu != menu || page != currentPage
+    fun isDifferent(id: Int): Boolean {
+        return id != this.id
+    }
 
 
     constructor() : this(null, null, 0, null)

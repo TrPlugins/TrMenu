@@ -26,8 +26,6 @@ import org.bukkit.command.CommandSender
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
 import org.bukkit.metadata.FixedMetadataValue
-import org.bukkit.scheduler.BukkitTask
-import org.bukkit.scheduler.BukkitWorker
 
 /**
  * @author Arasple
@@ -39,7 +37,6 @@ class CommandDebug : BaseSubCommand() {
         Argument("Type", false) {
             listOf(
                 "info",
-                "dump",
                 "player",
                 "menu",
                 "msgreplace",
@@ -188,12 +185,27 @@ class CommandDebug : BaseSubCommand() {
                 "§2Cached WebDatas: §6${WebData.CACHED_WEB_DATA.size}",
                 "§2Cached Skulls: §6${Skulls.CACHED_SKULLS.size}",
                 "§2Cached Expressions: §6${Expressions.CACHED_PARSED.size}",
-                "§2Running Tasks: §6${Bukkit.getScheduler().activeWorkers.stream().filter { t: BukkitWorker -> t.owner === TrMenu.plugin }.count() + Bukkit.getScheduler().pendingTasks.stream().filter { t: BukkitTask -> t.owner === TrMenu.plugin }.count()}",
+                "§2Running Tasks: §6${Bukkit.getScheduler().activeWorkers.filter { it.owner === TrMenu.plugin }.count() + Bukkit.getScheduler().pendingTasks.filter { it.owner === TrMenu.plugin }.count()}",
                 "§2bStats: §3${MetricsHandler.B_STATS?.isEnabled}", "§2cStats: §3${MetricsHandler.C_STATS?.isEnabled}", "§2TabooLib: §f${PluginHandle.getVersion()}", "",
                 "§3TrMenu Built-Info: §b${description.getString("built-time")}§7, §3By §a${description.getString("built-by")}",
                 "",
                 "§3§l「§8--------------------------------------------------§3§l」"
             )
+        )
+
+        println(
+            "Actived: " + Bukkit
+                .getScheduler()
+                .activeWorkers
+                .filter { it.owner === TrMenu.plugin }
+                .count()
+        )
+
+        println(
+            "Pending: " + Bukkit
+                .getScheduler()
+                .pendingTasks
+                .filter { it.owner === TrMenu.plugin }
         )
     }
 

@@ -35,6 +35,7 @@ object Tasks {
                     true
                 }
             } catch (e: Throwable) {
+                println("TrMenu Error: ${e.message}")
             }
         }
 

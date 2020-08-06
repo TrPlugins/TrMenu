@@ -15,7 +15,6 @@ class ActionSetPage : Action("((set|switch)?(-)?(shape|page))|shape|page") {
     override fun onExecute(player: Player) {
         val menu = getSession(player).menu ?: return
         val page = min(NumberUtils.toInt(getContent(player), 0), menu.layout.layouts.size - 1)
-        menu.tasking.reset(player)
         menu.open(player, page, MenuOpenEvent.Reason.SWITCH_PAGE)
     }
 

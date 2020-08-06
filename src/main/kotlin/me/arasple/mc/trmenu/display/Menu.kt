@@ -40,16 +40,19 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
     fun open(player: Player, page: Int) = open(player, page, MenuOpenEvent.Reason.UNKNOWN)
 
     fun open(player: Player, page: Int, reason: MenuOpenEvent.Reason) {
+        resetTaskings(player)
+
         Tasks.task(true) {
             val p = (if (page < 0) settings.options.getDefaultLayout(player) else min(page, layout.layouts.size - 1)).coerceAtLeast(0)
             val e = MenuOpenEvent(player, this, p, reason, MenuOpenEvent.Result.UNKNOWN).async(true).call() as MenuOpenEvent
             val s = player.getMenuSession()
+            val i = s.id
 
-            if (!s.isDifferent(this, page)) {
-                e.result = MenuOpenEvent.Result.ERROR_PAGE
-                e.isCancelled = true
-                return@task
-            }
+//            if (!s.isDifferent(i)) {
+//                e.result = MenuOpenEvent.Result.ERROR_PAGE
+//                e.isCancelled = true
+//                return@task
+//            }
             if (layout.layouts.size <= e.page) {
                 e.result = MenuOpenEvent.Result.ERROR_PAGE
                 e.isCancelled = true
@@ -95,8 +98,9 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
     }
 
     fun close(player: Player, page: Int, reason: MenuCloseEvent.Reason, closeInventory: Boolean, silent: Boolean) {
+        tasking.reset(player)
+
         Tasks.task {
-            tasking.reset(player)
             MenuCloseEvent(player, this@Menu, page, reason, silent).call()
             layout.layouts[page].close(player, closeInventory)
             player.setMenuSession(null, null, -1)
@@ -166,6 +170,12 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
         fun getMenus(plugin: Plugin): MutableList<Menu>? = menus[plugin.name]
 
         fun clearMenus() = clearMenus(TrMenu.plugin)
+
+        fun resetTaskings(player: Player) {
+            getAllMenus().flatMap { it.value }.forEach {
+                it.tasking.reset(player)
+            }
+        }
 
         private fun clearMenus(plugin: Plugin) {
             val menus = getMenus(plugin)
