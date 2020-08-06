@@ -23,9 +23,15 @@ class MenuSession(var menu: Menu?, var layout: MenuLayout.Layout?, var page: Int
     }
 
     fun safeClose(player: Player) {
-        if (!isNull()){
+        if (!isNull()) {
             menu!!.viewers.remove(player)
             set(null, null, -1)
+        }
+    }
+
+    fun close(player: Player) {
+        if (!isNull()) {
+            menu!!.close(player, page)
         }
     }
 

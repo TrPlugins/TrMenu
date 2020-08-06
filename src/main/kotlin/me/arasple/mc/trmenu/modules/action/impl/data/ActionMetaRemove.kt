@@ -1,6 +1,8 @@
 package me.arasple.mc.trmenu.modules.action.impl.data
 
 import me.arasple.mc.trmenu.data.MetaPlayer.removeMeta
+import me.arasple.mc.trmenu.data.MetaPlayer.removeMetaEndWith
+import me.arasple.mc.trmenu.data.MetaPlayer.removeMetaStartsWith
 import me.arasple.mc.trmenu.modules.action.base.Action
 import org.bukkit.entity.Player
 
@@ -11,7 +13,19 @@ import org.bukkit.entity.Player
 class ActionMetaRemove : Action("(remove|rem|del)(-)?(temp|var(iable)?|meta)(s)?") {
 
     override fun onExecute(player: Player) = getSplitedBySemicolon(player).forEach {
-        player.removeMeta("{meta:$it}")
+        when {
+            it.startsWith("^") -> {
+                val match = it.removePrefix("^")
+                player.removeMetaStartsWith(match)
+            }
+            it.startsWith("$") -> {
+                val match = it.removePrefix("$")
+                player.removeMetaEndWith(match)
+            }
+            else -> {
+                player.removeMeta("{data:$it}")
+            }
+        }
     }
 
 }

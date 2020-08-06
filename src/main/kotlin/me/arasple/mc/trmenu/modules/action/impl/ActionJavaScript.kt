@@ -2,7 +2,7 @@ package me.arasple.mc.trmenu.modules.action.impl
 
 import me.arasple.mc.trmenu.modules.action.base.Action
 import me.arasple.mc.trmenu.modules.script.Scripts
-import me.arasple.mc.trmenu.utils.Msger
+import me.arasple.mc.trmenu.utils.Tasks
 import org.bukkit.entity.Player
 
 /**
@@ -11,10 +11,25 @@ import org.bukkit.entity.Player
  */
 class ActionJavaScript : Action("(java)?(-)?script(s)?|js") {
 
+    var async: Boolean = false
+
     override fun onExecute(player: Player) {
-        val js = getContent()
-        val cache = js.endsWith("<cache>")
-        Scripts.script(player, if (cache) js else Msger.replace(player, js), cache)
+        if (!async) {
+            Tasks.task {
+                Scripts.script(player, getContent(), true)
+            }
+        } else {
+            Scripts.script(player, getContent(), true)
+        }
+    }
+
+    private fun script(player: Player) {
+        Scripts.script(player, getContent(), true)
+    }
+
+    override fun setContent(content: String) {
+        async = content.endsWith("<async>")
+        super.setContent(content.removePrefix("<async>"))
     }
 
 }

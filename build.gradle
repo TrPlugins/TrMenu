@@ -58,10 +58,10 @@ repositories {
 
 dependencies {
     compile 'org.jetbrains.kotlin:kotlin-stdlib'
-    compile 'org.spigotmc:spigot:1.16.1-R0.1-SNAPSHOT'
-    compile 'org.bstats:bstats-bukkit:1.7'
+    compile 'ink.ptms.core:v11600:11600:all'
     compile 'io.izzel.taboolib:TabooLib:5.34:all'
     compile 'io.izzel.taboolib:TabooLibLoader:2.2:all'
+    compile 'org.bstats:bstats-bukkit:1.7'
     compile 'com.github.WesJD.AnvilGUI:anvilgui:-SNAPSHOT'
     compile 'me.clip:placeholderapi:2.10.7'
     compile 'ink.ptms.cronus:Cronus:1.1.0.2019.8.31-SNAPSHOT-4'

@@ -2,7 +2,6 @@ package me.arasple.mc.trmenu.display.menu
 
 import io.izzel.taboolib.internal.apache.lang3.ArrayUtils
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
-import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.data.Sessions
 import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import me.arasple.mc.trmenu.display.Menu
@@ -12,16 +11,16 @@ import me.arasple.mc.trmenu.display.function.Reactions
 import me.arasple.mc.trmenu.modules.item.ItemIdentifier
 import me.arasple.mc.trmenu.modules.packets.PacketsHandler
 import me.arasple.mc.trmenu.utils.Msger
+import me.arasple.mc.trmenu.utils.Tasks
 import me.clip.placeholderapi.PlaceholderAPI
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import org.bukkit.scheduler.BukkitRunnable
 
 /**
  * @author Arasple
  * @date 2020/5/30 14:21
  */
-class MenuSettings(val title: Titles, val options: Options, val bindings: Bindings, val events: Events, val tasks: Tasks, val functions: Funs) {
+class MenuSettings(val title: Titles, val options: Options, val bindings: Bindings, val events: Events, val tasks: ScheduledTasks, val functions: Funs) {
 
     fun load(player: Player, menu: Menu, layout: MenuLayout.Layout) {
         title.load(player, menu, layout)
@@ -51,19 +50,17 @@ class MenuSettings(val title: Titles, val options: Options, val bindings: Bindin
             val session = player.getMenuSession()
             val page = session.page
 
-            if (update > 0 && titles.elements.size > 1) {
+            if (update > 0 && titles.isUpdatable()) {
                 menu.tasking.task(
                     player,
-                    object : BukkitRunnable() {
-                        override fun run() {
-                            if (session.isDifferent(menu, page)) {
-                                cancel()
-                                return
-                            }
-                            layout.displayInventory(player, getTitle(player))
-                            menu.resetIcons(player, session)
-                        }
-                    }.runTaskTimerAsynchronously(TrMenu.plugin, update.toLong(), update.toLong())
+                    Tasks.timer(
+                        update.toLong(),
+                        update.toLong(),
+                        true
+                    ) {
+                        layout.displayInventory(player, getTitle(player))
+                        menu.resetIcons(player, session)
+                    }
                 )
             }
         }
@@ -139,7 +136,7 @@ class MenuSettings(val title: Titles, val options: Options, val bindings: Bindin
 
     class Events(val openEvent: Reactions, val closeEvent: Reactions, val clickEvent: Reactions)
 
-    class Tasks(val tasks: Map<Long, Reactions>) {
+    class ScheduledTasks(val tasks: Map<Long, Reactions>) {
 
         fun run(player: Player, menu: Menu) {
             val session = player.getMenuSession()
@@ -148,12 +145,13 @@ class MenuSettings(val title: Titles, val options: Options, val bindings: Bindin
             tasks.forEach {
                 menu.tasking.task(
                     player,
-                    object : BukkitRunnable() {
-                        override fun run() {
-                            if (session.isDifferent(menu, page)) cancel()
-                            else it.value.eval(player)
-                        }
-                    }.runTaskTimerAsynchronously(TrMenu.plugin, it.key, it.key)
+                    Tasks.timer(
+                        it.key,
+                        it.key,
+                        true
+                    ) {
+                        it.value.eval(player)
+                    },
                 )
             }
 

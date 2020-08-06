@@ -38,7 +38,7 @@ object Tasks {
             }
         }
 
-        fun task(player: Player, task: BukkitTask) = tasks(player).add(task)
+        fun task(player: Player, vararg task: BukkitTask) = tasks(player).addAll(task)
 
         fun tasks(player: Player) = tasks.computeIfAbsent(player.uniqueId) { mutableSetOf() }
 

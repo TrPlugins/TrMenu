@@ -92,6 +92,8 @@ object MetaPlayer {
 
     fun Player.removeMetaStartsWith(key: String) = this.getMeta().entries.removeIf { it.key.startsWith(key) }
 
+    fun Player.removeMetaEndWith(key: String) = this.getMeta().entries.removeIf { it.key.endsWith(key) }
+
     fun Player.resetCache() {
         playerInventorys.remove(this.uniqueId)
         meta.remove(this.uniqueId)

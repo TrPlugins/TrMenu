@@ -72,7 +72,7 @@ object MenuSerializer {
             ReactionSerializer.serializeReactions(c.getEventClick())
         )
 
-        val tasks = MenuSettings.Tasks(
+        val tasks = MenuSettings.ScheduledTasks(
             mutableMapOf<Long, Reactions>().let { map ->
                 val obj = c.getTasks()
                 if (obj != null) {

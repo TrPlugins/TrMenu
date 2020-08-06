@@ -1,6 +1,5 @@
 package me.arasple.mc.trmenu.display
 
-import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.data.MenuSession
 import me.arasple.mc.trmenu.data.Sessions
 import me.arasple.mc.trmenu.data.Sessions.getMenuSession
@@ -10,7 +9,6 @@ import me.arasple.mc.trmenu.modules.packets.PacketsHandler
 import me.arasple.mc.trmenu.utils.Msger
 import me.arasple.mc.trmenu.utils.Tasks
 import org.bukkit.entity.Player
-import org.bukkit.scheduler.BukkitRunnable
 import java.util.*
 
 /**
@@ -52,15 +50,10 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
                 it.forEach {
                     menu.tasking.task(
                         player,
-                        object : BukkitRunnable() {
-                            override fun run() {
-                                if (session.isDifferent(menu, page)) cancel()
-                                else {
-                                    getIconProperty(player).display.nextFrame(player, it.value, session.page)
-                                    setItemStack(player, session)
-                                }
-                            }
-                        }.runTaskTimer(TrMenu.plugin, it.key.toLong(), it.key.toLong())
+                        Tasks.timer(it.key.toLong(), it.key.toLong()) {
+                            getIconProperty(player).display.nextFrame(player, it.value, session.page)
+                            setItemStack(player, session)
+                        },
                     )
                 }
             }
@@ -69,14 +62,11 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
             if (settings.refresh > 0 && subIcons.isNotEmpty()) {
                 menu.tasking.task(
                     player,
-                    object : BukkitRunnable() {
-                        override fun run() {
-                            if (session.isDifferent(menu, page)) cancel()
-                            else if (refreshIcon(player)) {
-                                displayItemStack(player)
-                            }
+                    Tasks.timer(settings.refresh.toLong(), settings.refresh.toLong()) {
+                        if (refreshIcon(player)) {
+                            displayItemStack(player)
                         }
-                    }.runTaskTimer(TrMenu.plugin, settings.refresh.toLong(), settings.refresh.toLong())
+                    },
                 )
             }
         }

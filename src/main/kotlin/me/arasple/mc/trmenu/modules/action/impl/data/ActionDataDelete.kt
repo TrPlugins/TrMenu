@@ -11,9 +11,31 @@ import org.bukkit.entity.Player
  */
 class ActionDataDelete : Action("(remove|rem|del)(-)?(data)(s)?") {
 
-    override fun onExecute(player: Player) = getSplitedBySemicolon(player).forEach {
-        LocalPlayer.get(player).set("TrMenu.Data.$it", null)
-        player.removeMeta("{data:$it}")
+    override fun onExecute(player: Player) = getSplitedBySemicolon(player).forEach { it ->
+        val locale = LocalPlayer.get(player)
+
+        when {
+            it.startsWith("^") -> {
+                val match = it.removePrefix("^")
+                val keys = locale.getConfigurationSection("TrMenu.Data")?.getKeys(true)
+                keys?.filter { it.startsWith(match) }?.forEach {
+                    locale.set("TrMenu.Data.$it", null)
+                    player.removeMeta("{data:$it}")
+                }
+            }
+            it.startsWith("$") -> {
+                val match = it.removePrefix("$")
+                val keys = locale.getConfigurationSection("TrMenu.Data")?.getKeys(true)
+                keys?.filter { it.endsWith(match) }?.forEach {
+                    locale.set("TrMenu.Data.$it", null)
+                    player.removeMeta("{data:$it}")
+                }
+            }
+            else -> {
+                LocalPlayer.get(player).set("TrMenu.Data.$it", null)
+                player.removeMeta("{data:$it}")
+            }
+        }
     }
 
 }

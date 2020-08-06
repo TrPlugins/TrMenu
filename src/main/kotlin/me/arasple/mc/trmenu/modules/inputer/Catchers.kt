@@ -4,6 +4,7 @@ import io.izzel.taboolib.util.lite.Signs
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.data.MetaPlayer
 import me.arasple.mc.trmenu.data.MetaPlayer.setMeta
+import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import me.arasple.mc.trmenu.display.animation.Animated
 import me.arasple.mc.trmenu.display.function.Reactions
 import me.arasple.mc.trmenu.modules.inputer.Catchers.Type.ANVIL
@@ -42,6 +43,10 @@ class Catchers(val catchers: Animated<Stage>) {
 
         fun run(player: Player) {
             beforeReactions.eval(player)
+            if (type == SIGN || type == ANVIL) {
+                val s = player.getMenuSession()
+                s.close(player)
+            }
             Tasks.delay(3) {
                 if (type == SIGN) {
                     Signs.fakeSign(player) {

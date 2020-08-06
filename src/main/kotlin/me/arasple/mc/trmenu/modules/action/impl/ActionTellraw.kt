@@ -25,6 +25,8 @@ class ActionTellraw : Action("tellraw|json") {
             Msger.replace(
                 player,
                 if (Strings.nonEmpty(rawJson)) rawJson else tellraw!!.toRawMessage()
+            ).replace(
+                "{&}", "&"
             )
         )
     )

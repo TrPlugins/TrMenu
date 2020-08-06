@@ -89,6 +89,11 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
     /**
      * 为特定玩家关闭此菜单
      */
+
+    fun close(player: Player, page: Int) {
+        close(player, page, MenuCloseEvent.Reason.CONSOLE, closeInventory = false, silent = true)
+    }
+
     fun close(player: Player, page: Int, reason: MenuCloseEvent.Reason, closeInventory: Boolean, silent: Boolean) {
         Tasks.task {
             tasking.reset(player)
