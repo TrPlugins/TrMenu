@@ -19,7 +19,10 @@ class ActionTakeItem : Action("(take|remove)(-)?item(s)?") {
     }
 
     override fun onExecute(player: Player) {
-        ids.firstOrNull()?.take(player)
+        ids.forEach {
+            it.take(player)
+        }
+        player.updateInventory()
     }
 
 }

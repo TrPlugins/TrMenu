@@ -11,7 +11,6 @@ import io.izzel.taboolib.util.lite.Sounds
 import me.arasple.mc.trmenu.api.factory.MenuFactory
 import me.arasple.mc.trmenu.api.factory.task.ClickTask
 import me.arasple.mc.trmenu.api.inventory.InvClickType.*
-import me.arasple.mc.trmenu.data.Sessions.getMenuFactorySession
 import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.command.Command
@@ -103,10 +102,10 @@ class CommandSoundsPreview : BaseSubCommand() {
                     )
                 }
 
-                if (has[0]){
+                if (has[0]) {
                     it.session.setItem(53, ItemBuilder(Materials.LIME_STAINED_GLASS_PANE.parseItem()).name("§aNext Page").build())
                 }
-                if (has[1]){
+                if (has[1]) {
                     it.session.setItem(45, ItemBuilder(Materials.CYAN_STAINED_GLASS_PANE.parseItem()).name("§3Previous Page").build())
                 }
             }

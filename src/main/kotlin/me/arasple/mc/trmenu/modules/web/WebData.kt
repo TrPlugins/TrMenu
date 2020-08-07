@@ -53,7 +53,7 @@ data class WebData(val url: String, var data: String, val period: Long, var last
             try {
                 val connection = URL(url).openConnection() as HttpURLConnection
                 connection.requestMethod = "GET"
-                connection.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; GTB7.5; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727)");
+                connection.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; Trident/4.0; GTB7.5; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727)")
                 val inputStream = connection.inputStream
                 val bufferedInputStream = BufferedInputStream(inputStream)
                 val stream = ByteArrayOutputStream()

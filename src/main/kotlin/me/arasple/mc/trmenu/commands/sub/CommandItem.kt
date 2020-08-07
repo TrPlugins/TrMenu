@@ -45,7 +45,7 @@ class CommandItem : BaseSubCommand() {
 
         val json = Items.toJson(item)
         if (json.length < 200) {
-            TLocale.sendTo(player, "COMMANDS.ITEM.TO-JSON.CONVERTED", json);
+            TLocale.sendTo(player, "COMMANDS.ITEM.TO-JSON.CONVERTED", json)
         } else {
             TLocale.sendTo(player, "HASTEBIN.PROCESSING")
             Tasks.task(true) {

@@ -12,11 +12,11 @@ import org.bukkit.entity.Player
 class ActionSetArgs : Action("set(-)?arg(ument)?(s)?") {
 
     override fun onExecute(player: Player) {
-        val split = getContent().split(" ").toMutableList()
-        split.indices.forEach {
-            split[it] = Msger.replace(player, split[it])
-        }
-        player.setArguments(split.toTypedArray())
+        player.setArguments(
+            getContentSplited(player, " ")
+                .map { Msger.replace(player, replaceWithSpaces(it)) }
+                .toTypedArray()
+        )
     }
 
 }

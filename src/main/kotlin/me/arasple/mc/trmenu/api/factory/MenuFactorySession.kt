@@ -1,6 +1,5 @@
 package me.arasple.mc.trmenu.api.factory
 
-import me.arasple.mc.trmenu.data.Sessions
 import me.arasple.mc.trmenu.modules.packets.PacketsHandler
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryType
@@ -25,26 +24,26 @@ class MenuFactorySession(val player: Player, var menuFactory: MenuFactory?, val 
         def.values.forEach { it ->
             val item = it.first
             it.second.filter { !items.containsKey(it) }.forEach {
-                PacketsHandler.sendOutSlot(player, Sessions.TRMENU_WINDOW_ID, it, item)
+                PacketsHandler.sendOutSlot(player, it, item)
             }
         }
         items.forEach { (slot, item) ->
-            PacketsHandler.sendOutSlot(player, Sessions.TRMENU_WINDOW_ID, slot, item)
+            PacketsHandler.sendOutSlot(player, slot, item)
         }
     }
 
     fun setItem(slot: Int, item: ItemStack, display: Boolean = false) {
         items[slot] = item
-        if (display) PacketsHandler.sendOutSlot(player, Sessions.TRMENU_WINDOW_ID, slot, item)
+        if (display) PacketsHandler.sendOutSlot(player, slot, item)
     }
 
     fun removeItem(slot: Int, display: Boolean = false) {
         items.remove(slot)
-        if (display) PacketsHandler.sendRemoveSlot(player, Sessions.TRMENU_WINDOW_ID, slot)
+        if (display) PacketsHandler.sendRemoveSlot(player, slot)
     }
 
     fun display(type: InventoryType, size: Int, title: String) {
-        PacketsHandler.sendOpenWindow(player, Sessions.TRMENU_WINDOW_ID, type, size, title)
+        PacketsHandler.sendOpenWindow(player, type, size, title)
     }
 
     fun isNull() = menuFactory == null

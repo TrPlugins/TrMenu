@@ -7,7 +7,6 @@ import me.arasple.mc.trmenu.configuration.MenuLoader
 import me.arasple.mc.trmenu.configuration.menu.MenuConfiguration
 import me.arasple.mc.trmenu.data.MenuSession
 import me.arasple.mc.trmenu.data.MetaPlayer.completeArguments
-import me.arasple.mc.trmenu.data.Sessions.TRMENU_WINDOW_ID
 import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import me.arasple.mc.trmenu.data.Sessions.setMenuSession
 import me.arasple.mc.trmenu.display.menu.MenuLayout
@@ -46,7 +45,6 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
             val p = (if (page < 0) settings.options.getDefaultLayout(player) else min(page, layout.layouts.size - 1)).coerceAtLeast(0)
             val e = MenuOpenEvent(player, this, p, reason, MenuOpenEvent.Result.UNKNOWN).async(true).call() as MenuOpenEvent
             val s = player.getMenuSession()
-            val i = s.id
 
 //            if (!s.isDifferent(i)) {
 //                e.result = MenuOpenEvent.Result.ERROR_PAGE
@@ -112,7 +110,7 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
         // 防止关闭菜单后, 动态标题周期未及时停止
         Tasks.delay(3, true) {
             if (player.getMenuSession().isNull()) {
-                PacketsHandler.sendCloseWindow(player, TRMENU_WINDOW_ID)
+                PacketsHandler.sendCloseWindow(player)
             }
         }
     }

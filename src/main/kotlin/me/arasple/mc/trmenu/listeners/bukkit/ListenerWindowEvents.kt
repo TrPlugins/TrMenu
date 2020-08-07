@@ -11,7 +11,6 @@ import me.arasple.mc.trmenu.api.factory.task.ClickTask.Action.CANCEL_MODIFY
 import me.arasple.mc.trmenu.api.factory.task.CloseTask
 import me.arasple.mc.trmenu.api.inventory.InvClickType
 import me.arasple.mc.trmenu.data.MenuSession
-import me.arasple.mc.trmenu.data.Sessions
 import me.arasple.mc.trmenu.data.Sessions.getMenuFactorySession
 import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import me.arasple.mc.trmenu.modules.packets.PacketsHandler
@@ -51,9 +50,9 @@ object ListenerWindowEvents {
                         val factory = factorySession.menuFactory
 
                         if ((menu != null && menu.settings.options.hidePlayerInventory) || factory != null) {
-                            PacketsHandler.clearInventory(player, size, Sessions.TRMENU_WINDOW_ID)
+                            PacketsHandler.clearInventory(player, size)
                         } else {
-                            PacketsHandler.resetInventory(player, size, Sessions.TRMENU_WINDOW_ID)
+                            PacketsHandler.resetInventory(player, size)
                         }
                     }
 

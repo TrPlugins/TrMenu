@@ -10,7 +10,6 @@ import me.arasple.mc.trmenu.api.inventory.InvClickType
 import me.arasple.mc.trmenu.api.inventory.InvClickType.*
 import me.arasple.mc.trmenu.data.MenuSession
 import me.arasple.mc.trmenu.data.MetaPlayer.getInventoryContents
-import me.arasple.mc.trmenu.data.Sessions
 import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryType
@@ -43,6 +42,7 @@ abstract class PacketsHandler {
 
     companion object {
 
+        const val WINDOW_ID = 119
         lateinit var INSTANCE: PacketsHandler
 
         @TSchedule
@@ -55,21 +55,21 @@ abstract class PacketsHandler {
             INSTANCE = SimpleVersionControl.createNMS("me.arasple.mc.trmenu.modules.packets.impl.ImplPacketsHandler$version").useNMS().translate(TrMenu.plugin).getDeclaredConstructor().newInstance() as PacketsHandler
         }
 
-        fun sendOpenWindow(player: Player, windowId: Int, inventoryType: InventoryType, size: Int, inventoryTitle: String) = INSTANCE.sendOpenWindow(player, windowId, inventoryType, size, inventoryTitle)
+        fun sendOpenWindow(player: Player, inventoryType: InventoryType, size: Int, inventoryTitle: String) = INSTANCE.sendOpenWindow(player, WINDOW_ID, inventoryType, size, inventoryTitle)
 
-        fun sendCloseWindow(player: Player, windowId: Int) = INSTANCE.sendCloseWindow(player, windowId)
+        fun sendCloseWindow(player: Player) = INSTANCE.sendCloseWindow(player, WINDOW_ID)
 
-        fun sendOutSlot(player: Player, windowId: Int, slot: Int, itemStack: ItemStack) = INSTANCE.sendOutSlot(player, windowId, slot, itemStack)
+        fun sendOutSlot(player: Player, slot: Int, itemStack: ItemStack) = INSTANCE.sendOutSlot(player, WINDOW_ID, slot, itemStack)
 
-        fun clearInventory(player: Player, size: Int, windowId: Int) = INSTANCE.clearInventory(player, size, windowId)
+        fun clearInventory(player: Player, size: Int) = INSTANCE.clearInventory(player, size, WINDOW_ID)
 
         fun getPlayerTexture(player: Player): String = INSTANCE.getPlayerTexture(player)
 
-        fun sendCancelSlot(player: Player) = sendRemoveSlot(player, -1, -1)
+        fun sendCancelSlot(player: Player) = INSTANCE.sendRemoveSlot(player, -1, -1)
 
-        fun sendRemoveSlot(player: Player, windowId: Int, slot: Int) = INSTANCE.sendRemoveSlot(player, windowId, slot)
+        fun sendRemoveSlot(player: Player, slot: Int) = INSTANCE.sendRemoveSlot(player, WINDOW_ID, slot)
 
-        fun resetInventory(player: Player, size: Int, windowId: Int) {
+        fun resetInventory(player: Player, size: Int) {
             val session = player.getMenuSession()
             val menu = session.menu
             if (menu != null) {
@@ -80,8 +80,8 @@ abstract class PacketsHandler {
                         continue
                     }
                     val item = contents[index]
-                    if (item != null) sendOutSlot(player, windowId, i, item)
-                    else sendRemoveSlot(player, windowId, i)
+                    if (item != null) sendOutSlot(player, i, item)
+                    else sendRemoveSlot(player, i)
                 }
             }
         }
@@ -140,7 +140,7 @@ abstract class PacketsHandler {
             session.menu?.let {
                 val layout = session.layout!!
                 val hasSlots = it.getOccupiedSlots(player, session.page)
-                for (i in 0 until layout.size()) if (!hasSlots.contains(i)) sendRemoveSlot(player, Sessions.TRMENU_WINDOW_ID, i)
+                for (i in 0 until layout.size()) if (!hasSlots.contains(i)) INSTANCE.sendRemoveSlot(player, WINDOW_ID, i)
             }
         }
 
