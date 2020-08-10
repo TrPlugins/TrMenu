@@ -1,3 +1,8 @@
+### Version 2.03
+- Date: Aug -, 2020
+- Updates:
+  - Fixed player-head texture display in 1.12.2
+
 ### Version 2.02
 - Date: Aug 5, 2020
 - Updates:

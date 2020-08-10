@@ -34,11 +34,9 @@ object Skulls {
 
     fun getPlayerHead(name: String): ItemStack = try {
         if (USER_NAME.matches(name)) CACHED_SKULLS.computeIfAbsent(name) {
-            val texture = getPlayerTexture(name) ?: kotlin.run {
+            val texture = CACHED_PLAYER_TEXTURE[name] ?: kotlin.run {
                 val head = ItemBuilder(DEFAULT_HEAD.clone()).build()
-                getPlayerTexture(name) {
-                    setTextureSkull(it, head)
-                }
+                getPlayerTexture(name) { setTextureSkull(it, head) }
                 return@computeIfAbsent head
             }
             return@computeIfAbsent getTextureSkull(texture)
@@ -81,8 +79,9 @@ object Skulls {
                         texture = profile.getAsJsonObject("textures").getAsJsonObject("raw").get("value").asString
                     }
                     CACHED_PLAYER_TEXTURE[id] = texture
-                    if (consumer != null) CACHED_PLAYER_TEXTURE[id]?.let {
-                        consumer.accept(it)
+
+                    if (consumer != null) {
+                        CACHED_PLAYER_TEXTURE[id]?.let { consumer.accept(it) }
                     }
                 } catch (e: Throwable) {
                     if (e.message != "JsonNull") Msger.printErrors("PLAYER-HEAD", e)

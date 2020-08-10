@@ -102,6 +102,12 @@ class CommandDebug : BaseSubCommand() {
                 "§3§l「§8--------------------------------------------------§3§l」"
             )
         )
+
+        if (sender is Player) {
+            Skulls.CACHED_SKULLS.values.forEach {
+                CronusUtils.addItem(sender, it)
+            }
+        }
     }
 
     private fun printExpressions(sender: CommandSender) {
