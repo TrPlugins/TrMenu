@@ -116,13 +116,14 @@ data class Mat(val raw: String, val value: String, val type: Pair<Nodes, String>
             val meta = item.itemMeta
             val material = toMaterialFormateed(item)
             // Skull & Head
+            @Suppress("DEPRECATION")
             if (meta is SkullMeta) {
                 if (HookHeadDatabase.isHooked()) {
                     val id = HookHeadDatabase.getId(item)
                     if (!Strings.isBlank(id)) return "<hdb:$id>"
                 }
-                val owner = meta.owningPlayer
-                return if (owner != null) "<head:${owner.name}>"
+                val owner = meta.owner
+                return if (owner != null) "<head:${owner}>"
                 else "<skull:${Skulls.getSkullTexture(item)}>"
             }
             // ModelData
