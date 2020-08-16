@@ -1,7 +1,6 @@
 package me.arasple.mc.trmenu.utils
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
-import io.izzel.taboolib.module.compat.EconomyHook
 import io.izzel.taboolib.module.tellraw.TellrawJson
 import io.izzel.taboolib.util.item.ItemBuilder
 import io.izzel.taboolib.util.item.Items
@@ -9,6 +8,7 @@ import io.izzel.taboolib.util.lite.Numbers
 import me.arasple.mc.trmenu.data.MetaPlayer.getArguments
 import me.arasple.mc.trmenu.modules.action.Actions
 import me.arasple.mc.trmenu.modules.hook.HookCronus
+import me.arasple.mc.trmenu.modules.hook.HookEconomy
 import me.arasple.mc.trmenu.modules.hook.HookPlayerPoints
 import me.arasple.mc.trmenu.modules.item.ItemIdentifierHandler
 import me.arasple.mc.trmenu.modules.web.WebData
@@ -114,7 +114,7 @@ class Assist {
 
     fun hasMoney(player: Player, money: String) = hasMoney(player, NumberUtils.toDouble(money, 0.0))
 
-    fun hasMoney(player: Player, money: Double) = EconomyHook.get(player) >= money
+    fun hasMoney(player: Player, money: Double) = HookEconomy.get(player) >= money
 
     fun hasPoints(player: Player, points: String) = hasPoints(player, NumberUtils.toInt(points, 0))
 

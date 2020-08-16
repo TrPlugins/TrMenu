@@ -7,7 +7,7 @@ import io.izzel.taboolib.module.locale.TLocale
 import io.izzel.taboolib.util.ArrayUtil
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.configuration.MenuLoader
-import me.arasple.mc.trmenu.modules.migrate.impl.MigraterTrMenu
+import me.arasple.mc.trmenu.modules.migrate.MigrateLegacy
 import me.arasple.mc.trmenu.utils.Tasks
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -24,7 +24,7 @@ class CommandMigrate : BaseSubCommand() {
 
     override fun getArguments() = arrayOf(
         Argument("From Plugin", true) {
-            listOf("TrMenuV1")
+            listOf("Legacy", "DeluxeMenus")
         },
         Argument("File/Dir Name", true) {
             getFolderFiles()
@@ -34,28 +34,27 @@ class CommandMigrate : BaseSubCommand() {
     override fun getType(): CommandType = CommandType.CONSOLE
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>) {
-        val file = File(TrMenu.plugin.dataFolder, ArrayUtil.arrayJoin(args, 1))
-
-        if (!file.exists() || (!file.isDirectory && !file.name.endsWith(".yml"))) {
-            TLocale.sendTo(sender, "MIGRATE.UNKNOWN-FILE", file.name)
-            return
-        }
-
-        val files = MenuLoader.grabMenuFiles(file)
-
-        if (files.isEmpty()) {
-            TLocale.sendTo(sender, "MIGRATE.EMPTY-FILE")
-            return
-        }
-
         when (args[0].toLowerCase()) {
-            "trmenuv1" -> {
+            "trmenuv1", "legacy" -> {
                 Tasks.task(true) {
+                    val file = File(TrMenu.plugin.dataFolder, ArrayUtil.arrayJoin(args, 1))
+
+                    if (!file.exists() || (!file.isDirectory && !file.name.endsWith(".yml"))) {
+                        TLocale.sendTo(sender, "MIGRATE.UNKNOWN-FILE", file.name)
+                        return@task
+                    }
+
+                    val files = MenuLoader.grabMenuFiles(file)
+                    if (files.isEmpty()) {
+                        TLocale.sendTo(sender, "MIGRATE.EMPTY-FILE")
+                        return@task
+                    }
+
                     var count = 0
                     TLocale.sendTo(sender, "MIGRATE.PROCESSING", files.size)
                     files.forEach {
                         try {
-                            MigraterTrMenu(it).run().save(File(folder, it.name))
+                            MigrateLegacy.run(it).save(File(folder, it.name))
                             count++
                         } catch (e: Throwable) {
                             TLocale.sendToConsole("MIGRATE.ERROR", it.name, e.message, e.stackTrace.map { it.toString() + "\n" })
@@ -67,9 +66,14 @@ class CommandMigrate : BaseSubCommand() {
                         TLocale.sendTo(sender, "MIGRATE.LOAD-ERROR", files.size - count)
                 }
             }
+            "deluxemenus" -> {
+
+            }
             else -> TLocale.sendTo(sender, "MIGRATE.UNSUPPORTED-PLUGIN", args[0])
         }
     }
+
+
 
     private fun getFolderFiles() =
         TrMenu.plugin.dataFolder.listFiles()?.map {

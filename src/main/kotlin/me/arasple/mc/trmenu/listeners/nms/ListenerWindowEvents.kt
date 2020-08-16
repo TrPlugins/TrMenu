@@ -1,4 +1,4 @@
-package me.arasple.mc.trmenu.listeners.bukkit
+package me.arasple.mc.trmenu.listeners.nms
 
 import io.izzel.taboolib.module.packet.Packet
 import io.izzel.taboolib.module.packet.TPacket

@@ -2,6 +2,8 @@
 - Date: Aug -, 2020
 - Updates:
   - Fixed player-head texture display in 1.12.2
+  - Fixed economy hook errors with CMI
+  - Fixed `ActionTakePoints.kt`
 
 ### Version 2.02
 - Date: Aug 5, 2020

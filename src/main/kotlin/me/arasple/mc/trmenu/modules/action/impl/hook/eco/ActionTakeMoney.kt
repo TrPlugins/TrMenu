@@ -1,8 +1,8 @@
 package me.arasple.mc.trmenu.modules.action.impl.hook.eco
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
-import io.izzel.taboolib.module.compat.EconomyHook
 import me.arasple.mc.trmenu.modules.action.base.Action
+import me.arasple.mc.trmenu.modules.hook.HookEconomy
 import org.bukkit.entity.Player
 
 /**
@@ -12,7 +12,7 @@ import org.bukkit.entity.Player
 class ActionTakeMoney : Action("(take|remove|withdraw)(-)?(money|eco|coin)(s)?") {
 
     override fun onExecute(player: Player) = NumberUtils.toDouble(getContent(player), -1.0).let {
-        if (it > 0) EconomyHook.remove(player, it)
+        if (it > 0) HookEconomy.remove(player, it)
     }
 
 }

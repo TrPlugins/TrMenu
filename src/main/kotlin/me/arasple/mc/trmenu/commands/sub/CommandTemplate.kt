@@ -12,7 +12,7 @@ import io.izzel.taboolib.util.item.inventory.MenuBuilder
 import io.izzel.taboolib.util.lite.Sounds
 import me.arasple.mc.trmenu.display.item.property.Mat
 import me.arasple.mc.trmenu.display.menu.MenuLayout
-import me.arasple.mc.trmenu.modules.migrate.Migrater
+import me.arasple.mc.trmenu.modules.migrate.Migrate
 import me.arasple.mc.trmenu.utils.Tasks
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -71,7 +71,7 @@ class CommandTemplate : BaseSubCommand() {
 
     private fun format(inventory: Inventory): String {
         val rows = inventory.size / 9
-        val keys = Migrater.keys.iterator()
+        val keys = Migrate.keys.iterator()
         val items = collectItems(inventory)
         val layout = MenuLayout.blankLayout(rows)
         val layoutPlayerInventory = MenuLayout.blankLayout(4)
@@ -80,7 +80,7 @@ class CommandTemplate : BaseSubCommand() {
                 buildString {
                     appendLine()
                     append("Made by TrMenu Template\n")
-                    append("Date: ${Migrater.getExactDate()}\n ")
+                    append("Date: ${Migrate.getExactDate()}\n ")
                     appendLine()
                 }
             )

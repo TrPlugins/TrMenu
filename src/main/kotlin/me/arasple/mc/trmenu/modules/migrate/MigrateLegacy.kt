@@ -1,67 +1,67 @@
-package me.arasple.mc.trmenu.modules.migrate.impl
+package me.arasple.mc.trmenu.modules.migrate
 
 import me.arasple.mc.trmenu.configuration.property.Property
-import me.arasple.mc.trmenu.modules.migrate.Migrater
+import me.arasple.mc.trmenu.utils.Utils
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
 
 /**
  * @author Arasple
- * @date 2020/7/21 8:18
+ * @date 2020/8/16 21:04
  */
-class MigraterTrMenu(val file: File) : Migrater {
+object MigrateLegacy {
 
-    override fun run(): YamlConfiguration {
-        val legacy = loadConfiguration(file)
+    fun run(file: File): YamlConfiguration {
+        val legacy = YamlConfiguration.loadConfiguration(file)
 
-        Migrater.transferValue(
+        transferValue(
             legacy,
             // MenuEvents.Open
-            Migrater.TransferValueSet(
+            TransferValueSet(
                 "open-requirement(s)?",
                 "Open-Requirement",
                 "${Property.EVENTS}.${Property.EVENT_OPEN}.requirement"
             ),
-            Migrater.TransferValueSet(
+            TransferValueSet(
                 "open-action(s)?",
                 "Open-Actions",
                 "${Property.EVENTS}.${Property.EVENT_OPEN}.actions"
             ),
-            Migrater.TransferValueSet(
+            TransferValueSet(
                 "open-deny-action(s)?",
                 "Open-Deny-Actions",
                 "${Property.EVENTS}.${Property.EVENT_OPEN}.deny-actions"
             ),
             // MenuEvents.Close
-            Migrater.TransferValueSet(
+            TransferValueSet(
                 "close-requirement(s)?",
                 "Close-Requirement",
                 "${Property.EVENTS}.${Property.EVENT_CLOSE}.requirement"
             ),
-            Migrater.TransferValueSet(
+            TransferValueSet(
                 "close-action(s)?",
                 "Close-Actions",
                 "${Property.EVENTS}.${Property.EVENT_CLOSE}.actions"
             ),
-            Migrater.TransferValueSet(
+            TransferValueSet(
                 "close-deny-action(s)?",
                 "Close-Deny-Actions",
                 "${Property.EVENTS}.${Property.EVENT_CLOSE}.deny-actions"
             ),
             // Menu Bound
-            Migrater.TransferValueSet(
+            TransferValueSet(
                 "open-command(s)?",
                 "Open-Commands",
                 "${Property.BINDINGS}.${Property.BINDING_COMMANDS}"
             ),
-            Migrater.TransferValueSet(
+            TransferValueSet(
                 "option(s)?.bind-item-lore",
                 "Options.Bind-Item-Lore",
                 "${Property.BINDINGS}.${Property.BINDING_ITEMS}"
             )
         )
 
-        Migrater.removeValue(
+        removeValue(
             legacy,
             true,
             "option(s)?.lock-player-inv",
@@ -73,12 +73,35 @@ class MigraterTrMenu(val file: File) : Migrater {
             buildString {
                 appendLine()
                 append("Migrated from TrMenu v1.x, by TrMenu v2\n")
-                append("Date: ${Migrater.getExactDate()}\n")
+                append("Date: ${Migrate.getExactDate()}\n")
                 appendLine()
             }
         )
-
         return legacy
     }
+
+    fun transferValue(legacy: YamlConfiguration, vararg transferValueSet: TransferValueSet) {
+        transferValueSet.forEach { set ->
+            Utils.getSectionKey(legacy, set.regex.toRegex(), set.default, set.deep).let {
+                val value = legacy.get(it) ?: return@let
+                legacy.set(it, null)
+                legacy.set(set.newKey, value)
+            }
+        }
+    }
+
+    fun removeValue(legacy: YamlConfiguration, deep: Boolean, vararg keys: String) = keys.forEach {
+        Utils.getSectionKey(legacy, "(?i)$it".toRegex(), "", deep).let { key ->
+            if (key.isNotBlank())
+                legacy.set(key, null)
+        }
+    }
+
+    class TransferValueSet(val regex: String, val default: String, val newKey: String, val deep: Boolean) {
+
+        constructor(regex: String, default: String, newKey: String) : this("(?i)$regex", default, newKey, false)
+
+    }
+
 
 }

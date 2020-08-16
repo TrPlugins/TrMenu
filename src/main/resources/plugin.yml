@@ -1,6 +1,5 @@
 name: ${name}
 main: ${main}
-main-transfer: ${mainTransfer}
 
 author: Arasple
 
