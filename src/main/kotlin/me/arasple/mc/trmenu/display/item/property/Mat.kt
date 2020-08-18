@@ -5,7 +5,7 @@ import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import io.izzel.taboolib.util.Strings
 import io.izzel.taboolib.util.item.ItemBuilder
 import io.th0rgal.oraxen.items.OraxenItems
-import me.arasple.mc.trmenu.configuration.property.Nodes
+import me.arasple.mc.trmenu.modules.configuration.property.Nodes
 import me.arasple.mc.trmenu.display.item.Item
 import me.arasple.mc.trmenu.modules.hook.HookHeadDatabase
 import me.arasple.mc.trmenu.modules.hook.HookSkinsRestorer

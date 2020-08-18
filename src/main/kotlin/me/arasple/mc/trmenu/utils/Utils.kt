@@ -3,7 +3,7 @@ package me.arasple.mc.trmenu.utils
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import me.arasple.mc.trmenu.TrMenu
-import me.arasple.mc.trmenu.configuration.property.Property
+import me.arasple.mc.trmenu.modules.configuration.property.Property
 import org.apache.commons.lang.math.NumberUtils
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.configuration.MemorySection

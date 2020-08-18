@@ -1,4 +1,4 @@
-package me.arasple.mc.trmenu.configuration.property
+package me.arasple.mc.trmenu.modules.configuration.property
 
 /**
  * @author Arasple

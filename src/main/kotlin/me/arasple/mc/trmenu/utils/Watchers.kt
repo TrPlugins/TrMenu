@@ -8,7 +8,7 @@ import java.io.File
  * @author Arasple
  * @date 2020/7/28 11:43
  */
-object FileWatcher {
+object Watchers {
 
     fun isListening(file: File) = watcher.hasListener(file)
 

@@ -6,9 +6,9 @@ import me.arasple.mc.trmenu.api.Extends.getMenuSession
 import me.arasple.mc.trmenu.api.Extends.setMenuSession
 import me.arasple.mc.trmenu.api.events.MenuCloseEvent
 import me.arasple.mc.trmenu.api.events.MenuOpenEvent
-import me.arasple.mc.trmenu.configuration.MenuLoader
-import me.arasple.mc.trmenu.configuration.menu.MenuConfiguration
-import me.arasple.mc.trmenu.data.MenuSession
+import me.arasple.mc.trmenu.modules.configuration.MenuLoader
+import me.arasple.mc.trmenu.modules.configuration.menu.MenuConfiguration
+import me.arasple.mc.trmenu.modules.data.MenuSession
 import me.arasple.mc.trmenu.display.menu.MenuLayout
 import me.arasple.mc.trmenu.display.menu.MenuSettings
 import me.arasple.mc.trmenu.modules.packets.PacketsHandler

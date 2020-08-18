@@ -7,7 +7,7 @@ import io.izzel.taboolib.module.locale.TLocale
 import io.izzel.taboolib.util.ArrayUtil
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.Extends.sendLocale
-import me.arasple.mc.trmenu.configuration.MenuLoader
+import me.arasple.mc.trmenu.modules.configuration.MenuLoader
 import me.arasple.mc.trmenu.modules.migrate.MigrateLegacy
 import me.arasple.mc.trmenu.utils.Tasks
 import org.bukkit.command.Command

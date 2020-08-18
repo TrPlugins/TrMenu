@@ -1,4 +1,4 @@
-package me.arasple.mc.trmenu.data
+package me.arasple.mc.trmenu.modules.data
 
 import me.arasple.mc.trmenu.display.Menu
 import me.arasple.mc.trmenu.display.menu.MenuLayout

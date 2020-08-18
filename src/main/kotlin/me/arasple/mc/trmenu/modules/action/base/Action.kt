@@ -3,7 +3,7 @@ package me.arasple.mc.trmenu.modules.action.base
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import io.izzel.taboolib.util.lite.Numbers
 import me.arasple.mc.trmenu.api.Extends.getMenuSession
-import me.arasple.mc.trmenu.configuration.property.Nodes
+import me.arasple.mc.trmenu.modules.configuration.property.Nodes
 import me.arasple.mc.trmenu.modules.metrics.MetricsHandler
 import me.arasple.mc.trmenu.modules.script.Scripts
 import me.arasple.mc.trmenu.utils.Msger

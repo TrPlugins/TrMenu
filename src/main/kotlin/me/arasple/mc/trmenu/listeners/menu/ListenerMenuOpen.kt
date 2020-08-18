@@ -6,7 +6,7 @@ import me.arasple.mc.trmenu.api.Extends.sendLocale
 import me.arasple.mc.trmenu.api.Extends.setMeta
 import me.arasple.mc.trmenu.api.events.MenuOpenEvent
 import me.arasple.mc.trmenu.api.factory.task.CloseTask
-import me.arasple.mc.trmenu.data.Metas
+import me.arasple.mc.trmenu.modules.data.Metas
 import me.arasple.mc.trmenu.modules.log.Log
 import me.arasple.mc.trmenu.modules.log.Loger
 import me.arasple.mc.trmenu.modules.metrics.MetricsHandler

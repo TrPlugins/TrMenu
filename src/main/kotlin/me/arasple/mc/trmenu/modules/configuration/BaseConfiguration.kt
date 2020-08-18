@@ -1,6 +1,6 @@
-package me.arasple.mc.trmenu.configuration
+package me.arasple.mc.trmenu.modules.configuration
 
-import me.arasple.mc.trmenu.configuration.property.Property
+import me.arasple.mc.trmenu.modules.configuration.property.Property
 import me.arasple.mc.trmenu.utils.Utils
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.configuration.file.YamlConfiguration

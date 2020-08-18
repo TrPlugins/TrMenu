@@ -4,7 +4,7 @@ import io.izzel.taboolib.util.lite.Signs
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.Extends.getMenuSession
 import me.arasple.mc.trmenu.api.Extends.setMeta
-import me.arasple.mc.trmenu.data.Metas
+import me.arasple.mc.trmenu.modules.data.Metas
 import me.arasple.mc.trmenu.display.animation.Animated
 import me.arasple.mc.trmenu.display.function.Reactions
 import me.arasple.mc.trmenu.modules.inputer.Catchers.Type.ANVIL

@@ -2,7 +2,7 @@ package me.arasple.mc.trmenu.display
 
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.Extends.getMenuSession
-import me.arasple.mc.trmenu.data.MenuSession
+import me.arasple.mc.trmenu.modules.data.MenuSession
 import me.arasple.mc.trmenu.display.icon.IconProperty
 import me.arasple.mc.trmenu.display.icon.IconSettings
 import me.arasple.mc.trmenu.modules.packets.PacketsHandler

@@ -9,8 +9,8 @@ import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.Extends.getMenuSession
 import me.arasple.mc.trmenu.api.inventory.InvClickType
 import me.arasple.mc.trmenu.api.inventory.InvClickType.*
-import me.arasple.mc.trmenu.data.MenuSession
-import me.arasple.mc.trmenu.data.Metas
+import me.arasple.mc.trmenu.modules.data.MenuSession
+import me.arasple.mc.trmenu.modules.data.Metas
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.event.inventory.InventoryType.*

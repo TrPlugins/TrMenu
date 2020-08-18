@@ -5,12 +5,12 @@ import io.izzel.taboolib.Version
 import io.izzel.taboolib.module.locale.TLocale
 import io.izzel.taboolib.module.locale.TLocaleLoader
 import me.arasple.mc.trmenu.commands.registerable.RegisterCommands
-import me.arasple.mc.trmenu.configuration.MenuLoader
+import me.arasple.mc.trmenu.modules.configuration.MenuLoader
 import me.arasple.mc.trmenu.modules.hook.HookHeadDatabase
 import me.arasple.mc.trmenu.modules.hook.HookPlaceholderAPI
 import me.arasple.mc.trmenu.modules.hook.HookPlayerPoints
 import me.arasple.mc.trmenu.modules.shortcut.Shortcuts
-import me.arasple.mc.trmenu.utils.FileWatcher
+import me.arasple.mc.trmenu.utils.Watchers
 import me.clip.placeholderapi.PlaceholderAPIPlugin
 import org.bukkit.Bukkit
 
@@ -47,7 +47,7 @@ class TrMenuLoader {
         PlaceholderAPIPlugin.getInstance().localExpansionManager.findExpansionByIdentifier("trmenu").ifPresent {
             it.unregister()
         }
-        FileWatcher.watcher.unregisterAll()
+        Watchers.watcher.unregisterAll()
     }
 
     private fun register() {

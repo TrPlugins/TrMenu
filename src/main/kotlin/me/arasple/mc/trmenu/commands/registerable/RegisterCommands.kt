@@ -3,7 +3,7 @@ package me.arasple.mc.trmenu.commands.registerable
 import io.izzel.taboolib.module.command.TCommandHandler
 import io.izzel.taboolib.module.command.lite.CommandBuilder
 import me.arasple.mc.trmenu.TrMenu
-import me.arasple.mc.trmenu.configuration.serialize.ReactionSerializer
+import me.arasple.mc.trmenu.modules.configuration.serialize.ReactionSerializer
 import me.arasple.mc.trmenu.display.function.Reactions
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player

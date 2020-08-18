@@ -1,6 +1,6 @@
-package me.arasple.mc.trmenu.configuration.serialize
+package me.arasple.mc.trmenu.modules.configuration.serialize
 
-import me.arasple.mc.trmenu.configuration.property.Property
+import me.arasple.mc.trmenu.modules.configuration.property.Property
 import me.arasple.mc.trmenu.display.function.Reaction
 import me.arasple.mc.trmenu.display.function.Reactions
 import me.arasple.mc.trmenu.modules.action.Actions

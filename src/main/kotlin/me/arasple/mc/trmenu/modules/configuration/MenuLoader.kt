@@ -1,13 +1,13 @@
-package me.arasple.mc.trmenu.configuration
+package me.arasple.mc.trmenu.modules.configuration
 
 import io.izzel.taboolib.util.Files
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.Extends.sendLocale
 import me.arasple.mc.trmenu.api.TrMenuAPI
-import me.arasple.mc.trmenu.configuration.menu.MenuConfiguration
-import me.arasple.mc.trmenu.configuration.serialize.MenuSerializer
+import me.arasple.mc.trmenu.modules.configuration.menu.MenuConfiguration
+import me.arasple.mc.trmenu.modules.configuration.serialize.MenuSerializer
 import me.arasple.mc.trmenu.display.Menu
-import me.arasple.mc.trmenu.utils.FileWatcher
+import me.arasple.mc.trmenu.utils.Watchers
 import me.arasple.mc.trmenu.utils.Tasks
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
@@ -41,9 +41,9 @@ object MenuLoader {
             it.load(file)
             return@let it
         }).let { menu ->
-            if (listener && menu != null && file.exists() && !FileWatcher.isListening(file)) {
+            if (listener && menu != null && file.exists() && !Watchers.isListening(file)) {
                 val id = menu.id
-                FileWatcher.listener(file) {
+                Watchers.listener(file) {
                     Tasks.task(true) {
                         TrMenuAPI.getMenuById(id)?.reload()
                     }

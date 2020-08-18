@@ -2,7 +2,7 @@ package me.arasple.mc.trmenu.modules.shortcut
 
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.Extends.setArguments
-import me.arasple.mc.trmenu.configuration.serialize.ReactionSerializer
+import me.arasple.mc.trmenu.modules.configuration.serialize.ReactionSerializer
 import me.arasple.mc.trmenu.display.function.Reactions
 import me.arasple.mc.trmenu.utils.Tasks
 import org.bukkit.entity.Player

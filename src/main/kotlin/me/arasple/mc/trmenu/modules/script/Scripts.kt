@@ -5,7 +5,6 @@ import io.izzel.taboolib.util.Strings
 import io.izzel.taboolib.util.lite.Sounds
 import me.arasple.mc.trmenu.api.Extends.getMenuSession
 import me.arasple.mc.trmenu.api.events.MenuCloseEvent
-import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import me.arasple.mc.trmenu.modules.expression.Expressions
 import me.arasple.mc.trmenu.utils.Assist
 import me.arasple.mc.trmenu.utils.Msger

@@ -2,7 +2,6 @@ package me.arasple.mc.trmenu.modules.packets.impl
 
 import io.izzel.taboolib.module.lite.SimpleReflection
 import me.arasple.mc.trmenu.api.Extends.getMenuSession
-import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import me.arasple.mc.trmenu.modules.packets.PacketsHandler
 import net.minecraft.server.v1_8_R3.ChatComponentText
 import net.minecraft.server.v1_8_R3.PacketPlayOutCloseWindow

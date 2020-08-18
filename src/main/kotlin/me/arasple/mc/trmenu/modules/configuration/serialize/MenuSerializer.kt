@@ -1,11 +1,11 @@
 @file:Suppress("NAME_SHADOWING")
 
-package me.arasple.mc.trmenu.configuration.serialize
+package me.arasple.mc.trmenu.modules.configuration.serialize
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import io.izzel.taboolib.module.locale.TLocale
-import me.arasple.mc.trmenu.configuration.menu.MenuConfiguration
-import me.arasple.mc.trmenu.configuration.property.Property
+import me.arasple.mc.trmenu.modules.configuration.menu.MenuConfiguration
+import me.arasple.mc.trmenu.modules.configuration.property.Property
 import me.arasple.mc.trmenu.display.Menu
 import me.arasple.mc.trmenu.display.animation.Animated
 import me.arasple.mc.trmenu.display.function.InternalFunction

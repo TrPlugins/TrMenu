@@ -1,9 +1,9 @@
-package me.arasple.mc.trmenu.configuration.serialize
+package me.arasple.mc.trmenu.modules.configuration.serialize
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import me.arasple.mc.trmenu.api.inventory.InvClickType
-import me.arasple.mc.trmenu.configuration.menu.MenuConfiguration
-import me.arasple.mc.trmenu.configuration.property.Property
+import me.arasple.mc.trmenu.modules.configuration.menu.MenuConfiguration
+import me.arasple.mc.trmenu.modules.configuration.property.Property
 import me.arasple.mc.trmenu.display.Icon
 import me.arasple.mc.trmenu.display.animation.Animated
 import me.arasple.mc.trmenu.display.icon.IconClickHandler

@@ -38,7 +38,7 @@ MIGRATE:
 MENU:
   DEPEND-EXPANSIONS:
     - ''
-    - '&8[&fTr&7Menu&8] &You have to install the &f{0} &7expansion for PlaceholderAPI to use this menu.'
+    - '&8[&fTr&7Menu&8] &7You have to install the &f{0} &7expansion for PlaceholderAPI to use this menu.'
     - ''
   DEPEND-EXPANSIONS-FORMAT:
     ==: JSON

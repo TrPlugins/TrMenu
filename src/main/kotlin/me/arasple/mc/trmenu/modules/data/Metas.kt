@@ -1,4 +1,4 @@
-package me.arasple.mc.trmenu.data
+package me.arasple.mc.trmenu.modules.data
 
 import io.izzel.taboolib.internal.apache.lang3.ArrayUtils
 import io.izzel.taboolib.util.Strings

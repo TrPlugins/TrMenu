@@ -1,6 +1,6 @@
 package me.arasple.mc.trmenu.modules.action
 
-import me.arasple.mc.trmenu.configuration.property.Nodes
+import me.arasple.mc.trmenu.modules.configuration.property.Nodes
 import me.arasple.mc.trmenu.modules.action.base.Action
 import me.arasple.mc.trmenu.modules.action.impl.*
 import me.arasple.mc.trmenu.modules.action.impl.data.ActionDataDelete

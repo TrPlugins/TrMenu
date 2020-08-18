@@ -2,9 +2,9 @@ package me.arasple.mc.trmenu.api
 
 import io.izzel.taboolib.module.locale.TLocale
 import me.arasple.mc.trmenu.api.factory.MenuFactorySession
-import me.arasple.mc.trmenu.data.MenuSession
-import me.arasple.mc.trmenu.data.Metas
-import me.arasple.mc.trmenu.data.Sessions
+import me.arasple.mc.trmenu.modules.data.MenuSession
+import me.arasple.mc.trmenu.modules.data.Metas
+import me.arasple.mc.trmenu.modules.data.Sessions
 import me.arasple.mc.trmenu.display.Menu
 import me.arasple.mc.trmenu.display.menu.MenuLayout
 import org.bukkit.command.CommandSender

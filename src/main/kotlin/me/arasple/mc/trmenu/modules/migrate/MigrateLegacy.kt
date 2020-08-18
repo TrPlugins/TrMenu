@@ -1,6 +1,6 @@
 package me.arasple.mc.trmenu.modules.migrate
 
-import me.arasple.mc.trmenu.configuration.property.Property
+import me.arasple.mc.trmenu.modules.configuration.property.Property
 import me.arasple.mc.trmenu.utils.Utils
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
