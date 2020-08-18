@@ -21,7 +21,7 @@ class ActionMetaRemove : Action("(remove|rem|del)(-)?(temp|var(iable)?|meta)(s)?
                 player.removeMeta { key -> key.endsWith(match) }
             }
             else -> {
-                player.removeMeta("{data:$it}")
+                player.removeMeta("{meta:$it}")
             }
         }
     }
