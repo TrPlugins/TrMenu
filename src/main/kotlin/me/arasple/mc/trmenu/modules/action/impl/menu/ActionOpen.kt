@@ -1,9 +1,9 @@
 package me.arasple.mc.trmenu.modules.action.impl.menu
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
+import me.arasple.mc.trmenu.api.Extends.setArguments
 import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.api.events.MenuOpenEvent
-import me.arasple.mc.trmenu.data.MetaPlayer.setArguments
 import me.arasple.mc.trmenu.modules.action.base.Action
 import me.arasple.mc.trmenu.utils.Tasks
 import org.bukkit.entity.Player

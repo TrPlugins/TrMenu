@@ -3,7 +3,7 @@ package me.arasple.mc.trmenu.display.menu
 import io.izzel.taboolib.internal.apache.lang3.ArrayUtils
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import me.arasple.mc.trmenu.TrMenu
-import me.arasple.mc.trmenu.data.Sessions.getMenuSession
+import me.arasple.mc.trmenu.api.Extends.getMenuSession
 import me.arasple.mc.trmenu.display.Menu
 import me.arasple.mc.trmenu.display.animation.Animated
 import me.arasple.mc.trmenu.display.function.InternalFunction

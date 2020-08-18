@@ -16,8 +16,4 @@ object TrMenu : Plugin() {
     @TInject(state = TInject.State.STARTING, init = "init", active = "active", cancel = "cancel")
     lateinit var LOADER: TrMenuLoader
 
-    override fun getTabooLibVersion(): Double {
-        return 5.34
-    }
-
 }

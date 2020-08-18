@@ -3,7 +3,7 @@ package me.arasple.mc.trmenu.utils
 import io.izzel.taboolib.module.inject.TFunction
 import io.izzel.taboolib.module.locale.TLocale
 import me.arasple.mc.trmenu.TrMenu
-import me.arasple.mc.trmenu.data.MetaPlayer.replaceWithArguments
+import me.arasple.mc.trmenu.api.Extends.replaceWithArguments
 import me.clip.placeholderapi.PlaceholderAPI
 import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
@@ -55,11 +55,11 @@ object Msger {
     }
 
     fun replace(player: Player, string: String?): String {
-        return replaceWithPlaceholders(player, replaceWithBracketPlaceholders(player, string ?: ""))
+        return replaceWithPlaceholders(player, player.replaceWithArguments(string ?: ""))
     }
 
     fun replace(player: Player, strings: List<String>): List<String> {
-        return replaceWithPlaceholders(player, replaceWithBracketPlaceholders(player, strings))
+        return strings.map { replace(player, it) }
     }
 
     private fun replaceWithPlaceholders(player: Player, string: String): String = Colors.translate(PlaceholderAPI.setPlaceholders(player as OfflinePlayer, string))

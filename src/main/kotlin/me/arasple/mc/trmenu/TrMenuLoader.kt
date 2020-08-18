@@ -62,7 +62,6 @@ class TrMenuLoader {
                 it.set("LOCALE.PRIORITY", listOf("en_US", "zh_CN"))
                 it.saveToFile()
             }
-//            TLocaleLoader.load(TabooLib.getPlugin(), true, true)
         }
     }
 

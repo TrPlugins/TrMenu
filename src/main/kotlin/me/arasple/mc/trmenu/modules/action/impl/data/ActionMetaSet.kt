@@ -1,6 +1,6 @@
 package me.arasple.mc.trmenu.modules.action.impl.data
 
-import me.arasple.mc.trmenu.data.MetaPlayer.setMeta
+import me.arasple.mc.trmenu.api.Extends.setMeta
 import me.arasple.mc.trmenu.modules.action.base.Action
 import me.arasple.mc.trmenu.utils.Msger
 import org.bukkit.entity.Player

@@ -1,6 +1,5 @@
 package me.arasple.mc.trmenu.data
 
-import me.arasple.mc.trmenu.data.Sessions.getPlayer
 import me.arasple.mc.trmenu.display.Menu
 import me.arasple.mc.trmenu.display.menu.MenuLayout
 import me.arasple.mc.trmenu.utils.Msger
@@ -12,10 +11,14 @@ import org.bukkit.entity.Player
  */
 class MenuSession(var menu: Menu?, var layout: MenuLayout.Layout?, var page: Int, var fromLayout: MenuLayout.Layout?, var id: Int = 0) {
 
-    fun isNull() = menu == null || layout == null
+    constructor() : this(null, null, 0, null)
+
+    fun isNull(): Boolean {
+        return menu == null || layout == null
+    }
 
     fun set(menu: Menu?, layout: MenuLayout.Layout?, page: Int) {
-        Msger.debug("SESSION", this.getPlayer()?.name ?: "null", menu?.id ?: "null", page)
+        Msger.debug("SESSION", Sessions.getPlayer(this)?.name ?: "null", menu?.id ?: "null", page)
 
         this.menu = menu
         this.layout = layout
@@ -39,8 +42,5 @@ class MenuSession(var menu: Menu?, var layout: MenuLayout.Layout?, var page: Int
     fun isDifferent(id: Int): Boolean {
         return id != this.id
     }
-
-
-    constructor() : this(null, null, 0, null)
 
 }

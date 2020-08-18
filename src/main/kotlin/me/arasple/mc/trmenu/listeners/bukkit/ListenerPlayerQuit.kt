@@ -1,8 +1,8 @@
 package me.arasple.mc.trmenu.listeners.bukkit
 
 import io.izzel.taboolib.module.inject.TListener
-import me.arasple.mc.trmenu.data.MetaPlayer.resetCache
-import me.arasple.mc.trmenu.data.Sessions.removeMenuSession
+import me.arasple.mc.trmenu.api.Extends.removeMenuSession
+import me.arasple.mc.trmenu.api.Extends.resetCache
 import me.arasple.mc.trmenu.display.Menu
 import me.arasple.mc.trmenu.modules.inputer.InputCatcher.removeCatcher
 import me.arasple.mc.trmenu.utils.Tasks

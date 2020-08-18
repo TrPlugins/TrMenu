@@ -1,14 +1,14 @@
 package me.arasple.mc.trmenu.display
 
 import me.arasple.mc.trmenu.TrMenu
+import me.arasple.mc.trmenu.api.Extends.completeArguments
+import me.arasple.mc.trmenu.api.Extends.getMenuSession
+import me.arasple.mc.trmenu.api.Extends.setMenuSession
 import me.arasple.mc.trmenu.api.events.MenuCloseEvent
 import me.arasple.mc.trmenu.api.events.MenuOpenEvent
 import me.arasple.mc.trmenu.configuration.MenuLoader
 import me.arasple.mc.trmenu.configuration.menu.MenuConfiguration
 import me.arasple.mc.trmenu.data.MenuSession
-import me.arasple.mc.trmenu.data.MetaPlayer.completeArguments
-import me.arasple.mc.trmenu.data.Sessions.getMenuSession
-import me.arasple.mc.trmenu.data.Sessions.setMenuSession
 import me.arasple.mc.trmenu.display.menu.MenuLayout
 import me.arasple.mc.trmenu.display.menu.MenuSettings
 import me.arasple.mc.trmenu.modules.packets.PacketsHandler
@@ -46,25 +46,17 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
             val e = MenuOpenEvent(player, this, p, reason, MenuOpenEvent.Result.UNKNOWN).async(true).call() as MenuOpenEvent
             val s = player.getMenuSession()
 
-//            if (!s.isDifferent(i)) {
-//                e.result = MenuOpenEvent.Result.ERROR_PAGE
-//                e.isCancelled = true
-//                return@task
-//            }
             if (layout.layouts.size <= e.page) {
                 e.result = MenuOpenEvent.Result.ERROR_PAGE
                 e.isCancelled = true
                 return@task
             }
             if (!e.isCancelled) {
-                val layout = layout.layouts[p]
-
                 player.completeArguments(settings.options.defaultArguments)
-                s.set(this, layout, p)
-
-                layout.displayInventory(player, settings.title.getTitle(player))
+                val l = layout.layouts[p].also { s.set(this, it, p) }
+                l.displayInventory(player, settings.title.getTitle(player))
                 loadIcons(player, p)
-                settings.load(player, this, layout)
+                settings.load(player, this, l)
                 viewers.add(player)
             }
             if (reason == MenuOpenEvent.Reason.SWITCH_PAGE) {

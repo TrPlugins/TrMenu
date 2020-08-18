@@ -2,6 +2,8 @@ package me.arasple.mc.trmenu.listeners.nms
 
 import io.izzel.taboolib.module.packet.Packet
 import io.izzel.taboolib.module.packet.TPacket
+import me.arasple.mc.trmenu.api.Extends.getMenuFactorySession
+import me.arasple.mc.trmenu.api.Extends.getMenuSession
 import me.arasple.mc.trmenu.api.events.MenuClickEvent
 import me.arasple.mc.trmenu.api.events.MenuCloseEvent
 import me.arasple.mc.trmenu.api.factory.MenuFactorySession
@@ -11,8 +13,6 @@ import me.arasple.mc.trmenu.api.factory.task.ClickTask.Action.CANCEL_MODIFY
 import me.arasple.mc.trmenu.api.factory.task.CloseTask
 import me.arasple.mc.trmenu.api.inventory.InvClickType
 import me.arasple.mc.trmenu.data.MenuSession
-import me.arasple.mc.trmenu.data.Sessions.getMenuFactorySession
-import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import me.arasple.mc.trmenu.modules.packets.PacketsHandler
 import me.arasple.mc.trmenu.utils.Msger
 import org.bukkit.entity.Player

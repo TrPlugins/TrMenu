@@ -5,7 +5,7 @@ import io.izzel.taboolib.module.tellraw.TellrawJson
 import io.izzel.taboolib.util.item.ItemBuilder
 import io.izzel.taboolib.util.item.Items
 import io.izzel.taboolib.util.lite.Numbers
-import me.arasple.mc.trmenu.data.MetaPlayer.getArguments
+import me.arasple.mc.trmenu.api.Extends.getArguments
 import me.arasple.mc.trmenu.modules.action.Actions
 import me.arasple.mc.trmenu.modules.hook.HookCronus
 import me.arasple.mc.trmenu.modules.hook.HookEconomy
@@ -25,6 +25,8 @@ import org.bukkit.inventory.ItemStack
 class Assist {
 
     fun runAction(player: Player, vararg actions: String) = actions.filter { it.isNotBlank() }.forEach { Actions.runCachedAction(player, it) }
+
+    fun parsePlaceholders(player: OfflinePlayer, string: String): String = PlaceholderAPI.setPlaceholders(player, string)
 
     fun parseBracketPlaceholders(player: OfflinePlayer, string: String): String = PlaceholderAPI.setBracketPlaceholders(player, string)
 

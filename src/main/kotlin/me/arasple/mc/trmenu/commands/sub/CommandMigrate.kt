@@ -6,6 +6,7 @@ import io.izzel.taboolib.module.command.base.CommandType
 import io.izzel.taboolib.module.locale.TLocale
 import io.izzel.taboolib.util.ArrayUtil
 import me.arasple.mc.trmenu.TrMenu
+import me.arasple.mc.trmenu.api.Extends.sendLocale
 import me.arasple.mc.trmenu.configuration.MenuLoader
 import me.arasple.mc.trmenu.modules.migrate.MigrateLegacy
 import me.arasple.mc.trmenu.utils.Tasks
@@ -40,18 +41,18 @@ class CommandMigrate : BaseSubCommand() {
                     val file = File(TrMenu.plugin.dataFolder, ArrayUtil.arrayJoin(args, 1))
 
                     if (!file.exists() || (!file.isDirectory && !file.name.endsWith(".yml"))) {
-                        TLocale.sendTo(sender, "MIGRATE.UNKNOWN-FILE", file.name)
+                        sender.sendLocale("MIGRATE.UNKNOWN-FILE", file.name)
                         return@task
                     }
 
                     val files = MenuLoader.grabMenuFiles(file)
                     if (files.isEmpty()) {
-                        TLocale.sendTo(sender, "MIGRATE.EMPTY-FILE")
+                        sender.sendLocale("MIGRATE.EMPTY-FILE")
                         return@task
                     }
 
                     var count = 0
-                    TLocale.sendTo(sender, "MIGRATE.PROCESSING", files.size)
+                    sender.sendLocale("MIGRATE.PROCESSING", files.size)
                     files.forEach {
                         try {
                             MigrateLegacy.run(it).save(File(folder, it.name))
@@ -61,18 +62,17 @@ class CommandMigrate : BaseSubCommand() {
                         }
                     }
                     if (count > 0)
-                        TLocale.sendTo(sender, "MIGRATE.LOAD-SUCCESS", count)
+                        sender.sendLocale("MIGRATE.LOAD-SUCCESS", count)
                     else if (files.size - count > 0)
-                        TLocale.sendTo(sender, "MIGRATE.LOAD-ERROR", files.size - count)
+                        sender.sendLocale("MIGRATE.LOAD-ERROR", files.size - count)
                 }
             }
             "deluxemenus" -> {
 
             }
-            else -> TLocale.sendTo(sender, "MIGRATE.UNSUPPORTED-PLUGIN", args[0])
+            else -> sender.sendLocale("MIGRATE.UNSUPPORTED-PLUGIN", args[0])
         }
     }
-
 
 
     private fun getFolderFiles() =

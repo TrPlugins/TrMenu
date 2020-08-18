@@ -1,6 +1,6 @@
 package me.arasple.mc.trmenu.modules.migrate.impl
 
-import com.extendedclip.deluxemenus.DeluxeMenus
+import com.extendedclip.deluxemenus.menu.Menu
 import me.arasple.mc.trmenu.modules.migrate.Migrate
 
 /**
@@ -14,7 +14,9 @@ class MigrateDeluxeMenus : Migrate() {
     }
 
     override fun migrate() {
-        DeluxeMenus.getInstance()
+        Menu.getAllMenus().forEach {
+
+        }
     }
 
 }

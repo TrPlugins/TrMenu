@@ -6,11 +6,11 @@ import io.izzel.taboolib.module.lite.SimpleReflection
 import io.izzel.taboolib.module.lite.SimpleVersionControl
 import io.izzel.taboolib.module.packet.TPacketHandler
 import me.arasple.mc.trmenu.TrMenu
+import me.arasple.mc.trmenu.api.Extends.getMenuSession
 import me.arasple.mc.trmenu.api.inventory.InvClickType
 import me.arasple.mc.trmenu.api.inventory.InvClickType.*
 import me.arasple.mc.trmenu.data.MenuSession
-import me.arasple.mc.trmenu.data.MetaPlayer.getInventoryContents
-import me.arasple.mc.trmenu.data.Sessions.getMenuSession
+import me.arasple.mc.trmenu.data.Metas
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.event.inventory.InventoryType.*
@@ -74,7 +74,7 @@ abstract class PacketsHandler {
             val menu = session.menu
             if (menu != null) {
                 val hasSlots = menu.getOccupiedSlots(player, session.page)
-                val contents = player.getInventoryContents()
+                val contents = Metas.getInventoryContents(player)
                 for ((index, i) in (size..size + 35).withIndex()) {
                     if (hasSlots.contains(i)) {
                         continue

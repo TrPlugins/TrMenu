@@ -1,8 +1,6 @@
 package me.arasple.mc.trmenu.modules.action.impl.data
 
-import me.arasple.mc.trmenu.data.MetaPlayer.removeMeta
-import me.arasple.mc.trmenu.data.MetaPlayer.removeMetaEndWith
-import me.arasple.mc.trmenu.data.MetaPlayer.removeMetaStartsWith
+import me.arasple.mc.trmenu.api.Extends.removeMeta
 import me.arasple.mc.trmenu.modules.action.base.Action
 import org.bukkit.entity.Player
 
@@ -16,11 +14,11 @@ class ActionMetaRemove : Action("(remove|rem|del)(-)?(temp|var(iable)?|meta)(s)?
         when {
             it.startsWith("^") -> {
                 val match = it.removePrefix("^")
-                player.removeMetaStartsWith(match)
+                player.removeMeta { key -> key.startsWith(match) }
             }
             it.startsWith("$") -> {
                 val match = it.removePrefix("$")
-                player.removeMetaEndWith(match)
+                player.removeMeta { key -> key.endsWith(match) }
             }
             else -> {
                 player.removeMeta("{data:$it}")

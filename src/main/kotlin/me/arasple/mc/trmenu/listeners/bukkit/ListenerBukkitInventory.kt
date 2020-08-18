@@ -1,7 +1,7 @@
 package me.arasple.mc.trmenu.listeners.bukkit
 
 import io.izzel.taboolib.module.inject.TListener
-import me.arasple.mc.trmenu.data.Sessions.getMenuSession
+import me.arasple.mc.trmenu.api.Extends.getMenuSession
 import me.arasple.mc.trmenu.modules.shortcut.Shortcuts
 import me.arasple.mc.trmenu.utils.Utils
 import org.bukkit.entity.Player

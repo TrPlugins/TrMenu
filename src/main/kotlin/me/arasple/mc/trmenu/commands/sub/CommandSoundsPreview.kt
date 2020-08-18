@@ -28,8 +28,6 @@ class CommandSoundsPreview : BaseSubCommand() {
         Argument("Filter", false)
     )
 
-    override fun getType() = CommandType.PLAYER
-
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>) {
         open(sender as Player, 1, if (args.isNotEmpty()) args[0] else null)
     }

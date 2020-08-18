@@ -4,10 +4,10 @@ import io.izzel.taboolib.internal.apache.lang3.ArrayUtils
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import io.izzel.taboolib.module.command.base.Argument
 import io.izzel.taboolib.module.command.base.BaseSubCommand
-import io.izzel.taboolib.module.locale.TLocale
+import me.arasple.mc.trmenu.api.Extends.sendLocale
+import me.arasple.mc.trmenu.api.Extends.setArguments
 import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.api.events.MenuOpenEvent
-import me.arasple.mc.trmenu.data.MetaPlayer.setArguments
 import me.arasple.mc.trmenu.display.Menu
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
@@ -18,10 +18,10 @@ import org.bukkit.entity.Player
  * @author Arasple
  * @date 2020/5/3 14:25
  */
-class CommandOpenMenu : BaseSubCommand() {
+class CommandOpen : BaseSubCommand() {
 
     override fun getArguments() = arrayOf(
-        Argument("MenuId", true) { Menu.getMenus().map { it.id } },
+        Argument("MenuId") { Menu.getMenus().map { it.id } },
         Argument("Player", false),
         Argument("Arguments", false)
     )
@@ -34,11 +34,11 @@ class CommandOpenMenu : BaseSubCommand() {
         val arguments = if (args.size > 2) ArrayUtils.removeAll(args, 0, 1) else null
 
         if (menu == null) {
-            TLocale.sendTo(sender, "COMMANDS.OPEN.UNKNOWN-MENU", args[0])
+            sender.sendLocale("COMMANDS.OPEN.UNKNOWN-MENU", args[0])
             return
         }
         if (player == null) {
-            TLocale.sendTo(sender, "COMMANDS.OPEN.UNKNOWN-PLAYER")
+            sender.sendLocale("COMMANDS.OPEN.UNKNOWN-PLAYER")
             return
         }
         player.setArguments(arguments)

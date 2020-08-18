@@ -3,7 +3,7 @@ package me.arasple.mc.trmenu.data
 import io.izzel.taboolib.internal.apache.lang3.ArrayUtils
 import io.izzel.taboolib.util.Strings
 import io.izzel.taboolib.util.Variables
-import me.arasple.mc.trmenu.data.Sessions.getMenuSession
+import me.arasple.mc.trmenu.api.Extends.getMenuSession
 import me.arasple.mc.trmenu.display.function.InternalFunction
 import me.arasple.mc.trmenu.display.menu.MenuLayout
 import me.arasple.mc.trmenu.modules.script.Scripts
@@ -16,26 +16,30 @@ import java.util.*
  * @author Arasple
  * @date 2020/7/6 22:06
  */
-object MetaPlayer {
+object Metas {
 
     private val playerInventorys = mutableMapOf<UUID, Array<ItemStack?>>()
     private val arguments = mutableMapOf<UUID, Array<String>>()
     private val meta = mutableMapOf<UUID, MutableMap<String, Any>>()
 
-    fun Player.getInventoryContents(): Array<ItemStack?> = playerInventorys.computeIfAbsent(this.uniqueId) { this.inventory.contents.clone() }
-
-    fun Player.updateInventoryContents() = mutableListOf<ItemStack?>().let {
-        val contents = this.inventory.contents
-        for (i in 9..35) it.add(contents[i])
-        for (i in 0..8) it.add(contents[i])
-        playerInventorys[this.uniqueId] = it.toTypedArray()
+    fun getInventoryContents(player: Player): Array<ItemStack?> {
+        return playerInventorys.computeIfAbsent(player.uniqueId) { player.inventory.contents.clone() }
     }
 
-    fun Player.replaceWithArguments(string: String): String {
+    fun updateInventoryContents(player: Player) {
+        return mutableListOf<ItemStack?>().let {
+            val contents = player.inventory.contents
+            for (i in 9..35) it.add(contents[i])
+            for (i in 0..8) it.add(contents[i])
+            playerInventorys[player.uniqueId] = it.toTypedArray()
+        }
+    }
+
+    fun replaceWithArguments(player: Player, string: String): String {
         try {
-            val session = this.getMenuSession()
+            val session = player.getMenuSession()
             val functions = session.menu?.settings?.functions?.internalFunctions
-            val argumented = Strings.replaceWithOrder(string, *this.getArguments())
+            val argumented = Strings.replaceWithOrder(string, *getArguments(player))
             val buffer = StringBuffer(argumented.length)
             // Js & Placeholders from Menu
             var content = InternalFunction.match(
@@ -48,17 +52,17 @@ object MetaPlayer {
                     val split = group.split("_").toTypedArray()
                     // Internal Functions
                     functions?.firstOrNull { it.id.equals(split[0], true) }?.let {
-                        m.appendReplacement(buffer, it.eval(this, ArrayUtils.remove(split, 0)))
+                        m.appendReplacement(buffer, it.eval(player, ArrayUtils.remove(split, 0)))
                     }
                     // Global Js
                     if (group.startsWith("js:")) {
-                        m.appendReplacement(buffer, Scripts.expression(this, group.removePrefix("js:")).asString())
+                        m.appendReplacement(buffer, Scripts.expression(player, group.removePrefix("js:")).asString())
                     }
                 }
                 m.appendTail(buffer).toString()
             }
             // Meta
-            this.getMeta().forEach {
+            getMeta(player).forEach {
                 content = content.replace(it.key, it.value.toString())
             }
             return content
@@ -68,46 +72,62 @@ object MetaPlayer {
         }
     }
 
-    fun Player.getArguments() = arguments.computeIfAbsent(this.uniqueId) { arrayOf() }
+    fun getArguments(player: Player): Array<String> {
+        return arguments.computeIfAbsent(player.uniqueId) { arrayOf() }
+    }
 
-    fun Player.setArguments(arguments: Array<String>?) {
+    fun setArguments(player: Player, arguments: Array<String>?) {
         if (arguments == null) {
-            removeArguments()
+            removeArguments(player)
             return
         }
-        this@MetaPlayer.arguments[this.uniqueId] = filterInput(formatArguments(arguments)).toTypedArray()
-        Msger.debug("ARGUMENTS", this.name, this.getArguments().joinToString(","))
-        Msger.debug(this, "ARGUMENTS", this.name, this.getArguments().joinToString(","))
+        this@Metas.arguments[player.uniqueId] = filterInput(formatArguments(arguments)).toTypedArray()
+        Msger.debug("ARGUMENTS", player.name, getArguments(player).joinToString(","))
+        Msger.debug(player, "ARGUMENTS", player.name, getArguments(player).joinToString(","))
     }
 
-    fun Player.removeArguments() = arguments.remove(this.uniqueId)
-
-    fun Player.setMeta(key: String, value: Any) = this.getMeta().put(key, value)
-
-    fun Player.getMeta(key: String) = this.getMeta()[key]
-
-    fun Player.getMeta() = meta.computeIfAbsent(this.uniqueId) { mutableMapOf() }
-
-    fun Player.removeMeta(key: String) = this.getMeta().remove(key)
-
-    fun Player.removeMetaStartsWith(key: String) = this.getMeta().entries.removeIf { it.key.startsWith(key) }
-
-    fun Player.removeMetaEndWith(key: String) = this.getMeta().entries.removeIf { it.key.endsWith(key) }
-
-    fun Player.resetCache() {
-        playerInventorys.remove(this.uniqueId)
-        meta.remove(this.uniqueId)
+    fun removeArguments(player: Player) {
+        arguments.remove(player.uniqueId)
     }
 
-    fun Player.completeArguments(arguments: Array<String>) {
+    fun setMeta(player: Player, key: String, value: Any): Any? {
+        return getMeta(player).put(key, value)
+    }
+
+    fun getMeta(player: Player, key: String): Any? {
+        return getMeta(player)[key]
+    }
+
+    fun getMeta(player: Player): MutableMap<String, Any> {
+        return meta.computeIfAbsent(player.uniqueId) { mutableMapOf() }
+    }
+
+    fun removeMeta(player: Player, key: String) {
+        getMeta(player).remove(key)
+    }
+
+    fun removeMeta(player: Player, matcher: Matcher) {
+        getMeta(player).entries.removeIf { matcher.match(it.key) }
+    }
+
+    fun removeMetaEndWith(player: Player, key: String) {
+        getMeta(player).entries.removeIf { it.key.endsWith(key) }
+    }
+
+    fun resetCache(player: Player) {
+        playerInventorys.remove(player.uniqueId)
+        meta.remove(player.uniqueId)
+    }
+
+    fun completeArguments(player: Player, arguments: Array<String>) {
         if (arguments.isNotEmpty()) {
-            val currentArgs = this.getArguments()
+            val currentArgs = getArguments(player)
             if (currentArgs.isEmpty()) {
-                this.setArguments(arguments)
+                setArguments(player, arguments)
             } else if (currentArgs.size < currentArgs.size) {
                 val args = currentArgs.toMutableList()
                 for (i in args.size until currentArgs.size) args.add(currentArgs[i])
-                this.setArguments(args.toTypedArray())
+                setArguments(player, args.toTypedArray())
             }
         }
     }
@@ -132,5 +152,11 @@ object MetaPlayer {
             }
             list
         }
+
+    fun interface Matcher {
+
+        fun match(key: String): Boolean
+
+    }
 
 }

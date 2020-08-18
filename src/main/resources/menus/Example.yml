@@ -1,6 +1,6 @@
 Title:
   - 'Hello, TrMenu!'
-  - 'Hello, {player_name}!'
+  - 'Hello, %player_name%!'
   - 'Support Animated Titles'
 
 Title-Update: 40

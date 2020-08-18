@@ -84,7 +84,9 @@ object Skulls {
                         CACHED_PLAYER_TEXTURE[id]?.let { consumer.accept(it) }
                     }
                 } catch (e: Throwable) {
-                    if (e.message != "JsonNull") Msger.printErrors("PLAYER-HEAD", e)
+                    if (e.message != null && e.message != "JsonNull") {
+                        Msger.printErrors("PLAYER-HEAD", e)
+                    }
                 }
             }
         }

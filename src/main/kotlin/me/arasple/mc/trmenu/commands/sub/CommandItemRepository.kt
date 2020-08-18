@@ -4,8 +4,8 @@ import io.izzel.taboolib.cronus.CronusUtils
 import io.izzel.taboolib.module.command.base.Argument
 import io.izzel.taboolib.module.command.base.BaseSubCommand
 import io.izzel.taboolib.module.command.base.CommandType
-import io.izzel.taboolib.module.locale.TLocale
 import io.izzel.taboolib.util.lite.Sounds
+import me.arasple.mc.trmenu.api.Extends.sendLocale
 import me.arasple.mc.trmenu.api.factory.MenuFactory
 import me.arasple.mc.trmenu.modules.repo.ItemRepository
 import org.bukkit.command.Command
@@ -39,34 +39,34 @@ class CommandItemRepository : BaseSubCommand() {
                 val id = args[1]
                 val item = ItemRepository.getItem(id).let {
                     if (it == null) {
-                        TLocale.sendTo(sender, "COMMANDS.ITEM-REPOSITORY.NOT-EXIST", id)
+                        sender.sendLocale("COMMANDS.ITEM-REPOSITORY.NOT-EXIST", id)
                         return
                     }
                     return@let it
                 }
                 CronusUtils.addItem(player, item)
-                TLocale.sendTo(sender, "COMMANDS.ITEM-REPOSITORY.GIVED", id)
+                sender.sendLocale("COMMANDS.ITEM-REPOSITORY.GIVED", id)
             }
             "add" -> {
                 val id = args[1]
                 ItemRepository.getItem(id)?.let {
-                    TLocale.sendTo(sender, "COMMANDS.ITEM-REPOSITORY.EXISTED", id)
+                    sender.sendLocale("COMMANDS.ITEM-REPOSITORY.EXISTED", id)
                     return
                 }
                 val item = player.inventory.itemInMainHand
                 ItemRepository.addItem(id, item)
-                TLocale.sendTo(sender, "COMMANDS.ITEM-REPOSITORY.ADDED", id)
+                sender.sendLocale("COMMANDS.ITEM-REPOSITORY.ADDED", id)
             }
             "remove" -> {
                 val id = args[1]
                 ItemRepository.getItem(id).let {
                     if (it == null) {
-                        TLocale.sendTo(sender, "COMMANDS.ITEM-REPOSITORY.NOT-EXIST", id)
+                        sender.sendLocale("COMMANDS.ITEM-REPOSITORY.NOT-EXIST", id)
                         return
                     }
                 }
                 ItemRepository.removeItem(id)
-                TLocale.sendTo(sender, "COMMANDS.ITEM-REPOSITORY.REMOVED", id)
+                sender.sendLocale("COMMANDS.ITEM-REPOSITORY.REMOVED", id)
             }
         }
     }

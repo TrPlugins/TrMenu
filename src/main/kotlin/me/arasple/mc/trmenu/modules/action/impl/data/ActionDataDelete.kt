@@ -1,7 +1,7 @@
 package me.arasple.mc.trmenu.modules.action.impl.data
 
 import io.izzel.taboolib.module.db.local.LocalPlayer
-import me.arasple.mc.trmenu.data.MetaPlayer.removeMeta
+import me.arasple.mc.trmenu.api.Extends.removeMeta
 import me.arasple.mc.trmenu.modules.action.base.Action
 import org.bukkit.entity.Player
 

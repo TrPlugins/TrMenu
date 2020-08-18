@@ -42,6 +42,6 @@ class Lore(val lore: MutableList<String>, val conditions: MutableMap<Int, Pair<S
         return lores
     }
 
-    private fun formatLores(player: Player, string: String) = Msger.replace(player, string.split("\\n"))
+    private fun formatLores(player: Player, string: String) = Msger.replace(player, string).split("\\n")
 
 }

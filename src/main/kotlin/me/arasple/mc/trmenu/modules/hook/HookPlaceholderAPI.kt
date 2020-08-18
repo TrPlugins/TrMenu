@@ -6,9 +6,9 @@ import io.izzel.taboolib.module.inject.THook
 import io.izzel.taboolib.module.locale.TLocale
 import io.izzel.taboolib.util.Files
 import me.arasple.mc.trmenu.TrMenu
-import me.arasple.mc.trmenu.data.MetaPlayer.getArguments
-import me.arasple.mc.trmenu.data.MetaPlayer.getMeta
-import me.arasple.mc.trmenu.data.Sessions.getMenuSession
+import me.arasple.mc.trmenu.api.Extends.getArguments
+import me.arasple.mc.trmenu.api.Extends.getMenuSession
+import me.arasple.mc.trmenu.api.Extends.getMeta
 import me.arasple.mc.trmenu.display.Menu
 import me.arasple.mc.trmenu.modules.script.Scripts
 import me.arasple.mc.trmenu.utils.Utils

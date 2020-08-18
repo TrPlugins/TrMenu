@@ -2,8 +2,7 @@ package me.arasple.mc.trmenu.modules.inputer
 
 import io.izzel.taboolib.util.lite.cooldown.Cooldown
 import me.arasple.mc.trmenu.TrMenu
-import me.arasple.mc.trmenu.data.MetaPlayer.removeMeta
-import me.arasple.mc.trmenu.data.MetaPlayer.removeMetaStartsWith
+import me.arasple.mc.trmenu.api.Extends.removeMeta
 import org.bukkit.entity.Player
 import java.util.*
 
@@ -25,8 +24,9 @@ object InputCatcher {
     }
 
     fun Player.clearCatcherMeta() {
-        this.removeMeta("\$input")
-        this.removeMetaStartsWith("\${input")
+        this.removeMeta {
+            it.startsWith("\${input") || it == "\$input"
+        }
     }
 
     fun Player.isCatcherReInputing() = this.hasMetadata("RE_ENTER")

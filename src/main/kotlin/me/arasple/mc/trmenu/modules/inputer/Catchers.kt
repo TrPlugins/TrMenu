@@ -2,9 +2,9 @@ package me.arasple.mc.trmenu.modules.inputer
 
 import io.izzel.taboolib.util.lite.Signs
 import me.arasple.mc.trmenu.TrMenu
-import me.arasple.mc.trmenu.data.MetaPlayer
-import me.arasple.mc.trmenu.data.MetaPlayer.setMeta
-import me.arasple.mc.trmenu.data.Sessions.getMenuSession
+import me.arasple.mc.trmenu.api.Extends.getMenuSession
+import me.arasple.mc.trmenu.api.Extends.setMeta
+import me.arasple.mc.trmenu.data.Metas
 import me.arasple.mc.trmenu.display.animation.Animated
 import me.arasple.mc.trmenu.display.function.Reactions
 import me.arasple.mc.trmenu.modules.inputer.Catchers.Type.ANVIL
@@ -86,12 +86,11 @@ class Catchers(val catchers: Animated<Stage>) {
         }
 
         private fun setInput(player: Player, message: String): String {
-            val input = MetaPlayer.filterInput(message)
+            val input = Metas.filterInput(message)
             if (id.isNotBlank()) {
                 player.setMeta("\${input_$id}", input)
             } else {
-                player.setMeta("\${input}", input)
-                player.setMeta("\$input", input)
+                player.setMeta(arrayOf("\${input}", "\$input"), input)
             }
             return input
         }

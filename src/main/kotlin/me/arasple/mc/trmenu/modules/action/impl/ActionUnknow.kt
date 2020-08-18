@@ -1,6 +1,6 @@
 package me.arasple.mc.trmenu.modules.action.impl
 
-import io.izzel.taboolib.module.locale.TLocale
+import me.arasple.mc.trmenu.api.Extends.sendLocale
 import me.arasple.mc.trmenu.modules.action.base.Action
 import org.bukkit.entity.Player
 
@@ -10,6 +10,6 @@ import org.bukkit.entity.Player
  */
 class ActionUnknow : Action("trmenu_action_unknow") {
 
-    override fun onExecute(player: Player) = TLocale.sendTo(player, "ERRORS.ACTION", getContent())
+    override fun onExecute(player: Player) = player.sendLocale("ERRORS.ACTION", getContent())
 
 }

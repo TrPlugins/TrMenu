@@ -5,13 +5,13 @@ import io.izzel.taboolib.internal.apache.lang3.ArrayUtils
 import io.izzel.taboolib.loader.PluginHandle
 import io.izzel.taboolib.module.command.base.Argument
 import io.izzel.taboolib.module.command.base.BaseSubCommand
-import io.izzel.taboolib.module.locale.TLocale
 import io.izzel.taboolib.util.ArrayUtil
 import me.arasple.mc.trmenu.TrMenu
+import me.arasple.mc.trmenu.api.Extends.getArguments
+import me.arasple.mc.trmenu.api.Extends.getMenuSession
+import me.arasple.mc.trmenu.api.Extends.getMetas
+import me.arasple.mc.trmenu.api.Extends.sendLocale
 import me.arasple.mc.trmenu.api.TrMenuAPI
-import me.arasple.mc.trmenu.data.MetaPlayer.getArguments
-import me.arasple.mc.trmenu.data.MetaPlayer.getMeta
-import me.arasple.mc.trmenu.data.Sessions.getMenuSession
 import me.arasple.mc.trmenu.display.Menu
 import me.arasple.mc.trmenu.display.item.property.Mat
 import me.arasple.mc.trmenu.modules.expression.Expressions
@@ -79,8 +79,8 @@ class CommandDebug : BaseSubCommand() {
                     val parsed = Expressions.parseExpression(content)
                     val translated =
                         Scripts.translate(parsed)
-                    TLocale.sendTo(sender, "DEBUG.EXPRESSION", content, parsed)
-                    TLocale.sendTo(sender, "DEBUG.PRE-COMPILE-SCRIPT", parsed, translated)
+                    sender.sendLocale("DEBUG.EXPRESSION", content, parsed)
+                    sender.sendLocale("DEBUG.PRE-COMPILE-SCRIPT", parsed, translated)
                 }
                 "parsemat" -> {
                     if (sender is Player) {
@@ -130,12 +130,12 @@ class CommandDebug : BaseSubCommand() {
         if (sender is Player) {
             if (sender.hasMetadata("TrMenu:Debug")) {
                 sender.removeMetadata("TrMenu:Debug", TrMenu.plugin)
-                TLocale.sendTo(sender, "COMMANDS.DEBUG.OFF")
+                sender.sendLocale("COMMANDS.DEBUG.OFF")
             } else {
                 sender.setMetadata("TrMenu:Debug", FixedMetadataValue(TrMenu.plugin, ""))
-                TLocale.sendTo(sender, "COMMANDS.DEBUG.ON")
+                sender.sendLocale("COMMANDS.DEBUG.ON")
             }
-        } else TLocale.sendTo(sender, "COMMANDS.DEBUG.${if (Msger.debug()) "ON" else "OFF"}")
+        } else sender.sendLocale("COMMANDS.DEBUG.${if (Msger.debug()) "ON" else "OFF"}")
     }
 
     private fun printPlayer(sender: CommandSender, player: Player?) {
@@ -148,7 +148,7 @@ class CommandDebug : BaseSubCommand() {
                     "§eCurrentMenu: §6${session.menu?.id}",
                     "§eCurrentPage: §6${session.page}",
                     "§eArguments: §6${player.getArguments().joinToString(", ", "{", "}")}",
-                    "§eMetas: §6${player.getMeta()}",
+                    "§eMetas: §6${player.getMetas()}",
                     "§eInternalFunctions: §6${session.menu?.settings?.functions?.internalFunctions?.map { it.id }}",
                     "",
                     "§3§l「§8--------------------------------------------------§3§l」"

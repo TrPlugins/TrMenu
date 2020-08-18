@@ -1,9 +1,6 @@
 package me.arasple.mc.trmenu.commands
 
-import io.izzel.taboolib.module.command.base.BaseCommand
-import io.izzel.taboolib.module.command.base.BaseMainCommand
-import io.izzel.taboolib.module.command.base.BaseSubCommand
-import io.izzel.taboolib.module.command.base.SubCommand
+import io.izzel.taboolib.module.command.base.*
 import io.izzel.taboolib.module.command.base.display.DisplayFlat
 import me.arasple.mc.trmenu.commands.sub.*
 
@@ -19,7 +16,7 @@ class CommandHandler : BaseMainCommand() {
     val reload: BaseSubCommand = CommandReload()
 
     @SubCommand(permission = "trmenu.command.open", description = "Open a menu for player")
-    val open: BaseSubCommand = CommandOpenMenu()
+    val open: BaseSubCommand = CommandOpen()
 
     @SubCommand(permission = "trmenu.command.list", description = "List loaded menus")
     val list: BaseSubCommand = CommandListMenu()
@@ -33,10 +30,10 @@ class CommandHandler : BaseMainCommand() {
     @SubCommand(permission = "trmenu.command.itemRepository", description = "Store and access itemStacks")
     val itemRepo: BaseSubCommand = CommandItemRepository()
 
-    @SubCommand(permission = "trmenu.command.template", description = "Create menus quickly")
+    @SubCommand(permission = "trmenu.command.template", description = "Create menus quickly", type = CommandType.PLAYER)
     val template: BaseSubCommand = CommandTemplate()
 
-    @SubCommand(permission = "trmenu.command.sounds", description = "Preview sounds")
+    @SubCommand(permission = "trmenu.command.sounds", description = "Preview sounds", type = CommandType.PLAYER)
     var sounds: BaseSubCommand = CommandSoundsPreview()
 
     @SubCommand(permission = "trmenu.command.migrate", description = "Migrate menus for other plugins")

@@ -43,11 +43,7 @@ class IconSettings(val refresh: Int, var update: Array<Int>) {
             if (display.item.material.isUpdatable()) set.add(0)
             if (display.name.isUpdatable()) set.add(1)
             if (display.lore.animatable || display.lore.elements.any { it.isUpdateable() }) set.add(2)
-            if (display.position.values
-                    .any { it ->
-                        it.animatable || it.elements.any { it.dynamicSlots.isNotEmpty() }
-                    }
-            ) {
+            if (display.position.values.any { it -> it.animatable || it.elements.any { it.dynamicSlots.isNotEmpty() } }) {
                 set.add(3)
             }
 

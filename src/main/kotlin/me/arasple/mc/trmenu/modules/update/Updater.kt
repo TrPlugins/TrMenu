@@ -9,6 +9,7 @@ import io.izzel.taboolib.module.inject.TSchedule
 import io.izzel.taboolib.module.locale.TLocale
 import io.izzel.taboolib.util.IO
 import me.arasple.mc.trmenu.TrMenu
+import me.arasple.mc.trmenu.api.Extends.sendLocale
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
@@ -71,7 +72,7 @@ object Updater {
         fun onJoin(e: PlayerJoinEvent) {
             val player = e.player
             if (player.isOp && LATEST_VERSION > CURRENT_VERSION && !NOTIFIES.contains(player.uniqueId)) {
-                TLocale.sendTo(player, "PLUGIN.UPDATE", LATEST_VERSION)
+                player.sendLocale("PLUGIN.UPDATE", LATEST_VERSION)
                 NOTIFIES.add(player.uniqueId)
             }
         }

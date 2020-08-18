@@ -4,9 +4,9 @@ import io.izzel.taboolib.cronus.CronusUtils
 import io.izzel.taboolib.module.command.base.Argument
 import io.izzel.taboolib.module.command.base.BaseSubCommand
 import io.izzel.taboolib.module.command.base.CommandType
-import io.izzel.taboolib.module.locale.TLocale
 import io.izzel.taboolib.util.Hastebin
 import io.izzel.taboolib.util.item.Items
+import me.arasple.mc.trmenu.api.Extends.sendLocale
 import me.arasple.mc.trmenu.display.item.Item
 import me.arasple.mc.trmenu.utils.Tasks
 import org.bukkit.command.Command
@@ -39,18 +39,18 @@ class CommandItem : BaseSubCommand() {
     private fun toJson(player: Player) {
         val item = player.inventory.itemInMainHand
         if (Items.isNull(item)) {
-            TLocale.sendTo(player, "COMMANDS.ITEM.TO-JSON.NO-ITEM")
+            player.sendLocale("COMMANDS.ITEM.TO-JSON.NO-ITEM")
             return
         }
 
         val json = Items.toJson(item)
         if (json.length < 200) {
-            TLocale.sendTo(player, "COMMANDS.ITEM.TO-JSON.CONVERTED", json)
+            player.sendLocale("COMMANDS.ITEM.TO-JSON.CONVERTED", json)
         } else {
-            TLocale.sendTo(player, "HASTEBIN.PROCESSING")
+            player.sendLocale("HASTEBIN.PROCESSING")
             Tasks.task(true) {
                 val url = Hastebin.paste(json).url
-                TLocale.sendTo(player, if (url != null) "HASTEBIN.SUCCESS" else "HASTEBIN.FAILED", url)
+                player.sendLocale(if (url != null) "HASTEBIN.SUCCESS" else "HASTEBIN.FAILED", url)
             }
         }
     }

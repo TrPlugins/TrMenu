@@ -1,8 +1,8 @@
 package me.arasple.mc.trmenu.configuration
 
-import io.izzel.taboolib.module.locale.TLocale
 import io.izzel.taboolib.util.Files
 import me.arasple.mc.trmenu.TrMenu
+import me.arasple.mc.trmenu.api.Extends.sendLocale
 import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.configuration.menu.MenuConfiguration
 import me.arasple.mc.trmenu.configuration.serialize.MenuSerializer
@@ -31,7 +31,7 @@ object MenuLoader {
             val file = File(it)
             if (file.exists()) grabMenuFiles(file).forEach { loadMenu(it)?.let { m -> Menu.getMenus().add(m) } }
         }
-        TLocale.sendTo(sender, "LOADER.MENU", Menu.getMenus().size, System.currentTimeMillis() - start)
+        sender.sendLocale("LOADER.MENU", Menu.getMenus().size, System.currentTimeMillis() - start)
     }
 
     fun loadMenu(file: File) = loadMenu(file, true)
@@ -73,6 +73,5 @@ object MenuLoader {
 
         return folder
     }
-
 
 }

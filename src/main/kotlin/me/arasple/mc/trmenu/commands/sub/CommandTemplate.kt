@@ -10,6 +10,7 @@ import io.izzel.taboolib.util.Hastebin
 import io.izzel.taboolib.util.item.Items
 import io.izzel.taboolib.util.item.inventory.MenuBuilder
 import io.izzel.taboolib.util.lite.Sounds
+import me.arasple.mc.trmenu.api.Extends.sendLocale
 import me.arasple.mc.trmenu.display.item.property.Mat
 import me.arasple.mc.trmenu.display.menu.MenuLayout
 import me.arasple.mc.trmenu.modules.migrate.Migrate
@@ -37,8 +38,6 @@ class CommandTemplate : BaseSubCommand() {
             }
         )
 
-    override fun getType() = CommandType.PLAYER
-
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>) {
         val player = sender as Player
         val rows = (if (args.isNotEmpty()) NumberUtils.toInt(args[0], 5) else 3).coerceAtMost(6)
@@ -49,14 +48,14 @@ class CommandTemplate : BaseSubCommand() {
             .close {
                 val inventory = it.inventory
                 if (isEmpty(inventory)) {
-                    TLocale.sendTo(player, "COMMANDS.TEMPLATE.EMPTY")
+                    player.sendLocale("COMMANDS.TEMPLATE.EMPTY")
                     return@close
                 }
                 Tasks.task(true) {
                     Sounds.BLOCK_NOTE_BLOCK_BIT.play(player, 1f, 0f)
-                    TLocale.sendTo(player, "COMMANDS.TEMPLATE.PROCESSING")
+                    player.sendLocale("COMMANDS.TEMPLATE.PROCESSING")
                     Hastebin.paste(format(inventory)).url.let { url ->
-                        TLocale.sendTo(player, if (url != null) "COMMANDS.TEMPLATE.SUCCESS" else "COMMANDS.TEMPLATE.FAILED", url)
+                        player.sendLocale(if (url != null) "COMMANDS.TEMPLATE.SUCCESS" else "COMMANDS.TEMPLATE.FAILED", url)
                     }
                 }
                 inventory.contents.forEach { item ->

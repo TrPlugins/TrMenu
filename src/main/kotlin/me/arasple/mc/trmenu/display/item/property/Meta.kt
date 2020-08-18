@@ -47,7 +47,9 @@ data class Meta(var amount: String, var shiny: String, var flags: MutableSet<Ite
         }
     }
 
-    fun amount(player: Player) = NumberUtils.toDouble(if (isAmountDynamic) Msger.replace(player, amount) else amount, 1.0).toInt()
+    fun amount(player: Player): Int {
+        return NumberUtils.toDouble(if (isAmountDynamic) Msger.replace(player, amount) else amount, 1.0).toInt()
+    }
 
     fun shiny(player: Player, itemMeta: ItemMeta) {
         if ((shiny.toBoolean()) || (isShinyDynamic && Scripts.expression(player, shiny).asBoolean())) {
@@ -65,6 +67,8 @@ data class Meta(var amount: String, var shiny: String, var flags: MutableSet<Ite
         return null
     }
 
-    fun hasAmount() = amount.isNotEmpty() || NumberUtils.toInt(amount, -1) >= 0
+    fun hasAmount(): Boolean {
+        return amount.isNotEmpty() || NumberUtils.toInt(amount, -1) >= 0
+    }
 
 }

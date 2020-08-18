@@ -1,12 +1,12 @@
 package me.arasple.mc.trmenu.api.factory
 
 import me.arasple.mc.trmenu.TrMenu
+import me.arasple.mc.trmenu.api.Extends.getMenuFactorySession
+import me.arasple.mc.trmenu.api.Extends.getMenuSession
 import me.arasple.mc.trmenu.api.factory.task.BuildTask
 import me.arasple.mc.trmenu.api.factory.task.ClickTask
 import me.arasple.mc.trmenu.api.factory.task.CloseTask
-import me.arasple.mc.trmenu.data.MetaPlayer.updateInventoryContents
-import me.arasple.mc.trmenu.data.Sessions.getMenuFactorySession
-import me.arasple.mc.trmenu.data.Sessions.getMenuSession
+import me.arasple.mc.trmenu.data.Metas
 import me.arasple.mc.trmenu.display.menu.MenuLayout
 import me.arasple.mc.trmenu.display.menu.MenuLayout.Companion.size
 import me.arasple.mc.trmenu.display.menu.MenuLayout.Companion.width
@@ -105,8 +105,7 @@ class MenuFactory(
             val item = entry.value
             positions[id]?.let { it -> session.def[id] = Pair(item, it) }
         }
-
-        player.updateInventoryContents()
+        Metas.updateInventoryContents(player)
         session.menuFactory = this
         buildTask?.run(BuildTask.Event(player, session))
         runnable.run()

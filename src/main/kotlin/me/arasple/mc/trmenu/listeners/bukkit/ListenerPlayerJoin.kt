@@ -2,7 +2,7 @@ package me.arasple.mc.trmenu.listeners.bukkit
 
 import io.izzel.taboolib.module.db.local.LocalPlayer
 import io.izzel.taboolib.module.inject.TListener
-import me.arasple.mc.trmenu.data.MetaPlayer.setMeta
+import me.arasple.mc.trmenu.api.Extends.setMeta
 import me.arasple.mc.trmenu.utils.Tasks
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
