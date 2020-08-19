@@ -1,0 +1,146 @@
+PLUGIN:
+  LOADING:
+    - ''
+    - '&7Đang tải &3Tr&bMenu &f&lPremium... &8{0}'
+    - ''
+  LOADED: '&8[&3Tr&bMenu&8] &bTHÔNG TIN &8| &3Plugin đã tải thành công! Phiên bản đang chạy hiện tại là &2{0}&7.'
+  HOOKED: '&8[&3Tr&bMenu&8] &6HOOK &8| &7Đã tìm thấy phụ thuộc phụ! Đang kết nối vào &f{0}&7.'
+  UPDATE:
+    - '&8[&3Tr&bMenu&8] &bCẬP NHẬT &8| &3Đã tìm thấy cập nhật &a{0}&3! Nhấn tải nó ở link bên dưới để có thêm nhiều tính năng và sửa lỗi!'
+    - '&bhttps://www.spigotmc.org/resources/authors/435323/'
+  DEPEND:
+    DOWNLOAD: '&8[&3Tr&bMenu&8] &ePHỤ THUỘC &8| &7Đang tải plugin &f{0} &7...'
+    INSTALL: '&8[&3Tr&bMenu&8] &ePHỤ THUỘC &8| &7Thành công tải plugin &3{0} &7, khởi động lại server để hoàn thành cài đặt...'
+    INSTALL-FAILED: '&8[&3Tr&bMenu&8] &ePHỤ THUỘC &8| &7Một lỗi đã xảy ra khi đang tải &c{0}&7. Hãy tải xuống plugin theo cách thủ công để hoàn tất cài đặt, dừng máy chủ...'
+
+LOADER:
+  MENU: '&8[&3Tr&bMenu&8] &aTHÀNH CÔNG &8| &a{0} &3menu đã được tải &8({1} ms)'
+  ERRORS:
+    - '&8[&3Tr&bMenu&8] &cLỖI &8| &4Một lỗi đã xảy ra khi tải menu &c{0}&4.'
+    - '&7Tin nhắn: &8{1}'
+    - '&7Lý do: &8{2}'
+
+MIGRATE:
+  UNKNOWN-FILE: '&8[&fTr&7Menu&8] &aMIGRATE &8| &7Tệp không hỗ trợ hoặc không tồn tại &f{0}&7.'
+  EMPTY-FILE: '&8[&fTr&7Menu&8] &aMIGRATE &8| &7Tệp/Thư mục được chỉ định trống rỗng.'
+  UNSUPPORTED-PLUGIN: '&8[&3Tr&bMenu&8] &aMIGRATE &8| &7Plugin &f{0} &7chưa được hỗ trợ...'
+  PROCESSING: '&8[&3Tr&bMenu&8] &aMIGRATE &8| &f{0} &7đã phát hiện các tệp, đang chuyển đổi...'
+  LOAD-SUCCESS: '&8[&3Tr&bMenu&8] &aMIGRATE &8| &a{0} &3các tệp menu đã thành công chuyển đổi và di chuyển đến `/plugins/TrMenu/migrated/`'
+  LOAD-ERROR: '&8[&3Tr&bMenu&8] &aMIGRATE &8| &c{0} &7các menu thất bại khi tải, vui lòng kiểm tra các lỗi trong bảng thông tin...'
+  ERROR:
+    - '&8[&3Tr&bMenu&8] &aMIGRATE &8| &4Một lỗi đã xảy ra khi đang di chuyển &c{0}&4.'
+    - '&8Lý do: {1}'
+    - '&8Dấu hiệu: {2}'
+
+MENU:
+  DEPEND-EXPANSIONS:
+    - ''
+    - '&8[&fTr&7Menu&8] &Bạn cần phải cài đặt các expansion &f{0} &7 cho PlaceholderAPI để sử dụng menu này.'
+    - ''
+  DEPEND-EXPANSIONS-FORMAT:
+    ==: JSON
+    text: '&8- <&3{0}@expansion>&r'
+    args:
+      expansion:
+        hover: '&7Nhấn để tải về'
+        command: '/placeholderapi ecloud download {0}'
+
+COMMANDS:
+  OPEN:
+    UNKNOWN-MENU: '&8[&3Tr&bMenu&8] &7Không xác định menu &6{0} &7.'
+    UNKNOWN-PLAYER: '&8[&3Tr&bMenu&8] &7Người chơi này không được kết nối.'
+  ACTION:
+    UNKNOWN-PLAYER: '&8[&3Tr&bMenu&8] &7Người chơi này không được kết nối.'
+  LIST:
+    HEADER:
+      - ''
+      - '&8[&3Tr&bMenu&8] &7Tải thành công &f{0} &7menu &8(bộ lọc: {1}): '
+      - ''
+    FORMAT:
+      ==: JSON
+      text: '&8- <&2{0}@menu>&r'
+      args:
+        menu:
+          hover: '&7Nhấn để mở'
+          command: '/trmenu open {0}'
+  DEBUG:
+    'ON': '&8[&3Tr&bMenu&8] &3GỠ LỖI &8| &7Chế độ gỡ lỗi đã &abật&7.'
+    'OFF': '&8[&3Tr&bMenu&8] &3DEBUG &8| &7Chế độ gỡ lỗi đã &ctắt&7.'
+  ITEM:
+    TO-JSON:
+      NO-ITEM: '&8[&3Tr&bMenu&8] &7Bạn cần phải &fcầm một vật phẩm &7để chuyển đổi nó sang JSON'
+      CONVERTED:
+        ==: JSON
+        text: '&8[&3Tr&bMenu&8] &7Vật phẩm đã được chuyển đổi thành JSON: <&3&nNhấn để sao chép@copy>'
+        args:
+          copy:
+            hover: '&7Nhấn để sao chép'
+            suggest: '{0}'
+  ITEM-REPOSITORY:
+    NO-ITEM: '&8[&3Tr&bMenu&8] &7Bạn cần phải &fcầm một vật phẩm &7để chuyển đổi chúng thành JSON.'
+    NOT-EXIST: '&8[&3Tr&bMenu&8] &7Một vật phẩm với ID &f{0} &7không được tìm thấy.'
+    EXISTED: '&8[&3Tr&bMenu&8] &7Một vật phẩm với ID &f{0} &7đã tồn tại.'
+    GIVED: '&8[&3Tr&bMenu&8] &3Bạn đã nhận được vật phẩm &a{0}&3.'
+    ADDED: '&8[&3Tr&bMenu&8] &3Thêm vật phẩm &a{0} &3vào kho vật phẩm.'
+    REMOVED: '&8[&3Tr&bMenu&8] &3Vật phẩm &a{0} &3đã được xoá khỏi kho.'
+  TEMPLATE:
+    EMPTY: '&8[&3Tr&bMenu&8] &7Bản mẫu menu trống rỗng, trình tạo menu đã bị huỷ...'
+    PROCESSING: '&8[&3Tr&bMenu&8] &7Đang tạo menu của bạn từ bản mẫu...'
+    SUCCESS:
+      ==: JSON
+      text: '&8[&3Tr&bMenu&8] &3Menu đã tạo thành công. Nhấn <&a&nvào đây@paste> &3để lấy liên kết'
+      args:
+        paste:
+          hover: '&7Nhấn vào đây để lấy liên kết đến menu của bạn'
+          url: '{0}'
+    FAILED: '&8[&3Tr&bMenu&8] &cTrình tạo menu thất bại... vui lòng kiểm tra kết nối của bạn!'
+
+HASTEBIN:
+  PROCESSING: '&8[&3Tr&bMenu&8] &7Đang tải, Vui lòng chờ...'
+  SUCCESS: '&8[&3Tr&bMenu&8] &3Menu của bạn đã được dán lên &a{0}'
+  FAILED: '&8[&3Tr&bMenu&8] &cMột lỗi đã xảy ra khi đang dán menu lên Hastebin.'
+
+DEBUG:
+  ARGUMENTS: '&8[&fTr&7Menu&8] &3GỠ LỖI &8| &6Thay đổi các argument cho người chơi &c{0} &c{ &8{1} &c}'
+  SESSION: '&8[&fTr&7Menu&8] &3GỠ LỖI &8| &6Thay đổi trang menu cho &c{0} &c{ &8{1}. Page: {2} &c}'
+  EXPRESSION:
+    - '&8[&fTr&7Menu&8] &3GỠ LỖI &8| &6Đang thay đổi biểu thức điều kiện:'
+    - '&c- &8Raw: &7{0}'
+    - '&c- &8Đã thay đổi: &7{1}'
+  PRE-COMPILE-SCRIPT:
+    - '&8[&fTr&7Menu&8] &3GỠ LỖI &8| &6Bộ nhớ đệm script:'
+    - '&c- &8Raw: {0}'
+    - '&c- &8Đã thay đổi: {1}'
+  ACTIONS:
+    REGISTERED: '&8[&fTr&7Menu&8] &3GỠ LỖI &8| &6Đã đăng ký vào &c{0} &6hành động có sẵn &8({1} ms)'
+    SET-META: '&8[&fTr&7Menu&8] &3GỠ LỖI &8| &6Đặt meta cho người chơi &c{0} &c{ key=&6{1}&c,value=&6{2}&c } &8(raw: {3})'
+    SET-META-FAILED: '&8[&fTr&7Menu&8] &3GỠ LỖI &8| &6Lỗi đặt meta người chơi &c{0} &8(raw: {3})'
+  ICON:
+    DISPLAY-UPDATE: '&8[&fTr&7Menu&8] &3GỠ LỖI &8| &6Cập nhật vật phẩm/biểu tượng động của &c{0} &6, chu kỳ &e{1}&6, bao gồm &e{2}'
+    SUB-ICON-REFRESHED: '&8[&fTr&7Menu&8] &3GỠ LỖI &8| &6Cập nhật biểu tượng điều kiện &c{0} &6thành &e{1}'
+
+ERRORS:
+  SCRIPT:
+    - '&8[&3Tr&bMenu&8] &cLỖI &8| &4Cách diễn đạt &c{0} &4không thể được lưu vào bộ nhớ đệm, vui lòng kiểm tra cú pháp!'
+    - '&8Lý do: {1}'
+    - '&8Dấu hiệu: {2}'
+  PACKET:
+    - '&8[&3Tr&bMenu&8] &cLỖI &8| &4Một ngoại lệ không xác định đã xảy ra khi gửi gói dữ liệu &c{0} &4, vui lòng kiểm tra lỗi sau!'
+    - '&8Lý do: {1}'
+    - '&8Dấu hiệu: {2}'
+  PLAYER-HEAD:
+    - '&8[&3Tr&bMenu&8] &cLỖI &8| &4Đã xảy ra ngoại lệ khi lấy kết cấu head không đồng bộ, hãy kiểm tra các lỗi sau!'
+    - '&8Reason: {0}'
+    - '&8Trace: {1}'
+  WEB-DATA:
+    - '&8[&3Tr&bMenu&8] &cLỖI &8| &4Đã xảy ra lỗi khi đọc dữ liệu từ Internet &c{0}&4!'
+    - '&8Lý do: {1}'
+    - '&8Dấu hiệu: {2}'
+  INT-RANGE:
+    - '&8[&3Tr&bMenu&8] &cLỖI &8| &4Lỗi khi chuyển đổi string &c{0} &4thành số nguyên!'
+    - '&8Lý do: {1}'
+    - '&8Dấu hiệu: {2}'
+  HOOK: '&8[&3Tr&bMenu&8] &cLỖI &8| &4Cố gắng gọi một function từ một plugin tương thích và không bị phát hiện &c{0}'
+  SOUND: '&8[&3Tr&bMenu&8] &cLỖI &8| &4Hiệu ứng âm thanh &c{0} &4không tồn tịa. Nó sẽ không được phát đến người chơi &c{1}'
+  ACTION: '&8[&3Tr&bMenu&8] &cLỖI &8| &4Hành động &c{0} &4không tồn tại, hãy kiểm tra chính tả của bạn!'
+  MATERIAL: '&8[&3Tr&bMenu&8] &cLỖI &8| &4Không rõ material vật phẩm (Material) &c{0}'
