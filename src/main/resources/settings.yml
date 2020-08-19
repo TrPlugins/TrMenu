@@ -5,7 +5,7 @@ Options:
   # Whether the debug mode should be enabled or not (more information will be sent to the console)
   Debug: false
   # Language of the plugin
-  # Available： zh_CN, zh_TW, en_US, fr_FR, th_TH, es_MX
+  # Available： zh_CN, zh_TW, en_US, fr_FR, th_TH, es_MX, vi_VN
   Locale: en_US
   # Whether to hide the Logo of the plugin in the console on startup
   Hide-Logo: false
