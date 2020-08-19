@@ -1,11 +1,8 @@
 package me.arasple.mc.trmenu.modules.packets
 
-import io.izzel.taboolib.Version
-import io.izzel.taboolib.module.inject.TSchedule
+import io.izzel.taboolib.module.inject.TInject
 import io.izzel.taboolib.module.lite.SimpleReflection
-import io.izzel.taboolib.module.lite.SimpleVersionControl
 import io.izzel.taboolib.module.packet.TPacketHandler
-import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.Extends.getMenuSession
 import me.arasple.mc.trmenu.api.inventory.InvClickType
 import me.arasple.mc.trmenu.api.inventory.InvClickType.*
@@ -34,7 +31,7 @@ abstract class PacketsHandler {
 
     abstract fun asNMSItem(itemStack: ItemStack): Any
 
-    abstract fun asBukkitItem(itemStack: Any): ItemStack?
+    abstract fun asBukkitItem(itemStack: Any?): ItemStack?
 
     abstract fun getClickTypeIndex(clickType: Any): Int
 
@@ -43,17 +40,9 @@ abstract class PacketsHandler {
     companion object {
 
         const val WINDOW_ID = 119
-        lateinit var INSTANCE: PacketsHandler
 
-        @TSchedule
-        fun init() {
-            val version = when {
-                Version.isAfter(Version.v1_13) -> "16"
-                Version.isAfter(Version.v1_9) -> "12"
-                else -> "8"
-            }
-            INSTANCE = SimpleVersionControl.createNMS("me.arasple.mc.trmenu.modules.packets.impl.ImplPacketsHandler$version").useNMS().translate(TrMenu.plugin).getDeclaredConstructor().newInstance() as PacketsHandler
-        }
+        @TInject(asm = "me.arasple.mc.trmenu.modules.packets.impl.PacketsImpl")
+        lateinit var INSTANCE: PacketsHandler
 
         fun sendOpenWindow(player: Player, inventoryType: InventoryType, size: Int, inventoryTitle: String) = INSTANCE.sendOpenWindow(player, WINDOW_ID, inventoryType, size, inventoryTitle)
 
@@ -144,12 +133,16 @@ abstract class PacketsHandler {
             }
         }
 
-        fun sendPacket(player: Player, packetClass: Class<*>, packet: Any, fields: Map<String, Any?>) {
-            fields.forEach { SimpleReflection.setFieldValue(packetClass, packet, it.key, it.value) }
-            sendPacket(player, packet)
+        fun sendPacket(player: Player, packet: Any, vararg fields: Pair<String, Any>) {
+            TPacketHandler.sendPacket(player, setFields(packet, *fields))
         }
 
-        fun sendPacket(player: Player, packet: Any) = TPacketHandler.sendPacket(player, packet)
+        fun setFields(any: Any, vararg fields: Pair<String, Any>): Any {
+            fields.forEach { (key, value) ->
+                SimpleReflection.setFieldValue(any.javaClass, any, key, value, true)
+            }
+            return any
+        }
 
     }
 

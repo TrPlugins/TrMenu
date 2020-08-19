@@ -7,7 +7,6 @@ import me.arasple.mc.trmenu.display.position.Position
 import me.arasple.mc.trmenu.modules.packets.PacketsHandler
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryType
-import org.bukkit.event.inventory.InventoryType.*
 import java.util.regex.Pattern
 import kotlin.math.max
 
@@ -59,8 +58,8 @@ class MenuLayout(val layouts: List<Layout>) {
          * 初始化修正
          */
         init {
-            rows = if (type == CHEST) max(rows, layout.size) else if (type.defaultSize % 9 == 0) type.defaultSize / 9 else 1
-            if (type == CHEST) {
+            rows = if (type == InventoryType.CHEST) max(rows, layout.size) else if (type.defaultSize % 9 == 0) type.defaultSize / 9 else 1
+            if (type == InventoryType.CHEST) {
                 rows = max(rows, layout.size)
                 while (layout.size < rows) layout.add(BLANK_LINE)
                 while (layoutInventory.size < 4) layoutInventory.add(BLANK_LINE)
@@ -164,9 +163,9 @@ class MenuLayout(val layouts: List<Layout>) {
             it
         }
 
-        fun width(type: InventoryType) = if (type == CHEST || type == ENDER_CHEST || type == SHULKER_BOX || type == BARREL) 9 else 3
+        fun width(type: InventoryType) = if (type.defaultSize == 27) 9 else 3
 
-        fun size(type: InventoryType, rows: Int) = if (type == CHEST) rows * 9 else type.defaultSize
+        fun size(type: InventoryType, rows: Int) = if (type == InventoryType.CHEST) rows * 9 else type.defaultSize
 
         const val BLANK_LINE = "         "
         const val BLANK_CHAR = " "
