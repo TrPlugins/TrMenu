@@ -2,11 +2,10 @@ package me.arasple.mc.trmenu.api
 
 import io.izzel.taboolib.module.locale.TLocale
 import me.arasple.mc.trmenu.api.factory.MenuFactorySession
-import me.arasple.mc.trmenu.modules.data.MenuSession
 import me.arasple.mc.trmenu.modules.data.Metas
 import me.arasple.mc.trmenu.modules.data.Sessions
-import me.arasple.mc.trmenu.display.Menu
-import me.arasple.mc.trmenu.display.menu.MenuLayout
+import me.arasple.mc.trmenu.modules.display.Menu
+import me.arasple.mc.trmenu.modules.display.menu.MenuLayout
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
@@ -60,7 +59,7 @@ object Extends {
         Metas.removeMeta(this, matcher)
     }
 
-    fun Player.getMenuSession(): MenuSession {
+    fun Player.getMenuSession(): Menu.Session {
         return Sessions.getMenuSession(this)
     }
 

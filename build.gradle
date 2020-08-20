@@ -14,7 +14,7 @@ taboolib {
     loaderVersion = '2.5'
     classifier = null
 
-    relocate('net.wesjd', project.group + '.modules.inputer.anvil')
+    relocate 'net.wesjd', project.group + '.modules.inputer.anvil'
 }
 
 task buildJar(dependsOn: [clean, jar])

@@ -13,11 +13,11 @@ description: Modern & Advanced Menu-Plugin for Minecraft Servers
 softdepend:
   - PlaceholderAPI
   - Vault
+  - CMI
   - Cronus
   - PlayerPoints
   - HeadDatabase
   - Oraxen
-  - WorldGuard
   - SkinsRestorer
 
 built-time: ${built}

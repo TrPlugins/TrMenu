@@ -4,13 +4,11 @@ import io.izzel.taboolib.TabooLib
 import io.izzel.taboolib.Version
 import io.izzel.taboolib.module.locale.TLocale
 import io.izzel.taboolib.module.locale.TLocaleLoader
-import me.arasple.mc.trmenu.commands.registerable.RegisterCommands
-import me.arasple.mc.trmenu.modules.configuration.MenuLoader
-import me.arasple.mc.trmenu.modules.hook.HookHeadDatabase
-import me.arasple.mc.trmenu.modules.hook.HookPlaceholderAPI
-import me.arasple.mc.trmenu.modules.hook.HookPlayerPoints
-import me.arasple.mc.trmenu.modules.shortcut.Shortcuts
-import me.arasple.mc.trmenu.utils.Watchers
+import me.arasple.mc.trmenu.modules.command.registerable.RegisterCommands
+import me.arasple.mc.trmenu.modules.conf.MenuLoader
+import me.arasple.mc.trmenu.modules.function.Shortcuts
+import me.arasple.mc.trmenu.modules.function.hook.*
+import me.arasple.mc.trmenu.util.Watchers
 import me.clip.placeholderapi.PlaceholderAPIPlugin
 import org.bukkit.Bukkit
 
@@ -21,33 +19,36 @@ import org.bukkit.Bukkit
 class TrMenuLoader {
 
     fun init() {
-        TrMenu.SETTINGS.listener {
-            register()
-        }
+        TrMenu.SETTINGS.listener { register() }
         if (!TrMenu.SETTINGS.getBoolean("Options.Hide-Logo", false)) {
             printLogo()
+            TLocale.sendToConsole("PLUGIN.LOADING", Version.getBukkitVersion())
         }
         if (HookPlaceholderAPI.installDepend()) {
             return
         }
         register()
-        TLocale.sendToConsole("PLUGIN.LOADING", Version.getBukkitVersion())
     }
 
     fun active() {
-        HookHeadDatabase.init()
-        HookPlayerPoints.init()
-
+        hook()
         TLocale.sendToConsole("PLUGIN.LOADED", TrMenu.plugin.description.version)
         MenuLoader.loadMenus()
     }
 
     fun cancel() {
-        // 注销插件提供的 PlaceholderAPI 变量拓展
         PlaceholderAPIPlugin.getInstance().localExpansionManager.findExpansionByIdentifier("trmenu").ifPresent {
             it.unregister()
         }
         Watchers.watcher.unregisterAll()
+    }
+
+    private fun hook() {
+        HookCMI.init()
+        HookCronus.init()
+        HookHeadDatabase.init()
+        HookPlayerPoints.init()
+        HookSkinsRestorer.init()
     }
 
     private fun register() {

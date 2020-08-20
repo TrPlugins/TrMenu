@@ -4,10 +4,10 @@ import io.izzel.taboolib.internal.apache.lang3.ArrayUtils
 import io.izzel.taboolib.util.Strings
 import io.izzel.taboolib.util.Variables
 import me.arasple.mc.trmenu.api.Extends.getMenuSession
-import me.arasple.mc.trmenu.display.function.InternalFunction
-import me.arasple.mc.trmenu.display.menu.MenuLayout
-import me.arasple.mc.trmenu.modules.script.Scripts
-import me.arasple.mc.trmenu.utils.Msger
+import me.arasple.mc.trmenu.modules.display.function.InternalFunction
+import me.arasple.mc.trmenu.modules.display.menu.MenuLayout
+import me.arasple.mc.trmenu.modules.function.script.Scripts
+import me.arasple.mc.trmenu.util.Msger
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import java.util.*

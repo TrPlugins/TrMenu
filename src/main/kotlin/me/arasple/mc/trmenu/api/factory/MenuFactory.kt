@@ -7,9 +7,9 @@ import me.arasple.mc.trmenu.api.factory.task.BuildTask
 import me.arasple.mc.trmenu.api.factory.task.ClickTask
 import me.arasple.mc.trmenu.api.factory.task.CloseTask
 import me.arasple.mc.trmenu.modules.data.Metas
-import me.arasple.mc.trmenu.display.menu.MenuLayout
-import me.arasple.mc.trmenu.display.menu.MenuLayout.Companion.size
-import me.arasple.mc.trmenu.display.menu.MenuLayout.Companion.width
+import me.arasple.mc.trmenu.modules.display.menu.MenuLayout
+import me.arasple.mc.trmenu.modules.display.menu.MenuLayout.Companion.size
+import me.arasple.mc.trmenu.modules.display.menu.MenuLayout.Companion.width
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.ItemStack

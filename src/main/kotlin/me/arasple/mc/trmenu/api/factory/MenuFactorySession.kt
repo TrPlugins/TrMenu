@@ -1,6 +1,6 @@
 package me.arasple.mc.trmenu.api.factory
 
-import me.arasple.mc.trmenu.modules.packets.PacketsHandler
+import me.arasple.mc.trmenu.api.nms.NMS
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.ItemStack
@@ -24,26 +24,26 @@ class MenuFactorySession(val player: Player, var menuFactory: MenuFactory?, val 
         def.values.forEach { it ->
             val item = it.first
             it.second.filter { !items.containsKey(it) }.forEach {
-                PacketsHandler.sendOutSlot(player, it, item)
+                NMS.sendOutSlot(player, it, item)
             }
         }
         items.forEach { (slot, item) ->
-            PacketsHandler.sendOutSlot(player, slot, item)
+            NMS.sendOutSlot(player, slot, item)
         }
     }
 
     fun setItem(slot: Int, item: ItemStack, display: Boolean = false) {
         items[slot] = item
-        if (display) PacketsHandler.sendOutSlot(player, slot, item)
+        if (display) NMS.sendOutSlot(player, slot, item)
     }
 
     fun removeItem(slot: Int, display: Boolean = false) {
         items.remove(slot)
-        if (display) PacketsHandler.sendRemoveSlot(player, slot)
+        if (display) NMS.sendRemoveSlot(player, slot)
     }
 
     fun display(type: InventoryType, size: Int, title: String) {
-        PacketsHandler.sendOpenWindow(player, type, size, title)
+        NMS.sendOpenWindow(player, type, size, title)
     }
 
     fun isNull() = menuFactory == null

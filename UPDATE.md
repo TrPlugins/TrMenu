@@ -1,9 +1,23 @@
 ### Version 2.03
-- Date: Aug -, 2020
+- Date: Aug 20, 2020
 - Updates:
-  - Fixed player-head texture display in 1.12.2
+  - Fixed player-head texture display
+  - Fixed player-head load errors
   - Fixed economy hook errors with CMI
   - Fixed `ActionTakePoints.kt`
+  - Fixed `ActionMetaRemove.kt`
+  - Fixed SkinsRestorer, CMI hook
+  - Added `setPlaceholders` for Assist Utils
+  - Removed bracket placeholders parse feature in menu
+  - Added locale `vi_VN` by Galaxy-VN
+  - Update TabooLib Loader
+  - Update NMS
+  - Cleanup & improved code
+  - Update [Offical Wiki](https://trmenu.trixey.cc/)
+    - English by `Tanguygab`
+    - Français by `Tanguygab`
+    - ภาษาไทย by `The Night.`
+    - Vietnamese by `GalaxyVN`
 
 ### Version 2.02
 - Date: Aug 5, 2020
