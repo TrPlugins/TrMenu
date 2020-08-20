@@ -7,7 +7,7 @@ plugins {
 }
 
 group 'me.arasple.mc.trmenu'
-version '2.03-DEV'
+version '2.03'
 
 taboolib {
     tabooLibVersion = '5.35'
