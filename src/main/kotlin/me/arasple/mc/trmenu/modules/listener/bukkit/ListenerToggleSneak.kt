@@ -5,20 +5,18 @@ import me.arasple.mc.trmenu.modules.function.Shortcuts
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
-import org.bukkit.event.player.PlayerSwapHandItemsEvent
+import org.bukkit.event.player.PlayerToggleSneakEvent
 
 /**
  * @author Arasple
- * @date 2020/7/28 15:35
+ * @date 2020/8/20 17:21
  */
-@TListener(version = ">=10900")
-class ListenerSwapHand : Listener {
+@TListener
+class ListenerToggleSneak : Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-    fun offHand(e: PlayerSwapHandItemsEvent) {
-        if (Shortcuts.offhand(e.player)) {
-            e.isCancelled = true
-        }
+    fun toggleSneaking(e: PlayerToggleSneakEvent) {
+        Shortcuts.setSneaking(e.player)
     }
 
 }
