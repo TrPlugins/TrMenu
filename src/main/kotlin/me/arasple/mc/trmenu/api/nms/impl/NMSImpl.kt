@@ -3,9 +3,13 @@ package me.arasple.mc.trmenu.api.nms.impl
 import io.izzel.taboolib.Version
 import me.arasple.mc.trmenu.api.Extends.getMenuSession
 import me.arasple.mc.trmenu.api.nms.NMS
-import net.minecraft.server.v1_16_R1.*
+import net.minecraft.server.v1_16_R1.InventoryClickType
+import net.minecraft.server.v1_16_R1.PacketPlayOutCloseWindow
+import net.minecraft.server.v1_16_R1.PacketPlayOutOpenWindow
+import net.minecraft.server.v1_16_R1.PacketPlayOutSetSlot
 import org.bukkit.craftbukkit.v1_16_R1.entity.CraftPlayer
 import org.bukkit.craftbukkit.v1_16_R1.inventory.CraftItemStack
+import org.bukkit.craftbukkit.v1_16_R1.util.CraftChatMessage
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.ItemStack
@@ -23,7 +27,7 @@ class NMSImpl : NMS() {
                 PacketPlayOutOpenWindow(),
                 Pair("a", windowId),
                 Pair("b", getInventoryType(inventoryType, size)),
-                Pair("c", ChatComponentText(inventoryTitle))
+                Pair("c", CraftChatMessage.fromString(inventoryTitle).first())
             )
         } else {
             sendPacket(
@@ -31,7 +35,7 @@ class NMSImpl : NMS() {
                 net.minecraft.server.v1_12_R1.PacketPlayOutOpenWindow(
                     windowId,
                     "minecraft:${inventoryType.name.toLowerCase()}",
-                    net.minecraft.server.v1_12_R1.ChatComponentText(inventoryTitle),
+                    org.bukkit.craftbukkit.v1_12_R1.util.CraftChatMessage.fromString(inventoryTitle).first(),
                     size
                 )
             )

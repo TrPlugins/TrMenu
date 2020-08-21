@@ -2,6 +2,7 @@ package me.arasple.mc.trmenu.modules.listener.bukkit
 
 import io.izzel.taboolib.Version
 import io.izzel.taboolib.module.inject.TListener
+import io.izzel.taboolib.util.lite.cooldown.Cooldown
 import me.arasple.mc.trmenu.api.event.MenuOpenEvent
 import me.arasple.mc.trmenu.modules.display.Menu
 import org.bukkit.event.EventHandler
@@ -16,6 +17,8 @@ import org.bukkit.inventory.EquipmentSlot
 @TListener
 class ListenerItemInteract : Listener {
 
+    private val cooldown = Cooldown("BIND_ITEM", 2)
+
     @EventHandler
     fun onInteract(e: PlayerInteractEvent) {
         if (Version.isAfter(Version.v1_9) && e.hand == EquipmentSlot.OFF_HAND) return
@@ -27,7 +30,7 @@ class ListenerItemInteract : Listener {
             return
         }
         val menu = Menu.getMenus().find { it.settings.bindings.matchItem(player, item) }
-        if (menu != null) {
+        if (menu != null && !cooldown.isCooldown(player.name)) {
             e.isCancelled = true
             menu.open(player, -1, MenuOpenEvent.Reason.BINDING_ITEMS)
         }

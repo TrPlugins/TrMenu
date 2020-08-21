@@ -1,3 +1,9 @@
+### Version 2.04
+- Date: -, 2020
+- Updates:
+  - Fixed hex color in inventory title
+  - Added a cooldown for binding item use
+
 ### Version 2.03
 - Date: Aug 20, 2020
 - Updates:
