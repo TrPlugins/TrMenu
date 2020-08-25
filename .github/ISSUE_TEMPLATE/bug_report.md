@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Create a report to help us improve
+about: Non buyers, donors or contributors' bug report will likely be ignored or closed
 title: ''
 labels: bug
 assignees: Arasple
@@ -10,8 +10,11 @@ assignees: Arasple
 **Describe the bug**
 A clear and concise description of what the bug is.
 
+**Server Software**
+git-Paper-137 (MC: 1.16.1)
+
 **Plugins**
- - TrMenu 2.03-DEV
+ - TrMenu 2.03
  - PlaceholderAPI 2.10.9
 
 **To Reproduce**
