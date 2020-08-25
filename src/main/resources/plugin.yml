@@ -5,6 +5,7 @@ author: Arasple
 
 api-version: 1.13
 lib-version: ${taboolib}
+lib-download: false
 version: ${version}
 
 github: https://github.com/Arasple/${name}

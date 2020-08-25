@@ -6,7 +6,7 @@ import me.arasple.mc.trmenu.api.Extends.getMenuFactorySession
 import me.arasple.mc.trmenu.api.Extends.getMenuSession
 import me.arasple.mc.trmenu.api.event.MenuClickEvent
 import me.arasple.mc.trmenu.api.event.MenuCloseEvent
-import me.arasple.mc.trmenu.api.factory.MenuFactorySession
+import me.arasple.mc.trmenu.api.factory.MenuFactory
 import me.arasple.mc.trmenu.api.factory.task.ClickTask
 import me.arasple.mc.trmenu.api.factory.task.ClickTask.Action.ACCESS
 import me.arasple.mc.trmenu.api.factory.task.ClickTask.Action.CANCEL_MODIFY
@@ -89,7 +89,7 @@ object ListenerWindowEvents {
         return size
     }
 
-    private fun processMenuFactory(player: Player, session: MenuFactorySession, slot: Int, itemStack: ItemStack?, type: InvClickType): Int {
+    private fun processMenuFactory(player: Player, session: MenuFactory.Session, slot: Int, itemStack: ItemStack?, type: InvClickType): Int {
         val factory = session.menuFactory!!
 
         (session.getItem(slot) ?: return -1).let {

@@ -1,7 +1,7 @@
 package me.arasple.mc.trmenu.api
 
 import io.izzel.taboolib.module.locale.TLocale
-import me.arasple.mc.trmenu.api.factory.MenuFactorySession
+import me.arasple.mc.trmenu.api.factory.MenuFactory
 import me.arasple.mc.trmenu.modules.data.Metas
 import me.arasple.mc.trmenu.modules.data.Sessions
 import me.arasple.mc.trmenu.modules.display.Menu
@@ -67,7 +67,7 @@ object Extends {
         this.getMenuSession().set(menu, layout, page)
     }
 
-    fun Player.getMenuFactorySession(): MenuFactorySession {
+    fun Player.getMenuFactorySession(): MenuFactory.Session {
         return Sessions.getMenuFactorySession(this)
     }
 

@@ -1,6 +1,6 @@
 package me.arasple.mc.trmenu.modules.data
 
-import me.arasple.mc.trmenu.api.factory.MenuFactorySession
+import me.arasple.mc.trmenu.api.factory.MenuFactory
 import me.arasple.mc.trmenu.modules.display.Menu
 import me.arasple.mc.trmenu.modules.display.menu.MenuLayout
 import org.bukkit.Bukkit
@@ -14,7 +14,7 @@ import java.util.*
 object Sessions {
 
     private val sessions = mutableMapOf<UUID, Menu.Session>()
-    private val factorySessions = mutableMapOf<UUID, MenuFactorySession>()
+    private val factorySessions = mutableMapOf<UUID, MenuFactory.Session>()
 
     fun getMenuSession(player: Player): Menu.Session {
         return sessions.computeIfAbsent(player.uniqueId) { Menu.Session() }
@@ -24,8 +24,8 @@ object Sessions {
         getMenuSession(player).set(menu, layout, page)
     }
 
-    fun getMenuFactorySession(player: Player): MenuFactorySession {
-        return factorySessions.computeIfAbsent(player.uniqueId) { MenuFactorySession(player, null, mutableMapOf(), mutableMapOf()) }
+    fun getMenuFactorySession(player: Player): MenuFactory.Session {
+        return factorySessions.computeIfAbsent(player.uniqueId) { MenuFactory.Session(player, null, mutableMapOf(), mutableMapOf()) }
     }
 
     fun removeMenuSession(player: Player) {

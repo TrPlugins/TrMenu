@@ -29,21 +29,6 @@ object HookPlaceholderAPI {
 
     fun replace(player: OfflinePlayer, content: List<String>): List<String> = PlaceholderAPI.setPlaceholders(player, PlaceholderAPI.setBracketPlaceholders(player, content))
 
-    fun installDepend(): Boolean {
-        val plugin = Bukkit.getPluginManager().getPlugin("PlaceholderAPI")
-        val jarFile = File("plugins/PlaceholderAPI.jar")
-        val url = "https://api.spiget.org/v2/resources/6245/download"
-        if (plugin == null) {
-            jarFile.delete()
-            TLocale.sendToConsole("PLUGIN.DEPEND.DOWNLOAD", "PlaceholderAPI")
-            if (Files.downloadFile(url, jarFile)) TLocale.sendToConsole("PLUGIN.DEPEND.INSTALL", "PlaceholderAPI")
-            else TLocale.sendToConsole("PLUGIN.DEPEND.INSTALL-FAILED", "PlaceholderAPI")
-            Bukkit.shutdown()
-            return true
-        }
-        return false
-    }
-
     private fun processRequest(player: OfflinePlayer, content: String): String {
         if (player !is Player) return ""
         val params = content.split("_")

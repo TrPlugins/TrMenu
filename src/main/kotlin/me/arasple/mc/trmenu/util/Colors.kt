@@ -13,7 +13,7 @@ import kotlin.math.min
  */
 object Colors {
 
-    val PATTERN_HEX: Pattern = Pattern.compile("[&#][<{]([0-9a-fA-F]{6})[>}]")
+    val PATTERN_HEX: Pattern = Pattern.compile("[&#]?[<{](#)?([0-9a-fA-F]{6})[>}]")
     val PATTERN_RGB: Pattern = Pattern.compile("[&#][<{]([0-9]+[,]+[0-9]+[,]+[0-9]*)[>}]")
     val ENABLED = Version.isAfter(Version.v1_16)
 
@@ -29,7 +29,7 @@ object Colors {
         pattern.matcher(message).let {
             val buffer = StringBuffer(message.length + 4 * 8)
             while (it.find()) {
-                val replacement = if (rgb) ChatColor.of(serializeRgbColor(it.group(1))) else ChatColor.of("#${it.group(1)}")
+                val replacement = if (rgb) ChatColor.of(serializeRgbColor(it.group(1))) else ChatColor.of("#${it.group(1).removePrefix("#")}")
                 it.appendReplacement(buffer, replacement.toString())
             }
             return@let it.appendTail(buffer).toString()

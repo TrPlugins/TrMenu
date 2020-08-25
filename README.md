@@ -24,7 +24,7 @@ Powered by *Built-in Bukkit-API Expansion* [TabooLib5](https://github.com/TabooL
 
 **Support**
 
-Discord : https://discord.gg/8CWa6KF
+Discord : https://discord.gg/8CWa6KF  
 QQ Group: 513618407
 
 ---
