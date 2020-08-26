@@ -3,15 +3,15 @@ import java.text.SimpleDateFormat
 plugins {
     id 'java'
     id 'io.izzel.taboolib' version '1.2'
-    id 'org.jetbrains.kotlin.jvm' version '1.4.0-rc'
+    id 'org.jetbrains.kotlin.jvm' version '1.4.0'
 }
 
 group 'me.arasple.mc.trmenu'
-version '2.03'
+version '2.04-DEV'
 
 taboolib {
     tabooLibVersion = '5.35'
-    loaderVersion = '2.5'
+    loaderVersion = '2.6'
     classifier = null
 
     relocate 'net.wesjd', project.group + '.modules.inputer.anvil'

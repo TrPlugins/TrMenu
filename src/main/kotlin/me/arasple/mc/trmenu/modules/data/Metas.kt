@@ -116,7 +116,6 @@ object Metas {
 
     fun resetCache(player: Player) {
         playerInventorys.remove(player.uniqueId)
-        meta.remove(player.uniqueId)
     }
 
     fun completeArguments(player: Player, arguments: Array<String>) {

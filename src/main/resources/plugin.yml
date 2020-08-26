@@ -1,7 +1,9 @@
 name: ${name}
 main: ${main}
 
-author: Arasple
+authors:
+  - Arasple
+  - Bkm016
 
 api-version: 1.13
 lib-version: ${taboolib}
@@ -20,6 +22,7 @@ softdepend:
   - HeadDatabase
   - Oraxen
   - SkinsRestorer
+  - TokenManager
 
 built-time: ${built}
 built-by: ${builder}

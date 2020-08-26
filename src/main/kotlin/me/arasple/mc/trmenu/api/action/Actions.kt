@@ -92,7 +92,7 @@ object Actions {
         actions.filter { it.evalChance(player) && it.evalCondition(player) }.forEach {
             when {
                 it is ActionReturn -> {
-                    Actions.run(player, run)
+                    run(player, run)
                     return false
                 }
                 it is ActionDelay -> delay += it.getDelay(player)
@@ -100,7 +100,7 @@ object Actions {
                 else -> run.add(it)
             }
         }
-        Actions.run(player, run)
+        run(player, run)
         HookCronus.reset(player)
         return true
     }

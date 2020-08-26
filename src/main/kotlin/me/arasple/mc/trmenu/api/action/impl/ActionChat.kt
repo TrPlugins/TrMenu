@@ -1,6 +1,7 @@
 package me.arasple.mc.trmenu.api.action.impl
 
 import me.arasple.mc.trmenu.api.action.base.Action
+import me.arasple.mc.trmenu.util.Tasks
 import org.bukkit.entity.Player
 
 /**
@@ -9,6 +10,10 @@ import org.bukkit.entity.Player
  */
 class ActionChat : Action("chat") {
 
-    override fun onExecute(player: Player) = getContentSplited(player).forEach { player.chat(it) }
+    override fun onExecute(player: Player) {
+        Tasks.task {
+            getContentSplited(player).forEach { player.chat(it) }
+        }
+    }
 
 }

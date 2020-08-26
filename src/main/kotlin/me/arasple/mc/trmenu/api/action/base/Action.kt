@@ -4,8 +4,9 @@ import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import io.izzel.taboolib.util.lite.Numbers
 import me.arasple.mc.trmenu.api.Extends.getMenuSession
 import me.arasple.mc.trmenu.modules.conf.property.Nodes
-import me.arasple.mc.trmenu.modules.service.metrics.MetricsHandler
 import me.arasple.mc.trmenu.modules.function.script.Scripts
+import me.arasple.mc.trmenu.modules.service.metrics.MetricsHandler
+import me.arasple.mc.trmenu.modules.service.mirror.Mirror
 import me.arasple.mc.trmenu.util.Msger
 import me.arasple.mc.trmenu.util.Tasks
 import org.bukkit.Bukkit
@@ -20,21 +21,22 @@ abstract class Action(val name: Regex, internal var content: String, var options
     constructor(name: String) : this(Regex(name), "", mutableMapOf())
 
     fun run(player: Player) {
-        MetricsHandler.increase(1)
-
-        if (options.containsKey(Nodes.DELAY)) {
-            val delay = evalDelay(player)
-            if (delay > 0) {
-                Tasks.delay(delay) {
-                    if (options.containsKey(Nodes.PLAYERS)) Bukkit.getOnlinePlayers().filter { options[Nodes.PLAYERS]?.let { it1 -> Scripts.expression(it, it1).asBoolean() } as Boolean }.forEach { onExecute(it, Msger.replaceWithBracketPlaceholders(player, content)) }
-                    else onExecute(player)
+        Mirror.eval("Action:preExecute(async)") {
+            MetricsHandler.increase(1)
+            if (options.containsKey(Nodes.DELAY)) {
+                val delay = evalDelay(player)
+                if (delay > 0) {
+                    Tasks.delay(delay) {
+                        if (options.containsKey(Nodes.PLAYERS)) Bukkit.getOnlinePlayers().filter { options[Nodes.PLAYERS]?.let { it1 -> Scripts.expression(it, it1).asBoolean() } as Boolean }.forEach { onExecute(it, Msger.replaceWithBracketPlaceholders(player, content)) }
+                        else onExecute(player)
+                    }
                 }
+                return@eval
             }
-            return
-        }
-        if (options.containsKey(Nodes.PLAYERS)) Bukkit.getOnlinePlayers().filter { options[Nodes.PLAYERS]?.let { it1 -> Scripts.expression(it, it1).asBoolean() } as Boolean }.forEach { onExecute(it, Msger.replaceWithBracketPlaceholders(player, content)) }.also { return }
+            if (options.containsKey(Nodes.PLAYERS)) Bukkit.getOnlinePlayers().filter { options[Nodes.PLAYERS]?.let { it1 -> Scripts.expression(it, it1).asBoolean() } as Boolean }.forEach { onExecute(it, Msger.replaceWithBracketPlaceholders(player, content)) }.also { return@eval }
 
-        onExecute(player)
+            onExecute(player)
+        }
     }
 
     private fun onExecute(player: Player, content: String?) {

@@ -5,6 +5,7 @@ import me.arasple.mc.trmenu.api.Extends.getMenuSession
 import me.arasple.mc.trmenu.api.nms.NMS
 import me.arasple.mc.trmenu.modules.display.icon.IconProperty
 import me.arasple.mc.trmenu.modules.display.icon.IconSettings
+import me.arasple.mc.trmenu.modules.service.mirror.Mirror
 import me.arasple.mc.trmenu.util.Msger
 import me.arasple.mc.trmenu.util.Tasks
 import org.bukkit.entity.Player
@@ -24,11 +25,13 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
     }
 
     fun setItemStack(player: Player, session: Menu.Session) {
-        val property = getIconProperty(player)
-        val slots = property.display.getPosition(player, session.page)
-        val item = property.display.createDisplayItem(player)
-        slots?.forEach { NMS.sendOutSlot(player, it, item) }
-        if (property.display.isAnimatedPosition(session.page)) NMS.sendClearNonIconSlots(player, session)
+        Mirror.eval("Icon:setItemStack(async)") {
+            val property = getIconProperty(player)
+            val slots = property.display.getPosition(player, session.page)
+            val item = property.display.createDisplayItem(player)
+            slots?.forEach { NMS.sendOutSlot(player, it, item) }
+            if (property.display.isAnimatedPosition(session.page)) NMS.sendClearNonIconSlots(player, session)
+        }
     }
 
     fun displayItemStack(player: Player) {
@@ -44,33 +47,35 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
             val session = player.getMenuSession()
             val sessionId = session.id
 
-            // 图标物品更新
             settings.collectUpdatePeriods().let { it ->
                 if (it.isEmpty()) return@let
                 it.forEach {
                     val period = it.key.toLong()
                     object : BukkitRunnable() {
                         override fun run() {
-                            if (session.isDifferent(sessionId)) cancel()
-                            else {
-                                getIconProperty(player).display.nextFrame(player, it.value, session.page)
-                                setItemStack(player, session)
+                            Mirror.eval("Icon:updateItem(sync)") {
+                                if (session.isDifferent(sessionId)) cancel()
+                                else {
+                                    getIconProperty(player).display.nextFrame(player, it.value, session.page)
+                                    setItemStack(player, session)
+                                }
                             }
                         }
                     }.runTaskTimer(TrMenu.plugin, period, period)
                 }
             }
 
-            // 子图标刷新
             if (settings.refresh > 0 && subIcons.isNotEmpty()) {
                 val period = settings.refresh.toLong()
                 menu.tasking.task(
                     player,
                     object : BukkitRunnable() {
                         override fun run() {
-                            if (session.isDifferent(sessionId)) cancel()
-                            else if (refreshIcon(player)) {
-                                displayItemStack(player)
+                            Mirror.eval("Icon:refreshIcon(sync)") {
+                                if (session.isDifferent(sessionId)) cancel()
+                                else if (refreshIcon(player)) {
+                                    displayItemStack(player)
+                                }
                             }
                         }
                     }.runTaskTimer(TrMenu.plugin, period, period)

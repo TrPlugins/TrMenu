@@ -15,9 +15,9 @@ import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.modules.display.Menu
 import me.arasple.mc.trmenu.modules.display.item.property.Mat
 import me.arasple.mc.trmenu.modules.function.WebData
+import me.arasple.mc.trmenu.modules.function.script.Scripts
 import me.arasple.mc.trmenu.modules.function.script.expression.Expressions
 import me.arasple.mc.trmenu.modules.service.metrics.MetricsHandler
-import me.arasple.mc.trmenu.modules.function.script.Scripts
 import me.arasple.mc.trmenu.util.Msger
 import me.arasple.mc.trmenu.util.Skulls
 import org.bukkit.Bukkit

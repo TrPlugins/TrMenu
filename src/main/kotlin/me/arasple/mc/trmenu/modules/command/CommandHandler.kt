@@ -8,7 +8,7 @@ import me.arasple.mc.trmenu.modules.command.sub.*
  * @author Arasple
  * @date 2020/5/30 14:11
  */
-@BaseCommand(name = "trmenu", aliases = ["tmenu", "menu"], permission = "trmenu.use")
+@BaseCommand(name = "trmenu", aliases = ["tmenu", "menu"], permission = "trmenu.access")
 class CommandHandler : BaseMainCommand() {
 
     @SubCommand(permission = "trmenu.command.reload", description = "Reload menus")
@@ -37,6 +37,12 @@ class CommandHandler : BaseMainCommand() {
 
     @SubCommand(permission = "trmenu.command.migrate", description = "Migrate menus for other plugins")
     val migrate: BaseSubCommand = CommandMigrate()
+
+    @SubCommand(permission = "trmenu.command.mirror", description = "View performance monitoring", type = CommandType.PLAYER)
+    val mirror: BaseSubCommand = CommandMirror()
+
+    @SubCommand(permission = "trmenu.command.dump", description = "Upload environmental information for bug report")
+    val dump: BaseSubCommand = CommandDump()
 
     @SubCommand(permission = "trmenu.command.debug", description = "Enable debug mode for player or print debug info to console")
     val debug: BaseSubCommand = CommandDebug()

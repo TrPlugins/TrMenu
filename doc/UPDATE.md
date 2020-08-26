@@ -2,7 +2,18 @@
 - Date: -, 2020
 - Updates:
   - Fixed hex color in inventory title
+  - Fixed issue #162
+  - Fixed issue #166 (meta resetting bug)
+  - Fixed issue #165 (async chat to execute command bug)
+  - Fixed issue #158 (sounds preview feature in 1.15.2)
+  - Fixed issue #163 (improved texture skulls cache)
+  - Removed auto-install PlaceholderAPI feature
   - Added a cooldown for binding item use
+  - Added command dump for debug information
+  - Added command mirror for performance monitoring
+  - Added support for format like `{#a1e1e6}`
+  - Added gradients generate `{gradient:#55eb34,#34ebe5,#55eb34-}`
+  - Added support for TokenManager
 
 ### Version 2.03
 - Date: Aug 20, 2020

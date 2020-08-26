@@ -5,6 +5,7 @@ import io.izzel.taboolib.module.inject.TSchedule
 import io.izzel.taboolib.util.Files
 import io.izzel.taboolib.util.Strings
 import me.arasple.mc.trmenu.TrMenu
+import me.arasple.mc.trmenu.modules.service.mirror.Mirror
 import java.text.SimpleDateFormat
 
 /**
@@ -24,10 +25,12 @@ object Loger {
     @TSchedule(delay = 20, period = 20 * 60, async = true)
     @TFunction.Cancel
     fun save() {
-        val file = logFile()
-        logs.removeIf {
-            file.appendText(it)
-            true
+        Mirror.eval("LogService:onSave(async)") {
+            val file = logFile()
+            logs.removeIf {
+                file.appendText(it)
+                true
+            }
         }
     }
 

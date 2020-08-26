@@ -5,6 +5,7 @@ import io.izzel.taboolib.module.locale.TLocale
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.Extends.replaceWithArguments
 import me.clip.placeholderapi.PlaceholderAPI
+import net.md_5.bungee.api.ChatColor
 import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
 import org.bukkit.command.CommandSender
@@ -55,14 +56,14 @@ object Msger {
     }
 
     fun replace(player: Player, string: String?): String {
-        return replaceWithPlaceholders(player, player.replaceWithArguments(string ?: ""))
+        return replaceWithPlaceholders(player, player.replaceWithArguments(color(string) ?: ""))
     }
 
     fun replace(player: Player, strings: List<String>): List<String> {
         return strings.map { replace(player, it) }
     }
 
-    private fun replaceWithPlaceholders(player: Player, string: String): String = Colors.translate(PlaceholderAPI.setPlaceholders(player as OfflinePlayer, string))
+    private fun replaceWithPlaceholders(player: Player, string: String): String = PlaceholderAPI.setPlaceholders(player as OfflinePlayer, string)
 
     private fun replaceWithPlaceholders(player: Player, strings: List<String>): List<String> = strings.map { replaceWithPlaceholders(player, it) }
 
@@ -77,6 +78,6 @@ object Msger {
 
     fun printErrors(node: String, vararg args: String) = TLocale.sendToConsole("ERRORS.$node", *args)
 
-    fun color(string: String) = Colors.translate(TLocale.Translate.setColored(string))
+    fun color(string: String?): String? = if (string.isNullOrBlank()) string else ChatColor.translateAlternateColorCodes('&', Colors.translate(string))
 
 }

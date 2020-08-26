@@ -11,6 +11,7 @@ import me.arasple.mc.trmenu.modules.data.Metas
 import me.arasple.mc.trmenu.modules.display.menu.MenuLayout
 import me.arasple.mc.trmenu.modules.display.menu.MenuLayout.Companion.size
 import me.arasple.mc.trmenu.modules.display.menu.MenuLayout.Companion.width
+import me.arasple.mc.trmenu.util.Tasks
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.ItemStack
@@ -98,21 +99,23 @@ class MenuFactory(
     fun display(player: Player) = display(player) {}
 
     fun display(player: Player, runnable: Runnable) {
-        val session = player.getMenuFactorySession()
-        (player).getMenuSession().safeClose(player)
+        Tasks.task(true) {
+            val session = player.getMenuFactorySession()
+            (player).getMenuSession().safeClose(player)
 
-        items.entries.forEach { entry ->
-            val id = entry.key
-            val item = entry.value
-            positions[id]?.let { it -> session.def[id] = Pair(item, it) }
+            items.entries.forEach { entry ->
+                val id = entry.key
+                val item = entry.value
+                positions[id]?.let { it -> session.def[id] = Pair(item, it) }
+            }
+            Metas.updateInventoryContents(player)
+            session.menuFactory = this
+            buildTask?.run(BuildTask.Event(player, session))
+            runnable.run()
+
+            session.display(type, size, title)
+            session.displayItems()
         }
-        Metas.updateInventoryContents(player)
-        session.menuFactory = this
-        buildTask?.run(BuildTask.Event(player, session))
-        runnable.run()
-
-        session.display(type, size, title)
-        session.displayItems()
     }
 
     class Session(val player: Player, var menuFactory: MenuFactory?, val def: MutableMap<String, Pair<ItemStack, Set<Int>>>, val items: MutableMap<Int, ItemStack>) {

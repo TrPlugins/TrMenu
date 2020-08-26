@@ -31,6 +31,12 @@ data class Mat(val raw: String, val value: String, val type: Pair<Nodes, String>
     var staticItemBuilder: ItemBuilder? = null
     var staticItem: ItemStack? = null
 
+    init {
+        if (type.first == Nodes.MAT_TEXTURED_SKULL) {
+            Skulls.getTextureSkull(type.second)
+        }
+    }
+
     fun createItem(player: Player): ItemStack {
         val value = if (dynamic) Msger.replace(player, value) else value
         val typeValue = if (dynamic) Msger.replace(player, type.second) else type.second

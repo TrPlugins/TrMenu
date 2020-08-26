@@ -12,6 +12,7 @@ import me.arasple.mc.trmenu.modules.conf.menu.MenuConfiguration
 import me.arasple.mc.trmenu.modules.data.Sessions
 import me.arasple.mc.trmenu.modules.display.menu.MenuLayout
 import me.arasple.mc.trmenu.modules.display.menu.MenuSettings
+import me.arasple.mc.trmenu.modules.service.mirror.Mirror
 import me.arasple.mc.trmenu.util.Msger
 import me.arasple.mc.trmenu.util.Tasks
 import me.arasple.mc.trmenu.util.Tasks.Tasking
@@ -41,27 +42,28 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
 
     fun open(player: Player, page: Int, reason: MenuOpenEvent.Reason) {
         resetTaskings(player)
-
         Tasks.task(true) {
-            val p = (if (page < 0) settings.options.getDefaultLayout(player) else min(page, layout.layouts.size - 1)).coerceAtLeast(0)
-            val e = MenuOpenEvent(player, this, p, reason, MenuOpenEvent.Result.UNKNOWN).async(true).call() as MenuOpenEvent
-            val s = player.getMenuSession()
+            Mirror.eval("Menu:onOpen(total)") {
+                val p = (if (page < 0) settings.options.getDefaultLayout(player) else min(page, layout.layouts.size - 1)).coerceAtLeast(0)
+                val e = MenuOpenEvent(player, this, p, reason, MenuOpenEvent.Result.UNKNOWN).async(true).call() as MenuOpenEvent
+                val s = player.getMenuSession()
 
-            if (layout.layouts.size <= e.page) {
-                e.result = MenuOpenEvent.Result.ERROR_PAGE
-                e.isCancelled = true
-                return@task
-            }
-            if (!e.isCancelled) {
-                player.completeArguments(settings.options.defaultArguments)
-                val l = layout.layouts[p].also { s.set(this, it, p) }
-                l.displayInventory(player, settings.title.getTitle(player))
-                loadIcons(player, p)
-                settings.load(player, this, l)
-                viewers.add(player)
-            }
-            if (reason == MenuOpenEvent.Reason.SWITCH_PAGE) {
-                NMS.sendClearNonIconSlots(player, s)
+                if (layout.layouts.size <= e.page) {
+                    e.result = MenuOpenEvent.Result.ERROR_PAGE
+                    e.isCancelled = true
+                    return@eval
+                }
+                if (!e.isCancelled) {
+                    player.completeArguments(settings.options.defaultArguments)
+                    val l = layout.layouts[p].also { s.set(this, it, p) }
+                    l.displayInventory(player, settings.title.getTitle(player))
+                    loadIcons(player, p)
+                    settings.load(player, this, l)
+                    viewers.add(player)
+                }
+                if (reason == MenuOpenEvent.Reason.SWITCH_PAGE) {
+                    NMS.sendClearNonIconSlots(player, s)
+                }
             }
         }
     }
@@ -108,9 +110,6 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
         }
     }
 
-    /**
-     * 载入图标
-     */
     fun loadIcons(player: Player, page: Int) = icons.filter { it.isInPage(page) }.forEach { it.displayIcon(player, this) }
 
     fun resetIcons(player: Player, session: Session) = icons.forEach { it.setItemStack(player, session) }

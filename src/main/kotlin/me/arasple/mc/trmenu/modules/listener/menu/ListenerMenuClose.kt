@@ -5,6 +5,7 @@ import me.arasple.mc.trmenu.api.Extends.getMenuSession
 import me.arasple.mc.trmenu.api.Extends.resetCache
 import me.arasple.mc.trmenu.api.event.MenuCloseEvent
 import me.arasple.mc.trmenu.api.nms.NMS
+import me.arasple.mc.trmenu.modules.service.mirror.Mirror
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
@@ -18,14 +19,25 @@ class ListenerMenuClose : Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     fun onClosing(e: MenuCloseEvent) {
-        val player = e.player
-        if (e.reason.isSwitch()) {
-            NMS.sendClearNonIconSlots(player, player.getMenuSession())
-            return
-        }
-        if (!e.silent) e.menu.settings.events.closeEvent.eval(player)
+        Mirror.eval("Menu:onClose(async)") {
+            val player = e.player
+            val menu = e.menu
+            if (e.reason.isSwitch()) {
+                NMS.sendClearNonIconSlots(player, player.getMenuSession())
+                return@eval
+            }
 
-        player.resetCache()
+            menu.icons.forEach { icon ->
+                icon.defIcon.display.item.cache.remove(player.uniqueId)
+                icon.subIcons.forEach { sub ->
+                    sub.display.item.cache.remove(player.uniqueId)
+                }
+            }
+
+            if (!e.silent) menu.settings.events.closeEvent.eval(player)
+
+            player.resetCache()
+        }
     }
 
 }

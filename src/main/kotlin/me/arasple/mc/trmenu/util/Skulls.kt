@@ -96,15 +96,12 @@ object Skulls {
         val profile = GameProfile(UUID.randomUUID(), null)
         val field = meta.javaClass.getDeclaredField("profile")
         profile.properties.put(
-            "textures",
-            Property(
-                "textures",
-                if (texture.length in 60..100) {
+            "textures", Property(
+                "textures", if (texture.length in 60..100) {
                     Base64.getEncoder().encodeToString("{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/$texture\"}}}".toByteArray())
                 } else {
                     texture
-                },
-                "TrMenu_TexturedSkull"
+                }, "TrMenu_TexturedSkull"
             )
         )
         field.isAccessible = true

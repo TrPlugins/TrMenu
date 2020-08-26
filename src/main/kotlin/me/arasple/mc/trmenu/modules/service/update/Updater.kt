@@ -11,6 +11,7 @@ import io.izzel.taboolib.module.locale.TLocale
 import io.izzel.taboolib.util.IO
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.Extends.sendLocale
+import me.arasple.mc.trmenu.modules.service.mirror.Mirror
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
@@ -41,27 +42,29 @@ object Updater {
 
     @TSchedule(delay = 20, period = 10 * 60 * 20, async = true)
     private fun grabInfo() {
-        if (LATEST_VERSION > 0) {
-            return
-        }
-        val read: String
-        try {
-            URL(API_URL).openStream().use { inputStream ->
-                BufferedInputStream(inputStream).use { bufferedInputStream ->
-                    read = IO.readFully(bufferedInputStream, StandardCharsets.UTF_8)
-                    val json = JsonParser().parse(read) as JsonObject
-                    val latestVersion = json.get("tag_name").asDouble
-                    if (latestVersion > CURRENT_VERSION) {
-                        LATEST_VERSION = latestVersion
-                        if (LATEST_VERSION < 0) PluginBase.setDisabled(true)
-                        if (!NOTIFY) {
-                            NOTIFY = true
-                            TLocale.sendToConsole("PLUGIN.UPDATE", LATEST_VERSION)
+        Mirror.eval("UpdateService:onCheck(async)") {
+            if (LATEST_VERSION > 0) {
+                return@eval
+            }
+            val read: String
+            try {
+                URL(API_URL).openStream().use { inputStream ->
+                    BufferedInputStream(inputStream).use { bufferedInputStream ->
+                        read = IO.readFully(bufferedInputStream, StandardCharsets.UTF_8)
+                        val json = JsonParser().parse(read) as JsonObject
+                        val latestVersion = json.get("tag_name").asDouble
+                        if (latestVersion > CURRENT_VERSION) {
+                            LATEST_VERSION = latestVersion
+                            if (LATEST_VERSION < 0) PluginBase.setDisabled(true)
+                            if (!NOTIFY) {
+                                NOTIFY = true
+                                TLocale.sendToConsole("PLUGIN.UPDATE", LATEST_VERSION)
+                            }
                         }
                     }
                 }
+            } catch (ignored: Exception) {
             }
-        } catch (ignored: Exception) {
         }
     }
 

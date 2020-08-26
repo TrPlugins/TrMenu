@@ -4,6 +4,7 @@ import io.izzel.taboolib.module.config.TConfig
 import io.izzel.taboolib.module.inject.TFunction
 import io.izzel.taboolib.module.inject.TSchedule
 import me.arasple.mc.trmenu.TrMenu
+import me.arasple.mc.trmenu.modules.service.mirror.Mirror
 import me.arasple.mc.trmenu.util.Tasks
 import org.bukkit.inventory.ItemStack
 
@@ -24,13 +25,15 @@ object ItemRepository {
     fun cancel() = save(true)
 
     fun save(isCanceling: Boolean) {
-        writing = true
-        data.getKeys(true).filter { !itemStacks.keys.contains(it) }.forEach { data.set(it, null) }
-        itemStacks.forEach { (id, item) -> data.set(id, item) }
-        data.saveToFile()
-        if (!isCanceling) {
-            Tasks.delay(2) {
-                writing = false
+        Mirror.eval("ItemRepository:onSave(async)") {
+            writing = true
+            data.getKeys(true).filter { !itemStacks.keys.contains(it) }.forEach { data.set(it, null) }
+            itemStacks.forEach { (id, item) -> data.set(id, item) }
+            data.saveToFile()
+            if (!isCanceling) {
+                Tasks.delay(2) {
+                    writing = false
+                }
             }
         }
     }

@@ -10,6 +10,7 @@ import me.arasple.mc.trmenu.modules.data.Metas
 import me.arasple.mc.trmenu.modules.service.log.Log
 import me.arasple.mc.trmenu.modules.service.log.Loger
 import me.arasple.mc.trmenu.modules.service.metrics.MetricsHandler
+import me.arasple.mc.trmenu.modules.service.mirror.Mirror
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
@@ -23,39 +24,42 @@ class ListenerMenuOpen : Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     fun onOpening(e: MenuOpenEvent) {
-        MetricsHandler.increase(0)
+        Mirror.eval("Menu:preOpenEvent(async)") {
+            MetricsHandler.increase(0)
 
-        val player = e.player
-        val menu = e.menu
-        val page = e.page
-        val reason = e.reason
-        val session = player.getMenuFactorySession()
+            val player = e.player
+            val menu = e.menu
+            val page = e.page
+            val reason = e.reason
+            val session = player.getMenuFactorySession()
 
-        Loger.log(Log.MENU_EVENT_OPEN, player.name, menu.id, page, reason.name)
+            Loger.log(Log.MENU_EVENT_OPEN, player.name, menu.id, page, reason.name)
 
-        if (!session.isNull()) {
-            session.menuFactory!!.closeTask?.run(CloseTask.Event(player, session, session.menuFactory!!))
-            session.reset()
-            return
-        }
-
-        if (reason == MenuOpenEvent.Reason.SWITCH_PAGE) return
-
-        val expansions = menu.settings.options.expansions()
-        if (expansions.isNotEmpty()) {
-            player.sendLocale("MENU.DEPEND-EXPANSIONS", expansions.size)
-            expansions.forEach { player.sendLocale("MENU.DEPEND-EXPANSIONS-FORMAT", it) }
-            e.isCancelled = true
-            return
-        }
-
-        player.setMeta("{reason}", reason.name).also {
-            if (!menu.settings.events.openEvent.eval(player)) {
-                e.isCancelled = true
-                return
+            if (!session.isNull()) {
+                session.menuFactory!!.closeTask?.run(CloseTask.Event(player, session, session.menuFactory!!))
+                session.reset()
+                return@eval
             }
+
+            if (reason == MenuOpenEvent.Reason.SWITCH_PAGE) return@eval
+
+
+            val expansions = menu.settings.options.expansions()
+            if (expansions.isNotEmpty()) {
+                player.sendLocale("MENU.DEPEND-EXPANSIONS", expansions.size)
+                expansions.forEach { player.sendLocale("MENU.DEPEND-EXPANSIONS-FORMAT", it) }
+                e.isCancelled = true
+                return@eval
+            }
+
+            player.setMeta("{reason}", reason.name).also {
+                if (!menu.settings.events.openEvent.eval(player)) {
+                    e.isCancelled = true
+                    return@eval
+                }
+            }
+            Metas.updateInventoryContents(player)
         }
-        Metas.updateInventoryContents(player)
     }
 
 }
