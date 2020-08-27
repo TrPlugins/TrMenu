@@ -8,8 +8,7 @@ import io.th0rgal.oraxen.items.OraxenItems
 import me.arasple.mc.trmenu.modules.conf.property.Nodes
 import me.arasple.mc.trmenu.modules.display.item.Item
 import me.arasple.mc.trmenu.modules.function.ItemRepository
-import me.arasple.mc.trmenu.modules.function.hook.HookHeadDatabase
-import me.arasple.mc.trmenu.modules.function.hook.HookSkinsRestorer
+import me.arasple.mc.trmenu.modules.function.hook.HookInstance
 import me.arasple.mc.trmenu.modules.function.script.Scripts
 import me.arasple.mc.trmenu.util.Msger
 import me.arasple.mc.trmenu.util.Skulls
@@ -45,10 +44,10 @@ data class Mat(val raw: String, val value: String, val type: Pair<Nodes, String>
             Nodes.MAT_REPOSITORY -> ItemRepository.getItem(typeValue) ?: ItemStack(Material.BARRIER)
             Nodes.MAT_HEAD -> Skulls.getPlayerHead(typeValue)
             Nodes.MAT_TEXTURED_SKULL -> Skulls.getTextureSkull(typeValue)
-            Nodes.MAT_HEAD_DATABASE -> HookHeadDatabase.getHead(typeValue)
+            Nodes.MAT_HEAD_DATABASE -> HookInstance.getHeadDatabase().getHead(typeValue)
             Nodes.MAT_ORAXEN -> OraxenItems.getItemById(typeValue).build()
             Nodes.MAT_HEAD_SKINSRESTORER -> {
-                val texture = HookSkinsRestorer.getSkinTextureValue(typeValue)
+                val texture = HookInstance.getSkinsRestorer().getSkinTextureValue(typeValue)
                 if (texture == null) Skulls.getPlayerHead(typeValue)
                 else Skulls.getTextureSkull(texture)
             }
@@ -126,8 +125,8 @@ data class Mat(val raw: String, val value: String, val type: Pair<Nodes, String>
             // Skull & Head
             @Suppress("DEPRECATION")
             if (meta is SkullMeta) {
-                if (HookHeadDatabase.isHooked()) {
-                    val id = HookHeadDatabase.getId(item)
+                if (HookInstance.getHeadDatabase().isHooked()) {
+                    val id = HookInstance.getHeadDatabase().getId(item)
                     if (!Strings.isBlank(id)) return "<hdb:$id>"
                 }
                 val owner = meta.owner

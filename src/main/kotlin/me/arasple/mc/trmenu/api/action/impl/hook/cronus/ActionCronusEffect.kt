@@ -3,7 +3,7 @@ package me.arasple.mc.trmenu.api.action.impl.hook.cronus
 import ink.ptms.cronus.internal.program.effect.EffectParser
 import ink.ptms.cronus.uranus.program.effect.Effect
 import me.arasple.mc.trmenu.api.action.base.Action
-import me.arasple.mc.trmenu.modules.function.hook.HookCronus
+import me.arasple.mc.trmenu.modules.function.hook.HookInstance
 import org.bukkit.entity.Player
 
 /**
@@ -18,9 +18,9 @@ class ActionCronusEffect : Action("(cq|cronus)(-)?effect(s)?") {
         }
 
     override fun onExecute(player: Player) {
-        if (HookCronus.isHooked()) {
+        if (HookInstance.getCronus().isHooked()) {
             effect.eval(
-                HookCronus.nonProgram(player)
+                HookInstance.getCronus().nonProgram(player)
             )
         }
     }

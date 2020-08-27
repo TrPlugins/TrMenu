@@ -2,7 +2,7 @@ package me.arasple.mc.trmenu.api.action.impl.hook.eco
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import me.arasple.mc.trmenu.api.action.base.Action
-import me.arasple.mc.trmenu.modules.function.hook.HookEconomy
+import me.arasple.mc.trmenu.modules.function.hook.HookInstance
 import org.bukkit.entity.Player
 
 /**
@@ -12,7 +12,7 @@ import org.bukkit.entity.Player
 class ActionSetMoney : Action("set(-)?(money|eco|coin)(s)?") {
 
     override fun onExecute(player: Player) = NumberUtils.toDouble(getContent(player), -1.0).let {
-        if (it > 0) HookEconomy.set(player, it)
+        if (it > 0) HookInstance.set(player, it)
     }
 
 }

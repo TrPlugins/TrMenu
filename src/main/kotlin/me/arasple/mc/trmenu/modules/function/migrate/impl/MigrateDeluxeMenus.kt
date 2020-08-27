@@ -15,7 +15,20 @@ class MigrateDeluxeMenus : Migrate() {
 
     override fun migrate() {
         Menu.getAllMenus().forEach {
+            it.inventoryType
+            it.menuCommands
+            it.name
+            it.menuTitle
+            it.size
+            it.menuItems
+            it.updateInterval
+            it.openRequirements
+            it.openHandler
+            it.closeHandler
 
+            it.argUsageMessage
+
+            // UNSUPPORTED - it.registersCommand()
         }
     }
 

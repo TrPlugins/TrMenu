@@ -21,7 +21,8 @@ import me.arasple.mc.trmenu.api.action.impl.item.ActionRepairItem
 import me.arasple.mc.trmenu.api.action.impl.item.ActionTakeItem
 import me.arasple.mc.trmenu.api.action.impl.menu.*
 import me.arasple.mc.trmenu.modules.conf.property.Nodes
-import me.arasple.mc.trmenu.modules.function.hook.HookCronus
+import me.arasple.mc.trmenu.modules.function.hook.HookInstance
+import me.arasple.mc.trmenu.modules.function.hook.impl.HookCronus
 import me.arasple.mc.trmenu.util.Tasks
 import me.arasple.mc.trmenu.util.Utils
 import org.bukkit.entity.Player
@@ -101,7 +102,7 @@ object Actions {
             }
         }
         run(player, run)
-        HookCronus.reset(player)
+        (HookInstance.get("Cronus") as HookCronus).reset(player)
         return true
     }
 
@@ -128,7 +129,9 @@ object Actions {
             any.split(Actions.optionsBound).forEach { it ->
                 val name = it.replace("<.+>".toRegex(), "").split(':')[0]
                 val content = it.removePrefix(name).removePrefix(":").removePrefix(" ")
-                val action = Actions.registeredActions.firstOrNull { name.toLowerCase().matches(it.name) }?.newInstance() ?: ActionUnknow().also { it.setContent(any) }
+                val action =
+                    Actions.registeredActions.firstOrNull { name.toLowerCase().matches(it.name) }?.newInstance()
+                        ?: ActionUnknow().also { it.setContent(any) }
 
                 if (action is ActionCatcher) action.setContent(content)
                 else if (content.isNotBlank()) {
@@ -150,7 +153,8 @@ object Actions {
             any.entries.firstOrNull()?.let { it ->
                 val key = it.key.toString()
                 val value = Utils.asSection(it.value) ?: return@let
-                val action = Actions.registeredActions.firstOrNull { key.toLowerCase().matches(it.name) }?.newInstance() ?: ActionUnknow().also { it.setContent(key) }
+                val action = Actions.registeredActions.firstOrNull { key.toLowerCase().matches(it.name) }?.newInstance()
+                    ?: ActionUnknow().also { it.setContent(key) }
                 action.setContent(value)
                 actions.add(action)
             }

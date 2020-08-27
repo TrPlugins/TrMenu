@@ -7,7 +7,7 @@ import io.izzel.taboolib.module.locale.TLocaleLoader
 import me.arasple.mc.trmenu.modules.command.registerable.RegisterCommands
 import me.arasple.mc.trmenu.modules.conf.MenuLoader
 import me.arasple.mc.trmenu.modules.function.Shortcuts
-import me.arasple.mc.trmenu.modules.function.hook.*
+import me.arasple.mc.trmenu.modules.function.hook.HookInstance
 import me.arasple.mc.trmenu.util.Watchers
 import me.clip.placeholderapi.PlaceholderAPIPlugin
 import org.bukkit.Bukkit
@@ -28,7 +28,7 @@ class TrMenuLoader {
     }
 
     fun active() {
-        hook()
+        HookInstance.init()
         TLocale.sendToConsole("PLUGIN.LOADED", TrMenu.plugin.description.version)
         MenuLoader.loadMenus()
     }
@@ -40,14 +40,6 @@ class TrMenuLoader {
         Watchers.watcher.unregisterAll()
     }
 
-    private fun hook() {
-        HookCMI.init()
-        HookCronus.init()
-        HookHeadDatabase.init()
-        HookPlayerPoints.init()
-        HookSkinsRestorer.init()
-    }
-
     private fun register() {
         syncLocale()
         RegisterCommands.load()
@@ -55,7 +47,10 @@ class TrMenuLoader {
     }
 
     private fun syncLocale() {
-        if (TLocaleLoader.getLocalPriorityFirst(TrMenu.plugin) != "zh_CN" && TLocaleLoader.getLocalPriorityFirst(TabooLib.getPlugin()) == "zh_CN") {
+        if (TLocaleLoader.getLocalPriorityFirst(TrMenu.plugin) != "zh_CN" && TLocaleLoader.getLocalPriorityFirst(
+                TabooLib.getPlugin()
+            ) == "zh_CN"
+        ) {
             TabooLib.getConfig().also {
                 it.set("LOCALE.PRIORITY", listOf("en_US", "zh_CN"))
                 it.saveToFile()

@@ -8,9 +8,8 @@ import io.izzel.taboolib.util.lite.Numbers
 import me.arasple.mc.trmenu.api.Extends.getArguments
 import me.arasple.mc.trmenu.api.action.Actions
 import me.arasple.mc.trmenu.modules.function.WebData
-import me.arasple.mc.trmenu.modules.function.hook.HookCronus
-import me.arasple.mc.trmenu.modules.function.hook.HookEconomy
-import me.arasple.mc.trmenu.modules.function.hook.HookPlayerPoints
+import me.arasple.mc.trmenu.modules.function.hook.HookInstance
+import me.arasple.mc.trmenu.modules.function.hook.impl.HookLuckPerms
 import me.arasple.mc.trmenu.modules.function.item.ItemIdentifierHandler
 import me.clip.placeholderapi.PlaceholderAPI
 import org.bukkit.*
@@ -24,11 +23,14 @@ import org.bukkit.inventory.ItemStack
  */
 class Assist {
 
-    fun runAction(player: Player, vararg actions: String) = actions.filter { it.isNotBlank() }.forEach { Actions.runCachedAction(player, it) }
+    fun runAction(player: Player, vararg actions: String) =
+        actions.filter { it.isNotBlank() }.forEach { Actions.runCachedAction(player, it) }
 
-    fun parsePlaceholders(player: OfflinePlayer, string: String): String = PlaceholderAPI.setPlaceholders(player, string)
+    fun parsePlaceholders(player: OfflinePlayer, string: String): String =
+        PlaceholderAPI.setPlaceholders(player, string)
 
-    fun parseBracketPlaceholders(player: OfflinePlayer, string: String): String = PlaceholderAPI.setBracketPlaceholders(player, string)
+    fun parseBracketPlaceholders(player: OfflinePlayer, string: String): String =
+        PlaceholderAPI.setBracketPlaceholders(player, string)
 
     fun connect(player: Player, server: String) = Bungees.connect(player, server)
 
@@ -86,7 +88,8 @@ class Assist {
 
     fun isGreater(input1: String?, input2: String?) = NumberUtils.toDouble(input1) > NumberUtils.toDouble(input2)
 
-    fun isGreaterOrEqual(input1: String?, input2: String?) = NumberUtils.toDouble(input1) >= NumberUtils.toDouble(input2)
+    fun isGreaterOrEqual(input1: String?, input2: String?) =
+        NumberUtils.toDouble(input1) >= NumberUtils.toDouble(input2)
 
     fun createLocation(world: String?, x: Double, z: Double): Location? {
         val y = Bukkit.getWorld(world!!)!!.getHighestBlockYAt(x.toInt(), z.toInt()).toDouble()
@@ -116,23 +119,26 @@ class Assist {
 
     fun hasMoney(player: Player, money: String) = hasMoney(player, NumberUtils.toDouble(money, 0.0))
 
-    fun hasMoney(player: Player, money: Double) = HookEconomy.get(player) >= money
+    fun hasMoney(player: Player, money: Double) = HookInstance.get(player) >= money
 
     fun hasPoints(player: Player, points: String) = hasPoints(player, NumberUtils.toInt(points, 0))
 
-    fun hasPoints(player: Player, points: Int) = HookPlayerPoints.hasPoints(player, points)
+    fun hasPoints(player: Player, points: Int) = HookInstance.getPlayerPoints().hasPoints(player, points)
 
     fun getItemName(itemStack: ItemStack): String = Items.getName(itemStack)
 
     fun query(url: String) = WebData.query(url)
 
-    fun hasItem(player: String, identify: String) = getPlayer(player)?.let { ItemIdentifierHandler.read(identify).hasItem(it) } ?: false
+    fun hasItem(player: String, identify: String) =
+        getPlayer(player)?.let { ItemIdentifierHandler.read(identify).hasItem(it) } ?: false
 
     fun hasItem(player: Player, identify: String) = ItemIdentifierHandler.read(identify).hasItem(player)
 
     fun evalCronusCondition(player: String, condition: String) = getPlayer(player)?.let { return@let evalCronusCondition(it, condition) } ?: false
 
-    fun evalCronusCondition(player: Player, condition: String) = HookCronus.parseCondition(condition).check(player)
+    fun evalCronusCondition(player: Player, condition: String) = HookInstance.getCronus().parseCondition(condition).check(player)
+
+    fun getLuckPerms() = HookInstance.get("LuckPerms") as HookLuckPerms
 
     companion object {
 

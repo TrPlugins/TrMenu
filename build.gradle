@@ -41,6 +41,7 @@ repositories {
     maven { url 'https://repo.extendedclip.com/content/repositories/placeholderapi/' }
     maven { url 'https://rayzr.dev/repo/' }
     maven { url "http://repo.dakanilabs.com/repository/public/" }
+    mavenCentral()
 }
 
 dependencies {
@@ -48,6 +49,7 @@ dependencies {
     compile 'ink.ptms.core:v11600:11600:all'
     compile 'me.clip:placeholderapi:2.10.9'
     compile 'ink.ptms.cronus:Cronus:1.1.0.2019.8.31-SNAPSHOT-4'
+    compile 'net.luckperms:api:5.0'
     taboo 'com.github.WesJD.AnvilGUI:anvilgui:-SNAPSHOT'
     taboo 'org.bstats:bstats-bukkit:1.7'
     compileOnly fileTree(dir: 'libs', includes: ['*.jar'])

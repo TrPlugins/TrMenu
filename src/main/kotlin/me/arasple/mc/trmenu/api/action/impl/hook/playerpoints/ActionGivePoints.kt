@@ -2,7 +2,7 @@ package me.arasple.mc.trmenu.api.action.impl.hook.playerpoints
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import me.arasple.mc.trmenu.api.action.base.Action
-import me.arasple.mc.trmenu.modules.function.hook.HookPlayerPoints
+import me.arasple.mc.trmenu.modules.function.hook.HookInstance
 import org.bukkit.entity.Player
 
 /**
@@ -12,7 +12,7 @@ import org.bukkit.entity.Player
 class ActionGivePoints : Action("(give|add|deposit)(-)?point(s)?") {
 
     override fun onExecute(player: Player) = NumberUtils.toInt(getContent(player), -1).let {
-        if (it > 0) HookPlayerPoints.addPoints(player, it)
+        if (it > 0) HookInstance.getPlayerPoints().addPoints(player, it)
     }
 
 }
