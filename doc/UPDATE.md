@@ -7,6 +7,7 @@
   - Fixed issue #165 (async chat to execute command bug)
   - Fixed issue #158 (sounds preview feature in 1.15.2)
   - Fixed issue #163 (improved texture skulls cache)
+  - Fixed issue #170 (auto-reload issue with reopening)
   - Removed auto-install PlaceholderAPI feature
   - Added a cooldown for binding item use
   - Added command dump for debug information
@@ -14,6 +15,7 @@
   - Added support for format like `{#a1e1e6}`
   - Added gradients generate `{gradient:#55eb34,#34ebe5,#55eb34-}`
   - Added support for TokenManager
+  - Added alias `repeat` for action retype (issue #168)
 
 ### Version 2.03
 - Date: Aug 20, 2020

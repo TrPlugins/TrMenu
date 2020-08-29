@@ -9,6 +9,8 @@ import org.bukkit.entity.Player
  */
 data class IconProperty(var priority: Int, var condition: String, var inherit: Boolean, val display: IconDisplay, val clickHandler: IconClickHandler) {
 
-    fun evalCondition(player: Player) = if (condition.isBlank()) true else Scripts.expression(player, condition).asBoolean()
+    fun evalCondition(player: Player): Boolean {
+        return if (condition.isBlank()) true else Scripts.expression(player, condition).asBoolean()
+    }
 
 }

@@ -165,6 +165,7 @@ class CommandDebug : BaseSubCommand() {
                     "§3§l「§8--------------------------------------------------§3§l」",
                     "",
                     "§aTitle: §6${menu.settings.title.titles} / ${menu.settings.title.update}",
+                    "§aViewers: §6${menu.viewers.map { it.name }}",
                     "§aBindings: §6${menu.settings.bindings.boundCommands.joinToString(",")}",
                     "§aIcons: §6${menu.icons.size}",
                     "§aOpenEvent: §6${menu.settings.events.openEvent}",
@@ -185,14 +186,21 @@ class CommandDebug : BaseSubCommand() {
                 "§2Total Menus: §6"
             )
         )
-        Menu.getAllMenus().forEach { if (it.value.isNotEmpty()) sender.sendMessage("§r  §8▪ ${it.key}§8: §7${it.value.size}") }
+        Menu.getAllMenus()
+            .forEach { if (it.value.isNotEmpty()) sender.sendMessage("§r  §8▪ ${it.key}§8: §7${it.value.size}") }
         sender.sendMessage(
             arrayOf(
                 "§2Cached WebDatas: §6${WebData.CACHED_WEB_DATA.size}",
                 "§2Cached Skulls: §6${Skulls.CACHED_SKULLS.size}",
                 "§2Cached Expressions: §6${Expressions.CACHED_PARSED.size}",
-                "§2Running Tasks: §6${Bukkit.getScheduler().activeWorkers.filter { it.owner === TrMenu.plugin }.count() + Bukkit.getScheduler().pendingTasks.filter { it.owner === TrMenu.plugin }.count()}",
-                "§2bStats: §3${MetricsHandler.B_STATS?.isEnabled}", "§2cStats: §3${MetricsHandler.C_STATS?.isEnabled}", "§2TabooLib: §f${PluginHandle.getVersion()}", "",
+                "§2Running Tasks: §6${
+                    Bukkit.getScheduler().activeWorkers.filter { it.owner === TrMenu.plugin }
+                        .count() + Bukkit.getScheduler().pendingTasks.filter { it.owner === TrMenu.plugin }.count()
+                }",
+                "§2bStats: §3${MetricsHandler.B_STATS?.isEnabled}",
+                "§2cStats: §3${MetricsHandler.C_STATS?.isEnabled}",
+                "§2TabooLib: §f${PluginHandle.getVersion()}",
+                "",
                 "§3TrMenu Built-Info: §b${description.getString("built-time")}§7, §3By §a${description.getString("built-by")}",
                 "",
                 "§3§l「§8--------------------------------------------------§3§l」"

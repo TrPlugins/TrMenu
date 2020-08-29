@@ -20,6 +20,7 @@ import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
 import java.io.File
 import kotlin.math.min
+import kotlin.system.measureTimeMillis
 
 /**
  * @author Arasple
@@ -56,8 +57,15 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
                 if (!e.isCancelled) {
                     player.completeArguments(settings.options.defaultArguments)
                     val l = layout.layouts[p].also { s.set(this, it, p) }
-                    l.displayInventory(player, settings.title.getTitle(player))
-                    loadIcons(player, p)
+
+                    Tasks.delay(measureTimeMillis { e.menu.refreshIcons(player, p) } / 50, true) {
+                        l.displayInventory(player, settings.title.getTitle(player))
+                        icons.filter { it.isInPage(p) }.forEach {
+                            it.displayItemStack(player)
+                            it.startUpdateTasks(player, this)
+                        }
+                    }
+
                     settings.load(player, this, l)
                     viewers.add(player)
                 }
@@ -68,18 +76,14 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
         }
     }
 
-    /**
-     * 为所有正在查看此菜单的玩家关闭此菜单
-     */
-    fun close() {
-        Tasks.task {
-            viewers.forEach {
-                tasking.reset(it)
-                MenuCloseEvent(it, this@Menu, -1, MenuCloseEvent.Reason.CONSOLE, true).call()
-                it.closeInventory()
-            }
+    fun close(closeInventory: Boolean) {
+        viewers.removeIf {
+            tasking.reset(it)
+            MenuCloseEvent(it, this@Menu, -1, MenuCloseEvent.Reason.CONSOLE, true).call()
+            if (closeInventory) it.closeInventory()
+
+            true
         }
-        viewers.clear()
     }
 
     /**
@@ -100,9 +104,7 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
             if (closeInventory) player.closeInventory() else player.updateInventory()
         }
 
-        viewers.remove(player)
-
-        // 防止关闭菜单后, 动态标题周期未及时停止
+        // 防止关闭菜单后, 动态标题周期未停止
         Tasks.delay(3, true) {
             if (player.getMenuSession().isNull()) {
                 NMS.sendCloseWindow(player)
@@ -110,7 +112,7 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
         }
     }
 
-    fun loadIcons(player: Player, page: Int) = icons.filter { it.isInPage(page) }.forEach { it.displayIcon(player, this) }
+    fun refreshIcons(player: Player, page: Int) = icons.filter { it.isInPage(page) && it.subIcons.isNotEmpty() }.forEach { it.refreshIcon(player) }
 
     fun resetIcons(player: Player, session: Session) = icons.forEach { it.setItemStack(player, session) }
 
@@ -129,21 +131,28 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
         it
     }
 
-    fun getIcon(player: Player, page: Int, slot: Int): Icon? = getIcons(player, page).firstOrNull { it.getIconProperty(player).display.position[page]?.currentElement(player)?.getSlots(player)?.contains(slot) ?: false }
+    fun getIcon(player: Player, page: Int, slot: Int): Icon? = getIcons(player, page).firstOrNull {
+        it.getIconProperty(player).display.position[page]?.currentElement(player)?.getSlots(player)?.contains(slot) ?: false
+    }
 
     fun getIcons(player: Player, page: Int) = icons.filter { it.getIconProperty(player).display.position.containsKey(page) }
 
     fun reload() {
-        val file = File(conf.loadedPath)
-        if (file.exists()) {
-            MenuLoader.loadMenu(file, false)?.let { menu ->
-                getMenus().remove(this)
+        Tasks.task(true) {
+            val file = File(conf.loadedPath)
+            if (file.exists()) {
+                val menu = MenuLoader.loadMenu(file, false) ?: return@task
+                var delay = 0L
+
                 getMenus().add(menu)
-                Tasks.task {
-                    viewers.forEach {
+                getMenus().remove(this)
+
+                viewers.forEach {
+                    Tasks.delay(delay, true) {
                         val session = it.getMenuSession()
                         menu.open(it, session.page, MenuOpenEvent.Reason.RELOAD)
                     }
+                    delay += 2
                 }
             }
         }
@@ -204,11 +213,7 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
         }
 
         private fun clearMenus(plugin: Plugin) {
-            val menus = getMenus(plugin)
-            if (menus != null) {
-                menus.forEach { it.close() }
-                menus.clear()
-            }
+            getMenus(plugin)?.clear()
         }
 
     }

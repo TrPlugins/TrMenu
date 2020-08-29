@@ -25,6 +25,7 @@ abstract class HookInstance {
 
         private val hooks = mapOf(
             "LuckPerms" to HookLuckPerms(),
+            "CMI" to HookCMI(),
             "Cronus" to HookCronus(),
             "HeadDatabase" to HookHeadDatabase(),
             "LuckPerms" to HookLuckPerms(),

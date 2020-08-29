@@ -9,7 +9,7 @@ import org.bukkit.metadata.FixedMetadataValue
  * @author Arasple
  * @date 2020/7/24 20:46
  */
-class ActionReInput : Action("re(-)?(catcher|input|enter|type)(s)?") {
+class ActionReInput : Action("re(-)?(peat|catcher|input|enter|type)(s)?") {
 
     override fun onExecute(player: Player) = player.setMetadata("RE_ENTER", FixedMetadataValue(TrMenu.plugin, ""))
 

@@ -43,7 +43,6 @@ class ListenerMenuOpen : Listener {
 
             if (reason == MenuOpenEvent.Reason.SWITCH_PAGE) return@eval
 
-
             val expansions = menu.settings.options.expansions()
             if (expansions.isNotEmpty()) {
                 player.sendLocale("MENU.DEPEND-EXPANSIONS", expansions.size)

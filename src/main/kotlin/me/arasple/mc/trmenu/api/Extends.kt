@@ -77,6 +77,7 @@ object Extends {
 
     fun Player.removeMenuSession() {
         Sessions.removeMenuSession(this)
+        Menu.getMenus().forEach { it.viewers.remove(this) }
     }
 
 }

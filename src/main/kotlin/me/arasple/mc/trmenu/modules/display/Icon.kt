@@ -18,12 +18,6 @@ import java.util.*
  */
 class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty, val subIcons: List<IconProperty>, val currentIndex: MutableMap<UUID, Int>) {
 
-    fun displayIcon(player: Player, menu: Menu) {
-        refreshIcon(player)
-        displayItemStack(player)
-        startUpdateTasks(player, menu)
-    }
-
     fun setItemStack(player: Player, session: Menu.Session) {
         Mirror.eval("Icon:setItemStack(async)") {
             val property = getIconProperty(player)
@@ -42,8 +36,8 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
         }
     }
 
-    private fun startUpdateTasks(player: Player, menu: Menu) {
-        Tasks.task(true) {
+    fun startUpdateTasks(player: Player, menu: Menu) {
+        Tasks.delay(5, true) {
             val session = player.getMenuSession()
             val sessionId = session.id
 
@@ -67,19 +61,16 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
 
             if (settings.refresh > 0 && subIcons.isNotEmpty()) {
                 val period = settings.refresh.toLong()
-                menu.tasking.task(
-                    player,
-                    object : BukkitRunnable() {
-                        override fun run() {
-                            Mirror.eval("Icon:refreshIcon(sync)") {
-                                if (session.isDifferent(sessionId)) cancel()
-                                else if (refreshIcon(player)) {
-                                    displayItemStack(player)
-                                }
+                menu.tasking.task(player, object : BukkitRunnable() {
+                    override fun run() {
+                        Mirror.eval("Icon:refreshIcon(sync)") {
+                            if (session.isDifferent(sessionId)) cancel()
+                            else if (refreshIcon(player)) {
+                                displayItemStack(player)
                             }
                         }
-                    }.runTaskTimer(TrMenu.plugin, period, period)
-                )
+                    }
+                }.runTaskTimer(TrMenu.plugin, period, period))
             }
         }
     }
@@ -89,15 +80,14 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
     fun getIconPropertyIndex(player: Player) = currentIndex.computeIfAbsent(player.uniqueId) { -1 }
 
     fun refreshIcon(player: Player): Boolean {
-        subIcons.forEachIndexed { index, it ->
-            if (it.evalCondition(player)) {
-                currentIndex[player.uniqueId] = index
+        subIcons.indexOfFirst { it.evalCondition(player) }.let {
+            currentIndex[player.uniqueId] = it
+            if (it >= 0) {
                 Msger.debug(player, "ICON.SUB-ICON-REFRESHED", id, currentIndex[player.uniqueId].toString())
                 return true
             }
+            return false
         }
-        currentIndex[player.uniqueId] = -1
-        return false
     }
 
     fun isInPage(page: Int) = defIcon.display.position.containsKey(page) || subIcons.any { it.display.position.containsKey(page) }

@@ -32,6 +32,8 @@ enum class Expression(val regex: Regex, var replace: String, var splitBy: String
 
     HAS_ITEM("ha(s|ve)(-)?Item(Stack)?(s)?", "utils.hasItem(player, \"{0}\")", "~"),
 
+    HAS_META("ha(s|ve)(-)?Meta(data)?(s)?", "utils.hasMeta(player, \"{0}\")", "~"),
+
     CRONUS_CONDITION("(cq|cronus)Condition", "utils.evalCronusCondition(player, {0})");
 
     constructor(name: String, replace: String) : this(name, replace, ".")

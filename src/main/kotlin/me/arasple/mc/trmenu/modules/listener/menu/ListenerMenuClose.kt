@@ -32,7 +32,9 @@ class ListenerMenuClose : Listener {
                 icon.subIcons.forEach { sub ->
                     sub.display.item.cache.remove(player.uniqueId)
                 }
+                icon.currentIndex.remove(player.uniqueId)
             }
+            menu.viewers.remove(player)
 
             if (!e.silent) menu.settings.events.closeEvent.eval(player)
 
