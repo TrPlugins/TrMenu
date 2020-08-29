@@ -6,6 +6,7 @@ import io.izzel.taboolib.module.locale.TLocale
 import io.izzel.taboolib.module.locale.TLocaleLoader
 import me.arasple.mc.trmenu.modules.command.registerable.RegisterCommands
 import me.arasple.mc.trmenu.modules.conf.MenuLoader
+import me.arasple.mc.trmenu.modules.display.Menu
 import me.arasple.mc.trmenu.modules.function.Shortcuts
 import me.arasple.mc.trmenu.modules.function.hook.HookInstance
 import me.arasple.mc.trmenu.util.Watchers
@@ -34,6 +35,7 @@ class TrMenuLoader {
     }
 
     fun cancel() {
+        Menu.getAllMenus().flatMap { it.value }.forEach { it.close(true) }
         PlaceholderAPIPlugin.getInstance().localExpansionManager.findExpansionByIdentifier("trmenu").ifPresent {
             it.unregister()
         }

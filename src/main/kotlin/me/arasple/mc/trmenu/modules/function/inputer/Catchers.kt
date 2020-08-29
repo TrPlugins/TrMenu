@@ -28,17 +28,19 @@ class Catchers(val catchers: Animated<Stage>) {
         return this
     }
 
-    class Stage(val id: String, val type: Type, val beforeReactions: Reactions, val cancelReactions: Reactions, val afterReactions: Reactions) {
+    class Stage(
+        val id: String,
+        val type: Type,
+        val beforeReactions: Reactions,
+        val cancelReactions: Reactions,
+        val afterReactions: Reactions
+    ) {
 
         val anvilBuilder =
-            if (type == ANVIL)
-                AnvilGUI.Builder()
-                    .plugin(TrMenu.plugin)
-                    .preventClose()
-                    .onComplete { player, text ->
-                        input(player, text)
-                        return@onComplete AnvilGUI.Response.close()
-                    }
+            if (type == ANVIL) AnvilGUI.Builder().plugin(TrMenu.plugin).preventClose().onComplete { player, text ->
+                    input(player, text)
+                    return@onComplete AnvilGUI.Response.close()
+                }
             else null
 
         fun run(player: Player) {
@@ -60,7 +62,7 @@ class Catchers(val catchers: Animated<Stage>) {
             val input = setInput(player, message)
 
             // Cancel Catcher
-            if (InputCatcher.isCancelWord(input)) {
+            if (InputCatcher.isCancelWord(input) || input.isBlank()) {
                 player.removeCatcher()
                 cancelReactions.eval(player)
                 return
@@ -99,9 +101,7 @@ class Catchers(val catchers: Animated<Stage>) {
 
     enum class Type {
 
-        CHAT,
-        SIGN,
-        ANVIL;
+        CHAT, SIGN, ANVIL;
 
         companion object {
 

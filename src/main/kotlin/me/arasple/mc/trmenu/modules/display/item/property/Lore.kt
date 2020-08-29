@@ -35,8 +35,9 @@ class Lore(val lore: MutableList<String>, private val conditions: MutableMap<Int
         lore.forEachIndexed { index, lore ->
             val condition = conditions[index]
             if (condition != null) {
-                if (Scripts.expression(player, condition.first).asBoolean()) lores.addAll(formatLores(player, condition.second))
-                else lores.add("")
+                if (Scripts.expression(player, condition.first).asBoolean()) {
+                    lores.addAll(formatLores(player, condition.second))
+                }
             } else lores.addAll(formatLores(player, Item.colorizeLore(lore)))
         }
         return lores

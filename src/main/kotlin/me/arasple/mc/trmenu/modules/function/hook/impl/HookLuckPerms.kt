@@ -3,6 +3,7 @@ package me.arasple.mc.trmenu.modules.function.hook.impl
 import me.arasple.mc.trmenu.modules.function.hook.HookInstance
 import net.luckperms.api.LuckPerms
 import net.luckperms.api.LuckPermsProvider
+import net.luckperms.api.cacheddata.CachedMetaData
 import net.luckperms.api.context.ContextManager
 import net.luckperms.api.model.group.Group
 import net.luckperms.api.model.group.GroupManager
@@ -34,6 +35,13 @@ class HookLuckPerms : HookInstance() {
 
     fun getUser(name: String): User? {
         return getUserManager().getUser(name)
+    }
+
+    fun getUserMetadata(name: String): CachedMetaData? {
+        return getUser(name)?.let {
+            val queryOptions = api.contextManager.getQueryOptions(it).get()
+            it.cachedData.getMetaData(queryOptions)
+        }
     }
 
     fun getGroupManager(): GroupManager {

@@ -189,7 +189,7 @@ class Assist {
 
     fun hasItem(player: Player, identify: String) = ItemIdentifierHandler.read(identify).hasItem(player)
 
-    fun hasMeta(player: Player, id: String) = player.getMeta(id) != null
+    fun hasMeta(player: Player, id: String) = player.getMeta("{meta:$id}") != null
 
     fun evalCronusCondition(player: String, condition: String) =
         getPlayer(player)?.let { return@let evalCronusCondition(it, condition) } ?: false
