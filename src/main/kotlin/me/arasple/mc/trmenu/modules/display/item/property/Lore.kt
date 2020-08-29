@@ -10,7 +10,7 @@ import org.bukkit.entity.Player
  * @author Arasple
  * @date 2020/5/30 14:09
  */
-class Lore(val lore: MutableList<String>, val conditions: MutableMap<Int, Pair<String, String>>) {
+class Lore(val lore: MutableList<String>, private val conditions: MutableMap<Int, Pair<String, String>>) {
 
     constructor(lore: List<String>) : this(lore.toMutableList(), mutableMapOf())
 

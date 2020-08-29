@@ -16,6 +16,7 @@
   - Added gradients generate `{gradient:#55eb34,#34ebe5,#55eb34-}`
   - Added support for TokenManager
   - Added alias `repeat` for action retype (issue #168)
+  - Priority for icons is no longer required, the plugin will automatically descend them depends on configurations
 
 ### Version 2.03
 - Date: Aug 20, 2020

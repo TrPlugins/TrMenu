@@ -29,31 +29,26 @@ object IconSerializer {
      * 加载菜单图标
      */
     fun loadIcons(c: MenuConfiguration): Set<Icon> = mutableSetOf<Icon>().let { icons ->
-
-        val section = c.getIcons()?.let {
-            Utils.asSection(it)
-        }
+        val section = Utils.asSection(c.getIcons())
 
         section?.getKeys(false)?.forEach { key ->
             val iconSection = section.getConfigurationSection(key)
             if (iconSection != null) {
                 val subIcons = iconSection.getList(Utils.getSectionKey(iconSection, Property.ICON_SUB_ICONS))
-
-                val iconSettings = IconSettings(
-                    iconSection.getInt(Utils.getSectionKey(iconSection, Property.ICON_REFRESH), -1),
-                    Utils.asIntArray(iconSection.get(Utils.getSectionKey(iconSection, Property.ICON_UPDATE)))
-                )
+                val iconSettings = IconSettings(iconSection.getInt(Utils.getSectionKey(iconSection, Property.ICON_REFRESH), -1), Utils.asIntArray(iconSection.get(Utils.getSectionKey(iconSection, Property.ICON_UPDATE))))
 
                 val defIcon = loadIconProperty(iconSection) ?: return@forEach
                 val subs = mutableListOf<IconProperty>()
 
                 if (subIcons != null && subIcons.isNotEmpty()) {
+                    var order = subIcons.filterNotNull().size
+
                     subIcons.forEach {
                         it?.let {
                             Utils.asSection(it)?.let { sub ->
                                 val subIcon = loadIconProperty(sub)
                                 if (subIcon != null) {
-                                    subIcon.priority = sub.getInt(Utils.getSectionKey(sub, Property.PRIORITY), 0)
+                                    subIcon.priority = sub.getInt(Utils.getSectionKey(sub, Property.PRIORITY), order--)
                                     subIcon.condition = sub.getString(Utils.getSectionKey(sub, Property.REQUIREMENT)) ?: "false"
                                     subIcon.inherit = sub.getBoolean(Utils.getSectionKey(sub, Property.INHERIT))
                                     subs.add(subIcon)
@@ -103,13 +98,11 @@ object IconSerializer {
         // 加载坐标
         val positions = let {
             if (slots.isNotEmpty()) {
-                val pos = Animated(
-                    mutableListOf<Position>().let {
-                        if (slots.first() is List<*>) slots.forEach { s -> it.add(Position.createPosition(s as List<String>)) }
-                        else it.add(Position.createPosition(slots))
-                        it
-                    }.toTypedArray()
-                )
+                val pos = Animated(mutableListOf<Position>().let {
+                    if (slots.first() is List<*>) slots.forEach { s -> it.add(Position.createPosition(s as List<String>)) }
+                    else it.add(Position.createPosition(slots))
+                    it
+                }.toTypedArray())
                 return@let mutableMapOf<Int, Animated<Position>>().let {
                     page.forEach { p -> it[NumberUtils.toInt(p.toString(), 0)] = pos }
                     it
