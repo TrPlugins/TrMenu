@@ -7,7 +7,7 @@ authors:
 
 api-version: 1.13
 lib-version: ${taboolib}
-lib-download: false
+lib-download: ${libDownload}
 version: ${version}
 
 github: https://github.com/Arasple/${name}

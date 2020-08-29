@@ -56,8 +56,29 @@ class Assist {
         return getPlayer(player).let { return@let it != null && it.isOnline }
     }
 
+    fun isPlayerWhitelisted(player: String): Boolean {
+
+        return Bukkit.getWhitelistedPlayers().any { it.name.equals(player, true) }
+    }
+
+    fun addWhitelist(player: String): Boolean {
+        getOfflinePlayer(player)?.let {
+            Bukkit.getWhitelistedPlayers().add(it)
+            return true
+        }
+        return false
+    }
+
+    fun removeWhitelist(player: String): Boolean {
+        return Bukkit.getWhitelistedPlayers().removeIf { it.name.equals(player, true) }
+    }
+
     fun getPlayer(player: String): Player? {
         return Bukkit.getPlayerExact(player)
+    }
+
+    fun getOfflinePlayer(player: String): OfflinePlayer? {
+        return Bukkit.getOfflinePlayers().firstOrNull { it.name.equals(player, true) }
     }
 
     fun getOnlinePlayers(): List<Player> {
@@ -122,7 +143,8 @@ class Assist {
 
     fun isGreater(input1: String?, input2: String?) = NumberUtils.toDouble(input1) > NumberUtils.toDouble(input2)
 
-    fun isGreaterOrEqual(input1: String?, input2: String?) = NumberUtils.toDouble(input1) >= NumberUtils.toDouble(input2)
+    fun isGreaterOrEqual(input1: String?, input2: String?) =
+        NumberUtils.toDouble(input1) >= NumberUtils.toDouble(input2)
 
     fun createLocation(world: String?, x: Double, z: Double): Location? {
         val y = Bukkit.getWorld(world!!)!!.getHighestBlockYAt(x.toInt(), z.toInt()).toDouble()
@@ -162,15 +184,18 @@ class Assist {
 
     fun query(url: String) = WebData.query(url)
 
-    fun hasItem(player: String, identify: String) = getPlayer(player)?.let { ItemIdentifierHandler.read(identify).hasItem(it) } ?: false
+    fun hasItem(player: String, identify: String) =
+        getPlayer(player)?.let { ItemIdentifierHandler.read(identify).hasItem(it) } ?: false
 
     fun hasItem(player: Player, identify: String) = ItemIdentifierHandler.read(identify).hasItem(player)
 
     fun hasMeta(player: Player, id: String) = player.getMeta(id) != null
 
-    fun evalCronusCondition(player: String, condition: String) = getPlayer(player)?.let { return@let evalCronusCondition(it, condition) } ?: false
+    fun evalCronusCondition(player: String, condition: String) =
+        getPlayer(player)?.let { return@let evalCronusCondition(it, condition) } ?: false
 
-    fun evalCronusCondition(player: Player, condition: String) = HookInstance.getCronus().parseCondition(condition).check(player)
+    fun evalCronusCondition(player: Player, condition: String) =
+        HookInstance.getCronus().parseCondition(condition).check(player)
 
     fun getPlayerHead(name: String) = Skulls.getPlayerHead(name)
 

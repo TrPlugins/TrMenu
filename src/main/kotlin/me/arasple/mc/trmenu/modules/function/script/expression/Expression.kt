@@ -22,6 +22,8 @@ enum class Expression(val regex: Regex, var replace: String, var splitBy: String
 
     IS_PLAYER_ONLINE("isOnline", "utils.isPlayerOnline(\"{0}\")"),
 
+    IS_PLAYER_WHITELISTED("isWhitelisted", "utils.isPlayerWhitelisted(\"{0}\")", "~"),
+
     HAS_PERMISSION("ha(s|ve)(-)?(Perm(ission)?(s)?)", "player.hasPermission(\"{0}\")", "~"),
 
     HAS_LEVEL("ha(s|ve)(-)?(Level|Lv)(s)?", "player.getLevel() >= {0}"),

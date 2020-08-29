@@ -27,6 +27,7 @@ processResources {
                 'main': project.group + ".boot.PluginBoot",
                 'version': project.version,
                 'taboolib': taboolib.tabooLibVersion,
+                'libDownload': System.properties['user.name'] != "Arasple",
                 'built': new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss").format(new Date()),
                 'builder': System.properties['user.name'],
                 'os': "${System.properties['os.name']} ${System.properties['os.arch']} ${System.properties['os.version']}"
