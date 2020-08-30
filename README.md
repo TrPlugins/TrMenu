@@ -44,13 +44,17 @@ QQ Group: 513618407
 
 ---
 
-### Terms
+### License
 
-1. You are not allowed to distribute or resell any part of this plugin to anyone
-2. You are only allowed to use this plugin on your own servers
-3. You are not allowed to claim any part of this plugin as your own
-4. You are not allowed to repost this plugin on anywhere without asking permission
-5. You are not allowed to request a refund for any reason
-6. You can use it only for personal usage without purchasing
+[LICENSE](https://github.com/TrMenu/TrMenu/blob/v2/LICENSE.md)
+
+Despite TrMenu is a paid plugin, by any means,  
+I will and cannot prevent you from downloading the artifacts  
+or compiling it yourself as long as you do not distribute it
+
+However, purchasing a license will support this project and its  
+continual development. I will be appreciated and do the best of my ability  
+to offer help to you as long as I am available
+
 
 ---
