@@ -151,7 +151,7 @@ data class Mat(val raw: String, val value: String, val type: Pair<Nodes, String>
             val nodes = result.second.entries.firstOrNull()
             var type = nodes?.key
             var typeValue = nodes?.value
-            if (Utils.isJson(left)) {
+            if (Utils.isJson(left) && left.contains('"')) {
                 type = Nodes.MAT_JSON
                 typeValue = left
             }

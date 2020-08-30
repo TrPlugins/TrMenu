@@ -1,7 +1,6 @@
 package me.arasple.mc.trmenu.modules.function.hook
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
-import io.izzel.taboolib.module.db.local.LocalPlayer
 import io.izzel.taboolib.module.inject.THook
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.Extends.getArguments
@@ -32,8 +31,8 @@ object HookPlaceholderAPI {
         return when (params[0].toLowerCase()) {
             "menus" -> Menu.getMenus().size.toString()
             "args" -> arguments(player, params)
-            "meta" -> meta(player, params)
-            "data" -> if (params.size > 1) LocalPlayer.get(player).getString("TrMenu.Data.${params[1]}", "")!! else ""
+            "meta" -> if (params.size > 1) player.getMeta("{meta:${params[1]}}").toString() else ""
+            "data" -> if (params.size > 1) player.getMeta("{data:${params[1]}}").toString() else ""
             "menu" -> menu(player, params)
             "emptyslot" -> freeSlot(player, params)
             "js" -> if (params.size > 1) Scripts.script(player, params[1], true).asString() else ""
@@ -54,10 +53,6 @@ object HookPlaceholderAPI {
             }.removeSuffix(" ")
         }
         return "null"
-    }
-
-    private fun meta(player: Player, params: List<String>): String {
-        return (if (params.size > 1) params[1] else null)?.let { player.getMeta(it) }?.toString() ?: "null"
     }
 
     private fun menu(player: Player, params: List<String>): String {
