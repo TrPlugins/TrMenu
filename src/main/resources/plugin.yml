@@ -5,7 +5,7 @@ authors:
   - Arasple
   - Bkm016
 
-api-version: 1.13
+api-version: "1.13"
 lib-version: ${taboolib}
 lib-download: ${libDownload}
 version: ${version}
