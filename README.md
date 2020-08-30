@@ -6,10 +6,10 @@
 
 ### Introduce
 
-TrMenu is a brand new advanced dynamic menu plugin
-You can create unlimited & highly customized inventory GUIs
+TrMenu is a brand new advanced dynamic menu plugin  
+You can create unlimited & highly customized inventory GUIs  
 
-Compared with other menu plugins,
+Compared with other menu plugins,  
 TrMenu covers a larger variety of functions, easier menu configuration and a multiple-language wiki help you to learn
 
 > Powered by **Built-in Bukkit-API Expansion** [TabooLib5](https://github.com/TabooLib)
@@ -18,21 +18,16 @@ TrMenu covers a larger variety of functions, easier menu configuration and a mul
 
 ### Purchase
 
-`https://songoda.com/marketplace/product/459`
-
----
-
-### Wiki
-
-`https://trmenu.trixey.cc`
+spigotmc.org  
+![songoda.com](https://songoda.com/marketplace/product/459)
 
 ---
 
 ### Support
 
-Issues: https://github.com/TrMenu/TrMenu/issues
+Issues: https://github.com/TrMenu/TrMenu/issues  
 Discord : https://discord.gg/8CWa6KF  
-QQ Group: 513618407
+QQ Group: 513618407  
 
 `Please be aware that you may not get support without purchasing it`
 
@@ -54,7 +49,6 @@ or compiling it yourself as long as you do not distribute it
 
 However, purchasing a license will support this project and its  
 continual development. I will be appreciated and do the best of my ability  
-to offer help to you as long as I am available
-
+to offer help to you as long as I am available.
 
 ---
