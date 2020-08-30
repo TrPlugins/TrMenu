@@ -20,7 +20,10 @@ class HookSkinsRestorer : HookInstance() {
     }
 
     override fun initialization() {
-        api = (Bukkit.getPluginManager().getPlugin(getDepend()) as SkinsRestorer).skinsRestorerBukkitAPI
+        val plugin = (Bukkit.getPluginManager().getPlugin(getDepend()) as SkinsRestorer)
+        if (!plugin.isBungeeEnabled) {
+            api = plugin.skinsRestorerBukkitAPI
+        }
     }
 
     fun getSkinTextureValue(name: String): String? {

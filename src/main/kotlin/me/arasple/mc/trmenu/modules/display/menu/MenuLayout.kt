@@ -67,6 +67,13 @@ class MenuLayout(val layouts: List<Layout>) {
         }
 
         /**
+         * 比较布局规格
+         */
+        fun isSimilar(layout: MenuLayout.Layout): Boolean {
+            return type == layout.type && rows == layout.rows
+        }
+
+        /**
          * 显示虚拟容器
          */
         fun displayInventory(player: Player, title: String) = NMS.sendOpenWindow(player, type, size(type, rows), title)
@@ -131,15 +138,15 @@ class MenuLayout(val layouts: List<Layout>) {
          * 重构图标标识写入某行的字符串
          */
         private fun rebuildLine(line: String, width: Int, index: Int, key: String) =
-            buildString {
-                listIconsKeys(line, width).let {
-                    it[index] = key
-                    return@let it
-                }.forEach {
-                    if (it.length > 1) append("`$it`") else append(it[0])
+                buildString {
+                    listIconsKeys(line, width).let {
+                        it[index] = key
+                        return@let it
+                    }.forEach {
+                        if (it.length > 1) append("`$it`") else append(it[0])
+                    }
+                    return@buildString
                 }
-                return@buildString
-            }
 
 
         fun positionize(width: Int, size: Int, layout: List<String>, layoutInventory: List<String>): Map<String, Set<Int>> {

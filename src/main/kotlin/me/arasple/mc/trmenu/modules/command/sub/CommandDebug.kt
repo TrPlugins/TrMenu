@@ -34,19 +34,19 @@ import org.bukkit.metadata.FixedMetadataValue
 class CommandDebug : BaseSubCommand() {
 
     override fun getArguments() = arrayOf(
-        Argument("Type", false) {
-            listOf(
-                "info",
-                "player",
-                "menu",
-                "msgreplace",
-                "skulls",
-                "expressions",
-                "reset",
-                "parseExpression",
-                "parseMat"
-            )
-        }
+            Argument("Type", false) {
+                listOf(
+                        "info",
+                        "player",
+                        "menu",
+                        "msgreplace",
+                        "skulls",
+                        "expressions",
+                        "reset",
+                        "parseExpression",
+                        "parseMat"
+                )
+            }
     )
 
     val description: YamlConfiguration = PluginHandle.getPluginDescription()
@@ -71,14 +71,14 @@ class CommandDebug : BaseSubCommand() {
                     if (sender is Player) {
                         val message = ArrayUtil.arrayJoin(args, 1)
                         sender.sendMessage(
-                            Msger.replace(sender, message)
+                                Msger.replace(sender, message)
                         )
                     }
                 }
                 "parseexpression" -> {
                     val parsed = Expressions.parseExpression(content)
                     val translated =
-                        Scripts.translate(parsed)
+                            Scripts.translate(parsed)
                     sender.sendLocale("DEBUG.EXPRESSION", content, parsed)
                     sender.sendLocale("DEBUG.PRE-COMPILE-SCRIPT", parsed, translated)
                 }
@@ -93,14 +93,14 @@ class CommandDebug : BaseSubCommand() {
 
     private fun printSkulls(sender: CommandSender) {
         sender.sendMessage(
-            arrayOf(
-                "§3§l「§8--------------------------------------------------§3§l」",
-                "",
-                "§cCached_Skulls: §4${Skulls.CACHED_SKULLS.keys}",
-                "§cCached_PlayerTextures: §4${Skulls.CACHED_PLAYER_TEXTURE}",
-                "",
-                "§3§l「§8--------------------------------------------------§3§l」"
-            )
+                arrayOf(
+                        "§3§l「§8--------------------------------------------------§3§l」",
+                        "",
+                        "§cCached_Skulls: §4${Skulls.CACHED_SKULLS.keys}",
+                        "§cCached_PlayerTextures: §4${Skulls.CACHED_PLAYER_TEXTURE}",
+                        "",
+                        "§3§l「§8--------------------------------------------------§3§l」"
+                )
         )
 
         if (sender is Player) {
@@ -112,17 +112,17 @@ class CommandDebug : BaseSubCommand() {
 
     private fun printExpressions(sender: CommandSender) {
         sender.sendMessage(
-            arrayOf(
-                "§3§l「§8--------------------------------------------------§3§l」",
-                "",
-                "§8${
-                    Expressions.CACHED_PARSED.map {
-                        "\n§8${it.key} §3-> §f${it.value}"
-                    }
-                }",
-                "",
-                "§3§l「§8--------------------------------------------------§3§l」"
-            )
+                arrayOf(
+                        "§3§l「§8--------------------------------------------------§3§l」",
+                        "",
+                        "§8${
+                            Expressions.CACHED_PARSED.map {
+                                "\n§8${it.key} §3-> §f${it.value}"
+                            }
+                        }",
+                        "",
+                        "§3§l「§8--------------------------------------------------§3§l」"
+                )
         )
     }
 
@@ -142,17 +142,17 @@ class CommandDebug : BaseSubCommand() {
         if (player != null) {
             val session = player.getMenuSession()
             sender.sendMessage(
-                arrayOf(
-                    "§3§l「§8--------------------------------------------------§3§l」",
-                    "",
-                    "§eCurrentMenu: §6${session.menu?.id}",
-                    "§eCurrentPage: §6${session.page}",
-                    "§eArguments: §6${player.getArguments().joinToString(", ", "{", "}")}",
-                    "§eMetas: §6${player.getMetas()}",
-                    "§eInternalFunctions: §6${session.menu?.settings?.functions?.internalFunctions?.map { it.id }}",
-                    "",
-                    "§3§l「§8--------------------------------------------------§3§l」"
-                )
+                    arrayOf(
+                            "§3§l「§8--------------------------------------------------§3§l」",
+                            "",
+                            "§eCurrentMenu: §6${session.menu?.id}",
+                            "§eCurrentPage: §6${session.page}",
+                            "§eArguments: §6${player.getArguments().joinToString(", ", "{", "}")}",
+                            "§eMetas: §6${player.getMetas()}",
+                            "§eInternalFunctions: §6${session.menu?.settings?.functions?.internalFunctions?.map { it.id }}",
+                            "",
+                            "§3§l「§8--------------------------------------------------§3§l」"
+                    )
             )
         }
     }
@@ -161,65 +161,65 @@ class CommandDebug : BaseSubCommand() {
     private fun printMenu(sender: CommandSender, menu: Menu?) {
         if (menu != null) {
             sender.sendMessage(
-                arrayOf(
-                    "§3§l「§8--------------------------------------------------§3§l」",
-                    "",
-                    "§aTitle: §6${menu.settings.title.titles} / ${menu.settings.title.update}",
-                    "§aViewers: §6${menu.viewers.map { it.name }}",
-                    "§aBindings: §6${menu.settings.bindings.boundCommands.joinToString(",")}",
-                    "§aIcons: §6${menu.icons.size}",
-                    "§aOpenEvent: §6${menu.settings.events.openEvent}",
-                    "§aCloseEvent: §6${menu.settings.events.closeEvent}",
-                    "",
-                    "§3§l「§8--------------------------------------------------§3§l」"
-                )
+                    arrayOf(
+                            "§3§l「§8--------------------------------------------------§3§l」",
+                            "",
+                            "§aTitle: §6${menu.settings.title.titles} / ${menu.settings.title.update}",
+                            "§aViewers: §6${menu.viewers.map { it.name }}",
+                            "§aBindings: §6${menu.settings.bindings.boundCommands.joinToString(",")}",
+                            "§aIcons: §6${menu.icons.size}",
+                            "§aOpenEvent: §6${menu.settings.events.openEvent}",
+                            "§aCloseEvent: §6${menu.settings.events.closeEvent}",
+                            "",
+                            "§3§l「§8--------------------------------------------------§3§l」"
+                    )
             )
         }
     }
 
     private fun printInfo(sender: CommandSender) {
         sender.sendMessage(
-            arrayOf(
-                "§3§l「§8--------------------------------------------------§3§l」",
-                "",
-                "§2Server: §6${Bukkit.getServer().name}",
-                "§2Total Menus: §6"
-            )
+                arrayOf(
+                        "§3§l「§8--------------------------------------------------§3§l」",
+                        "",
+                        "§2Server: §6${Bukkit.getServer().name}",
+                        "§2Total Menus: §6"
+                )
         )
         Menu.getAllMenus()
-            .forEach { if (it.value.isNotEmpty()) sender.sendMessage("§r  §8▪ ${it.key}§8: §7${it.value.size}") }
+                .forEach { if (it.value.isNotEmpty()) sender.sendMessage("§r  §8▪ ${it.key}§8: §7${it.value.size}") }
         sender.sendMessage(
-            arrayOf(
-                "§2Cached WebDatas: §6${WebData.CACHED_WEB_DATA.size}",
-                "§2Cached Skulls: §6${Skulls.CACHED_SKULLS.size}",
-                "§2Cached Expressions: §6${Expressions.CACHED_PARSED.size}",
-                "§2Running Tasks: §6${
-                    Bukkit.getScheduler().activeWorkers.filter { it.owner === TrMenu.plugin }
-                        .count() + Bukkit.getScheduler().pendingTasks.filter { it.owner === TrMenu.plugin }.count()
-                }",
-                "§2bStats: §3${MetricsHandler.B_STATS?.isEnabled}",
-                "§2cStats: §3${MetricsHandler.C_STATS?.isEnabled}",
-                "§2TabooLib: §f${PluginHandle.getVersion()}",
-                "",
-                "§3TrMenu Built-Info: §b${description.getString("built-time")}§7, §3By §a${description.getString("built-by")}",
-                "",
-                "§3§l「§8--------------------------------------------------§3§l」"
-            )
+                arrayOf(
+                        "§2Cached WebDatas: §6${WebData.CACHED_WEB_DATA.size}",
+                        "§2Cached Skulls: §6${Skulls.CACHED_SKULLS.size}",
+                        "§2Cached Expressions: §6${Expressions.CACHED_PARSED.size}",
+                        "§2Running Tasks: §6${
+                            Bukkit.getScheduler().activeWorkers.filter { it.owner === TrMenu.plugin }
+                                    .count() + Bukkit.getScheduler().pendingTasks.filter { it.owner === TrMenu.plugin }.count()
+                        }",
+                        "§2bStats: §3${MetricsHandler.B_STATS?.isEnabled}",
+                        "§2cStats: §3${MetricsHandler.C_STATS?.isEnabled}",
+                        "§2TabooLib: §f${PluginHandle.getVersion()}",
+                        "",
+                        "§3TrMenu Built-Info: §b${description.getString("built-time")}§7, §3By §a${description.getString("built-by")}",
+                        "",
+                        "§3§l「§8--------------------------------------------------§3§l」"
+                )
         )
 
         println(
-            "Actived: " + Bukkit
-                .getScheduler()
-                .activeWorkers
-                .filter { it.owner === TrMenu.plugin }
-                .count()
+                "Actived: " + Bukkit
+                        .getScheduler()
+                        .activeWorkers
+                        .filter { it.owner === TrMenu.plugin }
+                        .count()
         )
 
         println(
-            "Pending: " + Bukkit
-                .getScheduler()
-                .pendingTasks
-                .filter { it.owner === TrMenu.plugin }
+                "Pending: " + Bukkit
+                        .getScheduler()
+                        .pendingTasks
+                        .filter { it.owner === TrMenu.plugin }
         )
     }
 

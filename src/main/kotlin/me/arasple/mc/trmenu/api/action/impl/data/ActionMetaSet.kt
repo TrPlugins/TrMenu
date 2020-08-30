@@ -12,17 +12,17 @@ import org.bukkit.entity.Player
 class ActionMetaSet : Action("set(-)?(temp|var(iable)?|meta)(s)?") {
 
     override fun onExecute(player: Player) =
-        getSplitedBySemicolon(player).forEach {
-            val split = it.split(" ", limit = 2)
-            if (split.size == 2) {
-                val key = split[0]
-                val value = replaceWithSpaces(split[1])
+            getSplitedBySemicolon(player).forEach {
+                val split = it.split(" ", limit = 2)
+                if (split.size == 2) {
+                    val key = split[0]
+                    val value = replaceWithSpaces(split[1])
 
-                player.setMeta("{meta:$key}", value)
-                Msger.debug("ACTIONS.SET-META", player.name, key, value, it)
-            } else {
-                Msger.debug("ACTIONS.SET-META-FAILED", player.name, it)
+                    player.setMeta("{meta:$key}", value)
+                    Msger.debug("ACTIONS.SET-META", player.name, key, value, it)
+                } else {
+                    Msger.debug("ACTIONS.SET-META-FAILED", player.name, it)
+                }
             }
-        }
 
 }

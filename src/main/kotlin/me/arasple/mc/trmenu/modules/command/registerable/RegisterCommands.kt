@@ -33,26 +33,26 @@ object RegisterCommands {
                 }
 
                 CommandBuilder
-                    .create(main, TrMenu.plugin)
-                    .aliases(*section.getStringList("aliases").toTypedArray())
-                    .tab { _, args ->
-                        val keys = argument?.getKeys(false)
-                        return@tab if (args.size == 1) {
-                            keys?.filter { it.startsWith(args[0]) }
-                        } else keys?.toList()
-                    }
-                    .execute { sender, args ->
-                        if (sender is Player) {
-                            if (args.isEmpty()) {
-                                reactions.eval(sender)
-                            } else {
-                                subReactions[args[0]]?.eval(sender)
+                        .create(main, TrMenu.plugin)
+                        .aliases(*section.getStringList("aliases").toTypedArray())
+                        .tab { _, args ->
+                            val keys = argument?.getKeys(false)
+                            return@tab if (args.size == 1) {
+                                keys?.filter { it.startsWith(args[0]) }
+                            } else keys?.toList()
+                        }
+                        .execute { sender, args ->
+                            if (sender is Player) {
+                                if (args.isEmpty()) {
+                                    reactions.eval(sender)
+                                } else {
+                                    subReactions[args[0]]?.eval(sender)
+                                }
                             }
                         }
-                    }
-                    .forceRegister()
-                    .permission(section.getString("permission"))
-                    .build()
+                        .forceRegister()
+                        .permission(section.getString("permission"))
+                        .build()
                 registered.add(main)
             }
         }

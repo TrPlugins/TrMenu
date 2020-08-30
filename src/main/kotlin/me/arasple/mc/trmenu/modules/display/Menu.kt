@@ -6,6 +6,7 @@ import me.arasple.mc.trmenu.api.Extends.getMenuSession
 import me.arasple.mc.trmenu.api.Extends.setMenuSession
 import me.arasple.mc.trmenu.api.event.MenuCloseEvent
 import me.arasple.mc.trmenu.api.event.MenuOpenEvent
+import me.arasple.mc.trmenu.api.event.MenuSwitchPageEvent
 import me.arasple.mc.trmenu.api.nms.NMS
 import me.arasple.mc.trmenu.modules.conf.MenuLoader
 import me.arasple.mc.trmenu.modules.conf.menu.MenuConfiguration
@@ -37,40 +38,64 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
         }
     }
 
+    fun switch(player: Player, page: Int) {
+        resetTaskings(player)
+        Mirror.async("Menu:onSwitch(async)") {
+            val p = (if (page < 0) settings.options.getDefaultLayout(player) else min(page, layout.layouts.size - 1)).coerceAtLeast(0)
+            val s = player.getMenuSession()
+            val e = MenuSwitchPageEvent(player, this, s.page, p).async(true).call() as MenuSwitchPageEvent
+
+            if (s.page != p) {
+                val fromLayout = s.layout ?: return@async
+                val layout = layout.layouts[p].also { s.set(this, it, p) }
+
+
+                Tasks.task(true) {
+                    val delay = measureTimeMillis { e.menu.refreshIcons(player, p) } / 50
+                    Tasks.delay(delay, true) {
+
+                        if (fromLayout.isSimilar(layout)) {
+                            NMS.sendClearNonIconSlots(player, s)
+                        } else {
+                            layout.displayInventory(player, settings.title.getTitle(player))
+                        }
+
+                        icons.filter { it.isInPage(p) }.forEach {
+                            it.displayItemStack(player)
+                            it.startUpdateTasks(player, this)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     fun open(player: Player) = open(player, -1)
 
     fun open(player: Player, page: Int) = open(player, page, MenuOpenEvent.Reason.UNKNOWN)
 
     fun open(player: Player, page: Int, reason: MenuOpenEvent.Reason) {
         resetTaskings(player)
-        Tasks.task(true) {
-            Mirror.eval("Menu:onOpen(total)") {
-                val p = (if (page < 0) settings.options.getDefaultLayout(player) else min(page, layout.layouts.size - 1)).coerceAtLeast(0)
-                val e = MenuOpenEvent(player, this, p, reason, MenuOpenEvent.Result.UNKNOWN).async(true).call() as MenuOpenEvent
-                val s = player.getMenuSession()
+        Mirror.async("Menu:onOpen(async)") {
+            val p = (if (page < 0) settings.options.getDefaultLayout(player) else min(page, layout.layouts.size - 1)).coerceAtLeast(0)
+            val e = MenuOpenEvent(player, this, p, reason, MenuOpenEvent.Result.UNKNOWN).async(true).call() as MenuOpenEvent
+            val s = player.getMenuSession()
 
-                if (layout.layouts.size <= e.page) {
-                    e.result = MenuOpenEvent.Result.ERROR_PAGE
-                    e.isCancelled = true
-                    return@eval
-                }
-                if (!e.isCancelled) {
-                    player.completeArguments(settings.options.defaultArguments)
-                    val l = layout.layouts[p].also { s.set(this, it, p) }
+            if (!e.isCancelled) {
+                val layout = layout.layouts[p].also { s.set(this, it, p) }
+                player.completeArguments(settings.options.defaultArguments)
 
-                    Tasks.delay(measureTimeMillis { e.menu.refreshIcons(player, p) } / 50, true) {
-                        l.displayInventory(player, settings.title.getTitle(player))
+                Tasks.task(true) {
+                    val delay = measureTimeMillis { e.menu.refreshIcons(player, p) } / 50
+                    Tasks.delay(delay, true) {
+                        layout.displayInventory(player, settings.title.getTitle(player))
                         icons.filter { it.isInPage(p) }.forEach {
                             it.displayItemStack(player)
                             it.startUpdateTasks(player, this)
                         }
+                        settings.load(player, this, layout)
+                        viewers.add(player)
                     }
-
-                    settings.load(player, this, l)
-                    viewers.add(player)
-                }
-                if (reason == MenuOpenEvent.Reason.SWITCH_PAGE) {
-                    NMS.sendClearNonIconSlots(player, s)
                 }
             }
         }
@@ -85,10 +110,6 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
             true
         }
     }
-
-    /**
-     * 为特定玩家关闭此菜单
-     */
 
     fun close(player: Player, page: Int) {
         close(player, page, MenuCloseEvent.Reason.CONSOLE, closeInventory = false, silent = true)
@@ -112,30 +133,42 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
         }
     }
 
-    fun refreshIcons(player: Player, page: Int) = icons.filter { it.isInPage(page) && it.subIcons.isNotEmpty() }.forEach { it.refreshIcon(player) }
+    fun refreshIcons(player: Player, page: Int) {
+        icons.filter { it.isInPage(page) && it.subIcons.isNotEmpty() }.forEach { it.refreshIcon(player) }
+    }
 
-    fun resetIcons(player: Player, session: Session) = icons.forEach { it.setItemStack(player, session) }
+    fun resetIcons(player: Player, session: Session) {
+        icons.forEach { it.setItemStack(player, session) }
+    }
 
-    fun getOccupiedSlots(player: Player, page: Int) = mutableSetOf<Int>().let { slots ->
-        icons.forEach {
-            val find = it.getIconProperty(player).display.position[page]?.currentElement(player)?.getOccupiedSlots(player)
-            if (find != null) {
-                slots.addAll(find)
+    fun getOccupiedSlots(player: Player, page: Int): Set<Int> {
+        return mutableSetOf<Int>().let { slots ->
+            icons.forEach {
+                val find = it.getIconProperty(player).display.position[page]?.currentElement(player)?.getOccupiedSlots(player)
+                if (find != null) {
+                    slots.addAll(find)
+                }
             }
+            return@let slots
         }
-        return@let slots
     }
 
-    fun getEmptySlots(player: Player, page: Int) = IntRange(0, layout.layouts[page].size() + 35).toMutableSet().let {
-        it.removeAll(getOccupiedSlots(player, page))
-        it
+    fun getEmptySlots(player: Player, page: Int): Set<Int> {
+        return IntRange(0, layout.layouts[page].size() + 35).toMutableSet().let {
+            it.removeAll(getOccupiedSlots(player, page))
+            it
+        }
     }
 
-    fun getIcon(player: Player, page: Int, slot: Int): Icon? = getIcons(player, page).firstOrNull {
-        it.getIconProperty(player).display.position[page]?.currentElement(player)?.getSlots(player)?.contains(slot) ?: false
+    fun getIcon(player: Player, page: Int, slot: Int): Icon? {
+        return getIcons(player, page).firstOrNull {
+            it.getIconProperty(player).display.position[page]?.currentElement(player)?.getSlots(player)?.contains(slot) ?: false
+        }
     }
 
-    fun getIcons(player: Player, page: Int) = icons.filter { it.getIconProperty(player).display.position.containsKey(page) }
+    fun getIcons(player: Player, page: Int): List<Icon> {
+        return icons.filter { it.getIconProperty(player).display.position.containsKey(page) }
+    }
 
     fun reload() {
         Tasks.task(true) {

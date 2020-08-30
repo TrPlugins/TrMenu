@@ -20,7 +20,7 @@ class ActionCronusEffect : Action("(cq|cronus)(-)?effect(s)?") {
     override fun onExecute(player: Player) {
         if (HookInstance.getCronus().isHooked()) {
             effect.eval(
-                HookInstance.getCronus().nonProgram(player)
+                    HookInstance.getCronus().nonProgram(player)
             )
         }
     }

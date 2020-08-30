@@ -32,17 +32,17 @@ class MenuSettings(val title: Titles, val options: Options, val bindings: Bindin
 
         fun currentTitle(player: Player): String {
             return Msger.replace(
-                player,
-                if (titles.elements.size == 1 || update <= 0) titles.elements.firstOrNull() ?: "TrMenu"
-                else titles.currentElement(player, "TrMenu")
+                    player,
+                    if (titles.elements.size == 1 || update <= 0) titles.elements.firstOrNull() ?: "TrMenu"
+                    else titles.currentElement(player, "TrMenu")
             )
         }
 
         fun getTitle(player: Player): String {
             return Msger.replace(
-                player,
-                if (titles.elements.size == 1 || update <= 0) titles.elements.firstOrNull() ?: "TrMenu"
-                else titles.nextElement(player, "TrMenu")
+                    player,
+                    if (titles.elements.size == 1 || update <= 0) titles.elements.firstOrNull() ?: "TrMenu"
+                    else titles.nextElement(player, "TrMenu")
             )
         }
 
@@ -52,17 +52,17 @@ class MenuSettings(val title: Titles, val options: Options, val bindings: Bindin
 
             if (update > 0 && titles.isUpdatable()) {
                 menu.tasking.task(
-                    player,
-                    object : BukkitRunnable() {
-                        override fun run() {
-                            if (session.isDifferent(sessionId)) {
-                                cancel()
-                                return
+                        player,
+                        object : BukkitRunnable() {
+                            override fun run() {
+                                if (session.isDifferent(sessionId)) {
+                                    cancel()
+                                    return
+                                }
+                                layout.displayInventory(player, getTitle(player))
+                                menu.resetIcons(player, session)
                             }
-                            layout.displayInventory(player, getTitle(player))
-                            menu.resetIcons(player, session)
-                        }
-                    }.runTaskTimerAsynchronously(TrMenu.plugin, update.toLong(), update.toLong())
+                        }.runTaskTimerAsynchronously(TrMenu.plugin, update.toLong(), update.toLong())
                 )
             }
         }
@@ -72,8 +72,7 @@ class MenuSettings(val title: Titles, val options: Options, val bindings: Bindin
     class Options(val enableArguments: Boolean, val defaultArguments: Array<String>, val defaultLayout: String, val hidePlayerInventory: Boolean, val minClickDelay: Long, val dependExpansions: Array<String>) {
 
         fun run(player: Player, layout: MenuLayout.Layout) {
-            if (hidePlayerInventory)
-                NMS.clearInventory(player, layout.size())
+            if (hidePlayerInventory) NMS.clearInventory(player, layout.size())
         }
 
         fun getDefaultLayout(player: Player): Int = NumberUtils.toInt(Msger.replace(player, defaultLayout), 0)
@@ -113,7 +112,7 @@ class MenuSettings(val title: Titles, val options: Options, val bindings: Bindin
          * 匹配物品是否符合打开本菜单的条件
          */
         fun matchItem(player: Player, itemStack: ItemStack): Boolean =
-            boundItems.any { it.isMatch(player, itemStack) }
+                boundItems.any { it.isMatch(player, itemStack) }
 
         /**
          * 更好的兼容带参打开命令的同时支持菜单传递参数
@@ -146,13 +145,13 @@ class MenuSettings(val title: Titles, val options: Options, val bindings: Bindin
 
             tasks.forEach {
                 menu.tasking.task(
-                    player,
-                    object : BukkitRunnable() {
-                        override fun run() {
-                            if (session.isDifferent(sessionId)) cancel()
-                            else it.value.eval(player)
-                        }
-                    }.runTaskTimerAsynchronously(TrMenu.plugin, it.key, it.key)
+                        player,
+                        object : BukkitRunnable() {
+                            override fun run() {
+                                if (session.isDifferent(sessionId)) cancel()
+                                else it.value.eval(player)
+                            }
+                        }.runTaskTimerAsynchronously(TrMenu.plugin, it.key, it.key)
                 )
             }
 

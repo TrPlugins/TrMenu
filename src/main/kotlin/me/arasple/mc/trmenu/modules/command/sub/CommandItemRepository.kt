@@ -19,12 +19,12 @@ import org.bukkit.entity.Player
 class CommandItemRepository : BaseSubCommand() {
 
     override fun getArguments() = arrayOf(
-        Argument("Type", true) {
-            listOf("give", "add", "remove")
-        },
-        Argument("ID", true) {
-            ItemRepository.getItemStacks().map { it.key }
-        }
+            Argument("Type", true) {
+                listOf("give", "add", "remove")
+            },
+            Argument("ID", true) {
+                ItemRepository.getItemStacks().map { it.key }
+            }
     )
 
     override fun getType(): CommandType = CommandType.PLAYER
@@ -74,17 +74,17 @@ class CommandItemRepository : BaseSubCommand() {
     private fun listItems(player: Player, page: Int) {
         // TODO
         MenuFactory()
-            .title("Item Repository #$page")
-            .layout(
-                "########`Close`",
-                "         ",
-                "         ",
-                "         ",
-                "         ",
-                "`Pre`#######`Next`",
-            )
-            .build {}
-            .display(player)
+                .title("Item Repository #$page")
+                .layout(
+                        "########`Close`",
+                        "         ",
+                        "         ",
+                        "         ",
+                        "         ",
+                        "`Pre`#######`Next`",
+                )
+                .build {}
+                .display(player)
     }
 
 }

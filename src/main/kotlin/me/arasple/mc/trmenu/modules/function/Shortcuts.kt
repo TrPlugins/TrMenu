@@ -21,13 +21,13 @@ object Shortcuts {
     fun load() {
         Tasks.task(true) {
             reactions = arrayOf(
-                serialize("Offhand"),
-                serialize("Sneaking-Offhand"),
-                serialize("Right-Click-Player"),
-                serialize("Sneaking-Right-Click-Player"),
-                serialize("PlayerInventory-Border-Left"),
-                serialize("PlayerInventory-Border-Right"),
-                serialize("PlayerInventory-Border-Middle")
+                    serialize("Offhand"),
+                    serialize("Sneaking-Offhand"),
+                    serialize("Right-Click-Player"),
+                    serialize("Sneaking-Right-Click-Player"),
+                    serialize("PlayerInventory-Border-Left"),
+                    serialize("PlayerInventory-Border-Right"),
+                    serialize("PlayerInventory-Border-Middle")
             )
         }
     }
@@ -41,7 +41,7 @@ object Shortcuts {
 
     fun offhand(player: Player): Boolean {
         val sneaking = player.isSneaking
-        val index = if (sneaking && (System.currentTimeMillis() - getSneaking(player)) <= 1000) 1 else 0
+        val index = if (sneaking && (System.currentTimeMillis() - getSneaking(player)) <= 1500) 1 else 0
         return reactions[index].let {
             if (it.isEmpty) false
             else {
@@ -62,8 +62,12 @@ object Shortcuts {
         return false
     }
 
-    fun setSneaking(player: Player) = sneaking.put(player.uniqueId, System.currentTimeMillis())
+    fun setSneaking(player: Player): Long? {
+        return sneaking.put(player.uniqueId, System.currentTimeMillis())
+    }
 
-    fun getSneaking(player: Player) = sneaking.computeIfAbsent(player.uniqueId) { System.currentTimeMillis() }
+    fun getSneaking(player: Player): Long {
+        return sneaking.computeIfAbsent(player.uniqueId) { System.currentTimeMillis() }
+    }
 
 }

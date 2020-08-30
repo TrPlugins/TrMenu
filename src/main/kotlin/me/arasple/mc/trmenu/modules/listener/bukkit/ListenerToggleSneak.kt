@@ -2,6 +2,7 @@ package me.arasple.mc.trmenu.modules.listener.bukkit
 
 import io.izzel.taboolib.module.inject.TListener
 import me.arasple.mc.trmenu.modules.function.Shortcuts
+import me.arasple.mc.trmenu.util.Tasks
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
@@ -16,7 +17,9 @@ class ListenerToggleSneak : Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     fun toggleSneaking(e: PlayerToggleSneakEvent) {
-        Shortcuts.setSneaking(e.player)
+        Tasks.task(true) {
+            Shortcuts.setSneaking(e.player)
+        }
     }
 
 }

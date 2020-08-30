@@ -3,8 +3,6 @@ package me.arasple.mc.trmenu.modules.function.hook
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import io.izzel.taboolib.module.db.local.LocalPlayer
 import io.izzel.taboolib.module.inject.THook
-import io.izzel.taboolib.module.locale.TLocale
-import io.izzel.taboolib.util.Files
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.Extends.getArguments
 import me.arasple.mc.trmenu.api.Extends.getMenuSession
@@ -14,10 +12,8 @@ import me.arasple.mc.trmenu.modules.function.script.Scripts
 import me.arasple.mc.trmenu.util.Utils
 import me.clip.placeholderapi.PlaceholderAPI
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
-import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
-import java.io.File
 
 /**
  * @author Arasple

@@ -24,12 +24,12 @@ class CommandMigrate : BaseSubCommand() {
     private val folder = File(TrMenu.plugin.dataFolder, "migrated")
 
     override fun getArguments() = arrayOf(
-        Argument("From Plugin", true) {
-            listOf("Legacy", "DeluxeMenus")
-        },
-        Argument("File/Dir Name", true) {
-            getFolderFiles()
-        }
+            Argument("From Plugin", true) {
+                listOf("Legacy", "DeluxeMenus")
+            },
+            Argument("File/Dir Name", true) {
+                getFolderFiles()
+            }
     )
 
     override fun getType(): CommandType = CommandType.CONSOLE
@@ -76,12 +76,12 @@ class CommandMigrate : BaseSubCommand() {
 
 
     private fun getFolderFiles() =
-        TrMenu.plugin.dataFolder.listFiles()?.map {
-            if (!it.name.matches("lang|menus|migrated|settings.yml".toRegex()) && (it.isDirectory || it.name.endsWith(".yml")))
-                it.name
-            else
-                ""
-        }
+            TrMenu.plugin.dataFolder.listFiles()?.map {
+                if (!it.name.matches("lang|menus|migrated|settings.yml".toRegex()) && (it.isDirectory || it.name.endsWith(".yml")))
+                    it.name
+                else
+                    ""
+            }
 
 
 }

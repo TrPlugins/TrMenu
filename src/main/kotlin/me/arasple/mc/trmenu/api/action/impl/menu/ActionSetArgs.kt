@@ -13,9 +13,9 @@ class ActionSetArgs : Action("set(-)?arg(ument)?(s)?") {
 
     override fun onExecute(player: Player) {
         player.setArguments(
-            getContentSplited(player, " ")
-                .map { Msger.replace(player, replaceWithSpaces(it)) }
-                .toTypedArray()
+                getContentSplited(player, " ")
+                        .map { Msger.replace(player, replaceWithSpaces(it)) }
+                        .toTypedArray()
         )
     }
 

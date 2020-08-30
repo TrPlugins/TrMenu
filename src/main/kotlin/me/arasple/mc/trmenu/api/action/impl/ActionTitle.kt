@@ -16,10 +16,10 @@ class ActionTitle(var title: String, var subTitle: String, var fadeIn: Int, var 
     constructor() : this("", "", 10, 35, 10)
 
     override fun onExecute(player: Player) = TLocale.Display.sendTitle(
-        player,
-        Msger.replace(player, title),
-        Msger.replace(player, subTitle),
-        fadeIn, stay, fadeOut
+            player,
+            Msger.replace(player, title),
+            Msger.replace(player, subTitle),
+            fadeIn, stay, fadeOut
     )
 
     override fun setContent(content: String) {

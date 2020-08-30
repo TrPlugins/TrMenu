@@ -21,9 +21,9 @@ import org.bukkit.entity.Player
 class CommandItem : BaseSubCommand() {
 
     override fun getArguments() = arrayOf(
-        Argument("Type", true) {
-            listOf("toJson", "fromJson")
-        }
+            Argument("Type", true) {
+                listOf("toJson", "fromJson")
+            }
     )
 
     override fun getType(): CommandType = CommandType.PLAYER

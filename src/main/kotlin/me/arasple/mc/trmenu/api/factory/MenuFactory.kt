@@ -25,15 +25,15 @@ import org.bukkit.plugin.Plugin
  * 目前仅适合做展示性 GUI,功能性容器 GUI 请使用 MenuBuilder
  */
 class MenuFactory(
-    val plugin: Plugin,
-    private var title: String,
-    private var type: InventoryType,
-    private var size: Int,
-    private var positions: Map<String, Set<Int>>,
-    private val items: MutableMap<String, ItemStack>,
-    var clickTask: ClickTask?,
-    var buildTask: BuildTask?,
-    var closeTask: CloseTask?
+        val plugin: Plugin,
+        private var title: String,
+        private var type: InventoryType,
+        private var size: Int,
+        private var positions: Map<String, Set<Int>>,
+        private val items: MutableMap<String, ItemStack>,
+        var clickTask: ClickTask?,
+        var buildTask: BuildTask?,
+        var closeTask: CloseTask?
 ) {
 
     constructor() : this(TrMenu.plugin)
@@ -52,10 +52,10 @@ class MenuFactory(
 
     fun rows(rows: Int): MenuFactory {
         return layout(
-            *mutableListOf<String>().let {
-                for (i in 0..rows) it.add("         ")
-                it
-            }.toTypedArray()
+                *mutableListOf<String>().let {
+                    for (i in 0..rows) it.add("         ")
+                    it
+                }.toTypedArray()
         )
     }
 
@@ -66,10 +66,10 @@ class MenuFactory(
     fun layout(layout: List<String>, layoutInventory: List<String>): MenuFactory {
         this.size = size(type, layout.size)
         this.positions = MenuLayout.positionize(
-            width(type),
-            size,
-            layout,
-            layoutInventory
+                width(type),
+                size,
+                layout,
+                layoutInventory
         )
         return this
     }

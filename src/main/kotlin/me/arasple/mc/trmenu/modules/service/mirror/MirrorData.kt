@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.modules.service.mirror
 
+import me.arasple.mc.trmenu.util.Tasks
 import java.util.concurrent.TimeUnit
 
 /**
@@ -36,6 +37,12 @@ data class MirrorData(val total: Boolean, var timeTotal: Double = 0.0, var timeL
         runnable.run()
         stop()
         return this
+    }
+
+    fun evalAsync(runnable: Runnable) {
+        Tasks.task(true) {
+            eval(runnable)
+        }
     }
 
     fun average(): Double {

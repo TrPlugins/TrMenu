@@ -7,7 +7,6 @@ import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.modules.conf.menu.MenuConfiguration
 import me.arasple.mc.trmenu.modules.conf.serialize.MenuSerializer
 import me.arasple.mc.trmenu.modules.display.Menu
-import me.arasple.mc.trmenu.util.Tasks
 import me.arasple.mc.trmenu.util.Watchers
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
@@ -37,30 +36,30 @@ object MenuLoader {
     fun loadMenu(file: File) = loadMenu(file, true)
 
     fun loadMenu(file: File, listener: Boolean) =
-        MenuSerializer.loadMenu(file.name.removeSuffix(".yml"), MenuConfiguration(file.absolutePath).let {
-            it.load(file)
-            return@let it
-        }).let { menu ->
-            if (listener && menu != null && file.exists() && !Watchers.isListening(file)) {
-                val id = menu.id
-                Watchers.listener(file) {
-                    TrMenuAPI.getMenuById(id)?.reload()
+            MenuSerializer.loadMenu(file.name.removeSuffix(".yml"), MenuConfiguration(file.absolutePath).let {
+                it.load(file)
+                return@let it
+            }).let { menu ->
+                if (listener && menu != null && file.exists() && !Watchers.isListening(file)) {
+                    val id = menu.id
+                    Watchers.listener(file) {
+                        TrMenuAPI.getMenuById(id)?.reload()
+                    }
                 }
+                menu
             }
-            menu
-        }
 
     fun grabMenuFiles(file: File): List<File> =
-        mutableListOf<File>().let { files ->
-            if (file.isDirectory) {
-                file.listFiles()?.forEach {
-                    files.addAll(grabMenuFiles(it))
+            mutableListOf<File>().let { files ->
+                if (file.isDirectory) {
+                    file.listFiles()?.forEach {
+                        files.addAll(grabMenuFiles(it))
+                    }
+                } else if (!file.name.startsWith("#") && file.name.endsWith(".yml", true)) {
+                    files.add(file)
                 }
-            } else if (!file.name.startsWith("#") && file.name.endsWith(".yml", true)) {
-                files.add(file)
+                return@let files
             }
-            return@let files
-        }
 
     private fun setupMenus(): File {
         Menu.clearMenus()

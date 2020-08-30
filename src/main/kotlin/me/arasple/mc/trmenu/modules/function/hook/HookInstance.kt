@@ -24,14 +24,14 @@ abstract class HookInstance {
     companion object {
 
         private val hooks = mapOf(
-            "LuckPerms" to HookLuckPerms(),
-            "CMI" to HookCMI(),
-            "Cronus" to HookCronus(),
-            "HeadDatabase" to HookHeadDatabase(),
-            "LuckPerms" to HookLuckPerms(),
-            "PlayerPoints" to HookPlayerPoints(),
-            "SkinsRestorer" to HookSkinsRestorer(),
-            "TokenManager" to HookTokenManager()
+                "LuckPerms" to HookLuckPerms(),
+                "CMI" to HookCMI(),
+                "Cronus" to HookCronus(),
+                "HeadDatabase" to HookHeadDatabase(),
+                "LuckPerms" to HookLuckPerms(),
+                "PlayerPoints" to HookPlayerPoints(),
+                "SkinsRestorer" to HookSkinsRestorer(),
+                "TokenManager" to HookTokenManager()
         )
 
         fun init() {
@@ -76,8 +76,8 @@ abstract class HookInstance {
          */
         fun get(player: Player): Double {
             return if (getCMI().isHooked()) getCMI().getUser(player)?.economyAccount?.balance
-                ?: -1.0 else EconomyHook.get(
-                player
+                    ?: -1.0 else EconomyHook.get(
+                    player
             )
         }
 

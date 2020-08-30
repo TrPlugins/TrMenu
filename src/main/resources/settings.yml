@@ -27,10 +27,11 @@ Menu:
   #
   # Actions Configuration
   #
-  Actions:
+  Action:
     # Customize the words used to cancel an input catcher, supports regex
     Catcher-Cancel-Words:
       - '(?i)cancel|quit|exit|end|stop'
+    Cache-JavaScripts: true
   #
   # Menu Icons Configuration
   #

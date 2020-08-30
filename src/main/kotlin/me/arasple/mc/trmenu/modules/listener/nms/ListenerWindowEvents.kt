@@ -36,10 +36,10 @@ object ListenerWindowEvents {
 
                 if (!factorySession.isNull() || !session.isNull()) {
                     val size =
-                        if (!factorySession.isNull())
-                            processMenuFactory(player, factorySession, slot, NMS.INSTANCE.asBukkitItem(packet.read("item")), type)
-                        else
-                            processMenuSession(player, session, slot, type)
+                            if (!factorySession.isNull())
+                                processMenuFactory(player, factorySession, slot, NMS.INSTANCE.asBukkitItem(packet.read("item")), type)
+                            else
+                                processMenuSession(player, session, slot, type)
 
                     /**
                      * 1.16+ 使用 OFFHAND 键移动菜单物品, 受原版限制, 暂时无解决方案

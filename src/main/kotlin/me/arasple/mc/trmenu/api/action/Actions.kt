@@ -36,51 +36,51 @@ object Actions {
     val optionsBound = "( )?(_\\|\\|_|&&&)( )?".toRegex()
     val cachedActions = mutableMapOf<String, List<Action>>()
     val registeredActions = mutableListOf(
-        // hook
-        ActionGiveMoney(),
-        ActionGivePoints(),
-        ActionSetMoney(),
-        ActionTransferPay(),
-        ActionSetPoints(),
-        ActionTakeMoney(),
-        ActionTakePoints(),
-        ActionCronusEffect(),
-        // item
-        ActionEnchantItem(),
-        ActionGiveItem(),
-        ActionRepairItem(),
-        ActionTakeItem(),
-        // menu
-        ActionClose(),
-        ActionOpen(),
-        ActionRefresh(),
-        ActionSetArgs(),
-        ActionSetPage(),
-        ActionMetaSet(),
-        ActionMetaRemove(),
-        ActionDataSet(),
-        ActionDataDelete(),
-        ActionSetTitle(),
-        ActionSilentClose(),
-        ActionReset(),
-        // normal
-        ActionChat(),
-        ActionActionbar(),
-        ActionCatcher(),
-        ActionReInput(),
-        ActionCommand(),
-        ActionCommandConsole(),
-        ActionCommandOp(),
-        ActionConnect(),
-        ActionDelay(),
-        ActionJavaScript(),
-        ActionParticle(),
-        ActionReturn(),
-        ActionSound(),
-        ActionTell(),
-        ActionTellraw(),
-        ActionTitle(),
-        ActionHologram()
+            // hook
+            ActionGiveMoney(),
+            ActionGivePoints(),
+            ActionSetMoney(),
+            ActionTransferPay(),
+            ActionSetPoints(),
+            ActionTakeMoney(),
+            ActionTakePoints(),
+            ActionCronusEffect(),
+            // item
+            ActionEnchantItem(),
+            ActionGiveItem(),
+            ActionRepairItem(),
+            ActionTakeItem(),
+            // menu
+            ActionClose(),
+            ActionOpen(),
+            ActionRefresh(),
+            ActionSetArgs(),
+            ActionSetPage(),
+            ActionMetaSet(),
+            ActionMetaRemove(),
+            ActionDataSet(),
+            ActionDataDelete(),
+            ActionSetTitle(),
+            ActionSilentClose(),
+            ActionReset(),
+            // normal
+            ActionChat(),
+            ActionActionbar(),
+            ActionCatcher(),
+            ActionReInput(),
+            ActionCommand(),
+            ActionCommandConsole(),
+            ActionCommandOp(),
+            ActionConnect(),
+            ActionDelay(),
+            ActionJavaScript(),
+            ActionParticle(),
+            ActionReturn(),
+            ActionSound(),
+            ActionTell(),
+            ActionTellraw(),
+            ActionTitle(),
+            ActionHologram()
     )
 
     @JvmStatic
@@ -130,17 +130,17 @@ object Actions {
                 val name = it.replace("<.+>".toRegex(), "").split(':')[0]
                 val content = it.removePrefix(name).removePrefix(":").removePrefix(" ")
                 val action =
-                    Actions.registeredActions.firstOrNull { name.toLowerCase().matches(it.name) }?.newInstance()
-                        ?: ActionUnknow().also { it.setContent(any) }
+                        Actions.registeredActions.firstOrNull { name.toLowerCase().matches(it.name) }?.newInstance()
+                                ?: ActionUnknow().also { it.setContent(any) }
 
                 if (action is ActionCatcher) action.setContent(content)
                 else if (content.isNotBlank()) {
                     val result = Nodes.read(
-                        content,
-                        Nodes.CHANCE,
-                        Nodes.DELAY,
-                        Nodes.PLAYERS,
-                        Nodes.REQUIREMENT
+                            content,
+                            Nodes.CHANCE,
+                            Nodes.DELAY,
+                            Nodes.PLAYERS,
+                            Nodes.REQUIREMENT
                     )
                     action.setContent(result.first)
                     action.options = result.second.toMutableMap()
@@ -154,7 +154,7 @@ object Actions {
                 val key = it.key.toString()
                 val value = Utils.asSection(it.value) ?: return@let
                 val action = Actions.registeredActions.firstOrNull { key.toLowerCase().matches(it.name) }?.newInstance()
-                    ?: ActionUnknow().also { it.setContent(key) }
+                        ?: ActionUnknow().also { it.setContent(key) }
                 action.setContent(value)
                 actions.add(action)
             }

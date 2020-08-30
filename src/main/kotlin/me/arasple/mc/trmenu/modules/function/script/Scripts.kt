@@ -38,15 +38,15 @@ object Scripts {
     }
 
     fun expression(player: Player, expression: String) =
-        script(player, Expressions.parseExpression(expression), bindings, true)
+            script(player, Expressions.parseExpression(expression), bindings, true)
 
     fun script(player: Player, script: String, cache: Boolean) = script(player, script, bindings, cache)
 
     fun script(player: Player, script: String, bindings: SimpleBindings, cache: Boolean) =
-        script(player, script, bindings, false, cache)
+            script(player, script, bindings, false, cache)
 
     fun script(player: Player, script: String, bindings: SimpleBindings, silent: Boolean, cache: Boolean) =
-        eval(player, script, compile(script, cache), bindings, silent)
+            eval(player, script, compile(script, cache), bindings, silent)
 
     private fun compile(content: String, cache: Boolean): CompiledScript? {
         return try {
@@ -63,7 +63,7 @@ object Scripts {
     }
 
     private fun eval(
-        player: Player, rawScript: String, script: CompiledScript?, bindings: SimpleBindings, silent: Boolean
+            player: Player, rawScript: String, script: CompiledScript?, bindings: SimpleBindings, silent: Boolean
     ): Result = try {
         val content = SimpleScriptContext()
         content.setBindings(SimpleBindings(bindings).let {
@@ -106,8 +106,8 @@ object Scripts {
                 val find = it.group(1)
                 val isFunction = find.startsWith("$")
                 if (!isFunction && !group.startsWith("meta") && !group.startsWith("data") && !group.startsWith("input") && !NumberUtils.isParsable(
-                        group
-                    ) && group != "reason"
+                                group
+                        ) && group != "reason"
                 ) {
                     continue
                 }
@@ -122,14 +122,14 @@ object Scripts {
         val bracker = bracketPlaceholderPattern.matcher(content)
         var size = -1
         while (bracker.find()) size =
-            size.coerceAtLeast(NumberUtils.toInt(bracker.group().removeSurrounding("{", "}"), -1))
+                size.coerceAtLeast(NumberUtils.toInt(bracker.group().removeSurrounding("{", "}"), -1))
         for (i in 0..size) replaces.add("{trmenu_args_$i}")
         return replaces.toTypedArray()
     }
 
     private fun escape(string: String): String = escapeMath(
-        string.replace("{", "\\{").replace("}", "\\}").replace("[", "\\[").replace("]", "\\]").replace("(", "\\(")
-            .replace(")", "\\)").replace("$", "\\$")
+            string.replace("{", "\\{").replace("}", "\\}").replace("[", "\\[").replace("]", "\\]").replace("(", "\\(")
+                    .replace(")", "\\)").replace("$", "\\$")
     )
 
     private fun escapeMath(string: String): String = string.replace("+", "\\+").replace("*", "\\*")

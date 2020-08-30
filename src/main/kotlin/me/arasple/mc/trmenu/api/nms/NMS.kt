@@ -133,6 +133,13 @@ abstract class NMS {
             }
         }
 
+        fun sendClearMenu(player: Player, session: Menu.Session) {
+            session.menu?.let {
+                val layout = session.layout!!
+                for (i in 0 until layout.size()) INSTANCE.sendRemoveSlot(player, WINDOW_ID, i)
+            }
+        }
+
         fun sendPacket(player: Player, packet: Any, vararg fields: Pair<String, Any>) {
             TPacketHandler.sendPacket(player, setFields(packet, *fields))
         }

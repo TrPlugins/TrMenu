@@ -21,9 +21,9 @@ import org.bukkit.entity.Player
 class CommandOpen : BaseSubCommand() {
 
     override fun getArguments() = arrayOf(
-        Argument("MenuId") { Menu.getMenus().map { it.id } },
-        Argument("Player", false),
-        Argument("Arguments", false)
+            Argument("MenuId") { Menu.getMenus().map { it.id } },
+            Argument("Player", false),
+            Argument("Arguments", false)
     )
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>) {

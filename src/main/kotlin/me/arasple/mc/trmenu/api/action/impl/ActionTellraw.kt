@@ -21,14 +21,14 @@ class ActionTellraw : Action("tellraw|json") {
     private val tellraw = TellrawJson.create()
 
     override fun onExecute(player: Player) = player.spigot().sendMessage(
-        *ComponentSerializer.parse(
-            Msger.replace(
-                player,
-                if (Strings.nonEmpty(rawJson)) rawJson else tellraw!!.toRawMessage()
-            ).replace(
-                "{&}", "&"
+            *ComponentSerializer.parse(
+                    Msger.replace(
+                            player,
+                            if (Strings.nonEmpty(rawJson)) rawJson else tellraw!!.toRawMessage()
+                    ).replace(
+                            "{&}", "&"
+                    )
             )
-        )
     )
 
     override fun setContent(content: String) {

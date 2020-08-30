@@ -18,4 +18,8 @@ object Mirror {
         return dataMap.computeIfAbsent(id) { MirrorData(total) }.eval(runnable)
     }
 
+    fun async(id: String, total: Boolean = true, runnable: Runnable) {
+        dataMap.computeIfAbsent(id) { MirrorData(total) }.evalAsync(runnable)
+    }
+
 }

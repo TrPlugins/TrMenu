@@ -18,7 +18,7 @@ object Paste {
     @JvmStatic
     fun main(args: Array<String>) {
         println(
-            post("Test Contenthahhhhhhhhh")
+                post("Test Contenthahhhhhhhhh")
         )
     }
 

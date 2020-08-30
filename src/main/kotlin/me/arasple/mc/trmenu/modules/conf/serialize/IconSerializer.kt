@@ -37,8 +37,8 @@ object IconSerializer {
             if (iconSection != null) {
                 val subIcons = iconSection.getList(Utils.getSectionKey(iconSection, Property.ICON_SUB_ICONS))
                 val iconSettings = IconSettings(
-                    iconSection.getInt(Utils.getSectionKey(iconSection, Property.ICON_REFRESH), -1),
-                    Utils.asIntArray(iconSection.get(Utils.getSectionKey(iconSection, Property.ICON_UPDATE)))
+                        iconSection.getInt(Utils.getSectionKey(iconSection, Property.ICON_REFRESH), -1),
+                        Utils.asIntArray(iconSection.get(Utils.getSectionKey(iconSection, Property.ICON_UPDATE)))
                 )
 
                 val defIcon = loadIconProperty(iconSection) ?: return@forEach
@@ -54,11 +54,11 @@ object IconSerializer {
                                 if (subIcon != null) {
                                     subIcon.priority = sub.getInt(Utils.getSectionKey(sub, Property.PRIORITY), order--)
                                     subIcon.condition =
-                                        sub.getString(Utils.getSectionKey(sub, Property.REQUIREMENT)) ?: "false"
+                                            sub.getString(Utils.getSectionKey(sub, Property.REQUIREMENT)) ?: "false"
 
                                     subIcon.inherit = sub.getBoolean(
-                                        Utils.getSectionKey(sub, Property.INHERIT),
-                                        TrMenu.SETTINGS.getBoolean("Menu.Icon.Inherit", false)
+                                            Utils.getSectionKey(sub, Property.INHERIT),
+                                            TrMenu.SETTINGS.getBoolean("Menu.Icon.Inherit", false)
                                     )
                                     subs.add(subIcon)
                                 }
@@ -88,7 +88,7 @@ object IconSerializer {
      */
     fun loadIconProperty(section: ConfigurationSection): IconProperty? {
         val displaySection =
-            Utils.asSection(section.get(Utils.getSectionKey(section, Property.ICON_DISPLAY))) ?: return null
+                Utils.asSection(section.get(Utils.getSectionKey(section, Property.ICON_DISPLAY))) ?: return null
         val clickHandlerSection = Utils.asSection(section.get(Utils.getSectionKey(section, Property.ACTIONS)))
         val iconDisplay = loadIconDisplay(displaySection)
         val clickHandler = loadIconClickHandler(clickHandlerSection)
@@ -148,7 +148,7 @@ object IconSerializer {
         }
 
         return IconDisplay(
-            positions ?: mutableMapOf(), items, Animated(names.toTypedArray()), Animated(lores.toTypedArray())
+                positions ?: mutableMapOf(), items, Animated(names.toTypedArray()), Animated(lores.toTypedArray())
         )
     }
 

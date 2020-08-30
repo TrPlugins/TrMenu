@@ -25,10 +25,10 @@ data class ItemIdentifier(val raw: String, val identifiers: MutableSet<Identifie
 
     fun hasItem(player: Player) = identifiers.all {
         Items.hasItem(
-            player.inventory, { itemStack ->
-                it.match(player, itemStack)
-            },
-            it.amount(player)
+                player.inventory, { itemStack ->
+            it.match(player, itemStack)
+        },
+                it.amount(player)
         )
     }
 
@@ -48,11 +48,11 @@ data class ItemIdentifier(val raw: String, val identifiers: MutableSet<Identifie
 
         fun take(player: Player) {
             Items.takeItem(
-                player.inventory,
-                {
-                    match(player, it)
-                },
-                amount(player)
+                    player.inventory,
+                    {
+                        match(player, it)
+                    },
+                    amount(player)
             )
         }
 

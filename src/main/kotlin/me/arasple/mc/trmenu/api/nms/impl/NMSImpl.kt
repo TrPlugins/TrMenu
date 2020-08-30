@@ -23,21 +23,21 @@ class NMSImpl : NMS() {
     override fun sendOpenWindow(player: Player, windowId: Int, inventoryType: InventoryType, size: Int, inventoryTitle: String) {
         if (Version.isAfter(Version.v1_13)) {
             sendPacket(
-                player,
-                PacketPlayOutOpenWindow(),
-                Pair("a", windowId),
-                Pair("b", getInventoryType(inventoryType, size)),
-                Pair("c", CraftChatMessage.fromString(inventoryTitle).first())
+                    player,
+                    PacketPlayOutOpenWindow(),
+                    Pair("a", windowId),
+                    Pair("b", getInventoryType(inventoryType, size)),
+                    Pair("c", CraftChatMessage.fromString(inventoryTitle).first())
             )
         } else {
             sendPacket(
-                player,
-                net.minecraft.server.v1_12_R1.PacketPlayOutOpenWindow(
-                    windowId,
-                    "minecraft:${inventoryType.name.toLowerCase()}",
-                    org.bukkit.craftbukkit.v1_12_R1.util.CraftChatMessage.fromString(inventoryTitle).first(),
-                    size
-                )
+                    player,
+                    net.minecraft.server.v1_12_R1.PacketPlayOutOpenWindow(
+                            windowId,
+                            "minecraft:${inventoryType.name.toLowerCase()}",
+                            org.bukkit.craftbukkit.v1_12_R1.util.CraftChatMessage.fromString(inventoryTitle).first(),
+                            size
+                    )
             )
         }
     }
@@ -48,20 +48,20 @@ class NMSImpl : NMS() {
 
     override fun sendOutSlot(player: Player, windowId: Int, slot: Int, itemStack: ItemStack) {
         sendPacket(
-            player,
-            PacketPlayOutSetSlot(),
-            Pair("a", windowId),
-            Pair("b", slot),
-            Pair("c", asNMSItem(itemStack))
+                player,
+                PacketPlayOutSetSlot(),
+                Pair("a", windowId),
+                Pair("b", slot),
+                Pair("c", asNMSItem(itemStack))
         )
     }
 
     override fun sendRemoveSlot(player: Player, windowId: Int, slot: Int) {
         sendPacket(
-            player,
-            PacketPlayOutSetSlot(),
-            Pair("a", windowId),
-            Pair("b", slot)
+                player,
+                PacketPlayOutSetSlot(),
+                Pair("a", windowId),
+                Pair("b", slot)
         )
     }
 

@@ -30,38 +30,38 @@ import org.bukkit.inventory.ItemStack
 class CommandTemplate : BaseSubCommand() {
 
     override fun getArguments() =
-        arrayOf(
-            Argument("Rows", false) {
-                listOf("1", "2", "3", "4", "5", "6")
-            }
-        )
+            arrayOf(
+                    Argument("Rows", false) {
+                        listOf("1", "2", "3", "4", "5", "6")
+                    }
+            )
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>) {
         val player = sender as Player
         val rows = (if (args.isNotEmpty()) NumberUtils.toInt(args[0], 5) else 3).coerceAtMost(6)
 
         MenuBuilder.builder()
-            .title("Template#$rows")
-            .rows(rows)
-            .close {
-                val inventory = it.inventory
-                if (isEmpty(inventory)) {
-                    player.sendLocale("COMMANDS.TEMPLATE.EMPTY")
-                    return@close
-                }
-                Tasks.task(true) {
-                    Sounds.BLOCK_NOTE_BLOCK_BIT.play(player, 1f, 0f)
-                    player.sendLocale("COMMANDS.TEMPLATE.PROCESSING")
-                    Hastebin.paste(format(inventory)).url.let { url ->
-                        player.sendLocale(if (url != null) "COMMANDS.TEMPLATE.SUCCESS" else "COMMANDS.TEMPLATE.FAILED", url)
+                .title("Template#$rows")
+                .rows(rows)
+                .close {
+                    val inventory = it.inventory
+                    if (isEmpty(inventory)) {
+                        player.sendLocale("COMMANDS.TEMPLATE.EMPTY")
+                        return@close
+                    }
+                    Tasks.task(true) {
+                        Sounds.BLOCK_NOTE_BLOCK_BIT.play(player, 1f, 0f)
+                        player.sendLocale("COMMANDS.TEMPLATE.PROCESSING")
+                        Hastebin.paste(format(inventory)).url.let { url ->
+                            player.sendLocale(if (url != null) "COMMANDS.TEMPLATE.SUCCESS" else "COMMANDS.TEMPLATE.FAILED", url)
+                        }
+                    }
+                    inventory.contents.forEach { item ->
+                        if (!Items.isNull(item)) CronusUtils.addItem(player, item)
                     }
                 }
-                inventory.contents.forEach { item ->
-                    if (!Items.isNull(item)) CronusUtils.addItem(player, item)
-                }
-            }
-            .lockHand(false)
-            .open(player)
+                .lockHand(false)
+                .open(player)
     }
 
     private fun isEmpty(inventory: Inventory): Boolean = inventory.contents.none { !Items.isNull(it) }
@@ -74,12 +74,12 @@ class CommandTemplate : BaseSubCommand() {
         val layoutPlayerInventory = MenuLayout.blankLayout(4)
         val yaml = YamlConfiguration().also { conf ->
             conf.options().header(
-                buildString {
-                    appendLine()
-                    append("Made by TrMenu Template\n")
-                    append("Date: ${Migrate.getExactDate()}\n ")
-                    appendLine()
-                }
+                    buildString {
+                        appendLine()
+                        append("Made by TrMenu Template\n")
+                        append("Date: ${Migrate.getExactDate()}\n ")
+                        appendLine()
+                    }
             )
             conf["Title"] = "Template*$rows"
             conf["Layout"] = layout

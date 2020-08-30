@@ -19,13 +19,13 @@ object ReactionSerializer {
         if (any is List<*>) {
             val first = any.firstOrNull()
             if (first is String || (first is Map<*, *>) && first.entries.firstOrNull()?.key.toString()
-                    .equals("catcher", true)
+                            .equals("catcher", true)
             ) {
                 reactions.add(
-                    Reaction(-1, "", mutableListOf<Action>().let {
-                        any.forEach { action -> it.addAll(Actions.readAction(action)) }
-                        it
-                    }, listOf())
+                        Reaction(-1, "", mutableListOf<Action>().let {
+                            any.forEach { action -> it.addAll(Actions.readAction(action)) }
+                            it
+                        }, listOf())
                 )
                 return@let reactions
             }
@@ -47,10 +47,10 @@ object ReactionSerializer {
         val keyDenyActions = Utils.getSectionKey(reaction, Property.DENY_ACTIONS)
 
         return Reaction(
-            reaction.getInt(keyPriority, priority),
-            reaction.getString(keyRequirement) ?: "",
-            Actions.readActions(Utils.asAnyList(reaction.get(keyActions))),
-            Actions.readActions(Utils.asAnyList(reaction.get(keyDenyActions)))
+                reaction.getInt(keyPriority, priority),
+                reaction.getString(keyRequirement) ?: "",
+                Actions.readActions(Utils.asAnyList(reaction.get(keyActions))),
+                Actions.readActions(Utils.asAnyList(reaction.get(keyDenyActions)))
         )
     }
 

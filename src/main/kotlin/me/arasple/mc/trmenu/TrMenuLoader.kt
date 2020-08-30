@@ -49,10 +49,7 @@ class TrMenuLoader {
     }
 
     private fun syncLocale() {
-        if (TLocaleLoader.getLocalPriorityFirst(TrMenu.plugin) != "zh_CN" && TLocaleLoader.getLocalPriorityFirst(
-                TabooLib.getPlugin()
-            ) == "zh_CN"
-        ) {
+        if (TLocaleLoader.getLocalPriorityFirst(TrMenu.plugin) != "zh_CN" && TLocaleLoader.getLocalPriorityFirst(TabooLib.getPlugin()) == "zh_CN") {
             TabooLib.getConfig().also {
                 it.set("LOCALE.PRIORITY", listOf("en_US", "zh_CN"))
                 it.saveToFile()
@@ -61,13 +58,13 @@ class TrMenuLoader {
     }
 
     private fun printLogo() = arrayOf(
-        "§8  ___________         _____                        ________",
-        "§8    \\__    ___/______  /     \\   ____   ____  __ __  \\_____  \\",
-        "§8    |    |  \\_  __ \\/  \\ /  \\_/ __ \\ /    \\|  |  \\  /  ____/",
-        "§8    |    |   |  | \\/    Y    \\  ___/|   |  \\  |  / /       \\",
-        "§8    |____|   |__|  \\____|__  /\\___  >___|  /____/  \\_______ \\",
-        "§8    \\/     \\/     \\/                \\/",
-        "                                                      "
+            "§8  ___________         _____                        ________",
+            "§8    \\__    ___/______  /     \\   ____   ____  __ __  \\_____  \\",
+            "§8    |    |  \\_  __ \\/  \\ /  \\_/ __ \\ /    \\|  |  \\  /  ____/",
+            "§8    |    |   |  | \\/    Y    \\  ___/|   |  \\  |  / /       \\",
+            "§8    |____|   |__|  \\____|__  /\\___  >___|  /____/  \\_______ \\",
+            "§8    \\/     \\/     \\/                \\/",
+            "                                                      "
     ).let {
         it.forEachIndexed { index, raw ->
             if (raw.isNotBlank()) {

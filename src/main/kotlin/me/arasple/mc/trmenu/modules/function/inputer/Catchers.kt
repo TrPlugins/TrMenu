@@ -29,19 +29,19 @@ class Catchers(val catchers: Animated<Stage>) {
     }
 
     class Stage(
-        val id: String,
-        val type: Type,
-        val beforeReactions: Reactions,
-        val cancelReactions: Reactions,
-        val afterReactions: Reactions
+            val id: String,
+            val type: Type,
+            val beforeReactions: Reactions,
+            val cancelReactions: Reactions,
+            val afterReactions: Reactions
     ) {
 
         val anvilBuilder =
-            if (type == ANVIL) AnvilGUI.Builder().plugin(TrMenu.plugin).preventClose().onComplete { player, text ->
+                if (type == ANVIL) AnvilGUI.Builder().plugin(TrMenu.plugin).preventClose().onComplete { player, text ->
                     input(player, text)
                     return@onComplete AnvilGUI.Response.close()
                 }
-            else null
+                else null
 
         fun run(player: Player) {
             beforeReactions.eval(player)

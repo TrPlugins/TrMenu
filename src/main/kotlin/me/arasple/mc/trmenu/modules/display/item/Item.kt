@@ -40,15 +40,15 @@ object Item {
     }
 
     fun fromMaterials(name: String) =
-        Materials.values().firstOrNull {
-            it.name == name
-        } ?: Materials.values().firstOrNull { it.legacy.any { legacy -> legacy == name } } ?: Materials.values().maxByOrNull {
-            Strings.similarDegree(name, it.name)
-        }
+            Materials.values().firstOrNull {
+                it.name == name
+            } ?: Materials.values().firstOrNull { it.legacy.any { legacy -> legacy == name } } ?: Materials.values().maxByOrNull {
+                Strings.similarDegree(name, it.name)
+            }
 
     private fun colorize(string: String, isLore: Boolean) =
-        if (string.isNotBlank() && !string.startsWith(ChatColor.COLOR_CHAR) && !string.startsWith('&'))
-            TrMenu.SETTINGS.getStringColored("Menu.Item.Default-Color-${if (isLore) "Lore" else "Name"}", "&7") + string
-        else string
+            if (string.isNotBlank() && !string.startsWith(ChatColor.COLOR_CHAR) && !string.startsWith('&'))
+                TrMenu.SETTINGS.getStringColored("Menu.Item.Default-Color-${if (isLore) "Lore" else "Name"}", "&7") + string
+            else string
 
 }

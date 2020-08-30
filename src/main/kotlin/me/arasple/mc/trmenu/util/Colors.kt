@@ -13,30 +13,30 @@ import kotlin.math.min
  */
 object Colors {
 
-    val PATTERN_HEX: Pattern = Pattern.compile("[&#]?[<{](#)?([0-9a-fA-F]{6})[>}]")
-    val PATTERN_RGB: Pattern = Pattern.compile("[&#][<{]([0-9]+[,]+[0-9]+[,]+[0-9]*)[>}]")
-    val PATTERN_GRADIENT: Pattern = Pattern.compile("[<{](gradient|g)([:=,;]#[0-9a-fA-F]{6})+[>}]")
-    val PATTERN_GRADIENT_STOP: Pattern = Pattern.compile("[<{](gradient|g)[>}]")
-
-    val ENABLED = Version.isAfter(Version.v1_16)
+    private val PATTERN_HEX: Pattern = Pattern.compile("[&#]?[<{]#?([0-9a-fA-F]{6})[>}]")
+    private val PATTERN_RGB: Pattern = Pattern.compile("[&#][<{]([0-9]+[,]+[0-9]+[,]+[0-9]*)[>}]")
+    private val PATTERN_GRADIENT: Pattern = Pattern.compile("[<{](gradient|g)([:=,;]#[0-9a-fA-F]{6})+[>}]")
+    private val PATTERN_GRADIENT_STOP: Pattern = Pattern.compile("[<{](gradient|g)[>}]")
+    private val ENABLED = Version.isAfter(Version.v1_16)
 
     fun translate(message: String): String {
-        return if (!ENABLED) message else replace(PATTERN_RGB, replace(PATTERN_HEX, parseGradients(message), false), true)
+        return if (!ENABLED) message else replace(
+                PATTERN_RGB, replace(PATTERN_HEX, parseGradients(message), false), true
+        )
     }
 
     fun translate(list: List<String>): List<String> {
         return if (!ENABLED) list else list.map { translate(it) }
     }
 
-    private fun replace(pattern: Pattern, message: String, rgb: Boolean) =
-        pattern.matcher(message).let {
-            val buffer = StringBuffer(message.length + 4 * 8)
-            while (it.find()) {
-                val replacement = if (rgb) ChatColor.of(serializeRgbColor(it.group(1))) else ChatColor.of("#${it.group(1).removePrefix("#")}")
-                it.appendReplacement(buffer, replacement.toString())
-            }
-            return@let it.appendTail(buffer).toString()
+    private fun replace(pattern: Pattern, message: String, rgb: Boolean) = pattern.matcher(message).let {
+        val buffer = StringBuffer(message.length + 4 * 8)
+        while (it.find()) {
+            val replacement = if (rgb) ChatColor.of(serializeRgbColor(it.group(1))) else ChatColor.of("#${it.group(1).removePrefix("#")}")
+            it.appendReplacement(buffer, replacement.toString())
         }
+        return@let it.appendTail(buffer).toString()
+    }
 
     fun serializeRgbColor(color: String): Color {
         val rgb = color.split(",").toTypedArray()
@@ -52,7 +52,7 @@ object Colors {
     /**
      * from https://github.com/harry0198/HexiTextLib
      */
-    fun parseGradients(text: String): String {
+    private fun parseGradients(text: String): String {
         try {
             var parsed = text
             var matcher = PATTERN_GRADIENT.matcher(parsed)
@@ -66,7 +66,8 @@ object Colors {
                 val stop = findGradientStop(parsed, matcher.end())
                 val content = parsed.substring(matcher.end(), stop)
                 val gradient = Gradient(hexSteps, content.length)
-                for (c in content.toCharArray()) parsedGradient.append(ChatColor.of(gradient.next()).toString()).append(c)
+                for (c in content.toCharArray()) parsedGradient.append(ChatColor.of(gradient.next()).toString())
+                        .append(c)
                 val before = parsed.substring(0, matcher.start())
                 val after = parsed.substring(stop)
                 parsed = before + parsedGradient + after
@@ -79,7 +80,7 @@ object Colors {
         }
     }
 
-    fun findGradientStop(content: String, searchAfter: Int): Int {
+    private fun findGradientStop(content: String, searchAfter: Int): Int {
         val matcher = PATTERN_GRADIENT_STOP.matcher(content)
         while (matcher.find()) {
             if (matcher.start() > searchAfter) return matcher.start()

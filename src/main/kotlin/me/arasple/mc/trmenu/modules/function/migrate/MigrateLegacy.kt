@@ -15,67 +15,67 @@ object MigrateLegacy {
         val legacy = YamlConfiguration.loadConfiguration(file)
 
         transferValue(
-            legacy,
-            // MenuEvents.Open
-            TransferValueSet(
-                "open-requirement(s)?",
-                "Open-Requirement",
-                "${Property.EVENTS}.${Property.EVENT_OPEN}.requirement"
-            ),
-            TransferValueSet(
-                "open-action(s)?",
-                "Open-Actions",
-                "${Property.EVENTS}.${Property.EVENT_OPEN}.actions"
-            ),
-            TransferValueSet(
-                "open-deny-action(s)?",
-                "Open-Deny-Actions",
-                "${Property.EVENTS}.${Property.EVENT_OPEN}.deny-actions"
-            ),
-            // MenuEvents.Close
-            TransferValueSet(
-                "close-requirement(s)?",
-                "Close-Requirement",
-                "${Property.EVENTS}.${Property.EVENT_CLOSE}.requirement"
-            ),
-            TransferValueSet(
-                "close-action(s)?",
-                "Close-Actions",
-                "${Property.EVENTS}.${Property.EVENT_CLOSE}.actions"
-            ),
-            TransferValueSet(
-                "close-deny-action(s)?",
-                "Close-Deny-Actions",
-                "${Property.EVENTS}.${Property.EVENT_CLOSE}.deny-actions"
-            ),
-            // Menu Bound
-            TransferValueSet(
-                "open-command(s)?",
-                "Open-Commands",
-                "${Property.BINDINGS}.${Property.BINDING_COMMANDS}"
-            ),
-            TransferValueSet(
-                "option(s)?.bind-item-lore",
-                "Options.Bind-Item-Lore",
-                "${Property.BINDINGS}.${Property.BINDING_ITEMS}"
-            )
+                legacy,
+                // MenuEvents.Open
+                TransferValueSet(
+                        "open-requirement(s)?",
+                        "Open-Requirement",
+                        "${Property.EVENTS}.${Property.EVENT_OPEN}.requirement"
+                ),
+                TransferValueSet(
+                        "open-action(s)?",
+                        "Open-Actions",
+                        "${Property.EVENTS}.${Property.EVENT_OPEN}.actions"
+                ),
+                TransferValueSet(
+                        "open-deny-action(s)?",
+                        "Open-Deny-Actions",
+                        "${Property.EVENTS}.${Property.EVENT_OPEN}.deny-actions"
+                ),
+                // MenuEvents.Close
+                TransferValueSet(
+                        "close-requirement(s)?",
+                        "Close-Requirement",
+                        "${Property.EVENTS}.${Property.EVENT_CLOSE}.requirement"
+                ),
+                TransferValueSet(
+                        "close-action(s)?",
+                        "Close-Actions",
+                        "${Property.EVENTS}.${Property.EVENT_CLOSE}.actions"
+                ),
+                TransferValueSet(
+                        "close-deny-action(s)?",
+                        "Close-Deny-Actions",
+                        "${Property.EVENTS}.${Property.EVENT_CLOSE}.deny-actions"
+                ),
+                // Menu Bound
+                TransferValueSet(
+                        "open-command(s)?",
+                        "Open-Commands",
+                        "${Property.BINDINGS}.${Property.BINDING_COMMANDS}"
+                ),
+                TransferValueSet(
+                        "option(s)?.bind-item-lore",
+                        "Options.Bind-Item-Lore",
+                        "${Property.BINDINGS}.${Property.BINDING_ITEMS}"
+                )
         )
 
         removeValue(
-            legacy,
-            true,
-            "option(s)?.lock-player-inv",
-            "option(s)?.update-inventory",
-            "option(s)?.force-transfer-arg(s)?",
+                legacy,
+                true,
+                "option(s)?.lock-player-inv",
+                "option(s)?.update-inventory",
+                "option(s)?.force-transfer-arg(s)?",
         )
 
         legacy.options().header(
-            buildString {
-                appendLine()
-                append("Migrated from TrMenu v1.x, by TrMenu v2\n")
-                append("Date: ${Migrate.getExactDate()}\n")
-                appendLine()
-            }
+                buildString {
+                    appendLine()
+                    append("Migrated from TrMenu v1.x, by TrMenu v2\n")
+                    append("Date: ${Migrate.getExactDate()}\n")
+                    appendLine()
+                }
         )
         return legacy
     }

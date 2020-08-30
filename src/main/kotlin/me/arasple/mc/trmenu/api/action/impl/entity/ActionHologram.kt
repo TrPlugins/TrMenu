@@ -12,15 +12,15 @@ class ActionHologram : Action("hologram") {
 
     override fun onExecute(player: Player) {
         THologram.create(
-            player.eyeLocation.add(0.0, 0.6, 0.0),
-            ""
+                player.eyeLocation.add(0.0, 0.6, 0.0),
+                ""
         )
-            .flash(
-                flash("§3༺ §b༒ §3༻"),
-                1
-            )
-            .toAll()
-            .deleteOn(40)
+                .flash(
+                        flash("§3༺ §b༒ §3༻"),
+                        1
+                )
+                .toAll()
+                .deleteOn(40)
     }
 
     private fun flash(string: String): List<String> {

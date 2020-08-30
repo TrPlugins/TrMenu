@@ -14,7 +14,7 @@ import org.bukkit.command.CommandSender
 class CommandListMenu : BaseSubCommand() {
 
     override fun getArguments() = arrayOf(
-        Argument("Filter", false)
+            Argument("Filter", false)
     )
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>) {
