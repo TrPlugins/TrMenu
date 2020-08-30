@@ -23,13 +23,15 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
         Mirror.async("Icon:setItemStack(async)") {
             val property = getIconProperty(player)
             val slots = property.display.getPosition(player, session.page)
-            val item = property.display.createDisplayItem(player)
-            slots?.let {
-                it.forEach { NMS.sendOutSlot(player, it, item) }
 
-            }
-            if (property.display.isAnimatedPosition(session.page)) NMS.sendClearNonIconSlots(player, session)
+            setItemStack(player, session, property, slots)
         }
+    }
+
+    fun setItemStack(player: Player, session: Menu.Session, property: IconProperty, slots: Set<Int>?) {
+        val item = property.display.createDisplayItem(player)
+        slots?.forEach { NMS.sendOutSlot(player, it, item) }
+        if (property.display.isAnimatedPosition(session.page)) NMS.sendClearNonIconSlots(player, session)
     }
 
     fun displayItemStack(player: Player) {

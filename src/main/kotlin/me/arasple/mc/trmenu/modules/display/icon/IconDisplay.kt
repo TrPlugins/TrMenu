@@ -31,24 +31,29 @@ data class IconDisplay(var position: MutableMap<Int, Animated<Position>>, val it
 
     fun nextPosition(player: Player, session: Menu.Session) {
         val pageIndex = session.page
+        val current = getPosition(player, pageIndex) ?: return
+        position[pageIndex]?.nextIndex(player)
 
         if (isAnimatedPosition(pageIndex)) {
             Mirror.async("Icon:restoreOverrides(async)") {
-                val positions = getPosition(player, pageIndex) ?: return@async
+                // 1, 2(current) -> 1(updated)
+                // target: 1,2,3,4,5,6,7
+                // toRestore: 2
+                val updated = getPosition(player, pageIndex) ?: return@async
+                current.removeAll(updated)
+
                 session.menu?.getIcons(player, pageIndex) { icon ->
                     val display = icon.getIconProperty(player).display
                     if (display.isAnimatedPosition(pageIndex)) {
                         return@getIcons false
                     } else {
-                        return@getIcons display.getPosition(player, pageIndex)?.any { positions.contains(it) }!!
+                        return@getIcons display.getPosition(player, pageIndex)?.any { updated.contains(it) }!!
                     }
                 }?.forEach {
-                    it.setItemStack(player, session)
+                    it.setItemStack(player, session, it.getIconProperty(player), current)
                 }
             }
         }
-
-        position[pageIndex]?.nextIndex(player)
     }
 
     fun nextItem(player: Player) = item.nextItem(player)
