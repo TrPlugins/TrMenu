@@ -2,6 +2,7 @@ package me.arasple.mc.trmenu.modules.display
 
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.Extends.getMenuSession
+import me.arasple.mc.trmenu.api.Extends.getMenuSesssionCheck
 import me.arasple.mc.trmenu.api.nms.NMS
 import me.arasple.mc.trmenu.modules.display.icon.IconProperty
 import me.arasple.mc.trmenu.modules.display.icon.IconSettings
@@ -19,20 +20,21 @@ import java.util.*
 class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty, val subIcons: List<IconProperty>, val currentIndex: MutableMap<UUID, Int>) {
 
     fun setItemStack(player: Player, session: Menu.Session) {
-        Mirror.eval("Icon:setItemStack(async)") {
+        Mirror.async("Icon:setItemStack(async)") {
             val property = getIconProperty(player)
             val slots = property.display.getPosition(player, session.page)
             val item = property.display.createDisplayItem(player)
-            slots?.forEach { NMS.sendOutSlot(player, it, item) }
+            slots?.let {
+                it.forEach { NMS.sendOutSlot(player, it, item) }
+
+            }
             if (property.display.isAnimatedPosition(session.page)) NMS.sendClearNonIconSlots(player, session)
         }
     }
 
     fun displayItemStack(player: Player) {
-        val session = player.getMenuSession()
-
-        Tasks.task(true) {
-            if (!session.isNull()) setItemStack(player, session)
+        player.getMenuSesssionCheck()?.let {
+            setItemStack(player, it)
         }
     }
 
@@ -50,7 +52,7 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
                             Mirror.eval("Icon:updateItem(sync)") {
                                 if (session.isDifferent(sessionId)) cancel()
                                 else {
-                                    getIconProperty(player).display.nextFrame(player, it.value, session.page)
+                                    getIconProperty(player).display.nextFrame(player, it.value, session)
                                     setItemStack(player, session)
                                 }
                             }

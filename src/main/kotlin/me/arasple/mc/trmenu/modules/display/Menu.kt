@@ -166,6 +166,10 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
         }
     }
 
+    fun getIcons(player: Player, page: Int, filter: (Icon) -> Boolean): List<Icon> {
+        return getIcons(player, page).filter(filter)
+    }
+
     fun getIcons(player: Player, page: Int): List<Icon> {
         return icons.filter { it.getIconProperty(player).display.position.containsKey(page) }
     }
@@ -223,6 +227,10 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
 
         fun isDifferent(id: Int): Boolean {
             return id != this.id
+        }
+
+        fun isNullOrNot(): Session? {
+            return if (isNull()) null else this
         }
 
     }

@@ -63,6 +63,10 @@ object Extends {
         return Sessions.getMenuSession(this)
     }
 
+    fun Player.getMenuSesssionCheck(): Menu.Session? {
+        return getMenuSession().isNullOrNot()
+    }
+
     fun Player.setMenuSession(menu: Menu?, layout: MenuLayout.Layout?, page: Int) {
         this.getMenuSession().set(menu, layout, page)
     }

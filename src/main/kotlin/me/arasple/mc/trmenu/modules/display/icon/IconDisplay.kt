@@ -1,9 +1,11 @@
 package me.arasple.mc.trmenu.modules.display.icon
 
+import me.arasple.mc.trmenu.modules.display.Menu
 import me.arasple.mc.trmenu.modules.display.animation.Animated
 import me.arasple.mc.trmenu.modules.display.item.DynamicItem
 import me.arasple.mc.trmenu.modules.display.item.property.Lore
 import me.arasple.mc.trmenu.modules.display.position.Position
+import me.arasple.mc.trmenu.modules.service.mirror.Mirror
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -27,7 +29,27 @@ data class IconDisplay(var position: MutableMap<Int, Animated<Position>>, val it
 
     fun getPosition(player: Player, pageIndex: Int) = position[pageIndex]?.currentElement(player)?.getSlots(player)
 
-    fun nextPosition(player: Player, pageIndex: Int) = position[pageIndex]?.nextIndex(player)
+    fun nextPosition(player: Player, session: Menu.Session) {
+        val pageIndex = session.page
+
+        if (isAnimatedPosition(pageIndex)) {
+            Mirror.async("Icon:restoreOverrides(async)") {
+                val positions = getPosition(player, pageIndex) ?: return@async
+                session.menu?.getIcons(player, pageIndex) { icon ->
+                    val display = icon.getIconProperty(player).display
+                    if (display.isAnimatedPosition(pageIndex)) {
+                        return@getIcons false
+                    } else {
+                        return@getIcons display.getPosition(player, pageIndex)?.any { positions.contains(it) }!!
+                    }
+                }?.forEach {
+                    it.setItemStack(player, session)
+                }
+            }
+        }
+
+        position[pageIndex]?.nextIndex(player)
+    }
 
     fun nextItem(player: Player) = item.nextItem(player)
 
@@ -35,13 +57,14 @@ data class IconDisplay(var position: MutableMap<Int, Animated<Position>>, val it
 
     fun nextLore(player: Player) = item.displayLore(player, lore.nextElement(player))
 
-    fun nextFrame(player: Player, type: Set<Int>, page: Int) {
+    fun nextFrame(player: Player, type: Set<Int>, session: Menu.Session) {
+        val page = session.page
         type.forEach {
             when (it) {
                 0 -> nextItem(player)
                 1 -> nextName(player)
                 2 -> nextLore(player)
-                3 -> nextPosition(player, page)
+                3 -> nextPosition(player, session)
                 else -> throw Exception()
             }
         }
