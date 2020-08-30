@@ -28,11 +28,11 @@ import java.util.*
  */
 object Updater {
 
-    val API_URL = "https://api.github.com/repos/Arasple/${TrMenu.plugin.name}/releases/latest"
-    val DESCRIPTION = TrMenu.plugin.description
+    private val API_URL = "https://api.github.com/repos/Arasple/${TrMenu.plugin.name}/releases/latest"
+    private val DESCRIPTION = TrMenu.plugin.description
+    private var NOTIFY = false
     val CURRENT_VERSION = NumberUtils.toDouble(DESCRIPTION.version.split("-")[0], -1.0)
     var LATEST_VERSION = -1.0
-    var NOTIFY = false
     var NOTIFIES = mutableSetOf<UUID>()
 
     @TFunction.Init

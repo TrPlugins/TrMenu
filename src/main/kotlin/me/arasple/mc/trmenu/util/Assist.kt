@@ -1,6 +1,7 @@
 package me.arasple.mc.trmenu.util
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
+import io.izzel.taboolib.module.db.local.LocalPlayer
 import io.izzel.taboolib.module.tellraw.TellrawJson
 import io.izzel.taboolib.util.item.ItemBuilder
 import io.izzel.taboolib.util.item.Items
@@ -14,6 +15,7 @@ import me.arasple.mc.trmenu.modules.function.hook.impl.HookLuckPerms
 import me.arasple.mc.trmenu.modules.function.item.ItemIdentifierHandler
 import me.clip.placeholderapi.PlaceholderAPI
 import org.bukkit.*
+import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
@@ -57,7 +59,6 @@ class Assist {
     }
 
     fun isPlayerWhitelisted(player: String): Boolean {
-
         return Bukkit.getWhitelistedPlayers().any { it.name.equals(player, true) }
     }
 
@@ -188,6 +189,33 @@ class Assist {
         getPlayer(player)?.let { ItemIdentifierHandler.read(identify).hasItem(it) } ?: false
 
     fun hasItem(player: Player, identify: String) = ItemIdentifierHandler.read(identify).hasItem(player)
+
+    fun sort(list: List<Any>): List<Any> {
+        return list.sortedBy { it.toString() }
+    }
+
+    fun listData(player: Player, node: String): MutableList<String>? {
+        return LocalPlayer.get(player).getConfigurationSection("TrMenu.Data")?.getKeys(true)?.sorted()?.toMutableList()
+    }
+
+    fun setData(player: Player, node: String, value: Any?) {
+        LocalPlayer.get(player).set("TrMenu.Data.$node", value)
+    }
+
+    fun hasData(player: Player, path: String): Boolean {
+        return getData(player, path) != null
+    }
+
+    fun getData(player: Player, path: String): Any? {
+        return LocalPlayer.get(player).get("TrMenu.Data.$path")
+    }
+
+    fun getDataSection(player: Player): ConfigurationSection? {
+        return LocalPlayer.get(player).let {
+            if (!it.isSet("TrMenu.Data")) it.createSection("TrMenu.Data")
+            else it.getConfigurationSection("TrMenu.Data")
+        }
+    }
 
     fun hasMeta(player: Player, id: String) = player.getMeta("{meta:$id}") != null
 

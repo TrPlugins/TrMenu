@@ -21,21 +21,30 @@ Load-Menu-Files:
   - 'plugins/CustomMenusFolder'
 
 #
-# Actions Configuration
+# Global Options
 #
-Actions:
-  # Customize the words used to cancel an input catcher, supports regex
-  Catcher-Cancel-Words:
-    - '(?i)cancel|quit|exit|end|stop'
-
-#
-# Menu Items Configuration
-#
-Item:
-  # Default color for items' names
-  Default-Color-Name: '&7'
-  # Default color for items' lores
-  Default-Color-Lore: '&7'
+Menu:
+  #
+  # Actions Configuration
+  #
+  Actions:
+    # Customize the words used to cancel an input catcher, supports regex
+    Catcher-Cancel-Words:
+      - '(?i)cancel|quit|exit|end|stop'
+  #
+  # Menu Icons Configuration
+  #
+  Icon:
+    # Whether or not the sub icons inherit default icon's display properties by default
+    Inherit: false
+  #
+  # Menu Items Configuration
+  #
+  Item:
+    # Default color for items' names
+    Default-Color-Name: '&7'
+    # Default color for items' lores
+    Default-Color-Lore: '&7'
 
 #
 # Actions Shortcuts Configuration

@@ -1,6 +1,7 @@
 package me.arasple.mc.trmenu.modules.conf.serialize
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
+import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.inventory.InvClickType
 import me.arasple.mc.trmenu.modules.conf.menu.MenuConfiguration
 import me.arasple.mc.trmenu.modules.conf.property.Property
@@ -54,7 +55,11 @@ object IconSerializer {
                                     subIcon.priority = sub.getInt(Utils.getSectionKey(sub, Property.PRIORITY), order--)
                                     subIcon.condition =
                                         sub.getString(Utils.getSectionKey(sub, Property.REQUIREMENT)) ?: "false"
-                                    subIcon.inherit = sub.getBoolean(Utils.getSectionKey(sub, Property.INHERIT))
+
+                                    subIcon.inherit = sub.getBoolean(
+                                        Utils.getSectionKey(sub, Property.INHERIT),
+                                        TrMenu.SETTINGS.getBoolean("Menu.Icon.Inherit", false)
+                                    )
                                     subs.add(subIcon)
                                 }
                             }

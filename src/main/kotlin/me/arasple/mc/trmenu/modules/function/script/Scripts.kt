@@ -24,6 +24,7 @@ object Scripts {
     private val bindings = SimpleBindings()
     private val engine: ScriptEngine = ScriptEngineManager(null).getEngineByName("nashorn")
     private val compiledScripts = mutableMapOf<String, CompiledScript>()
+    private val booleanMatch = "(?i)(yes|true)".toRegex()
 
     const val function = "rwp"
     val argumentPattern: Pattern = Pattern.compile("['\"]?([\$]?\\{(.*?)})['\"]?")
@@ -36,13 +37,16 @@ object Scripts {
         bindings["utils"] = Assist.INSTANCE
     }
 
-    fun expression(player: Player, expression: String) = script(player, Expressions.parseExpression(expression), bindings, true)
+    fun expression(player: Player, expression: String) =
+        script(player, Expressions.parseExpression(expression), bindings, true)
 
     fun script(player: Player, script: String, cache: Boolean) = script(player, script, bindings, cache)
 
-    fun script(player: Player, script: String, bindings: SimpleBindings, cache: Boolean) = script(player, script, bindings, false, cache)
+    fun script(player: Player, script: String, bindings: SimpleBindings, cache: Boolean) =
+        script(player, script, bindings, false, cache)
 
-    fun script(player: Player, script: String, bindings: SimpleBindings, silent: Boolean, cache: Boolean) = eval(player, script, compile(script, cache), bindings, silent)
+    fun script(player: Player, script: String, bindings: SimpleBindings, silent: Boolean, cache: Boolean) =
+        eval(player, script, compile(script, cache), bindings, silent)
 
     private fun compile(content: String, cache: Boolean): CompiledScript? {
         return try {
@@ -58,7 +62,9 @@ object Scripts {
         }
     }
 
-    private fun eval(player: Player, rawScript: String, script: CompiledScript?, bindings: SimpleBindings, silent: Boolean): Result = try {
+    private fun eval(
+        player: Player, rawScript: String, script: CompiledScript?, bindings: SimpleBindings, silent: Boolean
+    ): Result = try {
         val content = SimpleScriptContext()
         content.setBindings(SimpleBindings(bindings).let {
             it["player"] = player
@@ -99,7 +105,10 @@ object Scripts {
                 val group = it.group(2)
                 val find = it.group(1)
                 val isFunction = find.startsWith("$")
-                if (!isFunction && !group.startsWith("meta") && !group.startsWith("data") && !group.startsWith("input") && !NumberUtils.isParsable(group) && group != "reason") {
+                if (!isFunction && !group.startsWith("meta") && !group.startsWith("data") && !group.startsWith("input") && !NumberUtils.isParsable(
+                        group
+                    ) && group != "reason"
+                ) {
                     continue
                 }
                 it.appendReplacement(buffer2, "$function('${escape(find)}')")
@@ -112,25 +121,18 @@ object Scripts {
         val replaces = mutableListOf<String>()
         val bracker = bracketPlaceholderPattern.matcher(content)
         var size = -1
-        while (bracker.find()) size = size.coerceAtLeast(NumberUtils.toInt(bracker.group().removeSurrounding("{", "}"), -1))
+        while (bracker.find()) size =
+            size.coerceAtLeast(NumberUtils.toInt(bracker.group().removeSurrounding("{", "}"), -1))
         for (i in 0..size) replaces.add("{trmenu_args_$i}")
         return replaces.toTypedArray()
     }
 
     private fun escape(string: String): String = escapeMath(
-        string
-            .replace("{", "\\{")
-            .replace("}", "\\}")
-            .replace("[", "\\[")
-            .replace("]", "\\]")
-            .replace("(", "\\(")
-            .replace(")", "\\)")
-            .replace("$", "\\$")
+        string.replace("{", "\\{").replace("}", "\\}").replace("[", "\\[").replace("]", "\\]").replace("(", "\\(")
+            .replace(")", "\\)").replace("$", "\\$")
     )
 
-    private fun escapeMath(string: String): String = string
-        .replace("+", "\\+")
-        .replace("*", "\\*")
+    private fun escapeMath(string: String): String = string.replace("+", "\\+").replace("*", "\\*")
 
     class Result(private val result: Any?, private val throwable: Throwable?) {
 
@@ -139,7 +141,7 @@ object Scripts {
 
         fun isSucceed() = throwable == null && result != null
 
-        fun asBoolean() = if (result is Boolean) result else result.toString().equals("yes", true)
+        fun asBoolean() = if (result is Boolean) result else result.toString().matches(booleanMatch)
 
         fun asString() = result.toString()
 

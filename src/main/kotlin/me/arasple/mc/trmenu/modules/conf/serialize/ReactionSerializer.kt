@@ -18,7 +18,9 @@ object ReactionSerializer {
     fun serializeReactionsList(any: Any?) = mutableListOf<Reaction>().let { reactions ->
         if (any is List<*>) {
             val first = any.firstOrNull()
-            if (first is String || (first is Map<*, *>) && first.entries.firstOrNull()?.key.toString().equals("catcher", true)) {
+            if (first is String || (first is Map<*, *>) && first.entries.firstOrNull()?.key.toString()
+                    .equals("catcher", true)
+            ) {
                 reactions.add(
                     Reaction(-1, "", mutableListOf<Action>().let {
                         any.forEach { action -> it.addAll(Actions.readAction(action)) }
@@ -27,13 +29,16 @@ object ReactionSerializer {
                 )
                 return@let reactions
             }
-            any.forEach { if (it != null) serializeReaction(it)?.let { reaction -> reactions.add(reaction) } }
-        } else if (any != null) serializeReaction(any)?.let { reactions.add(it) }
+            var order = any.size
+            any.filterNotNull().forEach {
+                serializeReaction(order--, it)?.let { reaction -> reactions.add(reaction) }
+            }
+        } else if (any != null) serializeReaction(-1, any)?.let { reactions.add(it) }
         return@let reactions
     }
 
-    fun serializeReaction(any: Any): Reaction? {
-        if (any is String) return Reaction(-1, "", Actions.readAction(any), listOf())
+    fun serializeReaction(priority: Int, any: Any): Reaction? {
+        if (any is String) return Reaction(priority, "", Actions.readAction(any), listOf())
 
         val reaction = Utils.asSection(any) ?: return null
         val keyPriority = Utils.getSectionKey(reaction, Property.PRIORITY)
@@ -42,7 +47,7 @@ object ReactionSerializer {
         val keyDenyActions = Utils.getSectionKey(reaction, Property.DENY_ACTIONS)
 
         return Reaction(
-            reaction.getInt(keyPriority, -1),
+            reaction.getInt(keyPriority, priority),
             reaction.getString(keyRequirement) ?: "",
             Actions.readActions(Utils.asAnyList(reaction.get(keyActions))),
             Actions.readActions(Utils.asAnyList(reaction.get(keyDenyActions)))

@@ -1,5 +1,5 @@
 ### Version 2.04
-- Date: -, 2020
+- Date: Aug 30, 2020
 - Updates:
   - Fixed hex color in inventory title
   - Fixed issue #162
@@ -10,13 +10,15 @@
   - Fixed issue #170 (auto-reload issue with reopening)
   - Removed auto-install PlaceholderAPI feature
   - Added a cooldown for binding item use
-  - Added command dump for debug information
-  - Added command mirror for performance monitoring
+  - Added command `dump` for debug information
+  - Added command `mirror` for **performance monitoring**
   - Added support for format like `{#a1e1e6}`
   - Added gradients generate `{gradient:#55eb34,#34ebe5,#55eb34-}`
   - Added support for TokenManager
   - Added alias `repeat` for action retype (issue #168)
   - Added whitelist utils
+  - The plugin will now close all menus when disabling
+  - Update settings, with more customizable
   - Priority for icons is no longer required, the plugin will automatically descend them depends on configurations
 
 ### Version 2.03

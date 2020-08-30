@@ -33,6 +33,6 @@ object InputCatcher {
 
     fun Player.cancelCatcherReInputing() = this.removeMetadata("RE_ENTER", TrMenu.plugin)
 
-    fun isCancelWord(word: String) = TrMenu.SETTINGS.getStringList("Actions.Catcher-Cancel-Words").any { word.split(" ")[0].matches(it.toRegex()) }
+    fun isCancelWord(word: String) = TrMenu.SETTINGS.getStringList("Menu.Actions.Catcher-Cancel-Words").any { word.split(" ")[0].matches(it.toRegex()) }
 
 }
