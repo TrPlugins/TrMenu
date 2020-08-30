@@ -7,7 +7,6 @@ import me.arasple.mc.trmenu.api.Extends.replaceWithArguments
 import me.clip.placeholderapi.PlaceholderAPI
 import net.md_5.bungee.api.ChatColor
 import org.bukkit.Bukkit
-import org.bukkit.OfflinePlayer
 import org.bukkit.command.CommandSender
 import org.bukkit.command.ConsoleCommandSender
 import org.bukkit.entity.Player
@@ -61,11 +60,11 @@ object Msger {
         return strings.map { replace(player, it) }
     }
 
-    private fun replaceWithPlaceholders(player: Player, string: String): String = PlaceholderAPI.setPlaceholders(player as OfflinePlayer, string)
+    private fun replaceWithPlaceholders(player: Player, string: String): String = PlaceholderAPI.setPlaceholders(player, string)
 
     private fun replaceWithPlaceholders(player: Player, strings: List<String>): List<String> = strings.map { replaceWithPlaceholders(player, it) }
 
-    fun replaceWithBracketPlaceholders(player: Player, string: String): String = PlaceholderAPI.setBracketPlaceholders(player as OfflinePlayer, player.replaceWithArguments(string))
+    fun replaceWithBracketPlaceholders(player: Player, string: String): String = PlaceholderAPI.setBracketPlaceholders(player, player.replaceWithArguments(string))
 
     fun replaceWithBracketPlaceholders(player: Player, strings: List<String>) = strings.map { replaceWithBracketPlaceholders(player, it) }
 

@@ -28,7 +28,7 @@ object Expressions {
                         }
                     }
                     Msger.debug("EXPRESSION", string, e)
-                    return@computeIfAbsent e
+                    e
                 }
     }
 

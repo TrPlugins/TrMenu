@@ -77,8 +77,7 @@ class CommandDebug : BaseSubCommand() {
                 }
                 "parseexpression" -> {
                     val parsed = Expressions.parseExpression(content)
-                    val translated =
-                            Scripts.translate(parsed)
+                    val translated = Scripts.translate(parsed)
                     sender.sendLocale("DEBUG.EXPRESSION", content, parsed)
                     sender.sendLocale("DEBUG.PRE-COMPILE-SCRIPT", parsed, translated)
                 }

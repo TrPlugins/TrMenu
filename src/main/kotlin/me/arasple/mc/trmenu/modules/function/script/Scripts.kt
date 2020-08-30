@@ -27,7 +27,7 @@ object Scripts {
     private val booleanMatch = "(?i)(yes|true)".toRegex()
 
     const val function = "rwp"
-    val argumentPattern: Pattern = Pattern.compile("['\"]?([\$]?\\{(.*?)})['\"]?")
+    val argumentPattern: Pattern = Pattern.compile("['\"]([\$]?\\{(.*?)})['\"]")
     val placeholderPattern: Pattern = Pattern.compile("['\"]?[$]?(%.*?%)['\"]?")
     val bracketPlaceholderPattern: Pattern = Pattern.compile("[{]([^{}]+)[}]")
 
