@@ -13,7 +13,6 @@ import me.arasple.mc.trmenu.util.Tasks
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
-import org.bukkit.inventory.ItemStack
 
 
 /**
@@ -23,9 +22,9 @@ import org.bukkit.inventory.ItemStack
 class CommandItem : BaseSubCommand() {
 
     override fun getArguments() = arrayOf(
-            Argument("Type", true) {
-                listOf("toJson", "fromJson")
-            }
+        Argument("Type", true) {
+            listOf("toJson", "fromJson")
+        }
     )
 
     override fun getType(): CommandType = CommandType.PLAYER
@@ -39,7 +38,8 @@ class CommandItem : BaseSubCommand() {
     }
 
     private fun toJson(player: Player) {
-        val item:ItemStack = if(Version.isAfter(Version.v1_9)) player.inventory.itemInMainHand else player.inventory.itemInHand
+        @Suppress("DEPRECATION")
+        val item = if (Version.isAfter(Version.v1_9)) player.inventory.itemInMainHand else player.inventory.itemInHand
         if (Items.isNull(item)) {
             player.sendLocale("COMMANDS.ITEM.TO-JSON.NO-ITEM")
             return

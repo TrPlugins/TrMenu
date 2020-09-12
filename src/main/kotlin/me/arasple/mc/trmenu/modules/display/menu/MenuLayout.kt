@@ -41,7 +41,8 @@ class MenuLayout(val layouts: List<Layout>) {
             val key = it.id
             pages.forEachIndexed { index, page ->
                 page[key]?.let { slots ->
-                    it.defIcon.display.position.computeIfAbsent(index) { Animated(arrayOf()) }.addElement(Position(slots))
+                    it.defIcon.display.position.computeIfAbsent(index) { Animated(arrayOf()) }
+                        .addElement(Position(slots))
                 }
             }
         }
@@ -50,15 +51,28 @@ class MenuLayout(val layouts: List<Layout>) {
     /**
      * 布局
      */
-    class Layout(val type: InventoryType, var rows: Int, val layout: MutableList<String>, val layoutInventory: MutableList<String>) {
+    class Layout(
+        val type: InventoryType,
+        var rows: Int,
+        val layout: MutableList<String>,
+        val layoutInventory: MutableList<String>
+    ) {
 
-        constructor(type: InventoryType, layout: List<String>?, layoutInventory: List<String>?) : this(type, -1, layout?.toMutableList() ?: mutableListOf(), layoutInventory?.toMutableList() ?: mutableListOf())
+        constructor(type: InventoryType, layout: List<String>?, layoutInventory: List<String>?) : this(
+            type,
+            -1,
+            layout?.toMutableList() ?: mutableListOf(),
+            layoutInventory?.toMutableList() ?: mutableListOf()
+        )
 
         /**
          * 初始化修正
          */
         init {
-            rows = if (type == InventoryType.CHEST) max(rows, layout.size) else if (type.defaultSize % 9 == 0) type.defaultSize / 9 else 1
+            rows = if (type == InventoryType.CHEST) max(
+                rows,
+                layout.size
+            ) else if (type.defaultSize % 9 == 0) type.defaultSize / 9 else 1
             if (type == InventoryType.CHEST) {
                 rows = max(rows, layout.size)
                 while (layout.size < rows) layout.add(BLANK_LINE)
@@ -138,18 +152,23 @@ class MenuLayout(val layouts: List<Layout>) {
          * 重构图标标识写入某行的字符串
          */
         private fun rebuildLine(line: String, width: Int, index: Int, key: String) =
-                buildString {
-                    listIconsKeys(line, width).let {
-                        it[index] = key
-                        return@let it
-                    }.forEach {
-                        if (it.length > 1) append("`$it`") else append(it[0])
-                    }
-                    return@buildString
+            buildString {
+                listIconsKeys(line, width).let {
+                    it[index] = key
+                    return@let it
+                }.forEach {
+                    if (it.length > 1) append("`$it`") else append(it[0])
                 }
+                return@buildString
+            }
 
 
-        fun positionize(width: Int, size: Int, layout: List<String>, layoutInventory: List<String>): Map<String, Set<Int>> {
+        fun positionize(
+            width: Int,
+            size: Int,
+            layout: List<String>,
+            layoutInventory: List<String>
+        ): Map<String, Set<Int>> {
             return mutableMapOf<String, MutableSet<Int>>().let {
                 layout.forEachIndexed { y, line ->
                     listIconsKeys(line, width).forEachIndexed { x, key ->
@@ -170,7 +189,13 @@ class MenuLayout(val layouts: List<Layout>) {
             it
         }
 
-        fun width(type: InventoryType) = if (type.defaultSize == 27) 9 else 3
+        fun width(type: InventoryType): Int {
+            return when (type.defaultSize) {
+                27 -> 9
+                5 -> 5
+                else -> 3
+            }
+        }
 
         fun size(type: InventoryType, rows: Int) = if (type == InventoryType.CHEST) rows * 9 else type.defaultSize
 
