@@ -17,7 +17,13 @@ import java.util.*
  * @author Arasple
  * @date 2020/5/30 13:48
  */
-class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty, val subIcons: List<IconProperty>, val currentIndex: MutableMap<UUID, Int>) {
+class Icon(
+    val id: String,
+    val settings: IconSettings,
+    val defIcon: IconProperty,
+    val subIcons: List<IconProperty>,
+    val currentIndex: MutableMap<UUID, Int>
+) {
 
     fun setItemStack(player: Player, session: Menu.Session) {
         Mirror.async("Icon:setItemStack(async)") {
@@ -94,6 +100,15 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
         }
     }
 
-    fun isInPage(page: Int) = defIcon.display.position.containsKey(page) || subIcons.any { it.display.position.containsKey(page) }
+    fun resetCache(uniqueId: UUID) {
+        defIcon.display.item.cache.remove(uniqueId)
+        subIcons.forEach { sub ->
+            sub.display.item.cache.remove(uniqueId)
+        }
+    }
+
+    fun isInPage(page: Int): Boolean {
+        return defIcon.display.position.containsKey(page) || subIcons.any { it.display.position.containsKey(page) }
+    }
 
 }

@@ -13,12 +13,7 @@ class ActionReset : Action("reset") {
 
     override fun onExecute(player: Player) {
         Menu.getMenus().forEach {
-            it.icons.forEach { icon ->
-                icon.defIcon.display.item.cache.remove(player.uniqueId)
-                icon.subIcons.forEach { sub ->
-                    sub.display.item.cache.remove(player.uniqueId)
-                }
-            }
+            it.icons.forEach { icon -> icon.resetCache(player.uniqueId) }
         }
         AnimationHandler.reset(player)
     }
