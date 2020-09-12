@@ -39,7 +39,7 @@ class CommandItem : BaseSubCommand() {
     }
 
     private fun toJson(player: Player) {
-        val item:ItemStack = if(Version.isAfter(Version.v1_8)) player.inventory.itemInMainHand else player.inventory.itemInHand
+        val item:ItemStack = if(Version.isAfter(Version.v1_9)) player.inventory.itemInMainHand else player.inventory.itemInHand
         if (Items.isNull(item)) {
             player.sendLocale("COMMANDS.ITEM.TO-JSON.NO-ITEM")
             return
