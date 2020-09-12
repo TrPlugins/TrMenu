@@ -82,7 +82,7 @@ object ListenerWindowEvents {
 
         menu.getIcon(player, session.page, slot).let {
             NMS.sendCancelSlot(player)
-            it?.displayItemStack(player)
+            it?.setItemStack(player, session, false)
             MenuClickEvent(player, slot, menu, it, type).async(true).call()
         }
 

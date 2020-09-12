@@ -138,7 +138,7 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
     }
 
     fun resetIcons(player: Player, session: Session) {
-        icons.forEach { it.setItemStack(player, session) }
+        icons.forEach { it.setItemStack(player, session, true) }
     }
 
     fun getOccupiedSlots(player: Player, page: Int): Set<Int> {
@@ -162,7 +162,7 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
 
     fun getIcon(player: Player, page: Int, slot: Int): Icon? {
         return getIcons(player, page).firstOrNull {
-            it.getIconProperty(player).display.position[page]?.currentElement(player)?.getSlots(player)?.contains(slot) ?: false
+            it.getIconProperty(player).display.position[page]?.currentElement(player)?.getOccupiedSlots(player)?.contains(slot) ?: false
         }
     }
 

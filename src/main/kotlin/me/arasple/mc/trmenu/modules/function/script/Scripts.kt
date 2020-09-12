@@ -22,7 +22,7 @@ import javax.script.*
 object Scripts {
 
     private val bindings = SimpleBindings()
-    private val engine: ScriptEngine = ScriptEngineManager(null).getEngineByName("nashorn")
+    private val engine = ScriptEngineManager(null).getEngineByName("nashorn")
     private val compiledScripts = mutableMapOf<String, CompiledScript>()
     private val booleanMatch = "(?i)(yes|true)".toRegex()
 

@@ -25,10 +25,10 @@ class Icon(
     val currentIndex: MutableMap<UUID, Int>
 ) {
 
-    fun setItemStack(player: Player, session: Menu.Session) {
+    fun setItemStack(player: Player, session: Menu.Session, updateDynamicSlots: Boolean) {
         Mirror.async("Icon:setItemStack(async)") {
             val property = getIconProperty(player)
-            val slots = property.display.getPosition(player, session.page)
+            val slots = if (updateDynamicSlots) property.display.getPosition(player, session.page) else property.display.getCurrentPosition(player, session.page)
 
             setItemStack(player, session, property, slots)
         }
@@ -42,7 +42,7 @@ class Icon(
 
     fun displayItemStack(player: Player) {
         player.getMenuSesssionCheck()?.let {
-            setItemStack(player, it)
+            setItemStack(player, it, true)
         }
     }
 
@@ -61,7 +61,7 @@ class Icon(
                                 if (session.isDifferent(sessionId)) cancel()
                                 else {
                                     getIconProperty(player).display.nextFrame(player, it.value, session)
-                                    setItemStack(player, session)
+                                    setItemStack(player, session, true)
                                 }
                             }
                         }
