@@ -7,7 +7,7 @@ PLUGIN:
   HOOKED: '&8[&3Tr&bMenu&8] &6HOOK &8| &7ตรวจพบปลั๊กอินที่ซัพพอร์ท: &f{0}&7.'
   UPDATE:
     - '&8[&3Tr&bMenu&8] &bUPDATE &8| &3พบอัพเดท &a{0} ! โหลดปลั๊กอินจากลิงก์ด้านล่างเพื่อรับฟีเจอร์ใหม่หรือแก้ไขบัค!'
-    - '&bhttps://www.spigotmc.org/resources/authors/435323/'
+    - '&bhttps://www.spigotmc.org/resources/83120/'
   DEPEND:
     DOWNLOAD: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7กำลังดาวน์โหลดปลั๊กอิน &f{0} &7...'
     INSTALL: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7ดาวน์โหลดปลั๊กอิน &3{0} สำเร็จ&7, รีสตาร์ทเซิร์ฟเวอร์เพื่อสิ้นสุดการติดตั้ง...'

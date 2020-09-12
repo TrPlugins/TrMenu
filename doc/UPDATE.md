@@ -1,3 +1,17 @@
+### Version 2.05
+- Date: Sep 12, 2020
+- Updates:
+  - Updated license
+  - Greatly improved page switch speed
+  - Improved some performance issues
+  - Fixed issue #178 (meta support in material)
+  - Fixed issue #175, #179 (variable use in condition expression)
+  - Fixed issue #187 (hopper layout support)
+  - Fixed issue #189 (refresh icon display property)
+  - Fixed issue #191 (`/trmenu item toJson` occure errors in 1.8)
+  - Fixed issue #192 (inventory title color support in 1.8)
+  - Fixed issue #194
+
 ### Version 2.04
 - Date: Aug 30, 2020
 - Updates:

@@ -7,7 +7,7 @@ PLUGIN:
   HOOKED: '&8[&3Tr&bMenu&8] &6HOOK &8| &7已檢測並支持插件 &f{0}&7.'
   UPDATE:
     - '&8[&3Tr&bMenu&8] &bUPDATE &8| &3發現新版本 &a{0}&3, 下載更新獲得更好體驗!'
-    - '&bhttps://www.spigotmc.org/resources/authors/435323/'
+    - '&bhttps://www.spigotmc.org/resources/83120/'
   DEPEND:
     DOWNLOAD: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7正在下載前置插件 &f{0} &7...'
     INSTALL: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7已成功下載前置 &3{0} &7, 即將重啟服務端完成安裝...'

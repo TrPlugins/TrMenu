@@ -10,7 +10,7 @@ PLUGIN:
   HOOKED: '&8[&3Tr&bMenu&8] &6HOOK &8| &7Soft-Dependencies detected! Hooking into &f{0}&7.'
   UPDATE:
     - '&8[&3Tr&bMenu&8] &bUPDATE &8| &3Update &a{0}&3 found ! Download it from the link below for new features and bug fix!'
-    - '&bhttps://www.spigotmc.org/resources/authors/435323/'
+    - '&bhttps://www.spigotmc.org/resources/83120/'
   DEPEND:
     DOWNLOAD: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7Downloading plugin &f{0} &7...'
     INSTALL: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7Successfully downloaded the plugin &3{0} &7, restarting the server to complete the installation...'

@@ -10,7 +10,7 @@ PLUGIN:
   HOOKED: '&8[&3Tr&bMenu&8] &6CONEXIÓN &8| &7Se detectaron plugins compatibles! Conectado con &f{0}&7.'
   UPDATE:
     - '&8[&3Tr&bMenu&8] &bACTUALIZACIÓN &8| &3Versión &a{0}&3 encontrada! Descargala desde el link de abajo para obtener mejores cosas y arreglos de bugs!'
-    - '&bhttps://www.spigotmc.org/resources/authors/435323/'
+    - '&bhttps://www.spigotmc.org/resources/83120/'
   DEPEND:
     DOWNLOAD: '&8[&3Tr&bMenu&8] &eDEPENDENCIA &8| &7Descargando el plugin &f{0} &7...'
     INSTALL: '&8[&3Tr&bMenu&8] &eDEPENDENCIA &8| &7Se descargó con éxito el plugin &3{0} &7, se reiniciará el servidor para completar los cambios...'

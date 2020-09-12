@@ -14,7 +14,12 @@ import org.bukkit.inventory.ItemStack
  * @author Arasple
  * @date 2020/5/30 14:06
  */
-data class IconDisplay(var position: MutableMap<Int, Animated<Position>>, val item: DynamicItem, var name: Animated<String>, var lore: Animated<Lore>) {
+data class IconDisplay(
+    var position: MutableMap<Int, Animated<Position>>,
+    val item: DynamicItem,
+    var name: Animated<String>,
+    var lore: Animated<Lore>
+) {
 
     fun createDisplayItem(player: Player): ItemStack {
         if (!item.cache.containsKey(player.uniqueId)) {
@@ -63,7 +68,6 @@ data class IconDisplay(var position: MutableMap<Int, Animated<Position>>, val it
     fun nextLore(player: Player) = item.displayLore(player, lore.nextElement(player))
 
     fun nextFrame(player: Player, type: Set<Int>, session: Menu.Session) {
-        val page = session.page
         type.forEach {
             when (it) {
                 0 -> nextItem(player)

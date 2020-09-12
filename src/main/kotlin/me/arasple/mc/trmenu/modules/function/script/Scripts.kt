@@ -27,7 +27,7 @@ object Scripts {
     private val booleanMatch = "(?i)(yes|true)".toRegex()
 
     const val function = "rwp"
-    val argumentPattern: Pattern = Pattern.compile("['\"]([\$]?\\{(.*?)})['\"]")
+    val argumentPattern: Pattern = Pattern.compile("['\"]?([\$]?\\{(.*?)})['\"]?")
     val placeholderPattern: Pattern = Pattern.compile("['\"]?[$]?(%.*?%)['\"]?")
     val bracketPlaceholderPattern: Pattern = Pattern.compile("[{]([^{}]+)[}]")
 
@@ -37,22 +37,39 @@ object Scripts {
         bindings["utils"] = Assist.INSTANCE
     }
 
-    fun expression(player: Player, expression: String) =
-            script(player, Expressions.parseExpression(expression), bindings, true)
+    fun expression(player: Player, expression: String): Result {
+        val parsed = Expressions.parse(expression)
+        return script(player, parsed.first, bindings, parsed.second, true)
+    }
 
-    fun script(player: Player, script: String, cache: Boolean) = script(player, script, bindings, cache)
+    fun script(player: Player, script: String, cache: Boolean): Result {
+        return script(player, script, bindings, true, cache)
+    }
 
-    fun script(player: Player, script: String, bindings: SimpleBindings, cache: Boolean) =
-            script(player, script, bindings, false, cache)
+    fun script(player: Player, script: String, translate: Boolean, cache: Boolean): Result {
+        return script(player, script, bindings, translate, cache)
+    }
 
-    fun script(player: Player, script: String, bindings: SimpleBindings, silent: Boolean, cache: Boolean) =
-            eval(player, script, compile(script, cache), bindings, silent)
+    fun script(player: Player, script: String, bindings: SimpleBindings, translate: Boolean, cache: Boolean): Result {
+        return script(player, script, bindings, false, translate, cache)
+    }
 
-    private fun compile(content: String, cache: Boolean): CompiledScript? {
+    fun script(
+        player: Player,
+        script: String,
+        bindings: SimpleBindings,
+        silent: Boolean,
+        translate: Boolean,
+        cache: Boolean
+    ): Result {
+        return eval(player, script, compile(script, translate, cache), bindings, silent)
+    }
+
+    private fun compile(content: String, translate: Boolean, cache: Boolean): CompiledScript? {
         return try {
             if (cache) {
                 compiledScripts.computeIfAbsent(content) {
-                    val script = translate(content)
+                    val script = if (translate) translate(content) else content
                     Msger.debug("PRE-COMPILE-SCRIPT", content, script)
                     (engine as Compilable).compile(script)
                 }
@@ -63,7 +80,11 @@ object Scripts {
     }
 
     private fun eval(
-            player: Player, rawScript: String, script: CompiledScript?, bindings: SimpleBindings, silent: Boolean
+        player: Player,
+        rawScript: String,
+        script: CompiledScript?,
+        bindings: SimpleBindings,
+        silent: Boolean
     ): Result = try {
         val content = SimpleScriptContext()
         content.setBindings(SimpleBindings(bindings).let {
@@ -106,8 +127,8 @@ object Scripts {
                 val find = it.group(1)
                 val isFunction = find.startsWith("$")
                 if (!isFunction && !group.startsWith("meta") && !group.startsWith("data") && !group.startsWith("input") && !NumberUtils.isParsable(
-                                group
-                        ) && group != "reason"
+                        group
+                    ) && group != "reason"
                 ) {
                     continue
                 }
@@ -122,14 +143,14 @@ object Scripts {
         val bracker = bracketPlaceholderPattern.matcher(content)
         var size = -1
         while (bracker.find()) size =
-                size.coerceAtLeast(NumberUtils.toInt(bracker.group().removeSurrounding("{", "}"), -1))
+            size.coerceAtLeast(NumberUtils.toInt(bracker.group().removeSurrounding("{", "}"), -1))
         for (i in 0..size) replaces.add("{trmenu_args_$i}")
         return replaces.toTypedArray()
     }
 
     private fun escape(string: String): String = escapeMath(
-            string.replace("{", "\\{").replace("}", "\\}").replace("[", "\\[").replace("]", "\\]").replace("(", "\\(")
-                    .replace(")", "\\)").replace("$", "\\$")
+        string.replace("{", "\\{").replace("}", "\\}").replace("[", "\\[").replace("]", "\\]").replace("(", "\\(")
+            .replace(")", "\\)").replace("$", "\\$")
     )
 
     private fun escapeMath(string: String): String = string.replace("+", "\\+").replace("*", "\\*")

@@ -6,7 +6,7 @@ import io.izzel.taboolib.util.Strings
  * @author Arasple
  * @date 2020/3/1 22:45
  */
-enum class Expression(val regex: Regex, var replace: String, var splitBy: String) {
+enum class Expression(val regex: Regex, var replace: String, var splitBy: String, var translateScript: Boolean) {
 
     STRING_EQUALS("(equal(s)?|is)", "\"{0}\" == \"{1}\""),
 
@@ -32,7 +32,7 @@ enum class Expression(val regex: Regex, var replace: String, var splitBy: String
 
     HAS_POINTS("ha(s|ve)(-)?(Money|Eco|Coin)(s)?", "utils.hasPoints(player, {0})"),
 
-    HAS_ITEM("ha(s|ve)(-)?Item(Stack)?(s)?", "utils.hasItem(player, \"{0}\")", "~"),
+    HAS_ITEM("ha(s|ve)(-)?Item(Stack)?(s)?", "utils.hasItem(player, \"{0}\")", "~", false),
 
     HAS_META("ha(s|ve)(-)?Meta(data)?(s)?", "utils.hasMeta(player, \"{0}\")", "~"),
 
@@ -40,7 +40,9 @@ enum class Expression(val regex: Regex, var replace: String, var splitBy: String
 
     constructor(name: String, replace: String) : this(name, replace, ".")
 
-    constructor(name: String, replace: String, splitBy: String) : this(("(?i)$name.").toRegex(), replace, splitBy)
+    constructor(name: String, replace: String, splitBy: String) : this(("(?i)$name.").toRegex(), replace, splitBy, true)
+
+    constructor(name: String, replace: String, splitBy: String, translateScript: Boolean) : this(("(?i)$name.").toRegex(), replace, splitBy, translateScript)
 
     fun parse(string: String): String = Strings.replaceWithOrder(replace, *getArguments(string))
 

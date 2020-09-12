@@ -20,7 +20,8 @@ class ActionJavaScript : Action("(java)?(-)?script(s)?|js") {
 
         if (!async) {
             Tasks.task {
-                Scripts.script(player, content, cache)
+                Scripts.
+                script(player, content, cache)
             }
         } else Scripts.script(player, content, cache)
     }

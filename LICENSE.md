@@ -16,6 +16,10 @@ Copyright (c) 2020 TrMenu
 
 ### Terms
 
+- #### Refund
+   By purchasing this plugin, you support this project and its continuous development voluntarily.  
+   No refund.
+
 - #### Modifications
    You can modify original package for only personal non-commercial usage  
    or have the author's permission.

@@ -11,7 +11,7 @@ PLUGIN:
   HOOKED: '&8[&3Tr&bMenu&8] &6HOOK &8| &7Đã tìm thấy phụ thuộc phụ! Đang kết nối vào &f{0}&7.'
   UPDATE:
     - '&8[&3Tr&bMenu&8] &bCẬP NHẬT &8| &3Đã tìm thấy cập nhật &a{0}&3! Nhấn tải nó ở link bên dưới để có thêm nhiều tính năng và sửa lỗi!'
-    - '&bhttps://www.spigotmc.org/resources/authors/435323/'
+    - '&bhttps://www.spigotmc.org/resources/83120/'
   DEPEND:
     DOWNLOAD: '&8[&3Tr&bMenu&8] &ePHỤ THUỘC &8| &7Đang tải plugin &f{0} &7...'
     INSTALL: '&8[&3Tr&bMenu&8] &ePHỤ THUỘC &8| &7Thành công tải plugin &3{0} &7, khởi động lại server để hoàn thành cài đặt...'

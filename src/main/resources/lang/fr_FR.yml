@@ -10,7 +10,7 @@ PLUGIN:
   HOOKED: '&8[&3Tr&bMenu&8] &6DÉPENDANCES &8| &7Dépendance optionnelle détéctée! Chargement du support de &f{0}&7.'
   UPDATE:
     - '&8[&3Tr&bMenu&8] &bMAJ &8| &3Mise à jour &a{0}&3 disponible ! Télécharge la à partir du lieu ci-dessous pour avoir de nouvelles fonctionnalités et des fix de bugs!'
-    - '&bhttps://www.spigotmc.org/resources/authors/435323/'
+    - '&bhttps://www.spigotmc.org/resources/83120/'
   DEPEND:
     DOWNLOAD: '&8[&3Tr&bMenu&8] &eDÉPENDANCE &8| &7Téléchargment du plugin &f{0} &7...'
     INSTALL: '&8[&3Tr&bMenu&8] &eDÉPENDANCE &8| &7Plugin &3{0} &7téléchargé avec succès, redémmarage du serveur pour compléter l''installation...'
