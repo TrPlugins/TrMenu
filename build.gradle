@@ -46,10 +46,10 @@ repositories {
 }
 
 dependencies {
-    compile 'org.jetbrains.kotlin:kotlin-stdlib'
     compile 'ink.ptms.core:v11600:11600:all'
-    compile 'me.clip:placeholderapi:2.10.9'
     compile 'ink.ptms.cronus:Cronus:1.1.0.2019.8.31-SNAPSHOT-4'
+    compile 'org.jetbrains.kotlin:kotlin-stdlib'
+    compile 'me.clip:placeholderapi:2.10.9'
     compile 'net.luckperms:api:5.0'
     taboo 'com.github.WesJD.AnvilGUI:anvilgui:-SNAPSHOT'
     taboo 'org.bstats:bstats-bukkit:1.7'

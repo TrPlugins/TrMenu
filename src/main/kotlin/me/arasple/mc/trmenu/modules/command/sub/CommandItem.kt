@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.modules.command.sub
 
+import io.izzel.taboolib.Version
 import io.izzel.taboolib.cronus.CronusUtils
 import io.izzel.taboolib.module.command.base.Argument
 import io.izzel.taboolib.module.command.base.BaseSubCommand
@@ -12,6 +13,7 @@ import me.arasple.mc.trmenu.util.Tasks
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
 
 
 /**
@@ -32,12 +34,12 @@ class CommandItem : BaseSubCommand() {
         val player = sender as Player
         when (args[0].toLowerCase()) {
             "tojson" -> toJson(player)
-            "fromJson" -> fromJson(player, args.joinToString(""))
+            "fromjson" -> fromJson(player, args.joinToString(""))
         }
     }
 
     private fun toJson(player: Player) {
-        val item = player.inventory.itemInMainHand
+        val item:ItemStack = if(Version.isAfter(Version.v1_9)) player.inventory.itemInMainHand else player.inventory.itemInHand
         if (Items.isNull(item)) {
             player.sendLocale("COMMANDS.ITEM.TO-JSON.NO-ITEM")
             return

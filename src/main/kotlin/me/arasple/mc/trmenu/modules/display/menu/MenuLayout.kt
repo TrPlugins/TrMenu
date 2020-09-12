@@ -69,7 +69,7 @@ class MenuLayout(val layouts: List<Layout>) {
         /**
          * 比较布局规格
          */
-        fun isSimilar(layout: MenuLayout.Layout): Boolean {
+        fun isSimilar(layout: Layout): Boolean {
             return type == layout.type && rows == layout.rows
         }
 
