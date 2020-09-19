@@ -100,6 +100,13 @@ class Icon(
         }
     }
 
+    fun refreshCache(player: Player) {
+        defIcon.display.refresh(player)
+        subIcons.forEach { sub ->
+            sub.display.refresh(player)
+        }
+    }
+
     fun resetCache(uniqueId: UUID) {
         defIcon.display.item.cache.remove(uniqueId)
         subIcons.forEach { sub ->

@@ -8,9 +8,10 @@
   - Fixed issue #175, #179 (variable use in condition expression)
   - Fixed issue #187 (hopper layout support)
   - Fixed issue #189 (refresh icon display property)
-  - Fixed issue #191 (`/trmenu item toJson` occure errors in 1.8)
+  - Fixed issue #191 (`/trmenu item toJson` occurs errors in 1.8)
   - Fixed issue #192 (inventory title color support in 1.8)
   - Fixed issue #194
+  - Fixed issue #195
 
 ### Version 2.04
 - Date: Aug 30, 2020

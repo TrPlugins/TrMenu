@@ -13,7 +13,7 @@ class ActionRefresh : Action("(icon)?(-)?(refresh|update)") {
         val session = getSession(player)
         if (!session.isNull()) {
             session.menu?.icons?.forEach {
-                it.resetCache(player.uniqueId)
+                it.refreshCache(player)
                 it.refreshIcon(player)
                 it.displayItemStack(player)
             }
