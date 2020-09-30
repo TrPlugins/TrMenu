@@ -20,9 +20,7 @@ class HookCronus : HookInstance() {
         return "Cronus"
     }
 
-    override fun initialization() {
-        TODO("Not yet implemented")
-    }
+    override fun initialization() {}
 
     fun parseCondition(string: String) = conditions.computeIfAbsent(string) { ConditionParser.parse(string) }
 
