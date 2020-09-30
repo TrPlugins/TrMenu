@@ -43,18 +43,8 @@ class TrMenuLoader {
     }
 
     private fun register() {
-        syncLocale()
         RegisterCommands.load()
         Shortcuts.load()
-    }
-
-    private fun syncLocale() {
-        if (TLocaleLoader.getLocalPriorityFirst(TrMenu.plugin) != "zh_CN" && TLocaleLoader.getLocalPriorityFirst(TabooLib.getPlugin()) == "zh_CN") {
-            TabooLib.getConfig().also {
-                it.set("LOCALE.PRIORITY", listOf("en_US", "zh_CN"))
-                it.saveToFile()
-            }
-        }
     }
 
     private fun printLogo() = arrayOf(
