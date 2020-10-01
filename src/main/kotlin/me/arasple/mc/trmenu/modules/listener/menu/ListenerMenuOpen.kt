@@ -33,7 +33,7 @@ class ListenerMenuOpen : Listener {
             val reason = e.reason
             val session = player.getMenuFactorySession()
 
-            Loger.log(Log.MENU_EVENT_OPEN, player.name, menu.id, page, reason.name)
+            Loger.log(menu, Log.EVENT_MENU_OPEN, player.name, page, reason.name)
 
             if (!session.isNull()) {
                 session.menuFactory!!.closeTask?.run(CloseTask.Event(player, session, session.menuFactory!!))

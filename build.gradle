@@ -7,10 +7,10 @@ plugins {
 }
 
 group 'me.arasple.mc.trmenu'
-version '2.05'
+version '2.06-DEV'
 
 taboolib {
-    tabooLibVersion = '5.35'
+    tabooLibVersion = '5.36'
     loaderVersion = '2.6'
     classifier = null
 

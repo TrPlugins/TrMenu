@@ -6,8 +6,8 @@ package me.arasple.mc.trmenu.modules.service.log
  */
 enum class Log(val format: String) {
 
-    MENU_EVENT_OPEN("Player ({0}) opened the menu ({1}). Paged ({2}). Reason ({3})"),
-    ICON_EVENT(""),
-    ACTION(""),
+    EVENT_MENU_OPEN("Player: {0}, Page: {1}, Reason: {2}"),
+    EVENT_MENU_CLOSE("Player: {0}, Page: {1}, Reason: {2}, IsSilent: {3}"),
+    EVENT_MENU_CLICK("Player: {0}, Page: {1}, Slot: {2}, ClickType: {3}, Icon: {4}"),
 
 }

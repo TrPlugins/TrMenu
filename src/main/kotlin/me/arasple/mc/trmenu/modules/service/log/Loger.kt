@@ -5,6 +5,7 @@ import io.izzel.taboolib.module.inject.TSchedule
 import io.izzel.taboolib.util.Files
 import io.izzel.taboolib.util.Strings
 import me.arasple.mc.trmenu.TrMenu
+import me.arasple.mc.trmenu.modules.display.Menu
 import me.arasple.mc.trmenu.modules.service.mirror.Mirror
 import java.text.SimpleDateFormat
 
@@ -16,26 +17,30 @@ object Loger {
 
     val time = SimpleDateFormat("HH:mm:ss")
     val date = SimpleDateFormat("yyyy-MM-dd")
-    val logs = mutableListOf<String>()
+    val waves = mutableMapOf<String, MutableList<String>>()
 
-    fun log(logType: Log, vararg arguments: Any) {
-        logs.add("[${currentTime()}] ${Strings.replaceWithOrder(logType.format, *arguments)}\n")
+    fun log(menu: Menu, logType: Log, vararg arguments: Any) {
+        waves
+            .computeIfAbsent(menu.id) { mutableListOf() }
+            .add("[${currentTime()}] ${Strings.replaceWithOrder(logType.format, *arguments)}\n")
     }
 
     @TSchedule(delay = 20, period = 20 * 60, async = true)
     @TFunction.Cancel
     fun save() {
         Mirror.eval("LogService:onSave(async)") {
-            val file = logFile()
-            logs.removeIf {
-                file.appendText(it)
-                true
+            waves.forEach { (id, logs) ->
+                val file = logFile(id)
+                logs.removeIf {
+                    file.appendText(it)
+                    true
+                }
             }
         }
     }
 
     private fun currentTime() = time.format(System.currentTimeMillis())
 
-    private fun logFile() = Files.file(TrMenu.plugin.dataFolder, "logs/${date.format(System.currentTimeMillis())}.log")
+    private fun logFile(id: String) = Files.file(TrMenu.plugin.dataFolder, "logs/$id/${date.format(System.currentTimeMillis())}.log")
 
 }

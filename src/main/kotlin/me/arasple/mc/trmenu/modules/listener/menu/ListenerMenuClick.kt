@@ -1,8 +1,11 @@
 package me.arasple.mc.trmenu.modules.listener.menu
 
 import io.izzel.taboolib.module.inject.TListener
+import me.arasple.mc.trmenu.api.Extends.getMenuSession
 import me.arasple.mc.trmenu.api.event.MenuClickEvent
 import me.arasple.mc.trmenu.modules.display.Menu
+import me.arasple.mc.trmenu.modules.service.log.Log
+import me.arasple.mc.trmenu.modules.service.log.Loger
 import me.arasple.mc.trmenu.modules.service.mirror.Mirror
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -28,6 +31,8 @@ class ListenerMenuClick : Listener {
             if (e.icon != null && !isInClickCooldown(player, menu)) {
                 val icon = e.icon
                 icon.getIconProperty(player).clickHandler.onClick(player, e.clickType)
+
+                Loger.log(menu, Log.EVENT_MENU_CLICK, player.name, player.getMenuSession().page, e.slot, e.clickType.name, e.icon.id)
             }
         }
     }

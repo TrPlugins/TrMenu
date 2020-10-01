@@ -84,7 +84,7 @@ object Actions {
     )
 
     @JvmStatic
-    fun registerAction(action: Action) = Actions.registeredActions.add(action.newInstance())
+    fun registerAction(action: Action) = registeredActions.add(action.newInstance())
 
     @JvmStatic
     fun runActions(player: Player, actions: List<Action>): Boolean {

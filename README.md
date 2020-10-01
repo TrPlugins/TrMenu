@@ -18,7 +18,7 @@ TrMenu covers a larger variety of functions, easier menu configuration and a mul
 
 ### Purchase
 
-[spigotmc.org](https://www.spigotmc.org/resources/83120/)
+[spigotmc.org](https://www.spigotmc.org/resources/83120/)  
 [songoda.com](https://songoda.com/marketplace/product/459)
 
 ---

@@ -1,3 +1,8 @@
+### Version 2.06
+- Date: Oct
+- Updates:
+  - Updated more logs
+
 ### Version 2.05
 - Date: Sep 12, 2020
 - Updates:

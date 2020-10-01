@@ -5,6 +5,8 @@ import me.arasple.mc.trmenu.api.Extends.getMenuSession
 import me.arasple.mc.trmenu.api.Extends.resetCache
 import me.arasple.mc.trmenu.api.event.MenuCloseEvent
 import me.arasple.mc.trmenu.api.nms.NMS
+import me.arasple.mc.trmenu.modules.service.log.Log
+import me.arasple.mc.trmenu.modules.service.log.Loger
 import me.arasple.mc.trmenu.modules.service.mirror.Mirror
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
@@ -22,6 +24,9 @@ class ListenerMenuClose : Listener {
         Mirror.eval("Menu:onClose(async)") {
             val player = e.player
             val menu = e.menu
+
+            Loger.log(menu, Log.EVENT_MENU_CLOSE, player.name, e.page, e.reason.name, e.silent)
+
             if (e.reason.isSwitch()) {
                 NMS.sendClearNonIconSlots(player, player.getMenuSession())
                 return@eval
