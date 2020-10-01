@@ -1,8 +1,10 @@
 package me.arasple.mc.trmenu.modules.command.registerable
 
+import io.izzel.taboolib.internal.apache.lang3.ArrayUtils
 import io.izzel.taboolib.module.command.TCommandHandler
 import io.izzel.taboolib.module.command.lite.CommandBuilder
 import me.arasple.mc.trmenu.TrMenu
+import me.arasple.mc.trmenu.api.Extends.setArguments
 import me.arasple.mc.trmenu.modules.conf.serialize.ReactionSerializer
 import me.arasple.mc.trmenu.modules.display.function.Reactions
 import org.bukkit.Bukkit
@@ -33,26 +35,30 @@ object RegisterCommands {
                 }
 
                 CommandBuilder
-                        .create(main, TrMenu.plugin)
-                        .aliases(*section.getStringList("aliases").toTypedArray())
-                        .tab { _, args ->
-                            val keys = argument?.getKeys(false)
-                            return@tab if (args.size == 1) {
-                                keys?.filter { it.startsWith(args[0]) }
-                            } else keys?.toList()
-                        }
-                        .execute { sender, args ->
-                            if (sender is Player) {
-                                if (args.isEmpty()) {
-                                    reactions.eval(sender)
-                                } else {
-                                    subReactions[args[0]]?.eval(sender)
+                    .create(main, TrMenu.plugin)
+                    .aliases(*section.getStringList("aliases").toTypedArray())
+                    .tab { _, args ->
+                        val keys = argument?.getKeys(false)
+                        return@tab if (args.size == 1) {
+                            keys?.filter { it.startsWith(args[0]) }
+                        } else keys?.toList()
+                    }
+                    .execute { sender, args ->
+                        if (sender is Player) {
+                            if (subReactions.isEmpty()) {
+                                if (args.isNotEmpty()) sender.setArguments(args)
+                                reactions.eval(sender)
+                            } else {
+                                subReactions[args[0]]?.let {
+                                    if (args.size > 1) sender.setArguments(ArrayUtils.remove(args, 0))
+                                    it.eval(sender)
                                 }
                             }
                         }
-                        .forceRegister()
-                        .permission(section.getString("permission"))
-                        .build()
+                    }
+                    .forceRegister()
+                    .permission(section.getString("permission"))
+                    .build()
                 registered.add(main)
             }
         }
