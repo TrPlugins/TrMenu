@@ -2,6 +2,7 @@
 - Date: Oct
 - Updates:
   - Updated more logs
+  - Updated arguments support for register commands #209
 
 ### Version 2.05
 - Date: Sep 12, 2020

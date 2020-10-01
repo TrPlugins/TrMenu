@@ -12,17 +12,44 @@ import java.util.*
  */
 object Tasks {
 
-    fun task(runnable: Runnable) = task(false, runnable)
+    private val plugin = TrMenu.plugin
+    private val scheduler = Bukkit.getScheduler()
 
-    fun task(async: Boolean, runnable: Runnable) = if (async) Bukkit.getScheduler().runTaskAsynchronously(TrMenu.plugin, runnable) else Bukkit.getScheduler().runTask(TrMenu.plugin, runnable)
+    fun task(runnable: Runnable) {
+        task(false, runnable)
+    }
 
-    fun delay(delay: Long, runnable: Runnable) = delay(delay, false, runnable)
+    fun task(async: Boolean, runnable: Runnable) {
+        if (async) {
+            scheduler.runTaskAsynchronously(plugin, runnable)
+        } else {
+            scheduler.runTask(plugin, runnable)
+        }
+    }
 
-    fun delay(delay: Long, async: Boolean, runnable: Runnable) = if (async) Bukkit.getScheduler().runTaskLaterAsynchronously(TrMenu.plugin, runnable, delay) else Bukkit.getScheduler().runTaskLater(TrMenu.plugin, runnable, delay)
+    fun delay(delay: Long, runnable: Runnable) {
+        delay(delay, false, runnable)
+    }
 
-    fun timer(delay: Long, period: Long, runnable: Runnable) = timer(delay, period, false, runnable)
+    fun delay(delay: Long, async: Boolean, runnable: Runnable) {
+        if (async) {
+            scheduler.runTaskLaterAsynchronously(plugin, runnable, delay)
+        } else {
+            scheduler.runTaskLater(plugin, runnable, delay)
+        }
+    }
 
-    fun timer(delay: Long, period: Long, async: Boolean, runnable: Runnable) = if (async) Bukkit.getScheduler().runTaskTimerAsynchronously(TrMenu.plugin, runnable, delay, period) else Bukkit.getScheduler().runTaskTimer(TrMenu.plugin, runnable, delay, period)
+    fun timer(delay: Long, period: Long, runnable: Runnable) {
+        timer(delay, period, false, runnable)
+    }
+
+    fun timer(delay: Long, period: Long, async: Boolean, runnable: Runnable) {
+        if (async) {
+            scheduler.runTaskTimerAsynchronously(plugin, runnable, delay, period)
+        } else {
+            scheduler.runTaskTimer(plugin, runnable, delay, period)
+        }
+    }
 
     class Tasking(val tasks: MutableMap<UUID, MutableSet<BukkitTask>>) {
 
