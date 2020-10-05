@@ -1,8 +1,13 @@
 ### Version 2.06
 - Date: Oct
 - Updates:
+  - Updated TabooLib 5.4
+    - `Delete libs/TabooLib.jar and restart your server`
+    - `This update shall fix #184 crash issue`
   - Updated more logs
   - Updated arguments support for register commands #209
+  - Fixed #180 (reactions priority sorting)
+  - Fixed #202 (animated title flashes GUI issue)
 
 ### Version 2.05
 - Date: Sep 12, 2020

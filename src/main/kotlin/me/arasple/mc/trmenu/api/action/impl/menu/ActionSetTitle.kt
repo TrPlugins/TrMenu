@@ -18,7 +18,7 @@ class ActionSetTitle : Action("set(-)?title") {
                 val layout = session.layout ?: return@delay
 
                 layout.displayInventory(player, getContent(player))
-                menu.resetIcons(player, session)
+                menu.refreshIconItems(player, session)
             }
         }
     }

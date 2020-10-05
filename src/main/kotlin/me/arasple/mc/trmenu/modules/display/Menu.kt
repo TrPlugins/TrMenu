@@ -49,7 +49,6 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
                 val fromLayout = s.layout ?: return@async
                 val layout = layout.layouts[p].also { s.set(this, it, p) }
 
-
                 Tasks.task(true) {
                     val delay = measureTimeMillis { e.menu.refreshIcons(player, p) } / 50
                     Tasks.delay(delay, true) {
@@ -64,6 +63,9 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
                             it.displayItemStack(player)
                             it.startUpdateTasks(player, this)
                         }
+
+                        settings.title.load(player, this, layout)
+                        settings.tasks.run(player, this)
                     }
                 }
             }
@@ -137,8 +139,8 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
         icons.filter { it.isInPage(page) && it.subIcons.isNotEmpty() }.forEach { it.refreshIcon(player) }
     }
 
-    fun resetIcons(player: Player, session: Session) {
-        icons.forEach { it.setItemStack(player, session, true) }
+    fun refreshIconItems(player: Player, session: Session) {
+        icons.forEach { it.setItemStackSync(player, session, true) }
     }
 
     fun getOccupiedSlots(player: Player, page: Int): Set<Int> {
@@ -162,7 +164,8 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
 
     fun getIcon(player: Player, page: Int, slot: Int): Icon? {
         return getIcons(player, page).firstOrNull {
-            it.getIconProperty(player).display.position[page]?.currentElement(player)?.getOccupiedSlots(player)?.contains(slot) ?: false
+            it.getIconProperty(player).display.position[page]?.currentElement(player)?.getOccupiedSlots(player)
+                ?.contains(slot) ?: false
         }
     }
 
@@ -195,9 +198,9 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
         }
     }
 
-    class Session(var menu: Menu?, var layout: MenuLayout.Layout?, var page: Int, var fromLayout: MenuLayout.Layout?, var id: Int = 0) {
+    class Session(var menu: Menu?, var layout: MenuLayout.Layout?, var page: Int, var id: Int = 0) {
 
-        constructor() : this(null, null, 0, null)
+        constructor() : this(null, null, 0)
 
         fun isNull(): Boolean {
             return menu == null || layout == null

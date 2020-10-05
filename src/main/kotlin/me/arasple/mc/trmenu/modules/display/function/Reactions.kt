@@ -10,7 +10,7 @@ data class Reactions(val reactions: List<Reaction>, val isEmpty: Boolean = react
 
     fun eval(player: Player): Boolean {
         if (isEmpty) return true
-        reactions.sortedBy { it.priority }.forEach {
+        reactions.sortedByDescending { it.priority }.forEach {
             if (!it.react(player)) return false
         }
         return true

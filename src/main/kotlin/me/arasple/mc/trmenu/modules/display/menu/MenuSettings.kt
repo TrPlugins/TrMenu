@@ -60,7 +60,7 @@ class MenuSettings(val title: Titles, val options: Options, val bindings: Bindin
                                     return
                                 }
                                 layout.displayInventory(player, getTitle(player))
-                                menu.resetIcons(player, session)
+                                menu.refreshIconItems(player, session)
                             }
                         }.runTaskTimerAsynchronously(TrMenu.plugin, update.toLong(), update.toLong())
                 )

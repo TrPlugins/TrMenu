@@ -27,11 +27,14 @@ class Icon(
 
     fun setItemStack(player: Player, session: Menu.Session, updateDynamicSlots: Boolean) {
         Mirror.async("Icon:setItemStack(async)") {
-            val property = getIconProperty(player)
-            val slots = if (updateDynamicSlots) property.display.getPosition(player, session.page) else property.display.getCurrentPosition(player, session.page)
-
-            setItemStack(player, session, property, slots)
+            setItemStackSync(player, session, updateDynamicSlots)
         }
+    }
+
+    fun setItemStackSync(player: Player, session: Menu.Session, updateDynamicSlots: Boolean) {
+        val property = getIconProperty(player)
+        val slots = if (updateDynamicSlots) property.display.getPosition(player, session.page) else property.display.getCurrentPosition(player, session.page)
+        setItemStack(player, session, property, slots)
     }
 
     fun setItemStack(player: Player, session: Menu.Session, property: IconProperty, slots: Set<Int>?) {
