@@ -1,6 +1,6 @@
 package me.arasple.mc.trmenu.api.action.impl
 
-import io.izzel.taboolib.util.Commands
+import io.izzel.taboolib.util.Features
 import me.arasple.mc.trmenu.api.action.base.Action
 import me.arasple.mc.trmenu.util.Tasks
 import org.bukkit.entity.Player
@@ -13,7 +13,7 @@ class ActionCommand : Action("command|cmd|player|execute") {
 
     override fun onExecute(player: Player) = getSplitedBySemicolon(player).forEach {
         Tasks.task {
-            Commands.dispatchCommand(player, it)
+            Features.dispatchCommand(player, it)
         }
     }
 

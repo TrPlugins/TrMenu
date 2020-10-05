@@ -1,8 +1,8 @@
 package me.arasple.mc.trmenu.modules.command.sub
 
+import io.izzel.taboolib.kotlin.Indexed
 import io.izzel.taboolib.module.command.base.Argument
 import io.izzel.taboolib.module.command.base.BaseSubCommand
-import io.izzel.taboolib.util.ArrayUtil
 import me.arasple.mc.trmenu.api.Extends.sendLocale
 import me.arasple.mc.trmenu.api.action.Actions
 import org.bukkit.Bukkit
@@ -17,18 +17,18 @@ import org.bukkit.command.CommandSender
 class CommandAction : BaseSubCommand() {
 
     override fun getArguments() = arrayOf(
-            Argument("Player"),
-            Argument("Action")
+        Argument("Player"),
+        Argument("Action")
     )
 
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>) {
+    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>) {
         val player = Bukkit.getPlayerExact(args[0])
 
         if (player == null || !player.isOnline) {
             sender.sendLocale("COMMANDS.ACTION.UNKNOWN-PLAYER")
             return
         }
-        ArrayUtil.arrayJoin(args, 1).let { it ->
+        Indexed.join(args, 1).let { it ->
             val print = it.startsWith("#")
             val action = Actions.cachedAction(it.removePrefix("#"))
 

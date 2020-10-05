@@ -1,11 +1,11 @@
 package me.arasple.mc.trmenu.util
 
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
+import io.izzel.taboolib.kotlin.Randoms
 import io.izzel.taboolib.module.db.local.LocalPlayer
 import io.izzel.taboolib.module.tellraw.TellrawJson
 import io.izzel.taboolib.util.item.ItemBuilder
 import io.izzel.taboolib.util.item.Items
-import io.izzel.taboolib.util.lite.Numbers
 import me.arasple.mc.trmenu.api.Extends.getArguments
 import me.arasple.mc.trmenu.api.Extends.getMeta
 import me.arasple.mc.trmenu.api.action.Actions
@@ -54,7 +54,8 @@ class Assist {
     }
 
     fun isPlayerWhitelisted(player: String): Boolean {
-        return getOfflinePlayer(player)?.isWhitelisted ?: Bukkit.getWhitelistedPlayers().any { it.name.equals(player, true) }
+        return getOfflinePlayer(player)?.isWhitelisted ?: Bukkit.getWhitelistedPlayers()
+            .any { it.name.equals(player, true) }
     }
 
     fun addWhitelist(player: String): Boolean {
@@ -212,7 +213,7 @@ class Assist {
      * Numbers
      */
     fun chance(number: String): Boolean {
-        return Numbers.random(NumberUtils.toDouble(number, 0.0))
+        return Randoms.random(NumberUtils.toDouble(number, 0.0))
     }
 
     fun randomInteger(low: Int, high: Int): Int {
@@ -220,7 +221,7 @@ class Assist {
     }
 
     fun randomDouble(low: Double, high: Double): Double {
-        return Numbers.getRandomDouble(low, high)
+        return Randoms.random(low, high)
     }
 
     fun isNumber(number: String): Boolean {

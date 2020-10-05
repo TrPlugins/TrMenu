@@ -1,10 +1,10 @@
 package me.arasple.mc.trmenu.modules.command.sub
 
+import io.izzel.taboolib.kotlin.Indexed
 import io.izzel.taboolib.module.command.base.Argument
 import io.izzel.taboolib.module.command.base.BaseSubCommand
 import io.izzel.taboolib.module.command.base.CommandType
 import io.izzel.taboolib.module.locale.TLocale
-import io.izzel.taboolib.util.ArrayUtil
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.Extends.sendLocale
 import me.arasple.mc.trmenu.modules.conf.MenuLoader
@@ -24,12 +24,12 @@ class CommandMigrate : BaseSubCommand() {
     private val folder = File(TrMenu.plugin.dataFolder, "migrated")
 
     override fun getArguments() = arrayOf(
-            Argument("From Plugin", true) {
-                listOf("Legacy", "DeluxeMenus")
-            },
-            Argument("File/Dir Name", true) {
-                getFolderFiles()
-            }
+        Argument("From Plugin", true) {
+            listOf("Legacy", "DeluxeMenus")
+        },
+        Argument("File/Dir Name", true) {
+            getFolderFiles()
+        }
     )
 
     override fun getType(): CommandType = CommandType.CONSOLE
@@ -38,7 +38,7 @@ class CommandMigrate : BaseSubCommand() {
         when (args[0].toLowerCase()) {
             "trmenuv1", "legacy" -> {
                 Tasks.task(true) {
-                    val file = File(TrMenu.plugin.dataFolder, ArrayUtil.arrayJoin(args, 1))
+                    val file = File(TrMenu.plugin.dataFolder, Indexed.join(args, 1))
 
                     if (!file.exists() || (!file.isDirectory && !file.name.endsWith(".yml"))) {
                         sender.sendLocale("MIGRATE.UNKNOWN-FILE", file.name)
@@ -58,7 +58,11 @@ class CommandMigrate : BaseSubCommand() {
                             MigrateLegacy.run(it).save(File(folder, it.name))
                             count++
                         } catch (e: Throwable) {
-                            TLocale.sendToConsole("MIGRATE.ERROR", it.name, e.message, e.stackTrace.map { it.toString() + "\n" })
+                            TLocale.sendToConsole(
+                                "MIGRATE.ERROR",
+                                it.name,
+                                e.message,
+                                e.stackTrace.map { it.toString() + "\n" })
                         }
                     }
                     if (count > 0)
@@ -76,12 +80,12 @@ class CommandMigrate : BaseSubCommand() {
 
 
     private fun getFolderFiles() =
-            TrMenu.plugin.dataFolder.listFiles()?.map {
-                if (!it.name.matches("lang|menus|migrated|settings.yml".toRegex()) && (it.isDirectory || it.name.endsWith(".yml")))
-                    it.name
-                else
-                    ""
-            }
+        TrMenu.plugin.dataFolder.listFiles()?.map {
+            if (!it.name.matches("lang|menus|migrated|settings.yml".toRegex()) && (it.isDirectory || it.name.endsWith(".yml")))
+                it.name
+            else
+                ""
+        }
 
 
 }
