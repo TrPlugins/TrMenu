@@ -46,7 +46,6 @@ object Shortcuts {
             if (it.isEmpty) false
             else {
                 it.eval(player)
-                true
             }
         }
     }

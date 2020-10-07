@@ -221,6 +221,8 @@ enum class Property(val default: String, val regex: Regex) {
      */
     CATCHER_TYPE("type", "type"),
 
+    CATCHER_CONTENT("content", "sign|content"),
+
     CATCHER_BEFORE("before", "before"),
 
     CATCHER_CANCEL("cancel", "cancel"),

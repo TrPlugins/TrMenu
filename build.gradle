@@ -3,7 +3,7 @@ import java.text.SimpleDateFormat
 plugins {
     id 'java'
     id 'io.izzel.taboolib' version '1.2'
-    id 'org.jetbrains.kotlin.jvm' version '1.4.0-rc'
+    id 'org.jetbrains.kotlin.jvm' version '1.4.10'
 }
 
 group 'me.arasple.mc.trmenu'

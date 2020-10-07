@@ -45,11 +45,12 @@ class ActionCatcher : Action("(input)?(-)?catcher(s)?") {
 
                 if (section != null) {
                     val type = Catchers.Type.matchType(section.getString(Utils.getSectionKey(section, Property.CATCHER_TYPE), "CHAT"))
+                    val content = section.getString(Utils.getSectionKey(section, Property.CATCHER_CONTENT), "") ?: ""
                     val before = ReactionSerializer.serializeReactions(section.get(Utils.getSectionKey(section, Property.CATCHER_BEFORE)))
                     val cancel = ReactionSerializer.serializeReactions(section.get(Utils.getSectionKey(section, Property.CATCHER_CANCEL)))
                     val reaction = ReactionSerializer.serializeReactions(section.get(Utils.getSectionKey(section, Property.CATCHER_REACTION)))
 
-                    stages.add(Catchers.Stage(it, type, before, cancel, reaction))
+                    stages.add(Catchers.Stage(it, type, content, before, cancel, reaction))
                 }
             }
             this.catcher = Catchers(Animated(stages.toTypedArray()))
@@ -80,7 +81,7 @@ class ActionCatcher : Action("(input)?(-)?catcher(s)?") {
             }
         }
 
-        this.catcher = Catchers(Animated(arrayOf(Catchers.Stage("", stageType, before, cancel, Reactions(listOf(Reaction(-1, requirement, valid, invalid)))))))
+        this.catcher = Catchers(Animated(arrayOf(Catchers.Stage("", stageType, "", before, cancel, Reactions(listOf(Reaction(-1, requirement, valid, invalid)))))))
     }
 
     override fun toString(): String = buildString {

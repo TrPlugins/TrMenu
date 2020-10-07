@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.modules.function.inputer
 
+import io.izzel.taboolib.util.item.Items
 import io.izzel.taboolib.util.lite.Signs
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.Extends.getMenuSession
@@ -29,19 +30,20 @@ class Catchers(val catchers: Animated<Stage>) {
     }
 
     class Stage(
-            val id: String,
-            val type: Type,
-            val beforeReactions: Reactions,
-            val cancelReactions: Reactions,
-            val afterReactions: Reactions
+        val id: String,
+        val type: Type,
+        val content: String,
+        val beforeReactions: Reactions,
+        val cancelReactions: Reactions,
+        val afterReactions: Reactions
     ) {
 
         val anvilBuilder =
-                if (type == ANVIL) AnvilGUI.Builder().plugin(TrMenu.plugin).preventClose().onComplete { player, text ->
-                    input(player, text)
-                    return@onComplete AnvilGUI.Response.close()
-                }
-                else null
+            if (type == ANVIL) AnvilGUI.Builder().plugin(TrMenu.plugin).preventClose().onComplete { player, text ->
+                input(player, text)
+                return@onComplete AnvilGUI.Response.close()
+            }
+            else null
 
         fun run(player: Player) {
             beforeReactions.eval(player)
@@ -51,10 +53,15 @@ class Catchers(val catchers: Animated<Stage>) {
             }
             Tasks.delay(3) {
                 if (type == SIGN) {
-                    Signs.fakeSign(player) {
+                    Signs.fakeSign(player, content.split("\\n").toTypedArray()) {
                         input(player, it.joinToString(""))
                     }
-                } else if (type == ANVIL) anvilBuilder!!.open(player)
+                } else if (type == ANVIL) {
+                    if (content.isNotBlank()) {
+                        anvilBuilder!!.item(Items.fromJson(content))
+                    }
+                    anvilBuilder!!.open(player)
+                }
             }
         }
 

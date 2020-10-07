@@ -55,6 +55,7 @@ Shortcuts:
   Sneaking-Offhand:
     - condition: 'hasPerm.trmenu.shortcut'
       execute: 'open: Example'
+      deny: 'return'
   Right-Click-Player: []
   Sneaking-Right-Click-Player: []
   PlayerInventory-Border-Left: []

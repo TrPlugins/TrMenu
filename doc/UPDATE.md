@@ -4,11 +4,15 @@
   - Updated TabooLib 5.4
     - `Delete libs/TabooLib.jar and restart your server`
     - `This update shall fix #184 crash issue`
+  - Updated Kotlin 1.4.10
   - Updated more logs
   - Updated arguments support for register commands #209
   - Fixed #180 (reactions priority sorting)
   - Fixed #202 (animated title flashes GUI issue)
-
+  - Fixed Kotlin violation errors #211
+  - Fixed animated title didn't work after switching pages
+  - Added support for custom sign content of input-catcher
+  - Added support for custom anvil item of input-catcher
 ### Version 2.05
 - Date: Sep 12, 2020
 - Updates:
