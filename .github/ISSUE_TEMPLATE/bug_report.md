@@ -24,7 +24,7 @@ If applicable, add screenshots to help explain your problem.
 Add any other context about the problem here.
 
 **Server Information**
-> Use command `/trmenu debug dump` to get the information
+> Use command `/trmenu dump` to get the information
 > Copy the information to below
 e.g.
 ```
