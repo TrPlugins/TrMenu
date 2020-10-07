@@ -8,6 +8,7 @@ import me.arasple.mc.trmenu.api.event.MenuCloseEvent
 import me.arasple.mc.trmenu.modules.function.script.expression.Expressions
 import me.arasple.mc.trmenu.util.Assist
 import me.arasple.mc.trmenu.util.Msger
+import me.arasple.mc.trmenu.util.Tasks
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -99,7 +100,7 @@ object Scripts {
         }
     } catch (e: Throwable) {
         if (!silent) Msger.printErrors("SCRIPT", e, rawScript)
-        cancel(player)
+        Tasks.delay(10) { cancel(player) }
         Result()
     }
 

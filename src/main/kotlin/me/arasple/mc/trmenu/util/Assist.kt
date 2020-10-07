@@ -20,6 +20,7 @@ import org.bukkit.OfflinePlayer
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.PlayerInventory
 
 
 /**
@@ -83,6 +84,23 @@ class Assist {
 
     fun getRandomPlayer(): Player? {
         return Bukkit.getOnlinePlayers().randomOrNull()
+    }
+
+    fun getPlayerInventory(player: String): PlayerInventory? {
+        return getPlayer(player)?.inventory
+    }
+
+    fun getArmorContents(player: String): Array<ItemStack>? {
+        return getPlayerInventory(player)?.armorContents
+    }
+
+    fun getItemInHand(player: String) = getItemInHand(player, false)
+
+    fun getItemInHand(player: String, offhand: Boolean): ItemStack? {
+        return getPlayerInventory(player)?.let {
+            if (offhand) it.itemInOffHand
+            else it.itemInMainHand
+        }
     }
 
     /**

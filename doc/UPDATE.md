@@ -1,5 +1,5 @@
 ### Version 2.06
-- Date: Oct
+- Date: Oct 7, 2020
 - Updates:
   - Updated TabooLib 5.4
     - `Delete libs/TabooLib.jar and restart your server`

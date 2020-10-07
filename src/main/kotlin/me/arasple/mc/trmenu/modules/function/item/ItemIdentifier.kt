@@ -2,6 +2,7 @@ package me.arasple.mc.trmenu.modules.function.item
 
 import io.izzel.taboolib.util.item.ItemBuilder
 import io.izzel.taboolib.util.item.Items
+import me.arasple.mc.trmenu.modules.display.item.Item
 import me.arasple.mc.trmenu.modules.function.item.base.MatchItemIdentifier
 import me.arasple.mc.trmenu.modules.function.item.impl.MatchItemAmount
 import org.bukkit.Material
@@ -57,7 +58,7 @@ data class ItemIdentifier(val raw: String, val identifiers: MutableSet<Identifie
         }
 
         fun buildItem(player: Player): ItemStack? {
-            val itemStack = ItemBuilder(Material.AIR).build()
+            val itemStack = Item.EMPTY_ITEM.clone()
             characteristic.forEach {
                 it.apply(player, itemStack)
             }

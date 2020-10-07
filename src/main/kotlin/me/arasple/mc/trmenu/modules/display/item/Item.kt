@@ -19,6 +19,8 @@ import org.bukkit.inventory.ItemStack
  */
 object Item {
 
+    val EMPTY_ITEM = ItemStack(Material.BARRIER)
+
     fun colorizeLore(string: String) = colorize(string, true)
 
     fun colorizeName(string: String) = colorize(string, false)
@@ -36,7 +38,7 @@ object Item {
                 NMS.handle().saveNBT(itemBuild, NBTCompound.fromJson(meta.toString()))
             } else itemBuild
         }
-        return ItemStack(Material.BARRIER)
+        return EMPTY_ITEM
     }
 
     fun fromMaterials(name: String) =

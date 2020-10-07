@@ -119,11 +119,11 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
 
     fun close(player: Player, page: Int, reason: MenuCloseEvent.Reason, closeInventory: Boolean, silent: Boolean) {
         tasking.reset(player)
+        player.setMenuSession(null, null, -1)
 
         Tasks.task {
             MenuCloseEvent(player, this@Menu, page, reason, silent).call()
             layout.layouts[page].close(player, closeInventory)
-            player.setMenuSession(null, null, -1)
             if (closeInventory) player.closeInventory() else player.updateInventory()
         }
 
