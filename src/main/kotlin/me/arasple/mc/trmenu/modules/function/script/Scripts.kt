@@ -145,7 +145,7 @@ object Scripts {
         var size = -1
         while (bracker.find()) size =
             size.coerceAtLeast(NumberUtils.toInt(bracker.group().removeSurrounding("{", "}"), -1))
-        for (i in 0..size) replaces.add("{trmenu_args_$i}")
+        for (i in 0..size) replaces.add("%trmenu_args_$i%")
         return replaces.toTypedArray()
     }
 

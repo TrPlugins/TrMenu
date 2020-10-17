@@ -30,7 +30,8 @@ object RegisterCommands {
                 val argument = section.getConfigurationSection("arguments")
                 val reactions = ReactionSerializer.serializeReactions(section.get("execute"))
                 val subReactions = mutableMapOf<String, Reactions>()
-                argument?.getKeys(false)?.forEach { subReactions[it] = ReactionSerializer.serializeReactions(argument[it]) }
+                argument?.getKeys(false)
+                    ?.forEach { subReactions[it] = ReactionSerializer.serializeReactions(argument[it]) }
                 CommandBuilder
                     .create(main, TrMenu.plugin)
                     .aliases(*section.getStringList("aliases").toTypedArray())
@@ -45,7 +46,7 @@ object RegisterCommands {
                             if (subReactions.isEmpty()) {
                                 if (args.isNotEmpty()) sender.setArguments(args)
                                 reactions.eval(sender)
-                            } else {
+                            } else if (args.isNotEmpty()) {
                                 subReactions[args[0]]?.let {
                                     if (args.size > 1) sender.setArguments(ArrayUtils.remove(args, 0))
                                     it.eval(sender)

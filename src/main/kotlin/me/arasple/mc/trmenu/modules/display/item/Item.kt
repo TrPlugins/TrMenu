@@ -19,7 +19,7 @@ import org.bukkit.inventory.ItemStack
  */
 object Item {
 
-    val EMPTY_ITEM = ItemStack(Material.BARRIER)
+    val EMPTY_ITEM = ItemStack(Material.AIR)
 
     fun colorizeLore(string: String) = colorize(string, true)
 

@@ -23,11 +23,11 @@ class DynamicItem(var material: Animated<Mat>, val meta: Meta, val cache: Mutabl
     fun cache(player: Player) = cache.computeIfAbsent(player.uniqueId) { Temp(null, null) }
 
     fun displayName(player: Player, name: String?) {
-        cache(player).name = Item.colorizeName(Msger.replace(player, name))
+        if (name != null) cache(player).name = Item.colorizeName(Msger.replace(player, name))
     }
 
     fun displayLore(player: Player, lore: Lore?) {
-        cache(player).lore = lore?.formatedLore(player)
+        if (lore != null) cache(player).lore = lore.formatedLore(player)
     }
 
     fun releaseItem(player: Player): ItemStack? {
