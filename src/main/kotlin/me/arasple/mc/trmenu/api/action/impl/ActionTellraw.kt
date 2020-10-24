@@ -1,11 +1,10 @@
 package me.arasple.mc.trmenu.api.action.impl
 
-import io.izzel.taboolib.module.locale.TLocale
 import io.izzel.taboolib.module.tellraw.TellrawJson
 import io.izzel.taboolib.util.Strings
 import io.izzel.taboolib.util.Variables
 import me.arasple.mc.trmenu.api.action.base.Action
-import me.arasple.mc.trmenu.util.Colors
+import me.arasple.mc.trmenu.util.Hex
 import me.arasple.mc.trmenu.util.Msger
 import me.arasple.mc.trmenu.util.Utils
 import net.md_5.bungee.chat.ComponentSerializer
@@ -21,18 +20,18 @@ class ActionTellraw : Action("tellraw|json") {
     private val tellraw = TellrawJson.create()
 
     override fun onExecute(player: Player) = player.spigot().sendMessage(
-            *ComponentSerializer.parse(
-                    Msger.replace(
-                            player,
-                            if (Strings.nonEmpty(rawJson)) rawJson else tellraw!!.toRawMessage()
-                    ).replace(
-                            "{&}", "&"
-                    )
+        *ComponentSerializer.parse(
+            Msger.replace(
+                player,
+                if (Strings.nonEmpty(rawJson)) rawJson else tellraw!!.toRawMessage()
+            ).replace(
+                "{&}", "&"
             )
+        )
     )
 
     override fun setContent(content: String) {
-        var text = Colors.translate(TLocale.Translate.setColored(content))
+        var text = Hex.colorify(content)
         if (Utils.isJson(text)) {
             rawJson = text
             return

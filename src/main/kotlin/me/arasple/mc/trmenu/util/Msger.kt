@@ -75,6 +75,6 @@ object Msger {
 
     fun printErrors(node: String, vararg args: String) = TLocale.sendToConsole("ERRORS.$node", *args)
 
-    fun color(string: String?): String? = if (string.isNullOrBlank()) string else ChatColor.translateAlternateColorCodes('&', Colors.translate(string))
+    fun color(string: String?): String? = if (string.isNullOrBlank()) string else Hex.colorify(string)
 
 }
