@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack
 class MatchItemName : MatchItemIdentifier("(display)?(-)?name(s)?") {
 
     override fun match(player: Player, itemStack: ItemStack): Boolean = itemStack.itemMeta.let {
-        if (it != null) {
+        if (it != null && it.hasDisplayName()) {
             val displayName = it.displayName
             return displayName.equals(getContent(player), true)
         }

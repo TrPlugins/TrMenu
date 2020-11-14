@@ -52,7 +52,6 @@ class Menu(val id: String, val conf: MenuConfiguration, val settings: MenuSettin
                 Tasks.task(true) {
                     val delay = measureTimeMillis { e.menu.refreshIcons(player, p) } / 50
                     Tasks.delay(delay, true) {
-
                         if (fromLayout.isSimilar(layout)) {
                             NMS.sendClearNonIconSlots(player, s)
                         } else {

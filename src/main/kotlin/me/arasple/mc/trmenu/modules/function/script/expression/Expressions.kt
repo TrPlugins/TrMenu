@@ -12,7 +12,7 @@ object Expressions {
     val CACHED_PARSED = mutableMapOf<String, String>()
 
     fun parse(string: String): Pair<String, Boolean> {
-        var ignoreTranslate: Boolean = false
+        var ignoreTranslate = false
 
         return Pair(CACHED_PARSED.computeIfAbsent(string) {
             string

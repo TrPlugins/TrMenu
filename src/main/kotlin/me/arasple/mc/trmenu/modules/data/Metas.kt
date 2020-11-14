@@ -26,7 +26,8 @@ object Metas {
         return playerInventorys.computeIfAbsent(player.uniqueId) { player.inventory.contents.clone() }
     }
 
-    fun updateInventoryContents(player: Player) {
+    fun updateInventoryContents(player: Player, update: Boolean = false) {
+        if (update) player.updateInventory()
         return mutableListOf<ItemStack?>().let {
             val contents = player.inventory.contents
             for (i in 9..35) it.add(contents[i])
@@ -43,9 +44,9 @@ object Metas {
             val buffer = StringBuffer(argumented.length)
             // Js & Placeholders from Menu
             var content = InternalFunction.match(
-                    argumented
-                            .replace("{page}", session.page.toString())
-                            .replace("{displayPage}", (session.page + 1).toString())
+                argumented
+                    .replace("{page}", session.page.toString())
+                    .replace("{displayPage}", (session.page + 1).toString())
             ).let { m ->
                 while (m.find()) {
                     val group = m.group(1)
@@ -141,16 +142,16 @@ object Metas {
     }
 
     fun formatArguments(arguments: Array<String>) =
-            mutableListOf<String>().let { list ->
-                Variables(arguments.joinToString(" "), MenuLayout.ICON_KEY_MATCHER).find().variableList.forEach { it ->
-                    if (it.isVariable) {
-                        list.add(it.text)
-                    } else {
-                        list.addAll(it.text.split(" ").filter { it.isNotBlank() })
-                    }
+        mutableListOf<String>().let { list ->
+            Variables(arguments.joinToString(" "), MenuLayout.ICON_KEY_MATCHER).find().variableList.forEach { it ->
+                if (it.isVariable) {
+                    list.add(it.text)
+                } else {
+                    list.addAll(it.text.split(" ").filter { it.isNotBlank() })
                 }
-                list
             }
+            list
+        }
 
     fun interface Matcher {
 

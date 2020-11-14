@@ -3,6 +3,7 @@ package me.arasple.mc.trmenu.api.action.impl.item
 import io.izzel.taboolib.cronus.CronusUtils
 import io.izzel.taboolib.util.item.Items
 import me.arasple.mc.trmenu.api.action.base.Action
+import me.arasple.mc.trmenu.modules.data.Metas
 import me.arasple.mc.trmenu.modules.function.item.ItemIdentifierHandler
 import me.arasple.mc.trmenu.util.Utils
 import org.bukkit.entity.Player
@@ -24,6 +25,7 @@ class ActionGiveItem : Action("(give|add)(-)?item(s)?") {
                 }
             }
         }
+        Metas.updateInventoryContents(player, true)
     }
 
 }

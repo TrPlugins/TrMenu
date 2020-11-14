@@ -1,6 +1,7 @@
 package me.arasple.mc.trmenu.api.action.impl.item
 
 import me.arasple.mc.trmenu.api.action.base.Action
+import me.arasple.mc.trmenu.modules.data.Metas
 import me.arasple.mc.trmenu.modules.function.item.ItemIdentifier
 import me.arasple.mc.trmenu.modules.function.item.ItemIdentifierHandler
 import org.bukkit.entity.Player
@@ -22,7 +23,7 @@ class ActionTakeItem : Action("(take|remove)(-)?item(s)?") {
         ids.forEach {
             it.take(player)
         }
-        player.updateInventory()
+        Metas.updateInventoryContents(player, true)
     }
 
 }

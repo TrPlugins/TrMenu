@@ -1,3 +1,10 @@
+### Version 2.07
+- Date: Nov 14, 2020
+- Updates:
+  - Fixed #226
+  - Fixed #230
+  - Fixed #225
+ 
 ### Version 2.06
 - Date: Oct 7, 2020
 - Updates:
@@ -13,6 +20,7 @@
   - Fixed animated title didn't work after switching pages
   - Added support for custom sign content of input-catcher
   - Added support for custom anvil item of input-catcher
+
 ### Version 2.05
 - Date: Sep 12, 2020
 - Updates:
