@@ -4,6 +4,7 @@
   - Fixed #226
   - Fixed #230
   - Fixed #225
+  - Fixed #223
  
 ### Version 2.06
 - Date: Oct 7, 2020

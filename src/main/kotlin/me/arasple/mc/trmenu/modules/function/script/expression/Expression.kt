@@ -30,7 +30,7 @@ enum class Expression(val regex: Regex, var replace: String, var splitBy: String
 
     HAS_MONEY("ha(s|ve)(-)?(Money|Eco|Coin)(s)?", "utils.hasMoney(player, {0})", "~"),
 
-    HAS_POINTS("ha(s|ve)(-)?(Money|Eco|Coin)(s)?", "utils.hasPoints(player, {0})"),
+    HAS_POINTS("ha(s|ve)(-)?(Point)(s)?", "utils.hasPoints(player, {0})"),
 
     HAS_ITEM("ha(s|ve)(-)?Item(Stack)?(s)?", "utils.hasItem(player, \"{0}\")", "~", false),
 
