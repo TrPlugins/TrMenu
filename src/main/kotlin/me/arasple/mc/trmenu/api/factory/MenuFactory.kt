@@ -1,14 +1,17 @@
 package me.arasple.mc.trmenu.api.factory
 
 import me.arasple.mc.trmenu.TrMenu
+import me.arasple.mc.trmenu.api.Extends.getMenuFactorySession
+import me.arasple.mc.trmenu.api.Extends.getMenuSession
 import me.arasple.mc.trmenu.api.factory.task.BuildTask
 import me.arasple.mc.trmenu.api.factory.task.ClickTask
 import me.arasple.mc.trmenu.api.factory.task.CloseTask
-import me.arasple.mc.trmenu.data.MetaPlayer.updateInventoryContents
-import me.arasple.mc.trmenu.data.Sessions.getMenuFactorySession
-import me.arasple.mc.trmenu.display.menu.MenuLayout
-import me.arasple.mc.trmenu.display.menu.MenuLayout.Companion.size
-import me.arasple.mc.trmenu.display.menu.MenuLayout.Companion.width
+import me.arasple.mc.trmenu.api.nms.NMS
+import me.arasple.mc.trmenu.modules.data.Metas
+import me.arasple.mc.trmenu.modules.display.menu.MenuLayout
+import me.arasple.mc.trmenu.modules.display.menu.MenuLayout.Companion.size
+import me.arasple.mc.trmenu.modules.display.menu.MenuLayout.Companion.width
+import me.arasple.mc.trmenu.util.Tasks
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.ItemStack
@@ -22,15 +25,15 @@ import org.bukkit.plugin.Plugin
  * 目前仅适合做展示性 GUI,功能性容器 GUI 请使用 MenuBuilder
  */
 class MenuFactory(
-    val plugin: Plugin,
-    private var title: String,
-    private var type: InventoryType,
-    private var size: Int,
-    private var positions: Map<String, Set<Int>>,
-    private val items: MutableMap<String, ItemStack>,
-    var clickTask: ClickTask?,
-    var buildTask: BuildTask?,
-    var closeTask: CloseTask?
+        val plugin: Plugin,
+        private var title: String,
+        private var type: InventoryType,
+        private var size: Int,
+        private var positions: Map<String, Set<Int>>,
+        private val items: MutableMap<String, ItemStack>,
+        var clickTask: ClickTask?,
+        var buildTask: BuildTask?,
+        var closeTask: CloseTask?
 ) {
 
     constructor() : this(TrMenu.plugin)
@@ -49,10 +52,10 @@ class MenuFactory(
 
     fun rows(rows: Int): MenuFactory {
         return layout(
-            *mutableListOf<String>().let {
-                for (i in 0..rows) it.add("         ")
-                it
-            }.toTypedArray()
+                *mutableListOf<String>().let {
+                    for (i in 0..rows) it.add("         ")
+                    it
+                }.toTypedArray()
         )
     }
 
@@ -63,10 +66,10 @@ class MenuFactory(
     fun layout(layout: List<String>, layoutInventory: List<String>): MenuFactory {
         this.size = size(type, layout.size)
         this.positions = MenuLayout.positionize(
-            width(type),
-            size,
-            layout,
-            layoutInventory
+                width(type),
+                size,
+                layout,
+                layoutInventory
         )
         return this
     }
@@ -96,21 +99,74 @@ class MenuFactory(
     fun display(player: Player) = display(player) {}
 
     fun display(player: Player, runnable: Runnable) {
-        val session = player.getMenuFactorySession()
+        Tasks.task(true) {
+            val session = player.getMenuFactorySession()
+            (player).getMenuSession().safeClose(player)
 
-        items.entries.forEach { entry ->
-            val id = entry.key
-            val item = entry.value
-            positions[id]?.let { it -> session.def[id] = Pair(item, it) }
+            items.entries.forEach { entry ->
+                val id = entry.key
+                val item = entry.value
+                positions[id]?.let { it -> session.def[id] = Pair(item, it) }
+            }
+            Metas.updateInventoryContents(player)
+            session.menuFactory = this
+            buildTask?.run(BuildTask.Event(player, session))
+            runnable.run()
+
+            session.display(type, size, title)
+            session.displayItems()
+        }
+    }
+
+    class Session(val player: Player, var menuFactory: MenuFactory?, val def: MutableMap<String, Pair<ItemStack, Set<Int>>>, val items: MutableMap<Int, ItemStack>) {
+
+        fun getItem(slot: Int): Pair<String, ItemStack?>? {
+            def.entries.firstOrNull { it.value.second.contains(slot) }?.let {
+                val id = it.key
+                val item = it.value.first
+                return Pair(id, item)
+            }
+            return Pair("", items[slot])
         }
 
-        player.updateInventoryContents()
-        session.menuFactory = this
-        buildTask?.run(BuildTask.Event(player, session))
-        runnable.run()
+        fun displayItems() {
+            def.values.forEach { it ->
+                val item = it.first
+                it.second.filter { !items.containsKey(it) }.forEach {
+                    NMS.sendOutSlot(player, it, item)
+                }
+            }
+            items.forEach { (slot, item) ->
+                NMS.sendOutSlot(player, slot, item)
+            }
+        }
 
-        session.display(type, size, title)
-        session.displayItems()
+        fun setItem(slot: Int, item: ItemStack, display: Boolean = false) {
+            items[slot] = item
+            if (display) NMS.sendOutSlot(player, slot, item)
+        }
+
+        fun removeItem(slot: Int, display: Boolean = false) {
+            items.remove(slot)
+            if (display) NMS.sendRemoveSlot(player, slot)
+        }
+
+        fun display(type: InventoryType, size: Int, title: String) {
+            NMS.sendOpenWindow(player, type, size, title)
+        }
+
+        fun isNull() = menuFactory == null
+
+        fun reset() {
+            menuFactory = null
+            clear()
+        }
+
+        fun clear() {
+            items.clear()
+            def.clear()
+        }
+
     }
 
 }

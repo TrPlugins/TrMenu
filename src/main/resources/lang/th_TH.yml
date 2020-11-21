@@ -7,7 +7,7 @@ PLUGIN:
   HOOKED: '&8[&3Tr&bMenu&8] &6HOOK &8| &7ตรวจพบปลั๊กอินที่ซัพพอร์ท: &f{0}&7.'
   UPDATE:
     - '&8[&3Tr&bMenu&8] &bUPDATE &8| &3พบอัพเดท &a{0} ! โหลดปลั๊กอินจากลิงก์ด้านล่างเพื่อรับฟีเจอร์ใหม่หรือแก้ไขบัค!'
-    - '&bhttps://www.spigotmc.org/resources/authors/435323/'
+    - '&bhttps://www.spigotmc.org/resources/83120/'
   DEPEND:
     DOWNLOAD: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7กำลังดาวน์โหลดปลั๊กอิน &f{0} &7...'
     INSTALL: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7ดาวน์โหลดปลั๊กอิน &3{0} สำเร็จ&7, รีสตาร์ทเซิร์ฟเวอร์เพื่อสิ้นสุดการติดตั้ง...'
@@ -115,7 +115,6 @@ DEBUG:
     SET-META: '&8[&fTr&7Menu&8] &3DEBUG &8| &6เปลี่ยน Meta ของผู้เล่น &c{0} &c{ key=&6{1}&c,value=&6{2}&c } &8(raw: {3})'
     SET-META-FAILED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6ตรวจพบข้อผิดพลาดหลังจากเปลี่ยน Meta ของผู้เล่น &c{0} &8(raw: {3})'
   ICON:
-    DISPLAY-UPDATE: '&8[&fTr&7Menu&8] &3DEBUG &8| &6อัพเดทอนิเมชั่น ไอเท็ม/ไอคอน &c{0}, หมุน &e{1}&6, รวมทั้ง &e{2}'
     SUB-ICON-REFRESHED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6อัพเดทเงื่อนไขแสดงไอคอน &c{0} &6เป็น &e{1}'
 
 ERRORS:

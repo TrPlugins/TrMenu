@@ -2,47 +2,33 @@ import java.text.SimpleDateFormat
 
 plugins {
     id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '1.4-M2'
-    id 'com.github.johnrengelman.shadow' version '4.0.4'
-}
-
-compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
-    kotlinOptions {
-        languageVersion = "1.4"
-    }
+    id 'io.izzel.taboolib' version '1.2'
+    id 'org.jetbrains.kotlin.jvm' version '1.4.10'
 }
 
 group 'me.arasple.mc.trmenu'
-version '2.0'
+version '2.06-DEV'
 
-task buildJar(dependsOn: [clean, shadowJar])
+taboolib {
+    tabooLibVersion = '5.4'
+    loaderVersion = '2.6'
+    classifier = null
 
-shadowJar {
-    dependencies {
-        [
-                'org.bstats:bstats-bukkit:1.7',
-                'io.izzel.taboolib:TabooLibLoader:2.1:all',
-                'com.github.WesJD.AnvilGUI:anvilgui:-SNAPSHOT'
-        ].forEach {
-            include(dependency(it))
-        }
-    }
-    relocate 'io.izzel.taboolib.loader', project.group + ".boot"
-    relocate 'net.wesjd', project.group + ".modules.inputer.anvil"
-    relocate "org.bstats.bukkit", project.group + '.modules.metrics'
+    relocate 'net.wesjd', project.group + '.modules.inputer.anvil'
 }
+
+task buildJar(dependsOn: [clean, jar])
 
 processResources {
     from(sourceSets.main.resources.srcDirs) {
-        include 'plugin.yml', 'bungee.yml'
+        include 'plugin.yml'
         expand(
                 'name': project.name,
-                'main': project.group + ".boot.PluginTransfer",
-                'mainBungee': project.group + ".TrMenuBungee",
-                'mainTransfer': project.group + "." + project.name,
+                'main': project.group + ".boot.PluginBoot",
                 'version': project.version,
-                'built': new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss.SSSZ").format(new Date()),
+                'taboolib': taboolib.tabooLibVersion,
+                'libDownload': System.properties['user.name'] != "Arasple",
+                'built': new SimpleDateFormat("yyyy-MM-dd' 'HH:mm:ss").format(new Date()),
                 'builder': System.properties['user.name'],
                 'os': "${System.properties['os.name']} ${System.properties['os.arch']} ${System.properties['os.version']}"
         )
@@ -50,27 +36,21 @@ processResources {
 }
 
 repositories {
-    // SoftDepend Plugins
-    maven { url "https://repo.extendedclip.com/content/repositories/placeholderapi/" }
-    maven { url "https://rayzr.dev/repo/" }
-    maven { url "https://repo.codemc.org/repository/maven-public" }
-    maven { url "http://repo.dakanilabs.com/repository/public/" }
-    maven { url "http://repo.ptms.ink/repository/codemc-nms/" }
-    maven { url "http://repo.ptms.ink/repository/maven-releases/" }
-    // Reop
-    maven { url "https://jitpack.io" }
+    maven { url 'https://jitpack.io' }
     maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
+    maven { url 'https://repo.codemc.org/repository/maven-public' }
+    maven { url 'https://repo.extendedclip.com/content/repositories/placeholderapi/' }
+    maven { url 'https://rayzr.dev/repo/' }
+    mavenCentral()
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4-M2"
-    compile 'org.spigotmc:spigot:1.16.1-R0.1-20200718.075154-22'
-    compile 'org.bstats:bstats-bukkit:1.7'
-    compile 'io.izzel.taboolib:TabooLib:5.31:all'
-    compile 'io.izzel.taboolib:TabooLibLoader:2.1:all'
-    compile 'com.github.WesJD.AnvilGUI:anvilgui:-SNAPSHOT'
-    compile 'me.clip:placeholderapi:2.10.7'
-    compile 'com.github.shynixn.headdatabase:hdb-api:1.0'
+    compile 'ink.ptms.core:v11600:11600:all'
     compile 'ink.ptms.cronus:Cronus:1.1.0.2019.8.31-SNAPSHOT-4'
-    shadow fileTree(dir: 'libs', includes: ['*.jar'])
+    compile 'org.jetbrains.kotlin:kotlin-stdlib'
+    compile 'me.clip:placeholderapi:2.10.9'
+    compile 'net.luckperms:api:5.0'
+    taboo 'com.github.WesJD.AnvilGUI:anvilgui:-SNAPSHOT'
+    taboo 'org.bstats:bstats-bukkit:1.7'
+    compileOnly fileTree(dir: 'libs', includes: ['*.jar'])
 }

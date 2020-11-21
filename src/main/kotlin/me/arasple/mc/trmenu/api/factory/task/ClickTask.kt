@@ -1,7 +1,6 @@
 package me.arasple.mc.trmenu.api.factory.task
 
 import me.arasple.mc.trmenu.api.factory.MenuFactory
-import me.arasple.mc.trmenu.api.factory.MenuFactorySession
 import me.arasple.mc.trmenu.api.inventory.InvClickType
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -14,7 +13,7 @@ fun interface ClickTask {
 
     fun run(event: Event): Action
 
-    class Event(val player: Player, val session: MenuFactorySession, val factory: MenuFactory, val slot: Int, val key: String, val clicked: ItemStack?, val cursor: ItemStack?, val type: InvClickType)
+    class Event(val player: Player, val session: MenuFactory.Session, val factory: MenuFactory, val slot: Int, val key: String, val clicked: ItemStack?, val cursor: ItemStack?, val type: InvClickType)
 
     enum class Action {
 

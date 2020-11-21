@@ -1,24 +1,29 @@
 name: ${name}
 main: ${main}
-main-transfer: ${mainTransfer}
 
-author: Arasple
+authors:
+  - Arasple
+  - Bkm016
 
 api-version: 1.13
+lib-version: ${taboolib}
+lib-download: ${libDownload}
 version: ${version}
 
 github: https://github.com/Arasple/${name}
 description: Modern & Advanced Menu-Plugin for Minecraft Servers
+license: https://github.com/TrMenu/TrMenu/blob/v2/LICENSE.md
 
 softdepend:
   - PlaceholderAPI
   - Vault
+  - CMI
   - Cronus
   - PlayerPoints
   - HeadDatabase
   - Oraxen
-  - WorldGuard
-  - SkinRestorer
+  - SkinsRestorer
+  - TokenManager
 
 built-time: ${built}
 built-by: ${builder}

@@ -1,14 +1,15 @@
 package me.arasple.mc.trmenu
 
+import io.izzel.taboolib.TabooLib
 import io.izzel.taboolib.Version
 import io.izzel.taboolib.module.locale.TLocale
-import me.arasple.mc.trmenu.commands.registerable.RegisterCommands
-import me.arasple.mc.trmenu.configuration.MenuLoader
-import me.arasple.mc.trmenu.modules.hook.HookHeadDatabase
-import me.arasple.mc.trmenu.modules.hook.HookPlaceholderAPI
-import me.arasple.mc.trmenu.modules.hook.HookPlayerPoints
-import me.arasple.mc.trmenu.modules.shortcut.Shortcuts
-import me.arasple.mc.trmenu.utils.FileWatcher
+import io.izzel.taboolib.module.locale.TLocaleLoader
+import me.arasple.mc.trmenu.modules.command.registerable.RegisterCommands
+import me.arasple.mc.trmenu.modules.conf.MenuLoader
+import me.arasple.mc.trmenu.modules.display.Menu
+import me.arasple.mc.trmenu.modules.function.Shortcuts
+import me.arasple.mc.trmenu.modules.function.hook.HookInstance
+import me.arasple.mc.trmenu.util.Watchers
 import me.clip.placeholderapi.PlaceholderAPIPlugin
 import org.bukkit.Bukkit
 
@@ -19,31 +20,26 @@ import org.bukkit.Bukkit
 class TrMenuLoader {
 
     fun init() {
+        TrMenu.SETTINGS.listener { register() }
         if (!TrMenu.SETTINGS.getBoolean("Options.Hide-Logo", false)) {
             printLogo()
-        }
-        if (HookPlaceholderAPI.installDepend()) {
-            return;
+            TLocale.sendToConsole("PLUGIN.LOADING", Version.getBukkitVersion())
         }
         register()
-        TrMenu.SETTINGS.listener { register() }
-        TLocale.sendToConsole("PLUGIN.LOADING", Version.getBukkitVersion())
     }
 
     fun active() {
-        HookHeadDatabase.init()
-        HookPlayerPoints.init()
-
+        HookInstance.init()
         TLocale.sendToConsole("PLUGIN.LOADED", TrMenu.plugin.description.version)
         MenuLoader.loadMenus()
     }
 
     fun cancel() {
-        // 注销插件提供的 PlaceholderAPI 变量拓展
+        Menu.getAllMenus().flatMap { it.value }.forEach { it.close(true) }
         PlaceholderAPIPlugin.getInstance().localExpansionManager.findExpansionByIdentifier("trmenu").ifPresent {
             it.unregister()
         }
-        FileWatcher.watcher.unregisterAll()
+        Watchers.watcher.unregisterAll()
     }
 
     private fun register() {
@@ -52,13 +48,13 @@ class TrMenuLoader {
     }
 
     private fun printLogo() = arrayOf(
-        "§8  ___________         _____                        ________",
-        "§8    \\__    ___/______  /     \\   ____   ____  __ __  \\_____  \\",
-        "§8    |    |  \\_  __ \\/  \\ /  \\_/ __ \\ /    \\|  |  \\  /  ____/",
-        "§8    |    |   |  | \\/    Y    \\  ___/|   |  \\  |  / /       \\",
-        "§8    |____|   |__|  \\____|__  /\\___  >___|  /____/  \\_______ \\",
-        "§8    \\/     \\/     \\/                \\/",
-        "                                                      "
+            "§8  ___________         _____                        ________",
+            "§8    \\__    ___/______  /     \\   ____   ____  __ __  \\_____  \\",
+            "§8    |    |  \\_  __ \\/  \\ /  \\_/ __ \\ /    \\|  |  \\  /  ____/",
+            "§8    |    |   |  | \\/    Y    \\  ___/|   |  \\  |  / /       \\",
+            "§8    |____|   |__|  \\____|__  /\\___  >___|  /____/  \\_______ \\",
+            "§8    \\/     \\/     \\/                \\/",
+            "                                                      "
     ).let {
         it.forEachIndexed { index, raw ->
             if (raw.isNotBlank()) {

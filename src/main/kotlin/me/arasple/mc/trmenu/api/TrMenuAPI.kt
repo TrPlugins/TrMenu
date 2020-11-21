@@ -1,11 +1,11 @@
 package me.arasple.mc.trmenu.api
 
 import me.arasple.mc.trmenu.TrMenu
+import me.arasple.mc.trmenu.api.Extends.getMenuSession
+import me.arasple.mc.trmenu.api.action.Actions
+import me.arasple.mc.trmenu.api.action.base.Action
 import me.arasple.mc.trmenu.api.factory.MenuFactory
-import me.arasple.mc.trmenu.data.Sessions.getMenuSession
-import me.arasple.mc.trmenu.display.Menu
-import me.arasple.mc.trmenu.modules.action.Actions
-import me.arasple.mc.trmenu.modules.action.base.Action
+import me.arasple.mc.trmenu.modules.display.Menu
 import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
 

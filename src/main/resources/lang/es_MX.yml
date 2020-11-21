@@ -10,7 +10,7 @@ PLUGIN:
   HOOKED: '&8[&3Tr&bMenu&8] &6CONEXIÓN &8| &7Se detectaron plugins compatibles! Conectado con &f{0}&7.'
   UPDATE:
     - '&8[&3Tr&bMenu&8] &bACTUALIZACIÓN &8| &3Versión &a{0}&3 encontrada! Descargala desde el link de abajo para obtener mejores cosas y arreglos de bugs!'
-    - '&bhttps://www.spigotmc.org/resources/authors/435323/'
+    - '&bhttps://www.spigotmc.org/resources/83120/'
   DEPEND:
     DOWNLOAD: '&8[&3Tr&bMenu&8] &eDEPENDENCIA &8| &7Descargando el plugin &f{0} &7...'
     INSTALL: '&8[&3Tr&bMenu&8] &eDEPENDENCIA &8| &7Se descargó con éxito el plugin &3{0} &7, se reiniciará el servidor para completar los cambios...'
@@ -119,7 +119,6 @@ DEBUG:
     SET-META: '&8[&fTr&7Menu&8] &3DEBUG &8| &6Cambio de meta para el jugador &c{0} &c{ key=&6{1}&c,value=&6{2}&c } &8(raw: {3})'
     SET-META-FAILED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6No se pudo hacer un cambio de meta para el jugador &c{0} &8(raw: {3})'
   ICON:
-    DISPLAY-UPDATE: '&8[&fTr&7Menu&8] &3DEBUG &8| &6Actualizando las animaciones del item/ícono &c{0} &6, con un ciclo de &e{1}&6, incluyendo &e{2}'
     SUB-ICON-REFRESHED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6Actualizando el ícono condicional &c{0} &6hacia el &e{1}'
 
 ERRORS:

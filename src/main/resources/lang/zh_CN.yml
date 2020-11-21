@@ -7,7 +7,7 @@ PLUGIN:
   HOOKED: '&8[&3Tr&bMenu&8] &6HOOK &8| &7已检测并支持插件 &f{0}&7.'
   UPDATE:
     - '&8[&3Tr&bMenu&8] &bUPDATE &8| &3发现新版本 &a{0}&3, 下载更新获得更好体验!'
-    - '&bhttps://www.spigotmc.org/resources/authors/435323/'
+    - '&bhttps://www.spigotmc.org/resources/83120/'
   DEPEND:
     DOWNLOAD: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7正在下载前置插件 &f{0} &7...'
     INSTALL: '&8[&3Tr&bMenu&8] &eDEPEND &8| &7已成功下载前置 &3{0} &7, 即将重启服务端完成安装...'
@@ -116,7 +116,6 @@ DEBUG:
     SET-META: '&8[&fTr&7Menu&8] &3DEBUG &8| &6设置玩家 &c{0} &6的临时变量, &c{ key=&6{1}&c,value=&6{2}&c } &8(raw: {3})'
     SET-META-FAILED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6设置玩家 &c{0} &6的临时变量失败 &8(raw: {3})'
   ICON:
-    DISPLAY-UPDATE: '&8[&fTr&7Menu&8] &3DEBUG &8| &6更新图标 &c{0} &6的动画, 周期 &e{1}&6, 包含 &e{2}'
     SUB-ICON-REFRESHED: '&8[&fTr&7Menu&8] &3DEBUG &8| &6更新优先级图标 &c{0} &6到 &e{1}'
 
 ERRORS:

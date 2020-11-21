@@ -5,12 +5,12 @@ Options:
   # Whether the debug mode should be enabled or not (more information will be sent to the console)
   Debug: false
   # Language of the plugin
-  # Available： zh_CN, zh_TW, en_US, fr_FR, th_TH
+  # Available： zh_CN, zh_TW, en_US, fr_FR, th_TH, es_MX, vi_VN
   Locale: en_US
   # Whether to hide the Logo of the plugin in the console on startup
   Hide-Logo: false
   # When enabled TrMenu will get the player heads datas from Mojang's API
-  # [RECOMMENDED] If disabled, it will get them from https://api.minetools.eu/
+  # [RECOMMENDED] If disabled, it will get them with https://github.com/Electroid/mojang-api
   Skull-Mojang-API: false
 
 #
@@ -21,21 +21,31 @@ Load-Menu-Files:
   - 'plugins/CustomMenusFolder'
 
 #
-# Actions Configuration
+# Global Options
 #
-Actions:
-  # Customize the words used to cancel an input catcher, supports regex
-  Catcher-Cancel-Words:
-    - '(?i)cancel|quit|exit|end|stop'
-
-#
-# Menu Items Configuration
-#
-Item:
-  # Default color for items' names
-  Default-Color-Name: '&7'
-  # Default color for items' lores
-  Default-Color-Lore: '&7'
+Menu:
+  #
+  # Actions Configuration
+  #
+  Action:
+    # Customize the words used to cancel an input catcher, supports regex
+    Catcher-Cancel-Words:
+      - '(?i)cancel|quit|exit|end|stop'
+    Cache-JavaScripts: true
+  #
+  # Menu Icons Configuration
+  #
+  Icon:
+    # Whether or not the sub icons inherit default icon's display properties by default
+    Inherit: false
+  #
+  # Menu Items Configuration
+  #
+  Item:
+    # Default color for items' names
+    Default-Color-Name: '&7'
+    # Default color for items' lores
+    Default-Color-Lore: '&7'
 
 #
 # Actions Shortcuts Configuration
@@ -45,10 +55,12 @@ Shortcuts:
   Sneaking-Offhand:
     - condition: 'hasPerm.trmenu.shortcut'
       execute: 'open: Example'
+      deny: 'return'
   Right-Click-Player: []
   Sneaking-Right-Click-Player: []
   PlayerInventory-Border-Left: []
   PlayerInventory-Border-Right: []
+  PlayerInventory-Border-Middle: []
 
 #
 # Register commands with actions and arguments
@@ -77,4 +89,3 @@ Events-Ignore-Cancelled:
   PlayerCommandPreprocessEvent: true
   InventoryOpenEvent: true
   InventoryClickEvent: true
-
