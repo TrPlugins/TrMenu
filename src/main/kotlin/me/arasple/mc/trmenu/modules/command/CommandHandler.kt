@@ -47,4 +47,7 @@ class CommandHandler : BaseMainCommand() {
     @SubCommand(permission = "trmenu.command.debug", description = "Enable debug mode for player or print debug info to console")
     val debug: BaseSubCommand = CommandDebug()
 
+    @SubCommand(permission = "trmenu.command.download", description = "Download and save file from URL")
+    val download: BaseSubCommand = CommandDownload()
+
 }

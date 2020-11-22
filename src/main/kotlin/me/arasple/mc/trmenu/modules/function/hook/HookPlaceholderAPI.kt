@@ -31,13 +31,25 @@ object HookPlaceholderAPI {
         return when (params[0].toLowerCase()) {
             "menus" -> Menu.getMenus().size.toString()
             "args" -> arguments(player, params)
-            "meta" -> if (params.size > 1) player.getMeta("{meta:${params[1]}}").toString() else ""
-            "data" -> if (params.size > 1) player.getMeta("{data:${params[1]}}").toString() else ""
+            "meta" -> meta(player, params)
+            "data" -> data(player, params)
             "menu" -> menu(player, params)
             "emptyslot" -> freeSlot(player, params)
             "js" -> if (params.size > 1) Scripts.script(player, params[1], true).asString() else ""
             else -> ""
         }
+    }
+
+    private fun data(player: Player, params: List<String>): String {
+        val data = player.getMeta("{data:${params[1]}}").toString()
+        if (data == "null" && params.size > 2) return params[2]
+        return data
+    }
+
+    private fun meta(player: Player, params: List<String>): String {
+        val meta = player.getMeta("{meta:${params[1]}}").toString()
+        if (meta == "null" && params.size > 2) return params[2]
+        return meta
     }
 
     private fun arguments(player: Player, params: List<String>): String {
