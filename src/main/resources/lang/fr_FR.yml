@@ -97,6 +97,9 @@ COMMANDS:
           hover: '&7Cliquez pour obtenir le lien de votre menu'
           url: '{0}'
     FAILED: '&8[&3Tr&bMenu&8] &cÉchec de création du menu... Vérifiez l''état votre connexion !'
+  DOWNLOAD:
+    SUCCESS: '&8[&3Tr&bMenu&8] &3Le fichier &a{0} &3vient d''être téléchargé avec succès.'
+    FAILED: '&8[&3Tr&bMenu&8] &7Impossible de télécharger le fichier, merci de vérifier votre commande.'
 
 HASTEBIN:
   PROCESSING: '&8[&3Tr&bMenu&8] &7Chargement, veuillez patienter...'
