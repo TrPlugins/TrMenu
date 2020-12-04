@@ -17,13 +17,7 @@ import java.util.*
  * @author Arasple
  * @date 2020/5/30 13:48
  */
-class Icon(
-    val id: String,
-    val settings: IconSettings,
-    val defIcon: IconProperty,
-    val subIcons: List<IconProperty>,
-    val currentIndex: MutableMap<UUID, Int>
-) {
+class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty, val subIcons: List<IconProperty>, val currentIndex: MutableMap<UUID, Int>) {
 
     fun setItemStack(player: Player, session: Menu.Session, updateDynamicSlots: Boolean) {
         Mirror.async("Icon:setItemStack(async)") {

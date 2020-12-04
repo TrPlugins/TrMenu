@@ -12,6 +12,8 @@ Options:
   # When enabled TrMenu will get the player heads datas from Mojang's API
   # [RECOMMENDED] If disabled, it will get them with https://github.com/Electroid/mojang-api
   Skull-Mojang-API: false
+  # When enabling this, color codes & gradients will be parsed before parsing placeholders
+  Pre-Color: true
 
 #
 # Get menus from a path leading to a folder or directly a menu

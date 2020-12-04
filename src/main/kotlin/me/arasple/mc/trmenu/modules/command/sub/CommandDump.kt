@@ -21,7 +21,7 @@ class CommandDump : BaseSubCommand() {
         sender.sendMessage("§7Dumping information... please wait!")
 
         CompletableFuture.supplyAsync {
-            Hastebin.paste(buildDump()).url
+            Hastebin.paste(buildDump())?.url
         }.whenComplete { result, _ ->
             sender.sendMessage("§aSuccessfully posted dump information at §3$result")
         }

@@ -5,7 +5,6 @@ import io.izzel.taboolib.module.locale.TLocale
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.Extends.replaceWithArguments
 import me.clip.placeholderapi.PlaceholderAPI
-import net.md_5.bungee.api.ChatColor
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.command.ConsoleCommandSender
@@ -18,8 +17,10 @@ import org.bukkit.entity.Player
 object Msger {
 
     private var debug = false
+    private var preColor = true
 
     fun init() {
+        preColor = TrMenu.SETTINGS.getBoolean("Options.Pre-Color", true)
         debug = TrMenu.SETTINGS.getBoolean("Options.Debug", false)
     }
 
@@ -53,25 +54,44 @@ object Msger {
     }
 
     fun replace(player: Player, string: String?): String {
-        return replaceWithPlaceholders(player, player.replaceWithArguments(color(string) ?: ""))
+        return if (preColor) replaceWithPlaceholders(player, player.replaceWithArguments(color(string) ?: ""))
+        else color(replaceWithPlaceholders(player, player.replaceWithArguments(string ?: "")))!!
     }
 
     fun replace(player: Player, strings: List<String>): List<String> {
         return strings.map { replace(player, it) }
     }
 
-    private fun replaceWithPlaceholders(player: Player, string: String): String = PlaceholderAPI.setPlaceholders(player, string)
+    private fun replaceWithPlaceholders(player: Player, string: String): String {
+        return PlaceholderAPI.setPlaceholders(player, string)
+    }
 
-    private fun replaceWithPlaceholders(player: Player, strings: List<String>): List<String> = strings.map { replaceWithPlaceholders(player, it) }
+    private fun replaceWithPlaceholders(player: Player, strings: List<String>): List<String> {
+        return strings.map { replaceWithPlaceholders(player, it) }
+    }
 
-    fun replaceWithBracketPlaceholders(player: Player, string: String): String = PlaceholderAPI.setBracketPlaceholders(player, player.replaceWithArguments(string))
+    fun replaceWithBracketPlaceholders(player: Player, string: String): String {
+        return PlaceholderAPI.setBracketPlaceholders(player, player.replaceWithArguments(string))
+    }
 
-    fun replaceWithBracketPlaceholders(player: Player, strings: List<String>) = strings.map { replaceWithBracketPlaceholders(player, it) }
+    fun replaceWithBracketPlaceholders(player: Player, strings: List<String>): List<String> {
+        return strings.map { replaceWithBracketPlaceholders(player, it) }
+    }
 
     @Suppress("DEPRECATION")
-    fun containsPlaceholders(string: String?): Boolean = PlaceholderAPI.containsPlaceholders(string) || PlaceholderAPI.containsBracketPlaceholders(string) || (string != null && string.contains("{") && string.contains("}"))
+    fun containsPlaceholders(string: String?): Boolean {
+        return PlaceholderAPI.containsPlaceholders(string)
+                || PlaceholderAPI.containsBracketPlaceholders(string)
+                || (string != null && string.contains("{") && string.contains("}"))
+    }
 
-    fun printErrors(node: String, throwable: Throwable, vararg args: String) = TLocale.sendToConsole("ERRORS.$node", *args, throwable.message, throwable.stackTrace.filter { it.toString().contains("me.arasple.mc.trmenu") }.map { it.toString() + "\n" })
+    fun printErrors(node: String, throwable: Throwable, vararg args: String) {
+        TLocale.sendToConsole(
+            "ERRORS.$node",
+            *args,
+            throwable.message,
+            throwable.stackTrace.filter { it.toString().contains("me.arasple.mc.trmenu") }.map { it.toString() + "\n" })
+    }
 
     fun printErrors(node: String, vararg args: String) = TLocale.sendToConsole("ERRORS.$node", *args)
 

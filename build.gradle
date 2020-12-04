@@ -7,11 +7,11 @@ plugins {
 }
 
 group 'me.arasple.mc.trmenu'
-version '2.06-DEV'
+version '2.08'
 
 taboolib {
-    tabooLibVersion = '5.4'
-    loaderVersion = '2.6'
+    tabooLibVersion = '5.44'
+    loaderVersion = '2.7'
     classifier = null
 
     relocate 'net.wesjd', project.group + '.modules.inputer.anvil'

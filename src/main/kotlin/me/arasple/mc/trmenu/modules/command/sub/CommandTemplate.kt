@@ -52,8 +52,8 @@ class CommandTemplate : BaseSubCommand() {
                     Tasks.task(true) {
                         Sounds.BLOCK_NOTE_BLOCK_BIT.play(player, 1f, 0f)
                         player.sendLocale("COMMANDS.TEMPLATE.PROCESSING")
-                        Hastebin.paste(format(inventory)).url.let { url ->
-                            player.sendLocale(if (url != null) "COMMANDS.TEMPLATE.SUCCESS" else "COMMANDS.TEMPLATE.FAILED", url)
+                        Hastebin.paste(format(inventory))?.url.let { url ->
+                            player.sendLocale(if (url != null) "COMMANDS.TEMPLATE.SUCCESS" else "COMMANDS.TEMPLATE.FAILED", url ?: "")
                         }
                     }
                     inventory.contents.forEach { item ->

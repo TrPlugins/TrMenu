@@ -51,8 +51,8 @@ class CommandItem : BaseSubCommand() {
         } else {
             player.sendLocale("HASTEBIN.PROCESSING")
             Tasks.task(true) {
-                val url = Hastebin.paste(json).url
-                player.sendLocale(if (url != null) "HASTEBIN.SUCCESS" else "HASTEBIN.FAILED", url)
+                val url = Hastebin.paste(json)?.url
+                player.sendLocale(if (url != null) "HASTEBIN.SUCCESS" else "HASTEBIN.FAILED", url ?: "")
             }
         }
     }
