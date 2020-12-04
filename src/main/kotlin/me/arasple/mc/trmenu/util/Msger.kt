@@ -19,6 +19,7 @@ object Msger {
     private var debug = false
     private var preColor = true
 
+    @TFunction.Init
     fun init() {
         preColor = TrMenu.SETTINGS.getBoolean("Options.Pre-Color", true)
         debug = TrMenu.SETTINGS.getBoolean("Options.Debug", false)
