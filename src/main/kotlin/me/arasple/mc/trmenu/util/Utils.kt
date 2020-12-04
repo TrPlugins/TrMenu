@@ -67,9 +67,9 @@ object Utils {
 
     fun asBoolean(any: Any?): Boolean = any.toString().toBoolean()
 
-    fun asInt(any: Any?, def: Int): Int = NumberUtils.toInt(any.toString(), def)
+    fun asInt(any: Any?, def: Int = 0): Int = NumberUtils.toInt(any.toString(), def)
 
-    fun asLong(any: Any?, def: Long): Long = NumberUtils.toLong(any.toString(), def)
+    fun asLong(any: Any?, def: Long = 0): Long = NumberUtils.toLong(any.toString(), def)
 
     @Suppress("UNCHECKED_CAST")
     fun <T> asLists(any: Any): List<List<T>> {
