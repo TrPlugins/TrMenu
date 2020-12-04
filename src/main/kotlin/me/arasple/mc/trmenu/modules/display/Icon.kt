@@ -17,7 +17,13 @@ import java.util.*
  * @author Arasple
  * @date 2020/5/30 13:48
  */
-class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty, val subIcons: List<IconProperty>, val currentIndex: MutableMap<UUID, Int>) {
+class Icon(
+    val id: String,
+    val settings: IconSettings,
+    val defIcon: IconProperty,
+    val subIcons: List<IconProperty>,
+    val currentIndex: MutableMap<UUID, Int>
+) {
 
     fun setItemStack(player: Player, session: Menu.Session, updateDynamicSlots: Boolean) {
         Mirror.async("Icon:setItemStack(async)") {
@@ -27,7 +33,10 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
 
     fun setItemStackSync(player: Player, session: Menu.Session, updateDynamicSlots: Boolean) {
         val property = getIconProperty(player)
-        val slots = if (updateDynamicSlots) property.display.getPosition(player, session.page) else property.display.getCurrentPosition(player, session.page)
+        val slots = if (updateDynamicSlots) property.display.getPosition(
+            player,
+            session.page
+        ) else property.display.getCurrentPosition(player, session.page)
         setItemStack(player, session, property, slots)
     }
 
@@ -52,7 +61,7 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
                 if (it.isEmpty()) return@let
                 it.forEach {
                     val period = it.key.toLong()
-                    object : BukkitRunnable() {
+                    menu.tasking.task(player, object : BukkitRunnable() {
                         override fun run() {
                             Mirror.eval("Icon:updateItem(sync)") {
                                 if (session.isDifferent(sessionId)) cancel()
@@ -62,7 +71,7 @@ class Icon(val id: String, val settings: IconSettings, val defIcon: IconProperty
                                 }
                             }
                         }
-                    }.runTaskTimer(TrMenu.plugin, period, period)
+                    }.runTaskTimer(TrMenu.plugin, period, period))
                 }
             }
 

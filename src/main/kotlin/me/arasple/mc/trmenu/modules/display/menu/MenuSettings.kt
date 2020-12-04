@@ -20,7 +20,14 @@ import org.bukkit.scheduler.BukkitRunnable
  * @author Arasple
  * @date 2020/5/30 14:21
  */
-class MenuSettings(val title: Titles, val options: Options, val bindings: Bindings, val events: Events, val tasks: ScheduledTasks, val functions: Funs) {
+class MenuSettings(
+    val title: Titles,
+    val options: Options,
+    val bindings: Bindings,
+    val events: Events,
+    val tasks: ScheduledTasks,
+    val functions: Funs
+) {
 
     fun load(player: Player, menu: Menu, layout: MenuLayout.Layout) {
         title.load(player, menu, layout)
@@ -32,17 +39,17 @@ class MenuSettings(val title: Titles, val options: Options, val bindings: Bindin
 
         fun currentTitle(player: Player): String {
             return Msger.replace(
-                    player,
-                    if (titles.elements.size == 1 || update <= 0) titles.elements.firstOrNull() ?: "TrMenu"
-                    else titles.currentElement(player, "TrMenu")
+                player,
+                if (titles.elements.size == 1 || update <= 0) titles.elements.firstOrNull() ?: "TrMenu"
+                else titles.currentElement(player, "TrMenu")
             )
         }
 
         fun getTitle(player: Player): String {
             return Msger.replace(
-                    player,
-                    if (titles.elements.size == 1 || update <= 0) titles.elements.firstOrNull() ?: "TrMenu"
-                    else titles.nextElement(player, "TrMenu")
+                player,
+                if (titles.elements.size == 1 || update <= 0) titles.elements.firstOrNull() ?: "TrMenu"
+                else titles.nextElement(player, "TrMenu")
             )
         }
 
@@ -51,25 +58,29 @@ class MenuSettings(val title: Titles, val options: Options, val bindings: Bindin
             val sessionId = session.id
 
             if (update > 0 && titles.isUpdatable()) {
-                menu.tasking.task(
-                        player,
-                        object : BukkitRunnable() {
-                            override fun run() {
-                                if (session.isDifferent(sessionId)) {
-                                    cancel()
-                                    return
-                                }
-                                layout.displayInventory(player, getTitle(player))
-                                menu.refreshIconItems(player, session)
-                            }
-                        }.runTaskTimerAsynchronously(TrMenu.plugin, update.toLong(), update.toLong())
-                )
+                menu.tasking.task(player, object : BukkitRunnable() {
+                    override fun run() {
+                        if (session.isDifferent(sessionId)) {
+                            cancel()
+                            return
+                        }
+                        layout.displayInventory(player, getTitle(player))
+                        menu.refreshIconItems(player, session)
+                    }
+                }.runTaskTimerAsynchronously(TrMenu.plugin, update.toLong(), update.toLong()))
             }
         }
 
     }
 
-    class Options(val enableArguments: Boolean, val defaultArguments: Array<String>, val defaultLayout: String, val hidePlayerInventory: Boolean, val minClickDelay: Long, val dependExpansions: Array<String>) {
+    class Options(
+        val enableArguments: Boolean,
+        val defaultArguments: Array<String>,
+        val defaultLayout: String,
+        val hidePlayerInventory: Boolean,
+        val minClickDelay: Long,
+        val dependExpansions: Array<String>
+    ) {
 
         fun run(player: Player, layout: MenuLayout.Layout) {
             if (hidePlayerInventory) NMS.clearInventory(player, layout.size())
@@ -112,7 +123,7 @@ class MenuSettings(val title: Titles, val options: Options, val bindings: Bindin
          * 匹配物品是否符合打开本菜单的条件
          */
         fun matchItem(player: Player, itemStack: ItemStack): Boolean =
-                boundItems.any { it.isMatch(player, itemStack) }
+            boundItems.any { it.isMatch(player, itemStack) }
 
         /**
          * 更好的兼容带参打开命令的同时支持菜单传递参数
@@ -144,15 +155,12 @@ class MenuSettings(val title: Titles, val options: Options, val bindings: Bindin
             val sessionId = session.id
 
             tasks.forEach {
-                menu.tasking.task(
-                        player,
-                        object : BukkitRunnable() {
-                            override fun run() {
-                                if (session.isDifferent(sessionId)) cancel()
-                                else it.value.eval(player)
-                            }
-                        }.runTaskTimerAsynchronously(TrMenu.plugin, it.key, it.key)
-                )
+                menu.tasking.task(player, object : BukkitRunnable() {
+                    override fun run() {
+                        if (session.isDifferent(sessionId)) cancel()
+                        else it.value.eval(player)
+                    }
+                }.runTaskTimerAsynchronously(TrMenu.plugin, it.key, it.key))
             }
 
         }

@@ -81,7 +81,10 @@ object Extends {
 
     fun Player.removeMenuSession() {
         Sessions.removeMenuSession(this)
-        Menu.getMenus().forEach { it.viewers.remove(this) }
+        Menu.getAllMenus().flatMap { it.value }.forEach {
+            it.viewers.remove(this)
+            it.tasking.reset(this)
+        }
     }
 
 }

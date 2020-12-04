@@ -58,7 +58,7 @@ class Catchers(val catchers: Animated<Stage>) {
                     }
                 } else if (type == ANVIL) {
                     if (content.isNotBlank()) {
-                        anvilBuilder!!.item(Items.fromJson(content))
+                        anvilBuilder!!.itemLeft(Items.fromJson(content))
                     }
                     anvilBuilder!!.open(player)
                 }
