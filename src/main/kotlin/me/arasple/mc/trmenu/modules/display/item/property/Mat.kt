@@ -126,8 +126,10 @@ data class Mat(val raw: String, val value: String, val type: Pair<Nodes, String>
             @Suppress("DEPRECATION")
             if (meta is SkullMeta) {
                 if (HookInstance.getHeadDatabase().isHooked()) {
-                    val id = HookInstance.getHeadDatabase().getId(item)
-                    if (!Strings.isBlank(id)) return "<hdb:$id>"
+                    try {
+                        val id = HookInstance.getHeadDatabase().getId(item)
+                        if (!Strings.isBlank(id)) return "<hdb:$id>"
+                    } catch (ignored: NullPointerException) { }
                 }
                 val owner = meta.owner
                 return if (owner != null) "<head:${owner}>"

@@ -1,3 +1,9 @@
+### Version 2.08
+- Date: Dec 4, 2020
+- Updates:
+  - Added `Options.Pre-Color` to change the order between color/replace placeholders of a text
+  - Fixed register command issue #248
+  - Fixed an error when creating template with HeadDatabase items #244
 ### Version 2.07
 - Date: Nov 14, 2020
 - Updates:
