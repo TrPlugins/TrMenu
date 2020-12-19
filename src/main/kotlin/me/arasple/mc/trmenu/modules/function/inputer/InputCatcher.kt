@@ -20,6 +20,7 @@ object InputCatcher {
     fun Player.getCatcher() = catchers.computeIfAbsent(this.uniqueId) { null }
 
     fun Player.removeCatcher() {
+        catchers[this.uniqueId]?.catchers?.reset(this)
         catchers.remove(this.uniqueId)
     }
 
