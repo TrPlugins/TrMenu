@@ -17,17 +17,18 @@ object Shortcuts {
 
     var reactions = arrayOf<Reactions>()
     val sneaking = mutableMapOf<UUID, Long>()
+    val interact = mutableMapOf<UUID, Long>()
 
     fun load() {
         Tasks.task(true) {
             reactions = arrayOf(
-                    serialize("Offhand"),
-                    serialize("Sneaking-Offhand"),
-                    serialize("Right-Click-Player"),
-                    serialize("Sneaking-Right-Click-Player"),
-                    serialize("PlayerInventory-Border-Left"),
-                    serialize("PlayerInventory-Border-Right"),
-                    serialize("PlayerInventory-Border-Middle")
+                serialize("Offhand"),
+                serialize("Sneaking-Offhand"),
+                serialize("Right-Click-Player"),
+                serialize("Sneaking-Right-Click-Player"),
+                serialize("PlayerInventory-Border-Left"),
+                serialize("PlayerInventory-Border-Right"),
+                serialize("PlayerInventory-Border-Middle")
             )
         }
     }
@@ -51,6 +52,9 @@ object Shortcuts {
     }
 
     fun rightClickPlayer(player: Player, clicked: Player): Boolean {
+        if (System.currentTimeMillis() - getInteract(player) <= 1000) return false
+        setInteract(player)
+
         reactions[if (player.isSneaking) 3 else 2].let {
             if (!it.isEmpty) {
                 player.setArguments(arrayOf(clicked.name))
@@ -67,6 +71,14 @@ object Shortcuts {
 
     fun getSneaking(player: Player): Long {
         return sneaking.computeIfAbsent(player.uniqueId) { System.currentTimeMillis() }
+    }
+
+    fun setInteract(player: Player): Long? {
+        return interact.put(player.uniqueId, System.currentTimeMillis())
+    }
+
+    fun getInteract(player: Player): Long {
+        return interact.computeIfAbsent(player.uniqueId) { System.currentTimeMillis() }
     }
 
 }

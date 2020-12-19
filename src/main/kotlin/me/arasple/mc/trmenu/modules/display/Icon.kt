@@ -6,7 +6,7 @@ import me.arasple.mc.trmenu.api.Extends.getMenuSesssionCheck
 import me.arasple.mc.trmenu.api.nms.NMS
 import me.arasple.mc.trmenu.modules.display.icon.IconProperty
 import me.arasple.mc.trmenu.modules.display.icon.IconSettings
-import me.arasple.mc.trmenu.modules.service.mirror.Mirror
+import me.arasple.mc.trmenu.modules.service.Mirror
 import me.arasple.mc.trmenu.util.Msger
 import me.arasple.mc.trmenu.util.Tasks
 import org.bukkit.entity.Player

@@ -18,17 +18,17 @@ import java.util.*
  */
 object Metas {
 
-    private val playerInventorys = mutableMapOf<UUID, Array<ItemStack?>>()
+    private val playerInventorys = mutableMapOf<UUID, Array<ItemStack>>()
     private val arguments = mutableMapOf<UUID, Array<String>>()
     private val meta = mutableMapOf<UUID, MutableMap<String, Any>>()
 
-    fun getInventoryContents(player: Player): Array<ItemStack?> {
+    fun getInventoryContents(player: Player): Array<ItemStack> {
         return playerInventorys.computeIfAbsent(player.uniqueId) { player.inventory.contents.clone() }
     }
 
     fun updateInventoryContents(player: Player, update: Boolean = false) {
         if (update) player.updateInventory()
-        return mutableListOf<ItemStack?>().let {
+        return mutableListOf<ItemStack>().let {
             val contents = player.inventory.contents
             for (i in 9..35) it.add(contents[i])
             for (i in 0..8) it.add(contents[i])
@@ -124,9 +124,9 @@ object Metas {
             val currentArgs = getArguments(player)
             if (currentArgs.isEmpty()) {
                 setArguments(player, arguments)
-            } else if (currentArgs.size < currentArgs.size) {
+            } else if (currentArgs.size < arguments.size) {
                 val args = currentArgs.toMutableList()
-                for (i in args.size until currentArgs.size) args.add(currentArgs[i])
+                for (i in args.size until currentArgs.size) args.add(arguments[i])
                 setArguments(player, args.toTypedArray())
             }
         }

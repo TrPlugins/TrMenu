@@ -7,7 +7,7 @@ import me.arasple.mc.trmenu.api.event.MenuCloseEvent
 import me.arasple.mc.trmenu.api.nms.NMS
 import me.arasple.mc.trmenu.modules.service.log.Log
 import me.arasple.mc.trmenu.modules.service.log.Loger
-import me.arasple.mc.trmenu.modules.service.mirror.Mirror
+import me.arasple.mc.trmenu.modules.service.Mirror
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener

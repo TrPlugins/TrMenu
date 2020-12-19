@@ -10,7 +10,7 @@ group 'me.arasple.mc.trmenu'
 version '2.08'
 
 taboolib {
-    tabooLibVersion = '5.44'
+    tabooLibVersion = '5.45'
     loaderVersion = '2.8'
     classifier = null
 

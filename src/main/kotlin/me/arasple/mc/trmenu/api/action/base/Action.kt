@@ -6,7 +6,7 @@ import me.arasple.mc.trmenu.api.Extends.getMenuSession
 import me.arasple.mc.trmenu.modules.conf.property.Nodes
 import me.arasple.mc.trmenu.modules.function.script.Scripts
 import me.arasple.mc.trmenu.modules.service.metrics.MetricsHandler
-import me.arasple.mc.trmenu.modules.service.mirror.Mirror
+import me.arasple.mc.trmenu.modules.service.Mirror
 import me.arasple.mc.trmenu.util.Msger
 import me.arasple.mc.trmenu.util.Tasks
 import org.bukkit.Bukkit

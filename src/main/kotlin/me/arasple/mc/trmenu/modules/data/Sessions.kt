@@ -28,8 +28,9 @@ object Sessions {
         return factorySessions.computeIfAbsent(player.uniqueId) { MenuFactory.Session(player, null, mutableMapOf(), mutableMapOf()) }
     }
 
-    fun removeMenuSession(player: Player) {
+    fun removeMenuSessions(player: Player) {
         sessions.remove(player.uniqueId)
+        factorySessions.remove(player.uniqueId)
     }
 
     fun getPlayer(session: Menu.Session): Player? {

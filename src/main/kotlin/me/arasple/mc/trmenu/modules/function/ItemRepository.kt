@@ -4,7 +4,7 @@ import io.izzel.taboolib.module.config.TConfig
 import io.izzel.taboolib.module.inject.TFunction
 import io.izzel.taboolib.module.inject.TSchedule
 import me.arasple.mc.trmenu.TrMenu
-import me.arasple.mc.trmenu.modules.service.mirror.Mirror
+import me.arasple.mc.trmenu.modules.service.Mirror
 import me.arasple.mc.trmenu.util.Tasks
 import org.bukkit.inventory.ItemStack
 

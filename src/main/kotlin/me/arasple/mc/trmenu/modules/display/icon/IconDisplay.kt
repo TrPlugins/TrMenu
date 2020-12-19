@@ -5,7 +5,7 @@ import me.arasple.mc.trmenu.modules.display.animation.Animated
 import me.arasple.mc.trmenu.modules.display.item.DynamicItem
 import me.arasple.mc.trmenu.modules.display.item.property.Lore
 import me.arasple.mc.trmenu.modules.display.position.Position
-import me.arasple.mc.trmenu.modules.service.mirror.Mirror
+import me.arasple.mc.trmenu.modules.service.Mirror
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack

@@ -1,7 +1,9 @@
 package me.arasple.mc.trmenu.util
 
 import io.izzel.taboolib.Version
+import io.izzel.taboolib.loader.PluginBase
 import net.md_5.bungee.api.ChatColor
+import org.bukkit.Bukkit
 import java.awt.Color
 import java.util.*
 import java.util.regex.Pattern
@@ -16,8 +18,9 @@ import kotlin.math.roundToInt
 object Hex {
 
     private const val CHARS_UNTIL_LOOP = 30
-    private val HEX_SUPPORT = Version.isAfter(Version.v1_16)
     private val LOOP_VALUES = listOf("l", "L", "loop")
+    private val HEX_SUPPORT = Version.isAfter(Version.v1_16)
+    private val HEX_DISABLED = PluginBase.isForge()
     private val RAINBOW_PATTERN = Pattern.compile("[<{](rainbow|r)(:\\d*\\.?\\d+){0,2}(:(l|L|loop))?[>}]")
     private val GRADIENT_PATTERN = Pattern.compile("[<{](gradient|g)(:#([A-Fa-f0-9]){6}){2,}(:(l|L|loop))?[>}]")
     private val HEX_PATTERNS = listOf(
@@ -44,6 +47,7 @@ object Hex {
      * @return A color-replaced message
      */
     fun colorify(message: String): String {
+        if (HEX_DISABLED) return message
         var parsed = message
         parsed = parseRainbow(parsed)
         parsed = parseGradients(parsed)

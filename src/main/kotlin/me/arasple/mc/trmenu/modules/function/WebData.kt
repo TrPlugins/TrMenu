@@ -3,7 +3,7 @@ package me.arasple.mc.trmenu.modules.function
 import com.google.gson.JsonElement
 import com.google.gson.JsonParser
 import io.izzel.taboolib.util.Strings
-import me.arasple.mc.trmenu.modules.service.mirror.Mirror
+import me.arasple.mc.trmenu.modules.service.Mirror
 import me.arasple.mc.trmenu.util.Msger
 import java.io.BufferedInputStream
 import java.io.ByteArrayOutputStream

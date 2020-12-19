@@ -4,7 +4,7 @@ import io.izzel.taboolib.module.inject.TListener
 import me.arasple.mc.trmenu.api.Extends.setArguments
 import me.arasple.mc.trmenu.api.event.MenuOpenEvent
 import me.arasple.mc.trmenu.modules.display.Menu
-import me.arasple.mc.trmenu.modules.service.mirror.Mirror
+import me.arasple.mc.trmenu.modules.service.Mirror
 import me.arasple.mc.trmenu.util.Utils
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority

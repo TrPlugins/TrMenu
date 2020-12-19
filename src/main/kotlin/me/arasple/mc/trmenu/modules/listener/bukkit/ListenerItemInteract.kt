@@ -5,7 +5,7 @@ import io.izzel.taboolib.module.inject.TListener
 import io.izzel.taboolib.util.lite.cooldown.Cooldown
 import me.arasple.mc.trmenu.api.event.MenuOpenEvent
 import me.arasple.mc.trmenu.modules.display.Menu
-import me.arasple.mc.trmenu.modules.service.mirror.Mirror
+import me.arasple.mc.trmenu.modules.service.Mirror
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerInteractEvent

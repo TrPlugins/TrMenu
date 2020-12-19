@@ -6,7 +6,7 @@ import io.izzel.taboolib.util.Files
 import io.izzel.taboolib.util.Strings
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.modules.display.Menu
-import me.arasple.mc.trmenu.modules.service.mirror.Mirror
+import me.arasple.mc.trmenu.modules.service.Mirror
 import java.text.SimpleDateFormat
 
 /**

@@ -5,7 +5,7 @@ import io.izzel.taboolib.module.tellraw.TellrawJson
 import io.izzel.taboolib.util.book.BookFormatter
 import io.izzel.taboolib.util.book.builder.PageBuilder
 import io.izzel.taboolib.util.chat.ComponentSerializer
-import me.arasple.mc.trmenu.modules.service.mirror.Mirror
+import me.arasple.mc.trmenu.modules.service.Mirror
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -27,7 +27,7 @@ class CommandMirror : BaseSubCommand() {
                 .add("   §8Performance Monitoring").newLine()
                 .build()
         )
-        Mirror.dataMap.keys.toList().sortedBy { Mirror.get(it).average() }.forEach { k ->
+        Mirror.data.keys.toList().sortedBy { Mirror.get(it).average() }.forEach { k ->
             val v = Mirror.get(k)
             val name = k.substring(k.indexOf(":") + 1)
             bookBuilder.addPages(
@@ -36,8 +36,8 @@ class CommandMirror : BaseSubCommand() {
                         .append("  §1§l§n${k.split(":")[0]}").newLine()
                         .append("  §1" + toSimple(name)).hoverText(name).newLine()
                         .append("").newLine()
-                        .append("  Total §7${if (v.total) v.times else "_"} times").newLine()
-                        .append("  Total §7${v.timeTotal} ms").newLine()
+                        .append("  Total §7${v.times} times").newLine()
+                        .append("  Total §7${v.total} ms").newLine()
                         .append("  Average §7${v.average()} ms ").append("§4(?)")
                         .hoverText("§8Details:\n§fLowest §7${v.lowest} ms\n§fHighest §7${v.highest} ms").newLine()
                         .toRawMessage(sender as Player)

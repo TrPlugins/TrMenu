@@ -3,6 +3,7 @@ package me.arasple.mc.trmenu.api.nms
 import io.izzel.taboolib.kotlin.Reflex
 import io.izzel.taboolib.module.inject.TInject
 import io.izzel.taboolib.module.packet.TPacketHandler
+import io.izzel.taboolib.util.item.Items
 import me.arasple.mc.trmenu.api.Extends.getMenuSession
 import me.arasple.mc.trmenu.api.inventory.InvClickType
 import me.arasple.mc.trmenu.api.inventory.InvClickType.*
@@ -77,7 +78,7 @@ abstract class NMS {
                         continue
                     }
                     val item = contents[index]
-                    if (item != null) sendOutSlot(player, i, item)
+                    if (!Items.isNull(item)) sendOutSlot(player, i, item)
                     else sendRemoveSlot(player, i)
                 }
             }

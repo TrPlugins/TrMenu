@@ -6,7 +6,7 @@ import me.arasple.mc.trmenu.api.event.MenuClickEvent
 import me.arasple.mc.trmenu.modules.display.Menu
 import me.arasple.mc.trmenu.modules.service.log.Log
 import me.arasple.mc.trmenu.modules.service.log.Loger
-import me.arasple.mc.trmenu.modules.service.mirror.Mirror
+import me.arasple.mc.trmenu.modules.service.Mirror
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
