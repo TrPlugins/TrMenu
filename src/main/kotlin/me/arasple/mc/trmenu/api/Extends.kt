@@ -80,7 +80,7 @@ object Extends {
     }
 
     fun Player.removeMenuSession() {
-        Sessions.removeMenuSession(this)
+        Sessions.removeMenuSessions(this)
         Menu.getAllMenus().flatMap { it.value }.forEach {
             it.viewers.remove(this)
             it.tasking.reset(this)
