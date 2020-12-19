@@ -3,9 +3,9 @@ package me.arasple.mc.trmenu.modules.command.sub
 import io.izzel.taboolib.TabooLib
 import io.izzel.taboolib.loader.PluginHandle
 import io.izzel.taboolib.module.command.base.BaseSubCommand
-import io.izzel.taboolib.util.Hastebin
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.modules.function.migrate.Migrate
+import me.arasple.mc.trmenu.util.Paster
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -21,7 +21,7 @@ class CommandDump : BaseSubCommand() {
         sender.sendMessage("§7Dumping information... please wait!")
 
         CompletableFuture.supplyAsync {
-            Hastebin.paste(buildDump())?.url
+            Paster.paste(buildDump())
         }.whenComplete { result, _ ->
             sender.sendMessage("§aSuccessfully posted dump information at §3$result")
         }

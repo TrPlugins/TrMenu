@@ -41,10 +41,7 @@ class CommandOpen : BaseSubCommand() {
             sender.sendLocale("COMMANDS.OPEN.UNKNOWN-PLAYER")
             return
         }
-        if (arguments != null) {
-            player.setArguments(arguments)
-        }
-
+        player.setArguments(arguments)
         menu.open(
             player,
             page,

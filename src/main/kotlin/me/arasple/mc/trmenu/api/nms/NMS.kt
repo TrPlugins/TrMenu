@@ -78,7 +78,7 @@ abstract class NMS {
                         continue
                     }
                     val item = contents[index]
-                    if (!Items.isNull(item)) sendOutSlot(player, i, item)
+                    if (item != null) sendOutSlot(player, i, item)
                     else sendRemoveSlot(player, i)
                 }
             }

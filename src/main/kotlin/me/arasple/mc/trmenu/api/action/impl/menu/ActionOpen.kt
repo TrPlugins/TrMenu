@@ -22,7 +22,11 @@ class ActionOpen : Action("open(s)?|(open)?(-)?gui|(tr)?menu") {
             val menu = TrMenuAPI.getMenuById(split[0]) ?: return@delay
             val page = if (split.size > 1) NumberUtils.toInt(split[1], -1) else -1
 
-            player.setArguments(arguments)
+            if (arguments.isNotEmpty()) {
+                print("IsNotEmpty: ${arguments.joinToString(", ")}")
+                player.setArguments(arguments)
+            }
+
             menu.open(player, page, MenuOpenEvent.Reason.PLAYER_COMMAND)
         }
     }
