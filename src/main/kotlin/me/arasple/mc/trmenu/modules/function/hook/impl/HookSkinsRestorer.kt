@@ -34,6 +34,7 @@ class HookSkinsRestorer : HookInstance() {
             return (skinData as Property).value
         } catch (e: Throwable) {
             TLocale.sendToConsole("ERRORS.HOOK", getDepend())
+            e.printStackTrace()
             return null
         }
     }
