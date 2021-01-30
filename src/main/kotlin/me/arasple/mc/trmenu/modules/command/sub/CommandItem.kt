@@ -5,7 +5,7 @@ import io.izzel.taboolib.cronus.CronusUtils
 import io.izzel.taboolib.module.command.base.Argument
 import io.izzel.taboolib.module.command.base.BaseSubCommand
 import io.izzel.taboolib.module.command.base.CommandType
-import io.izzel.taboolib.util.Hastebin
+import me.arasple.mc.trmenu.util.Paster
 import io.izzel.taboolib.util.item.Items
 import me.arasple.mc.trmenu.api.Extends.sendLocale
 import me.arasple.mc.trmenu.modules.display.item.Item
@@ -51,7 +51,7 @@ class CommandItem : BaseSubCommand() {
         } else {
             player.sendLocale("HASTEBIN.PROCESSING")
             Tasks.task(true) {
-                val url = Hastebin.paste(json)?.url
+                val url = Paster.paste(json)
                 player.sendLocale(if (url != null) "HASTEBIN.SUCCESS" else "HASTEBIN.FAILED", url ?: "")
             }
         }
