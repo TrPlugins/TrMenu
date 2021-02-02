@@ -1,0 +1,114 @@
+package me.arasple.mc.trmenu.util.bukkit
+
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
+import com.mojang.authlib.GameProfile
+import com.mojang.authlib.properties.Property
+import io.izzel.taboolib.loader.internal.IO
+import io.izzel.taboolib.util.lite.Materials
+import me.arasple.mc.trmenu.api.receptacle.nms.NMS
+import me.arasple.mc.trmenu.module.internal.hook.HookPlugin
+import me.arasple.mc.trmenu.util.Tasks
+import org.bukkit.Bukkit
+import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.SkullMeta
+import java.util.*
+
+/**
+ * @author Arasple
+ * @date 2021/1/27 14:05
+ */
+object Heads {
+
+    private val MOJANG_API = arrayOf(
+        "https://api.mojang.com/users/profiles/minecraft/",
+        "https://sessionserver.mojang.com/session/minecraft/profile/"
+    )
+
+    private val DEFAULT_HEAD = Materials.PLAYER_HEAD.parseItem()!!
+    private val CACHED_PLAYER_TEXTURE = mutableMapOf<String, String?>()
+    private val CACHED_SKULLS = mutableMapOf<String, ItemStack>()
+
+    fun cacheSize(): Pair<Int, Int> {
+        return CACHED_SKULLS.size to CACHED_PLAYER_TEXTURE.size
+    }
+
+    fun getHead(id: String): ItemStack {
+        return if (id.length > 20) getCustomTextureHead(id)
+        else getPlayerHead(id)
+    }
+
+    fun getPlayerHead(name: String): ItemStack {
+        return CACHED_SKULLS.computeIfAbsent(name) {
+            DEFAULT_HEAD.clone().also { item -> playerTexture(name) { modifyTexture(it, item) } }
+        }
+    }
+
+    fun getCustomTextureHead(texture: String): ItemStack {
+        return CACHED_SKULLS.computeIfAbsent(texture) {
+            modifyTexture(texture, DEFAULT_HEAD.clone())
+        }
+    }
+
+    fun seekTexture(itemStack: ItemStack): String? {
+        val meta = itemStack.itemMeta ?: return null
+        val field = meta.javaClass.getDeclaredField("profile").also { it.isAccessible = true }
+        (field.get(meta) as GameProfile?)?.properties?.values()?.forEach {
+            if (it.name == "textures")
+                return it.value
+        }
+        return null
+    }
+
+    /**
+     * PRIVATE UTILS
+     */
+    private fun playerTexture(name: String, block: (String) -> Unit) {
+        when {
+            HookPlugin.getSkinsRestorer().isHooked -> {
+                HookPlugin.getSkinsRestorer().getPlayerSkinTexture(name)?.also(block)
+            }
+            Bukkit.getPlayer(name)?.isOnline == true -> {
+                NMS.INSTANCE.getGameProfile(Bukkit.getPlayer(name)!!).properties["textures"].find { it.value != null }?.value
+                    ?.also(block)
+            }
+            else -> {
+                Tasks.task(true) {
+                    try {
+                        val profile = JsonParser().parse(IO.readFromURL("${MOJANG_API[0]}$name")) as JsonObject
+                        val uuid = profile["id"].asString
+                        (JsonParser().parse(IO.readFromURL("${MOJANG_API[1]}$uuid")) as JsonObject).getAsJsonArray("properties")
+                        (JsonParser().parse(IO.readFromURL("${MOJANG_API[1]}$uuid")) as JsonObject).getAsJsonArray("properties")
+                            .forEach {
+                                if ("textures" == it.asJsonObject["name"].asString) {
+                                    CACHED_PLAYER_TEXTURE[name] = it.asJsonObject["value"].asString.also(block)
+                                }
+                            }
+                    } catch (e: Throwable) {
+                        e.printStackTrace()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun modifyTexture(input: String, itemStack: ItemStack): ItemStack {
+        val meta = itemStack.itemMeta as SkullMeta
+        val profile = GameProfile(UUID.randomUUID(), null)
+        val field = meta.javaClass.getDeclaredField("profile")
+        val texture = if (input.length in 60..100) encodeTexture(input) else input
+
+        profile.properties.put("textures", Property("textures", texture, "TrMenu_TexturedSkull"))
+        field.isAccessible = true
+        field[meta] = profile
+        itemStack.itemMeta = meta
+        return itemStack
+    }
+
+    private fun encodeTexture(input: String): String {
+        val encoder = Base64.getEncoder()
+        return encoder.encodeToString("{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/$input\"}}}".toByteArray())
+    }
+
+
+}

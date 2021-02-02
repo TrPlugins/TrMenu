@@ -1,38 +1,30 @@
 package me.arasple.mc.trmenu.api.action.impl
 
-import me.arasple.mc.trmenu.TrMenu
-import me.arasple.mc.trmenu.api.action.base.Action
-import me.arasple.mc.trmenu.modules.function.script.Scripts
-import me.arasple.mc.trmenu.util.Tasks
+import me.arasple.mc.trmenu.api.action.base.AbstractAction
+import me.arasple.mc.trmenu.api.action.base.ActionOption
+import me.arasple.mc.trmenu.module.internal.script.js.JavaScriptAgent
 import org.bukkit.entity.Player
 
 /**
  * @author Arasple
- * @date 2020/3/28 19:28
+ * @date 2021/1/31 11:43
  */
-class ActionJavaScript : Action("(java)?(-)?script(s)?|js") {
+class ActionJavaScript(content: String, option: ActionOption) : AbstractAction(content, option) {
 
-    var async: Boolean = false
-
-    override fun onExecute(player: Player) {
-        val cache = TrMenu.SETTINGS.getBoolean("Menu.Action.Cache-JavaScripts")
-        val content = if (cache) getContent() else getContent(player)
-
-        if (!async) {
-            Tasks.task {
-                Scripts.
-                script(player, content, cache)
-            }
-        } else Scripts.script(player, content, cache)
+    override fun onExecute(player: Player, placeholderPlayer: Player) {
+        JavaScriptAgent.eval(player.getSession(), baseContent)
     }
 
-    private fun script(player: Player) {
-        Scripts.script(player, getContent(), true)
-    }
+    companion object {
 
-    override fun setContent(content: String) {
-        async = content.endsWith("<async>")
-        super.setContent(content.removePrefix("<async>"))
+        private val name = "((java)?-?script|js)s?".toRegex()
+
+        private val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
+            ActionJavaScript(value.toString(), option)
+        }
+
+        val registery = name to parser
+
     }
 
 }

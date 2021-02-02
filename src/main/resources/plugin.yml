@@ -1,14 +1,16 @@
 name: ${name}
 main: ${main}
 
-authors:
-  - Arasple
+author: Arasple
+contributors:
   - Bkm016
 
 api-version: 1.13
-lib-version: ${taboolib}
-lib-download: ${libDownload}
 version: ${version}
+
+lib-version: ${libVersion}
+lib-download: ${libDownload}
+loader-version: ${loaderVersion}
 
 github: https://github.com/Arasple/${name}
 description: Modern & Advanced Menu-Plugin for Minecraft Servers

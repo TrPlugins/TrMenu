@@ -14,7 +14,9 @@ import java.io.IOException
 object Bungees {
 
     init {
-        if (!Bukkit.getMessenger().isOutgoingChannelRegistered(TrMenu.plugin, "BungeeCord")) Bukkit.getMessenger().registerOutgoingPluginChannel(TrMenu.plugin, "BungeeCord")
+        if (!Bukkit.getMessenger().isOutgoingChannelRegistered(TrMenu.plugin, "BungeeCord")) {
+            Bukkit.getMessenger().registerOutgoingPluginChannel(TrMenu.plugin, "BungeeCord")
+        }
     }
 
     fun connect(player: Player, server: String) = sendBungeeData(player, "Connect", server)

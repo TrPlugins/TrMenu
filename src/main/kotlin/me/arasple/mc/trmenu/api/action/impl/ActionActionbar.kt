@@ -1,15 +1,30 @@
 package me.arasple.mc.trmenu.api.action.impl
 
 import io.izzel.taboolib.module.locale.TLocale
-import me.arasple.mc.trmenu.api.action.base.Action
+import me.arasple.mc.trmenu.api.action.base.AbstractAction
+import me.arasple.mc.trmenu.api.action.base.ActionOption
 import org.bukkit.entity.Player
 
 /**
  * @author Arasple
- * @date 2020/3/8 20:39
+ * @date 2021/1/31 11:36
  */
-class ActionActionbar : Action("action(bar)?(s)?") {
+class ActionActionbar(content: String, option: ActionOption) : AbstractAction(content, option) {
 
-    override fun onExecute(player: Player) = TLocale.Display.sendActionBar(player, getContent(player))
+    override fun onExecute(player: Player, placeholderPlayer: Player) {
+        TLocale.Display.sendActionBar(player, parseContent(placeholderPlayer))
+    }
+
+    companion object {
+
+        private val name = "action(bar)?s?".toRegex()
+
+        private val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
+            ActionActionbar(value.toString(), option)
+        }
+
+        val registery = name to parser
+
+    }
 
 }

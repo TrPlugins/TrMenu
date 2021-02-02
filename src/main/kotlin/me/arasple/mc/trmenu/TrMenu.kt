@@ -3,17 +3,32 @@ package me.arasple.mc.trmenu
 import io.izzel.taboolib.loader.Plugin
 import io.izzel.taboolib.module.config.TConfig
 import io.izzel.taboolib.module.inject.TInject
+import io.izzel.taboolib.module.locale.TLocale
+import me.arasple.mc.trmenu.module.conf.Loader
+import org.bukkit.Bukkit
 
 /**
  * @author Arasple
- * @date 2020/2/26 10:05
+ * @date 2021/1/24 9:51
  */
 object TrMenu : Plugin() {
 
-    @TInject("settings.yml", locale = "Options.Locale", migrate = true)
+    @TInject("settings.yml", locale = "Options.Language", migrate = true)
     lateinit var SETTINGS: TConfig
+        private set
 
-    @TInject(state = TInject.State.STARTING, init = "init", active = "active", cancel = "cancel")
-    lateinit var LOADER: TrMenuLoader
+    override fun onLoad() {
+        TLocale.sendToConsole("Plugin.Loading", Bukkit.getBukkitVersion())
+    }
+
+    override fun onEnable() {
+        TLocale.sendToConsole("Plugin.Enabled", plugin.description.version)
+        Loader.loadMenus()
+        println(
+            """
+                [DEBUG MESSAGES]
+            """.trimIndent()
+        )
+    }
 
 }

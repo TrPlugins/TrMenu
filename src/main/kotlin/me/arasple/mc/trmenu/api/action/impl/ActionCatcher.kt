@@ -1,94 +1,70 @@
 package me.arasple.mc.trmenu.api.action.impl
 
-import me.arasple.mc.trmenu.api.action.Actions
-import me.arasple.mc.trmenu.api.action.base.Action
-import me.arasple.mc.trmenu.modules.conf.property.Nodes
-import me.arasple.mc.trmenu.modules.conf.property.Property
-import me.arasple.mc.trmenu.modules.conf.serialize.ReactionSerializer
-import me.arasple.mc.trmenu.modules.display.animation.Animated
-import me.arasple.mc.trmenu.modules.display.function.Reaction
-import me.arasple.mc.trmenu.modules.display.function.Reactions
-import me.arasple.mc.trmenu.modules.function.inputer.Catchers
-import me.arasple.mc.trmenu.modules.function.inputer.InputCatcher
-import me.arasple.mc.trmenu.modules.function.inputer.InputCatcher.clearCatcherMeta
-import me.arasple.mc.trmenu.modules.function.inputer.InputCatcher.setCatcher
-import me.arasple.mc.trmenu.util.Utils
+import me.arasple.mc.trmenu.api.action.base.AbstractAction
+import me.arasple.mc.trmenu.api.action.base.ActionOption
+import me.arasple.mc.trmenu.api.action.pack.Reactions
+import me.arasple.mc.trmenu.module.conf.prop.Property
+import me.arasple.mc.trmenu.module.internal.inputer.Inputer
+import me.arasple.mc.trmenu.util.collections.CycleList
 import org.bukkit.configuration.MemorySection
 import org.bukkit.entity.Player
 
-
 /**
  * @author Arasple
- * @date 2020/7/21 8:56
+ * @date 2021/1/31 20:15
  */
-class ActionCatcher : Action("(input)?(-)?catcher(s)?") {
+class ActionCatcher(private val inputer: Inputer) : AbstractAction() {
 
-    private var catcher: Catchers? = null
-
-    override fun onExecute(player: Player) {
-        if (InputCatcher.cooldown.isCooldown(player.name)) return
-
-        catcher?.let {
-            player.clearCatcherMeta()
-            catcher?.let {
-                player.setCatcher(it.run(player))
-            }
-        }
+    override fun onExecute(player: Player, placeholderPlayer: Player) {
+        inputer.startInput(player.getSession())
     }
 
-    override fun setContent(any: Any) {
-        if (any is MemorySection) {
-            val stages = mutableListOf<Catchers.Stage>()
+    companion object {
 
-            any.getKeys(false).forEach {
-                val section = Utils.asSection(any.get(it))
+        private val type = "type".toRegex()
+        private val start = "before|start".toRegex()
+        private val cancel = "cancel".toRegex()
+        private val end = "after|end".toRegex()
+        private val display = "display|name|title".toRegex()
+        private val bookContent = "content|book".toRegex()
+        private val itemLeft = "item-?left".toRegex()
+        private val itemRight = "item-?reft".toRegex()
 
-                if (section != null) {
-                    val type = Catchers.Type.matchType(section.getString(Utils.getSectionKey(section, Property.CATCHER_TYPE), "CHAT"))
-                    val content = section.getString(Utils.getSectionKey(section, Property.CATCHER_CONTENT), "") ?: ""
-                    val before = ReactionSerializer.serializeReactions(section.get(Utils.getSectionKey(section, Property.CATCHER_BEFORE)))
-                    val cancel = ReactionSerializer.serializeReactions(section.get(Utils.getSectionKey(section, Property.CATCHER_CANCEL)))
-                    val reaction = ReactionSerializer.serializeReactions(section.get(Utils.getSectionKey(section, Property.CATCHER_REACTION)))
+        private val name = "(input)?-?catchers?".toRegex()
 
-                    stages.add(Catchers.Stage(it, type, content, before, cancel, reaction))
+        private val parser: (Any, ActionOption) -> AbstractAction = { value, _ ->
+            val stages = mutableListOf<Inputer.Catcher>()
+            if (value is MemorySection) {
+                value.getKeys(false).forEach {
+                    val map = Property.asSection(value[it])?.let { sec -> Property.toMap(sec) }
+                    if (map != null) {
+                        val type = Inputer.Type.of(Property.of(map, type, "CHAT"))
+                        val start = Reactions.ofReaction(Property.of(map, start, Property.LIST))
+                        val cancel = Reactions.ofReaction(Property.of(map, cancel, Property.LIST))
+                        val end = Reactions.ofReaction(Property.of(map, end, Property.LIST))
+
+                        val display = arrayOf(
+                            Property.of(map, display, ""),
+                            Property.of(map, bookContent, Property.LIST).joinToString("\n")
+                        )
+
+                        val items = arrayOf(
+                            Property.of(map, itemLeft, ""),
+                            Property.of(map, itemRight, ""),
+                        )
+
+                        stages.add(Inputer.Catcher(type, start, cancel, end, display, items))
+                    }
                 }
+            } else {
+                println(value.javaClass.simpleName)
             }
-            this.catcher = Catchers(Animated(stages.toTypedArray()))
-        }
-    }
 
-    override fun setContent(content: String) {
-        super.setContent(content)
-
-        var stageType: Catchers.Type = Catchers.Type.CHAT
-        var before = Reactions(listOf())
-        var cancel = Reactions(listOf())
-
-        var valid: List<Action> = listOf()
-        var invalid: List<Action> = listOf()
-        var requirement = ""
-
-        Nodes.read(content).second.forEach { (key, value) ->
-            when (key) {
-                Nodes.TYPE -> stageType = Catchers.Type.matchType(value)
-                Nodes.BEFORE -> before = Reactions(listOf(Reaction(-1, "", Actions.readActions(value.split(";")), listOf())))
-                Nodes.CANCEL -> cancel = Reactions(listOf(Reaction(-1, "", Actions.readActions(value.split(";")), listOf())))
-                Nodes.VALID -> valid = Actions.readActions(value.split(";"))
-                Nodes.INVALID -> invalid = Actions.readActions(value.split(";"))
-                Nodes.REQUIREMENT -> requirement = value
-                else -> {
-                }
-            }
+            ActionCatcher(Inputer(CycleList(stages)))
         }
 
-        this.catcher = Catchers(Animated(arrayOf(Catchers.Stage("", stageType, "", before, cancel, Reactions(listOf(Reaction(-1, requirement, valid, invalid)))))))
-    }
+        val registery = name to parser
 
-    override fun toString(): String = buildString {
-        append(this@ActionCatcher.javaClass.simpleName.removePrefix("Action").toLowerCase())
-        append(": ")
-        append(catcher)
-        append(buildString { options.forEach { append("<${it.key.name.toLowerCase()}: ${it.value}>") } })
     }
 
 }

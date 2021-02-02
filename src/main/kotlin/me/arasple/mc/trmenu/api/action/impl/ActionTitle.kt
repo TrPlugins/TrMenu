@@ -1,59 +1,61 @@
 package me.arasple.mc.trmenu.api.action.impl
 
-import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import io.izzel.taboolib.module.locale.TLocale
-import me.arasple.mc.trmenu.api.action.base.Action
-import me.arasple.mc.trmenu.modules.conf.property.Nodes
-import me.arasple.mc.trmenu.util.Msger
+import io.izzel.taboolib.util.Strings
+import me.arasple.mc.trmenu.api.action.base.AbstractAction
+import me.arasple.mc.trmenu.api.action.base.ActionOption
+import me.arasple.mc.trmenu.util.Regexs
 import org.bukkit.entity.Player
 
 /**
  * @author Arasple
- * @date 2020/3/28 19:46
+ * @date 2021/1/29 18:01
+ * ` `
  */
-class ActionTitle(var title: String, var subTitle: String, var fadeIn: Int, var stay: Int, var fadeOut: Int) : Action("(send)?(-)?(sub)?title(s)?") {
+class ActionTitle(
+    val title: String,
+    val subTitle: String,
+    val fadeIn: Int = 15,
+    val stay: Int = 20,
+    val fadeOut: Int = 15,
+    option: ActionOption
+) : AbstractAction(option = option) {
 
-    constructor() : this("", "", 10, 35, 10)
-
-    override fun onExecute(player: Player) = TLocale.Display.sendTitle(
+    override fun onExecute(player: Player, placeholderPlayer: Player) {
+        TLocale.Display.sendTitle(
             player,
-            Msger.replace(player, title),
-            Msger.replace(player, subTitle),
-            fadeIn, stay, fadeOut
-    )
-
-    override fun setContent(content: String) {
-        val text = content
-        // title: &3&l解锁成功 &a&l请继续操作 20 60 20
-
-        Nodes.read(text).second.let { map ->
-            if (map.isEmpty() || map.none { TITLE_NODES.contains(it.key) }) {
-                text.split(" ").let {
-                    title = replaceWithSpaces(it.getOrElse(0) { "" })
-                    subTitle = replaceWithSpaces(it.getOrElse(1) { "" })
-                    fadeIn = NumberUtils.toInt(it.getOrElse(2) { "10" }, 10)
-                    stay = NumberUtils.toInt(it.getOrElse(3) { "35" }, 35)
-                    fadeOut = NumberUtils.toInt(it.getOrElse(4) { "10" }, 10)
-                }
-            } else {
-                map.forEach { (key, value) ->
-                    when (key) {
-                        Nodes.TITLE -> title = value
-                        Nodes.SUBTITLE -> subTitle = value
-                        Nodes.FADEIN -> fadeIn = NumberUtils.toInt(value, 10)
-                        Nodes.STAY -> stay = NumberUtils.toInt(value, 35)
-                        Nodes.FADEOUT -> fadeOut = NumberUtils.toInt(value, 10)
-                        else -> {
-                        }
-                    }
-                }
-            }
-        }
+            parse(placeholderPlayer, title),
+            parse(placeholderPlayer, subTitle),
+            fadeIn,
+            stay,
+            fadeOut
+        )
     }
 
     companion object {
 
-        val TITLE_NODES = setOf(Nodes.TITLE, Nodes.SUBTITLE, Nodes.FADEIN, Nodes.STAY, Nodes.FADEOUT)
+        private val name = "(send)?-?(sub)?titles?".toRegex()
+
+        private val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
+            var content: String = value.toString()
+            val replacements = Regexs.SENTENCE.findAll(content).mapIndexed { index, result ->
+                content = content.replace(result.value, "{$index}")
+                index to result.groupValues[1]
+            }.toMap().values.toTypedArray()
+
+            val split = content.split(" ", limit = 5)
+
+            ActionTitle(
+                Strings.replaceWithOrder(split.getOrElse(0) { "" }, *replacements),
+                Strings.replaceWithOrder(split.getOrElse(1) { "" }, *replacements),
+                split.getOrNull(2)?.toIntOrNull() ?: 15,
+                split.getOrNull(3)?.toIntOrNull() ?: 20,
+                split.getOrNull(4)?.toIntOrNull() ?: 15,
+                option
+            )
+        }
+
+        val registery = name to parser
 
     }
 

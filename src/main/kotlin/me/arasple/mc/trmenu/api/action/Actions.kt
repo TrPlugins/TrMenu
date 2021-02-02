@@ -1,181 +1,128 @@
 package me.arasple.mc.trmenu.api.action
 
-import me.arasple.mc.trmenu.api.action.base.Action
+import io.izzel.taboolib.kotlin.Tasks
+import me.arasple.mc.trmenu.api.action.base.AbstractAction
+import me.arasple.mc.trmenu.api.action.base.ActionOption
 import me.arasple.mc.trmenu.api.action.impl.*
-import me.arasple.mc.trmenu.api.action.impl.data.ActionDataDelete
-import me.arasple.mc.trmenu.api.action.impl.data.ActionDataSet
-import me.arasple.mc.trmenu.api.action.impl.data.ActionMetaRemove
-import me.arasple.mc.trmenu.api.action.impl.data.ActionMetaSet
-import me.arasple.mc.trmenu.api.action.impl.entity.ActionHologram
-import me.arasple.mc.trmenu.api.action.impl.hook.cronus.ActionCronusEffect
-import me.arasple.mc.trmenu.api.action.impl.hook.eco.ActionGiveMoney
-import me.arasple.mc.trmenu.api.action.impl.hook.eco.ActionSetMoney
-import me.arasple.mc.trmenu.api.action.impl.hook.eco.ActionTakeMoney
-import me.arasple.mc.trmenu.api.action.impl.hook.eco.ActionTransferPay
-import me.arasple.mc.trmenu.api.action.impl.hook.playerpoints.ActionGivePoints
-import me.arasple.mc.trmenu.api.action.impl.hook.playerpoints.ActionSetPoints
-import me.arasple.mc.trmenu.api.action.impl.hook.playerpoints.ActionTakePoints
-import me.arasple.mc.trmenu.api.action.impl.item.ActionEnchantItem
-import me.arasple.mc.trmenu.api.action.impl.item.ActionGiveItem
-import me.arasple.mc.trmenu.api.action.impl.item.ActionRepairItem
-import me.arasple.mc.trmenu.api.action.impl.item.ActionTakeItem
-import me.arasple.mc.trmenu.api.action.impl.menu.*
-import me.arasple.mc.trmenu.modules.conf.property.Nodes
-import me.arasple.mc.trmenu.modules.function.hook.HookInstance
-import me.arasple.mc.trmenu.util.Tasks
-import me.arasple.mc.trmenu.util.Utils
+import me.arasple.mc.trmenu.api.action.impl.hook.ActionMoneyAdd
+import me.arasple.mc.trmenu.api.action.impl.hook.ActionMoneySet
+import me.arasple.mc.trmenu.api.action.impl.hook.ActionMoneyTake
+import me.arasple.mc.trmenu.api.action.impl.metadaa.*
 import org.bukkit.entity.Player
 
 /**
  * @author Arasple
- * @date 2020/7/7 10:35
+ * @date 2021/1/29 17:51
+ * TrMenu internal actions feature
  */
 object Actions {
 
-    val optionsBound = "( )?(_\\|\\|_|&&&)( )?".toRegex()
-    val cachedActions = mutableMapOf<String, List<Action>>()
-    val registeredActions = mutableListOf(
-        // hook
-        ActionGiveMoney(),
-        ActionGivePoints(),
-        ActionSetMoney(),
-        ActionTransferPay(),
-        ActionSetPoints(),
-        ActionTakeMoney(),
-        ActionTakePoints(),
-        ActionCronusEffect(),
-        // item
-        ActionEnchantItem(),
-        ActionGiveItem(),
-        ActionRepairItem(),
-        ActionTakeItem(),
-        // menu
-        ActionClose(),
-        ActionOpen(),
-        ActionRefresh(),
-        ActionSetArgs(),
-        ActionSetPage(),
-        ActionMetaSet(),
-        ActionMetaRemove(),
-        ActionDataSet(),
-        ActionDataDelete(),
-        ActionSetTitle(),
-        ActionSilentClose(),
-        ActionReset(),
-        // normal
-        ActionChat(),
-        ActionActionbar(),
-        ActionCatcher(),
-        ActionReInput(),
-        ActionCommand(),
-        ActionCommandConsole(),
-        ActionCommandOp(),
-        ActionConnect(),
-        ActionDelay(),
-        ActionJavaScript(),
-        ActionParticle(),
-        ActionReturn(),
-        ActionSound(),
-        ActionTell(),
-        ActionTellraw(),
-        ActionTitle(),
-        ActionHologram()
+    private val actionsBound = " ?(_\\|\\|_|&&&) ?".toRegex()
+    private val registries = mapOf(
+        // Logic & Functional
+        ActionReturn.registery,
+        ActionDelay.registery,
+        ActionJavaScript.registery,
+        ActionKether.registery,
+        // Bukkit
+        ActionTell.registery,
+        ActionChat.registery,
+        ActionTitle.registery,
+        ActionActionbar.registery,
+        ActionCommand.registery,
+        ActionCommandConsole.registery,
+        ActionCommandOp.registery,
+        ActionTellraw.registery,
+        // BungeeCord
+        ActionConnect.registery,
+        // Menu
+        ActionClose.registery,
+        ActionOpen.registery,
+        ActionPage.registery,
+        ActionSetTitle.registery,
+        ActionSound.registery,
+        ActionMetaSet.registery,
+        ActionMetaDel.registery,
+        ActionDataSet.registery,
+        ActionDataDel.registery,
+        ActionGlobalDataSet.registery,
+        ActionGlobalDataDel.registery,
+        ActionRetype.registery,
+        ActionRefresh.registery,
+        // Hook
+        ActionMoneySet.registery,
+        ActionMoneyAdd.registery,
+        ActionMoneyTake.registery,
+        ActionTakeItem.registery,
     )
 
-    @JvmStatic
-    fun registerAction(action: Action) = registeredActions.add(action.newInstance())
+    fun runAction(player: Player, actions: List<String>) {
+        runAction(player, readAction(actions))
+    }
 
-    @JvmStatic
-    fun runActions(player: Player, actions: List<Action>): Boolean {
+    fun runAction(player: Player, actions: List<AbstractAction>): Boolean {
+        val run = mutableListOf<AbstractAction>()
         var delay = 0L
-        val run = mutableListOf<Action>()
-        actions.filter { it.evalChance(player) && it.evalCondition(player) }.forEach {
+
+        actions.filter { it.option.evalChance() }.forEach {
             when {
-                it is ActionReturn -> {
-                    run(player, run)
+                it is ActionReturn && it.option.evalCondition(player) -> {
                     return false
                 }
                 it is ActionDelay -> delay += it.getDelay(player)
-                delay > 0 -> Tasks.delay(delay, true) { it.run(player) }
+                delay > 0 -> Tasks.delay(delay) { it.run(player) }
                 else -> run.add(it)
             }
         }
-        run(player, run)
-        HookInstance.getCronus().reset(player)
+
+        run.forEach { it.run(player) }
         return true
     }
 
-    @JvmStatic
-    fun runCachedAction(player: Player, action: String) = Actions.runActions(player, Actions.cachedAction(action))
-
-    @JvmStatic
-    fun cachedAction(action: String) = Actions.cachedActions.computeIfAbsent(action) { Actions.readAction(action) }
-
-    @JvmStatic
-    fun readActions(anys: List<Any>): List<Action> = mutableListOf<Action>().let { actions ->
-        anys.forEach { if (it.toString().isNotEmpty()) actions.addAll(Actions.readAction(it)) }
-        return@let actions
+    /**
+     * 读取多个对象动作
+     */
+    fun readAction(any: List<Any>): List<AbstractAction> {
+        return any.flatMap { readAction(it) }
     }
 
-    @JvmStatic
-    fun readAction(any: Any?): List<Action> {
-        any ?: return emptyList()
+    /**
+     * 读取一个文本动作
+     */
+    fun readAction(any: Any): List<AbstractAction> {
+        val actions = mutableListOf<AbstractAction>()
+        val findParser: (String) -> ((Any, ActionOption) -> AbstractAction)? = { name ->
+            registries.entries.find { it.key.matches(name) }?.value
+        }
 
-        val actions = mutableListOf<Action>()
-        val sharedOptions = mutableMapOf<Nodes, String>()
+        when (any) {
+            is Map<*, *> -> {
+                val entry = any.entries.firstOrNull() ?: return actions
+                val key = entry.key.toString()
+                val value = entry.value ?: return actions
+                findParser(key)?.invoke(value, ActionOption())?.let { actions.add(it) }
+            }
+            else -> {
+                val loaded = any.toString().split(actionsBound).mapNotNull {
+                    val split = it.split(":", limit = 2)
+                    val parser = findParser(split[0])
+                    val string = split.getOrElse(1) { "" }
 
-        if (any is String) {
-            any.split(Actions.optionsBound).forEach { it ->
-                val name = it.replace("<.+>".toRegex(), "").split(':')[0]
-                val content = it.removePrefix(name).removePrefix(":").removePrefix(" ")
-                val action =
-                    Actions.registeredActions.firstOrNull { name.toLowerCase().matches(it.name) }?.newInstance()
-                        ?: ActionUnknow().also { it.setContent(any) }
-
-                if (action is ActionCatcher) action.setContent(content)
-                else if (content.isNotBlank()) {
-                    val result = Nodes.read(
-                        content,
-                        Nodes.CHANCE,
-                        Nodes.DELAY,
-                        Nodes.PLAYERS,
-                        Nodes.REQUIREMENT
-                    )
-                    action.setContent(result.first)
-                    action.options = result.second.toMutableMap()
+                    if (parser != null) {
+                        val (content, option) = ActionOption.of(string)
+                        parser.invoke(content, option)
+                    } else {
+                        null
+                    }
                 }
+                loaded.maxByOrNull { it.option.set.size }?.let { def ->
+                    loaded.forEach { it.option = def.option }
+                }
+                actions.addAll(loaded)
+            }
+        }
 
-                action.options.forEach { (option, value) -> sharedOptions[option] = value }
-                actions.add(action)
-            }
-        } else if (any is LinkedHashMap<*, *>) {
-            any.entries.firstOrNull()?.let { it ->
-                val key = it.key.toString()
-                val value = Utils.asSection(it.value) ?: return@let
-                val action = Actions.registeredActions.firstOrNull { key.toLowerCase().matches(it.name) }?.newInstance()
-                    ?: ActionUnknow().also { it.setContent(key) }
-                action.setContent(value)
-                actions.add(action)
-            }
-        }
-        actions.forEach {
-            sharedOptions.forEach { (option, value) ->
-                if (!it.options.containsKey(option)) it.options[option] = value
-            }
-        }
         return actions
-    }
-
-    @JvmStatic
-    fun writeActions(actions: List<Action>): List<String> = mutableListOf<String>().let { list ->
-        actions.forEach { list.add(it.toString()) }
-        return@let list
-    }
-
-    private fun run(player: Player, run: List<Action>) {
-        if (run.isNotEmpty()) {
-            Tasks.task(true) { run.forEach { it.run(player) } }
-        }
     }
 
 }

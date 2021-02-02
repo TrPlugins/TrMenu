@@ -1,67 +1,66 @@
 package me.arasple.mc.trmenu.api.action.impl
 
 import io.izzel.taboolib.module.tellraw.TellrawJson
-import io.izzel.taboolib.util.Strings
-import io.izzel.taboolib.util.Variables
-import me.arasple.mc.trmenu.api.action.base.Action
-import me.arasple.mc.trmenu.util.Hex
-import me.arasple.mc.trmenu.util.Msger
+import me.arasple.mc.trmenu.api.action.base.AbstractAction
+import me.arasple.mc.trmenu.api.action.base.ActionOption
 import me.arasple.mc.trmenu.util.Utils
+import me.arasple.mc.trmenu.util.collections.Variables
 import net.md_5.bungee.chat.ComponentSerializer
 import org.bukkit.entity.Player
 
 /**
  * @author Arasple
- * @date 2020/3/8 21:55
+ * @date 2021/1/31 11:55
+ * TELLRAW: Content Message <special@hover=hovertext\nLine2@url=xxxx> <xxx>
  */
-class ActionTellraw : Action("tellraw|json") {
+class ActionTellraw(content: String, option: ActionOption) : AbstractAction(content, option) {
 
-    private var rawJson: String? = null
-    private val tellraw = TellrawJson.create()
+    override fun onExecute(player: Player, placeholderPlayer: Player) {
+        player.spigot().sendMessage(*ComponentSerializer.parse(parseContent(placeholderPlayer)))
+    }
 
-    override fun onExecute(player: Player) = player.spigot().sendMessage(
-        *ComponentSerializer.parse(
-            Msger.replace(
-                player,
-                if (Strings.nonEmpty(rawJson)) rawJson else tellraw!!.toRawMessage()
-            ).replace(
-                "{&}", "&"
-            )
-        )
-    )
+    companion object {
 
-    override fun setContent(content: String) {
-        var text = Hex.colorify(content)
-        if (Utils.isJson(text)) {
-            rawJson = text
-            return
-        }
-        text = text.replace('?', '&')
-        Variables(text).find().variableList.forEach { part ->
-            if (part.text == text) return
-            else if (!part.isVariable) tellraw.append(part.text)
-            else {
-                val args = part.text.split('&', limit = 2).toMutableList().also {
-                    tellraw.append(it[0])
-                    it.removeAt(0)
-                }
-                args.firstOrNull()?.split('&')?.forEach { it ->
-                    it.split('&').forEach {
-                        val event = it.split(':', '=', limit = 2)
-                        if (event.size >= 2) event[1].let { value ->
-                            when (event[0].toLowerCase()) {
-                                "hover" -> tellraw.hoverText(value)
-                                "suggest" -> tellraw.clickSuggest(value)
-                                "command" -> tellraw.clickCommand(value)
-                                "url" -> tellraw.clickOpenURL(value)
-                                else -> {
-                                }
+        private val matcher = "<(.+?)>".toRegex()
+
+        private val name = "(tell(raw)?|json)s?".toRegex()
+
+        private val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
+            val raw = value.toString()
+            val json: String
+            if (Utils.isJson(raw)) {
+                json = raw
+            } else {
+                val tellraw = TellrawJson.create()
+
+                Variables(raw, matcher) { it[1] }.element.forEach { result ->
+                    tellraw.append(result.value)
+
+                    if (result.isVariable) {
+                        val splits = result.value.split("@")
+                        splits.map {
+                            val keyValue = it.split("=", ":", limit = 2)
+                            keyValue[0] to keyValue[1]
+                        }.forEach {
+                            val (type, content) = it
+                            when (type.toLowerCase()) {
+                                "hover" -> tellraw.hoverText(content)
+                                "suggest" -> tellraw.clickSuggest(content)
+                                "command", "execute" -> tellraw.clickCommand(content)
+                                "url", "open_url" -> tellraw.clickOpenURL(content)
                             }
                         }
                     }
                 }
+
+                json = tellraw.toRawMessage()
             }
+
+            ActionTellraw(json, option)
         }
+
+        val registery = name to parser
+
     }
 
 }

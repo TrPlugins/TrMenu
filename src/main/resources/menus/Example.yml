@@ -3,12 +3,12 @@ Title:
   - 'Hello, %player_name%!'
   - 'Support Animated Titles'
 
-Title-Update: 40
+Title-Update: 20
 
 Layout:
   - - '########`Close`'
     - '         '
-    - '   PT   '
+    - '   PTI  '
     - '         '
     - '####*###`Next`'
 
@@ -26,11 +26,14 @@ PlayerInventory:
 
 Options:
   Arguments: false
-  Default-Arguments: []
+  Default-Arguments: [ ]
+  # Not work with animated title
+  Free-Slots:
+    - 71-73
   Default-Layout: 0
-  Hide-Player-Inventory: true
+  Hide-Player-Inventory: false
   Min-Click-Delay: 200
-  Depend-Expansions: ['server', 'player', 'progress', 'animations']
+  Depend-Expansions: [ 'server', 'player', 'progress', 'animations' ]
 
 Bindings:
   Commands:
@@ -42,22 +45,22 @@ Bindings:
 
 Events:
   Open:
-    - condition: 'hasPerm.trmenu.use or is.{reason}.RELOAD or is.{reason}.CONSOLE'
+    - condition: 'perm *trmenu.use'
       actions:
         - 'sound: BLOCK_CHEST_OPEN-1-0'
       deny:
         - 'sound: ENTITY_ITEM_BREAK-1-0'
-        - 'title: <title=&c&lPermission Required><subtitle=&7&lYou need permission &6&ltrmenu.use &7&lto open this menu>'
+        - 'title: `&c&lPermission Required` `&7&lYou need permission &6&ltrmenu.use &7&lto open this menu` 15 20 15'
         - 'return'
   Close:
     - 'sound: BLOCK_CHEST_CLOSE-1-0'
 
 Icons:
   '#':
-    update: [-1, 10, 15, -1]
+    update: [ -1, 10, 15, -1 ]
     display:
       material: Gray Stained Glass Pane
-      name: ['&fTr&7Menu', '&7Tr&8Menu', '&8Tr&0Menu','&7Tr&8Menu']
+      name: [ '&fTr&7Menu', '&7Tr&8Menu', '&8Tr&0Menu','&7Tr&8Menu' ]
       lore:
         - - '&7Thanks &f:> &7for using!'
         - - '&7Thanks &f:) &7for using!'
@@ -65,10 +68,10 @@ Icons:
       all: 'sound: BLOCK_NOTE_BLOCK_PLING-1-2'
 
   Close:
-    update: [-1, 5, -1, -1]
+    update: [ -1, 5, -1, -1 ]
     display:
       material: Red Stained Glass Pane
-      name: ['&cC&7lose', '&cCl&7ose', '&cClo&7se', '&cClos&7e', '&cClose']
+      name: [ '&cC&7lose', '&cCl&7ose', '&cClo&7se', '&cClos&7e', '&cClose' ]
     actions:
       all: close
 
@@ -80,7 +83,6 @@ Icons:
       all:
         - 'page: 1'
         - 'sound: BLOCK_CHEST_OPEN-1-2'
-
   Pre:
     display:
       material: Lime Stained Glass Pane
@@ -91,7 +93,7 @@ Icons:
         - 'sound: BLOCK_CHEST_OPEN-1-2'
 
   '*':
-    update: [-1, 5, 20, -1]
+    update: [ -1, 5, 20, -1 ]
     display:
       material: <skull:9842dc3b917b1a796c303e15105474a8e315de7982b6ca54feafb5a4d13d4e95>
       name:
@@ -111,9 +113,9 @@ Icons:
       left:
         - 'set-meta: icon_server_hide true'
         - 'sound: BLOCK_NOTE_BLOCK_BIT-1-0'
-        - 'refresh'
+        - 'refresh: *'
     icons:
-      - condition: 'equals.{meta:icon_server_hide}.true'
+      - condition: 'check meta get *icon_server_hide is *true'
         priority: 5
         inherit: true
         display:
@@ -128,15 +130,17 @@ Icons:
             - ''
             - '&a${flash_➥} &2Right-Click &7to hide extra-info.'
         actions:
+          all:
+            - 'js: player.sendMessage("Subs: " + utils.getSession("Arasple").getIcon("*").getSubs().getIndex(utils.getSession("Arasple").getId()))'
           right:
             - 'rem-meta: icon_server_hide'
             - 'sound: BLOCK_NOTE_BLOCK_BIT-1-2'
-            - 'refresh'
+            - 'refresh: *'
 
   P:
     update: 20
     display:
-      material: <head:%player_name%>
+      material: 'head:%player_name%'
       name: '&2&l%player_name%'
       lore:
         - ''
@@ -148,7 +152,7 @@ Icons:
         - ''
         - '&8| &7REGISTER DATE: &3%player_first_join_date%'
         - '&8| &7IP: &3%player_ip%'
-        - '&8| &7PING: ${js: %player_ping% < 60 ? "&a" : "&2"}%player_ping% ms'
+        - '&8| &7PING: ${js: varInt("%player_ping%") < 60 ? "&a" : "&2"}%player_ping% ms'
         - ''
         - '&8➥ &7Press number key &66 &7to high jump'
         - ''
@@ -157,19 +161,18 @@ Icons:
       all: 'sound: BLOCK_NOTE_BLOCK_PLING-1-2'
       number_key_6:
         - 'close'
-        - 'particle: EXPLOSION_HUGE{offset=0,0,0}'
-        - 'title: <TITLE=&b&LGET READY><FADEIN=10><STAY=20><FADEOUT=40><SUBTITLE=&6&l3> &&& sound: ENTITY_ENDER_DRAGON_FLAP-1-0'
-        - 'title: <TITLE=&3&LGET READY><SUBTITLE=&6&l2> &&& sound: ENTITY_ENDER_DRAGON_FLAP-1-0<Delay=20>'
-        - 'title: <TITLE=&9&LGET READY><SUBTITLE=&c&l1> &&& sound: ENTITY_ENDER_DRAGON_FLAP-1-0<Delay=40>'
-        - 'js: player.setVelocity(player.getVelocity().setY(25)) &&& js: player.setNoDamageTicks(600) &&& sound: ENTITY_ENDER_DRAGON_FLAP-1-1<Delay=50>'
-        - 'js: player.setVelocity(player.getVelocity().setY(45)) &&& title: <TITLE=&d&LAGAIN><SUBTITLE=&7&lHIGHER!> &&& sound: ENTITY_ENDER_DRAGON_FLAP-1-2<Delay=100>'
+        - 'title: `&b&LGET READY` &6&l3 10 20 40 &&& sound: ENTITY_ENDER_DRAGON_FLAP-1-0'
+        - 'title: `&3&LGET READY` &6&l2 &&& sound: ENTITY_ENDER_DRAGON_FLAP-1-0 {Delay=20}'
+        - 'title: `&9&LGET READY` &c&l1 &&& sound: ENTITY_ENDER_DRAGON_FLAP-1-0 {Delay=40}'
+        - 'js: player.setVelocity(player.getVelocity().setY(25)) &&& js: player.setNoDamageTicks(600) &&& sound: ENTITY_ENDER_DRAGON_FLAP-1-1 {Delay=50}'
+        - 'js: player.setVelocity(player.getVelocity().setY(45)) &&& title: &d&LAGAIN &7&lHIGHER! &&& sound: ENTITY_ENDER_DRAGON_FLAP-1-2 {Delay=100}'
 
   T:
     update: 20
     display:
       material: compass
       name: '&3&lTrMenu'
-      amount: '${js: parseInt(%server_time_s%) + 1}'
+      amount: '${js: varInt("%server_time_s%") + 1}'
       lore:
         - ''
         - 'The following is the relevant statistics'
@@ -184,57 +187,90 @@ Icons:
         - 'Menus have been opened ${bStats.opens} times'
         - ''
 
-  Bee:
-    update: [-1, -1, -1, 20]
+  I:
+    update: -1
     display:
-      material: '<skull:b727d0ab03f5cd022f8705d3f7f133ca4920eae8e1e47b5074433a137e691e4e>'
+      material: 'head:b727d0ab03f5cd022f8705d3f7f133ca4920eae8e1e47b5074433a137e691e4e'
+      name: '&3Inputer'
+    actions:
+  #      shift_left,left:
+  #        - inputer:
+  #            NameOfInput:
+  #              type: CHAT/SIGN/ANVIL/BOOK
+  #              start: [ ACTIONS ]
+  #              cancel: [ ACTIONS ]
+  #              end: [ ACTIONS ] // IMPORTANT
+  #            Stage2:
+  #              type: CHAT/SIGN/ANVIL/BOOK
+  #              start: [ ACTIONS ]
+  #              cancel: [ ACTIONS ]
+  #              end: [ ACTIONS ]
+  #              // SPECIAL SETTINGS
+  #              display: 'ANVIL GUI TITLE or BOOK ITEM DISPLAY-NAME'
+  #              itemLeft: 'ANVIL'
+  #              itemRight: 'ANVIL'
+  #              content: [ 'BOOK CONTENT' ]
+
+  Bee:
+    update: 20
+    display:
+      material: 'head:b727d0ab03f5cd022f8705d3f7f133ca4920eae8e1e47b5074433a137e691e4e'
       name: '&eBee ~'
       slots:
-        - [9]
-        - [18]
-        - [28]
-        - [29]
-        - [30]
-        - [31]
-        - [32]
-        - [33]
-        - [34]
-        - [35]
-        - [26]
-        - [16]
-        - [15]
-        - [14]
-        - [13]
-        - [12]
-        - [11]
-        - [10]
+        - [ 9 ]
+        - [ 18 ]
+        - [ 28 ]
+        - [ 29 ]
+        - [ 30 ]
+        - [ 31 ]
+        - [ 32 ]
+        - [ 33 ]
+        - [ 34 ]
+        - [ 35 ]
+        - [ 26 ]
+        - [ 16 ]
+        - [ 15 ]
+        - [ 14 ]
+        - [ 13 ]
+        - [ 12 ]
+        - [ 11 ]
+        - [ 10 ]
     actions:
       all:
         - 'set-meta: angryBee true'
         - 'sound: ENTITY_ENDERMAN_HURT-1-2'
-        - 'rem-meta: angryBee &&& refresh &&& sound: ENTITY_SPIDER_STEP-1-2<Delay=80>'
-        - 'refresh'
+        - 'rem-meta: angryBee &&& refresh: Bee &&& sound: ENTITY_SPIDER_STEP-1-2 {Delay=80}'
+        - 'refresh: Bee'
     icons:
-      - condition: 'equals.{meta:angryBee}.true'
-        inherit: true
+      - condition: 'check meta get *angryBee is *true'
         display:
           name: '&cBee &4~'
-          material: '<skull:e6b74e052b74288799ba6d9f35c5d0221cf8b04331547ec2f68d73597ae2c9b>'
+          material: 'head:e6b74e052b74288799ba6d9f35c5d0221cf8b04331547ec2f68d73597ae2c9b'
+          lore:
+            - 'unfortunate...'
         actions:
           all: 'sound: ENTITY_ENDERMAN_HURT-1-2'
 
 
 
 Tasks:
-# tikTok:
-#   period: 20
-#   task:
-#     - condition: 'isOperator.'
-#       actions:
-#         - 'sound: BLOCK_NOTE_BLOCK_BIT-1-2'
+  tikTok:
+    period: 20
+    task:
+      - condition: '$ sender.isOp()'
+        actions:
+          - 'sound: BLOCK_NOTE_BLOCK_BIT-1-2'
 
+
+Kethers:
+  flash: |-
+    def flash() {
+      set display to date get seconds % 2 == 0
+    }
 
 Functions:
+
+
   flash: |-
     function flash() {
       var display = new Date().getSeconds() % 2 == 0
@@ -246,7 +282,7 @@ Functions:
     servers: '${bStats.query_servers_&a_&7 servers}'
     players: '${bStats.query_players_&6_&7 players}'
     menus: '${bStats.query_menus_&2_&7 menus}'
-    opens:  |-
+    opens: |-
       function opens() {
         var data = utils.query("https://bstats.org/api/v1/plugins/5742/charts/menu_open_counts/data?maxElements=1")
         if (data != null && data.hasData()){
@@ -255,7 +291,7 @@ Functions:
         return "&8Loading." + ${flash_.} + "&7"
       }
       opens()
-    query:  |-
+    query: |-
       function query() {
         var data = utils.query("https://bstats.org/api/v1/plugins/5742/charts/" + "{0}" + "/data?maxElements=1")
         if (data != null && data.hasData()){
