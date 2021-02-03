@@ -36,21 +36,21 @@ class ActionCatcher(private val inputer: Inputer) : AbstractAction() {
             val stages = mutableListOf<Inputer.Catcher>()
             if (value is MemorySection) {
                 value.getKeys(false).forEach {
-                    val map = Property.asSection(value[it])?.let { sec -> Property.toMap(sec) }
-                    if (map != null) {
-                        val type = Inputer.Type.of(Property.of(map, type, "CHAT"))
-                        val start = Reactions.ofReaction(Property.of(map, start, Property.LIST))
-                        val cancel = Reactions.ofReaction(Property.of(map, cancel, Property.LIST))
-                        val end = Reactions.ofReaction(Property.of(map, end, Property.LIST))
+                    val section = Property.asSection(value[it])
+                    if (section != null) {
+                        val type = Inputer.Type.of(section.getString(Property.getSectionKey(section, type), "CHAT")!!)
+                        val start = Reactions.ofReaction(section.getList(Property.getSectionKey(section, start)))
+                        val cancel = Reactions.ofReaction(section.getList(Property.getSectionKey(section, cancel)))
+                        val end = Reactions.ofReaction(section.getList(Property.getSectionKey(section, end)))
 
                         val display = arrayOf(
-                            Property.of(map, display, ""),
-                            Property.of(map, bookContent, Property.LIST).joinToString("\n")
+                            section.getString(Property.getSectionKey(section, display), "")!!,
+                            section.getStringList(Property.getSectionKey(section, display)).joinToString("\n"),
                         )
 
                         val items = arrayOf(
-                            Property.of(map, itemLeft, ""),
-                            Property.of(map, itemRight, ""),
+                            section.getString(Property.getSectionKey(section, itemLeft), "")!!,
+                            section.getString(Property.getSectionKey(section, itemRight), "")!!
                         )
 
                         stages.add(Inputer.Catcher(type, start, cancel, end, display, items))

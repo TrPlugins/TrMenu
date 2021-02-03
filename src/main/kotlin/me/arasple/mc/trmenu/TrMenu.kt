@@ -5,6 +5,7 @@ import io.izzel.taboolib.module.config.TConfig
 import io.izzel.taboolib.module.inject.TInject
 import io.izzel.taboolib.module.locale.TLocale
 import me.arasple.mc.trmenu.module.conf.Loader
+import me.arasple.mc.trmenu.module.display.Menu
 import org.bukkit.Bukkit
 
 /**
@@ -24,9 +25,12 @@ object TrMenu : Plugin() {
     override fun onEnable() {
         TLocale.sendToConsole("Plugin.Enabled", plugin.description.version)
         Loader.loadMenus()
+
+        val menu = Menu.menus.first()
         println(
             """
                 [DEBUG MESSAGES]
+                Funcs: ${menu.settings.internalFunctions.map { it.id }}
             """.trimIndent()
         )
     }

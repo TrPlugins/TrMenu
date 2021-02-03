@@ -2,6 +2,7 @@ package me.arasple.mc.trmenu.module.display.item
 
 import io.izzel.taboolib.util.item.ItemBuilder
 import me.arasple.mc.trmenu.api.menu.IItem
+import me.arasple.mc.trmenu.api.menu.IItem.Companion.colorize
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.display.texture.Texture
 import me.arasple.mc.trmenu.util.collections.CycleList
@@ -20,9 +21,9 @@ class Item(
 
     private val cache = mutableMapOf<Int, ItemStack>()
 
-    private fun name(session: MenuSession) = this.name.current(session.id)?.let { session.parse(it) }
+    private fun name(session: MenuSession) = this.name.current(session.id)?.let { colorize(session.parse(it)) }
 
-    private fun lore(session: MenuSession) = this.lore.current(session.id)?.parse(session)
+    private fun lore(session: MenuSession) = this.lore.current(session.id)?.parse(session)?.map { colorize(it) }
 
     fun get(session: MenuSession): ItemStack {
         return if (cache.containsKey(session.id)) cache[session.id]!!

@@ -22,7 +22,7 @@ object JavaScriptAgent {
         "utils" to Assist.INSTANCE
     )
 
-    private val compiledScripts = Maps.newConcurrentMap<String, CompiledScript?>()
+    private val compiledScripts = Maps.newConcurrentMap<String, CompiledScript>()
 
     fun eval(session: MenuSession, script: String, cacheScript: Boolean = true): EvalResult {
         val context = SimpleScriptContext()
@@ -33,7 +33,7 @@ object JavaScriptAgent {
         }
 
         setAttribute(
-            "var", java.util.function.Function<Any, Any?> { session.parse(it.toString()) },
+            "vars", java.util.function.Function<Any, Any?> { session.parse(it.toString()) },
         )
         setAttribute(
             "varInt", java.util.function.Function<Any, Any?> { session.parse(it.toString()).toIntOrNull() },

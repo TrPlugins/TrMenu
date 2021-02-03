@@ -2,6 +2,7 @@ package me.arasple.mc.trmenu.api.menu
 
 import me.arasple.mc.trmenu.module.conf.prop.SerialzeResult
 import me.arasple.mc.trmenu.module.display.layout.MenuLayout
+import org.bukkit.configuration.MemorySection
 import java.io.File
 
 /**
@@ -12,10 +13,10 @@ interface ISerializer {
 
     fun serializeMenu(file: File): SerialzeResult
 
-    fun serializeSetting(conf: Map<String, Any>): SerialzeResult
+    fun serializeSetting(conf: MemorySection): SerialzeResult
 
-    fun serializeLayout(conf: Map<String, Any>): SerialzeResult
+    fun serializeLayout(conf: MemorySection): SerialzeResult
 
-    fun serializeIcon(conf: Map<String, Any>, layout: MenuLayout): SerialzeResult
+    fun serializeIcon(conf: MemorySection, layout: MenuLayout): SerialzeResult
 
 }

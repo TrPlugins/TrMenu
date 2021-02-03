@@ -130,8 +130,6 @@ Icons:
             - ''
             - '&a${flash_➥} &2Right-Click &7to hide extra-info.'
         actions:
-          all:
-            - 'js: player.sendMessage("Subs: " + utils.getSession("Arasple").getIcon("*").getSubs().getIndex(utils.getSession("Arasple").getId()))'
           right:
             - 'rem-meta: icon_server_hide'
             - 'sound: BLOCK_NOTE_BLOCK_BIT-1-2'
@@ -251,52 +249,41 @@ Icons:
         actions:
           all: 'sound: ENTITY_ENDERMAN_HURT-1-2'
 
-
-
 Tasks:
   tikTok:
-    period: 20
+    period: 80
     task:
       - condition: '$ sender.isOp()'
         actions:
           - 'sound: BLOCK_NOTE_BLOCK_BIT-1-2'
 
-
-Kethers:
-  flash: |-
-    def flash() {
-      set display to date get seconds % 2 == 0
-    }
-
 Functions:
-
-
   flash: |-
     function flash() {
       var display = new Date().getSeconds() % 2 == 0
-      return display ? "{0}" : "  "
+      return display ? args[0] : "  "
     }
     flash()
 
   bStats:
-    servers: '${bStats.query_servers_&a_&7 servers}'
-    players: '${bStats.query_players_&6_&7 players}'
-    menus: '${bStats.query_menus_&2_&7 menus}'
+    servers: 'vars("${bStats.query_servers_&a_&7 servers}")'
+    players: 'vars("${bStats.query_players_&6_&7 players}")'
+    menus: 'vars("${bStats.query_menus_&2_&7 menus}")'
     opens: |-
       function opens() {
         var data = utils.query("https://bstats.org/api/v1/plugins/5742/charts/menu_open_counts/data?maxElements=1")
-        if (data != null && data.hasData()){
-          return "&b" + data.getJsonElement().getAsJsonArray().get(0).getAsJsonArray().get(1) + "&7"
+        if (data.has()){
+          return "&b" + data.asJson().getAsJsonArray().get(0).getAsJsonArray().get(1) + "&7"
         }
-        return "&8Loading." + ${flash_.} + "&7"
+        return "&8Loading." + vars("${flash_.}") + "&7"
       }
       opens()
     query: |-
       function query() {
-        var data = utils.query("https://bstats.org/api/v1/plugins/5742/charts/" + "{0}" + "/data?maxElements=1")
-        if (data != null && data.hasData()){
-          return "{1}" + data.getJsonElement().getAsJsonArray().get(0).getAsJsonArray().get(1) + "{2}"
+        var data = utils.query("https://bstats.org/api/v1/plugins/5742/charts/" + args[0] + "/data?maxElements=1")
+        if (data.has()){
+          return args[1] + data.asJson().getAsJsonArray().get(0).getAsJsonArray().get(1) + args[2]
         }
-        return "&8Loading." + ${flash_.}
+        return "&8Loading." + vars("${flash_.}")
       }
       query()

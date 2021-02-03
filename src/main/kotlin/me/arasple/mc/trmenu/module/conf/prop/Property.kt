@@ -1,5 +1,7 @@
 package me.arasple.mc.trmenu.module.conf.prop
 
+import org.apache.commons.lang.math.NumberUtils
+import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.configuration.MemorySection
 import org.bukkit.configuration.file.YamlConfiguration
 
@@ -229,58 +231,98 @@ enum class Property(val default: String, val regex: Regex) {
 
     override fun toString(): String = default
 
-    fun <T> of(conf: Map<String, Any>, def: T, nestedList: Boolean = false): T {
-        return of(conf, regex, def, nestedList)
+    fun ofString(conf: MemorySection?, def: String? = null): String {
+        return of(conf, def).toString()
     }
 
-    fun getKey(conf: Map<String, Any>): String {
-        return getKey(conf, regex) ?: default
+    fun ofBoolean(conf: MemorySection?, def: Boolean = false): Boolean {
+        return ofString(conf, def.toString()).toBoolean()
+    }
+
+    fun ofInt(conf: MemorySection?, def: Int = -1): Int {
+        return ofString(conf).toIntOrNull() ?: def
+    }
+
+    fun ofList(conf: MemorySection?): List<Any> {
+        return asAnyList(of(conf))
+    }
+
+    fun ofIntList(conf: MemorySection?, def: List<Int> = listOf()): List<Int> {
+        return asIntList(of(conf, def))
+    }
+
+    fun ofStringList(conf: MemorySection?, def: List<String> = listOf()): List<String> {
+        return asList(of(conf, def))
+    }
+
+    fun ofSection(conf: MemorySection?): MemorySection? {
+        return asSection(of(conf))
+    }
+
+    fun ofMap(conf: MemorySection?, deep: Boolean = false): Map<String, Any> {
+        return ofSection(conf)?.getValues(deep) ?: mapOf()
+    }
+
+    fun ofLists(conf: MemorySection?): List<List<String>> {
+        val list = ofList(conf)
+        return if (list.firstOrNull() is List<*>) {
+            list.map { asList(it) }
+        } else {
+            val strs = asList(list)
+            if (strs.isEmpty()) listOf() else listOf(strs)
+        }
+    }
+
+    fun of(conf: MemorySection?, def: Any? = null): Any? {
+        return conf?.get(getKey(conf)) ?: def
+    }
+
+    fun getKey(conf: MemorySection): String {
+        return getSectionKey(conf, this)
     }
 
     companion object {
 
-        /**
-         * PRIVATE CONSTS
-         */
-
-        val MAP = mapOf<String, Any>()
-        val LIST = listOf<String>()
-        val LIST_ANY = listOf<Any>()
-        val LISTS = listOf<List<String>>()
-
-        fun asStringList(any: Any): List<String> {
-            return asList(any) as List<String>
-        }
-
-        fun getKey(conf: Map<String, Any>, regex: Regex): String? {
-            return conf.keys.find { it.toLowerCase().matches(regex) }
-        }
-
-        fun <T> of(conf: Map<String, Any>, regex: Regex, def: T, nestedList: Boolean = false): T {
-            return getKey(conf, regex).let {
-                when (def) {
-                    is List<*> -> {
-                        if (nestedList || def.firstOrNull() is List<*>) asLists(conf[it]) as T
-                        else asList(conf[it]) as T
-                    }
-                    else -> conf[it] as T
-                }
-            } ?: def
-        }
-
-        fun <T> asList(any: T): List<T> {
+        fun asList(any: Any?): List<String> {
             if (any == null) return mutableListOf()
-            val result = mutableListOf<T>()
+            return when (any) {
+                is List<*> -> any.map { it.toString() }
+                else -> listOf(any.toString())
+            }
+        }
+
+        fun asAnyList(any: Any?): List<Any> {
+            if (any == null) return mutableListOf()
+            val result = mutableListOf<Any>()
             when (any) {
-                is List<*> -> any.forEach { result.add(it as T) }
-                else -> result.add(any as T)
+                is List<*> -> any.forEach { it?.let { any -> result.add(any) } }
+                else -> result.add(any.toString())
             }
             return result
         }
 
-        fun <T> asLists(any: T): List<List<T>> {
+        fun asIntList(any: Any?): List<Int> {
+            if (any == null) return mutableListOf()
+            val result = mutableListOf<Int>()
+            when (any) {
+                is List<*> -> any.forEach { result.add(it.toString().toInt()) }
+                else -> result.add(any.toString().toInt())
+            }
+            return result
+        }
+
+        fun asArray(any: Any?): Array<String> = asList(any).toTypedArray()
+
+        fun asIntArray(any: Any?): Array<Int> = asIntList(any).toTypedArray()
+
+        fun asBoolean(any: Any?): Boolean = any.toString().toBoolean()
+
+        fun asInt(any: Any?, def: Int = 0): Int = NumberUtils.toInt(any.toString(), def)
+
+        fun asLong(any: Any?, def: Long = 0): Long = NumberUtils.toLong(any.toString(), def)
+
+        fun <T> asLists(any: Any): List<List<T>> {
             val results = mutableListOf<List<T>>()
-            any ?: return results
             when (any) {
                 is List<*> -> {
                     if (any.isNotEmpty()) {
@@ -288,42 +330,32 @@ enum class Property(val default: String, val regex: Regex) {
                         else results.add(any as List<T>)
                     }
                 }
-                else -> results.add(listOf(any))
-
+                else -> results.add(listOf(any as T))
             }
             return results
         }
 
-        fun toMap(yaml: MemorySection): Map<String, Any> {
-            val map = mutableMapOf<String, Any>()
-            yaml.getValues(false).forEach { (key, value) ->
-                when (value) {
-                    is MemorySection -> map[key] = toMap(value)
-                    else -> map[key] = value
-                }
-            }
-            return map
-        }
-
-        fun castMap(it: Any): Map<String, Any> {
-            return it as Map<String, Any>
-        }
-
-        fun asSection(any: Any?): MemorySection? = YamlConfiguration().run {
+        fun asSection(any: Any?): MemorySection? = YamlConfiguration().let {
             when (any) {
                 is MemorySection -> return any
                 is Map<*, *> -> {
-                    any.entries.forEach { entry -> set(entry.key.toString(), entry.value) }
-                    return@run this
+                    any.entries.forEach { entry -> it.set(entry.key.toString(), entry.value) }
+                    return@let it
                 }
                 is List<*> -> any.forEach { any ->
                     val args = any.toString().split(Regex(":"), 2)
-                    if (args.size == 2) set(args[0], args[1])
-                    return@run this
+                    if (args.size == 2) it.set(args[0], args[1])
+                    return@let it
                 }
             }
-            return@run null
+            return@let null
         }
+
+        fun getSectionKey(section: ConfigurationSection?, property: Property) =
+            getSectionKey(section, property.regex, property.default, false)
+
+        fun getSectionKey(section: ConfigurationSection?, regex: Regex, default: String = "", deep: Boolean = false) =
+            section?.getKeys(deep)?.firstOrNull { it.matches(regex) } ?: default
 
     }
 

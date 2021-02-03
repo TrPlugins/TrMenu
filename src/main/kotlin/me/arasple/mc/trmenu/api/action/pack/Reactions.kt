@@ -15,8 +15,9 @@ inline class Reactions(private val reacts: List<React>) {
 
     companion object {
 
-        fun ofReaction(any: Any): Reactions {
+        fun ofReaction(any: Any?): Reactions {
             val reacts = mutableListOf<React>()
+            any ?: return Reactions(reacts)
             if (any is List<*>) {
                 val first = any.firstOrNull()
                 if (first is String || (first is Map<*, *>) && first.entries.firstOrNull()?.key.toString()
@@ -43,17 +44,17 @@ inline class Reactions(private val reacts: List<React>) {
         private fun ofReact(priority: Int, any: Any): React? {
             if (any is String) return React(priority, "", Actions.readAction(any), listOf())
 
-            val reaction = Property.asSection(any)?.let { Property.toMap(it) } ?: return null
+            val reaction = Property.asSection(any) ?: return null
             val keyPriority = Property.PRIORITY.getKey(reaction)
             val keyRequirement = Property.REQUIREMENT.getKey(reaction)
             val keyActions = Property.ACTIONS.getKey(reaction)
             val keyDenyActions = Property.DENY_ACTIONS.getKey(reaction)
 
             return React(
-                reaction.getOrDefault(keyPriority, priority).toString().toIntOrNull() ?: priority,
-                reaction.getOrDefault(keyRequirement, "").toString(),
-                Actions.readAction(Property.asList(reaction[keyActions]).filterNotNull()),
-                Actions.readAction(Property.asList(reaction[keyDenyActions]).filterNotNull())
+                reaction.getInt(keyPriority, priority),
+                reaction.getString(keyRequirement, "")!!,
+                Actions.readAction(Property.asList(reaction[keyActions])),
+                Actions.readAction(Property.asList(reaction[keyDenyActions]))
             )
         }
 
