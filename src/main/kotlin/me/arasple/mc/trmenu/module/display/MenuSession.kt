@@ -21,7 +21,7 @@ class MenuSession(
     val viewer: Player,
     var menu: Menu?,
     var page: Int,
-    var arguments: Array<String>,
+    arguments: Array<String>,
     private var agent: Player? = null,
     var receptacle: Receptacle? = null
 ) {
@@ -38,6 +38,24 @@ class MenuSession(
     val placeholderPlayer: Player
         get() {
             return agent ?: viewer
+        }
+
+    var arguments: Array<String> = arguments
+        set(value) {
+            val def = menu?.settings?.defaultArguments ?: return
+
+            if (def.isNotEmpty()) {
+                if (value.isEmpty()) {
+                    field = def
+                } else if (value.size < def.size) {
+                    val args = value.toMutableList()
+                    for (i in args.size until def.size) args.add(def[i])
+                    field = args.toTypedArray()
+                }
+                return
+            }
+
+            field = value
         }
 
     // 当前活动的图标记录

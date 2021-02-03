@@ -9,7 +9,6 @@ Loader:
 
 Menu:
   Settings:
-    # Minimum detection interval (in secs)
     Bound-Item-Interval: 3
   Icon:
     Inherit: false

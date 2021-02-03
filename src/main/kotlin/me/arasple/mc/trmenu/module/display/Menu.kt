@@ -38,8 +38,6 @@ class Menu(
         }
 
         if (settings.openEvent.eval(session)) {
-            block.invoke(session)
-
             val layout = layout[page]
             val receptacle: Receptacle
 
@@ -53,6 +51,7 @@ class Menu(
             loadIcon(session)
             loadTasks(session)
 
+            block.invoke(session)
             receptacle.open(viewer)
         }
     }

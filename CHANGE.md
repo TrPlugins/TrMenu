@@ -73,7 +73,7 @@ source:ORAXEN:itemId
     - `bukkitServer`
     - `utils`
    - 默认提供**函数**
-       - `var("STRING")` 编译变量，返回 String
+       - `vars("STRING")` 编译变量，返回 String
        - `varInt("STRING")` 编译变量，返回整型
 
 
