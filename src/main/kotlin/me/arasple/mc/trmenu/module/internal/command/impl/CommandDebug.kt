@@ -11,6 +11,7 @@ import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.module.display.Menu
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.data.Metadata
+import me.arasple.mc.trmenu.util.Time
 import me.arasple.mc.trmenu.util.bukkit.Heads
 import me.arasple.mc.trmenu.util.net.Paster
 import org.bukkit.Bukkit
@@ -18,7 +19,6 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
-import java.text.SimpleDateFormat
 
 /**
  * @author Arasple
@@ -76,7 +76,7 @@ class CommandDebug : BaseSubCommand() {
     private fun dump(sender: CommandSender) {
         val properties = System.getProperties()
         val dump = buildString {
-            append("TrMenu Dump Information (Date: ${formatDate()})\n\n")
+            append("TrMenu Dump Information (Date: ${Time.formatDate()})\n\n")
             append("| Server OS: ${properties["os.name"]} ${properties["os.arch"]} ${properties["os.version"]}\n")
             append("| Server software: ${Bukkit.getServer().version} (${Bukkit.getServer().bukkitVersion})\n")
             append("| Java version: ${System.getProperty("java.version")}\n\n")
@@ -152,10 +152,6 @@ class CommandDebug : BaseSubCommand() {
             sendMessage(TColor.translate(it))
         }
     }
-
-    private val formatDate: () -> String = { dateFormat.format(System.currentTimeMillis()) }
-
-    private val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 
     private val description: YamlConfiguration = PluginHandle.getPluginDescription()
 

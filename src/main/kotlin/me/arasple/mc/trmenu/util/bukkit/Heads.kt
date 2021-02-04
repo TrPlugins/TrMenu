@@ -52,10 +52,14 @@ object Heads {
 
     fun seekTexture(itemStack: ItemStack): String? {
         val meta = itemStack.itemMeta ?: return null
+
+        if (meta is SkullMeta) {
+            meta.owningPlayer?.name?.let { return it }
+        }
+        
         val field = meta.javaClass.getDeclaredField("profile").also { it.isAccessible = true }
         (field.get(meta) as GameProfile?)?.properties?.values()?.forEach {
-            if (it.name == "textures")
-                return it.value
+            if (it.name == "textures") return it.value
         }
         return null
     }

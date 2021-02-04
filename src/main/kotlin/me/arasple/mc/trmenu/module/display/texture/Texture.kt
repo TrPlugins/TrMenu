@@ -1,11 +1,13 @@
 package me.arasple.mc.trmenu.module.display.texture
 
+import io.izzel.taboolib.Version
 import io.izzel.taboolib.internal.xseries.XMaterial
 import io.izzel.taboolib.util.Strings
 import io.izzel.taboolib.util.item.ItemBuilder
 import io.izzel.taboolib.util.item.Items
 import me.arasple.mc.trmenu.api.menu.ITexture
 import me.arasple.mc.trmenu.module.display.MenuSession
+import me.arasple.mc.trmenu.module.internal.hook.HookPlugin
 import me.arasple.mc.trmenu.module.internal.item.ItemRepository
 import me.arasple.mc.trmenu.module.internal.item.ItemSource
 import me.arasple.mc.trmenu.util.Regexs
@@ -13,6 +15,8 @@ import me.arasple.mc.trmenu.util.bukkit.Heads
 import me.arasple.mc.trmenu.util.bukkit.ItemHelper
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.LeatherArmorMeta
+import org.bukkit.inventory.meta.SkullMeta
 
 /**
  * @author Arasple
@@ -51,7 +55,9 @@ class Texture(
                     TextureMeta.MODEL_DATA -> {
                         itemMeta?.setCustomModelData(value.toInt()).also { itemStack.itemMeta = itemMeta }
                     }
-                    TextureMeta.LEATHER_DYE -> itemStack // TODO
+                    TextureMeta.LEATHER_DYE -> if (itemMeta is LeatherArmorMeta) {
+                        itemMeta.setColor(ItemHelper.serializeColor(value)).also { itemStack.itemMeta = itemMeta }
+                    }
                     TextureMeta.BANNER_PATTERN -> itemStack // TODO
                 }
             }
@@ -64,6 +70,33 @@ class Texture(
     companion object {
 
         val FALL_BACK = ItemStack(Material.BEDROCK)
+
+        fun createTexture(itemStack: ItemStack): String {
+            val material = itemStack.type.name.toLowerCase().replace("_", " ")
+            val itemMeta = itemStack.itemMeta
+
+            // Head Meta
+            if (itemMeta is SkullMeta) {
+                val hdb =
+                    if (HookPlugin.getHeadDatabase().isHooked) {
+                        HookPlugin.getHeadDatabase().getId(itemStack)
+                    } else ""
+
+                return if (hdb != null) "source:HDB:$hdb"
+                else "head:Heads.seekTexture(itemStack)"
+            }
+            // Model Data
+            if (Version.isAfter(Version.v1_14) && itemMeta != null && itemMeta.hasCustomModelData()) {
+                return "$material{model-data:${itemMeta.customModelData}}"
+            }
+            // Leather
+            if (itemMeta is LeatherArmorMeta) {
+                return "$material{dye:${ItemHelper.deserializeColor(itemMeta.color)}}"
+            }
+            // Banner
+
+            return material
+        }
 
         /**
          * Create a texture from string

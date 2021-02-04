@@ -22,6 +22,8 @@ Command:
     Unknown-Player: '&8[&3Tr&bMenu&8] &7Player &f{0} is not online.'
   Action:
     Unknown-Player: '&8[&3Tr&bMenu&8] &7Player &f{0} is not online.'
+  Template:
+    Empty: '&8[&3Tr&bMenu&8] &7The template inventory is empty, menu creation cancelled.'
   Item:
     No-Item: '&8[&3Tr&bMenu&8] &7Please &fhold an item &7in hand.'
     To-Json:

@@ -28,8 +28,8 @@ class HookHeadDatabase : HookAbstract() {
         return headDatabaseAPI?.randomHead ?: empty
     }
 
-    fun getId(itemStack: ItemStack): String {
-        return headDatabaseAPI?.getItemID(itemStack) ?: "UNHOOKED"
+    fun getId(itemStack: ItemStack): String? {
+        return headDatabaseAPI?.getItemID(itemStack)
     }
 
 }

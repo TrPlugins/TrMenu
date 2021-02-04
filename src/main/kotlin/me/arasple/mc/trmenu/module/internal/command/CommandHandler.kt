@@ -20,13 +20,13 @@ class CommandHandler : BaseMainCommand() {
     @SubCommand(permission = "trmenu.command.reload", description = "Reload all menus")
     val reload: BaseSubCommand = CommandReload()
 
-//    @SubCommand(permission = "trmenu.command.template", description = "Create a menu template quickly", type = CommandType.PLAYER)
-//    val template: BaseSubCommand = CommandTemplate()
+    @SubCommand(permission = "trmenu.command.template", description = "Quick layout menu", type = CommandType.PLAYER)
+    val template: BaseSubCommand = CommandTemplate()
 
     @SubCommand(permission = "trmenu.command.action", description = "Run actions for test")
     val action: BaseSubCommand = CommandAction()
 
-    @SubCommand(permission = "trmenu.command.item", description = "Manipulate items & store to itemRepo")
+    @SubCommand(permission = "trmenu.command.item", description = "Manipulate items")
     val item: BaseSubCommand = CommandItem()
 
     @SubCommand(permission = "trmenu.command.sounds", description = "Preview & test sounds", type = CommandType.PLAYER)
@@ -34,7 +34,5 @@ class CommandHandler : BaseMainCommand() {
 
     @SubCommand(permission = "trmenu.command.debug", description = "Toggle debug mode or log debug info")
     val debug: BaseSubCommand = CommandDebug()
-
-//    val migrate: BaseSubCommand = CommandMigrate()
 
 }
