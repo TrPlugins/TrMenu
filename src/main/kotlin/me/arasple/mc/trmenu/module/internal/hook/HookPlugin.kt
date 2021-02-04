@@ -1,9 +1,6 @@
 package me.arasple.mc.trmenu.module.internal.hook
 
-import me.arasple.mc.trmenu.module.internal.hook.impl.HookHeadDatabase
-import me.arasple.mc.trmenu.module.internal.hook.impl.HookOraxen
-import me.arasple.mc.trmenu.module.internal.hook.impl.HookPlayerPoints
-import me.arasple.mc.trmenu.module.internal.hook.impl.HookSkinsRestorer
+import me.arasple.mc.trmenu.module.internal.hook.impl.*
 
 /**
  * @author Arasple
@@ -11,18 +8,19 @@ import me.arasple.mc.trmenu.module.internal.hook.impl.HookSkinsRestorer
  */
 object HookPlugin {
 
-    private val registry: List<HookAbstract> = listOf(
+    private val registry: Array<HookAbstract> = arrayOf(
         HookHeadDatabase(),
         HookOraxen(),
         HookPlayerPoints(),
         HookSkinsRestorer(),
+        HookItemsAdder()
     )
 
     fun getHeadDatabase(): HookHeadDatabase {
         return registry[0] as HookHeadDatabase
     }
 
-    fun getHookOraxen(): HookOraxen {
+    fun getOraxen(): HookOraxen {
         return registry[1] as HookOraxen
     }
 
@@ -32,6 +30,10 @@ object HookPlugin {
 
     fun getSkinsRestorer(): HookSkinsRestorer {
         return registry[3] as HookSkinsRestorer
+    }
+
+    fun getItemsAdder(): HookItemsAdder {
+        return registry[4] as HookItemsAdder
     }
 
 }

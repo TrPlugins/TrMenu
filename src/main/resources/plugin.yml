@@ -19,13 +19,11 @@ license: https://github.com/TrMenu/TrMenu/blob/v2/LICENSE.md
 softdepend:
   - PlaceholderAPI
   - Vault
-  - CMI
-  - Cronus
   - PlayerPoints
   - HeadDatabase
   - Oraxen
   - SkinsRestorer
-  - TokenManager
+  - ItemsAdder
 
 built-time: ${built}
 built-by: ${builder}

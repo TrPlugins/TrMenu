@@ -19,9 +19,8 @@ object ItemSource {
                 if (id.equals("RANDOM", true)) HookPlugin.getHeadDatabase().getRandomHead()
                 else HookPlugin.getHeadDatabase().getHead(id)
             }
-            "ORAXEN" -> {
-                HookPlugin.getHookOraxen().getItem(id)
-            }
+            "ORAXEN" -> HookPlugin.getOraxen().getItem(id)
+            "ITEMSADDER", "IA" -> HookPlugin.getItemsAdder().getItem(id)
             else -> null
         }
     }
