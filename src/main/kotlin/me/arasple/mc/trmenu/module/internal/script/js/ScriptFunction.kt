@@ -9,7 +9,6 @@ import me.arasple.mc.trmenu.module.internal.script.EvalResult
  */
 data class ScriptFunction(val id: String, private val raw: String) {
 
-
     private val hasFunction = raw.contains("function")
     private val hasReturn = raw.contains("return")
     private val basement = if (hasFunction) raw else "function def() { ${if (hasReturn) "" else "return"} $raw } def()"

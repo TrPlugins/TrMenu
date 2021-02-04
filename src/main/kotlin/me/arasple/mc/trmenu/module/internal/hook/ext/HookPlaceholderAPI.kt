@@ -71,9 +71,7 @@ class HookPlaceholderAPI : PlaceholderExpansion(), Listener {
         if (expansions.isNotEmpty()) {
             e.isCancelled = true
             TLocale.sendTo(viewer, "Menu.Expansions.Header", expansions.size)
-            expansions.forEach {
-                TLocale.sendTo(viewer, "Menu.Expansions.Format", it)
-            }
+            expansions.forEach { TLocale.sendTo(viewer, "Menu.Expansions.Format", it) }
         }
     }
 

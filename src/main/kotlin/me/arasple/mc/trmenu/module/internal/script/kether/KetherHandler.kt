@@ -7,9 +7,7 @@ import io.izzel.taboolib.kotlin.kether.ScriptLoader
 import io.izzel.taboolib.kotlin.kether.common.api.QuestActionParser
 import io.izzel.taboolib.module.inject.TFunction
 import me.arasple.mc.trmenu.module.internal.script.EvalResult
-import me.arasple.mc.trmenu.module.internal.script.impl.KetherClose
-import me.arasple.mc.trmenu.module.internal.script.impl.KetherData
-import me.arasple.mc.trmenu.module.internal.script.impl.KetherMeta
+import me.arasple.mc.trmenu.module.internal.script.impl.*
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.util.concurrent.CompletableFuture
@@ -29,6 +27,9 @@ object KetherHandler {
         addAction(KetherClose.parser(), "close")
         addAction(KetherMeta.parser(), "meta")
         addAction(KetherData.parser(), "data")
+        addAction(KetherItem.parser(), "item")
+        addAction(KetherMoney.parser(), "money")
+        addAction(KetherPoints.parser(), "points")
     }
 
 

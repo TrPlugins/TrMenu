@@ -28,9 +28,7 @@ object ItemRepository {
         data.getKeys(true).filter { !itemStacks.keys.contains(it) }.forEach { data.set(it, null) }
         itemStacks.forEach { (id, item) -> data.set(id, item) }
         data.saveToFile()
-        if (!isCanceling) {
-            Tasks.delay(2) { writing = false }
-        }
+        if (!isCanceling) Tasks.delay { writing = false }
     }
 
     @TSchedule(delay = 20)

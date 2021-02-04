@@ -69,10 +69,8 @@ object ReceptacleAPI {
             receptacle.close(player, false)
 
             // 防止关闭菜单后, 动态标题频率过快出现的卡假容器
-            Tasks.delay(2, true) {
-                MANAGER.getViewingReceptacle(player) ?: kotlin.run {
-                    PacketWindowClose().send(player)
-                }
+            Tasks.delay(async = true) {
+                MANAGER.getViewingReceptacle(player) ?: kotlin.run { PacketWindowClose().send(player) }
             }
 
             return false

@@ -18,12 +18,12 @@ object Tasks {
         else scheduler.runTask(plugin, runnable)
     }
 
-    fun delay(delay: Long = 0L, async: Boolean = !Bukkit.isPrimaryThread(), runnable: () -> Unit): BukkitTask {
+    fun delay(delay: Long = 2L, async: Boolean = !Bukkit.isPrimaryThread(), runnable: () -> Unit): BukkitTask {
         return if (async) scheduler.runTaskLaterAsynchronously(plugin, runnable, delay)
         else scheduler.runTaskLater(plugin, runnable, delay)
     }
 
-    fun timer(delay: Long = 0L, period: Long = 20L, async: Boolean = !Bukkit.isPrimaryThread(), runnable: () -> Unit): BukkitTask {
+    fun timer(delay: Long = 2L, period: Long = 20L, async: Boolean = !Bukkit.isPrimaryThread(), runnable: () -> Unit): BukkitTask {
         return if (async) scheduler.runTaskTimerAsynchronously(plugin, runnable, delay, period)
         else scheduler.runTaskTimer(plugin, runnable, delay, period)
     }

@@ -20,7 +20,7 @@ inline class Condition(private val script: String) {
     companion object {
 
         fun eval(player: Player, script: String): EvalResult {
-            Mirror.check("evalCondition") {
+            Mirror.check("Script:evalCondition") {
                 val js = script.startsWith("js: ").also { script.removePrefix("js: ") }
                 return if (js) JavaScriptAgent.eval(MenuSession.getSession(player), script)
                 else KetherHandler.eval(player, script)

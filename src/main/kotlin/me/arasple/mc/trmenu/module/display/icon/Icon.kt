@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.module.display.icon
 
+import io.izzel.taboolib.kotlin.Mirror
 import me.arasple.mc.trmenu.api.menu.IIcon
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.util.Tasks
@@ -38,29 +39,31 @@ class Icon(
     }
 
     override fun onUpdate(session: MenuSession, frames: Set<Int>) {
-        val icon = getProperty(session)
-        frames.forEach {
-            when (it) {
-                // Position
-                3 -> {
-                    position.cycleIndex(session)
-                    position.updatePosition(session)
-                    session.updateActiveSlots()
-                }
-                // Texture, Name, Lore
-                else -> {
-                    val display = icon.display
-                    when (it) {
-                        0 -> display.updateTexture(session)
-                        1 -> display.updateName(session)
-                        2 -> display.updateLore(session)
-                        else -> {
+        Mirror.check("Menu:Icon:onUpdate") {
+            val icon = getProperty(session)
+            frames.forEach {
+                when (it) {
+                    // Position
+                    3 -> {
+                        position.cycleIndex(session)
+                        position.updatePosition(session)
+                        session.updateActiveSlots()
+                    }
+                    // Texture, Name, Lore
+                    else -> {
+                        val display = icon.display
+                        when (it) {
+                            0 -> display.updateTexture(session)
+                            1 -> display.updateName(session)
+                            2 -> display.updateLore(session)
+                            else -> {
+                            }
                         }
                     }
                 }
             }
+            settingItem(session, icon)
         }
-        settingItem(session, icon)
     }
 
     override fun settingItem(session: MenuSession, icon: IconProperty) {

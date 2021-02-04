@@ -93,7 +93,7 @@ class MenuSession(
      * 处理一个字符串，替换函数变量
      */
     fun parse(string: String): String {
-        Mirror.check("parse") {
+        Mirror.check("Function:parse") {
             val result: String
             val content = Strings.replaceWithOrder(string, arguments)
 

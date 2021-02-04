@@ -37,7 +37,6 @@ class CommandAction : BaseSubCommand() {
                     sender.sendMessage("§8[§7Action§8] §7Result: §3$it")
                 }
             }.also { sender.sendMessage("§8[§7Action§8] §7Evaluated §8{$action} §7in §f${it.div(1000000.0)} ms") }
-
         }
     }
 

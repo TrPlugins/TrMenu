@@ -11,6 +11,7 @@ import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.module.display.Menu
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.data.Metadata
+import me.arasple.mc.trmenu.util.Tasks
 import me.arasple.mc.trmenu.util.Time
 import me.arasple.mc.trmenu.util.bukkit.Heads
 import me.arasple.mc.trmenu.util.net.Paster
@@ -62,12 +63,14 @@ class CommandDebug : BaseSubCommand() {
      * 性能损害
      */
     private fun mirror(sender: CommandSender) {
-        val collect = Mirror.collect {
-            childFormat = "§8[TrMenu] §8{0}§f{1} §8[{2} ms] §c[{3} ms] §7{4}%"
-            parentFormat = "§8[TrMenu] §8{0}§7{1} §8[{2} ms] §c[{3} ms] §7{4}%"
+        Tasks.task(true) {
+            Mirror.collect {
+                childFormat = "§8[TrMenu] §8{0}§f{1} §8[{2} ms] §c[{3} ms] §7{4}%"
+                parentFormat = "§8[TrMenu] §8{0}§7{1} §8[{2} ms] §c[{3} ms] §7{4}%"
+            }.run {
+                print(sender, getTotal(), 0)
+            }
         }
-        val total = collect.getTotal()
-        collect.print(sender, total, 1)
     }
 
     /**
