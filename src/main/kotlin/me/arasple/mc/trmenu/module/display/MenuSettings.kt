@@ -1,6 +1,7 @@
 package me.arasple.mc.trmenu.module.display
 
 import io.izzel.taboolib.internal.apache.lang3.ArrayUtils
+import io.izzel.taboolib.util.lite.cooldown.Cooldown
 import me.arasple.mc.trmenu.api.action.pack.Reactions
 import me.arasple.mc.trmenu.module.internal.script.js.ScriptFunction
 import me.arasple.mc.trmenu.util.bukkit.ItemMatcher
@@ -29,6 +30,8 @@ class MenuSettings(
     val tasks: Map<Long, Reactions>,
     val internalFunctions: Set<ScriptFunction>
 ) {
+
+    val clickDelay = Cooldown("CLICK_DELAY", minClickDelay).also { it.plugin = "TrMenu" }
 
     val dependExpasions: Array<String> = expansions
         get() {

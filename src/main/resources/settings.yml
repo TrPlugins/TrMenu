@@ -23,3 +23,24 @@ Action:
     Cancel-Words:
       - 'cancel|quit|end'
       - 'q'
+
+Shortcuts:
+  Offhand: 'open: Example'
+  Sneaking-Offhand:
+    - condition: 'hasPerm.trmenu.shortcut'
+      execute: 'open: Example'
+      deny: 'return'
+  Right-Click-Player: []
+  Sneaking-Right-Click-Player: []
+  PlayerInventory-Border-Left: []
+  PlayerInventory-Border-Right: []
+  PlayerInventory-Border-Middle: []
+
+RegisterCommands:
+  openMenus:
+    aliases: []
+    permission: null
+    execute:
+      - 'tell: &7Argument `example` Required!'
+    arguments:
+      example: 'open: example'

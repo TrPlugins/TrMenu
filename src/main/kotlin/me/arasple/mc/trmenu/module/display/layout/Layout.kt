@@ -67,12 +67,21 @@ class Layout(
             menu.settings.closeEvent.eval(session)
             session.shut()
         }
-        receptacle.listenerClick { _, event ->
-            if (!menu.isFreeSlot(event.slot)) {
+        receptacle.listenerClick { player, event ->
+            val cancelEvent = {
                 event.isCancelled = true
                 receptacle.refresh(event.slot)
+                if (event.clickType.isItemMoveable()) {
+                    event.receptacle.type.mainInvSlots.forEach(receptacle::refresh)
+                }
             }
-            if (event.clickType.isItemMoveable()) event.receptacle.type.mainInvSlots.forEach(receptacle::refresh)
+
+            if (menu.settings.clickDelay.isCooldown(player.name)) {
+                return@listenerClick cancelEvent()
+            } else if (!menu.isFreeSlot(event.slot)) {
+                cancelEvent()
+            }
+
             session.getIconProperty(event.slot)?.handleClick(event.clickType, session)
         }
     }
