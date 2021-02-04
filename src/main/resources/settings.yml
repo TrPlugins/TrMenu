@@ -1,7 +1,5 @@
 Options:
-  # Available: zh_CN, zh_TW, en_US
   Language: en_US
-  Debug: true
 
 Loader:
   Menu-Files:
@@ -30,15 +28,15 @@ Shortcuts:
     - condition: 'hasPerm.trmenu.shortcut'
       execute: 'open: Example'
       deny: 'return'
-  Right-Click-Player: []
-  Sneaking-Right-Click-Player: []
-  PlayerInventory-Border-Left: []
-  PlayerInventory-Border-Right: []
-  PlayerInventory-Border-Middle: []
+  Right-Click-Player: [ ]
+  Sneaking-Right-Click-Player: [ ]
+  PlayerInventory-Border-Left: [ ]
+  PlayerInventory-Border-Right: [ ]
+  PlayerInventory-Border-Middle: [ ]
 
 RegisterCommands:
   openMenus:
-    aliases: []
+    aliases: [ ]
     permission: null
     execute:
       - 'tell: &7Argument `example` Required!'

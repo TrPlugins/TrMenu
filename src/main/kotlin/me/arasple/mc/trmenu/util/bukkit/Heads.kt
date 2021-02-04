@@ -56,7 +56,7 @@ object Heads {
         if (meta is SkullMeta) {
             meta.owningPlayer?.name?.let { return it }
         }
-        
+
         val field = meta.javaClass.getDeclaredField("profile").also { it.isAccessible = true }
         (field.get(meta) as GameProfile?)?.properties?.values()?.forEach {
             if (it.name == "textures") return it.value
@@ -78,19 +78,15 @@ object Heads {
             }
             else -> {
                 Tasks.task(true) {
-                    try {
-                        val profile = JsonParser().parse(IO.readFromURL("${MOJANG_API[0]}$name")) as JsonObject
-                        val uuid = profile["id"].asString
-                        (JsonParser().parse(IO.readFromURL("${MOJANG_API[1]}$uuid")) as JsonObject).getAsJsonArray("properties")
-                        (JsonParser().parse(IO.readFromURL("${MOJANG_API[1]}$uuid")) as JsonObject).getAsJsonArray("properties")
-                            .forEach {
-                                if ("textures" == it.asJsonObject["name"].asString) {
-                                    CACHED_PLAYER_TEXTURE[name] = it.asJsonObject["value"].asString.also(block)
-                                }
+                    val profile = JsonParser().parse(IO.readFromURL("${MOJANG_API[0]}$name")) as JsonObject
+                    val uuid = profile["id"].asString
+                    (JsonParser().parse(IO.readFromURL("${MOJANG_API[1]}$uuid")) as JsonObject).getAsJsonArray("properties")
+                    (JsonParser().parse(IO.readFromURL("${MOJANG_API[1]}$uuid")) as JsonObject).getAsJsonArray("properties")
+                        .forEach {
+                            if ("textures" == it.asJsonObject["name"].asString) {
+                                CACHED_PLAYER_TEXTURE[name] = it.asJsonObject["value"].asString.also(block)
                             }
-                    } catch (e: Throwable) {
-                        e.printStackTrace()
-                    }
+                        }
                 }
             }
         }
