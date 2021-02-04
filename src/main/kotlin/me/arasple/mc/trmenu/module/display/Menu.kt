@@ -23,13 +23,14 @@ class Menu(
 
     }
 
-    private val viewers: Set<Player> = mutableSetOf()
+    private val viewers: MutableSet<Player> = mutableSetOf()
 
     /**
      * 开启菜单
      */
     fun open(viewer: Player, page: Int = settings.defaultLayout, block: (MenuSession) -> Unit = {}) {
         val session = MenuSession.getSession(viewer)
+        viewers.add(viewer)
 
         if (session.menu == this) {
             return page(viewer, page)
@@ -142,6 +143,10 @@ class Menu(
      */
     fun isFreeSlot(slot: Int): Boolean {
         return settings.freeSlots.contains(slot)
+    }
+
+    fun removeViewer(viewer: Player) {
+        viewers.remove(viewer)
     }
 
 }

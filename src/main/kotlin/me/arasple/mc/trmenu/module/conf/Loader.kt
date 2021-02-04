@@ -73,7 +73,10 @@ object Loader {
 
                 if (reload.succeed()) {
                     val reloadMenu = reload.result as Menu
-                    current.forSessions { s -> reloadMenu.open(s.viewer, s.page) }
+
+                    current.forSessions { s ->
+                        reloadMenu.open(s.viewer, s.page)
+                    }
 
                     Menu.menus.replaceAll { target ->
                         if (target == current) reloadMenu

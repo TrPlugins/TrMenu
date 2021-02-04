@@ -149,6 +149,7 @@ class MenuSession(
      */
     fun close(closePacket: Boolean, updateInventory: Boolean) {
         receptacle?.close(viewer, closePacket)
+        menu?.removeViewer(viewer)
         if (updateInventory) viewer.updateInventory()
     }
 
