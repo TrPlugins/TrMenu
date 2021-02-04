@@ -4,6 +4,7 @@ import io.izzel.taboolib.kotlin.Mirror
 import io.izzel.taboolib.module.locale.TLocale
 import io.izzel.taboolib.module.locale.chatcolor.TColor
 import io.izzel.taboolib.util.Strings
+import me.arasple.mc.trmenu.api.event.MenuCloseEvent
 import me.arasple.mc.trmenu.api.receptacle.window.Receptacle
 import me.arasple.mc.trmenu.module.display.icon.Icon
 import me.arasple.mc.trmenu.module.display.icon.IconProperty
@@ -148,6 +149,7 @@ class MenuSession(
      * 关闭会话和容器
      */
     fun close(closePacket: Boolean, updateInventory: Boolean) {
+        MenuCloseEvent(this).call()
         receptacle?.close(viewer, closePacket)
         menu?.removeViewer(viewer)
         if (updateInventory) viewer.updateInventory()

@@ -4,6 +4,7 @@ import io.izzel.taboolib.module.locale.TLocale
 import io.izzel.taboolib.util.Files
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.TrMenuAPI
+import me.arasple.mc.trmenu.api.event.MenuOpenEvent
 import me.arasple.mc.trmenu.module.display.Menu
 import me.arasple.mc.trmenu.util.file.FileListener
 import org.bukkit.Bukkit
@@ -57,7 +58,7 @@ object Loader {
             func(TrMenu.SETTINGS.getStringList("Loader.Menu-Files").flatMap { filterMenuFiles(File(it)) })
 
         }.also {
-            TLocale.sendTo(sender, "Loader.Menu", Menu.menus.size, it / 1000000.0)
+            TLocale.sendTo(sender, "Menu.Loaded", Menu.menus.size, it / 1000000.0)
         }
 
     }
@@ -75,7 +76,7 @@ object Loader {
                     val reloadMenu = reload.result as Menu
 
                     current.forSessions { s ->
-                        reloadMenu.open(s.viewer, s.page)
+                        reloadMenu.open(s.viewer, s.page, MenuOpenEvent.Reason.RELOAD)
                     }
 
                     Menu.menus.replaceAll { target ->

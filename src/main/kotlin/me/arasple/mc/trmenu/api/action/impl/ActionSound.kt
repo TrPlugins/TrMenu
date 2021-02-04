@@ -18,7 +18,7 @@ class ActionSound(content: String, option: ActionOption) : AbstractAction(conten
             if (split.isNotEmpty()) {
                 val sound = Sounds.matchSounds(split[0]).orElse(null)
                 if (sound == null) {
-                    TLocale.sendTo(player, "Action.Sound", it)
+                    TLocale.sendTo(player, "Menu.Action.Sound", it)
                     return
                 }
                 val volume: Float = split.getOrNull(1)?.toFloatOrNull() ?: 1f

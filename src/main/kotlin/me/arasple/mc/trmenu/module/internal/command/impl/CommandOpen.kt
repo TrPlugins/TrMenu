@@ -5,6 +5,7 @@ import io.izzel.taboolib.module.command.base.Argument
 import io.izzel.taboolib.module.command.base.BaseSubCommand
 import io.izzel.taboolib.module.locale.TLocale
 import me.arasple.mc.trmenu.api.TrMenuAPI
+import me.arasple.mc.trmenu.api.event.MenuOpenEvent
 import me.arasple.mc.trmenu.module.display.Menu
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
@@ -39,7 +40,7 @@ class CommandOpen : BaseSubCommand() {
             return
         }
 
-        menu.open(player, page) {
+        menu.open(player, page, MenuOpenEvent.Reason.PLAYER_COMMAND) {
             if (arguments != null) {
                 it.arguments = arguments
             }

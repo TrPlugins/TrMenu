@@ -1,5 +1,7 @@
 package me.arasple.mc.trmenu.module.display
 
+import me.arasple.mc.trmenu.api.event.MenuOpenEvent
+import me.arasple.mc.trmenu.api.event.MenuPageChangeEvent
 import me.arasple.mc.trmenu.api.receptacle.window.Receptacle
 import me.arasple.mc.trmenu.module.display.icon.Icon
 import me.arasple.mc.trmenu.module.display.layout.MenuLayout
@@ -28,10 +30,16 @@ class Menu(
     /**
      * 开启菜单
      */
-    fun open(viewer: Player, page: Int = settings.defaultLayout, block: (MenuSession) -> Unit = {}) {
+    fun open(
+        viewer: Player,
+        page: Int = settings.defaultLayout,
+        reason: MenuOpenEvent.Reason,
+        block: (MenuSession) -> Unit = {}
+    ) {
         val session = MenuSession.getSession(viewer)
         viewers.add(viewer)
 
+        if (!MenuOpenEvent(session, page).callEvent()) return
         if (session.menu == this) {
             return page(viewer, page)
         } else if (session.menu != null) {
@@ -68,6 +76,7 @@ class Menu(
         val receptacle: Receptacle
         val override = previous.isSimilar(layout)
 
+        if (!MenuPageChangeEvent(session, session.page, page, override).callEvent()) return
         if (override) {
             receptacle = session.receptacle!!
             receptacle.clearItems()

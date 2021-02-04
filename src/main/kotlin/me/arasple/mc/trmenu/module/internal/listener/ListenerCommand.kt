@@ -1,6 +1,7 @@
 package me.arasple.mc.trmenu.module.internal.listener
 
 import io.izzel.taboolib.module.inject.TListener
+import me.arasple.mc.trmenu.api.event.MenuOpenEvent
 import me.arasple.mc.trmenu.module.display.Menu
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
@@ -24,7 +25,9 @@ class ListenerCommand : Listener {
             Menu.menus.forEach {
                 val matches = it.settings.matchCommand(it, message)
                 if (matches != null) {
-                    it.open(player) { session -> session.arguments = matches }
+                    it.open(player, reason = MenuOpenEvent.Reason.BINDING_COMMANDS) { session ->
+                        session.arguments = matches
+                    }
                     e.isCancelled = true
                     return
                 }

@@ -4,6 +4,7 @@ import io.izzel.taboolib.Version
 import io.izzel.taboolib.module.inject.TListener
 import io.izzel.taboolib.util.lite.cooldown.Cooldown
 import me.arasple.mc.trmenu.TrMenu
+import me.arasple.mc.trmenu.api.event.MenuOpenEvent
 import me.arasple.mc.trmenu.module.display.Menu
 import me.arasple.mc.trmenu.util.Tasks
 import org.bukkit.event.EventHandler
@@ -38,7 +39,7 @@ class ListenerItemInteract : Listener {
             val menu = Menu.menus.find { it.settings.boundItems.any { it.itemMatches(item) } }
             if (menu != null) {
                 e.isCancelled = true
-                menu.open(player)
+                menu.open(player, reason = MenuOpenEvent.Reason.BINDING_ITEMS)
             }
         }
     }

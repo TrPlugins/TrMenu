@@ -72,11 +72,7 @@ class Layout(
                 event.isCancelled = true
                 receptacle.refresh(event.slot)
             }
-
-            if (event.clickType.isItemMoveable()) {
-                event.receptacle.type.mainInvSlots.forEach(receptacle::refresh)
-            }
-
+            if (event.clickType.isItemMoveable()) event.receptacle.type.mainInvSlots.forEach(receptacle::refresh)
             session.getIconProperty(event.slot)?.handleClick(event.clickType, session)
         }
     }

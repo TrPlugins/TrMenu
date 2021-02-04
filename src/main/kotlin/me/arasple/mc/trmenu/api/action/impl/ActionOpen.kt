@@ -3,6 +3,7 @@ package me.arasple.mc.trmenu.api.action.impl
 import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.api.action.base.AbstractAction
 import me.arasple.mc.trmenu.api.action.base.ActionOption
+import me.arasple.mc.trmenu.api.event.MenuOpenEvent
 import org.bukkit.entity.Player
 
 /**
@@ -20,7 +21,7 @@ class ActionOpen(content: String, option: ActionOption) : AbstractAction(content
         val menu = TrMenuAPI.getMenuById(split[0]) ?: return
         val page = split.getOrNull(1)?.toIntOrNull() ?: -1
 
-        menu.open(player, page) {
+        menu.open(player, page, MenuOpenEvent.Reason.PLAYER_COMMAND) {
             if (arguments.isNotEmpty()) it.arguments = arguments
         }
     }

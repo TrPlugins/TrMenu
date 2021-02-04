@@ -8,8 +8,22 @@ Plugin:
     Hooked: '&8[&3Tr&bMenu&8] &6HOOK &8| &7Soft-Dependency &f{0} &7is hooked.'
     Abuse: '&8[&3Tr&bMenu&8] &6HOOK &8| &4Attempted to use the non-installed soft-depend plugin &c{0}'
 
-Loader:
-  Menu: '&8[&3Tr&bMenu&8] &aFINE &8| &a{0} &3menus were loaded &8({1} ms)'
+Menu:
+  Loaded: '&8[&3Tr&bMenu&8] &aFINE &8| &a{0} &3menus were loaded &8({1} ms)'
+  Expansions:
+    Header:
+      - ''
+      - '&8[&fTr&7Menu&8] &7You have to install the &f{0} &7expansion for PlaceholderAPI to use this menu.'
+      - ''
+    Format:
+      ==: JSON
+      text: '&8- <&a{0}@expansion>&r'
+      args:
+        expansion:
+          hover: '&7Click to download'
+          command: '/placeholderapi ecloud download {0}'
+  Action:
+    Sound: '&8[&3Tr&bMenu&8] &7Unkown sound: &f{0}'
 
 Paster:
   Processing: '&8[&3Tr&bMenu&8] &7Pasting content ...'
@@ -48,6 +62,3 @@ Command:
         menu:
           hover: '&7Click to open'
           command: '/trmenu open {0}'
-
-Action:
-  Sound: '&8[&3Tr&bMenu&8] &7Unkown sound: &f{0}'

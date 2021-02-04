@@ -36,7 +36,6 @@ class MenuSettings(
             return field.filter { ex -> registered.none { it.equals(ex, true) } }.toTypedArray()
         }
 
-
     /**
      * 匹配菜单绑定的命令
      *
