@@ -20,7 +20,7 @@ class IconProperty(
 ) {
 
     fun isTextureUpdatable(): Boolean {
-        return display.texture.cyclable() || display.texture.elements.any { it.dynamic }
+        return display.meta.isDynamic || display.texture.cyclable() || display.texture.elements.any { it.dynamic }
     }
 
     fun isNameUpdatable(): Boolean {

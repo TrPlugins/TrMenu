@@ -131,8 +131,8 @@ class Assist {
         return getSession(player)?.arguments
     }
 
-    fun query(url: String): NetQuery {
-        return NetQuery.query(url)
+    fun query(url: String, span: Int = 60 * 3): NetQuery {
+        return NetQuery.query(url, span)
     }
 
     fun getSession(player: String): MenuSession? {

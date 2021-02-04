@@ -14,14 +14,14 @@ import java.nio.charset.StandardCharsets
  * @author Arasple
  * @date 2021/2/3 8:45
  */
-class NetQuery(private val url: String, private val span: Int = 60 * 3) {
+class NetQuery(private val url: String, private val span: Int) {
 
     companion object {
 
         private val queries = Maps.newConcurrentMap<String, NetQuery>()
 
-        fun query(url: String): NetQuery {
-            return queries.computeIfAbsent(url) { NetQuery(url) }
+        fun query(url: String, span: Int): NetQuery {
+            return queries.computeIfAbsent(url) { NetQuery(url, span) }
         }
 
     }

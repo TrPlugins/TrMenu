@@ -83,11 +83,12 @@ class Icon(
     /**
      * 更新周期
      */
-    private val update: Map<Long, Set<Int>> by lazy {
+    private val update: Map<Long, Set<Int>> = kotlin.run {
         val result = mutableMapOf<Long, MutableSet<Int>>()
-        val array = Array(4) { update.getOrElse(it) { update.maxOrNull() ?: -1 } }
+        val fallback = update.maxOrNull() ?: -1
+        val array = Array(4) { update.getOrElse(it) { fallback } }
 
-        update.forEachIndexed { index, i ->
+        array.forEachIndexed { index, i ->
             if (index <= 4 && i > 0) {
                 val allow = when (index) {
                     0 -> match { it.isTextureUpdatable() }
@@ -96,11 +97,9 @@ class Icon(
                     3 -> match { position.isUpdatable() }
                     else -> false
                 }
-                if (allow) array[index] = i
-                else array[index] = -1
+                if (!allow) array[index] = -1
             }
         }
-
         array.indices.forEach {
             if (array[it] > 0) result.computeIfAbsent(array[it].toLong()) { mutableSetOf() }.add(it)
         }

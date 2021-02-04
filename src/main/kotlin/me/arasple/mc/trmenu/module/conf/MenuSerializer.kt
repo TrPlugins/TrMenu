@@ -168,9 +168,10 @@ object MenuSerializer : ISerializer {
             val update = Property.ICON_UPDATE.ofIntList(section)
             val display = Property.ICON_DISPLAY.ofSection(section)
             val action = Property.ACTIONS.ofSection(section)
-            val defIcon = loadIconProperty(null, section, display, action)
+            val defIcon = loadIconProperty(null, section, display, action, -1)
             val slots = Property.ICON_DISPLAY_SLOT.ofLists(display)
             var pages = Property.ICON_DISPLAY_PAGE.ofIntList(display)
+            var order = 0
             val search = layout.search(id, pages)
 
             val position =
@@ -184,7 +185,7 @@ object MenuSerializer : ISerializer {
                 val sub = Property.asSection(it)
                 val subDisplay = Property.ICON_DISPLAY.ofSection(sub)
                 val subAction = Property.ACTIONS.ofSection(sub)
-                loadIconProperty(defIcon, sub, subDisplay, subAction)
+                loadIconProperty(defIcon, sub, subDisplay, subAction, order++)
             }
 
             if (defIcon.display.texture.isEmpty() || subs.any { it.display.texture.isEmpty() }) {
@@ -200,8 +201,8 @@ object MenuSerializer : ISerializer {
     /**
      * Func Ⅴ. 载入图标显示部分
      */
-    private val loadIconProperty: (IconProperty?, MemorySection?, MemorySection?, MemorySection?) -> IconProperty =
-        { def, it, display, action ->
+    private val loadIconProperty: (IconProperty?, MemorySection?, MemorySection?, MemorySection?, Int) -> IconProperty =
+        { def, it, display, action, order ->
 
             val name = Property.ICON_DISPLAY_NAME.ofStringList(display)
             val texture = Property.ICON_DISPLAY_MATERIAL.ofStringList(display)
@@ -211,7 +212,7 @@ object MenuSerializer : ISerializer {
             val flags = Property.ICON_DISPLAY_FLAGS.ofStringList(display)
             val nbt = Property.ICON_DISPLAY_NBT.ofMap(display)
             // only for the subIcon
-            val priority = Property.PRIORITY.ofInt(it, 0)
+            val priority = Property.PRIORITY.ofInt(it, order)
             val condition = Property.REQUIREMENT.ofString(it, "")
             val inherit = Property.INHERIT.ofBoolean(it, false)
             val clickActions = mutableMapOf<Set<ClickType>, Reactions>()

@@ -34,8 +34,8 @@ inline class Reactions(private val reacts: List<React>) {
                         )
                     )
                 }
-                var order = any.size
-                any.filterNotNull().forEach { ofReact(order--, it)?.let { react -> reacts.add(react) } }
+                var order = 0
+                any.filterNotNull().forEach { ofReact(order++, it)?.let { react -> reacts.add(react) } }
             } else ofReact(-1, any)?.let { reacts.add(it) }
 
             return Reactions(reacts)

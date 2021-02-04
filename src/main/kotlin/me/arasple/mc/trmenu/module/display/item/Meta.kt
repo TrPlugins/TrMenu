@@ -1,6 +1,5 @@
 package me.arasple.mc.trmenu.module.display.item
 
-import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import io.izzel.taboolib.module.nms.NMS
 import io.izzel.taboolib.module.nms.nbt.NBTCompound
 import io.izzel.taboolib.util.item.ItemBuilder
@@ -10,6 +9,7 @@ import me.arasple.mc.trmenu.util.Regexs
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
+import kotlin.math.roundToInt
 
 /**
  * @author Arasple
@@ -26,9 +26,10 @@ class Meta(
     private val isAmountDynamic = amount.toIntOrNull() == null
     private val isShinyDynamic = !shiny.matches(Regexs.BOOLEAN)
     private val isNBTDynamic = nbt != null && Regexs.containsPlaceholder(nbt.toJsonSimplified())
+    val isDynamic = isAmountDynamic || isNBTDynamic || isShinyDynamic
 
     fun amount(session: MenuSession): Int {
-        return NumberUtils.toDouble(if (isAmountDynamic) session.parse(amount) else amount, 1.0).toInt()
+        return (if (isAmountDynamic) session.parse(amount) else amount).toDoubleOrNull()?.roundToInt() ?: 1
     }
 
     fun shiny(session: MenuSession, builder: ItemBuilder) {
@@ -53,7 +54,7 @@ class Meta(
     }
 
     fun hasAmount(): Boolean {
-        return amount.isNotEmpty() || NumberUtils.toInt(amount, -1) >= 0
+        return amount.isNotEmpty() || amount.toIntOrNull() != null
     }
 
 }
