@@ -8,8 +8,9 @@ import me.arasple.mc.trmenu.api.menu.ITexture
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.item.ItemRepository
 import me.arasple.mc.trmenu.module.internal.item.ItemSource
+import me.arasple.mc.trmenu.util.Regexs
 import me.arasple.mc.trmenu.util.bukkit.Heads
-import me.arasple.mc.trmenu.util.Utils
+import me.arasple.mc.trmenu.util.bukkit.ItemHelper
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 
@@ -87,10 +88,10 @@ class Texture(
                 }
             }
 
-            val dynamic = Utils.containsPlaceholder(texture)
+            val dynamic = Regexs.containsPlaceholder(texture)
             if (type == TextureType.NORMAL) {
                 if (texture.startsWith("{")) {
-                    val json = Utils.asJsonItem(texture)
+                    val json = ItemHelper.asJsonItem(texture)
                     if (!Items.isNull(json)) {
                         type = TextureType.RAW
                         if (!dynamic) static = json!!

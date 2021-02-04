@@ -1,7 +1,7 @@
 package me.arasple.mc.trmenu.module.display.icon
 
 import me.arasple.mc.trmenu.module.display.MenuSession
-import me.arasple.mc.trmenu.util.Utils
+import me.arasple.mc.trmenu.util.Regexs
 import me.arasple.mc.trmenu.util.collections.CycleList
 
 /**
@@ -75,7 +75,7 @@ class Position(private val position: Map<Int, CycleList<Slot>>) {
                 val static = mutableSetOf<Int>()
                 slots.forEach { any ->
                     val it = any.toString()
-                    if (Utils.containsPlaceholder(it)) dynamic.add(it)
+                    if (Regexs.containsPlaceholder(it)) dynamic.add(it)
                     else static.addAll(readStaticSlots(it))
                 }
                 return Slot(static, dynamic)

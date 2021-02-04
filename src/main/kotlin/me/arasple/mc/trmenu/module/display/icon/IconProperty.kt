@@ -5,7 +5,7 @@ import me.arasple.mc.trmenu.api.receptacle.window.vanilla.ClickType
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.display.item.Item
 import me.arasple.mc.trmenu.module.internal.script.Condition
-import me.arasple.mc.trmenu.util.Utils
+import me.arasple.mc.trmenu.util.Regexs
 
 /**
  * @author Arasple
@@ -24,11 +24,11 @@ class IconProperty(
     }
 
     fun isNameUpdatable(): Boolean {
-        return display.name.cyclable() || display.name.elements.any { Utils.containsPlaceholder(it) }
+        return display.name.cyclable() || display.name.elements.any { Regexs.containsPlaceholder(it) }
     }
 
     fun isLoreUpdatable(): Boolean {
-        return display.lore.cyclable() || display.lore.elements.any { Utils.containsPlaceholder(it.lore.joinToString(" ")) }
+        return display.lore.cyclable() || display.lore.elements.any { Regexs.containsPlaceholder(it.lore.joinToString(" ")) }
     }
 
     fun handleClick(type: ClickType, session: MenuSession) {

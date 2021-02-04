@@ -2,7 +2,7 @@ package me.arasple.mc.trmenu.api.action.base
 
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.util.Tasks
-import me.arasple.mc.trmenu.util.Utils
+import me.arasple.mc.trmenu.util.Regexs
 import org.bukkit.entity.Player
 
 /**
@@ -11,7 +11,7 @@ import org.bukkit.entity.Player
  */
 abstract class AbstractAction(val baseContent: String = "", var option: ActionOption = ActionOption()) {
 
-    val dynamic = Utils.containsPlaceholder(baseContent)
+    val dynamic = Regexs.containsPlaceholder(baseContent)
 
     fun Player.getSession(): MenuSession {
         return MenuSession.getSession(this)

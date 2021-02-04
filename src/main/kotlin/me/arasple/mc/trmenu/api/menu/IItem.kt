@@ -1,12 +1,10 @@
 package me.arasple.mc.trmenu.api.menu
 
 import io.izzel.taboolib.util.item.ItemBuilder
-import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.display.item.Item
 import me.arasple.mc.trmenu.module.display.item.Meta
 import me.arasple.mc.trmenu.module.display.texture.Texture
-import org.bukkit.ChatColor
 import org.bukkit.inventory.ItemStack
 
 /**
@@ -15,18 +13,6 @@ import org.bukkit.inventory.ItemStack
  * @see Item
  */
 interface IItem {
-
-    companion object {
-
-         fun colorize(string: String, isLore: Boolean = false): String {
-            return if (string.isNotBlank() && !string.startsWith(ChatColor.COLOR_CHAR) && !string.startsWith('&')) {
-                val path = "Menu.Icon.Item.Default-Color-${if (isLore) "Lore" else "Name"}"
-                val defColor = TrMenu.SETTINGS.getStringColored(path, "&7")
-                defColor + string
-            } else string
-        }
-
-    }
 
     /**
      * 生成材质物品

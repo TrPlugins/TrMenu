@@ -15,6 +15,10 @@ object Regexs {
     val FALSE = "false|no|off".toRegex()
     val BOOLEAN = "true|yes|on|false|no|off".toRegex()
 
+    fun containsPlaceholder(string: String): Boolean {
+        return PLACEHOLDER_API.find(string) != null
+    }
+
     fun parseBoolean(string: String): Boolean {
         return string.toLowerCase().matches(TRUE)
     }

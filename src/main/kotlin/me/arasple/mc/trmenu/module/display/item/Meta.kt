@@ -7,7 +7,6 @@ import io.izzel.taboolib.util.item.ItemBuilder
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.script.Condition
 import me.arasple.mc.trmenu.util.Regexs
-import me.arasple.mc.trmenu.util.Utils
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
@@ -26,7 +25,7 @@ class Meta(
 
     private val isAmountDynamic = amount.toIntOrNull() == null
     private val isShinyDynamic = !shiny.matches(Regexs.BOOLEAN)
-    private val isNBTDynamic = nbt != null && Utils.containsPlaceholder(nbt.toJsonSimplified())
+    private val isNBTDynamic = nbt != null && Regexs.containsPlaceholder(nbt.toJsonSimplified())
 
     fun amount(session: MenuSession): Int {
         return NumberUtils.toDouble(if (isAmountDynamic) session.parse(amount) else amount, 1.0).toInt()

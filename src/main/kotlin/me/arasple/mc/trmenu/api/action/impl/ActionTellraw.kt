@@ -3,7 +3,7 @@ package me.arasple.mc.trmenu.api.action.impl
 import io.izzel.taboolib.module.tellraw.TellrawJson
 import me.arasple.mc.trmenu.api.action.base.AbstractAction
 import me.arasple.mc.trmenu.api.action.base.ActionOption
-import me.arasple.mc.trmenu.util.Utils
+import me.arasple.mc.trmenu.util.bukkit.ItemHelper
 import me.arasple.mc.trmenu.util.collections.Variables
 import net.md_5.bungee.chat.ComponentSerializer
 import org.bukkit.entity.Player
@@ -28,7 +28,7 @@ class ActionTellraw(content: String, option: ActionOption) : AbstractAction(cont
         private val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
             val raw = value.toString()
             val json: String
-            if (Utils.isJson(raw)) {
+            if (ItemHelper.isJson(raw)) {
                 json = raw
             } else {
                 val tellraw = TellrawJson.create()

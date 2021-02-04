@@ -5,7 +5,7 @@ import io.izzel.taboolib.kotlin.kether.KetherShell
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.module.internal.script.js.JavaScriptAgent
-import me.arasple.mc.trmenu.util.Utils
+import me.arasple.mc.trmenu.util.Regexs
 import me.arasple.mc.trmenu.util.collections.Variables
 import org.bukkit.entity.Player
 
@@ -19,7 +19,7 @@ object FunctionParser {
     private val internalFunctionPattern = "\\\$\\{(.+?)\\}".toRegex()
 
     fun parse(player: Player, input: String): String {
-        if (!Utils.containsPlaceholder(input)) return input
+        if (!Regexs.containsPlaceholder(input)) return input
         val session = MenuSession.getSession(player)
 
         val functionParsed = Variables(input, functionPattern) { "${it[1]}:${it[2]}" }.element.joinToString("") {
