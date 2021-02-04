@@ -13,7 +13,8 @@ object HookPlugin {
         HookOraxen(),
         HookPlayerPoints(),
         HookSkinsRestorer(),
-        HookItemsAdder()
+        HookItemsAdder(),
+        HookFloodgate()
     )
 
     fun getHeadDatabase(): HookHeadDatabase {
@@ -34,6 +35,10 @@ object HookPlugin {
 
     fun getItemsAdder(): HookItemsAdder {
         return registry[4] as HookItemsAdder
+    }
+
+    fun getFloodgate(): HookFloodgate {
+        return registry[5] as HookFloodgate
     }
 
 }

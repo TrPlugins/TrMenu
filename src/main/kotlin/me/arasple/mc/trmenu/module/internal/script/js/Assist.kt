@@ -271,6 +271,13 @@ class Assist {
         return toDouble(input1) >= toDouble(input2)
     }
 
+    /**
+     * Hook
+     */
+    fun isBedrockPlayer(player: Player): Boolean {
+        return HookPlugin.getFloodgate().isBedrockPlayer(player)
+    }
+
 
     /**
      * Miscellaneous

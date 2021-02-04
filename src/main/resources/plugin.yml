@@ -24,6 +24,7 @@ softdepend:
   - Oraxen
   - SkinsRestorer
   - ItemsAdder
+  - floodgate-bukkit
 
 built-time: ${built}
 built-by: ${builder}

@@ -14,10 +14,6 @@ class HookItemsAdder : HookAbstract() {
 
     private val empty = ItemBuilder(XMaterial.BEDROCK).name("UNHOOKED_${name.toUpperCase()}").build()
 
-    fun checkHooked(): Boolean {
-        return if (isHooked) true else false.also { reportAbuse() }
-    }
-
     fun getItem(id: String): ItemStack {
         if (checkHooked()) {
             return CustomStack.getInstance(id)?.itemStack ?: empty

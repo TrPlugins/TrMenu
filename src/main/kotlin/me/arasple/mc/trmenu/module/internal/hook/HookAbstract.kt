@@ -9,12 +9,20 @@ import org.bukkit.Bukkit
  */
 abstract class HookAbstract {
 
-    val name: String = javaClass.simpleName.substring(4)
+    val name by lazy { getPluginName() }
 
     val plugin = Bukkit.getPluginManager().getPlugin(name)
 
-    val isHooked: Boolean by lazy {
+    val isHooked by lazy {
         plugin != null && plugin.isEnabled
+    }
+
+    open fun getPluginName(): String {
+        return javaClass.simpleName.substring(4)
+    }
+
+    fun checkHooked(): Boolean {
+        return if (isHooked) true else false.also { reportAbuse() }
     }
 
     fun reportAbuse() {
