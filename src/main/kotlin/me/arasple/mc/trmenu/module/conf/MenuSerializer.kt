@@ -95,7 +95,7 @@ object MenuSerializer : ISerializer {
         val optionDefaultLayout = Property.OPTION_DEFAULT_LAYOUT.ofInt(options, 0)
         val optionHidePlayerInventory = Property.OPTION_HIDE_PLAYER_INVENTORY.ofBoolean(options, false)
         val optionMinClickDelay = Property.OPTION_MIN_CLICK_DELAY.ofInt(options, 200)
-        val optionDependExpansions = Property.OPTION_DEPEND_EXPANSIONS.ofStringList(conf)
+        val optionDependExpansions = Property.OPTION_DEPEND_EXPANSIONS.ofStringList(options)
         val boundCommands = Property.BINDING_COMMANDS.ofStringList(bindings)
         val boundItems = Property.BINDING_ITEMS.ofStringList(bindings)
         val eventOpen = Property.EVENT_OPEN.ofList(events)

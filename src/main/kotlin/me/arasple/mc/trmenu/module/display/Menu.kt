@@ -39,12 +39,13 @@ class Menu(
         val session = MenuSession.getSession(viewer)
         viewers.add(viewer)
 
-        if (!MenuOpenEvent(session, page).callEvent()) return
         if (session.menu == this) {
             return page(viewer, page)
         } else if (session.menu != null) {
             session.shut()
         }
+
+        if (!MenuOpenEvent(session, this, page).callEvent()) return
 
         if (settings.openEvent.eval(session)) {
             val layout = layout[page]
