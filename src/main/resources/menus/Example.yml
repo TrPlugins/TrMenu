@@ -3,7 +3,7 @@ Title:
   - 'Hello, %player_name%!'
   - 'Support Animated Titles'
 
-Title-Update: 20
+Title-Update: 10
 
 Layout:
   - - '########`Close`'
@@ -266,9 +266,9 @@ Functions:
     flash()
 
   bStats:
-    servers: 'vars("${bStats.query_servers_&a_&7 servers}")'
-    players: 'vars("${bStats.query_players_&6_&7 players}")'
-    menus: 'vars("${bStats.query_menus_&2_&7 menus}")'
+    servers: vars("${bStats.query_servers_&a_&7 servers}")
+    players: vars("${bStats.query_players_&6_&7 players}")
+    menus: vars("${bStats.query_menus_&2_&7 menus}")
     opens: |-
       function opens() {
         var data = utils.query("https://bstats.org/api/v1/plugins/5742/charts/menu_open_counts/data?maxElements=1")

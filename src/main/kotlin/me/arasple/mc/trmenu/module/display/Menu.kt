@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.module.display
 
+import io.izzel.taboolib.kotlin.Mirror
 import me.arasple.mc.trmenu.api.event.MenuOpenEvent
 import me.arasple.mc.trmenu.api.event.MenuPageChangeEvent
 import me.arasple.mc.trmenu.api.receptacle.window.Receptacle
@@ -36,33 +37,35 @@ class Menu(
         reason: MenuOpenEvent.Reason,
         block: (MenuSession) -> Unit = {}
     ) {
-        val session = MenuSession.getSession(viewer)
-        viewers.add(viewer)
+        Mirror.check("Menu:Event:Open") {
+            val session = MenuSession.getSession(viewer)
+            viewers.add(viewer)
 
-        if (session.menu == this) {
-            return page(viewer, page)
-        } else if (session.menu != null) {
-            session.shut()
-        }
+            if (session.menu == this) {
+                return page(viewer, page)
+            } else if (session.menu != null) {
+                session.shut()
+            }
 
-        if (!MenuOpenEvent(session, this, page).callEvent()) return
+            if (!MenuOpenEvent(session, this, page).callEvent()) return
 
-        if (settings.openEvent.eval(session)) {
-            val layout = layout[page]
-            val receptacle: Receptacle
+            if (settings.openEvent.eval(session)) {
+                val layout = layout[page]
+                val receptacle: Receptacle
 
-            session.menu = this
-            session.page = page
-            session.receptacle = layout.baseReceptacle().also { receptacle = it }
-            session.playerItemSlots()
+                session.menu = this
+                session.page = page
+                session.receptacle = layout.baseReceptacle().also { receptacle = it }
+                session.playerItemSlots()
 
-            layout.initReceptacle(session)
-            loadTitle(session)
-            loadIcon(session)
-            loadTasks(session)
+                layout.initReceptacle(session)
+                loadTitle(session)
+                loadIcon(session)
+                loadTasks(session)
 
-            block.invoke(session)
-            receptacle.open(viewer)
+                block.invoke(session)
+                receptacle.open(viewer)
+            }
         }
     }
 
@@ -70,28 +73,30 @@ class Menu(
      * 本菜单内切换页码
      */
     fun page(viewer: Player, page: Int) {
-        val session = MenuSession.getSession(viewer)
+        Mirror.check("Menu:Event:ChangePage") {
+            val session = MenuSession.getSession(viewer)
 
-        val previous = session.layout()!!
-        val layout = layout[page]
-        val receptacle: Receptacle
-        val override = previous.isSimilar(layout)
+            val previous = session.layout()!!
+            val layout = layout[page]
+            val receptacle: Receptacle
+            val override = previous.isSimilar(layout)
 
-        if (!MenuPageChangeEvent(session, session.page, page, override).callEvent()) return
-        if (override) {
-            receptacle = session.receptacle!!
-            receptacle.clearItems()
-        } else {
-            session.receptacle = layout.baseReceptacle().also { receptacle = it }
-            layout.initReceptacle(session)
+            if (!MenuPageChangeEvent(session, session.page, page, override).callEvent()) return
+            if (override) {
+                receptacle = session.receptacle!!
+                receptacle.clearItems()
+            } else {
+                session.receptacle = layout.baseReceptacle().also { receptacle = it }
+                layout.initReceptacle(session)
+            }
+
+            session.page = page
+            session.playerItemSlots()
+            loadIcon(session)
+
+            if (override) receptacle.refresh(viewer)
+            else receptacle.open(viewer)
         }
-
-        session.page = page
-        session.playerItemSlots()
-        loadIcon(session)
-
-        if (override) receptacle.refresh(viewer)
-        else receptacle.open(viewer)
     }
 
     /**
@@ -103,7 +108,11 @@ class Menu(
         }.also { it.invoke() }
 
         if (settings.titleUpdate > 0) {
-            session.arrange(Tasks.timer(10, settings.titleUpdate.toLong(), true) { setTitle.invoke() })
+            session.arrange(Tasks.timer(10, settings.titleUpdate.toLong(), true) {
+                Mirror.check("Menu:Title:onUpdate") {
+                    setTitle.invoke()
+                }
+            })
         }
     }
 
@@ -129,7 +138,11 @@ class Menu(
     private fun loadTasks(session: MenuSession) {
         settings.tasks.forEach { (period, reactions) ->
             session.arrange(
-                Tasks.timer(5L, period, true) { reactions.eval(session) }
+                Tasks.timer(5L, period, true) {
+                    Mirror.check("Menu:CustomTasks") {
+                        reactions.eval(session)
+                    }
+                }
             )
         }
     }

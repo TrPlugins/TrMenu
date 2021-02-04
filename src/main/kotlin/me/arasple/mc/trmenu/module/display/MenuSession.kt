@@ -93,7 +93,7 @@ class MenuSession(
      * 处理一个字符串，替换函数变量
      */
     fun parse(string: String): String {
-        Mirror.check("Function:parse") {
+        Mirror.check("Script:parseString") {
             val result: String
             val content = Strings.replaceWithOrder(string, arguments)
 
@@ -103,7 +103,7 @@ class MenuSession(
             result = TColor.translate(papi)
             return result
         }
-        throw Exception("TrMenu Parse")
+        throw Exception()
     }
 
     fun parse(string: List<String>): List<String> {

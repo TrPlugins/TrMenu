@@ -28,7 +28,7 @@ import org.bukkit.entity.Player
 class CommandDebug : BaseSubCommand() {
 
     override fun getArguments() = arrayOf(
-        Argument("Type", false) {
+        Argument("Type", true) {
             listOf(
                 "mirror",
                 "dump",
@@ -65,9 +65,10 @@ class CommandDebug : BaseSubCommand() {
     private fun mirror(sender: CommandSender) {
         Tasks.task(true) {
             Mirror.collect {
-                childFormat = "§8[TrMenu] §8{0}§f{1} §8[{2} ms] §c[{3} ms] §7{4}%"
-                parentFormat = "§8[TrMenu] §8{0}§7{1} §8[{2} ms] §c[{3} ms] §7{4}%"
+                childFormat = "§8  {0}§f{1} §2[{3} ms] §7{4}%"
+                parentFormat = "§8  §8{0}§7{1} §8[{3} ms] §7{4}%"
             }.run {
+                sender.sendMessage("\n§3§lTrMenu §9§l§nPerformance Mirror\n§r")
                 print(sender, getTotal(), 0)
             }
         }

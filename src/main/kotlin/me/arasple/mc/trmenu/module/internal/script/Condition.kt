@@ -25,7 +25,7 @@ inline class Condition(private val script: String) {
                 return if (js) JavaScriptAgent.eval(MenuSession.getSession(player), script)
                 else KetherHandler.eval(player, script)
             }
-            throw Exception("TrMenu Condition")
+            throw Exception()
         }
 
     }

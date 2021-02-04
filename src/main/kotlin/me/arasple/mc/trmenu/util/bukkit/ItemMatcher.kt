@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.util.bukkit
 
+import io.izzel.taboolib.kotlin.Mirror
 import io.izzel.taboolib.util.item.Items
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -51,9 +52,12 @@ class ItemMatcher(private val matcher: Set<Match>) {
     }
 
     fun hasItem(player: Player): Boolean {
-        return matcher.all {
-            Items.hasItem(player.inventory, it.itemsMatcher, it.amount)
+        Mirror.check("Function:checkItem") {
+            return matcher.all {
+                Items.hasItem(player.inventory, it.itemsMatcher, it.amount)
+            }
         }
+        throw Exception()
     }
 
     fun takeItem(player: Player): Boolean {
@@ -77,19 +81,19 @@ class ItemMatcher(private val matcher: Set<Match>) {
             val damage = getTrait(TraitType.DATA)?.toShortOrNull()
 
             @Suppress("DEPRECATION")
-            val damageMatch = damage != null && itemStack.durability == damage
+            val damageMatch = damage == null || itemStack.durability == damage
 
             val modelData = getTrait(TraitType.MODEL_DATA)?.toIntOrNull()
-            val modelDataMatch = modelData != null && itemStack.itemMeta.customModelData == modelData
+            val modelDataMatch = modelData == null || itemStack.itemMeta.customModelData == modelData
 
             val name = getTrait(TraitType.NAME)
-            val nameMatch = name != null && itemStack.itemMeta.displayName.contains(name, true)
+            val nameMatch = name == null || itemStack.itemMeta.displayName.contains(name, true)
 
             val lore = getTrait(TraitType.NAME)
-            val loreMatch = lore != null && itemStack.itemMeta.lore?.any { it.contains(lore, true) } ?: false
+            val loreMatch = lore == null || itemStack.itemMeta.lore?.any { it.contains(lore, true) } ?: false
 
             val head = getTrait(TraitType.HEAD)
-            val headMatch = head != null && kotlin.run {
+            val headMatch = head == null || kotlin.run {
                 val itemMeta = itemStack.itemMeta
                 if (itemMeta is SkullMeta) {
                     val ownerPlayer = itemMeta.owningPlayer?.name

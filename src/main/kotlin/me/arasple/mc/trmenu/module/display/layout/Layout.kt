@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.module.display.layout
 
+import io.izzel.taboolib.kotlin.Mirror
 import me.arasple.mc.trmenu.api.receptacle.ReceptacleAPI
 import me.arasple.mc.trmenu.api.receptacle.window.type.InventoryChest
 import me.arasple.mc.trmenu.module.display.MenuSession
@@ -68,21 +69,24 @@ class Layout(
             session.shut()
         }
         receptacle.listenerClick { player, event ->
-            val cancelEvent = {
-                event.isCancelled = true
-                receptacle.refresh(event.slot)
-                if (event.clickType.isItemMoveable()) {
-                    event.receptacle.type.mainInvSlots.forEach(receptacle::refresh)
+            Mirror.check("Menu:Event:handleClick") {
+                val cancelEvent = {
+                    event.isCancelled = true
+                    receptacle.refresh(event.slot)
+                    if (event.clickType.isItemMoveable()) {
+                        event.receptacle.type.hotBarSlots.forEach(receptacle::refresh)
+                        event.receptacle.type.mainInvSlots.forEach(receptacle::refresh)
+                    }
                 }
-            }
 
-            if (menu.settings.clickDelay.isCooldown(player.name)) {
-                return@listenerClick cancelEvent()
-            } else if (!menu.isFreeSlot(event.slot)) {
-                cancelEvent()
-            }
+                if (menu.settings.clickDelay.isCooldown(player.name)) {
+                    return@listenerClick cancelEvent()
+                } else if (!menu.isFreeSlot(event.slot)) {
+                    cancelEvent()
+                }
 
-            session.getIconProperty(event.slot)?.handleClick(event.clickType, session)
+                session.getIconProperty(event.slot)?.handleClick(event.clickType, session)
+            }
         }
     }
 
