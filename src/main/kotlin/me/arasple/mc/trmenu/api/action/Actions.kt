@@ -62,21 +62,22 @@ object Actions {
 
     fun runAction(player: Player, actions: List<AbstractAction>): Boolean {
         val run = mutableListOf<AbstractAction>()
+        var result = true
         var delay = 0L
 
         actions.filter { it.option.evalChance() }.forEach {
             when {
                 it is ActionReturn && it.option.evalCondition(player) -> {
-                    return false
+                    result = false
+                    return@forEach
                 }
                 it is ActionDelay -> delay += it.getDelay(player)
                 delay > 0 -> Tasks.delay(delay) { it.run(player) }
                 else -> run.add(it)
             }
         }
-
         run.forEach { it.run(player) }
-        return true
+        return result
     }
 
     /**

@@ -98,9 +98,9 @@ object MenuSerializer : ISerializer {
         val optionDependExpansions = Property.OPTION_DEPEND_EXPANSIONS.ofStringList(conf)
         val boundCommands = Property.BINDING_COMMANDS.ofStringList(bindings)
         val boundItems = Property.BINDING_ITEMS.ofStringList(bindings)
-        val eventOpen = Property.EVENT_OPEN.ofMap(events)
-        val eventClose = Property.EVENT_CLOSE.ofMap(events)
-        val eventClick = Property.EVENT_CLICK.ofMap(events)
+        val eventOpen = Property.EVENT_OPEN.ofList(events)
+        val eventClose = Property.EVENT_CLOSE.ofList(events)
+        val eventClick = Property.EVENT_CLICK.ofList(events)
 
         result.result = MenuSettings(
             CycleList(title),

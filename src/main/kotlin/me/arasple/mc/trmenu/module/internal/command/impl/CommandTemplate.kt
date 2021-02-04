@@ -53,7 +53,7 @@ class CommandTemplate : BaseSubCommand() {
                 }
 
                 Sounds.BLOCK_NOTE_BLOCK_BIT.play(player, 1f, 0f)
-                Paster.paste(player, generate(inventory))
+                Paster.paste(player, generate(inventory), "yml")
 
                 inventory.contents.forEach { if (!Items.isNull(it)) CronusUtils.addItem(player, it) }
             }
@@ -75,7 +75,7 @@ class CommandTemplate : BaseSubCommand() {
                 buildString {
                     appendLine()
                     append("Made by TrMenu Template\n")
-                    append("Date: ${Time.formatDate}\n ")
+                    append("Date: ${Time.formatDate()}\n ")
                     appendLine()
                 }
             )
