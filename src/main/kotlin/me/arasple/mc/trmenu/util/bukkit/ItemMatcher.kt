@@ -1,7 +1,10 @@
 package me.arasple.mc.trmenu.util.bukkit
 
 import io.izzel.taboolib.kotlin.Mirror
+import io.izzel.taboolib.util.item.ItemBuilder
 import io.izzel.taboolib.util.item.Items
+import me.arasple.mc.trmenu.util.bukkit.ItemMatcher.TraitType.*
+import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
@@ -66,33 +69,54 @@ class ItemMatcher(private val matcher: Set<Match>) {
         }
     }
 
-    class Match(private val traits: Map<TraitType, String>) {
+    fun buildItem(): List<ItemStack> {
+        return matcher.map {
+            val itemBuilder = ItemBuilder(Material.GRASS_BLOCK).amount(it.amount)
+
+            it.traits.forEach { (trait, value) ->
+                when (trait) {
+                    MATERIAL -> itemBuilder.material(value)
+                    DATA -> itemBuilder.damage(value.toIntOrNull() ?: 0)
+                    MODEL_DATA -> itemBuilder.customModelData(value.toIntOrNull() ?: 0)
+                    NAME -> itemBuilder.name(value)
+                    LORE -> itemBuilder.lore(value.split("\n"))
+                    HEAD -> itemBuilder.skullOwner(value)
+                    else -> {
+                    }
+                }
+            }
+
+            itemBuilder.colored().build()
+        }
+    }
+
+    class Match(val traits: Map<TraitType, String>) {
 
         private fun getTrait(type: TraitType): String? {
             return traits[type]
         }
 
-        val amount = getTrait(TraitType.AMOUNT)?.toIntOrNull() ?: 1
+        val amount = getTrait(AMOUNT)?.toIntOrNull() ?: 1
 
         val itemsMatcher = Items.Matcher { itemStack ->
-            val material = getTrait(TraitType.MATERIAL)
+            val material = getTrait(MATERIAL)
             val materialMatch = material != null && itemStack.type.name.equals(material, true)
 
-            val damage = getTrait(TraitType.DATA)?.toShortOrNull()
+            val damage = getTrait(DATA)?.toShortOrNull()
 
             @Suppress("DEPRECATION")
             val damageMatch = damage == null || itemStack.durability == damage
 
-            val modelData = getTrait(TraitType.MODEL_DATA)?.toIntOrNull()
+            val modelData = getTrait(MODEL_DATA)?.toIntOrNull()
             val modelDataMatch = modelData == null || itemStack.itemMeta.customModelData == modelData
 
-            val name = getTrait(TraitType.NAME)
+            val name = getTrait(NAME)
             val nameMatch = name == null || itemStack.itemMeta.displayName.contains(name, true)
 
-            val lore = getTrait(TraitType.NAME)
+            val lore = getTrait(NAME)
             val loreMatch = lore == null || itemStack.itemMeta.lore?.any { it.contains(lore, true) } ?: false
 
-            val head = getTrait(TraitType.HEAD)
+            val head = getTrait(HEAD)
             val headMatch = head == null || kotlin.run {
                 val itemMeta = itemStack.itemMeta
                 if (itemMeta is SkullMeta) {

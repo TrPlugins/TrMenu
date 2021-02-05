@@ -1,4 +1,4 @@
-package me.arasple.mc.trmenu.api.action.impl
+package me.arasple.mc.trmenu.api.action.impl.func
 
 import me.arasple.mc.trmenu.api.action.base.AbstractAction
 import me.arasple.mc.trmenu.api.action.base.ActionOption

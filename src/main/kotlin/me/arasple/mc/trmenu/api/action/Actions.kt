@@ -4,9 +4,10 @@ import io.izzel.taboolib.kotlin.Tasks
 import me.arasple.mc.trmenu.api.action.base.AbstractAction
 import me.arasple.mc.trmenu.api.action.base.ActionOption
 import me.arasple.mc.trmenu.api.action.impl.*
-import me.arasple.mc.trmenu.api.action.impl.hook.ActionMoneyAdd
-import me.arasple.mc.trmenu.api.action.impl.hook.ActionMoneySet
-import me.arasple.mc.trmenu.api.action.impl.hook.ActionMoneyTake
+import me.arasple.mc.trmenu.api.action.impl.func.ActionCatcher
+import me.arasple.mc.trmenu.api.action.impl.func.ActionGiveItem
+import me.arasple.mc.trmenu.api.action.impl.func.ActionTakeItem
+import me.arasple.mc.trmenu.api.action.impl.hook.*
 import me.arasple.mc.trmenu.api.action.impl.metadaa.*
 import org.bukkit.entity.Player
 
@@ -24,15 +25,17 @@ object Actions {
         ActionDelay.registery,
         ActionJavaScript.registery,
         ActionKether.registery,
+        ActionRetype.registery,
         // Bukkit
         ActionTell.registery,
         ActionChat.registery,
+        ActionSound.registery,
         ActionTitle.registery,
         ActionActionbar.registery,
+        ActionTellraw.registery,
         ActionCommand.registery,
         ActionCommandConsole.registery,
         ActionCommandOp.registery,
-        ActionTellraw.registery,
         // BungeeCord
         ActionConnect.registery,
         // Menu
@@ -40,20 +43,25 @@ object Actions {
         ActionOpen.registery,
         ActionPage.registery,
         ActionSetTitle.registery,
-        ActionSound.registery,
+        ActionSetArguments.registery,
+        ActionRefresh.registery,
         ActionMetaSet.registery,
         ActionMetaDel.registery,
         ActionDataSet.registery,
         ActionDataDel.registery,
         ActionGlobalDataSet.registery,
         ActionGlobalDataDel.registery,
-        ActionRetype.registery,
-        ActionRefresh.registery,
         // Hook
         ActionMoneySet.registery,
         ActionMoneyAdd.registery,
         ActionMoneyTake.registery,
+        ActionPointsSet.registery,
+        ActionPointsAdd.registery,
+        ActionPointsTake.registery,
         ActionTakeItem.registery,
+        ActionGiveItem.registery,
+        // Advanced
+        ActionCatcher.registery,
     )
 
     fun runAction(player: Player, actions: List<String>) {

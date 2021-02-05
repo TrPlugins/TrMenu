@@ -33,7 +33,7 @@ class IconProperty(
 
     fun handleClick(type: ClickType, session: MenuSession) {
         val reactions = action.entries
-            .filter { it.key.any { type -> type == ClickType.ALL } || it.key.contains(type) }
+            .filter { it.key.any { type -> type == ClickType.ALL || type==ClickType.NUMBER_KEY && type.isNumberKeyClick()} || it.key.contains(type) }
             .map { it.value }
 
         reactions.forEach { it.eval(session) }

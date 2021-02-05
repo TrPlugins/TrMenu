@@ -2,29 +2,27 @@ package me.arasple.mc.trmenu.api.action.impl
 
 import me.arasple.mc.trmenu.api.action.base.AbstractAction
 import me.arasple.mc.trmenu.api.action.base.ActionOption
-import me.arasple.mc.trmenu.module.internal.script.js.JavaScriptAgent
 import org.bukkit.entity.Player
 
 /**
  * @author Arasple
- * @date 2021/1/31 11:43
+ * @date 2021/2/5 8:55
  */
-class ActionJavaScript(content: String, option: ActionOption) : AbstractAction(content, option) {
-
-    init {
-        JavaScriptAgent.preCompile(baseContent)
-    }
+class ActionSetArguments(content: String, option: ActionOption) : AbstractAction(content, option) {
 
     override fun onExecute(player: Player, placeholderPlayer: Player) {
-        JavaScriptAgent.eval(player.getSession(), baseContent)
+        player.getSession().arguments =
+            parseContentSplited(placeholderPlayer)
+                .map { it.replace("\\s", " ") }
+                .toTypedArray()
     }
 
     companion object {
 
-        private val name = "((java)?-?script|js)s?".toRegex()
+        private val name = "set-?arg(ument)?s?".toRegex()
 
         private val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
-            ActionJavaScript(value.toString(), option)
+            ActionSetArguments(value.toString(), option)
         }
 
         val registery = name to parser

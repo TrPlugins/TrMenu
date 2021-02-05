@@ -24,6 +24,12 @@ object JavaScriptAgent {
 
     private val compiledScripts = Maps.newConcurrentMap<String, CompiledScript>()
 
+    fun preCompile(script: String): CompiledScript {
+        return compiledScripts.computeIfAbsent(script) {
+            Features.compileScript(script)
+        }
+    }
+
     fun eval(session: MenuSession, script: String, cacheScript: Boolean = true): EvalResult {
         val context = SimpleScriptContext()
 
@@ -40,10 +46,7 @@ object JavaScriptAgent {
         )
 
         val compiledScript =
-            if (cacheScript)
-                compiledScripts.computeIfAbsent(script) {
-                    Features.compileScript(script)
-                }
+            if (cacheScript) preCompile(script)
             else Features.compileScript(script)
 
         return EvalResult(compiledScript?.eval(context))

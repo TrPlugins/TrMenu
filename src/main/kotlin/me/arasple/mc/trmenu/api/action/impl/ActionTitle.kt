@@ -40,7 +40,7 @@ class ActionTitle(
             var content: String = value.toString()
             val replacements = Regexs.SENTENCE.findAll(content).mapIndexed { index, result ->
                 content = content.replace(result.value, "{$index}")
-                index to result.groupValues[1]
+                index to result.groupValues[1].replace("\\s", " ")
             }.toMap().values.toTypedArray()
 
             val split = content.split(" ", limit = 5)

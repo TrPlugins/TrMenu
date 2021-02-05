@@ -47,7 +47,7 @@ class ActionOption(val set: Map<Type, String> = mapOf()) {
 
             Type.values().forEach {
                 it.regex.find(content)?.let { find ->
-                    val value = find.groupValues[it.group]
+                    val value = find.groupValues.getOrElse(it.group) { "" }
                     options[it] = value
                     content = it.regex.replace(content, "")
                 }
@@ -66,7 +66,7 @@ class ActionOption(val set: Map<Type, String> = mapOf()) {
 
         CONDITION("[{<](condition|requirement)[=:] ?(.+)[}>]", 2),
 
-        PLAYERS("[{<]players?[=:] ?(.+)[}>]", 1);
+        PLAYERS("[{<]players?[=:]? ?(.+)[}>]", 1);
 
         constructor(regex: String, group: Int) : this("(?i)$regex".toRegex(), group)
 

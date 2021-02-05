@@ -18,6 +18,8 @@ enum class ClickType(private val mode: Int, private val button: Int) {
 
     OFFHAND(2, 40),
 
+    NUMBER_KEY(2, -1),
+
     NUMBER_KEY_1(2, 0),
 
     NUMBER_KEY_2(2, 1),
@@ -95,10 +97,7 @@ enum class ClickType(private val mode: Int, private val button: Int) {
             return values().find { it.name.equals(string, true) } ?: ALL
         }
 
-        fun matches(string: String): Set<ClickType> = mutableSetOf<ClickType>().run {
-            string.split(',', ';').forEach { add(matchesSignle(it)) }
-            this
-        }
+        fun matches(string: String) = string.split(",", ";").map { matchesSignle(it) }.toSet()
 
         fun from(mode: String, button: Int, slot: Int = -1): ClickType? {
             return from(modes.indexOf(mode), button, slot)
