@@ -46,7 +46,7 @@ inline class Reactions(private val reacts: List<React>) {
 
             val reaction = Property.asSection(any) ?: return null
             val keyPriority = Property.PRIORITY.getKey(reaction)
-            val keyRequirement = Property.REQUIREMENT.getKey(reaction)
+            val keyRequirement = Property.CONDITION.getKey(reaction)
             val keyActions = Property.ACTIONS.getKey(reaction)
             val keyDenyActions = Property.DENY_ACTIONS.getKey(reaction)
 

@@ -120,7 +120,7 @@ enum class Property(val default: String, val regex: Regex) {
     /**
      * 需求条件
      */
-    REQUIREMENT("condition", "(require(ment)?|condition)s?"),
+    CONDITION("condition", "(require(ment)?|condition)s?"),
 
     /**
      * 优先级

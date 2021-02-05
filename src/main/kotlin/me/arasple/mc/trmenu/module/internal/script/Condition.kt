@@ -19,6 +19,10 @@ inline class Condition(private val script: String) {
 
     companion object {
 
+        fun eval(session: MenuSession, script: String): EvalResult {
+            return eval(session.placeholderPlayer, script)
+        }
+
         fun eval(player: Player, script: String): EvalResult {
             Mirror.check("Script:evalCondition") {
                 val js = script.startsWith("js: ").also { script.removePrefix("js: ") }

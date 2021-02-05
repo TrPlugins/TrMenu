@@ -213,7 +213,7 @@ object MenuSerializer : ISerializer {
             val nbt = Property.ICON_DISPLAY_NBT.ofMap(display)
             // only for the subIcon
             val priority = Property.PRIORITY.ofInt(it, order)
-            val condition = Property.REQUIREMENT.ofString(it, "")
+            val condition = Property.CONDITION.ofString(it, "")
             val inherit = Property.INHERIT.ofBoolean(it, false)
             val clickActions = mutableMapOf<Set<ClickType>, Reactions>()
             action?.getValues(false)?.forEach { (type, reaction) ->
