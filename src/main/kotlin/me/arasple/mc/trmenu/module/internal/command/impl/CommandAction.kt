@@ -30,13 +30,17 @@ class CommandAction : BaseSubCommand() {
         }
 
         Indexed.join(args, 1).let { it ->
-            val action = Actions.readAction(it.removePrefix("#"))
+            val (hidePrint, action) = it.startsWith("#") to Actions.readAction(it.removePrefix("#"))
 
             measureNanoTime {
                 Actions.runAction(player, action).let {
                     sender.sendMessage("§8[§7Action§8] §7Result: §3$it")
                 }
-            }.also { sender.sendMessage("§8[§7Action§8] §7Evaluated §8{$action} §7in §f${it.div(1000000.0)} ms") }
+            }.also {
+                if (!hidePrint) {
+                    sender.sendMessage("§8[§7Action§8] §7Evaluated §8{$action} §7in §f${it.div(1000000.0)} ms")
+                }
+            }
         }
     }
 

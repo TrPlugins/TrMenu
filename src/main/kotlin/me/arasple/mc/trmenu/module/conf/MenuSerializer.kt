@@ -89,7 +89,7 @@ object MenuSerializer : ISerializer {
         val funs = Property.FUNCTIONS.ofMap(conf, true)
         val title = Property.TITLE.ofStringList(conf, listOf("TrMenu"))
         val titleUpdate = Property.TITLE_UPDATE.ofInt(conf, -20)
-        val optionEnableArguments = Property.OPTION_ENABLE_ARGUMENTS.ofBoolean(options, false)
+        val optionEnableArguments = Property.OPTION_ENABLE_ARGUMENTS.ofBoolean(options, true)
         val optionDefaultArguments = Property.OPTION_DEFAULT_ARGUMENTS.ofStringList(conf)
         val optionFreeSlots = Property.OPTION_FREE_SLOTS.ofStringList(conf)
         val optionDefaultLayout = Property.OPTION_DEFAULT_LAYOUT.ofInt(options, 0)

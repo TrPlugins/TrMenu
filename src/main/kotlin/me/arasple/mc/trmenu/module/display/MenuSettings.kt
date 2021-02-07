@@ -15,7 +15,7 @@ import me.clip.placeholderapi.PlaceholderAPI
 class MenuSettings(
     val title: CycleList<String>,
     val titleUpdate: Int,
-    val enableArguments: Boolean = false,
+    val enableArguments: Boolean = true,
     val defaultArguments: Array<String> = arrayOf(),
     val freeSlots: Set<Int> = setOf(),
     val defaultLayout: Int,

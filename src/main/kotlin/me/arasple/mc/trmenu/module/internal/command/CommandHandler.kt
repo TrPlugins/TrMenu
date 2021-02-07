@@ -32,7 +32,7 @@ class CommandHandler : BaseMainCommand() {
     @SubCommand(permission = "trmenu.command.sounds", description = "Preview & test sounds", type = CommandType.PLAYER)
     var sounds: BaseSubCommand = CommandSounds()
 
-    @SubCommand(permission = "trmenu.command.debug", description = "Toggle debug mode or log debug info")
+    @SubCommand(permission = "trmenu.command.debug", description = "Print debug info")
     val debug: BaseSubCommand = CommandDebug()
 
 }
