@@ -39,7 +39,7 @@ class Texture(
             TextureType.NORMAL -> parseMaterial(temp)
             TextureType.HEAD -> Heads.getHead(temp)
             TextureType.REPO -> ItemRepository.getItem(temp)
-            TextureType.SOURCE -> ItemSource.fromSource(temp)
+            TextureType.SOURCE -> ItemSource.fromSource(session, texture)
             TextureType.RAW -> Items.fromJson(temp)
         }
 

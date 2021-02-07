@@ -2,7 +2,7 @@ package me.arasple.mc.trmenu.module.internal.internet
 
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
-import io.izzel.taboolib.loader.PluginBase
+import io.izzel.taboolib.loader.PluginBoot
 import io.izzel.taboolib.module.inject.TFunction
 import io.izzel.taboolib.module.inject.TListener
 import io.izzel.taboolib.module.inject.TSchedule
@@ -34,7 +34,7 @@ object UpdateHandler {
 
     @TFunction.Init
     fun init() {
-        if (CURRENT_VERSION < 0) PluginBase.setDisabled(true)
+        if (CURRENT_VERSION < 0) PluginBoot.setDisabled(true)
     }
 
     @TSchedule(delay = 20, period = 10 * 60 * 20, async = true)
@@ -51,7 +51,7 @@ object UpdateHandler {
                     val latestVersion = json.get("tag_name").asDouble
                     if (latestVersion > CURRENT_VERSION) {
                         LATEST_VERSION = latestVersion
-                        if (LATEST_VERSION < 0) PluginBase.setDisabled(true)
+                        if (LATEST_VERSION < 0) PluginBoot.setDisabled(true)
                         if (!NOTIFY) {
                             NOTIFY = true
                             TLocale.sendToConsole("PLUGIN.UPDATE", LATEST_VERSION)

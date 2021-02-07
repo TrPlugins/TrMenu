@@ -1,6 +1,8 @@
 package me.arasple.mc.trmenu.module.internal.item
 
+import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.hook.HookPlugin
+import me.arasple.mc.trmenu.module.internal.script.js.JavaScriptAgent
 import org.bukkit.inventory.ItemStack
 
 /**
@@ -9,9 +11,9 @@ import org.bukkit.inventory.ItemStack
  */
 object ItemSource {
 
-    fun fromSource(string: String): ItemStack? {
+    fun fromSource(session: MenuSession, string: String): ItemStack? {
         val identifier = string.split(":", "=", limit = 2)
-        val name = identifier[0].toUpperCase()
+        val name = identifier[0].replace("-", "").toUpperCase()
         val id = identifier[1]
 
         return when (name) {
@@ -19,6 +21,7 @@ object ItemSource {
                 if (id.equals("RANDOM", true)) HookPlugin.getHeadDatabase().getRandomHead()
                 else HookPlugin.getHeadDatabase().getHead(id)
             }
+            "JAVASCRIPT", "JS" -> JavaScriptAgent.eval(session, id).asItemStack()
             "ORAXEN" -> HookPlugin.getOraxen().getItem(id)
             "ITEMSADDER", "IA" -> HookPlugin.getItemsAdder().getItem(id)
             else -> null

@@ -4,6 +4,7 @@ import io.izzel.taboolib.kotlin.Mirror
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.script.js.JavaScriptAgent
 import me.arasple.mc.trmenu.module.internal.script.kether.KetherHandler
+import me.arasple.mc.trmenu.module.internal.service.Performance
 import org.bukkit.entity.Player
 
 /**
@@ -24,7 +25,7 @@ inline class Condition(private val script: String) {
         }
 
         fun eval(player: Player, script: String): EvalResult {
-            Mirror.check("Script:evalCondition") {
+            Performance.MIRROR.check("Script:evalCondition") {
                 val js = script.startsWith("js: ").also { script.removePrefix("js: ") }
                 return if (js) JavaScriptAgent.eval(MenuSession.getSession(player), script)
                 else KetherHandler.eval(player, script)

@@ -28,12 +28,13 @@ class IconProperty(
     }
 
     fun isLoreUpdatable(): Boolean {
-        return display.lore.cyclable() || display.lore.elements.any { Regexs.containsPlaceholder(it.lore.joinToString(" ")) }
+        return display.lore.cyclable() || display.lore.elements
+            .any { Regexs.containsPlaceholder(it.lore.keys.joinToString(" ")) }
     }
 
     fun handleClick(type: ClickType, session: MenuSession) {
         val reactions = action.entries
-            .filter { it.key.any { type -> type == ClickType.ALL || type==ClickType.NUMBER_KEY && type.isNumberKeyClick()} || it.key.contains(type) }
+            .filter { it.key.any { it == ClickType.ALL || it == ClickType.NUMBER_KEY && it.isNumberKeyClick() } || it.key.contains(type) }
             .map { it.value }
 
         reactions.forEach { it.eval(session) }

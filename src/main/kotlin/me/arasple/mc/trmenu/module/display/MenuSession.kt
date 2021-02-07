@@ -1,6 +1,6 @@
 package me.arasple.mc.trmenu.module.display
 
-import io.izzel.taboolib.kotlin.Mirror
+import io.izzel.taboolib.kotlin.kether.KetherTerminal
 import io.izzel.taboolib.module.locale.TLocale
 import io.izzel.taboolib.module.locale.chatcolor.TColor
 import io.izzel.taboolib.util.Strings
@@ -10,6 +10,7 @@ import me.arasple.mc.trmenu.module.display.icon.Icon
 import me.arasple.mc.trmenu.module.display.icon.IconProperty
 import me.arasple.mc.trmenu.module.display.layout.Layout
 import me.arasple.mc.trmenu.module.internal.script.FunctionParser
+import me.arasple.mc.trmenu.module.internal.service.Performance
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitTask
 import java.util.*
@@ -86,6 +87,7 @@ class MenuSession(
      * 取得主要对象
      */
     fun objects(): Triple<Player, Menu?, Receptacle?> {
+        KetherTerminal
         return Triple(viewer, menu, receptacle)
     }
 
@@ -93,7 +95,7 @@ class MenuSession(
      * 处理一个字符串，替换函数变量
      */
     fun parse(string: String): String {
-        Mirror.check("Script:parseString") {
+        Performance.MIRROR.check("Script:parseString") {
             val result: String
             val content = Strings.replaceWithOrder(string, arguments)
 

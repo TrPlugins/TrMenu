@@ -1,6 +1,7 @@
 package me.arasple.mc.trmenu.module.internal.script
 
 import me.arasple.mc.trmenu.util.Regexs
+import org.bukkit.inventory.ItemStack
 
 /**
  * @author Arasple
@@ -14,6 +15,10 @@ inline class EvalResult(private val any: Any?) {
             is String -> Regexs.parseBoolean(any)
             else -> def || Regexs.parseBoolean(any.toString())
         }
+    }
+
+    fun asItemStack(): ItemStack {
+        return any as ItemStack
     }
 
     fun asString(): String {

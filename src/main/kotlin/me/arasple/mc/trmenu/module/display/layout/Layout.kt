@@ -4,6 +4,7 @@ import io.izzel.taboolib.kotlin.Mirror
 import me.arasple.mc.trmenu.api.receptacle.ReceptacleAPI
 import me.arasple.mc.trmenu.api.receptacle.window.type.InventoryChest
 import me.arasple.mc.trmenu.module.display.MenuSession
+import me.arasple.mc.trmenu.module.internal.service.Performance
 import me.arasple.mc.trmenu.util.Regexs
 import me.arasple.mc.trmenu.util.collections.Variables
 import org.bukkit.event.inventory.InventoryType
@@ -69,7 +70,7 @@ class Layout(
             session.shut()
         }
         receptacle.listenerClick { player, event ->
-            Mirror.check("Menu:Event:handleClick") {
+            Performance.MIRROR.check("Menu:Event:handleClick") {
                 val cancelEvent = {
                     event.isCancelled = true
                     receptacle.refresh(event.slot)

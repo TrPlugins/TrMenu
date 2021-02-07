@@ -1,8 +1,8 @@
 package me.arasple.mc.trmenu.module.display.icon
 
-import io.izzel.taboolib.kotlin.Mirror
 import me.arasple.mc.trmenu.api.menu.IIcon
 import me.arasple.mc.trmenu.module.display.MenuSession
+import me.arasple.mc.trmenu.module.internal.service.Performance
 import me.arasple.mc.trmenu.util.Tasks
 import me.arasple.mc.trmenu.util.collections.IndivList
 
@@ -39,7 +39,7 @@ class Icon(
     }
 
     override fun onUpdate(session: MenuSession, frames: Set<Int>) {
-        Mirror.check("Menu:Icon:onUpdate") {
+        Performance.MIRROR.check("Menu:Icon:onUpdate") {
             val icon = getProperty(session)
             frames.forEach {
                 when (it) {

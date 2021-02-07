@@ -4,7 +4,7 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.mojang.authlib.GameProfile
 import com.mojang.authlib.properties.Property
-import io.izzel.taboolib.loader.internal.IO
+import io.izzel.taboolib.loader.util.IO
 import io.izzel.taboolib.util.lite.Materials
 import me.arasple.mc.trmenu.api.receptacle.nms.NMS
 import me.arasple.mc.trmenu.module.internal.hook.HookPlugin
@@ -78,10 +78,10 @@ object Heads {
             }
             else -> {
                 Tasks.task(true) {
-                    val profile = JsonParser().parse(IO.readFromURL("${MOJANG_API[0]}$name")) as JsonObject
+                    val profile = JsonParser().parse(fromURL("${MOJANG_API[0]}$name")) as JsonObject
                     val uuid = profile["id"].asString
-                    (JsonParser().parse(IO.readFromURL("${MOJANG_API[1]}$uuid")) as JsonObject).getAsJsonArray("properties")
-                    (JsonParser().parse(IO.readFromURL("${MOJANG_API[1]}$uuid")) as JsonObject).getAsJsonArray("properties")
+                    (JsonParser().parse(fromURL("${MOJANG_API[1]}$uuid")) as JsonObject).getAsJsonArray("properties")
+                    (JsonParser().parse(fromURL("${MOJANG_API[1]}$uuid")) as JsonObject).getAsJsonArray("properties")
                         .forEach {
                             if ("textures" == it.asJsonObject["name"].asString) {
                                 CACHED_PLAYER_TEXTURE[name] = it.asJsonObject["value"].asString.also(block)
@@ -108,6 +108,10 @@ object Heads {
     private fun encodeTexture(input: String): String {
         val encoder = Base64.getEncoder()
         return encoder.encodeToString("{\"textures\":{\"SKIN\":{\"url\":\"http://textures.minecraft.net/texture/$input\"}}}".toByteArray())
+    }
+
+    private fun fromURL(url: String): String {
+        return IO.readFromURL(url, "")
     }
 
 

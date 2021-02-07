@@ -1,8 +1,8 @@
 package me.arasple.mc.trmenu.util.bukkit
 
-import io.izzel.taboolib.kotlin.Mirror
 import io.izzel.taboolib.util.item.ItemBuilder
 import io.izzel.taboolib.util.item.Items
+import me.arasple.mc.trmenu.module.internal.service.Performance
 import me.arasple.mc.trmenu.util.bukkit.ItemMatcher.TraitType.*
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -55,7 +55,7 @@ class ItemMatcher(private val matcher: Set<Match>) {
     }
 
     fun hasItem(player: Player): Boolean {
-        Mirror.check("Function:checkItem") {
+        Performance.MIRROR.check("Function:checkItem") {
             return matcher.all {
                 Items.hasItem(player.inventory, it.itemsMatcher, it.amount)
             }

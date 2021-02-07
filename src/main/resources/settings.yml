@@ -25,10 +25,10 @@ Action:
 Shortcuts:
   Offhand: 'open: Example'
   Sneaking-Offhand:
-    - condition: 'hasPerm.trmenu.shortcut'
+    - condition: 'perm *trmenu.shortcut'
       execute: 'open: Example'
       deny: 'return'
-  Right-Click-Player: [ ]
+  Right-Click-Player: 'open: Profile'
   Sneaking-Right-Click-Player: [ ]
   PlayerInventory-Border-Left: [ ]
   PlayerInventory-Border-Right: [ ]

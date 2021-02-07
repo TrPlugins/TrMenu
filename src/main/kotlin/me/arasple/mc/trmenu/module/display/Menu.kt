@@ -1,11 +1,12 @@
 package me.arasple.mc.trmenu.module.display
 
-import io.izzel.taboolib.kotlin.Mirror
+import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.event.MenuOpenEvent
 import me.arasple.mc.trmenu.api.event.MenuPageChangeEvent
 import me.arasple.mc.trmenu.api.receptacle.window.Receptacle
 import me.arasple.mc.trmenu.module.display.icon.Icon
 import me.arasple.mc.trmenu.module.display.layout.MenuLayout
+import me.arasple.mc.trmenu.module.internal.service.Performance
 import me.arasple.mc.trmenu.util.Tasks
 import org.bukkit.entity.Player
 
@@ -37,7 +38,7 @@ class Menu(
         reason: MenuOpenEvent.Reason,
         block: (MenuSession) -> Unit = {}
     ) {
-        Mirror.check("Menu:Event:Open") {
+        Performance.MIRROR.check("Menu:Event:Open") {
             val session = MenuSession.getSession(viewer)
             viewers.add(viewer)
 
@@ -73,7 +74,7 @@ class Menu(
      * 本菜单内切换页码
      */
     fun page(viewer: Player, page: Int) {
-        Mirror.check("Menu:Event:ChangePage") {
+        Performance.MIRROR.check("Menu:Event:ChangePage") {
             val session = MenuSession.getSession(viewer)
 
             val previous = session.layout()!!
@@ -109,7 +110,7 @@ class Menu(
 
         if (settings.titleUpdate > 0) {
             session.arrange(Tasks.timer(10, settings.titleUpdate.toLong(), true) {
-                Mirror.check("Menu:Title:onUpdate") {
+                Performance.MIRROR.check("Menu:Title:onUpdate") {
                     setTitle.invoke()
                 }
             })
@@ -139,7 +140,7 @@ class Menu(
         settings.tasks.forEach { (period, reactions) ->
             session.arrange(
                 Tasks.timer(5L, period, true) {
-                    Mirror.check("Menu:CustomTasks") {
+                    Performance.MIRROR.check("Menu:CustomTasks") {
                         reactions.eval(session)
                     }
                 }

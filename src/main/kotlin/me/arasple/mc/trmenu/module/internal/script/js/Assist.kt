@@ -110,6 +110,10 @@ class Assist {
         }
     }
 
+    fun hasEquipment(player: String, equipmentSlot: String): Boolean {
+        return !Items.isNull(getEquipment(player, equipmentSlot))
+    }
+
 
     /**
      * BungeeCord

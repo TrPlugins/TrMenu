@@ -1,7 +1,6 @@
 package me.arasple.mc.trmenu.module.internal.command.impl
 
 import io.izzel.taboolib.TabooLib
-import io.izzel.taboolib.kotlin.Mirror
 import io.izzel.taboolib.loader.PluginHandle
 import io.izzel.taboolib.module.command.base.Argument
 import io.izzel.taboolib.module.command.base.BaseSubCommand
@@ -11,6 +10,7 @@ import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.module.display.Menu
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.data.Metadata
+import me.arasple.mc.trmenu.module.internal.service.Performance
 import me.arasple.mc.trmenu.util.Tasks
 import me.arasple.mc.trmenu.util.Time
 import me.arasple.mc.trmenu.util.bukkit.Heads
@@ -18,7 +18,6 @@ import me.arasple.mc.trmenu.util.net.Paster
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
-import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
 
 /**
@@ -64,7 +63,7 @@ class CommandDebug : BaseSubCommand() {
      */
     private fun mirror(sender: CommandSender) {
         Tasks.task(true) {
-            Mirror.collect {
+            Performance.collect {
                 childFormat = "§8  {0}§f{1} §2[{3} ms] §7{4}%"
                 parentFormat = "§8  §8{0}§7{1} §8[{3} ms] §7{4}%"
             }.run {
@@ -157,6 +156,6 @@ class CommandDebug : BaseSubCommand() {
         }
     }
 
-    private val description: YamlConfiguration = PluginHandle.getPluginDescription()
+    private val description = PluginHandle.getPluginDescription()
 
 }
