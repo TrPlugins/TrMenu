@@ -44,7 +44,10 @@ class MenuSession(
 
     var arguments: Array<String> = arguments
         set(value) {
-            val def = menu?.settings?.defaultArguments ?: return
+            val def = menu?.settings?.defaultArguments ?: kotlin.run {
+                field = value
+                return
+            }
 
             if (def.isNotEmpty()) {
                 if (value.isEmpty()) {
@@ -55,9 +58,7 @@ class MenuSession(
                     field = args.toTypedArray()
                 }
                 return
-            }
-
-            field = value
+            }else field = value
         }
 
     // 当前活动的图标记录
@@ -97,8 +98,7 @@ class MenuSession(
     fun parse(string: String): String {
         Performance.MIRROR.check("Script:parseString") {
             val result: String
-            val content = Strings.replaceWithOrder(string, arguments)
-
+            val content = Strings.replaceWithOrder(string, *arguments)
             val func = FunctionParser.parse(placeholderPlayer, content)
             val papi = TLocale.Translate.setPlaceholders(placeholderPlayer, func)
 
@@ -130,9 +130,9 @@ class MenuSession(
             true
         }
 
+        menu?.removeViewer(viewer)
         menu = null
         page = -1
-        arguments = arrayOf()
         agent = null
         receptacle = null
     }
@@ -153,7 +153,6 @@ class MenuSession(
     fun close(closePacket: Boolean, updateInventory: Boolean) {
         MenuCloseEvent(this).call()
         receptacle?.close(viewer, closePacket)
-        menu?.removeViewer(viewer)
         if (updateInventory) viewer.updateInventory()
     }
 

@@ -17,8 +17,8 @@ inline class EvalResult(private val any: Any?) {
         }
     }
 
-    fun asItemStack(): ItemStack {
-        return any as ItemStack
+    fun asItemStack(): ItemStack? {
+        return any as ItemStack?
     }
 
     fun asString(): String {

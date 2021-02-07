@@ -1,6 +1,5 @@
 package me.arasple.mc.trmenu.module.display
 
-import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.event.MenuOpenEvent
 import me.arasple.mc.trmenu.api.event.MenuPageChangeEvent
 import me.arasple.mc.trmenu.api.receptacle.window.Receptacle
@@ -8,6 +7,7 @@ import me.arasple.mc.trmenu.module.display.icon.Icon
 import me.arasple.mc.trmenu.module.display.layout.MenuLayout
 import me.arasple.mc.trmenu.module.internal.service.Performance
 import me.arasple.mc.trmenu.util.Tasks
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
 /**
@@ -27,7 +27,7 @@ class Menu(
 
     }
 
-    private val viewers: MutableSet<Player> = mutableSetOf()
+    val viewers: MutableSet<String> = mutableSetOf()
 
     /**
      * 开启菜单
@@ -39,8 +39,8 @@ class Menu(
         block: (MenuSession) -> Unit = {}
     ) {
         Performance.MIRROR.check("Menu:Event:Open") {
-            val session = MenuSession.getSession(viewer)
-            viewers.add(viewer)
+            val session = MenuSession.getSession(viewer).also(block)
+            viewers.add(viewer.name)
 
             if (session.menu == this) {
                 return page(viewer, page)
@@ -48,7 +48,7 @@ class Menu(
                 session.shut()
             }
 
-            if (!MenuOpenEvent(session, this, page).callEvent()) return
+            if (!MenuOpenEvent(session, this, page, reason).callEvent()) return
 
             if (settings.openEvent.eval(session)) {
                 val layout = layout[page]
@@ -64,7 +64,6 @@ class Menu(
                 loadIcon(session)
                 loadTasks(session)
 
-                block.invoke(session)
                 receptacle.open(viewer)
             }
         }
@@ -153,9 +152,7 @@ class Menu(
     }
 
     fun forViewers(block: (Player) -> Unit) {
-        viewers.forEach {
-            block.invoke(it)
-        }
+        viewers.mapNotNull { Bukkit.getPlayerExact(it) }.forEach(block)
     }
 
     fun forSessions(block: (MenuSession) -> Unit) {
@@ -170,7 +167,11 @@ class Menu(
     }
 
     fun removeViewer(viewer: Player) {
-        viewers.remove(viewer)
+        viewers.remove(viewer.name)
+    }
+
+    fun removeViewers() {
+        viewers.clear()
     }
 
 }

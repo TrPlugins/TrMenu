@@ -16,7 +16,7 @@ class Icon(
     update: Array<Int>,
     val position: Position,
     private val defIcon: IconProperty,
-    private val subs: IndivList<IconProperty>
+    val subs: IndivList<IconProperty>
 ) : IIcon {
 
     override fun startup(session: MenuSession) {
@@ -86,7 +86,7 @@ class Icon(
     /**
      * 更新周期
      */
-    private val update: Map<Long, Set<Int>> = kotlin.run {
+    internal val update: Map<Long, Set<Int>> = kotlin.run {
         val result = mutableMapOf<Long, MutableSet<Int>>()
         val fallback = update.maxOrNull() ?: -1
         val array = Array(4) { update.getOrElse(it) { fallback } }
@@ -106,11 +106,12 @@ class Icon(
         array.indices.forEach {
             if (array[it] > 0) result.computeIfAbsent(array[it].toLong()) { mutableSetOf() }.add(it)
         }
+
         result
     }
 
     private fun match(matcher: (IconProperty) -> Boolean): Boolean {
-        return matcher(defIcon) && subs.elements.all { matcher(it) }
+        return matcher(defIcon) || subs.elements.any { matcher(it) }
     }
 
     /**
@@ -122,10 +123,10 @@ class Icon(
             val eval = property.condition.eval(session)
 
             if (eval.asBoolean()) {
-                subs.setIndex(session.id, index)
+                subs[session.id] = index
                 settingItem(session, getProperty(session))
             } else {
-                subs.setIndex(session.id, -1)
+                subs[session.id] = -1
                 filter(session, iterator)
             }
         } else {

@@ -41,9 +41,7 @@ class CommandOpen : BaseSubCommand() {
         }
 
         menu.open(player, page, MenuOpenEvent.Reason.PLAYER_COMMAND) {
-            if (arguments != null) {
-                it.arguments = arguments
-            }
+            if (arguments != null) it.arguments = arguments
         }
     }
 

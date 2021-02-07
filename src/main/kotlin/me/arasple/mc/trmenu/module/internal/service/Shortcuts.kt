@@ -19,7 +19,6 @@ import org.bukkit.inventory.EquipmentSlot
  * @author Arasple
  * @date 2021/2/4 15:37
  */
-@Deprecated("Plan to develop a new plugin to replace this feature")
 object Shortcuts {
 
     private val sneaking = mutableMapOf<String, Long>()
@@ -41,6 +40,7 @@ object Shortcuts {
         val reaction =
             if (player.isSneakingValid()) Type.REACTIONS[Type.SNEAKING_RIGHT_CLICK_PLAYER]
             else Type.REACTIONS[Type.RIGHT_CLICK_PLAYER]
+
         MenuSession.getSession(player).arguments = arrayOf(clicked.name)
 
         return reaction?.eval(player) ?: false

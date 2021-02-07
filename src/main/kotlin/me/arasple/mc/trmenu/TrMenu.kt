@@ -1,11 +1,11 @@
 package me.arasple.mc.trmenu
 
-import io.izzel.taboolib.kotlin.kether.action.bukkit.ActionPlayer
 import io.izzel.taboolib.loader.Plugin
 import io.izzel.taboolib.module.config.TConfig
 import io.izzel.taboolib.module.inject.TInject
 import io.izzel.taboolib.module.locale.TLocale
 import me.arasple.mc.trmenu.module.conf.Loader
+import me.arasple.mc.trmenu.module.internal.service.Shortcuts
 import org.bukkit.Bukkit
 
 /**
@@ -24,6 +24,7 @@ object TrMenu : Plugin() {
 
     override fun onEnable() {
         TLocale.sendToConsole("Plugin.Enabled", plugin.description.version)
+        Shortcuts.Type.load()
         Loader.loadMenus()
     }
 

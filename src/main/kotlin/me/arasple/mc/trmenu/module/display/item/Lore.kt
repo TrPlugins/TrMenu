@@ -18,13 +18,13 @@ class Lore(lore: List<String>) {
             var condition: String? = null
             val line = buildString {
                 Variables(it, ActionOption.Type.CONDITION.regex) { it[2] }.element.forEach { element ->
-                    if (element.isVariable) append(element.value)
-                    else condition = element.value
+                    if (element.isVariable) condition = element.value
+                    else append(element.value)
                 }
             }
 
             line to condition
-        }.toMap()
+        }
 
 
     fun parse(session: MenuSession): List<String> {

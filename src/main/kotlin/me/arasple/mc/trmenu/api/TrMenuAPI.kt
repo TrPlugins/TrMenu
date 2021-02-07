@@ -16,7 +16,7 @@ object TrMenuAPI {
      * @see Menu
      */
     fun getMenuById(id: String): Menu? {
-        return Menu.menus.find { it.id.equals(id, true) }
+        return Menu.menus.find { it.id == id }
     }
 
 }

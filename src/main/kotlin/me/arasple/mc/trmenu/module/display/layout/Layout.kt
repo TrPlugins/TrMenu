@@ -1,6 +1,5 @@
 package me.arasple.mc.trmenu.module.display.layout
 
-import io.izzel.taboolib.kotlin.Mirror
 import me.arasple.mc.trmenu.api.receptacle.ReceptacleAPI
 import me.arasple.mc.trmenu.api.receptacle.window.type.InventoryChest
 import me.arasple.mc.trmenu.module.display.MenuSession

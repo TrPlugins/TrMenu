@@ -121,7 +121,7 @@ object MenuSerializer : ISerializer {
                 tasks.forEach { (_, content) ->
                     val map = Property.asSection(content)
                     val period = Property.PERIOD.ofInt(map, -1)
-                    val reactions = Reactions.ofReaction(Property.TASKS.ofMap(map))
+                    val reactions = Reactions.ofReaction(Property.TASKS.ofList(map))
                     if (period > 0 && !reactions.isEmpty()) this[period.toLong()] = reactions
                 }
                 this

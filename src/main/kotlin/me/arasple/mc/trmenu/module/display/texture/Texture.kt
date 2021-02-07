@@ -24,10 +24,10 @@ import org.bukkit.inventory.meta.SkullMeta
  */
 class Texture(
     val raw: String,
+    val type: TextureType,
     val texture: String,
     val dynamic: Boolean,
     val static: ItemStack?,
-    val type: TextureType,
     val meta: Map<TextureMeta, String>
 ) : ITexture {
 
@@ -48,10 +48,7 @@ class Texture(
             meta.forEach { (meta, metaValue) ->
                 val value = session.parse(metaValue)
                 when (meta) {
-                    TextureMeta.DATA_VALUE -> {
-                        @Suppress("DEPRECATION")
-                        itemStack.durability = value.toShortOrNull() ?: 0
-                    }
+                    TextureMeta.DATA_VALUE -> itemStack.durability = value.toShortOrNull() ?: 0
                     TextureMeta.MODEL_DATA -> {
                         itemMeta?.setCustomModelData(value.toInt()).also { itemStack.itemMeta = itemMeta }
                     }
@@ -66,6 +63,9 @@ class Texture(
         return itemStack ?: FALL_BACK
     }
 
+    override fun toString(): String {
+        return "{type=$type, texture=$texture, dynamic=$dynamic, static=$static, meta=$meta}"
+    }
 
     companion object {
 
@@ -129,11 +129,9 @@ class Texture(
                         type = TextureType.RAW
                         if (!dynamic) static = json!!
                     }
-                } else if (!dynamic) {
-                    static = parseMaterial(texture)
-                }
+                } else if (!dynamic) static = parseMaterial(texture)
             }
-            return Texture(raw, texture, dynamic, static, type, meta)
+            return Texture(raw, type, texture, dynamic, static, meta)
         }
 
         private fun parseMaterial(material: String): ItemStack {

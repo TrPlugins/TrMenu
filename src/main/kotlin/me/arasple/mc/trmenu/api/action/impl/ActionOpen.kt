@@ -19,7 +19,7 @@ class ActionOpen(content: String, option: ActionOption) : AbstractAction(content
         val split = args[0].split(":")
         val arguments = if (args.size == 1) arrayOf() else args.toTypedArray().copyOfRange(1, args.size)
         val menu = TrMenuAPI.getMenuById(split[0]) ?: return
-        val page = split.getOrNull(1)?.toIntOrNull() ?: -1
+        val page = split.getOrNull(1)?.toIntOrNull() ?: 0
 
         menu.open(player, page, MenuOpenEvent.Reason.PLAYER_COMMAND) {
             if (arguments.isNotEmpty()) it.arguments = arguments

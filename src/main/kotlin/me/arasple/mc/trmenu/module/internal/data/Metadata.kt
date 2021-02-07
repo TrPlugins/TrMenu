@@ -29,7 +29,6 @@ object Metadata {
     @TSchedule(delay = 100, period = 20 * 30, async = true)
     @TFunction.Cancel
     fun save() {
-        meta.clear()
         data.forEach { (player, dataMap) ->
             getLocalePlayer(player)?.let {
                 dataMap.data.forEach { (key, value) -> it.set("TrMenu.Data.$key", value) }

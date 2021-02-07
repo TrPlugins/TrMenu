@@ -23,7 +23,7 @@ Action:
       - 'q'
 
 Shortcuts:
-  Offhand: 'open: Example'
+  Offhand: []
   Sneaking-Offhand:
     - condition: 'perm *trmenu.shortcut'
       execute: 'open: Example'

@@ -20,9 +20,7 @@ inline class Reactions(private val reacts: List<React>) {
             any ?: return Reactions(reacts)
             if (any is List<*>) {
                 val first = any.firstOrNull()
-                if (first is String || (first is Map<*, *>) && first.entries.firstOrNull()?.key.toString()
-                        .equals("catcher", true)
-                ) {
+                if (first is String || ((first is Map<*, *>) && first.entries.firstOrNull()?.key.toString().equals("catcher", true))) {
                     return Reactions(
                         listOf(
                             React(

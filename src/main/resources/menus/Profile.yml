@@ -4,7 +4,7 @@ Events:
   Open:
     - condition: 'js: utils.isPlayerOnline(vars("{0}"))'
       deny:
-        - 'tell: &7Targeted player &f{0} &7is not online.'
+        - 'tell: &7Player &f{0} &7is not online.'
         - 'sound: ENTITY_ITEM_BREAK-1-0'
         - 'return'
       list:
@@ -14,11 +14,14 @@ Bindings:
   Command: 'profile(s)?'
 
 Tasks:
-  safeCheck:
-    period: 40
+  profileService:
+    period: 15
     task:
       - condition: 'js: utils.isPlayerOnline(vars("{0}"))'
-        actions: 'close'
+        action: 'refresh: H;C;L;B;R;Z'
+        deny:
+          - 'tell: &7Player &f{0} &7is offline now.'
+          - 'close'
 
 Layout:
   - '||#||||||'
@@ -42,52 +45,51 @@ Icons:
       material: Black Stained Glass Pane
 
   'H':
-    update: 20
     display:
       material: 'source:JS:utils.getEquipment(vars("{0}"), "HEAD")'
     icons:
-      - condition: 'js: utils.hasEquipment(vars("{0}"), "HEAD")'
+      - condition: 'js: !utils.hasEquipment(vars("{0}"), "HEAD")'
         display:
           name: '&3{0}'
-          material: <head:{0}>
+          material: 'head:{0}'
 
   'C':
-    update: 20
     display:
       material: 'source:JS:utils.getEquipment(vars("{0}"), "CHEST")'
     icons:
-      - condition: 'js: utils.hasEquipment(vars("{0}"), "CHEST")'
+      - condition: 'js: !utils.hasEquipment(vars("{0}"), "CHEST")'
         display:
+          name: '%server_time_ss%%'
           material: Gray Stained Glass Pane
+
   'L':
-    update: 20
     display:
       material: 'source:JS:utils.getEquipment(vars("{0}"), "LEGS")'
     icons:
-      - condition: 'js: utils.hasEquipment(vars("{0}"), "LEGS")'
+      - condition: 'js: !utils.hasEquipment(vars("{0}"), "LEGS")'
         display:
           material: Gray Stained Glass Pane
+
   'B':
-    update: 20
     display:
       material: 'source:JS:utils.getEquipment(vars("{0}"), "FEET")'
     icons:
-      - condition: 'js: utils.hasEquipment(vars("{0}"), "FEET")'
+      - condition: 'js: !utils.hasEquipment(vars("{0}"), "FEET")'
         display:
           material: Gray Stained Glass Pane
+
   'R':
-    update: 20
     display:
       material: 'source:JS:utils.getEquipment(vars("{0}"), "MAINHAND")'
     icons:
-      - condition: 'js: utils.hasEquipment(vars("{0}"), "MAINHAND")'
+      - condition: 'js: !utils.hasEquipment(vars("{0}"), "MAINHAND")'
         display:
           material: Gray Stained Glass Pane
+
   'Z':
-    update: 20
     display:
       material: 'source:JS:utils.getEquipment(vars("{0}"), "OFFHAND")'
     icons:
-      - condition: 'js: utils.hasEquipment(vars("{0}"), "OFFHAND")'
+      - condition: 'js: !utils.hasEquipment(vars("{0}"), "OFFHAND")'
         display:
           material: Gray Stained Glass Pane

@@ -23,7 +23,7 @@ object Loader {
         val folder = File(TrMenu.plugin.dataFolder, "menus")
 
         if (!folder.exists()) {
-            Files.releaseResource(TrMenu.plugin, "menus/Example.yml", true)
+            Files.releaseResource(TrMenu.plugin, "menus", true)
         }
 
         folder
@@ -80,8 +80,10 @@ object Loader {
                     }
 
                     Menu.menus.replaceAll { target ->
-                        if (target == current) reloadMenu
-                        else target
+                        if (target == current) {
+                            target.removeViewers()
+                            reloadMenu
+                        } else target
                     }
                 }
             }

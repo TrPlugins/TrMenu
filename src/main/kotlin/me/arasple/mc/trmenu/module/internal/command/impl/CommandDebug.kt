@@ -7,8 +7,10 @@ import io.izzel.taboolib.module.command.base.BaseSubCommand
 import io.izzel.taboolib.module.locale.chatcolor.TColor
 import io.izzel.taboolib.util.plugin.PluginUtils
 import me.arasple.mc.trmenu.TrMenu
+import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.module.display.Menu
 import me.arasple.mc.trmenu.module.display.MenuSession
+import me.arasple.mc.trmenu.module.display.texture.Texture
 import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.module.internal.service.Performance
 import me.arasple.mc.trmenu.util.Tasks
@@ -26,13 +28,16 @@ import org.bukkit.entity.Player
  */
 class CommandDebug : BaseSubCommand() {
 
+    private val description = PluginHandle.getPluginDescription()
     override fun getArguments() = arrayOf(
         Argument("Type", true) {
             listOf(
                 "mirror",
                 "dump",
                 "info",
-                "player"
+                "player",
+                "menu",
+                "parseTexture"
             )
         }
     )
@@ -49,10 +54,21 @@ class CommandDebug : BaseSubCommand() {
                         sender is Player -> sender
                         else -> null
                     }
-
                     if (player != null && player.isOnline) {
                         player(sender, player)
                     }
+                }
+                "menu" -> {
+                    val menu = when {
+                        args.size > 1 -> TrMenuAPI.getMenuById(args[1])
+                        else -> null
+                    }
+                    if (menu != null) {
+                        menu(sender, menu)
+                    }
+                }
+                "parsetexture" -> {
+                    sender.send("&8[&7Texture&8] ${Texture.createTexture(args.getOrElse(1) { "AIR" })}")
                 }
             }
         }
@@ -137,7 +153,7 @@ class CommandDebug : BaseSubCommand() {
                 &ePlaceholder Agent: &6${session.placeholderPlayer.name}
                 &eViewing Menu: &6${session.menu?.id} &8(Page: ${session.page})
                 
-                &eArguments: &6${session.arguments.joinToString("&f, &6")}
+                &eArguments: &6${session.arguments.contentToString()}
                 &eMeta: &6${Metadata.getMeta(session)}
                 &eData: &6${Metadata.getData(session)}
                 
@@ -147,15 +163,40 @@ class CommandDebug : BaseSubCommand() {
     }
 
     /**
+     * 菜单信息查看
+     */
+    private fun menu(sender: CommandSender, menu: Menu) {
+        sender.send(
+            """
+                &a&l「&8--------------------------------------------------&a&l」
+                
+                &eMenu ID: &6${menu.id}
+                &eViewers: &7${menu.viewers}
+                &eSettings:
+                    &6Title: &f${menu.settings.title} &7at ${menu.settings.titleUpdate}ticks
+                    &6Arguments: &a${menu.settings.enableArguments} &7${menu.settings.defaultArguments.contentToString()}
+                    &6Layout: ${menu.layout.getSize()} &8(Def: ${menu.settings.defaultLayout})
+                    &6MinCD: ${menu.settings.minClickDelay}
+                    &6HidePINV: ${menu.settings.hidePlayerInventory}
+                    &6Bounds: ${menu.settings.boundCommands.contentToString()} / ${menu.settings.boundItems.contentToString()}
+                &eIcons:
+                    ${menu.icons.joinToString { "&7[ &f${it.id} &7] &8${it.update} ;" }}
+                    
+                &a&l「&8--------------------------------------------------&a&l」
+            """.trimIndent().split("\n")
+        )
+    }
+
+    /**
      * PRIVATE FUNCS & FIELDS
      */
 
-    private fun CommandSender.send(messages: List<String>) {
-        messages.forEach {
-            sendMessage(TColor.translate(it))
-        }
+    private fun CommandSender.send(message: String) {
+        sendMessage(TColor.translate(message))
     }
 
-    private val description = PluginHandle.getPluginDescription()
+    private fun CommandSender.send(messages: List<String>) {
+        messages.forEach { send(it) }
+    }
 
 }
