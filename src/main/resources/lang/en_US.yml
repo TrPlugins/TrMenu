@@ -4,6 +4,9 @@ Plugin:
     - '&7Loading &3Tr&bMenu &f&lPremium... &8{0}'
     - ''
   Enabled: '&8[&3Tr&bMenu&8] &bINFO &8| &3Plugin has been enabled. Currently running version &2{0}&7.'
+  Update:
+    - '&8[&3Tr&bMenu&8] &bUPDATE &8| &3Update &a{0}&3 found ! Download it from the link below for new features and bug fix!'
+    - '&bhttps://www.spigotmc.org/resources/83120/'
   Dependency:
     Hooked: '&8[&3Tr&bMenu&8] &6HOOK &8| &7Soft-Dependency &f{0} &7is hooked.'
     Abuse: '&8[&3Tr&bMenu&8] &6HOOK &8| &4Attempted to use the non-installed soft-depend plugin &c{0}'

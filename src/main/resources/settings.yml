@@ -13,7 +13,6 @@ Menu:
     Item:
       Default-Name-Color: "&7"
       Default-Lore-Color: "&7"
-      Head-Mojang-API: true
       Pre-Color: false
 
 Action:

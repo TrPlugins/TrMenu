@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.api.action.impl
 
+import io.izzel.taboolib.module.locale.chatcolor.TColor
 import io.izzel.taboolib.module.tellraw.TellrawJson
 import me.arasple.mc.trmenu.api.action.base.AbstractAction
 import me.arasple.mc.trmenu.api.action.base.ActionOption
@@ -34,25 +35,27 @@ class ActionTellraw(content: String, option: ActionOption) : AbstractAction(cont
                 val tellraw = TellrawJson.create()
 
                 Variables(raw, matcher) { it[1] }.element.forEach { result ->
-                    tellraw.append(result.value)
 
                     if (result.isVariable) {
                         val splits = result.value.split("@")
-                        splits.map {
+                        tellraw.append(TColor.translate(splits[0]))
+
+                        splits.mapNotNull {
                             val keyValue = it.split("=", ":", limit = 2)
-                            keyValue[0] to keyValue[1]
+                            if (keyValue.size >= 2)
+                                keyValue[0] to keyValue[1]
+                            else null
                         }.forEach {
                             val (type, content) = it
                             when (type.toLowerCase()) {
-                                "hover" -> tellraw.hoverText(content)
+                                "hover" -> tellraw.hoverText(content.replace("\\n", "\n"))
                                 "suggest" -> tellraw.clickSuggest(content)
                                 "command", "execute" -> tellraw.clickCommand(content)
                                 "url", "open_url" -> tellraw.clickOpenURL(content)
                             }
                         }
-                    }
+                    } else tellraw.append(TColor.translate(result.value))
                 }
-
                 json = tellraw.toRawMessage()
             }
 

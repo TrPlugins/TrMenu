@@ -12,7 +12,7 @@ import org.bukkit.entity.Player
 class ActionTakeItem(content: String, option: ActionOption) : AbstractAction(content, option) {
 
     override fun onExecute(player: Player, placeholderPlayer: Player) {
-        ItemMatcher.eval(parseContent(placeholderPlayer), !dynamic).takeItem(player)
+        ItemMatcher.eval(parseContent(placeholderPlayer), !parsable).takeItem(player)
     }
 
     companion object {

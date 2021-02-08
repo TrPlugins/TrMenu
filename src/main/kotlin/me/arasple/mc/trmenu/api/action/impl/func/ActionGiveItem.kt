@@ -13,7 +13,7 @@ import org.bukkit.entity.Player
 class ActionGiveItem(content: String, option: ActionOption) : AbstractAction(content, option) {
 
     override fun onExecute(player: Player, placeholderPlayer: Player) {
-        ItemMatcher.eval(parseContent(placeholderPlayer), !dynamic).buildItem().forEach {
+        ItemMatcher.eval(parseContent(placeholderPlayer), !parsable).buildItem().forEach {
             CronusUtils.addItem(player, it)
         }
     }

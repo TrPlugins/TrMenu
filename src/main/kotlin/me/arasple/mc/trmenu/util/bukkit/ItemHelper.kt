@@ -2,7 +2,7 @@ package me.arasple.mc.trmenu.util.bukkit
 
 import com.google.gson.JsonParser
 import io.izzel.taboolib.util.item.Items
-import me.arasple.mc.trmenu.TrMenu
+import me.arasple.mc.trmenu.module.display.MenuSettings
 import org.bukkit.ChatColor
 import org.bukkit.Color
 import org.bukkit.inventory.ItemStack
@@ -31,8 +31,7 @@ object ItemHelper {
 
     fun defColorize(string: String, isLore: Boolean = false): String {
         return if (string.isNotBlank() && !string.startsWith(ChatColor.COLOR_CHAR) && !string.startsWith('&')) {
-            val path = "Menu.Icon.Item.Default-Color-${if (isLore) "Lore" else "Name"}"
-            val defColor = TrMenu.SETTINGS.getStringColored(path, "&7")
+            val defColor = if (isLore) MenuSettings.DEFAULT_LORE_COLOR else MenuSettings.DEFAULT_NAME_COLOR
             defColor + string
         } else string
     }

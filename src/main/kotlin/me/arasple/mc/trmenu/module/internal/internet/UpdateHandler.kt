@@ -21,7 +21,6 @@ import java.util.*
 /**
  * @author Arasple
  * @date 2020/7/28 18:30
- * TODO MAINTAIN
  */
 object UpdateHandler {
 
@@ -54,7 +53,7 @@ object UpdateHandler {
                         if (LATEST_VERSION < 0) PluginBoot.setDisabled(true)
                         if (!NOTIFY) {
                             NOTIFY = true
-                            TLocale.sendToConsole("PLUGIN.UPDATE", LATEST_VERSION)
+                            TLocale.sendToConsole("Plugin.Update", LATEST_VERSION)
                         }
                     }
                 }
@@ -71,7 +70,7 @@ object UpdateHandler {
         fun onJoin(e: PlayerJoinEvent) {
             val player = e.player
             if (player.isOp && LATEST_VERSION > CURRENT_VERSION && !NOTIFIED.contains(player.uniqueId)) {
-//                player.sendLocale("PLUGIN.UPDATE", LATEST_VERSION)
+                TLocale.sendTo(player, "Plugin.Update", LATEST_VERSION)
                 NOTIFIED.add(player.uniqueId)
             }
         }

@@ -58,7 +58,7 @@ class MenuSession(
                     field = args.toTypedArray()
                 }
                 return
-            }else field = value
+            } else field = value
         }
 
     // 当前活动的图标记录
@@ -97,13 +97,12 @@ class MenuSession(
      */
     fun parse(string: String): String {
         Performance.MIRROR.check("Script:parseString") {
-            val result: String
-            val content = Strings.replaceWithOrder(string, *arguments)
+            val preColor = MenuSettings.PRE_COLOR
+            val content = Strings.replaceWithOrder(if (preColor) string else TColor.translate(string), *arguments)
             val func = FunctionParser.parse(placeholderPlayer, content)
             val papi = TLocale.Translate.setPlaceholders(placeholderPlayer, func)
 
-            result = TColor.translate(papi)
-            return result
+            return if (preColor) papi else TColor.translate(papi)
         }
         throw Exception()
     }

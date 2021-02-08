@@ -1,8 +1,8 @@
 package me.arasple.mc.trmenu.api.action.base
 
 import me.arasple.mc.trmenu.module.display.MenuSession
-import me.arasple.mc.trmenu.util.Tasks
 import me.arasple.mc.trmenu.util.Regexs
+import me.arasple.mc.trmenu.util.Tasks
 import org.bukkit.entity.Player
 
 /**
@@ -11,7 +11,7 @@ import org.bukkit.entity.Player
  */
 abstract class AbstractAction(val baseContent: String = "", var option: ActionOption = ActionOption()) {
 
-    val dynamic = Regexs.containsPlaceholder(baseContent)
+    val parsable = Regexs.containsPlaceholder(baseContent) || baseContent.contains("&")
 
     fun Player.getSession(): MenuSession {
         return MenuSession.getSession(this)
@@ -22,7 +22,7 @@ abstract class AbstractAction(val baseContent: String = "", var option: ActionOp
     }
 
     fun parseContent(player: Player): String {
-        return if (dynamic) parse(player, baseContent) else baseContent
+        return if (parsable) parse(player, baseContent) else baseContent
     }
 
     fun parseContentSplited(player: Player, vararg delimiters: String = arrayOf("\\n", "\\r")): List<String> {

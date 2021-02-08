@@ -23,7 +23,10 @@ object Loader {
         val folder = File(TrMenu.plugin.dataFolder, "menus")
 
         if (!folder.exists()) {
-            Files.releaseResource(TrMenu.plugin, "menus", true)
+            arrayOf(
+                "Example.yml",
+                "Profile.yml"
+            ).forEach { Files.releaseResource(TrMenu.plugin, "menus/$it", true) }
         }
 
         folder
@@ -33,13 +36,10 @@ object Loader {
      * 载入默认路径 & 自定义路径的所有菜单
      */
     fun loadMenus(sender: CommandSender = Bukkit.getConsoleSender()) {
-        // TODO AUTO-RELOAD FEATURE
-
         Menu.menus.removeIf { it ->
             it.forSessions { it.close(true, updateInventory = true) }
             true
         }
-
         measureNanoTime {
 
             val errors = mutableListOf<String>()

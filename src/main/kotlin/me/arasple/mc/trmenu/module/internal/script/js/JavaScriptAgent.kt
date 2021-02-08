@@ -33,7 +33,10 @@ object JavaScriptAgent {
     fun eval(session: MenuSession, script: String, cacheScript: Boolean = true): EvalResult {
         val context = SimpleScriptContext()
 
-        context.setBindings(SimpleBindings(bindings).also { it["player"] = session.viewer }, ScriptContext.ENGINE_SCOPE)
+        context.setBindings(SimpleBindings(bindings).also {
+            it["session"] = session
+            it["player"] = session.viewer
+        }, ScriptContext.ENGINE_SCOPE)
         val setAttribute: (String, Function<Any, Any?>) -> Unit = { name, func ->
             context.setAttribute(name, func, ScriptContext.ENGINE_SCOPE)
         }

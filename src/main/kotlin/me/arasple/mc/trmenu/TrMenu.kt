@@ -5,6 +5,7 @@ import io.izzel.taboolib.module.config.TConfig
 import io.izzel.taboolib.module.inject.TInject
 import io.izzel.taboolib.module.locale.TLocale
 import me.arasple.mc.trmenu.module.conf.Loader
+import me.arasple.mc.trmenu.module.internal.service.RegisterCommands
 import me.arasple.mc.trmenu.module.internal.service.Shortcuts
 import org.bukkit.Bukkit
 
@@ -23,9 +24,15 @@ object TrMenu : Plugin() {
     }
 
     override fun onEnable() {
+        SETTINGS.listener { onSettingsReload() }.also { onSettingsReload() }
         TLocale.sendToConsole("Plugin.Enabled", plugin.description.version)
-        Shortcuts.Type.load()
         Loader.loadMenus()
+    }
+
+    fun onSettingsReload() {
+        println("OnSettingsReloaddddddddddd")
+        Shortcuts.Type.load()
+        RegisterCommands.load()
     }
 
 }

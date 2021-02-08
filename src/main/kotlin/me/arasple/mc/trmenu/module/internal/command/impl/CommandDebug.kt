@@ -80,7 +80,7 @@ class CommandDebug : BaseSubCommand() {
     private fun mirror(sender: CommandSender) {
         Tasks.task(true) {
             Performance.collect {
-                childFormat = "§8  {0}§f{1} §2[{3} ms] §7{4}%"
+                childFormat = "§8  {0}§7{1} §2[{3} ms] §7{4}%"
                 parentFormat = "§8  §8{0}§7{1} §8[{3} ms] §7{4}%"
             }.run {
                 sender.sendMessage("\n§3§lTrMenu §9§l§nPerformance Mirror\n§r")

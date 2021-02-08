@@ -2,6 +2,7 @@ package me.arasple.mc.trmenu.module.display
 
 import io.izzel.taboolib.internal.apache.lang3.ArrayUtils
 import io.izzel.taboolib.util.lite.cooldown.Cooldown
+import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.action.pack.Reactions
 import me.arasple.mc.trmenu.module.internal.script.js.ScriptFunction
 import me.arasple.mc.trmenu.util.bukkit.ItemMatcher
@@ -30,6 +31,20 @@ class MenuSettings(
     val tasks: Map<Long, Reactions>,
     val internalFunctions: Set<ScriptFunction>
 ) {
+
+    companion object {
+
+        var PRE_COLOR: Boolean = false
+        lateinit var DEFAULT_NAME_COLOR: String
+        lateinit var DEFAULT_LORE_COLOR: String
+
+        fun load() {
+            PRE_COLOR = TrMenu.SETTINGS.getBoolean("Menu.Icon.Item.Pre-Color", false)
+            DEFAULT_NAME_COLOR = TrMenu.SETTINGS.getStringColored("Menu.Icon.Item.Default-Name-Color", "&7")
+            DEFAULT_NAME_COLOR = TrMenu.SETTINGS.getStringColored("Menu.Icon.Item.Default-Lore-Color", "&7")
+        }
+
+    }
 
     val clickDelay = Cooldown("CLICK_DELAY", minClickDelay).also { it.plugin = "TrMenu" }
 

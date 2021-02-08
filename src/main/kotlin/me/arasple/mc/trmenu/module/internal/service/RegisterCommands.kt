@@ -3,6 +3,7 @@ package me.arasple.mc.trmenu.module.internal.service
 import io.izzel.taboolib.internal.apache.lang3.ArrayUtils
 import io.izzel.taboolib.module.command.TCommandHandler
 import io.izzel.taboolib.module.command.lite.CommandBuilder
+import io.izzel.taboolib.module.inject.TFunction
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.action.pack.Reactions
 import me.arasple.mc.trmenu.module.conf.prop.Property
@@ -14,7 +15,6 @@ import org.bukkit.entity.Player
  * @author Arasple
  * @date 2020/7/28 15:46
  */
-@Deprecated("Plan to develop a new plugin to replace this feature")
 object RegisterCommands {
 
     private val registered = mutableSetOf<String>()
@@ -23,6 +23,7 @@ object RegisterCommands {
         return Reactions.ofReaction(Property.asList(any))
     }
 
+    @TFunction.Init
     fun load() {
 
         registered.removeIf {
