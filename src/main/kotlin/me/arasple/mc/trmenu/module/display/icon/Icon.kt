@@ -15,7 +15,7 @@ class Icon(
     private val refresh: Long,
     update: Array<Int>,
     val position: Position,
-    private val defIcon: IconProperty,
+    val defIcon: IconProperty,
     val subs: IndivList<IconProperty>
 ) : IIcon {
 
@@ -73,6 +73,13 @@ class Icon(
     override fun onRefresh(session: MenuSession) {
         val iterator = subs.elements.withIndex().iterator()
         filter(session, iterator)
+    }
+
+    override fun onReset(session: MenuSession) {
+        position.reset(session)
+        defIcon.display.texture.reset(session.id)
+        defIcon.display.name.reset(session.id)
+        defIcon.display.lore.reset(session.id)
     }
 
     override fun getProperty(session: MenuSession): IconProperty {

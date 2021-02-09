@@ -73,7 +73,8 @@ object Heads {
                 HookPlugin.getSkinsRestorer().getPlayerSkinTexture(name)?.also(block)
             }
             Bukkit.getPlayer(name)?.isOnline == true -> {
-                NMS.INSTANCE.getGameProfile(Bukkit.getPlayer(name)!!).properties["textures"].find { it.value != null }?.value
+                NMS.INSTANCE.getGameProfile(Bukkit.getPlayer(name)!!).properties["textures"]
+                    .find { it.value != null }?.value
                     ?.also(block)
             }
             else -> {

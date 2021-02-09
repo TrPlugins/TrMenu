@@ -90,7 +90,7 @@ enum class Property(val default: String, val regex: Regex) {
     /**
      * 菜单绑定 - 命令
      */
-    BINDING_COMMANDS("Commands", "commands?"),
+    BINDING_COMMANDS("Commands", "(command|cmd)s?"),
 
     /**
      * 菜单绑定 - 物品

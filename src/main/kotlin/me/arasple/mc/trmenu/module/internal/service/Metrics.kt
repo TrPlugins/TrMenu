@@ -1,4 +1,4 @@
-package me.arasple.mc.trmenu.module.internal.internet
+package me.arasple.mc.trmenu.module.internal.service
 
 import io.izzel.taboolib.module.inject.TFunction
 import me.arasple.mc.trmenu.TrMenu
@@ -9,7 +9,7 @@ import org.bstats.bukkit.Metrics
  * @author Arasple
  * @date 2020/3/7 22:15
  */
-object MetricsHandler {
+object Metrics {
 
     private val B_STATS: Metrics by lazy { Metrics(TrMenu.plugin, 5742) }
     var menuOpenCounts = 0

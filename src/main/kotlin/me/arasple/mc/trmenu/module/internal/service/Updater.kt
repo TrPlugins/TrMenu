@@ -1,4 +1,4 @@
-package me.arasple.mc.trmenu.module.internal.internet
+package me.arasple.mc.trmenu.module.internal.service
 
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
@@ -22,7 +22,7 @@ import java.util.*
  * @author Arasple
  * @date 2020/7/28 18:30
  */
-object UpdateHandler {
+object Updater {
 
     private val API_URL = "https://api.github.com/repos/Arasple/${TrMenu.plugin.name}/releases/latest"
     private val DESCRIPTION = TrMenu.plugin.description

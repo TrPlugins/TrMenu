@@ -35,6 +35,11 @@ interface IIcon {
     fun onRefresh(session: MenuSession)
 
     /**
+     * 重置会话缓存
+     */
+    fun onReset(session: MenuSession)
+
+    /**
      * 取得针对当前会话有效的图标属性
      */
     fun getProperty(session: MenuSession): IconProperty

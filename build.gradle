@@ -8,7 +8,7 @@ plugins {
 }
 
 group 'me.arasple.mc.trmenu'
-version '3.0-Beta2'
+version '3.0-Beta3'
 
 task buildJar(dependsOn: [clean, shadowJar])
 
@@ -26,7 +26,7 @@ shadowJar {
         include dependency('io.izzel.taboolib:TabooLibLoader')
     }
     relocate 'io.izzel.taboolib.loader', project.group + '.module.internal.boot'
-    relocate 'org.bstats.bukkit', project.group + '.module.internal.internet.bstats'
+    relocate 'org.bstats.bukkit', project.group + '.module.internal.service.bstats'
     relocate 'net.wesjd.anvilgui', project.group + '.module.internal.inputer.anvil'
 }
 

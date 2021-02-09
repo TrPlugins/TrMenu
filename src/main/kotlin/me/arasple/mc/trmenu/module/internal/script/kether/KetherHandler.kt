@@ -30,6 +30,7 @@ object KetherHandler {
         addAction(KetherItem.parser(), "item")
         addAction(KetherMoney.parser(), "money")
         addAction(KetherPoints.parser(), "points")
+        addAction(KetherVars.parser(), "var")
     }
 
 

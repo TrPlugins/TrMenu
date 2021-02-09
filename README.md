@@ -1,6 +1,7 @@
-# TrMenu 3
+# **TrMenu**
 
 ## Modern & Advanced Menu-Plugin
+![](https://i.loli.net/2020/08/30/vAGHCM1sEOebQVr.gif)  
 
 ![](https://img.shields.io/github/last-commit/Arasple/TrMenu?logo=artstation&style=for-the-badge&color=9266CC)![](https://img.shields.io/github/issues/Arasple/TrMenu?style=for-the-badge&logo=slashdot)![](https://img.shields.io/github/release/Arasple/TrMenu?style=for-the-badge&color=00C58E&logo=ionic)
 

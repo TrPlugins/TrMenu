@@ -21,11 +21,8 @@ interface IItem {
         val item = texture.generate(session)
         val builder = ItemBuilder(item)
 
-        if (item.hasItemMeta()) {
-            name?.let { builder.name(it) }
-            lore?.let { builder.lore(it) }
-        }
-
+        name?.let { builder.name(it) }
+        lore?.let { builder.lore(it) }
         meta.flags(builder)
         meta.shiny(session, builder)
 

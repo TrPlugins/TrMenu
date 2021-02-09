@@ -1,10 +1,12 @@
 package me.arasple.mc.trmenu
 
+import io.izzel.taboolib.kotlin.kether.action.ActionRandom
 import io.izzel.taboolib.loader.Plugin
 import io.izzel.taboolib.module.config.TConfig
 import io.izzel.taboolib.module.inject.TInject
 import io.izzel.taboolib.module.locale.TLocale
 import me.arasple.mc.trmenu.module.conf.Loader
+import me.arasple.mc.trmenu.module.display.MenuSettings
 import me.arasple.mc.trmenu.module.internal.service.RegisterCommands
 import me.arasple.mc.trmenu.module.internal.service.Shortcuts
 import org.bukkit.Bukkit
@@ -20,6 +22,7 @@ object TrMenu : Plugin() {
         private set
 
     override fun onLoad() {
+        ActionRandom
         TLocale.sendToConsole("Plugin.Loading", Bukkit.getBukkitVersion())
     }
 
@@ -30,7 +33,7 @@ object TrMenu : Plugin() {
     }
 
     fun onSettingsReload() {
-        println("OnSettingsReloaddddddddddd")
+        MenuSettings.load()
         Shortcuts.Type.load()
         RegisterCommands.load()
     }
