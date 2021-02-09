@@ -6,7 +6,6 @@ import me.arasple.mc.trmenu.api.action.pack.Reactions
 import me.arasple.mc.trmenu.module.conf.prop.Property
 import me.arasple.mc.trmenu.module.internal.inputer.Inputer
 import me.arasple.mc.trmenu.util.collections.CycleList
-import org.bukkit.configuration.MemorySection
 import org.bukkit.entity.Player
 
 /**
@@ -34,9 +33,11 @@ class ActionCatcher(private val inputer: Inputer) : AbstractAction() {
 
         private val parser: (Any, ActionOption) -> AbstractAction = { value, _ ->
             val stages = mutableListOf<Inputer.Catcher>()
-            if (value is Map<*,*>) {
+            if (value is Map<*, *>) {
+                println("LoadCatcher from $value")
                 value.forEach {
                     val section = Property.asSection(value[it])
+                    println("part: $it, section $section")
                     if (section != null) {
                         val type = Inputer.Type.of(section.getString(Property.getSectionKey(section, type), "CHAT")!!)
                         val start = Reactions.ofReaction(section.getList(Property.getSectionKey(section, start)))
@@ -54,6 +55,8 @@ class ActionCatcher(private val inputer: Inputer) : AbstractAction() {
                         )
 
                         stages.add(Inputer.Catcher(type, start, cancel, end, display, items))
+                    } else {
+                        println("[X] Null")
                     }
                 }
             } else {
