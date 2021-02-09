@@ -1,8 +1,8 @@
 package me.arasple.mc.trmenu.module.internal.script.js
 
+import io.izzel.taboolib.common.plugin.bridge.BridgeImpl
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import io.izzel.taboolib.kotlin.Randoms
-import io.izzel.taboolib.module.compat.EconomyHook
 import io.izzel.taboolib.module.tellraw.TellrawJson
 import io.izzel.taboolib.util.item.Equipments
 import io.izzel.taboolib.util.item.ItemBuilder
@@ -200,11 +200,12 @@ class Assist {
      */
 
     fun hasMoney(player: Player, money: String): Boolean {
+        BridgeImpl.handle()
         return hasMoney(player, toDouble(money))
     }
 
     fun hasMoney(player: Player, money: Double): Boolean {
-        return EconomyHook.get(player) >= money
+        return HookPlugin.getVault().hasMoney(player, money)
     }
 
     fun hasPoints(player: Player, points: String): Boolean {

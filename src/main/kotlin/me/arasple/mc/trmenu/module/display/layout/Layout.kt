@@ -3,6 +3,7 @@ package me.arasple.mc.trmenu.module.display.layout
 import me.arasple.mc.trmenu.api.receptacle.ReceptacleAPI
 import me.arasple.mc.trmenu.api.receptacle.window.type.InventoryChest
 import me.arasple.mc.trmenu.module.display.MenuSession
+import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.module.internal.service.Performance
 import me.arasple.mc.trmenu.util.Regexs
 import me.arasple.mc.trmenu.util.collections.Variables
@@ -64,12 +65,14 @@ class Layout(
         menu ?: return
         receptacle ?: return
 
-        receptacle.listenerClose { _, _ ->
-            menu.settings.closeEvent.eval(session)
+        receptacle.listenerClose { player, _ ->
+            if (!Metadata.lookBukkitMeta(player, "FORCE_CLOSE")) {
+                menu.settings.closeEvent.eval(session)
+            }
             session.shut()
         }
         receptacle.listenerClick { player, event ->
-            Performance.MIRROR.check("Menu:Event:handleClick") {
+            Performance.MIRROR.check("Menu:Event:onClick") {
                 val cancelEvent = {
                     event.isCancelled = true
                     receptacle.refresh(event.slot)

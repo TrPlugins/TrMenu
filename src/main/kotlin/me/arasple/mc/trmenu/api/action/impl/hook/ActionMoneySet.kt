@@ -1,8 +1,8 @@
 package me.arasple.mc.trmenu.api.action.impl.hook
 
-import io.izzel.taboolib.module.compat.EconomyHook
 import me.arasple.mc.trmenu.api.action.base.AbstractAction
 import me.arasple.mc.trmenu.api.action.base.ActionOption
+import me.arasple.mc.trmenu.module.internal.hook.HookPlugin
 import org.bukkit.entity.Player
 
 /**
@@ -14,7 +14,7 @@ class ActionMoneySet(content: String, option: ActionOption) : AbstractAction(con
     override fun onExecute(player: Player, placeholderPlayer: Player) {
         val amount = parseContent(placeholderPlayer).toDoubleOrNull() ?: -1.0
         if (amount > 0) {
-            EconomyHook.set(player, amount)
+            HookPlugin.getVault().setMoney(player, amount)
         }
     }
 

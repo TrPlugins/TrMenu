@@ -77,9 +77,14 @@ class Icon(
 
     override fun onReset(session: MenuSession) {
         position.reset(session)
-        defIcon.display.texture.reset(session.id)
-        defIcon.display.name.reset(session.id)
-        defIcon.display.lore.reset(session.id)
+        val resetIcon: (IconProperty) -> Unit = {
+            it.display.texture.reset(session.id)
+            it.display.name.reset(session.id)
+            it.display.lore.reset(session.id)
+            it.display.cache.remove(session.id)
+        }
+        resetIcon(defIcon)
+        subs.elements.forEach(resetIcon)
     }
 
     override fun getProperty(session: MenuSession): IconProperty {

@@ -41,7 +41,7 @@ Before asking for support, please make sure you have fully **read the wiki** and
 
 
 
-Issues: https://github.com/TrMenu/TrMenu/issues
+Issues: https://github.com/TrMenu/TrMenu/issues  
 Discord : https://discord.gg/8CWa6KF
 
 ```

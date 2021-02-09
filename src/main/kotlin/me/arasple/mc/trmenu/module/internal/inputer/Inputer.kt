@@ -6,6 +6,7 @@ import io.izzel.taboolib.util.lite.Catchers
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.action.pack.Reactions
 import me.arasple.mc.trmenu.module.display.MenuSession
+import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.util.collections.CycleList
 import net.wesjd.anvilgui.AnvilGUI
 import org.bukkit.entity.Player
@@ -28,9 +29,7 @@ class Inputer(private val stages: CycleList<Catcher>) {
         }
 
         fun Player.retypable(): Boolean {
-            return this.hasMetadata("RE_ENTER").also {
-                if (it) this.removeMetadata("RE_ENTER", TrMenu.plugin)
-            }
+            return Metadata.lookBukkitMeta(this, "RE_ENTER")
         }
 
     }
@@ -40,7 +39,7 @@ class Inputer(private val stages: CycleList<Catcher>) {
         @Suppress("DEPRECATION")
         // CLEAR UP
         Catchers.getPlayerdata().remove(session.viewer.name)
-
+        println("Stages: $stages")
         run(session, stages[session.id]) { stages.reset(session.id) }
     }
 
@@ -49,8 +48,10 @@ class Inputer(private val stages: CycleList<Catcher>) {
 
         stage.start.eval(session)
         stage.input(viewer) {
+            Metadata.getMeta(session)["input"] = it
+
             // TO FIX
-            if (isCancelWord(it.toString())) {
+            if (isCancelWord(it)) {
                 stage.cancel.eval(session)
                 false
             } else if (!stage.end.eval(session)) {

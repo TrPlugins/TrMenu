@@ -1,6 +1,5 @@
 package me.arasple.mc.trmenu.api.action.impl.hook
 
-import io.izzel.taboolib.module.compat.EconomyHook
 import me.arasple.mc.trmenu.api.action.base.AbstractAction
 import me.arasple.mc.trmenu.api.action.base.ActionOption
 import me.arasple.mc.trmenu.module.internal.hook.HookPlugin

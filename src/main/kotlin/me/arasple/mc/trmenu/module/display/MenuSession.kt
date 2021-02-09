@@ -100,11 +100,16 @@ class MenuSession(
             val preColor = MenuSettings.PRE_COLOR
             val content = Strings.replaceWithOrder(if (preColor) string else TColor.translate(string), *arguments)
             val func = FunctionParser.parse(placeholderPlayer, content)
+
             val papi = TLocale.Translate.setPlaceholders(placeholderPlayer, func)
 
             return if (preColor) papi else TColor.translate(papi)
         }
         throw Exception()
+    }
+
+    fun parseArguments(string: String): String {
+        return Strings.replaceWithOrder(string, *arguments)
     }
 
     fun parse(string: List<String>): List<String> {

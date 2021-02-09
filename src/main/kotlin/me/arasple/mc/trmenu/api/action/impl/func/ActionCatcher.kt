@@ -34,8 +34,8 @@ class ActionCatcher(private val inputer: Inputer) : AbstractAction() {
 
         private val parser: (Any, ActionOption) -> AbstractAction = { value, _ ->
             val stages = mutableListOf<Inputer.Catcher>()
-            if (value is MemorySection) {
-                value.getKeys(false).forEach {
+            if (value is Map<*,*>) {
+                value.forEach {
                     val section = Property.asSection(value[it])
                     if (section != null) {
                         val type = Inputer.Type.of(section.getString(Property.getSectionKey(section, type), "CHAT")!!)

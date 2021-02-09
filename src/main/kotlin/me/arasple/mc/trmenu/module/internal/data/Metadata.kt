@@ -9,6 +9,7 @@ import me.arasple.mc.trmenu.module.display.MenuSession
 import org.bukkit.Bukkit
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.entity.Player
+import org.bukkit.metadata.FixedMetadataValue
 
 /**
  * @author Arasple
@@ -53,6 +54,16 @@ object Metadata {
 
     fun <T> getMeta(target: T): DataMap {
         return meta.computeIfAbsent(getPlayerName(target)) { DataMap() }
+    }
+
+    fun setBukkitMeta(player: Player, key: String, value: String = "") {
+        player.setMetadata(key, FixedMetadataValue(TrMenu.plugin, value))
+    }
+
+    fun lookBukkitMeta(player: Player, key: String, value: String = ""): Boolean {
+       return player.hasMetadata(key).also {
+            if (it) player.removeMetadata(key, TrMenu.plugin)
+        }
     }
 
     private fun <T> getPlayerName(target: T): String {

@@ -1,10 +1,10 @@
 package me.arasple.mc.trmenu.module.internal.script
 
 import io.izzel.taboolib.kotlin.Indexed
-import io.izzel.taboolib.kotlin.kether.KetherShell
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.module.internal.script.js.JavaScriptAgent
+import me.arasple.mc.trmenu.module.internal.script.kether.KetherHandler
 import me.arasple.mc.trmenu.util.Regexs
 import me.arasple.mc.trmenu.util.collections.Variables
 import org.bukkit.entity.Player
@@ -16,7 +16,7 @@ import org.bukkit.entity.Player
 object FunctionParser {
 
     private val functionPattern = "\\$?\\{(\\w+)s?: ?(.+?)}".toRegex()
-    private val internalFunctionPattern = "\\\$\\{(.+?)\\}".toRegex()
+    private val internalFunctionPattern = "\\\$\\{([^0-9].+?)\\}".toRegex()
 
     fun parse(player: Player, input: String): String {
         if (!Regexs.containsPlaceholder(input)) return input
@@ -59,7 +59,7 @@ object FunctionParser {
     }
 
     private fun parseKetherFunction(player: Player, input: String): String {
-        return KetherShell.eval(input) { this.sender = player }.toString()
+        return KetherHandler.eval(player, input).asString()
     }
 
     private fun parseJavaScript(session: MenuSession, input: String): String {

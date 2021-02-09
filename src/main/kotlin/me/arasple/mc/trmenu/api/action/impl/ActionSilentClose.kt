@@ -7,20 +7,21 @@ import org.bukkit.entity.Player
 
 /**
  * @author Arasple
- * @date 2021/1/31 21:04
+ * @date 2021/2/9 12:23
  */
-class ActionRetype : AbstractAction() {
+class ActionSilentClose : AbstractAction() {
 
     override fun onExecute(player: Player, placeholderPlayer: Player) {
-        Metadata.setBukkitMeta(player, "RE_ENTER")
+        Metadata.setBukkitMeta(player, "FORCE_CLOSE")
+        player.getSession().close(closePacket = true, updateInventory = true)
     }
 
     companion object {
 
-        private val name = "re-?(peat|catcher|input|enter|type)s?".toRegex()
+        private val name = "(force|silent)-?(close|shut)".toRegex()
 
         private val parser: (Any, ActionOption) -> AbstractAction = { _, _ ->
-            ActionRetype()
+            ActionSilentClose()
         }
 
         val registery = name to parser

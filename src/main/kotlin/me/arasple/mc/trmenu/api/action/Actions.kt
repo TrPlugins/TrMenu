@@ -40,6 +40,7 @@ object Actions {
         ActionConnect.registery,
         // Menu
         ActionClose.registery,
+        ActionSilentClose.registery,
         ActionOpen.registery,
         ActionPage.registery,
         ActionReset.registery,
@@ -47,6 +48,7 @@ object Actions {
         ActionSetArguments.registery,
         ActionDelArguments.registery,
         ActionRefresh.registery,
+        ActionUpdate.registery,
         ActionMetaSet.registery,
         ActionMetaDel.registery,
         ActionDataSet.registery,

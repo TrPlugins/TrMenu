@@ -4,7 +4,7 @@ import io.izzel.taboolib.kotlin.kether.ScriptParser
 import io.izzel.taboolib.kotlin.kether.common.api.ParsedAction
 import io.izzel.taboolib.kotlin.kether.common.api.QuestContext
 import io.izzel.taboolib.kotlin.kether.common.loader.types.ArgTypes
-import io.izzel.taboolib.module.compat.EconomyHook
+import me.arasple.mc.trmenu.module.internal.hook.HookPlugin
 import me.arasple.mc.trmenu.module.internal.script.kether.BaseAction
 import java.util.concurrent.CompletableFuture
 
@@ -16,7 +16,7 @@ class KetherMoney(val money: ParsedAction<*>) : BaseAction<Boolean>() {
 
     override fun process(context: QuestContext.Frame): CompletableFuture<Boolean> {
         return context.newFrame(money).run<Any>().thenApply {
-            EconomyHook.get(context.viewer()) >= it.toString().toDoubleOrNull() ?: 0.0
+            HookPlugin.getVault().hasMoney(context.viewer(), it.toString().toDoubleOrNull() ?: 0.0)
         }
     }
 

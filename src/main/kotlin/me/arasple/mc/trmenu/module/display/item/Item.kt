@@ -19,7 +19,7 @@ class Item(
     val meta: Meta
 ) : IItem {
 
-    private val cache = mutableMapOf<Int, ItemStack>()
+    internal val cache = mutableMapOf<Int, ItemStack>()
 
     private fun name(session: MenuSession) = this.name.current(session.id)?.let { defColorize(session.parse(it)) }
 

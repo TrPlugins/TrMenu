@@ -8,24 +8,30 @@ import org.bukkit.entity.Player
  * @author Arasple
  * @date 2021/2/2 11:05
  */
-class ActionRefresh(content: String, option: ActionOption) : AbstractAction(content, option) {
+class ActionUpdate(content: String, option: ActionOption) : AbstractAction(content, option) {
 
     override fun onExecute(player: Player, placeholderPlayer: Player) {
         val session = player.getSession()
 
         if (baseContent.isBlank()) {
-            session.activeIcons.forEach { it.onRefresh(session) }
+            session.activeIcons.forEach {
+                it.onReset(session)
+                it.settingItem(session, it.getProperty(session))
+            }
         } else {
-            baseContent.split(";").mapNotNull { session.getIcon(it) }.forEach { it.onRefresh(session) }
+            baseContent.split(";").mapNotNull { session.getIcon(it) }.forEach {
+                it.onReset(session)
+                it.settingItem(session, it.getProperty(session))
+            }
         }
     }
 
     companion object {
 
-        private val name = "(icon)?-?refresh".toRegex()
+        private val name = "(icon)?-?update".toRegex()
 
         private val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
-            ActionRefresh(value.toString(), option)
+            ActionUpdate(value.toString(), option)
         }
 
         val registery = name to parser

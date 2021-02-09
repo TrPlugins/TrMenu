@@ -2,6 +2,7 @@ package me.arasple.mc.trmenu.module.internal.hook
 
 import io.izzel.taboolib.module.locale.TLocale
 import org.bukkit.Bukkit
+import org.bukkit.plugin.Plugin
 
 /**
  * @author Arasple
@@ -11,7 +12,7 @@ abstract class HookAbstract {
 
     val name by lazy { getPluginName() }
 
-    val plugin = Bukkit.getPluginManager().getPlugin(name)
+    val plugin: Plugin? = Bukkit.getPluginManager().getPlugin(name)
 
     val isHooked by lazy {
         plugin != null && plugin.isEnabled
