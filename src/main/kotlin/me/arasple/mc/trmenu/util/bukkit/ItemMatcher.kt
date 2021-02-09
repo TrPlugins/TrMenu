@@ -108,13 +108,13 @@ class ItemMatcher(private val matcher: Set<Match>) {
             val damageMatch = damage == null || itemStack.durability == damage
 
             val modelData = getTrait(MODEL_DATA)?.toIntOrNull()
-            val modelDataMatch = modelData == null || itemStack.itemMeta.customModelData == modelData
+            val modelDataMatch = modelData == null || itemStack.itemMeta?.customModelData == modelData
 
             val name = getTrait(NAME)
-            val nameMatch = name == null || itemStack.itemMeta.displayName.contains(name, true)
+            val nameMatch = name == null || itemStack.itemMeta?.displayName?.contains(name, true) == true
 
             val lore = getTrait(NAME)
-            val loreMatch = lore == null || itemStack.itemMeta.lore?.any { it.contains(lore, true) } ?: false
+            val loreMatch = lore == null || itemStack.itemMeta?.lore?.any { it.contains(lore, true) } ?: false
 
             val head = getTrait(HEAD)
             val headMatch = head == null || kotlin.run {

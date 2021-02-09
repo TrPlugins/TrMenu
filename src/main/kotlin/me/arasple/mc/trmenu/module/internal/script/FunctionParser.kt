@@ -15,8 +15,8 @@ import org.bukkit.entity.Player
  */
 object FunctionParser {
 
-    private val functionPattern = "\\$?\\{(\\w+)s?: ?(.+?)}".toRegex()
-    private val internalFunctionPattern = "\\\$\\{([^0-9].+?)\\}".toRegex()
+    private val functionPattern = "\\$?\\{(\\w+)s?: ?(.+)}".toRegex()
+    private val internalFunctionPattern = "\\$\\{([^0-9].+?)}".toRegex()
 
     fun parse(player: Player, input: String): String {
         if (!Regexs.containsPlaceholder(input)) return input
@@ -25,6 +25,7 @@ object FunctionParser {
         val functionParsed = Variables(input, functionPattern) { "${it[1]}:${it[2]}" }.element.joinToString("") {
             if (it.isVariable) {
                 val split = it.value.split(":", limit = 2)
+                if (split.size < 2) return@joinToString  it.value
                 val value = split[1]
 
                 when (split[0].toLowerCase()) {

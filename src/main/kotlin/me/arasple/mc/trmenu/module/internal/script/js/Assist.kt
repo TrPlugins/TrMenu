@@ -165,9 +165,12 @@ class Assist {
     }
 
     fun hasItem(player: String, identify: String): Boolean {
-        return getPlayer(player)?.let { ItemMatcher.of(identify).hasItem(it) } ?: false
+        return hasItem(getPlayer(player), identify)
     }
 
+    fun hasItem(player: Player?, identify: String): Boolean {
+        return player?.let { ItemMatcher.of(identify).hasItem(it) } ?: false
+    }
 
     fun listData(player: Player): List<String> {
         return Metadata.getData(player).data.keys.sorted()

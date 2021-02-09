@@ -45,10 +45,11 @@ object JavaScriptAgent {
             "vars", java.util.function.Function<Any, Any?> { session.parse(it.toString()) },
         )
         setAttribute(
-            "varInt", java.util.function.Function<Any, Any?> { session.parse(it.toString()).toIntOrNull() },
+            "varInt", java.util.function.Function<Any, Any?> { session.parse(it.toString()).toIntOrNull() ?: 0 },
         )
         setAttribute(
-            "varDouble", java.util.function.Function<Any, Any?> { session.parse(it.toString()).toDoubleOrNull() },
+            "varDouble",
+            java.util.function.Function<Any, Any?> { session.parse(it.toString()).toDoubleOrNull() ?: 0.0 },
         )
 
         val compiledScript =

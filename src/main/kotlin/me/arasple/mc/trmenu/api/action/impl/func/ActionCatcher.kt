@@ -34,15 +34,17 @@ class ActionCatcher(private val inputer: Inputer) : AbstractAction() {
         private val parser: (Any, ActionOption) -> AbstractAction = { value, _ ->
             val stages = mutableListOf<Inputer.Catcher>()
             if (value is Map<*, *>) {
-                println("LoadCatcher from $value")
                 value.forEach {
-                    val section = Property.asSection(value[it])
-                    println("part: $it, section $section")
+                    val section = Property.asSection(it.value)
                     if (section != null) {
                         val type = Inputer.Type.of(section.getString(Property.getSectionKey(section, type), "CHAT")!!)
-                        val start = Reactions.ofReaction(section.getList(Property.getSectionKey(section, start)))
-                        val cancel = Reactions.ofReaction(section.getList(Property.getSectionKey(section, cancel)))
-                        val end = Reactions.ofReaction(section.getList(Property.getSectionKey(section, end)))
+
+                        val start =
+                            Reactions.ofReaction(Property.asAnyList(section[Property.getSectionKey(section, start)]))
+                        val cancel =
+                            Reactions.ofReaction(Property.asAnyList(section[Property.getSectionKey(section, cancel)]))
+                        val end =
+                            Reactions.ofReaction(Property.asAnyList(section[Property.getSectionKey(section, end)]))
 
                         val display = arrayOf(
                             section.getString(Property.getSectionKey(section, display), "")!!,
@@ -55,12 +57,8 @@ class ActionCatcher(private val inputer: Inputer) : AbstractAction() {
                         )
 
                         stages.add(Inputer.Catcher(type, start, cancel, end, display, items))
-                    } else {
-                        println("[X] Null")
                     }
                 }
-            } else {
-                println(value.javaClass.simpleName)
             }
 
             ActionCatcher(Inputer(CycleList(stages)))

@@ -8,7 +8,7 @@ Title-Update: 10
 Layout:
   - - '########`Close`'
     - '         '
-    - '   PTI  '
+    - '   PT   '
     - '         '
     - '####*###`Next`'
 
@@ -184,30 +184,6 @@ Icons:
         - 'In the past half an hour,'
         - 'Menus have been opened ${bStats.opens} times'
         - ''
-
-  I:
-    update: -1
-    display:
-      material: 'head:b727d0ab03f5cd022f8705d3f7f133ca4920eae8e1e47b5074433a137e691e4e'
-      name: '&3Inputer'
-#    actions:
-#        shift_left,left:
-#          - inputer:
-#              NameOfInput:
-#                type: CHAT/SIGN/ANVIL/BOOK
-#                start: [ ACTIONS ]
-#                cancel: [ ACTIONS ]
-#                end: [ ACTIONS ] // IMPORTANT
-#              Stage2:
-#                type: CHAT/SIGN/ANVIL/BOOK
-#                start: [ ACTIONS ]
-#                cancel: [ ACTIONS ]
-#                end: [ ACTIONS ]
-#                // SPECIAL SETTINGS
-#                display: 'ANVIL GUI TITLE or BOOK ITEM DISPLAY-NAME'
-#                itemLeft: 'ANVIL'
-#                itemRight: 'ANVIL'
-#                content: [ 'BOOK CONTENT' ]
 
   Bee:
     update: 20

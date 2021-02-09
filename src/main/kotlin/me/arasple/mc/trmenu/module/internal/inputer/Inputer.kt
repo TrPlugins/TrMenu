@@ -4,6 +4,7 @@ import io.izzel.taboolib.util.Features
 import io.izzel.taboolib.util.item.Items
 import io.izzel.taboolib.util.lite.Catchers
 import me.arasple.mc.trmenu.TrMenu
+import me.arasple.mc.trmenu.api.action.impl.ActionSilentClose
 import me.arasple.mc.trmenu.api.action.pack.Reactions
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.data.Metadata
@@ -37,9 +38,7 @@ class Inputer(private val stages: CycleList<Catcher>) {
 
     fun startInput(session: MenuSession) {
         @Suppress("DEPRECATION")
-        // CLEAR UP
         Catchers.getPlayerdata().remove(session.viewer.name)
-        println("Stages: $stages")
         run(session, stages[session.id]) { stages.reset(session.id) }
     }
 
@@ -83,6 +82,10 @@ class Inputer(private val stages: CycleList<Catcher>) {
     ) {
 
         fun input(viewer: Player, respond: (String) -> Boolean) {
+            val session = MenuSession.getSession(viewer)
+            if (type != Type.CHAT && session.isViewing()) {
+                ActionSilentClose().assemble(viewer)
+            }
             when (type) {
                 Type.CHAT -> Features.inputChat(viewer, respond)
                 Type.SIGN -> Features.inputSign(viewer) { respond(it.joinToString("")) }

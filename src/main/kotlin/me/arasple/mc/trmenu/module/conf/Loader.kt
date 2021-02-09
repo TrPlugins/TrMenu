@@ -25,7 +25,11 @@ object Loader {
         if (!folder.exists()) {
             arrayOf(
                 "Example.yml",
-                "Profile.yml"
+                "Profile.yml",
+                "shop-example/Shop-Categories.yml",
+                "shop-example/categories/Shop-Ores.yml",
+                "shop-example/handler/Shop-Handler-Purchase.yml",
+                "shop-example/handler/Shop-Handler-Sell.yml",
             ).forEach { Files.releaseResource(TrMenu.plugin, "menus/$it", true) }
         }
 

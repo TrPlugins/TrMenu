@@ -98,11 +98,9 @@ class MenuSession(
     fun parse(string: String): String {
         Performance.MIRROR.check("Script:parseString") {
             val preColor = MenuSettings.PRE_COLOR
-            val content = Strings.replaceWithOrder(if (preColor) string else TColor.translate(string), *arguments)
-            val func = FunctionParser.parse(placeholderPlayer, content)
-
-            val papi = TLocale.Translate.setPlaceholders(placeholderPlayer, func)
-
+            val funced = FunctionParser.parse(placeholderPlayer, string)
+            val content = Strings.replaceWithOrder(if (preColor) funced else TColor.translate(funced), *arguments)
+            val papi = TLocale.Translate.setPlaceholders(placeholderPlayer, content)
             return if (preColor) papi else TColor.translate(papi)
         }
         throw Exception()
@@ -221,6 +219,10 @@ class MenuSession(
 
             receptacle!!.removeItem(*emptySlots)
         }
+    }
+
+    fun isViewing(): Boolean {
+        return menu != null
     }
 
     companion object {

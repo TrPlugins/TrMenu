@@ -11,7 +11,7 @@ Events:
         - 'sound: BLOCK_CHEST_OPEN-1-0'
 
 Bindings:
-  Command: 'profile(s)?'
+  Commands: 'profiles?'
 
 Tasks:
   profileService:
