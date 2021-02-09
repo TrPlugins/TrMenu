@@ -155,7 +155,7 @@ enum class ReceptacleType(
         0..1
     );
 
-    val vanillaType = "minecraft:${toBukkitType().name.toLowerCase()}"
+    val vanillaType by lazy { "minecraft:${toBukkitType().name.toLowerCase()}" }
 
     /**
      * Main inventory slot range
