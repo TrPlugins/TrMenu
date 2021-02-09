@@ -1,0 +1,47 @@
+Title: 'Shop-Ores'
+
+Layout:
+  - '########<'
+  - '01234567'
+  - '         '
+  - '         '
+  - '#########'
+
+Events:
+  Close: 'menu: Shop-Categories'
+
+Icons:
+
+  '#':
+    display:
+      material: black stained glass pane
+      name: '&7Shop (Example) by TrMenu'
+  '|':
+    display:
+      material: cyan stained glass pane
+      name: '&7Shop (Example) by TrMenu'
+
+  '<':
+    display:
+      material: red stained glass pane
+      name: '&6Return'
+    actions:
+      all: 'menu: Shop-Categories'
+
+  '0':
+    display:
+      material: coal ore
+      lore:
+        - ''
+        - '&8▪ &7Purchase: &e$20.0'
+        - '&8▪ &7Sell: &2$3.5'
+        - ''
+        - '&e➥ &6Left &8| &6Purchase'
+        - '&e➥ &6Right &8| &6Sell'
+    actions:
+      all:
+        - 'sound: UI_BUTTON_CLICK-1-2'
+      left:
+        - 'menu: Shop-Handler-Purchase Shop-Ores COAL_ORE 20 1 64'
+      right:
+        - 'menu: Shop-Handler-Sell Shop-Ores COAL_ORE 3.5 1 64'

@@ -1,0 +1,56 @@
+Title: 'TrMenu Shop (Example)'
+
+#
+# UI_BUTTON_CLICK
+# BLOCK_NOTE_BLOCK_PLING
+#
+#
+
+Bindings:
+  Commands:
+  - '(?i)shops?-?(guis?)?'
+
+Layout:
+- '#########'
+- '|       |'
+- '| A B C |'
+- '|       |'
+- '#########'
+
+Events:
+  Open:
+    - 'sound: BLOCK_IRON_DOOR_OPEN-1-2'
+  Close:
+    - 'sound: BLOCK_IRON_DOOR_CLOSE-1-2'
+
+Icons:
+
+  '#':
+    display:
+      material: gray stained glass pane
+      name: '&8Shop (Example) by TrMenu'
+  '|':
+    display:
+      material: black stained glas pane
+      name: '&8Shop (Example) by TrMenu'
+
+  'A':
+    update: 10
+    display:
+      material:
+      - 'coal ore'
+      - 'iron ore'
+      - 'gold ore'
+      - 'redstone ore'
+      - 'diamond ore'
+      - 'emerald ore'
+      name: '&a&lORES'
+      lore:
+      - ''
+      - '&7Purchase & Sell ores'
+      - ''
+      - '&b➥ &3Click to browse'
+    actions:
+      all:
+      - 'sound: UI_BUTTON_CLICK-1-2'
+      - 'menu: Shop-Ores'

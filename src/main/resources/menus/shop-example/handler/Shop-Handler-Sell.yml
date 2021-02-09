@@ -1,0 +1,116 @@
+Title:
+  - 'Selling'
+  - 'Selling&f.'
+  - 'Selling.&f.'
+  - 'Selling..&f.'
+
+Title-Update: 20
+
+Layout:
+  - '########<'
+  - '|       |'
+  - '| - X + |'
+  - '|       |'
+  - '####*####'
+
+# {0}         {1}         {2}           {3}
+# {fromMenu} {itemName} {singlePrice} {amount}
+Events:
+  Open:
+    - 'reset'
+  Close:
+    - 'menu: {0}'
+    - 'del-args'
+
+Icons:
+
+  '#':
+    display:
+      material: gray stained glass pane
+      name: '&7Shop (Example) by TrMenu'
+
+  '|':
+    display:
+      material: green stained glass pane
+      name: '&7Shop (Example) by TrMenu'
+
+  '<':
+    display:
+      material: gray stained glass pane
+      name: '&6Return'
+    actions:
+      all: 'menu: {0} &&& sound: UI_BUTTON_CLICK-1-2'
+
+  '-':
+    display:
+      material: red stained glass pane
+      name: '&cAmount -'
+      lore:
+        - '&8Current Amount: {3}'
+        - ''
+        - '&8▪ &7Left &f-1'
+        - '&8▪ &7Shift Left &f-16'
+        - ''
+    actions:
+      left: 'set-args: {0} {1} {2} `${js: Math.max(parseInt(varInt("{3}") - 1), 1)}`'
+      shift_left: 'set-args: {0} {1} {2} `${js: Math.max(parseInt(varInt("{3}") - 16), 1)}`'
+      all: 'update: +;-;X &&& sound: UI_BUTTON_CLICK-1-2'
+
+  '+':
+    display:
+      material: lime stained glass pane
+      name: '&aAmount +'
+      lore:
+        - '&8Current Amount: {3}'
+        - ''
+        - '&8▪ &7Left &f+1'
+        - '&8▪ &7Shift Left &f+16'
+        - ''
+    actions:
+      left: 'set-args: {0} {1} {2} `${js: Math.min(parseInt(varInt("{3}") + 1), 64)}`'
+      shift_left: 'set-args: {0} {1} {2} `${js: Math.min(parseInt(varInt("{3}") + 16), 64)}`'
+      all: 'update: +;-;X &&& sound: UI_BUTTON_CLICK-1-2'
+
+  '*':
+    display:
+      material: sunflower
+      name: '&e&lCustomizer'
+      lore:
+        - ''
+        - '&7Balance: &e$%vault_eco_balance%'
+        - ''
+        - '&a➥ &2Click to set a custom amount quickly'
+    actions:
+      all:
+        - catcher:
+            amount:
+              type: SIGN
+              start: 'actionbar: &b&lPlease input a valid number'
+              cancel: 'tell: &8Cancelled'
+              end:
+                - 'set-args: {0} {1} {2} `${js: Math.min(Math.max(varInt("{meta:input}"), 1), 64)}`'
+                - 'menu: Shop-Handler-Sell'
+
+  'X':
+    display:
+      material: '{1}'
+      amount: '${js: varInt("{3}")}'
+      lore:
+        - ''
+        - '&7Price: &6${2}'
+        - '&7Amount: &a{3}'
+        - ''
+        - '&7Total Price: &e${js: varInt("{3}") * varDouble("{2}")}'
+        - ''
+        - '${js: utils.hasItem(player, vars("mat:{1},amt:{3}")) ? "&b➥ &3Click to sell" : "&c➥ &8You do not have enough items"}'
+    actions:
+      all:
+        - condition: 'js: utils.hasItem(player, vars("mat:{1},amt:{3}"))'
+          actions:
+            - 'give-money: ${js: varInt("{3}") * varDouble("{2}")}'
+            - 'take-item: material:{1},amt:{3}'
+            - 'title: &3&lSold `&a&lMoney has been delivered`'
+            - 'sound: BLOCK_NOTE_BLOCK_PLING-1-2'
+            - 'force-close &&& del-args'
+          deny:
+            - 'sound: BLOCK_ANVIL_DESTROY-1-2'
