@@ -1,5 +1,7 @@
 package me.arasple.mc.trmenu.api.receptacle.window
 
+import org.bukkit.event.inventory.InventoryType
+
 /**
  * @author Arasple
  * @date 2020/11/29 10:39
@@ -7,7 +9,6 @@ package me.arasple.mc.trmenu.api.receptacle.window
  * reference https://wiki.vg/Inventory#Windows
  */
 enum class ReceptacleType(
-    val vanillaType: String,
     val vanillaId: Int,
     val slotRange: IntRange
 ) {
@@ -17,7 +18,6 @@ enum class ReceptacleType(
      * A 1-row inventory, not used by the notchian server.
      */
     GENERIC_9X1(
-        "minecraft:generic_9x1",
         0,
         0..8
     ),
@@ -26,7 +26,6 @@ enum class ReceptacleType(
      * A 2-row inventory, not used by the notchian server.
      */
     GENERIC_9X2(
-        "minecraft:generic_9x2",
         1,
         0..17
     ),
@@ -35,7 +34,6 @@ enum class ReceptacleType(
      * General-purpose 3-row inventory. Used by Chest, minecart with chest, ender chest, and barrel
      */
     GENERIC_9X3(
-        "minecraft:generic_9x3",
         2,
         0..26
     ),
@@ -44,7 +42,6 @@ enum class ReceptacleType(
      * A 4-row inventory, not used by the notchian server.
      */
     GENERIC_9X4(
-        "minecraft:generic_9x4",
         3,
         0..35
     ),
@@ -53,7 +50,6 @@ enum class ReceptacleType(
      * A 5-row inventory, not used by the notchian server.
      */
     GENERIC_9X5(
-        "minecraft:generic_9x5",
         4,
         0..44
     ),
@@ -62,7 +58,6 @@ enum class ReceptacleType(
      * General-purpose 6-row inventory, used by large chests.
      */
     GENERIC_9X6(
-        "minecraft:generic_9x6",
         5,
         0..53
     ),
@@ -71,7 +66,6 @@ enum class ReceptacleType(
      * General-purpose 3-by-3 square inventory, used by Dispenser and Dropper
      */
     GENERIC_3X3(
-        "minecraft:generic_3x3",
         6,
         0..8
     ),
@@ -80,7 +74,6 @@ enum class ReceptacleType(
      * Anvil
      */
     ANVIL(
-        "minecraft:anvil",
         7,
         0..2
     ),
@@ -89,50 +82,42 @@ enum class ReceptacleType(
      * Beacon
      */
     BEACON(
-        "minecraft:beacon",
         8,
         0..0
     ),
 
     BLAST_FURNACE(
-        "minecraft:blast_furnace",
         9,
         0..2
     ),
 
     BREWING_STAND(
-        "minecraft:brewing_stand",
         10,
         0..4
     ),
 
     CRAFTING(
-        "minecraft:crafting",
         11,
         0..9
     ),
 
     ENCHANTMENT_TABLE(
-        "minecraft:enchantment",
         12,
         0..1
     ),
 
     FURNACE(
-        "minecraft:furnace",
         13,
         0..2
     ),
 
 
     GRINDSTONE(
-        "minecraft:grindstone",
         14,
         0..2
     ),
 
     HOPPER(
-        "minecraft:hopper",
         15,
         0..4
     ),
@@ -141,40 +126,36 @@ enum class ReceptacleType(
 //    LECTERN("minecraft:lectern"),
 
     LOOM(
-        "minecraft:loom",
         17,
         0..3
     ),
 
     MERCHANT(
-        "minecraft:merchant",
         18,
         0..2
     ),
 
     SHULKER_BOX(
-        "minecraft:shulker_box",
         19,
         0..26
     ),
 
     SMOKER(
-        "minecraft:smoker",
         20,
         0..2
     ),
 
     CARTOGRAPHY(
-        "minecraft:cartography",
         21,
         0..2
     ),
 
     STONECUTTER(
-        "minecraft:stonecutter",
         22,
         0..1
     );
+
+    val vanillaType = "minecraft:${toBukkitType().name.toLowerCase()}"
 
     /**
      * Main inventory slot range
@@ -200,6 +181,28 @@ enum class ReceptacleType(
      * Not slot index
      */
     val totalSize = containerSize + 37
+
+    private fun toBukkitType(): InventoryType {
+        return when (this) {
+            GENERIC_9X1, GENERIC_9X2, GENERIC_9X4, GENERIC_9X5, GENERIC_9X6, GENERIC_3X3 -> InventoryType.CHEST
+            GENERIC_9X3 -> InventoryType.HOPPER
+            ANVIL -> InventoryType.ANVIL
+            BEACON -> InventoryType.BEACON
+            BLAST_FURNACE -> InventoryType.BLAST_FURNACE
+            BREWING_STAND -> InventoryType.BREWING
+            CRAFTING -> InventoryType.CRAFTING
+            ENCHANTMENT_TABLE -> InventoryType.ENCHANTING
+            FURNACE -> InventoryType.FURNACE
+            GRINDSTONE -> InventoryType.GRINDSTONE
+            HOPPER -> InventoryType.HOPPER
+            LOOM -> InventoryType.LOOM
+            MERCHANT -> InventoryType.MERCHANT
+            SHULKER_BOX -> InventoryType.SHULKER_BOX
+            SMOKER -> InventoryType.SMOKER
+            CARTOGRAPHY -> InventoryType.CARTOGRAPHY
+            STONECUTTER -> InventoryType.STONECUTTER
+        }
+    }
 
     companion object {
 

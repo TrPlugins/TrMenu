@@ -38,14 +38,15 @@ class NMSImpl : NMS() {
                             'c' to toChatBaseComponent(it.title)
                         )
                     } else {
+
+                        it.type
                         sendPacket(
                             player,
                             net.minecraft.server.v1_12_R1.PacketPlayOutOpenWindow(
                                 it.windowId,
                                 it.type.vanillaType,
                                 toChatBaseComponent(it.title) as IChatBaseComponent?,
-                                it.type.containerSize
-                                // entityId
+                                it.type.containerSize + 1
                             )
                         )
                     }

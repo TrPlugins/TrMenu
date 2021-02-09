@@ -48,7 +48,7 @@ class Menu(
                 session.shut()
             }
 
-            if (!MenuOpenEvent(session, this, page, reason).callEvent()) return
+            if (MenuOpenEvent(session, this, page, reason).call().isCancelled) return
 
             if (settings.openEvent.eval(session)) {
                 val layout = layout[page]
@@ -81,7 +81,7 @@ class Menu(
             val receptacle: Receptacle
             val override = previous.isSimilar(layout)
 
-            if (!MenuPageChangeEvent(session, session.page, page, override).callEvent()) return
+            if (MenuPageChangeEvent(session, session.page, page, override).call().isCancelled) return
             if (override) {
                 receptacle = session.receptacle!!
                 receptacle.clearItems()
