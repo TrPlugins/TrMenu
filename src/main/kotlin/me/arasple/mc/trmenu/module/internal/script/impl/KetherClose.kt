@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.module.internal.script.impl
 
+import io.izzel.taboolib.kotlin.kether.KetherParser
 import io.izzel.taboolib.kotlin.kether.ScriptParser
 import io.izzel.taboolib.kotlin.kether.common.api.QuestContext
 import me.arasple.mc.trmenu.module.internal.script.kether.BaseAction
@@ -19,7 +20,7 @@ class KetherClose : BaseAction<Void>() {
 
     companion object {
 
-        @Suppress("UnstableApiUsage")
+        @KetherParser(["close"], namespace = "trmenu")
         fun parser() = ScriptParser.parser { KetherClose() }
 
     }

@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.module.internal.script.impl
 
+import io.izzel.taboolib.kotlin.kether.KetherParser
 import io.izzel.taboolib.kotlin.kether.ScriptParser
 import io.izzel.taboolib.kotlin.kether.common.api.ParsedAction
 import io.izzel.taboolib.kotlin.kether.common.api.QuestContext
@@ -21,6 +22,7 @@ class KetherVars(val source: ParsedAction<*>) : BaseAction<String>() {
 
     companion object {
 
+        @KetherParser(["vars", "var"], namespace = "trmenu")
         fun parser() = ScriptParser.parser {
             KetherVars(it.next(ArgTypes.ACTION))
         }

@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.module.internal.script.impl
 
+import io.izzel.taboolib.kotlin.kether.KetherParser
 import io.izzel.taboolib.kotlin.kether.ScriptParser
 import io.izzel.taboolib.kotlin.kether.common.api.ParsedAction
 import io.izzel.taboolib.kotlin.kether.common.api.QuestContext
@@ -22,7 +23,7 @@ class KetherMoney(val money: ParsedAction<*>) : BaseAction<Boolean>() {
 
     companion object {
 
-        @Suppress("UnstableApiUsage")
+        @KetherParser(["money", "eco"], namespace = "trmenu")
         fun parser() = ScriptParser.parser {
             KetherMoney(it.next(ArgTypes.ACTION))
         }

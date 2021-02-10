@@ -145,20 +145,18 @@ class Texture(
                 builder.damage(data)
             } else {
                 val name = id.toString()
-                val xMaterial =
-                    XMaterial.values().find { it.name.equals(name, true) }
-                        ?: XMaterial.values()
-                            .find { it -> it.legacy.any { it == name } }
-                        ?: XMaterial.values()
-                            .maxByOrNull { Strings.similarDegree(name, it.name) }
-
-                if (xMaterial != null) {
-                    return xMaterial.parseItem() ?: FALL_BACK
-                } else {
+                try {
                     builder.material(Material.valueOf(name))
+                } catch (e: Throwable) {
+                    val xMaterial =
+                        XMaterial.values().find { it.name.equals(name, true) }
+                            ?: XMaterial.values()
+                                .find { it -> it.legacy.any { it == name } }
+                            ?: XMaterial.values()
+                                .maxByOrNull { Strings.similarDegree(name, it.name) }
+                    return xMaterial?.parseItem() ?: FALL_BACK
                 }
             }
-
             return builder.build()
         }
 

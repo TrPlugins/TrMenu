@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.module.internal.script.impl
 
+import io.izzel.taboolib.kotlin.kether.KetherParser
 import io.izzel.taboolib.kotlin.kether.ScriptParser
 import io.izzel.taboolib.kotlin.kether.action.bukkit.ActionPlaceholder
 import io.izzel.taboolib.kotlin.kether.common.api.ParsedAction
@@ -42,7 +43,7 @@ class KetherMeta(val type: Type, val source: ParsedAction<*>, private val apply:
 
     companion object {
 
-        @Suppress("UnstableApiUsage")
+        @KetherParser(["meta"], namespace = "trmenu")
         fun parser() = ScriptParser.parser {
 
             val type = when (it.nextToken().toLowerCase()) {
