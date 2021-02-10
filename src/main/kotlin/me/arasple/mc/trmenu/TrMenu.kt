@@ -22,7 +22,6 @@ object TrMenu : Plugin() {
         private set
 
     override fun onLoad() {
-        ActionRandom
         TLocale.sendToConsole("Plugin.Loading", Bukkit.getBukkitVersion())
     }
 

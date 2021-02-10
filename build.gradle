@@ -8,7 +8,7 @@ plugins {
 }
 
 group 'me.arasple.mc.trmenu'
-version '3.0-Beta4'
+version '3.0-Beta5'
 
 task buildJar(dependsOn: [clean, shadowJar])
 

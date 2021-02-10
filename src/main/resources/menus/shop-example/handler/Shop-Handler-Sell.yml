@@ -52,8 +52,8 @@ Icons:
         - '&8▪ &7Shift Left &f-16'
         - ''
     actions:
-      left: 'set-args: {0} {1} {2} `${js: Math.max(parseInt(varInt("{3}") - 1), 1)}`'
-      shift_left: 'set-args: {0} {1} {2} `${js: Math.max(parseInt(varInt("{3}") - 16), 1)}`'
+      left: 'set-args: {0} {1} {2} `${js: Math.max(varInt("{3}") - 1, 1).toFixed(0)}`'
+      shift_left: 'set-args: {0} {1} {2} `${js: Math.max(varInt("{3}") - 16, 1).toFixed(0)}`'
       all: 'update: +;-;X &&& sound: UI_BUTTON_CLICK-1-2'
 
   '+':
@@ -67,8 +67,8 @@ Icons:
         - '&8▪ &7Shift Left &f+16'
         - ''
     actions:
-      left: 'set-args: {0} {1} {2} `${js: Math.min(parseInt(varInt("{3}") + 1), 64)}`'
-      shift_left: 'set-args: {0} {1} {2} `${js: Math.min(parseInt(varInt("{3}") + 16), 64)}`'
+      left: 'set-args: {0} {1} {2} `${js: Math.min(varInt("{3}") + 1, 64).toFixed(0)}`'
+      shift_left: 'set-args: {0} {1} {2} `${js: Math.min(varInt("{3}") + 16, 64).toFixed(0)}`'
       all: 'update: +;-;X &&& sound: UI_BUTTON_CLICK-1-2'
 
   '*':
@@ -88,7 +88,7 @@ Icons:
               start: 'actionbar: &b&lPlease input a valid number'
               cancel: 'tell: &8Cancelled'
               end:
-                - 'set-args: {0} {1} {2} `${js: Math.min(Math.max(varInt("{meta:input}"), 1), 64)}`'
+                - 'set-args: {0} {1} {2} `${js: Math.min(Math.max(varInt("{meta:input}"), 1), 64).toFixed(0)}`'
                 - 'menu: Shop-Handler-Sell'
 
   'X':
