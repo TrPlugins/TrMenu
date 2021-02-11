@@ -70,7 +70,9 @@ class CommandItem : BaseSubCommand() {
     }
 
     private fun fromJson(player: Player, json: String) {
-        CronusUtils.addItem(player, Items.fromJson(json))
+        Items.fromJson(json)?.let {
+            CronusUtils.addItem(player, it)
+        }
     }
 
 }

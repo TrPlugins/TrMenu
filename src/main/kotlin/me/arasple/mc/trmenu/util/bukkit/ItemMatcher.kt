@@ -71,7 +71,7 @@ class ItemMatcher(private val matcher: Set<Match>) {
 
     fun buildItem(): List<ItemStack> {
         return matcher.map {
-            val itemBuilder = ItemBuilder(Material.GRASS_BLOCK).amount(it.amount)
+            val itemBuilder = ItemBuilder(Material.BEDROCK).amount(it.amount)
 
             it.traits.forEach { (trait, value) ->
                 when (trait) {

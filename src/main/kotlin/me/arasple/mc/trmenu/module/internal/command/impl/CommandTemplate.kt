@@ -47,7 +47,7 @@ class CommandTemplate : BaseSubCommand() {
             .close { e ->
                 val inventory = e.inventory
 
-                if (inventory.isEmpty) {
+                if (inventory.all { Items.isNull(it) }) {
                     TLocale.sendTo(player, "Command.Template.Empty")
                     return@close
                 }
