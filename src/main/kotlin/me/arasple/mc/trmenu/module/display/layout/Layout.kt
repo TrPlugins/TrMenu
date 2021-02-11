@@ -23,7 +23,7 @@ class Layout(
 
     private val width = width(type)
 
-    private val rows = when {
+     val rows = when {
         type == InventoryType.CHEST -> max(rows, layout.size)
         type.defaultSize % 9 == 0 -> type.defaultSize / 9
         else -> 1
