@@ -88,7 +88,7 @@ class Inputer(private val stages: CycleList<Catcher>) {
             }
             when (type) {
                 Type.CHAT -> Features.inputChat(viewer, respond)
-                Type.SIGN -> Features.inputSign(viewer) { respond(it.joinToString("")) }
+                Type.SIGN -> Features.inputSign(viewer, display[1].split("\n").toTypedArray()) { respond(it.joinToString("")) }
                 Type.ANVIL -> AnvilGUI.Builder()
                     .onClose { respond("") }
                     .onComplete { _, text ->

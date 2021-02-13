@@ -7,6 +7,7 @@ import me.arasple.mc.trmenu.module.internal.script.EvalResult
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import java.util.concurrent.CompletableFuture
+import java.util.concurrent.TimeUnit
 
 /**
  * @author Arasple
@@ -17,7 +18,7 @@ object KetherHandler {
     fun eval(player: Player, script: String): EvalResult {
         return EvalResult(KetherShell.eval(script, namespace = listOf("trmenu")) {
             this.sender = player
-        })
+        }.get(1, TimeUnit.SECONDS))
     }
 
     private fun runScript(sender: CommandSender, raw: String): CompletableFuture<Any> {

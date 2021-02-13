@@ -75,7 +75,7 @@ class ItemMatcher(private val matcher: Set<Match>) {
 
             it.traits.forEach { (trait, value) ->
                 when (trait) {
-                    MATERIAL -> itemBuilder.material(value)
+                    MATERIAL -> itemBuilder.material(value.toUpperCase())
                     DATA -> itemBuilder.damage(value.toIntOrNull() ?: 0)
                     MODEL_DATA -> itemBuilder.customModelData(value.toIntOrNull() ?: 0)
                     NAME -> itemBuilder.name(value)

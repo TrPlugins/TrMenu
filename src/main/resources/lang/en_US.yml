@@ -40,9 +40,9 @@ Paster:
 Command:
   Open:
     Unknown-Menu: '&8[&3Tr&bMenu&8] &7Unkown menu &6{0} &7.'
-    Unknown-Player: '&8[&3Tr&bMenu&8] &7Player &f{0} is not online.'
+    Unknown-Player: '&8[&3Tr&bMenu&8] &7Player &f{0} &7is not online.'
   Action:
-    Unknown-Player: '&8[&3Tr&bMenu&8] &7Player &f{0} is not online.'
+    Unknown-Player: '&8[&3Tr&bMenu&8] &7Player &f{0} &7is not online.'
   Template:
     Empty: '&8[&3Tr&bMenu&8] &7The template inventory is empty, menu creation cancelled.'
   Item:
