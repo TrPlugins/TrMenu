@@ -5,6 +5,7 @@ import io.izzel.taboolib.module.inject.TListener
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.action.pack.Reactions
 import me.arasple.mc.trmenu.module.display.MenuSession
+import me.arasple.mc.trmenu.module.internal.data.Metadata
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
@@ -100,10 +101,9 @@ object Shortcuts {
             if (Version.isAfter(Version.v1_9) && e.hand == EquipmentSlot.OFF_HAND) return
 
             val clicked = e.rightClicked
-            if (clicked !is Player) return
-
-
-            e.isCancelled = rightClickPlayer(e.player, clicked)
+            if (clicked is Player && Metadata.data.containsKey(clicked.name)) {
+                e.isCancelled = rightClickPlayer(e.player, clicked)
+            }
         }
 
         @EventHandler(ignoreCancelled = true)

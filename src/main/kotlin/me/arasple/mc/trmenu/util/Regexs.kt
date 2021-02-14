@@ -7,7 +7,7 @@ package me.arasple.mc.trmenu.util
 object Regexs {
 
     val PLACEHOLDER_API = "[%{](.+?)[%}]".toRegex()
-    val ICON_KEY = "`(\\w+)`".toRegex()
+    val ICON_KEY = "`(.+?)`".toRegex()
     val SENTENCE = "`(.+?)`".toRegex()
     val STRING = "\\{(\\w+)}".toRegex()
 

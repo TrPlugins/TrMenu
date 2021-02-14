@@ -2,8 +2,8 @@ package me.arasple.mc.trmenu.module.internal.listener
 
 import io.izzel.taboolib.module.inject.TListener
 import me.arasple.mc.trmenu.module.internal.data.Metadata
-import me.arasple.mc.trmenu.util.bukkit.Heads
 import me.arasple.mc.trmenu.util.Tasks
+import me.arasple.mc.trmenu.util.bukkit.Heads
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent

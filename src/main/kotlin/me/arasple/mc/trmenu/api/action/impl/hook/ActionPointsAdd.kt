@@ -3,6 +3,7 @@ package me.arasple.mc.trmenu.api.action.impl.hook
 import me.arasple.mc.trmenu.api.action.base.AbstractAction
 import me.arasple.mc.trmenu.api.action.base.ActionOption
 import me.arasple.mc.trmenu.module.internal.hook.HookPlugin
+import me.arasple.mc.trmenu.util.Tasks
 import org.bukkit.entity.Player
 
 /**
@@ -12,9 +13,11 @@ import org.bukkit.entity.Player
 class ActionPointsAdd(content: String, option: ActionOption) : AbstractAction(content, option) {
 
     override fun onExecute(player: Player, placeholderPlayer: Player) {
-        val amount = parseContent(placeholderPlayer).toIntOrNull() ?: -1
-        if (amount > 0) {
-            HookPlugin.getPlayerPoints().takePoints(player, amount)
+        Tasks.task(false) {
+            val amount = parseContent(placeholderPlayer).toIntOrNull() ?: -1
+            if (amount > 0) {
+                HookPlugin.getPlayerPoints().addPoints(player, amount)
+            }
         }
     }
 

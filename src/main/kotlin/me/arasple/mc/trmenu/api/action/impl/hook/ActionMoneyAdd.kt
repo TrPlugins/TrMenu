@@ -14,7 +14,7 @@ class ActionMoneyAdd(content: String, option: ActionOption) : AbstractAction(con
     override fun onExecute(player: Player, placeholderPlayer: Player) {
         val amount = parseContent(placeholderPlayer).toDoubleOrNull() ?: -1.0
         if (amount > 0) {
-            HookPlugin.getVault().takeMoney(player, amount)
+            HookPlugin.getVault().addMoney(player, amount)
         }
     }
 

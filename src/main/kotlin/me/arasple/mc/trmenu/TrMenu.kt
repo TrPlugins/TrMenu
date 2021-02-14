@@ -1,6 +1,5 @@
 package me.arasple.mc.trmenu
 
-import io.izzel.taboolib.kotlin.kether.action.ActionRandom
 import io.izzel.taboolib.loader.Plugin
 import io.izzel.taboolib.module.config.TConfig
 import io.izzel.taboolib.module.inject.TInject
