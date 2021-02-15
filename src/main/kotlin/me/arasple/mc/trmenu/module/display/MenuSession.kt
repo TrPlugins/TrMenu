@@ -96,7 +96,7 @@ class MenuSession(
      * 处理一个字符串，替换函数变量
      */
     fun parse(string: String): String {
-        Performance.MIRROR.check("Script:parseString") {
+        Performance.MIRROR.check("Handler:StringParse") {
             val preColor = MenuSettings.PRE_COLOR
             val funced = FunctionParser.parse(placeholderPlayer, string)
             val content = Strings.replaceWithOrder(if (preColor) funced else TColor.translate(funced), *arguments)

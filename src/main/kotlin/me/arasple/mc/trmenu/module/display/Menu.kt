@@ -109,7 +109,7 @@ class Menu(
 
         if (settings.titleUpdate > 0) {
             session.arrange(Tasks.timer(10, settings.titleUpdate.toLong(), true) {
-                Performance.MIRROR.check("Menu:Title:onUpdate") {
+                Performance.MIRROR.check("Menu:Title:Update") {
                     setTitle.invoke()
                 }
             })

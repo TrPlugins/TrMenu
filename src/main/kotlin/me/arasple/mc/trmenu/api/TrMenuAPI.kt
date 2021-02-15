@@ -1,6 +1,14 @@
 package me.arasple.mc.trmenu.api
 
+import io.izzel.taboolib.kotlin.kether.KetherShell
+import io.izzel.taboolib.kotlin.kether.common.util.LocalizedException
 import me.arasple.mc.trmenu.module.display.Menu
+import me.arasple.mc.trmenu.module.internal.script.EvalResult
+import me.arasple.mc.trmenu.module.internal.service.Performance
+import org.bukkit.entity.Player
+import java.util.concurrent.CompletableFuture
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeoutException
 
 
 /**
@@ -17,6 +25,35 @@ object TrMenuAPI {
      */
     fun getMenuById(id: String): Menu? {
         return Menu.menus.find { it.id == id }
+    }
+
+    @JvmStatic
+    fun eval(player: Player, script: String): CompletableFuture<Any?> {
+        Performance.MIRROR.check("Handler:Script:Evaluation") {
+            return try {
+                KetherShell.eval(script, namespace = listOf("trhologram", "trmenu")) {
+                    sender = player
+                }
+            } catch (e: LocalizedException) {
+                println("[TrMenu] Unexpected exception while parsing kether shell:")
+                e.localizedMessage.split("\n").forEach {
+                    println("[TrMenu] $it")
+                }
+                CompletableFuture.completedFuture(false)
+            }
+        }
+        throw Exception()
+    }
+
+    @JvmStatic
+    fun instantKether(player: Player, script: String, timout: Long = 500): EvalResult {
+        return try {
+            EvalResult(eval(player, script).get(timout, TimeUnit.MILLISECONDS))
+        } catch (e: TimeoutException) {
+            println("[TrMenu] Timeout while parsing kether shell:")
+            e.localizedMessage.split("\n").forEach { println("[TrMenu] $it") }
+            EvalResult.FALSE
+        }
     }
 
 }

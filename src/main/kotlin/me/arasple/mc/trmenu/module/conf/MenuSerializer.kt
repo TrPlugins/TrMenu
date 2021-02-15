@@ -1,5 +1,7 @@
 package me.arasple.mc.trmenu.module.conf
 
+import io.izzel.taboolib.kotlin.kether.action.bukkit.PlayerOperator
+import io.izzel.taboolib.kotlin.kether.action.bukkit.PlayerOperators
 import io.izzel.taboolib.module.nms.nbt.NBTBase
 import io.izzel.taboolib.module.nms.nbt.NBTCompound
 import me.arasple.mc.trmenu.api.action.pack.Reactions
@@ -186,7 +188,7 @@ object MenuSerializer : ISerializer {
                 val subDisplay = Property.ICON_DISPLAY.ofSection(sub)
                 val subAction = Property.ACTIONS.ofSection(sub)
                 loadIconProperty(defIcon, sub, subDisplay, subAction, order++)
-            }
+            }.sortedBy { it.priority }
 
             if (defIcon.display.texture.isEmpty() || subs.any { it.display.texture.isEmpty() }) {
                 result.submitError(SerialzeError.INVALID_ICON_UNDEFINED_TEXTURE, id)
@@ -194,7 +196,6 @@ object MenuSerializer : ISerializer {
 
             Icon(id, refresh.toLong(), update.toTypedArray(), position, defIcon, IndivList(subs))
         }
-
         return result
     }
 

@@ -72,7 +72,7 @@ class Layout(
             session.shut()
         }
         receptacle.listenerClick { player, event ->
-            Performance.MIRROR.check("Menu:Event:onClick") {
+            Performance.MIRROR.check("Menu:Event:Click") {
                 val cancelEvent = {
                     event.isCancelled = true
                     receptacle.refresh(event.slot)

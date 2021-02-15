@@ -1,10 +1,10 @@
 package me.arasple.mc.trmenu.module.internal.script
 
 import io.izzel.taboolib.kotlin.Indexed
+import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.module.internal.script.js.JavaScriptAgent
-import me.arasple.mc.trmenu.module.internal.script.kether.KetherHandler
 import me.arasple.mc.trmenu.util.Regexs
 import me.arasple.mc.trmenu.util.collections.Variables
 import org.bukkit.entity.Player
@@ -25,7 +25,7 @@ object FunctionParser {
         val functionParsed = Variables(input, functionPattern) { "${it[1]}:${it[2]}" }.element.joinToString("") {
             if (it.isVariable) {
                 val split = it.value.split(":", limit = 2)
-                if (split.size < 2) return@joinToString  it.value
+                if (split.size < 2) return@joinToString it.value
                 val value = split[1]
 
                 when (split[0].toLowerCase()) {
@@ -60,7 +60,7 @@ object FunctionParser {
     }
 
     private fun parseKetherFunction(player: Player, input: String): String {
-        return KetherHandler.eval(player, input).asString()
+        return TrMenuAPI.instantKether(player, input).asString()
     }
 
     private fun parseJavaScript(session: MenuSession, input: String): String {

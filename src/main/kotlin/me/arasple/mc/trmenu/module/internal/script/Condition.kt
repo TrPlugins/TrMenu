@@ -1,11 +1,11 @@
 package me.arasple.mc.trmenu.module.internal.script
 
-import io.izzel.taboolib.kotlin.Mirror
+import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.script.js.JavaScriptAgent
-import me.arasple.mc.trmenu.module.internal.script.kether.KetherHandler
-import me.arasple.mc.trmenu.module.internal.service.Performance
 import org.bukkit.entity.Player
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeoutException
 
 /**
  * @author Arasple
@@ -25,12 +25,9 @@ inline class Condition(private val script: String) {
         }
 
         fun eval(player: Player, script: String): EvalResult {
-            Performance.MIRROR.check("Script:evalCondition") {
-                val js = script.startsWith("js: ").also { script.removePrefix("js: ") }
-                return if (js) JavaScriptAgent.eval(MenuSession.getSession(player), script)
-                else KetherHandler.eval(player, script)
-            }
-            throw Exception()
+            val js = script.startsWith("js: ").also { script.removePrefix("js: ") }
+            return if (js) JavaScriptAgent.eval(MenuSession.getSession(player), script)
+            else TrMenuAPI.instantKether(player, script)
         }
 
     }
