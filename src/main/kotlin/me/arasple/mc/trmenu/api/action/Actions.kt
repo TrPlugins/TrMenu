@@ -19,12 +19,12 @@ import org.bukkit.entity.Player
 object Actions {
 
     private val actionsBound = " ?(_\\|\\|_|&&&) ?".toRegex()
-    private val registries = mapOf(
+    private val registries = listOf(
         // Logic & Functional
+        ActionKether.registery,
         ActionReturn.registery,
         ActionDelay.registery,
         ActionJavaScript.registery,
-        ActionKether.registery,
         ActionRetype.registery,
         // Bukkit
         ActionTell.registery,
@@ -104,8 +104,8 @@ object Actions {
      */
     fun readAction(any: Any): List<AbstractAction> {
         val actions = mutableListOf<AbstractAction>()
-        val findParser: (String) -> ((Any, ActionOption) -> AbstractAction)? = { name ->
-            registries.entries.find { it.key.matches(name) }?.value
+        val findParser: (String) -> ((Any, ActionOption) -> AbstractAction) = { name ->
+            registries.find { it.first.matches(name) }?.second ?: registries[0].second
         }
 
         when (any) {
@@ -113,19 +113,17 @@ object Actions {
                 val entry = any.entries.firstOrNull() ?: return actions
                 val key = entry.key.toString()
                 val value = entry.value ?: return actions
-                findParser(key)?.invoke(value, ActionOption())?.let { actions.add(it) }
+                findParser(key).invoke(value, ActionOption()).let { actions.add(it) }
             }
             else -> {
-                val loaded = any.toString().split(actionsBound).mapNotNull {
+                val loaded = any.toString().split(actionsBound).map {
                     val split = it.split(":", limit = 2)
                     val parser = findParser(split[0])
-                    val string = split.getOrElse(1) { "" }
+                    val string = split.getOrElse(1) { split[0] }
 
-                    if (parser != null) {
+                    run {
                         val (content, option) = ActionOption.of(string)
                         parser.invoke(content, option)
-                    } else {
-                        null
                     }
                 }
                 loaded.maxByOrNull { it.option.set.size }?.let { def ->

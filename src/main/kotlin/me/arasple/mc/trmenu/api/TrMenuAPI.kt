@@ -35,9 +35,9 @@ object TrMenuAPI {
                     sender = player
                 }
             } catch (e: LocalizedException) {
-                println("[TrMenu] Unexpected exception while parsing kether shell:")
+                println("§c[TrMenu] §8Unexpected exception while parsing kether shell:")
                 e.localizedMessage.split("\n").forEach {
-                    println("[TrMenu] $it")
+                    println("         §8$it")
                 }
                 CompletableFuture.completedFuture(false)
             }
@@ -50,8 +50,8 @@ object TrMenuAPI {
         return try {
             EvalResult(eval(player, script).get(timout, TimeUnit.MILLISECONDS))
         } catch (e: TimeoutException) {
-            println("[TrMenu] Timeout while parsing kether shell:")
-            e.localizedMessage.split("\n").forEach { println("[TrMenu] $it") }
+            println("§c[TrMenu] §8Timeout while parsing kether shell:")
+            e.localizedMessage.split("\n").forEach { println("         §8$it") }
             EvalResult.FALSE
         }
     }

@@ -2,7 +2,9 @@ package me.arasple.mc.trmenu.module.internal.script.impl
 
 import io.izzel.taboolib.kotlin.kether.KetherParser
 import io.izzel.taboolib.kotlin.kether.ScriptParser
+import io.izzel.taboolib.kotlin.kether.common.api.ParsedAction
 import io.izzel.taboolib.kotlin.kether.common.api.QuestContext
+import io.izzel.taboolib.kotlin.kether.common.loader.types.ArgTypes
 import me.arasple.mc.trmenu.module.internal.script.kether.BaseAction
 import java.util.concurrent.CompletableFuture
 
@@ -10,7 +12,15 @@ import java.util.concurrent.CompletableFuture
  * @author Arasple
  * @date 2021/1/29 10:17
  */
-class KetherClose : BaseAction<Void>() {
+class KetherMenu(val type: Type, val menu: ParsedAction<*>?) : BaseAction<Void>() {
+
+    enum class Type {
+
+        OPEN,
+
+        CLOSE
+
+    }
 
     override fun process(context: QuestContext.Frame): CompletableFuture<Void> {
         context.viewer().session()?.close(closePacket = true, updateInventory = true)
@@ -20,8 +30,14 @@ class KetherClose : BaseAction<Void>() {
 
     companion object {
 
-        @KetherParser(["close"], namespace = "trmenu")
-        fun parser() = ScriptParser.parser { KetherClose() }
+        @KetherParser(["menu"], namespace = "trmenu")
+        fun parser() = ScriptParser.parser {
+            val type = Type.valueOf(it.nextToken().toUpperCase())
+            KetherMenu(
+                type,
+                if (type == Type.OPEN) it.next(ArgTypes.ACTION) else null
+            )
+        }
 
     }
 
