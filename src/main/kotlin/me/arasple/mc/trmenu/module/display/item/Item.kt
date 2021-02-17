@@ -45,6 +45,8 @@ class Item(
 
         if (!cache.containsKey(session.id))
             build(session)
+        else if (cache[session.id]!!.itemMeta == null)
+            build(session)
         else
             cache[session.id]!!.itemMeta?.let {
                 build(session, it.displayName, it.lore ?: listOf())

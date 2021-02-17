@@ -20,9 +20,10 @@ interface IItem {
     fun generate(session: MenuSession, texture: Texture, name: String?, lore: List<String>?, meta: Meta): ItemStack {
         val item = texture.generate(session)
         val builder = ItemBuilder(item)
-
-        name?.let { builder.name(it) }
-        lore?.let { builder.lore(it) }
+        if (item.itemMeta != null) {
+            name?.let { builder.name(it) }
+            lore?.let { builder.lore(it) }
+        }
         meta.flags(builder)
         meta.shiny(session, builder)
 
