@@ -41,6 +41,7 @@ object Actions {
         // Menu
         ActionClose.registery,
         ActionSilentClose.registery,
+        ActionSilentOpen.registery,
         ActionOpen.registery,
         ActionPage.registery,
         ActionReset.registery,

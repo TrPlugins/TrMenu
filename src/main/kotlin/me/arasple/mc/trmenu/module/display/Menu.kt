@@ -5,6 +5,7 @@ import me.arasple.mc.trmenu.api.event.MenuPageChangeEvent
 import me.arasple.mc.trmenu.api.receptacle.window.Receptacle
 import me.arasple.mc.trmenu.module.display.icon.Icon
 import me.arasple.mc.trmenu.module.display.layout.MenuLayout
+import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.module.internal.service.Performance
 import me.arasple.mc.trmenu.util.Tasks
 import org.bukkit.Bukkit
@@ -50,7 +51,7 @@ class Menu(
 
             if (MenuOpenEvent(session, this, page, reason).call().isCancelled) return
 
-            if (settings.openEvent.eval(session)) {
+            if (Metadata.lookBukkitMeta(viewer, "FORCE_OPEN") || settings.openEvent.eval(session)) {
                 val layout = layout[page]
                 val receptacle: Receptacle
 

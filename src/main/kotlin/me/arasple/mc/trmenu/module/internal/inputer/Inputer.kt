@@ -8,6 +8,7 @@ import me.arasple.mc.trmenu.api.action.impl.ActionSilentClose
 import me.arasple.mc.trmenu.api.action.pack.Reactions
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.data.Metadata
+import me.arasple.mc.trmenu.util.bukkit.ItemHelper
 import me.arasple.mc.trmenu.util.collections.CycleList
 import net.wesjd.anvilgui.AnvilGUI
 import org.bukkit.entity.Player
@@ -95,8 +96,8 @@ class Inputer(private val stages: CycleList<Catcher>) {
                         if (respond(text)) AnvilGUI.Response.text("")
                         else AnvilGUI.Response.close()
                     }
-                    .itemLeft(Items.fromJson(items[0]))
-                    .itemRight(Items.fromJson(items[1]))
+                    .itemLeft(ItemHelper.fromJson(items[0]))
+                    .itemRight(ItemHelper.fromJson(items[1]))
                     .title(display[0])
                     .open(viewer)
                 Type.BOOK -> Features.inputBook(

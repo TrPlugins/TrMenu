@@ -5,6 +5,8 @@ import io.izzel.taboolib.kotlin.kether.ScriptParser
 import io.izzel.taboolib.kotlin.kether.common.api.ParsedAction
 import io.izzel.taboolib.kotlin.kether.common.api.QuestContext
 import io.izzel.taboolib.kotlin.kether.common.loader.types.ArgTypes
+import me.arasple.mc.trmenu.api.TrMenuAPI
+import me.arasple.mc.trmenu.api.event.MenuOpenEvent
 import me.arasple.mc.trmenu.module.internal.script.kether.BaseAction
 import java.util.concurrent.CompletableFuture
 
@@ -23,7 +25,12 @@ class KetherMenu(val type: Type, val menu: ParsedAction<*>?) : BaseAction<Void>(
     }
 
     override fun process(context: QuestContext.Frame): CompletableFuture<Void> {
-        context.viewer().session()?.close(closePacket = true, updateInventory = true)
+        when (type) {
+            Type.CLOSE -> context.viewer().session()?.close(closePacket = true, updateInventory = true)
+            Type.OPEN -> context.newFrame(menu).run<String>().thenApply {
+                TrMenuAPI.getMenuById(it)?.open(context.viewer(), reason = MenuOpenEvent.Reason.CONSOLE)
+            }
+        }
 
         return completableFuture
     }

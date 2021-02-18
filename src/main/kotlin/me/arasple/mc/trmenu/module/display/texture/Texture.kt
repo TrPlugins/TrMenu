@@ -40,7 +40,7 @@ class Texture(
             TextureType.HEAD -> Heads.getHead(temp)
             TextureType.REPO -> ItemRepository.getItem(temp)
             TextureType.SOURCE -> ItemSource.fromSource(session, texture)
-            TextureType.RAW -> Items.fromJson(temp)
+            TextureType.RAW -> ItemHelper.fromJson(temp)
         }
 
         if (itemStack != null) {
@@ -125,7 +125,7 @@ class Texture(
             val dynamic = Regexs.containsPlaceholder(texture)
             if (type == TextureType.NORMAL) {
                 if (texture.startsWith("{")) {
-                    val json = ItemHelper.asJsonItem(texture)
+                    val json = ItemHelper.fromJson(texture)
                     if (!Items.isNull(json)) {
                         type = TextureType.RAW
                         if (!dynamic) static = json!!
