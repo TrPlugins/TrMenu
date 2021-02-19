@@ -112,7 +112,7 @@ object Actions {
         when (any) {
             is Map<*, *> -> {
                 val entry = any.entries.firstOrNull() ?: return actions
-                val key = entry.key.toString()
+                val key = entry.key.toString().toLowerCase()
                 val value = entry.value ?: return actions
                 findParser(key).invoke(value, ActionOption()).let { actions.add(it) }
             }
