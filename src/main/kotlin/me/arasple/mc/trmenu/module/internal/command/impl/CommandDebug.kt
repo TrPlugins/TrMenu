@@ -83,7 +83,7 @@ class CommandDebug : BaseSubCommand() {
                 childFormat = "§8  {0}§7{1} §2[{3} ms] §7{4}%"
                 parentFormat = "§8  §8{0}§7{1} §8[{3} ms] §7{4}%"
             }.run {
-                sender.sendMessage("\n§3§lTrMenu §9§l§nPerformance Mirror\n§r")
+                sender.sendMessage("\n§b§lTrMenu §a§l§nPerformance Mirror\n§r")
                 print(sender, getTotal(), 0)
             }
         }

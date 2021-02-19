@@ -23,7 +23,7 @@ class Layout(
 
     private val width = width(type)
 
-     val rows = when {
+    val rows = when {
         type == InventoryType.CHEST -> max(rows, layout.size)
         type.defaultSize % 9 == 0 -> type.defaultSize / 9
         else -> 1
@@ -48,7 +48,7 @@ class Layout(
 
         playerInventory.forEachIndexed { y, line ->
             listKeys(line).forEachIndexed { x, element ->
-                val index = size + y * width + x
+                val index = size + y * width + x + 1
                 keys.computeIfAbsent(element.toString()) { mutableSetOf() }.add(index)
             }
         }

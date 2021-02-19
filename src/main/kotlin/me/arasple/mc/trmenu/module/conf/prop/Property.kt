@@ -227,7 +227,7 @@ enum class Property(val default: String, val regex: Regex) {
      */
     FUNCTIONS("Functions", "(fun(ction)?|script)s?");
 
-    constructor(default: String, regex: String) : this(default, Regex(regex))
+    constructor(default: String, regex: String) : this(default, Regex("(?i)$regex"))
 
     override fun toString(): String = default
 

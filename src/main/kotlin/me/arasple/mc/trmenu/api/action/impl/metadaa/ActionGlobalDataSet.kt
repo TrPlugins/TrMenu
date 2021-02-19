@@ -28,7 +28,7 @@ class ActionGlobalDataSet(content: String, option: ActionOption) : AbstractActio
 
     companion object {
 
-        private val name = "set-?(global|g)(temp|var(iable)?|meta)s?".toRegex()
+        private val name = "set-?(global|g)-?datas?".toRegex()
 
         private val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
             ActionGlobalDataSet(value.toString(), option)

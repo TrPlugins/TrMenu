@@ -24,7 +24,7 @@ class ActionDataDel(content: String, option: ActionOption) : AbstractAction(cont
 
     companion object {
 
-        private val name = "(remove|rem|del)-?(temp|var(iable)?|meta)s?".toRegex()
+        private val name = "(remove|rem|del)-?datas?".toRegex()
 
         private val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
             ActionDataDel(value.toString(), option)
