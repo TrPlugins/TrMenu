@@ -234,6 +234,10 @@ class MenuSession(
             return SESSIONS.computeIfAbsent(player.uniqueId) { MenuSession(player, null, 0, arrayOf()) }
         }
 
+        fun getSessions(): MutableMap<UUID, MenuSession> {
+            return SESSIONS
+        }
+
         fun removeSession(player: Player) {
             SESSIONS.remove(player.uniqueId)
         }
