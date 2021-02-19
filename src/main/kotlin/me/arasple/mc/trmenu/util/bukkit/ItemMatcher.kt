@@ -113,7 +113,7 @@ class ItemMatcher(private val matcher: Set<Match>) {
             val name = getTrait(NAME)
             val nameMatch = name == null || itemStack.itemMeta?.displayName?.contains(name, true) == true
 
-            val lore = getTrait(NAME)
+            val lore = getTrait(LORE)
             val loreMatch = lore == null || itemStack.itemMeta?.lore?.any { it.contains(lore, true) } ?: false
 
             val head = getTrait(HEAD)
