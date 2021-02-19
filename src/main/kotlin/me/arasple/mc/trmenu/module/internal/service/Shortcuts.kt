@@ -80,7 +80,7 @@ object Shortcuts {
                 REACTIONS.clear()
 
                 values().forEach {
-                    Reactions.ofReaction(TrMenu.SETTINGS.get("Shortcuts.${it.key}"))?.let { react ->
+                    Reactions.ofReaction(TrMenu.SETTINGS.get("Shortcuts.${it.key}")).let { react ->
                         if (!react.isEmpty()) {
                             REACTIONS[it] = react
                         }

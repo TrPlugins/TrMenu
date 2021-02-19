@@ -67,7 +67,6 @@ object ReceptacleAPI {
             return false
         } else if (packet.`is`("PacketPlayInCloseWindow") && packet.read("id") as Int == 119) {
             receptacle.close(player, true)
-            player.updateInventory()
 
             // 防止关闭菜单后, 动态标题频率过快出现的卡假容器
             Tasks.delay(async = true) {

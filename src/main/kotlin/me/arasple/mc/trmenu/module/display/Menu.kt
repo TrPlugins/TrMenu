@@ -51,7 +51,7 @@ class Menu(
 
             if (MenuOpenEvent(session, this, page, reason).call().isCancelled) return
 
-            if (Metadata.lookBukkitMeta(viewer, "FORCE_OPEN") || settings.openEvent.eval(session)) {
+            if (Metadata.byBukkit(viewer, "FORCE_OPEN") || settings.openEvent.eval(session)) {
                 val layout = layout[page]
                 val receptacle: Receptacle
 

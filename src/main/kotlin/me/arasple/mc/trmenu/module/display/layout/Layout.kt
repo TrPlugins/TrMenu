@@ -66,7 +66,7 @@ class Layout(
         receptacle ?: return
 
         receptacle.listenerClose { player, _ ->
-            if (!Metadata.lookBukkitMeta(player, "FORCE_CLOSE")) {
+            if (!Metadata.byBukkit(player, "FORCE_CLOSE")) {
                 menu.settings.closeEvent.eval(session)
             }
             session.shut()

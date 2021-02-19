@@ -1,7 +1,6 @@
 package me.arasple.mc.trmenu.module.internal.inputer
 
 import io.izzel.taboolib.util.Features
-import io.izzel.taboolib.util.item.Items
 import io.izzel.taboolib.util.lite.Catchers
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.action.impl.ActionSilentClose
@@ -31,7 +30,7 @@ class Inputer(private val stages: CycleList<Catcher>) {
         }
 
         fun Player.retypable(): Boolean {
-            return Metadata.lookBukkitMeta(this, "RE_ENTER")
+            return Metadata.byBukkit(this, "RE_ENTER")
         }
 
     }

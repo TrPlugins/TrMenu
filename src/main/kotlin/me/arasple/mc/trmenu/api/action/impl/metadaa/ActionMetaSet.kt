@@ -26,7 +26,7 @@ class ActionMetaSet(content: String, option: ActionOption) : AbstractAction(cont
         }
     }
 
-    companion   object {
+    companion object {
 
         private val name = "set-?(temp|var(iable)?|meta)s?".toRegex()
 
