@@ -28,7 +28,7 @@ class ActionDataSet(content: String, option: ActionOption) : AbstractAction(cont
 
     companion object {
 
-        private val name = "set-?(temp|var(iable)?|meta)s?".toRegex()
+        private val name = "set-?datas?".toRegex()
 
         private val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
             ActionDataSet(value.toString(), option)

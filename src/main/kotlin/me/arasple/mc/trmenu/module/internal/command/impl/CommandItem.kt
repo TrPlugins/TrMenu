@@ -8,6 +8,7 @@ import io.izzel.taboolib.util.item.Equipments
 import io.izzel.taboolib.util.item.Items
 import io.izzel.taboolib.util.lite.Sounds
 import me.arasple.mc.trmenu.module.internal.item.ItemRepository
+import me.arasple.mc.trmenu.util.bukkit.ItemHelper
 import me.arasple.mc.trmenu.util.net.Paster
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -70,7 +71,7 @@ class CommandItem : BaseSubCommand() {
     }
 
     private fun fromJson(player: Player, json: String) {
-        Items.fromJson(json)?.let {
+        ItemHelper.fromJson(json)?.let {
             CronusUtils.addItem(player, it)
         }
     }

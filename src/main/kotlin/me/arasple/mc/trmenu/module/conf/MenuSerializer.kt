@@ -34,6 +34,7 @@ import kotlin.math.max
 /**
  * @author Arasple
  * @date 2021/1/25 10:18
+ * 有好心人帮忙重写下这个模块吗 写的太烂了
  */
 @Deprecated("TO BE IMPROVE")
 object MenuSerializer : ISerializer {
@@ -186,7 +187,7 @@ object MenuSerializer : ISerializer {
                 val subDisplay = Property.ICON_DISPLAY.ofSection(sub)
                 val subAction = Property.ACTIONS.ofSection(sub)
                 loadIconProperty(defIcon, sub, subDisplay, subAction, order++)
-            }
+            }.sortedBy { it.priority }
 
             if (defIcon.display.texture.isEmpty() || subs.any { it.display.texture.isEmpty() }) {
                 result.submitError(SerialzeError.INVALID_ICON_UNDEFINED_TEXTURE, id)
@@ -194,7 +195,6 @@ object MenuSerializer : ISerializer {
 
             Icon(id, refresh.toLong(), update.toTypedArray(), position, defIcon, IndivList(subs))
         }
-
         return result
     }
 

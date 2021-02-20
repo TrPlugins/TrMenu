@@ -25,7 +25,6 @@ import org.bukkit.inventory.ItemStack
  * @author Arasple
  * @date 2020/7/22 12:08
  */
-@Deprecated("TO BE IMPROVED")
 class CommandTemplate : BaseSubCommand() {
 
     override fun getArguments(): Array<Argument> {

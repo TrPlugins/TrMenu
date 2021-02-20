@@ -29,6 +29,8 @@ inline class EvalResult(private val any: Any?) {
 
         val TRUE = EvalResult(true)
 
+        val FALSE = EvalResult(false)
+
     }
 
 }

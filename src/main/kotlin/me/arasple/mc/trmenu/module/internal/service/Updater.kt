@@ -59,7 +59,6 @@ object Updater {
                 }
             }
         } catch (e: Throwable) {
-            e.printStackTrace()
         }
     }
 

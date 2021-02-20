@@ -96,7 +96,7 @@ class MenuSession(
      * 处理一个字符串，替换函数变量
      */
     fun parse(string: String): String {
-        Performance.MIRROR.check("Script:parseString") {
+        Performance.MIRROR.check("Handler:StringParse") {
             val preColor = MenuSettings.PRE_COLOR
             val funced = FunctionParser.parse(placeholderPlayer, string)
             val content = Strings.replaceWithOrder(if (preColor) funced else TColor.translate(funced), *arguments)
@@ -228,14 +228,12 @@ class MenuSession(
     companion object {
 
         private var UID = 0
-        private val SESSIONS = mutableMapOf<UUID, MenuSession>()
+
+        @JvmField
+        val SESSIONS = mutableMapOf<UUID, MenuSession>()
 
         fun getSession(player: Player): MenuSession {
             return SESSIONS.computeIfAbsent(player.uniqueId) { MenuSession(player, null, 0, arrayOf()) }
-        }
-
-        fun getSessions(): MutableMap<UUID, MenuSession> {
-            return SESSIONS
         }
 
         fun removeSession(player: Player) {

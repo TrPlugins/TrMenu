@@ -5,6 +5,7 @@ import me.arasple.mc.trmenu.api.event.MenuPageChangeEvent
 import me.arasple.mc.trmenu.api.receptacle.window.Receptacle
 import me.arasple.mc.trmenu.module.display.icon.Icon
 import me.arasple.mc.trmenu.module.display.layout.MenuLayout
+import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.module.internal.service.Performance
 import me.arasple.mc.trmenu.util.Tasks
 import org.bukkit.Bukkit
@@ -50,7 +51,7 @@ class Menu(
 
             if (MenuOpenEvent(session, this, page, reason).call().isCancelled) return
 
-            if (settings.openEvent.eval(session)) {
+            if (Metadata.byBukkit(viewer, "FORCE_OPEN") || settings.openEvent.eval(session)) {
                 val layout = layout[page]
                 val receptacle: Receptacle
 
@@ -75,7 +76,6 @@ class Menu(
     fun page(viewer: Player, page: Int) {
         Performance.MIRROR.check("Menu:Event:ChangePage") {
             val session = MenuSession.getSession(viewer)
-
             val previous = session.layout()!!
             val layout = layout[page]
             val receptacle: Receptacle
@@ -109,7 +109,7 @@ class Menu(
 
         if (settings.titleUpdate > 0) {
             session.arrange(Tasks.timer(10, settings.titleUpdate.toLong(), true) {
-                Performance.MIRROR.check("Menu:Title:onUpdate") {
+                Performance.MIRROR.check("Menu:Title:Update") {
                     setTitle.invoke()
                 }
             })

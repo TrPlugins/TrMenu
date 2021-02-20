@@ -8,13 +8,13 @@ plugins {
 }
 
 group 'me.arasple.mc.trmenu'
-version '3.0-Beta7'
+version '3.0-Beta10'
 
 task buildJar(dependsOn: [clean, shadowJar])
 
 taboolib {
     tabooLibVersion = '5.55'
-    loaderVersion = '2.11'
+    loaderVersion = '2.12'
     classifier = null
     builtin = true
 }

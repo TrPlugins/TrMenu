@@ -55,7 +55,7 @@ class ItemMatcher(private val matcher: Set<Match>) {
     }
 
     fun hasItem(player: Player): Boolean {
-        Performance.MIRROR.check("Function:checkItem") {
+        Performance.MIRROR.check("Function:ItemMatcherCheck") {
             return matcher.all {
                 Items.hasItem(player.inventory, it.itemsMatcher, it.amount)
             }

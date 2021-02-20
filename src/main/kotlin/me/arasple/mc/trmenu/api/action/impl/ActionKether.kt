@@ -1,8 +1,8 @@
 package me.arasple.mc.trmenu.api.action.impl
 
+import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.api.action.base.AbstractAction
 import me.arasple.mc.trmenu.api.action.base.ActionOption
-import me.arasple.mc.trmenu.module.internal.script.kether.KetherHandler
 import org.bukkit.entity.Player
 
 /**
@@ -12,7 +12,7 @@ import org.bukkit.entity.Player
 class ActionKether(content: String, option: ActionOption) : AbstractAction(content, option) {
 
     override fun onExecute(player: Player, placeholderPlayer: Player) {
-        KetherHandler.eval(player, baseContent)
+        TrMenuAPI.eval(player, baseContent)
     }
 
     companion object {

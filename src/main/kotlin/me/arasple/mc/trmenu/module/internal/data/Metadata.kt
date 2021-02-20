@@ -60,7 +60,7 @@ object Metadata {
         player.setMetadata(key, FixedMetadataValue(TrMenu.plugin, value))
     }
 
-    fun lookBukkitMeta(player: Player, key: String, value: String = ""): Boolean {
+    fun byBukkit(player: Player, key: String): Boolean {
         return player.hasMetadata(key).also {
             if (it) player.removeMetadata(key, TrMenu.plugin)
         }

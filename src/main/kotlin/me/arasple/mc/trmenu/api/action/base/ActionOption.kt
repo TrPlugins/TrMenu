@@ -21,8 +21,10 @@ class ActionOption(val set: Map<Type, String> = mapOf()) {
 
     fun evalPlayers(defPlayer: Player, action: (Player) -> Unit) {
         if (set.containsKey(Type.PLAYERS)) {
+            val cond = set[Type.PLAYERS].toString()
             Bukkit.getOnlinePlayers().forEach {
-                Condition.eval(it, set[Type.PLAYERS].toString())
+                if (cond.isBlank()) action(it)
+                else if (Condition.eval(it, cond).asBoolean(false)) action(it)
             }
         } else {
             action.invoke(defPlayer)
@@ -66,7 +68,7 @@ class ActionOption(val set: Map<Type, String> = mapOf()) {
 
         CONDITION("[{<](condition|requirement)[=:] ?(.+)[}>]", 2),
 
-        PLAYERS("[{<]players?[=:]? ?(.+)[}>]", 1);
+        PLAYERS("[{<]players[=:]? ?(.*)[}>]", 1);
 
         constructor(regex: String, group: Int) : this("(?i)$regex".toRegex(), group)
 

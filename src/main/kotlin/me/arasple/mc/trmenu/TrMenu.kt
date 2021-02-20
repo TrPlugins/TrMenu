@@ -32,10 +32,14 @@ object TrMenu : Plugin() {
     }
 
     override fun onDisable() {
-        MenuSession.getSessions().let {
+        MenuSession.SESSIONS.let {
             it.values.forEach { it.close(closePacket = true, updateInventory = true) }
             it.clear()
         }
+    }
+
+    override fun allowHotswap(): Boolean {
+        return false
     }
 
     fun onSettingsReload() {

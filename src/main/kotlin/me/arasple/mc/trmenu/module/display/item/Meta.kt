@@ -9,7 +9,6 @@ import me.arasple.mc.trmenu.util.Regexs
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
-import kotlin.math.roundToInt
 
 /**
  * @author Arasple
@@ -29,7 +28,7 @@ class Meta(
     val isDynamic = isAmountDynamic || isNBTDynamic || isShinyDynamic
 
     fun amount(session: MenuSession): Int {
-        return (if (isAmountDynamic) session.parse(amount) else amount).toDoubleOrNull()?.roundToInt() ?: 1
+        return (if (isAmountDynamic) session.parse(amount) else amount).toDoubleOrNull()?.toInt() ?: 1
     }
 
     fun shiny(session: MenuSession, builder: ItemBuilder) {
