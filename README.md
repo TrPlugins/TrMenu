@@ -5,9 +5,12 @@
 
 ### 🔔 What's new in TrMenu v3?
 
-- **Extremely Fast & Optimized** Not only focused on the improvement of conditional evaluations but also reconstructed the API of the virtual inventory. Large quantity of modules have been recoded for better performance, as well as providing a unique way of monitoring TrMenu's performance
+- **Extremely Fast & Optimized** Not only focused on the improvement of conditional evaluations but also reconstructed
+  the API of the virtual inventory. Large quantity of modules have been recoded for better performance, as well as
+  providing a unique way of monitoring TrMenu's performance
 - **Capable as always** Almost every feature are optimized and reserved, new features are also added
-- **Function & Scripts** Unify and standardize the use of inline functions, refactor TrMenu Actions, and fully support the new Kether scripting language
+- **Function & Scripts** Unify and standardize the use of inline functions, refactor TrMenu Actions, and fully support
+  the new Kether scripting language
 
 > For more detailed information, please via the wiki site
 
@@ -33,9 +36,8 @@ By purchasing the plugin, you will greatly support the project and its continual
 
 ### 🚀 Support
 
-Before asking for support, please make sure you have fully **read the wiki** and try to provide **information enough** to reproduce the issue
-
-
+Before asking for support, please make sure you have fully **read the wiki** and try to provide **information enough**
+to reproduce the issue
 
 Issues: https://github.com/TrMenu/TrMenu/issues  
 Discord : https://discord.gg/8CWa6KF
@@ -60,11 +62,12 @@ Please understand :)
 
 ### 🚩 License
 
-[LICENSE](https://github.com/TrMenu/TrMenu/blob/v2/LICENSE.md)
+[LICENSE](https://github.com/TrMenu/TrMenu/blob/master/LICENSE.md)
 
 Despite TrMenu is a premium plugin, by any means,  
 I will not prevent you from downloading the artifacts or compiling them yourself as long as you do not distribute it
 
-However, by purchasing the plugin, you will greatly support the project and its continual development thus I will be truly grateful
+However, by purchasing the plugin, you will greatly support the project and its continual development thus I will be
+truly grateful
 
 ---

@@ -10,12 +10,14 @@ import org.bukkit.plugin.Plugin
  */
 abstract class HookAbstract {
 
-    val name by lazy { getPluginName() }
+    open val name by lazy { getPluginName() }
 
-    val plugin: Plugin? = Bukkit.getPluginManager().getPlugin(name)
+    val plugin: Plugin? by lazy {
+        Bukkit.getPluginManager().getPlugin(name)
+    }
 
     val isHooked by lazy {
-        plugin != null && plugin.isEnabled
+        plugin != null && plugin!!.isEnabled
     }
 
     open fun getPluginName(): String {

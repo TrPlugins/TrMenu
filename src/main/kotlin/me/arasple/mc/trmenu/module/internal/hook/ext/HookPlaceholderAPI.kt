@@ -56,7 +56,7 @@ class HookPlaceholderAPI : PlaceholderExpansion(), Listener {
             "pages" -> session.menu?.layout?.layouts?.size.toString()
             "next" -> (session.page + 1).toString()
             "prev" -> (session.page - 1).toString()
-            "title" -> session.menu!!.settings.title.get(session.id)
+            "title" -> session.menu!!.settings.title[session.id]
             else -> ""
         }
     }
