@@ -76,7 +76,6 @@ class Menu(
     fun page(viewer: Player, page: Int) {
         Performance.MIRROR.check("Menu:Event:ChangePage") {
             val session = MenuSession.getSession(viewer)
-
             val previous = session.layout()!!
             val layout = layout[page]
             val receptacle: Receptacle

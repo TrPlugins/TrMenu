@@ -106,13 +106,13 @@ object Actions {
     fun readAction(any: Any): List<AbstractAction> {
         val actions = mutableListOf<AbstractAction>()
         val findParser: (String) -> ((Any, ActionOption) -> AbstractAction) = { name ->
-            registries.find { it.first.matches(name) }?.second ?: registries[0].second
+            registries.find { it.first.matches(name.toLowerCase()) }?.second ?: registries[0].second
         }
 
         when (any) {
             is Map<*, *> -> {
                 val entry = any.entries.firstOrNull() ?: return actions
-                val key = entry.key.toString().toLowerCase()
+                val key = entry.key.toString()
                 val value = entry.value ?: return actions
                 findParser(key).invoke(value, ActionOption()).let { actions.add(it) }
             }

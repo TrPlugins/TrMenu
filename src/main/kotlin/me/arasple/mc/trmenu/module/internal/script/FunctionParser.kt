@@ -48,7 +48,7 @@ object FunctionParser {
                 else it.value
             }
         }.onFailure {
-            it.print("Error occured when parsing the string")
+            it.print("Error occured when parsing the string for player ${player.name}: $input")
         }.getOrElse { input }
     }
 

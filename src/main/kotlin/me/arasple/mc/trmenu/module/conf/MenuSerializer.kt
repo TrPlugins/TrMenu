@@ -1,7 +1,5 @@
 package me.arasple.mc.trmenu.module.conf
 
-import io.izzel.taboolib.kotlin.kether.action.bukkit.PlayerOperator
-import io.izzel.taboolib.kotlin.kether.action.bukkit.PlayerOperators
 import io.izzel.taboolib.module.nms.nbt.NBTBase
 import io.izzel.taboolib.module.nms.nbt.NBTCompound
 import me.arasple.mc.trmenu.api.action.pack.Reactions
@@ -36,6 +34,7 @@ import kotlin.math.max
 /**
  * @author Arasple
  * @date 2021/1/25 10:18
+ * 有好心人帮忙重写下这个模块吗 写的太烂了
  */
 @Deprecated("TO BE IMPROVE")
 object MenuSerializer : ISerializer {
