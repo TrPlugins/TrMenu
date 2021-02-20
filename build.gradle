@@ -14,7 +14,7 @@ task buildJar(dependsOn: [clean, shadowJar])
 
 taboolib {
     tabooLibVersion = '5.55'
-    loaderVersion = '2.11'
+    loaderVersion = '2.12'
     classifier = null
     builtin = true
 }

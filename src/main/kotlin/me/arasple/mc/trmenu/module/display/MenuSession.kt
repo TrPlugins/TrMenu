@@ -228,14 +228,12 @@ class MenuSession(
     companion object {
 
         private var UID = 0
-        private val SESSIONS = mutableMapOf<UUID, MenuSession>()
+
+        @JvmField
+        val SESSIONS = mutableMapOf<UUID, MenuSession>()
 
         fun getSession(player: Player): MenuSession {
             return SESSIONS.computeIfAbsent(player.uniqueId) { MenuSession(player, null, 0, arrayOf()) }
-        }
-
-        fun getSessions(): MutableMap<UUID, MenuSession> {
-            return SESSIONS
         }
 
         fun removeSession(player: Player) {
