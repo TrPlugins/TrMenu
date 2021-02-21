@@ -14,4 +14,4 @@ import org.bukkit.inventory.ItemStack
  * @param items Array of Slot
  *
  */
-class PacketWindowItems(val windowId: Int = 119, val count: Int, val items: Array<ItemStack?>) : PacketInventory
+class PacketWindowItems(val windowId: Int = 119, val items: Array<ItemStack?>) : PacketInventory

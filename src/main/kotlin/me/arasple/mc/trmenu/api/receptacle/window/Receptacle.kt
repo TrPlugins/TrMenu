@@ -26,7 +26,9 @@ open class Receptacle(
 ) {
 
     var title: String by Delegates.observable(title) { _, _, _ ->
-        forViewers { initializationPackets(it) }
+        forViewers {
+            initializationPackets(it)
+        }
     }
 
     private var eventClick: ClickHandler = ClickHandler { _, _ -> }
@@ -104,7 +106,7 @@ open class Receptacle(
     }
 
     fun refresh(player: Player) {
-        PacketWindowItems(count = items.size, items = items).send(player)
+        PacketWindowItems(items = items).send(player)
     }
 
     private fun initializationPackets(player: Player) {

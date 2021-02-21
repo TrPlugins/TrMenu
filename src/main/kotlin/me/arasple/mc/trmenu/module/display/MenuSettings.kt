@@ -48,7 +48,7 @@ class MenuSettings(
 
     val clickDelay = Cooldown("CLICK_DELAY", minClickDelay).also { it.plugin = "TrMenu" }
 
-    val dependExpasions: Array<String> = expansions
+    val dependExpansions: Array<String> = expansions
         get() {
             val registered = PlaceholderAPI.getRegisteredIdentifiers()
             return field.filter { ex -> registered.none { it.equals(ex, true) } }.toTypedArray()

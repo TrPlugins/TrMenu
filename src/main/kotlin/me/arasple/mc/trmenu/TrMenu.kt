@@ -32,9 +32,9 @@ object TrMenu : Plugin() {
     }
 
     override fun onDisable() {
-        MenuSession.SESSIONS.let {
-            it.values.forEach { it.close(closePacket = true, updateInventory = true) }
-            it.clear()
+        MenuSession.SESSIONS.entries.removeIf {
+            it.value.close(closePacket = true, updateInventory = true)
+            true
         }
     }
 
@@ -42,7 +42,7 @@ object TrMenu : Plugin() {
         return false
     }
 
-    fun onSettingsReload() {
+    private fun onSettingsReload() {
         MenuSettings.load()
         Shortcuts.Type.load()
         RegisterCommands.load()

@@ -12,7 +12,11 @@ import skinsrestorer.shared.utils.SkinsRestorerAPI
 class HookSkinsRestorer : HookAbstract() {
 
     private val skinsRestorerAPI: SkinsRestorerAPI? =
-        if (isHooked && !(plugin as SkinsRestorer).isBungeeEnabled) plugin.skinsRestorerBukkitAPI else null
+        if (isHooked) {
+            val skinsRestorer = plugin as SkinsRestorer
+            if (!skinsRestorer.isBungeeEnabled) skinsRestorer.skinsRestorerBukkitAPI
+            else null
+        } else null
         get() {
             if (field == null) reportAbuse()
             return field
