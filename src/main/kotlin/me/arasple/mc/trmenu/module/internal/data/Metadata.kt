@@ -35,6 +35,7 @@ object Metadata {
                 dataMap.data.forEach { (key, value) -> it.set("TrMenu.Data.$key", value) }
             }
         }
+        globalData.saveToFile()
     }
 
     @Suppress("DEPRECATION")

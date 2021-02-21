@@ -54,7 +54,7 @@ object ReceptacleAPI {
     fun playInWindow(player: Player, packet: Packet): Boolean {
         val receptacle = MANAGER.getViewingReceptacle(player) ?: return true
 
-        if (packet.`is`("PacketPlayInWindowClick") && packet.read("a") as Int == 119) {
+        if (packet.`is`("PacketPlayInWindowClick") && packet.read("a", -1) == 119) {
             val slot = packet.read("slot") as Int
             val mode = packet.read("shift").toString()
             val button = packet.read("button") as Int
@@ -65,7 +65,7 @@ object ReceptacleAPI {
             if (evt.isCancelled) PacketWindowSetSlot(-1, -1).send(player)
 
             return false
-        } else if (packet.`is`("PacketPlayInCloseWindow") && packet.read("id") as Int == 119) {
+        } else if (packet.`is`("PacketPlayInCloseWindow") && packet.read("id", -1) == 119) {
             receptacle.close(player, false)
 
             // 防止关闭菜单后, 动态标题频率过快出现的卡假容器
