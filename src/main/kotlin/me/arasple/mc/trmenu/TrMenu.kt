@@ -42,7 +42,7 @@ object TrMenu : Plugin() {
         return false
     }
 
-    fun onSettingsReload() {
+    private fun onSettingsReload() {
         MenuSettings.load()
         Shortcuts.Type.load()
         RegisterCommands.load()

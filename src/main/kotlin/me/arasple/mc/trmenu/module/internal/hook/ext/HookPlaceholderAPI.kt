@@ -65,7 +65,7 @@ class HookPlaceholderAPI : PlaceholderExpansion(), Listener {
     fun onMenuOpen(e: MenuOpenEvent) {
         val menu = e.menu
         val viewer = e.session.viewer
-        val expansions = menu.settings.dependExpasions
+        val expansions = menu.settings.dependExpansions
 
         Metadata.getMeta(viewer)["open_event_reason"] = e.reason.name
 

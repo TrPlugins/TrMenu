@@ -174,7 +174,7 @@ enum class ReceptacleType(
     /**
      * Container size
      */
-    val containerSize = slotRange.last - slotRange.first
+    val containerSize = slotRange.last - slotRange.first + 1
 
     /**
      * Total size (with hotbar & mainInv)
