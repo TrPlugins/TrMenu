@@ -21,7 +21,6 @@ class ActionGlobalDataSet(content: String, option: ActionOption) : AbstractActio
                 val value = split[1]
 
                 Metadata.globalData[key] = value
-                // TODO DEBUG
             }
         }
     }

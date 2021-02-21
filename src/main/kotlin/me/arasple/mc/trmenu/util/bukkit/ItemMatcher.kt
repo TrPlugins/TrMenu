@@ -12,9 +12,6 @@ import org.bukkit.inventory.meta.SkullMeta
 /**
  * @author Arasple
  * @date 2021/1/25 15:14
- * Do no support dynamic parse
- * lore please type only specifical content, without symbols like , : ;
- * material:diamond_block,data:0,amount:64,lore:我的世界;materialxx
  */
 class ItemMatcher(private val matcher: Set<Match>) {
 
