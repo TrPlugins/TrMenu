@@ -210,14 +210,13 @@ class MenuSession(
         activeIcons.forEach { activeSlots.addAll(it.position.currentPosition(this)) }
 
         if (receptacle != null) {
-            val type = receptacle!!.type
-            val emptySlots = (0 until type.totalSize)
-                .filter {
-                    !activeSlots.contains(it) && !playerItemSlots.contains(it) && !menu!!.settings.freeSlots.contains(it)
+            val rece = receptacle!!
+            val type = rece.type
+            type.totalSlots.forEach {
+                if (!activeSlots.contains(it) && !playerItemSlots.contains(it) && !menu!!.settings.freeSlots.contains(it)) {
+                    rece.setItem(null, it)
                 }
-                .toIntArray()
-
-            receptacle!!.removeItem(*emptySlots)
+            }
         }
     }
 

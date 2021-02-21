@@ -38,10 +38,6 @@ object TrMenu : Plugin() {
         }
     }
 
-    override fun allowHotswap(): Boolean {
-        return false
-    }
-
     private fun onSettingsReload() {
         MenuSettings.load()
         Shortcuts.Type.load()

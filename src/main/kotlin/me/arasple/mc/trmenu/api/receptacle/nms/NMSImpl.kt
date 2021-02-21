@@ -2,6 +2,7 @@ package me.arasple.mc.trmenu.api.receptacle.nms
 
 import com.mojang.authlib.GameProfile
 import io.izzel.taboolib.Version
+import io.izzel.taboolib.util.item.Items
 import me.arasple.mc.trmenu.api.receptacle.nms.packet.*
 import net.minecraft.server.v1_12_R1.IChatBaseComponent
 import net.minecraft.server.v1_12_R1.PacketPlayOutSetSlot
@@ -23,13 +24,14 @@ import org.bukkit.inventory.ItemStack
 class NMSImpl : NMS() {
 
     private val emptyItemStack = CraftItemStack.asNMSCopy((ItemStack(Material.AIR)))
+    private val version = Version.getCurrentVersionInt()
 
     override fun sendInventoryPacket(player: Player, vararg packets: PacketInventory) {
         packets.forEach {
             when (it) {
                 // Open Window Packet
                 is PacketWindowOpen -> {
-                    if (Version.isAfter(Version.v1_13)) {
+                    if (version >= 11300) {
                         sendPacket(
                             player,
                             PacketPlayOutOpenWindow(),
@@ -91,7 +93,7 @@ class NMSImpl : NMS() {
     }
 
     private fun asNMSCopy(itemStack: ItemStack?): Any {
-        return if (itemStack == null || itemStack.type == Material.AIR) emptyItemStack
+        return if (itemStack == null || Items.isNull(itemStack)) emptyItemStack
         else CraftItemStack.asNMSCopy(itemStack)
     }
 

@@ -2,6 +2,7 @@ package me.arasple.mc.trmenu.api.receptacle.window
 
 import me.arasple.mc.trmenu.api.event.ReceptacleInteractEvent
 import me.arasple.mc.trmenu.api.receptacle.ReceptacleAPI
+import me.arasple.mc.trmenu.api.receptacle.nms.NMS
 import me.arasple.mc.trmenu.api.receptacle.nms.packet.PacketWindowClose
 import me.arasple.mc.trmenu.api.receptacle.nms.packet.PacketWindowItems
 import me.arasple.mc.trmenu.api.receptacle.nms.packet.PacketWindowOpen
@@ -26,9 +27,7 @@ open class Receptacle(
 ) {
 
     var title: String by Delegates.observable(title) { _, _, _ ->
-        forViewers {
-            initializationPackets(it)
-        }
+        forViewers { initializationPackets(it) }
     }
 
     private var eventClick: ClickHandler = ClickHandler { _, _ -> }
@@ -45,16 +44,18 @@ open class Receptacle(
 
     fun hasItem(slot: Int) = getItem(slot) != null
 
-    fun setItem(itemStack: ItemStack? = null, slots: Collection<Int>) {
-        setItem(itemStack, *slots.toIntArray())
+    fun setItem(itemStack: ItemStack? = null, slots: Collection<Int>, display: Boolean = true) {
+        setItem(itemStack, *slots.toIntArray(), display = display)
     }
 
-    fun setItem(itemStack: ItemStack? = null, vararg slots: Int) {
+    fun setItem(itemStack: ItemStack? = null, vararg slots: Int, display: Boolean = true) {
         slots.forEach { items[it] = itemStack }
         val packets = slots.map { PacketWindowSetSlot(slot = it, itemStack = itemStack) }
 
-        forViewers { player ->
-            packets.forEach { it.send(player) }
+        if (display) {
+            forViewers { player ->
+                packets.forEach { it.send(player) }
+            }
         }
     }
 
@@ -65,8 +66,6 @@ open class Receptacle(
             packet.send(player)
         }
     }
-
-    fun removeItem(vararg slots: Int) = setItem(slots = slots)
 
     private fun getViewers() = viewers.map { Bukkit.getPlayer(it) }
 
@@ -83,7 +82,7 @@ open class Receptacle(
     }
 
     private fun forViewers(viewer: (Player) -> Unit) {
-        getViewers().forEach { it?.let { player -> viewer.invoke(player) } }
+        getViewers().filterNotNull().forEach(viewer)
     }
 
     fun open(player: Player) {
@@ -111,8 +110,11 @@ open class Receptacle(
     }
 
     private fun initializationPackets(player: Player) {
-        PacketWindowOpen(type = type, title = title).send(player)
-        refresh(player)
+        NMS.INSTANCE.sendInventoryPacket(
+            player,
+            PacketWindowOpen(type = type, title = title),
+            PacketWindowItems(items = items)
+        )
     }
 
     fun clearItems() {

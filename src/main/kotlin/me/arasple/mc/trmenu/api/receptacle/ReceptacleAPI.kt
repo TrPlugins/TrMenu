@@ -43,7 +43,7 @@ object ReceptacleAPI {
             LOOM -> ReceptacleType.LOOM
             CARTOGRAPHY -> ReceptacleType.CARTOGRAPHY
             GRINDSTONE -> ReceptacleType.GRINDSTONE
-            STONECUTTER -> ReceptacleType.STONECUTTER
+            STONECUTTER -> ReceptacleType.STONE_CUTTER
             else -> throw IllegalArgumentException("Do not support $inventoryType")
         }
 
@@ -69,7 +69,7 @@ object ReceptacleAPI {
             receptacle.close(player, false)
 
             // 防止关闭菜单后, 动态标题频率过快出现的卡假容器
-            Tasks.delay(async = true) {
+            Tasks.delay(delay = 1L, async = true) {
                 MANAGER.getViewingReceptacle(player) ?: kotlin.run {
                     PacketWindowClose().send(player)
                     player.updateInventory()

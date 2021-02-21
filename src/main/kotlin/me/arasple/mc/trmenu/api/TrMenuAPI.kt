@@ -46,9 +46,9 @@ object TrMenuAPI {
     }
 
     @JvmStatic
-    fun instantKether(player: Player, script: String, timout: Long = 500): EvalResult {
+    fun instantKether(player: Player, script: String, timeout: Long = 100): EvalResult {
         return try {
-            EvalResult(eval(player, script).get(timout, TimeUnit.MILLISECONDS))
+            EvalResult(eval(player, script).get(timeout, TimeUnit.MILLISECONDS))
         } catch (e: TimeoutException) {
             println("§c[TrMenu] §8Timeout while parsing kether shell:")
             e.localizedMessage.split("\n").forEach { println("         §8$it") }

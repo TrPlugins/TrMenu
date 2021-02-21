@@ -8,7 +8,7 @@ import org.bukkit.Bukkit
  * @author Arasple
  * @date 2021/2/4 11:33
  */
-class MenuPageChangeEvent(val session: MenuSession, val frompage: Int, val toPage: Int, val override: Boolean) : EventCancellable<MenuPageChangeEvent>() {
+class MenuPageChangeEvent(val session: MenuSession, val from: Int, val to: Int, val override: Boolean) : EventCancellable<MenuPageChangeEvent>() {
 
     init {
         async(!Bukkit.isPrimaryThread())

@@ -11,6 +11,9 @@ import me.arasple.mc.trmenu.module.internal.command.impl.*
 @BaseCommand(name = "trmenu", aliases = ["menu"], permission = "trmenu.access")
 class CommandHandler : BaseMainCommand() {
 
+    @SubCommand(permission = "test", description = "Test loaded menus")
+    val test: BaseSubCommand = CommandTest()
+
     @SubCommand(permission = "trmenu.command.list", description = "List loaded menus")
     val list: BaseSubCommand = CommandList()
 

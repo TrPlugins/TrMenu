@@ -6,6 +6,7 @@ import io.izzel.taboolib.util.lite.cooldown.Cooldown
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.event.MenuOpenEvent
 import me.arasple.mc.trmenu.module.display.Menu
+import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.util.Tasks
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -31,8 +32,9 @@ class ListenerItemInteract : Listener {
         if (Version.isAfter(Version.v1_9) && e.hand == EquipmentSlot.OFF_HAND) return
         val player = e.player
         val item = e.item ?: return
+        val session = MenuSession.getSession(player)
 
-        if (player.openInventory.topInventory.holder != player.inventory.holder) return
+        if (session.menu != null || player.openInventory.topInventory.holder != player.inventory.holder) return
         if (interactCooldown.isCooldown(player.name)) return
 
         Tasks.task(true) {

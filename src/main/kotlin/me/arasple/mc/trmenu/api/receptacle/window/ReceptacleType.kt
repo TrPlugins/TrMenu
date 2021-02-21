@@ -122,9 +122,6 @@ enum class ReceptacleType(
         0..4
     ),
 
-
-//    LECTERN("minecraft:lectern"),
-
     LOOM(
         17,
         0..3
@@ -150,37 +147,25 @@ enum class ReceptacleType(
         0..2
     ),
 
-    STONECUTTER(
+    STONE_CUTTER(
         22,
         0..1
     );
 
     val vanillaType by lazy { "minecraft:${toBukkitType().name.toLowerCase()}" }
 
-    /**
-     * Main inventory slot range
-     */
-    val mainInvSlotRange = slotRange.last + 1..slotRange.last + 27
+    val mainInvSlots = (slotRange.last + 1..slotRange.last + 27).toList()
 
-    val mainInvSlots = mainInvSlotRange.toList()
+    val hotBarSlots = (mainInvSlots.last() + 1..mainInvSlots.last() + 9).toList()
 
-    /**
-     * Hotbar slot range
-     */
-    val hotBarSlotRange = mainInvSlotRange.last + 1..mainInvSlotRange.last + 9
+    val containerSlots = slotRange.toList()
 
-    val hotBarSlots = hotBarSlotRange.toList()
+    val containerSize = containerSlots.size + 1
 
-    /**
-     * Container size
-     */
-    val containerSize = slotRange.last - slotRange.first + 1
+    val totalSlots = (0..hotBarSlots.last()).toList()
 
-    /**
-     * Total size (with hotbar & mainInv)
-     * Not slot index
-     */
-    val totalSize = containerSize + 37
+
+    val totalSize = totalSlots.size
 
     private fun toBukkitType(): InventoryType {
         return when (this) {
@@ -200,7 +185,7 @@ enum class ReceptacleType(
             SHULKER_BOX -> InventoryType.SHULKER_BOX
             SMOKER -> InventoryType.SMOKER
             CARTOGRAPHY -> InventoryType.CARTOGRAPHY
-            STONECUTTER -> InventoryType.STONECUTTER
+            STONE_CUTTER -> InventoryType.STONECUTTER
         }
     }
 
