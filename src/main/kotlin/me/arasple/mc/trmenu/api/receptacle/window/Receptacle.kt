@@ -99,6 +99,7 @@ open class Receptacle(
         if (closePacket) PacketWindowClose().send(player)
         viewers.remove(player.uniqueId)
         eventClose.run(player, this)
+        ReceptacleAPI.MANAGER.setViewingReceptacle(player, null)
     }
 
     fun callEventClick(player: Player, event: ReceptacleInteractEvent) {
