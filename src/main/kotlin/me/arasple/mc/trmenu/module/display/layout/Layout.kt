@@ -48,7 +48,7 @@ class Layout(
 
         playerInventory.forEachIndexed { y, line ->
             listKeys(line).forEachIndexed { x, element ->
-                val index = size + y * width + x
+                val index = size + y * width + x - 1
                 keys.computeIfAbsent(element.toString()) { mutableSetOf() }.add(index)
             }
         }

@@ -3,7 +3,7 @@ Title:
   - 'Hello, %player_name%!'
   - 'Support Animated Titles'
 
-Title-Update: 10
+Title-Update: 80
 
 Layout:
   - - '########`Close`'

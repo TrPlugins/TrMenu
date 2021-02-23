@@ -34,7 +34,7 @@ class ListenerItemInteract : Listener {
         val item = e.item ?: return
         val session = MenuSession.getSession(player)
 
-        if (session.menu != null || player.openInventory.topInventory.holder != player.inventory.holder) return
+        if (player.openInventory.topInventory.holder != player.inventory.holder || session.menu != null) return
         if (interactCooldown.isCooldown(player.name)) return
 
         Tasks.task(true) {

@@ -8,7 +8,7 @@ import org.bukkit.entity.Player
  * @author Arasple
  * @date 2021/1/29 21:22
  */
-class ActionDelay : AbstractAction() {
+class ActionDelay(content: String) : AbstractAction(content) {
 
     fun getDelay(player: Player) = parseContent(player).toLongOrNull() ?: 0L
 
@@ -20,7 +20,9 @@ class ActionDelay : AbstractAction() {
 
         private val name = "delay|wait".toRegex()
 
-        private val parser: (Any, ActionOption) -> AbstractAction = { _, _ -> ActionDelay() }
+        private val parser: (Any, ActionOption) -> AbstractAction = { value, _ ->
+            ActionDelay(value.toString())
+        }
 
         val registery = name to parser
 

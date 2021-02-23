@@ -2,6 +2,7 @@ package me.arasple.mc.trmenu.api.action.impl
 
 import me.arasple.mc.trmenu.api.action.base.AbstractAction
 import me.arasple.mc.trmenu.api.action.base.ActionOption
+import me.arasple.mc.trmenu.util.Tasks
 import org.bukkit.entity.Player
 
 /**
@@ -11,7 +12,9 @@ import org.bukkit.entity.Player
 class ActionDelArguments : AbstractAction() {
 
     override fun onExecute(player: Player, placeholderPlayer: Player) {
-        player.getSession().arguments = arrayOf()
+        Tasks.delay(3L, true) {
+            player.getSession().arguments = arrayOf()
+        }
     }
 
     companion object {
