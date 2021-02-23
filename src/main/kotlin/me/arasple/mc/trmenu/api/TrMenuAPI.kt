@@ -2,7 +2,9 @@ package me.arasple.mc.trmenu.api
 
 import io.izzel.taboolib.kotlin.kether.KetherShell
 import io.izzel.taboolib.kotlin.kether.common.util.LocalizedException
+import io.izzel.taboolib.module.locale.chatcolor.TColor
 import me.arasple.mc.trmenu.module.display.Menu
+import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.module.internal.script.EvalResult
 import me.arasple.mc.trmenu.module.internal.service.Performance
 import org.bukkit.entity.Player
@@ -31,8 +33,13 @@ object TrMenuAPI {
     fun eval(player: Player, script: String): CompletableFuture<Any?> {
         Performance.MIRROR.check("Handler:Script:Evaluation") {
             return try {
-                KetherShell.eval(script, namespace = listOf("trhologram", "trmenu")) {
+                KetherShell.eval(script, namespace = listOf("trmenu", "trhologram")) {
                     sender = player
+                    rootFrame().variables().run {
+                        Metadata.getMeta(player).data.forEach { (key, value) ->
+                            set(key, value.toString())
+                        }
+                    }
                 }
             } catch (e: LocalizedException) {
                 println("§c[TrMenu] §8Unexpected exception while parsing kether shell:")
