@@ -38,7 +38,7 @@ class ListenerItemInteract : Listener {
         if (interactCooldown.isCooldown(player.name)) return
 
         Tasks.task(true) {
-            val menu = Menu.menus.find { it -> it.settings.boundItems.any { it.itemMatches(item) } }
+            val menu = Menu.menus.find { it -> it.settings.boundItems.any { it.itemMatches(item, true) } }
             if (menu != null) {
                 e.isCancelled = true
                 menu.open(player, reason = MenuOpenEvent.Reason.BINDING_ITEMS)

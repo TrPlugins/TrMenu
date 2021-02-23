@@ -47,8 +47,8 @@ class ItemMatcher(private val matcher: Set<Match>) {
 
     }
 
-    fun itemMatches(itemStack: ItemStack): Boolean {
-        return matcher.all { it.itemsMatcher.match(itemStack) && itemStack.amount == it.amount }
+    fun itemMatches(itemStack: ItemStack, ignoreAmount: Boolean = false): Boolean {
+        return matcher.all { it.itemsMatcher.match(itemStack) && if (ignoreAmount) true else itemStack.amount == it.amount }
     }
 
     fun hasItem(player: Player): Boolean {
@@ -97,7 +97,7 @@ class ItemMatcher(private val matcher: Set<Match>) {
 
         val itemsMatcher = Items.Matcher { itemStack ->
             val material = getTrait(MATERIAL)
-            val materialMatch = material != null && itemStack.type.name.equals(material, true)
+            val materialMatch = material == null || itemStack.type.name.equals(material, true)
 
             val damage = getTrait(DATA)?.toShortOrNull()
 
