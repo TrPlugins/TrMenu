@@ -13,11 +13,9 @@ import org.bukkit.entity.Player
 class ActionCommand(content: String, option: ActionOption) : AbstractAction(content, option) {
 
     override fun onExecute(player: Player, placeholderPlayer: Player) {
-        Tasks.task(false) {
             parseContentSplited(placeholderPlayer, ";").forEach {
                 Features.dispatchCommand(player, it)
             }
-        }
     }
 
     companion object {

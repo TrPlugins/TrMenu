@@ -6,6 +6,7 @@ import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.module.internal.service.Performance
 import me.arasple.mc.trmenu.util.Regexs
+import me.arasple.mc.trmenu.util.Tasks
 import me.arasple.mc.trmenu.util.collections.Variables
 import org.bukkit.event.inventory.InventoryType
 import kotlin.math.max
@@ -88,7 +89,11 @@ class Layout(
                     cancelEvent()
                 }
 
-                session.getIconProperty(event.slot)?.handleClick(event.clickType, session)
+                Tasks.task(false) {
+                    Performance.MIRROR.check("Menu:Event:ClickHandle") {
+                        session.getIconProperty(event.slot)?.handleClick(event.clickType, session)
+                    }
+                }
             }
         }
     }

@@ -14,10 +14,8 @@ import org.bukkit.entity.Player
 class ActionCommandConsole(content: String, option: ActionOption) : AbstractAction(content, option) {
 
     override fun onExecute(player: Player, placeholderPlayer: Player) {
-        Tasks.task(false) {
-            parseContentSplited(placeholderPlayer, ";").forEach {
-                Features.dispatchCommand(Bukkit.getConsoleSender(), it)
-            }
+        parseContentSplited(placeholderPlayer, ";").forEach {
+            Features.dispatchCommand(Bukkit.getConsoleSender(), it)
         }
     }
 
