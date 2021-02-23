@@ -7,7 +7,7 @@ Loader:
 
 Menu:
   Settings:
-    Bound-Item-Interval: 3
+    Bound-Item-Interval: 2000
   Icon:
     Inherit: false
     Item:
@@ -22,7 +22,7 @@ Action:
       - 'q'
 
 Shortcuts:
-  Offhand: []
+  Offhand: [ ]
   Sneaking-Offhand:
     - condition: 'perm *trmenu.shortcut'
       execute: 'open: Example'
