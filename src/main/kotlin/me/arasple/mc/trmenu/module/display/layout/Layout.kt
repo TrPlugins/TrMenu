@@ -78,6 +78,7 @@ class Layout(
                     event.isCancelled = true
                     receptacle.refresh(event.slot)
                     if (event.clickType.isItemMoveable()) {
+                        event.receptacle.type.containerSlots.first().run(receptacle::refresh)
                         event.receptacle.type.hotBarSlots.forEach(receptacle::refresh)
                         event.receptacle.type.mainInvSlots.forEach(receptacle::refresh)
                     }
