@@ -27,7 +27,7 @@ object Heads {
 
     private val DEFAULT_HEAD = Materials.PLAYER_HEAD.parseItem()!!
     private val CACHED_PLAYER_TEXTURE = mutableMapOf<String, String?>()
-     val CACHED_SKULLS = mutableMapOf<String, ItemStack>()
+    private val CACHED_SKULLS = mutableMapOf<String, ItemStack>()
 
     fun cacheSize(): Pair<Int, Int> {
         return CACHED_SKULLS.size to CACHED_PLAYER_TEXTURE.size

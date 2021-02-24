@@ -1,9 +1,9 @@
 Title:
   - 'Hello, TrMenu!'
-  - 'Hello, %player_name%!'
-  - 'Support Animated Titles'
+#  - 'Hello, %player_name%!'
+#  - 'Support Animated Titles'
 
-Title-Update: 80
+#Title-Update: 80
 
 Layout:
   - - '########`Close`'

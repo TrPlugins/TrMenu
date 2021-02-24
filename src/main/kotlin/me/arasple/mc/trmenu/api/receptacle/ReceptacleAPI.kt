@@ -67,12 +67,15 @@ object ReceptacleAPI {
             return false
         } else if (packet.`is`("PacketPlayInCloseWindow") && packet.read("id", -1) == 119) {
             receptacle.close(player, false)
-
             // 防止关闭菜单后, 动态标题频率过快出现的卡假容器
-            Tasks.delay(3L, true) {
+            Tasks.delay(1L, true) {
+                MANAGER.getViewingReceptacle(player) ?: kotlin.run {
+                    player.updateInventory()
+                }
+            }
+            Tasks.delay(4L, true) {
                 MANAGER.getViewingReceptacle(player) ?: kotlin.run {
                     PacketWindowClose().send(player)
-                    player.updateInventory()
                 }
             }
 

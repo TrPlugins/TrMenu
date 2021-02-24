@@ -10,8 +10,6 @@ class Variables(source: String, regex: Regex, group: (List<String>) -> String = 
 
     companion object {
 
-        val cacheVariables = hashMapOf<String, Variables>()
-
         private fun String.toElements(regex: Regex, group: (List<String>) -> String): List<Element> {
             val list = mutableListOf<Element>()
             var index = 0

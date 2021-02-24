@@ -7,8 +7,9 @@ import io.izzel.taboolib.kotlin.kether.common.api.QuestContext
 import io.izzel.taboolib.kotlin.kether.common.loader.types.ArgTypes
 import io.izzel.taboolib.kotlin.kether.common.util.LocalizedException
 import me.arasple.mc.trmenu.module.internal.data.Metadata
-import me.arasple.mc.trmenu.module.internal.script.impl.KetherMeta.Type.*
 import me.arasple.mc.trmenu.module.internal.script.kether.BaseAction
+import me.arasple.mc.trmenu.module.internal.script.kether.EditType
+import me.arasple.mc.trmenu.module.internal.script.kether.EditType.*
 import java.util.concurrent.CompletableFuture
 
 /**
@@ -17,25 +18,23 @@ import java.util.concurrent.CompletableFuture
  * meta get/del [key]
  * meta set [key] to [value]
  */
-class KetherMeta(val type: Type, val source: ParsedAction<*>, private val apply: String?) : BaseAction<String>() {
+class KetherMeta(val type: EditType, private val source: ParsedAction<*>, private val apply: ParsedAction<*>?) :
+    BaseAction<Any>() {
 
-    enum class Type {
-
-        DEL,
-        SET,
-        GET
-
-    }
-
-    override fun process(context: QuestContext.Frame): CompletableFuture<String> {
+    override fun process(context: QuestContext.Frame): CompletableFuture<Any> {
         val viewer = context.viewer()
 
         return context.newFrame(source).run<String>().thenApply {
             when (type) {
                 DEL -> Metadata.getMeta(viewer).remove(it)
-                SET -> Metadata.getMeta(viewer)[it] = apply.toString()
+                SET -> {
+                    context.newFrame(apply).run<String>().thenApply { apply ->
+                        Metadata.getMeta(viewer)[it] = apply
+                    }
+                }
                 GET -> Metadata.getMeta(viewer)[it]
-            }.toString()
+                HAS -> Metadata.getMeta(viewer).data.containsKey(it)
+            }
         }
 
     }
@@ -57,7 +56,7 @@ class KetherMeta(val type: Type, val source: ParsedAction<*>, private val apply:
                 type, key,
                 try {
                     it.expect("to")
-                    it.nextToken()
+                    it.next(ArgTypes.ACTION)
                 } catch (ignored: Exception) {
                     it.reset()
                     null

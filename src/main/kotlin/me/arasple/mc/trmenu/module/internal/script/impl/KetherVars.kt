@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture
  * @author Arasple
  * @date 2021/2/8 21:52
  */
-class KetherVars(val source: ParsedAction<*>) : BaseAction<String>() {
+class KetherVars(private val source: ParsedAction<*>) : BaseAction<String>() {
 
     override fun process(context: QuestContext.Frame): CompletableFuture<String> {
         return context.newFrame(source).run<Any>().thenApply {

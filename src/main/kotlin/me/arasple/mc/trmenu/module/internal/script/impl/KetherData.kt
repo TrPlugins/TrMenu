@@ -7,33 +7,32 @@ import io.izzel.taboolib.kotlin.kether.common.api.QuestContext
 import io.izzel.taboolib.kotlin.kether.common.loader.types.ArgTypes
 import io.izzel.taboolib.kotlin.kether.common.util.LocalizedException
 import me.arasple.mc.trmenu.module.internal.data.Metadata
-import me.arasple.mc.trmenu.module.internal.script.impl.KetherData.Type.*
 import me.arasple.mc.trmenu.module.internal.script.kether.BaseAction
+import me.arasple.mc.trmenu.module.internal.script.kether.EditType
+import me.arasple.mc.trmenu.module.internal.script.kether.EditType.*
 import java.util.concurrent.CompletableFuture
 
 /**
  * @author Arasple
  * @date 2021/1/29 10:17
  */
-class KetherData(val type: Type, val source: ParsedAction<*>, private val apply: String?) : BaseAction<String>() {
+class KetherData(val type: EditType, private val source: ParsedAction<*>, private val apply: ParsedAction<*>?) :
+    BaseAction<Any>() {
 
-    enum class Type {
-
-        DEL,
-        SET,
-        GET
-
-    }
-
-    override fun process(context: QuestContext.Frame): CompletableFuture<String> {
+    override fun process(context: QuestContext.Frame): CompletableFuture<Any> {
         val viewer = context.viewer()
 
         return context.newFrame(source).run<String>().thenApply {
             when (type) {
                 DEL -> Metadata.getData(viewer).remove(it)
-                SET -> Metadata.getData(viewer)[it] = apply.toString()
+                SET -> {
+                    context.newFrame(apply).run<String>().thenApply { apply ->
+                        Metadata.getData(viewer)[it] = apply
+                    }
+                }
                 GET -> Metadata.getData(viewer)[it]
-            }.toString()
+                HAS -> Metadata.getData(viewer).data.containsKey(it)
+            }
         }
 
     }
@@ -42,7 +41,6 @@ class KetherData(val type: Type, val source: ParsedAction<*>, private val apply:
 
         @KetherParser(["data"], namespace = "trmenu")
         fun parser() = ScriptParser.parser {
-
             val type = when (it.nextToken().toLowerCase()) {
                 "del" -> DEL
                 "set" -> SET
@@ -55,7 +53,7 @@ class KetherData(val type: Type, val source: ParsedAction<*>, private val apply:
                 type, key,
                 try {
                     it.expect("to")
-                    it.nextToken()
+                    it.next(ArgTypes.ACTION)
                 } catch (ignored: Exception) {
                     it.reset()
                     null

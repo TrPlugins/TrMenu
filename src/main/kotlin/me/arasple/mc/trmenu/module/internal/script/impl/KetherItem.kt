@@ -13,7 +13,7 @@ import java.util.concurrent.CompletableFuture
  * @author Arasple
  * @date 2021/2/4 15:24
  */
-class KetherItem(val itemMatcher: ParsedAction<*>) : BaseAction<Boolean>() {
+class KetherItem(private val itemMatcher: ParsedAction<*>) : BaseAction<Boolean>() {
 
     override fun process(context: QuestContext.Frame): CompletableFuture<Boolean> {
         return context.newFrame(itemMatcher).run<Any>().thenApply {
