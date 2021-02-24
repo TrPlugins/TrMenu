@@ -151,7 +151,7 @@ class ItemMatcher(private val matcher: Set<Match>) {
 
         HEAD("(head|skull|texture)s?");
 
-        constructor(regex: String) : this(regex.toRegex())
+        constructor(regex: String) : this("(?i)$regex".toRegex())
 
         companion object {
 

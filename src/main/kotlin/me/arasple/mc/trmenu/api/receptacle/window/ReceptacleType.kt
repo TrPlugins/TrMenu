@@ -169,8 +169,8 @@ enum class ReceptacleType(
 
     private fun toBukkitType(): InventoryType {
         return when (this) {
-            GENERIC_9X1, GENERIC_9X2, GENERIC_9X4, GENERIC_9X5, GENERIC_9X6, GENERIC_3X3 -> InventoryType.CHEST
-            GENERIC_9X3 -> InventoryType.HOPPER
+            GENERIC_9X1, GENERIC_9X2, GENERIC_9X3, GENERIC_9X4, GENERIC_9X5, GENERIC_9X6 -> InventoryType.CHEST
+            GENERIC_3X3 -> InventoryType.HOPPER
             ANVIL -> InventoryType.ANVIL
             BEACON -> InventoryType.BEACON
             BLAST_FURNACE -> InventoryType.BLAST_FURNACE

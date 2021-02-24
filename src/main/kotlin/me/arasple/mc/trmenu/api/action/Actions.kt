@@ -118,7 +118,7 @@ object Actions {
             }
             else -> {
                 val loaded = any.toString().split(actionsBound).map {
-                    val split = it.split(":", limit = 2)
+                    val split = it.split(": ", limit = 2)
                     val parser = findParser(split[0])
                     val string = split.getOrElse(1) { split[0] }
 
