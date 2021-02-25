@@ -27,12 +27,12 @@ class Texture(
     val type: TextureType,
     val texture: String,
     val dynamic: Boolean,
-    val static: ItemStack?,
+    var static: ItemStack?,
     val meta: Map<TextureMeta, String>
 ) : ITexture {
 
     override fun generate(session: MenuSession): ItemStack {
-        if (static != null) return static
+        if (static != null) return static!!
         val temp = if (dynamic) session.parse(texture) else texture
 
         val itemStack = when (type) {
@@ -49,14 +49,18 @@ class Texture(
                 val value = session.parse(metaValue)
                 when (meta) {
                     TextureMeta.DATA_VALUE -> itemStack.durability = value.toShortOrNull() ?: 0
-                    TextureMeta.MODEL_DATA -> {
-                        itemMeta?.setCustomModelData(value.toInt()).also { itemStack.itemMeta = itemMeta }
-                    }
-                    TextureMeta.LEATHER_DYE -> if (itemMeta is LeatherArmorMeta) {
-                        itemMeta.setColor(ItemHelper.serializeColor(value)).also { itemStack.itemMeta = itemMeta }
-                    }
+                    TextureMeta.MODEL_DATA -> itemMeta.setCustomModelData(value.toInt())
+                    TextureMeta.LEATHER_DYE -> if (itemMeta is LeatherArmorMeta) itemMeta.setColor(
+                        ItemHelper.serializeColor(
+                            value
+                        )
+                    )
                     TextureMeta.BANNER_PATTERN -> itemStack // TODO
                 }
+            }
+            itemStack.itemMeta = itemMeta
+            if (type == TextureType.NORMAL && !dynamic) {
+                static = itemStack
             }
         }
 
@@ -130,7 +134,7 @@ class Texture(
                         type = TextureType.RAW
                         if (!dynamic) static = json!!
                     }
-                } else if (!dynamic) static = parseMaterial(texture)
+                }
             }
             return Texture(raw, type, texture, dynamic, static, meta)
         }

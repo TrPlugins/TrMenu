@@ -74,22 +74,15 @@ class ItemMatcher(private val matcher: Set<Match>) {
                 when (trait) {
                     MATERIAL -> itemBuilder.material(value.toUpperCase())
                     DATA -> itemBuilder.damage(value.toIntOrNull() ?: 0)
-//                    MODEL_DATA -> itemBuilder.customModelData(value.toIntOrNull() ?: 0)
+                    MODEL_DATA -> itemBuilder.customModelData(value.toIntOrNull() ?: 0)
                     NAME -> itemBuilder.name(value)
                     LORE -> itemBuilder.lore(value.split("\n"))
                     HEAD -> itemBuilder.skullOwner(value)
-                    else -> {
-                    }
+                    AMOUNT -> itemBuilder.amount(value.toIntOrNull() ?: 1)
                 }
             }
 
-            itemBuilder.colored().build().also { item ->
-                it.traits[MODEL_DATA]?.toIntOrNull()?.let { data ->
-                    val itemMeta = item.itemMeta
-                    itemMeta.setCustomModelData(data)
-                    item.itemMeta = itemMeta
-                }
-            }
+            itemBuilder.build()
         }
     }
 
