@@ -2,7 +2,6 @@ package me.arasple.mc.trmenu.api
 
 import io.izzel.taboolib.kotlin.kether.KetherShell
 import io.izzel.taboolib.kotlin.kether.common.util.LocalizedException
-import io.izzel.taboolib.module.locale.chatcolor.TColor
 import me.arasple.mc.trmenu.module.display.Menu
 import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.module.internal.script.EvalResult

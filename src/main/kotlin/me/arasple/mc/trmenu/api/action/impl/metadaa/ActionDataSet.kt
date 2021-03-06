@@ -1,6 +1,5 @@
 package me.arasple.mc.trmenu.api.action.impl.metadaa
 
-import io.izzel.taboolib.kotlin.kether.action.ActionCheck
 import me.arasple.mc.trmenu.api.action.base.AbstractAction
 import me.arasple.mc.trmenu.api.action.base.ActionOption
 import me.arasple.mc.trmenu.module.internal.data.Metadata

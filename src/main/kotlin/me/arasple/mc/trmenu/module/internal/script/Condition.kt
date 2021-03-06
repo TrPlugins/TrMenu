@@ -4,8 +4,6 @@ import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.script.js.JavaScriptAgent
 import org.bukkit.entity.Player
-import java.util.concurrent.TimeUnit
-import java.util.concurrent.TimeoutException
 
 /**
  * @author Arasple

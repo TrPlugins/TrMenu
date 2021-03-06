@@ -3,7 +3,6 @@ package me.arasple.mc.trmenu.api.action.impl.hook
 import me.arasple.mc.trmenu.api.action.base.AbstractAction
 import me.arasple.mc.trmenu.api.action.base.ActionOption
 import me.arasple.mc.trmenu.module.internal.hook.HookPlugin
-import me.arasple.mc.trmenu.util.Tasks
 import org.bukkit.entity.Player
 
 /**
