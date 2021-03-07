@@ -25,6 +25,7 @@ softdepend:
   - SkinsRestorer
   - ItemsAdder
   - floodgate-bukkit
+  - FastScript
 
 built-time: ${built}
 built-by: ${builder}

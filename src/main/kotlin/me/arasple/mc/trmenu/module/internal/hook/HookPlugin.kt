@@ -15,7 +15,8 @@ object HookPlugin {
         HookSkinsRestorer(),
         HookItemsAdder(),
         HookFloodgate(),
-        HookVault()
+        HookVault(),
+        HookFastScript()
     )
 
     fun getHeadDatabase(): HookHeadDatabase {
@@ -44,6 +45,10 @@ object HookPlugin {
 
     fun getVault(): HookVault {
         return registry[6] as HookVault
+    }
+
+    fun getFastScript(): HookFastScript {
+        return registry[7] as HookFastScript
     }
 
 }
