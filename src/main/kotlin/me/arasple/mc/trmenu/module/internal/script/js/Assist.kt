@@ -3,6 +3,8 @@ package me.arasple.mc.trmenu.module.internal.script.js
 import io.izzel.taboolib.common.plugin.bridge.BridgeImpl
 import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import io.izzel.taboolib.kotlin.Randoms
+import io.izzel.taboolib.module.nms.NMS
+import io.izzel.taboolib.module.nms.nbt.NBTBase
 import io.izzel.taboolib.module.tellraw.TellrawJson
 import io.izzel.taboolib.util.item.Equipments
 import io.izzel.taboolib.util.item.ItemBuilder
@@ -304,4 +306,28 @@ class Assist {
         return list.sortedBy { it.toString() }
     }
 
+
+    /**
+     * NBT
+     */
+
+    fun getNBT(itemStack: ItemStack, string: String): String? {
+        val compound = NMS.handle().loadNBT(itemStack)
+        return compound.get(string)?.asString()
+    }
+
+    fun setNBT(itemStack: ItemStack, key: String, value: String): ItemStack {
+        val compound = NMS.handle().loadNBT(itemStack)
+        compound[key] = NBTBase(value)
+        return NMS.handle().saveNBT(itemStack, compound)
+    }
+
+    fun getLore(itemStack: ItemStack): MutableList<String> {
+        return itemStack.lore ?: mutableListOf("0")
+    }
+
+    fun setLore(itemStack: ItemStack, loreList: MutableList<String>): MutableList<String> {
+        itemStack.lore = loreList
+        return itemStack.lore ?: mutableListOf("0")
+    }
 }

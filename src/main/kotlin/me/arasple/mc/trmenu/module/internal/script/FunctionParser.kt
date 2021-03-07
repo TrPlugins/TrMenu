@@ -4,10 +4,12 @@ import io.izzel.taboolib.kotlin.Indexed
 import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.data.Metadata
+import me.arasple.mc.trmenu.module.internal.hook.HookPlugin
 import me.arasple.mc.trmenu.module.internal.script.js.JavaScriptAgent
 import me.arasple.mc.trmenu.util.Regexs
 import me.arasple.mc.trmenu.util.collections.Variables
 import me.arasple.mc.trmenu.util.print
+import me.scoretwo.utils.bukkit.command.toGlobalPlayer
 import org.bukkit.entity.Player
 
 /**
@@ -30,13 +32,31 @@ object FunctionParser {
                     if (split.size < 2) return@joinToString it.value
                     val value = split[1]
 
-                    when (split[0].toLowerCase()) {
+                    when (val action = split[0].toLowerCase()) {
                         "kether", "ke" -> parseKetherFunction(player, value)
                         "javascript", "js" -> parseJavaScript(session, value)
                         "meta" -> Metadata.getMeta(player)[value].toString()
                         "data" -> Metadata.getData(player)[value].toString()
                         "globaldata", "gdata" -> Metadata.globalData.get(value).toString()
-                        else -> "___ UNKNOWN $split ___"
+                        else -> {
+                            // - FastScript -
+                            let {
+                                if (!HookPlugin.getFastScript().isHooked) return@let
+                                val expansion = HookPlugin.getFastScript().getExpansionByNameOrSign(action) ?: return@let
+                                return@joinToString try {
+                                    expansion.eval(
+                                        value,
+                                        player.toGlobalPlayer(),
+                                        arrayOf(),
+                                        mutableMapOf("session" to session)
+                                    ).toString()
+                                } catch (t: Throwable) {
+                                    "___ FASTSCRIPT ERROR $split ___"
+                                }
+                            }
+
+                            "___ UNKNOWN $split ___"
+                        }
                     }
                 } else it.value
             }
