@@ -31,9 +31,12 @@ object Metadata {
     @TFunction.Cancel
     fun save() {
         data.forEach { (player, dataMap) ->
-            getLocalePlayer(player)?.let {
-                dataMap.data.forEach { (key, value) -> it.set("TrMenu.Data.$key", value) }
+            getLocalePlayer(player).let {
+                if (it != null)
+                    dataMap.data.forEach { (key, value) -> it.set("TrMenu.Data.$key", value) }
+                else println("NullData: $player")
             }
+            LocalPlayer.getHandler().save()
         }
         globalData.saveToFile()
     }
