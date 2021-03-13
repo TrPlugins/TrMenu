@@ -9,7 +9,7 @@ import me.scoretwo.fastscript.FastScript
  */
 class HookFastScript : HookAbstract() {
 
-    val expansionManager get() = FastScript.instance.expansionManager
+    private val expansionManager get() = FastScript.instance.expansionManager
 
     fun getExpansionByNameOrSign(key: String) = expansionManager.getExpansionBySign(key) ?: expansionManager.getExpansionByName(key)
 
