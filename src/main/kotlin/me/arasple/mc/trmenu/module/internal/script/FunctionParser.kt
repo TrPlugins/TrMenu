@@ -4,12 +4,10 @@ import io.izzel.taboolib.kotlin.Indexed
 import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.data.Metadata
-import me.arasple.mc.trmenu.module.internal.hook.HookPlugin
 import me.arasple.mc.trmenu.module.internal.script.js.JavaScriptAgent
 import me.arasple.mc.trmenu.util.Regexs
 import me.arasple.mc.trmenu.util.collections.Variables
 import me.arasple.mc.trmenu.util.print
-import me.scoretwo.utils.bukkit.command.toGlobalPlayer
 import org.bukkit.entity.Player
 
 /**
@@ -40,20 +38,21 @@ object FunctionParser {
                         "globaldata", "gdata" -> Metadata.globalData.get(value).toString()
                         else -> {
                             // - FastScript -
-                            let {
-                                if (!HookPlugin.getFastScript().isHooked) return@let
-                                val expansion = HookPlugin.getFastScript().getExpansionByNameOrSign(action) ?: return@let
-                                return@joinToString try {
-                                    expansion.eval(
-                                        value,
-                                        player.toGlobalPlayer(),
-                                        arrayOf(),
-                                        mutableMapOf("session" to session)
-                                    ).toString()
-                                } catch (t: Throwable) {
-                                    "___ FASTSCRIPT ERROR $split ___"
-                                }
-                            }
+                            // TODO 2.05
+//                            let {
+//                                if (!HookPlugin.getFastScript().isHooked) return@let
+//                                val expansion = HookPlugin.getFastScript().getExpansionByNameOrSign(action) ?: return@let
+//                                return@joinToString try {
+//                                    expansion.eval(
+//                                        value,
+//                                        player.toGlobalPlayer(),
+//                                        arrayOf(),
+//                                        mutableMapOf("session" to session)
+//                                    ).toString()
+//                                } catch (t: Throwable) {
+//                                    "___ FASTSCRIPT ERROR $split ___"
+//                                }
+//                            }
 
                             "___ UNKNOWN $split ___"
                         }

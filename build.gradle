@@ -11,7 +11,7 @@ group 'me.arasple.mc.trmenu'
 version '3.0-BETA14'
 
 taboolib {
-    tabooLibVersion = '5.55'
+    tabooLibVersion = '5.58'
     loaderVersion = '2.12'
     classifier = null
     builtin = true
@@ -30,7 +30,6 @@ shadowJar {
 
 repositories {
     mavenCentral()
-    maven { url 'http://repo.iroselle.com/snapshots/' }
     maven { url 'https://repo.extendedclip.com/content/repositories/placeholderapi/' }
     maven { url 'https://repo.codemc.org/repository/maven-public' }
 }
@@ -43,7 +42,6 @@ dependencies {
     compile 'me.clip:placeholderapi:2.10.9'
     compile 'org.bstats:bstats-bukkit:1.8'
     compile 'net.wesjd:anvilgui:1.4.0-SNAPSHOT'
-    compile 'me.scoretwo:FastScript:1.0.1-SNAPSHOT'
     compileOnly fileTree(dir: 'libs', includes: ['*.jar'])
 }
 
