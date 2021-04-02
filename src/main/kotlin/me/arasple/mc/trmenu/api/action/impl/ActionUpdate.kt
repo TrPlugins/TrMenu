@@ -13,7 +13,7 @@ class ActionUpdate(content: String, option: ActionOption) : AbstractAction(conte
     override fun onExecute(player: Player, placeholderPlayer: Player) {
         val session = player.getSession()
 
-        if (baseContent.isBlank()) {
+        if (baseContent.isBlank() || baseContent.equals("update", true)) {
             session.activeIcons.forEach {
                 it.onReset(session)
                 it.settingItem(session, it.getProperty(session))

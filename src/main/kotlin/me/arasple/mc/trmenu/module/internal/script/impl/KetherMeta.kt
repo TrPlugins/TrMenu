@@ -36,7 +36,6 @@ class KetherMeta(val type: EditType, private val source: ParsedAction<*>, privat
                 HAS -> Metadata.getMeta(viewer).data.containsKey(it)
             }
         }
-
     }
 
     companion object {

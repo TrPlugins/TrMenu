@@ -152,6 +152,7 @@ class CommandDebug : BaseSubCommand() {
                 &eSession ID: &6${session.id}
                 &ePlaceholder Agent: &6${session.placeholderPlayer.name}
                 &eViewing Menu: &6${session.menu?.id} &8(Page: ${session.page})
+                &eActive Icons: &6${session.activeIcons.joinToString { it.id }}
                 
                 &eArguments: &6${session.arguments.contentToString()}
                 &eMeta: &6${Metadata.getMeta(session)}

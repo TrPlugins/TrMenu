@@ -13,7 +13,7 @@ class ActionRefresh(content: String, option: ActionOption) : AbstractAction(cont
     override fun onExecute(player: Player, placeholderPlayer: Player) {
         val session = player.getSession()
 
-        if (baseContent.isBlank()) {
+        if (baseContent.isBlank() || baseContent.equals("refresh", true)) {
             session.activeIcons.forEach { it.onRefresh(session) }
         } else {
             baseContent.split(";").mapNotNull { session.getIcon(it) }.forEach { it.onRefresh(session) }
