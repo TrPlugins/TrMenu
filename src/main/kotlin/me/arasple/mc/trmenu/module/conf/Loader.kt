@@ -89,6 +89,8 @@ object Loader {
                             reloadMenu
                         } else target
                     }
+
+                    TLocale.sendToConsole("Menu.Reloaded", file.name)
                 }
             }
         }

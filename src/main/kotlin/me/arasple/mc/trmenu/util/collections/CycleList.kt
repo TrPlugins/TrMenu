@@ -1,5 +1,7 @@
 package me.arasple.mc.trmenu.util.collections
 
+import me.arasple.mc.trmenu.module.display.MenuSession
+
 /**
  * @author Arasple
  * @date 2021/1/23 23:15

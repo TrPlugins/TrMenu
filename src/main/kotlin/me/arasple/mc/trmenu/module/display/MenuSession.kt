@@ -106,10 +106,6 @@ class MenuSession(
         throw Exception()
     }
 
-    fun parseArguments(string: String): String {
-        return Strings.replaceWithOrder(string, *arguments)
-    }
-
     fun parse(string: List<String>): List<String> {
         return string.map { parse(it) }
     }

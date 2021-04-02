@@ -94,8 +94,10 @@ class Menu(
             session.playerItemSlots()
             loadIcon(session)
 
-            if (override) receptacle.refresh(viewer)
-            else receptacle.open(viewer)
+            if (override) {
+                receptacle.refresh(viewer)
+                session.updateActiveSlots()
+            } else receptacle.open(viewer)
         }
     }
 
@@ -107,7 +109,7 @@ class Menu(
             session.receptacle?.title = settings.title.next(session.id)?.let { session.parse(it) } ?: "TrMenu"
         }.also { it.invoke() }
 
-        if (settings.titleUpdate > 0) {
+        if (settings.titleUpdate > 0 && settings.title.cyclable()) {
             session.arrange(Tasks.timer(10, settings.titleUpdate.toLong(), true) {
                 Performance.check("Menu:Title:Update") {
                     setTitle.invoke()

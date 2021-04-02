@@ -16,7 +16,7 @@ import org.bukkit.entity.Player
  */
 object FunctionParser {
 
-    private val functionPattern = "\\$?\\{(\\w+)s?: ?(.+)}".toRegex()
+    private val functionPattern = "\\$?\\{(\\w+)s?: ?(.+?)}".toRegex()
     private val internalFunctionPattern = "\\$\\{([^0-9].+?)}".toRegex()
 
     fun parse(player: Player, input: String): String {
@@ -30,12 +30,12 @@ object FunctionParser {
                     if (split.size < 2) return@joinToString it.value
                     val value = split[1]
 
-                    when (val action = split[0].toLowerCase()) {
+                    when (split[0].removePrefix(" ").toLowerCase()) {
                         "kether", "ke" -> parseKetherFunction(player, value)
                         "javascript", "js" -> parseJavaScript(session, value)
-                        "meta" -> Metadata.getMeta(player)[value].toString()
-                        "data" -> Metadata.getData(player)[value].toString()
-                        "globaldata", "gdata" -> Metadata.globalData.get(value).toString()
+                        "meta", "m" -> Metadata.getMeta(player)[value].toString()
+                        "data", "d" -> Metadata.getData(player)[value].toString()
+                        "globaldata", "gdata", "g" -> Metadata.globalData.get(value).toString()
                         else -> {
                             // - FastScript -
                             // TODO 2.05

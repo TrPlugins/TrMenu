@@ -23,8 +23,8 @@ inline class Condition(private val script: String) {
         }
 
         fun eval(player: Player, script: String): EvalResult {
-            val js = script.startsWith("js: ").also { script.removePrefix("js: ") }
-            return if (js) JavaScriptAgent.eval(MenuSession.getSession(player), script)
+            val (isJavaScript, js) = JavaScriptAgent.serialize(script)
+            return if (isJavaScript) JavaScriptAgent.eval(MenuSession.getSession(player), js!!)
             else TrMenuAPI.instantKether(player, script)
         }
 

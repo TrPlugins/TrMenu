@@ -1,12 +1,12 @@
 package me.arasple.mc.trmenu.module.internal.inputer
 
 import io.izzel.taboolib.util.Features
-import io.izzel.taboolib.util.lite.Catchers
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.action.impl.ActionSilentClose
 import me.arasple.mc.trmenu.api.action.pack.Reactions
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.data.Metadata
+import me.arasple.mc.trmenu.util.Tasks
 import me.arasple.mc.trmenu.util.bukkit.ItemHelper
 import me.arasple.mc.trmenu.util.collections.CycleList
 import net.wesjd.anvilgui.AnvilGUI
@@ -38,16 +38,19 @@ class Inputer(private val stages: CycleList<Catcher>) {
 
     fun startInput(session: MenuSession) {
         @Suppress("DEPRECATION")
-        Catchers.getPlayerdata().remove(session.viewer.name)
-        run(session, stages[session.id]) { stages.reset(session.id) }
+        Metadata.getMeta(session).data.let { map ->
+            map.keys.filter { it.startsWith("input") }.forEach { key -> map.remove(key) }
+        }
+
+        run(session, stages.next(session.id)!!) { stages.reset(session.id) }
     }
 
     private fun run(session: MenuSession, stage: Catcher, finish: () -> Unit) {
         val viewer = session.viewer
-
         stage.start.eval(session)
         stage.input(viewer) {
             Metadata.getMeta(session)["input"] = it
+            if (stage.id.isNotBlank()) Metadata.getMeta(session)["input-${stage.id}"] = it
 
             // TO FIX
             if (isCancelWord(it)) {
@@ -62,17 +65,15 @@ class Inputer(private val stages: CycleList<Catcher>) {
                 true
             } else {
                 // PROCEED
-                if (stages.isFinal(session.id)) {
-                    finish.invoke()
-                } else {
-                    run(session, stages.next(session.id)!!, finish)
-                }
+                if (stages.isFinal(session.id)) finish.invoke()
+                else run(session, stages.next(session.id)!!, finish)
                 false
             }
         }
     }
 
     class Catcher(
+        val id: String,
         val type: Type,
         val start: Reactions,
         val cancel: Reactions,
@@ -84,11 +85,17 @@ class Inputer(private val stages: CycleList<Catcher>) {
         fun input(viewer: Player, respond: (String) -> Boolean) {
             val session = MenuSession.getSession(viewer)
             if (type != Type.CHAT && session.isViewing()) {
-                ActionSilentClose().assemble(viewer)
+                ActionSilentClose().assign(viewer)
             }
             when (type) {
-                Type.CHAT -> Features.inputChat(viewer, respond)
-                Type.SIGN -> Features.inputSign(viewer, display[1].split("\n").toTypedArray()) { respond(it.joinToString("")) }
+                Type.CHAT -> {
+                    Tasks.delay(2) {
+                        Features.inputChat(viewer, respond)
+                    }
+                }
+                Type.SIGN -> Features.inputSign(viewer, display[1].split("\n").toTypedArray()) {
+                    respond(it.joinToString(""))
+                }
                 Type.ANVIL -> AnvilGUI.Builder()
                     .onClose { respond("") }
                     .onComplete { _, text ->

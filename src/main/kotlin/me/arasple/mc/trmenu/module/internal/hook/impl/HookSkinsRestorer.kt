@@ -2,8 +2,8 @@ package me.arasple.mc.trmenu.module.internal.hook.impl
 
 import com.mojang.authlib.properties.Property
 import me.arasple.mc.trmenu.module.internal.hook.HookAbstract
-import skinsrestorer.bukkit.SkinsRestorer
-import skinsrestorer.shared.utils.SkinsRestorerAPI
+import net.skinsrestorer.api.SkinsRestorerAPI
+import net.skinsrestorer.bukkit.SkinsRestorer
 
 /**
  * @author Arasple

@@ -14,7 +14,7 @@ abstract class AbstractAction(val baseContent: String = "", var option: ActionOp
 
     val parsable = Regexs.containsPlaceholder(baseContent) || baseContent.contains("&")
 
-    fun assemble(player: Player){
+    fun assign(player: Player){
         Actions.runAction(player, listOf(this))
     }
 

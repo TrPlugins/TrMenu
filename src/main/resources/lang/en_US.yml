@@ -13,6 +13,7 @@ Plugin:
 
 Menu:
   Loaded: '&8[&3Tr&bMenu&8] &aFINE &8| &a{0} &3menus were loaded &8({1} ms)'
+  Reloaded: '&8[&3Tr&bMenu&8] &aFINE &8| &7Automatically reloaded menu &f{0}'
   Expansions:
     Header:
       - '&8[&3Tr&bMenu&8] &7You have to install the &f{0} &7expansion for PlaceholderAPI to use this menu.'

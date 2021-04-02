@@ -1,6 +1,7 @@
 package me.arasple.mc.trmenu.util.file
 
 import io.izzel.taboolib.module.config.TConfigWatcher
+import io.izzel.taboolib.module.inject.TFunction
 import java.io.File
 
 
@@ -34,6 +35,11 @@ object FileListener {
         if (count > 0) {
             println("DEBUG: CLEARED $count unused listeners")
         }
+    }
+
+    @TFunction.Cancel
+    fun uninstall() {
+        watcher.unregisterAll()
     }
 
     private val watcher = TConfigWatcher()

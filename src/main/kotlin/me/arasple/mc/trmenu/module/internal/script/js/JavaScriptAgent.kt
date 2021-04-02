@@ -17,12 +17,24 @@ import javax.script.SimpleScriptContext
  */
 object JavaScriptAgent {
 
+    private val prefixes = arrayOf(
+        "js: ",
+        "$ ",
+    )
+
     private val bindings = mapOf(
         "bukkitServer" to Bukkit.getServer(),
         "utils" to Assist.INSTANCE
     )
 
     private val compiledScripts = Maps.newConcurrentMap<String, CompiledScript>()
+
+    fun serialize(script: String): Pair<Boolean, String?> {
+        prefixes.firstOrNull { script.startsWith(it) }?.let {
+            return true to script.removePrefix(it)
+        }
+        return false to null
+    }
 
     fun preCompile(script: String): CompiledScript {
         return compiledScripts.computeIfAbsent(script) {

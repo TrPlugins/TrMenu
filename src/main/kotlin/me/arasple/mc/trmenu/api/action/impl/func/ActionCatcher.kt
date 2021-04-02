@@ -37,6 +37,7 @@ class ActionCatcher(private val inputer: Inputer) : AbstractAction() {
                 value.forEach {
                     val section = Property.asSection(it.value)
                     if (section != null) {
+                        val id = it.key.toString()
                         val type = Inputer.Type.of(section.getString(Property.getSectionKey(section, type), "CHAT")!!)
 
                         val start =
@@ -56,11 +57,10 @@ class ActionCatcher(private val inputer: Inputer) : AbstractAction() {
                             section.getString(Property.getSectionKey(section, itemRight), "")!!
                         )
 
-                        stages.add(Inputer.Catcher(type, start, cancel, end, display, items))
+                        stages.add(Inputer.Catcher(id, type, start, cancel, end, display, items))
                     }
                 }
             }
-
             ActionCatcher(Inputer(CycleList(stages)))
         }
 
