@@ -8,8 +8,6 @@ import me.arasple.mc.trmenu.util.collections.Variables
 /**
  * @author Arasple
  * @date 2021/1/24 18:50
- *
- * TO BE CHECK PERFORMANCE
  */
 class Lore(lore: List<String>) {
 
@@ -25,7 +23,6 @@ class Lore(lore: List<String>) {
 
             line to condition
         }
-
 
     fun parse(session: MenuSession): List<String> {
         val lores = mutableListOf<String>()

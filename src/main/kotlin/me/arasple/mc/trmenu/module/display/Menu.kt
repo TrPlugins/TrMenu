@@ -39,7 +39,7 @@ class Menu(
         reason: MenuOpenEvent.Reason,
         block: (MenuSession) -> Unit = {}
     ) {
-        Performance.MIRROR.check("Menu:Event:Open") {
+        Performance.check("Menu:Event:Open") {
             val session = MenuSession.getSession(viewer).also(block)
             viewers.add(viewer.name)
 
@@ -74,7 +74,7 @@ class Menu(
      * 本菜单内切换页码
      */
     fun page(viewer: Player, page: Int) {
-        Performance.MIRROR.check("Menu:Event:ChangePage") {
+        Performance.check("Menu:Event:ChangePage") {
             val session = MenuSession.getSession(viewer)
             val previous = session.layout()!!
             val layout = layout[page]
@@ -109,7 +109,7 @@ class Menu(
 
         if (settings.titleUpdate > 0) {
             session.arrange(Tasks.timer(10, settings.titleUpdate.toLong(), true) {
-                Performance.MIRROR.check("Menu:Title:Update") {
+                Performance.check("Menu:Title:Update") {
                     setTitle.invoke()
                 }
             })
@@ -139,7 +139,7 @@ class Menu(
         settings.tasks.forEach { (period, reactions) ->
             session.arrange(
                 Tasks.timer(5L, period, true) {
-                    Performance.MIRROR.check("Menu:CustomTasks") {
+                    Performance.check("Menu:CustomTasks") {
                         reactions.eval(session)
                     }
                 }

@@ -73,7 +73,7 @@ class Layout(
             session.shut()
         }
         receptacle.listenerClick { player, event ->
-            Performance.MIRROR.check("Menu:Event:Click") {
+            Performance.check("Menu:Event:Click") {
                 val cancelEvent = {
                     event.isCancelled = true
                     receptacle.refresh(event.slot)
@@ -91,7 +91,7 @@ class Layout(
                 }
 
                 Tasks.task(false) {
-                    Performance.MIRROR.check("Menu:Event:ClickHandle") {
+                    Performance.check("Menu:Event:ClickHandle") {
                         session.getIconProperty(event.slot)?.handleClick(event.clickType, session)
                     }
                 }

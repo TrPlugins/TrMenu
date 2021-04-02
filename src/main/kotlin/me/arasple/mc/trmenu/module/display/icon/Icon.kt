@@ -39,7 +39,7 @@ class Icon(
     }
 
     override fun onUpdate(session: MenuSession, frames: Set<Int>) {
-        Performance.MIRROR.check("Menu:Icon:Update") {
+        Performance.check("Menu:Icon:Update") {
             val icon = getProperty(session)
             frames.forEach {
                 when (it) {

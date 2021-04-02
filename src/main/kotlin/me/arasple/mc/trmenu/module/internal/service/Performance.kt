@@ -12,6 +12,11 @@ object Performance {
         return MIRROR.collect(opt)
     }
 
+    @Suppress("DEPRECATION")
+    inline fun check(id: String, func: () -> Unit) {
+        MIRROR.check(id, func)
+    }
+
     val MIRROR = Mirror()
 
 }

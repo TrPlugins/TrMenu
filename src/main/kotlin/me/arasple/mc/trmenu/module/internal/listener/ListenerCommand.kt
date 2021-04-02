@@ -16,7 +16,7 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent
 @TListener
 class ListenerCommand : Listener {
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     fun onCommand(e: PlayerCommandPreprocessEvent) {
         val player = e.player
         val message = e.message.removePrefix("/")

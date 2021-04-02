@@ -34,9 +34,7 @@ import kotlin.math.max
 /**
  * @author Arasple
  * @date 2021/1/25 10:18
- * 有好心人帮忙重写下这个模块吗 写的太烂了
  */
-@Deprecated("TO BE IMPROVE")
 object MenuSerializer : ISerializer {
 
     /**

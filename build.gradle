@@ -8,10 +8,10 @@ plugins {
 }
 
 group 'me.arasple.mc.trmenu'
-version '3.0-BETA14'
+version '3.0-PRE-1'
 
 taboolib {
-    tabooLibVersion = '5.58'
+    tabooLibVersion = '5.6'
     loaderVersion = '2.12'
     classifier = null
     builtin = true
