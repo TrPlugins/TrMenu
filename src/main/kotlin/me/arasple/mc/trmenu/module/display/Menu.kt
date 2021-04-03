@@ -153,7 +153,7 @@ class Menu(
         return icons.find { it.id == id }
     }
 
-    fun forViewers(block: (Player) -> Unit) {
+    private fun forViewers(block: (Player) -> Unit) {
         viewers.mapNotNull { Bukkit.getPlayerExact(it) }.forEach(block)
     }
 

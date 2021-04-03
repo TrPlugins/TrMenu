@@ -115,7 +115,7 @@ Icons:
         - 'sound: BLOCK_NOTE_BLOCK_BIT-1-0'
         - 'refresh: *'
     icons:
-      - condition: 'check meta get *icon_server_hide is *true'
+      - condition: 'check &icon_server_hide is *true'
         priority: 5
         inherit: true
         display:
@@ -216,7 +216,7 @@ Icons:
         - 'rem-meta: angryBee &&& refresh: Bee &&& sound: ENTITY_SPIDER_STEP-1-2 {Delay=80}'
         - 'refresh: Bee'
     icons:
-      - condition: 'check meta get *angryBee is *true'
+      - condition: 'check &angryBee is *true'
         display:
           name: '&cBee &4~'
           material: 'head:e6b74e052b74288799ba6d9f35c5d0221cf8b04331547ec2f68d73597ae2c9b'

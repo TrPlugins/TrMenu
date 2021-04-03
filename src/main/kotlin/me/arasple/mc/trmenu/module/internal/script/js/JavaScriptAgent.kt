@@ -48,6 +48,7 @@ object JavaScriptAgent {
         context.setBindings(SimpleBindings(bindings).also {
             it["session"] = session
             it["player"] = session.viewer
+            it["sender"] = session.viewer
         }, ScriptContext.ENGINE_SCOPE)
         val setAttribute: (String, Function<Any, Any?>) -> Unit = { name, func ->
             context.setAttribute(name, func, ScriptContext.ENGINE_SCOPE)

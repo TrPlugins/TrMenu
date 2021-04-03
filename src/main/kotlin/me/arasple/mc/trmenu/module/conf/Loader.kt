@@ -25,6 +25,7 @@ object Loader {
         if (!folder.exists()) {
             arrayOf(
                 "Example.yml",
+                "Demo-Buttons.yml",
                 "Profile.yml",
                 "shop-example/Shop-Categories.yml",
                 "shop-example/categories/Shop-Ores.yml",

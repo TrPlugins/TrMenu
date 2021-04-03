@@ -1,0 +1,37 @@
+Title: 'Demo-Buttons'
+
+Layout:
+- ''
+- '  A B C '
+- ''
+
+Icons:
+  A:
+    display:
+      material: stone
+    actions:
+      all:
+      - 'sound: ENTITY_EXPERIENCE_ORB_PICKUP'
+      left:
+        - close
+        - catcher:
+            player:
+              type: CHAT
+              start: 'tell: &3请输入转账玩家'
+              cancel: 'tell: &7已取消操作'
+              end:
+                - condition: '$ utils.isPlayerOnline(vars("{meta:input}"))'
+                  deny:
+                  - 'tell: &c目标玩家未在线'
+                  - 'return'
+            money:
+              type: CHAT
+              start: 'tell: &a请输入转账金额'
+              cancel: 'tell: &7已取消操作'
+              end:
+                - condition: 'all [ mtc int &input check &input > *0 ]'
+                  actions:
+                  - 'tell: 操作成功'
+                  - 'tell: pay {m:input-player} {m:input-money}'
+                  deny:
+                  - 'tell: &c请输入有效数额'
