@@ -42,6 +42,8 @@ class MenuSession(
             return agent ?: viewer
         }
 
+    private var mark = System.currentTimeMillis()
+
     var arguments: Array<String> = arguments
         set(value) {
             val def = menu?.settings?.defaultArguments ?: kotlin.run {

@@ -29,6 +29,7 @@ import org.bukkit.entity.Player
 class CommandDebug : BaseSubCommand() {
 
     private val description = PluginHandle.getPluginDescription()
+    
     override fun getArguments() = arrayOf(
         Argument("Type", true) {
             listOf(

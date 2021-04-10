@@ -16,7 +16,7 @@ import org.bukkit.entity.Player
  */
 object FunctionParser {
 
-    private val functionPattern = "\\$?\\{(\\w+)s?: ?(.+?)}".toRegex()
+    private val functionPattern = "\\$?\\{(\\w+)s?: ?(.+)}".toRegex()
     private val internalFunctionPattern = "\\$\\{([^0-9].+?)}".toRegex()
 
     fun parse(player: Player, input: String): String {
@@ -36,26 +36,7 @@ object FunctionParser {
                         "meta", "m" -> Metadata.getMeta(player)[value].toString()
                         "data", "d" -> Metadata.getData(player)[value].toString()
                         "globaldata", "gdata", "g" -> Metadata.globalData.get(value).toString()
-                        else -> {
-                            // - FastScript -
-                            // TODO 2.05
-//                            let {
-//                                if (!HookPlugin.getFastScript().isHooked) return@let
-//                                val expansion = HookPlugin.getFastScript().getExpansionByNameOrSign(action) ?: return@let
-//                                return@joinToString try {
-//                                    expansion.eval(
-//                                        value,
-//                                        player.toGlobalPlayer(),
-//                                        arrayOf(),
-//                                        mutableMapOf("session" to session)
-//                                    ).toString()
-//                                } catch (t: Throwable) {
-//                                    "___ FASTSCRIPT ERROR $split ___"
-//                                }
-//                            }
-
-                            "___ UNKNOWN $split ___"
-                        }
+                        else -> "___ UNKNOWN $split ___"
                     }
                 } else it.value
             }

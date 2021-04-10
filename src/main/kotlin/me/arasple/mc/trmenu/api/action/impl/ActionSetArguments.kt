@@ -2,6 +2,7 @@ package me.arasple.mc.trmenu.api.action.impl
 
 import me.arasple.mc.trmenu.api.action.base.AbstractAction
 import me.arasple.mc.trmenu.api.action.base.ActionOption
+import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.util.Regexs
 import me.arasple.mc.trmenu.util.collections.Variables
 import org.bukkit.entity.Player
@@ -13,14 +14,15 @@ import org.bukkit.entity.Player
 class ActionSetArguments(content: String, option: ActionOption) : AbstractAction(content, option) {
 
     override fun onExecute(player: Player, placeholderPlayer: Player) {
-        val parsed = parseContent(placeholderPlayer)
-        val args = Variables(parsed, Regexs.SENTENCE) {
+        val args = Variables(baseContent, Regexs.SENTENCE) {
             it[1]
         }.element.flatMap {
-            if (it.isVariable) listOf(it.value)
-            else it.value.split(" ")
+            val v = parse(placeholderPlayer, it.value)
+            if (it.isVariable) listOf(v)
+            else v.split(" ")
         }.filterNot { it.isBlank() }
 
+        Metadata.setBukkitMeta(player, "FORCE_ARGS")
         player.getSession().arguments = args.toTypedArray()
     }
 

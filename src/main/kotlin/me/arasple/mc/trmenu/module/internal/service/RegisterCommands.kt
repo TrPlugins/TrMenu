@@ -58,7 +58,7 @@ object RegisterCommands {
                                     it.eval(sender)
                                 }
                             } else {
-                                if (args.isNotEmpty()) session.arguments = args
+                                session.arguments = args
                                 reactions.eval(sender)
                             }
                         }

@@ -7,6 +7,7 @@ import io.izzel.taboolib.module.locale.TLocale
 import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.api.event.MenuOpenEvent
 import me.arasple.mc.trmenu.module.display.Menu
+import me.arasple.mc.trmenu.module.internal.data.Metadata
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -41,7 +42,9 @@ class CommandOpen : BaseSubCommand() {
         }
 
         menu.open(player, page, MenuOpenEvent.Reason.PLAYER_COMMAND) {
-            if (arguments != null) it.arguments = arguments
+            if (!Metadata.byBukkit(player, "FORCE_ARGS") || (arguments != null && arguments.isNotEmpty())) {
+                it.arguments = arguments ?: arrayOf()
+            }
         }
     }
 

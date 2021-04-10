@@ -1,9 +1,9 @@
 Title: 'Demo-Buttons'
 
 Layout:
-- ''
-- '  A B C '
-- ''
+  - ''
+  - '  A B C '
+  - ''
 
 Icons:
   A:
@@ -11,7 +11,7 @@ Icons:
       material: stone
     actions:
       all:
-      - 'sound: ENTITY_EXPERIENCE_ORB_PICKUP'
+        - 'sound: ENTITY_EXPERIENCE_ORB_PICKUP'
       left:
         - close
         - catcher:
@@ -22,8 +22,8 @@ Icons:
               end:
                 - condition: '$ utils.isPlayerOnline(vars("{meta:input}"))'
                   deny:
-                  - 'tell: &c目标玩家未在线'
-                  - 'return'
+                    - 'tell: &c目标玩家未在线'
+                    - 'return'
             money:
               type: CHAT
               start: 'tell: &a请输入转账金额'
@@ -31,7 +31,7 @@ Icons:
               end:
                 - condition: 'all [ mtc int &input check &input > *0 ]'
                   actions:
-                  - 'tell: 操作成功'
-                  - 'tell: pay {m:input-player} {m:input-money}'
+                    - 'tell: 操作成功'
+                    - 'tell: pay %trmenu_meta_input-player% %trmenu_meta_input-money%'
                   deny:
-                  - 'tell: &c请输入有效数额'
+                    - 'tell: &c请输入有效数额'

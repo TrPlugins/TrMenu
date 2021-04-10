@@ -40,7 +40,7 @@ class Menu(
         block: (MenuSession) -> Unit = {}
     ) {
         Performance.check("Menu:Event:Open") {
-            val session = MenuSession.getSession(viewer).also(block)
+            val session = MenuSession.getSession(viewer)
             viewers.add(viewer.name)
 
             if (session.menu == this) {
@@ -59,6 +59,7 @@ class Menu(
                 session.page = page
                 session.receptacle = layout.baseReceptacle().also { receptacle = it }
                 session.playerItemSlots()
+                block(session)
 
                 layout.initReceptacle(session)
                 loadTitle(session)
