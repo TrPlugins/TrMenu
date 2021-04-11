@@ -2,20 +2,21 @@ Plugin:
   Loading:
     - ''
     - '&7Загрузка &3Tr&bMenu &f&lPremium... &8{0}'
+    - 'Перевод подготовлен UnknownZuVEnO, Arasple'
     - ''
-  Enabled: '&8[&3Tr&bMenu&8] &bINFO &8| &3Плагин включен. В настоящее время запущена версия &2{0}&7.'
+  Enabled: '&8[&3Tr&bMenu&8] &bINFO &8| &3Плагин включен. Версия плагина &2{0}&7.'
   Update:
-    - '&8[&3Tr&bMenu&8] &bUPDATE &8| &3Обновление &a{0}&3 найдено ! Скачайте его по ссылке ниже, чтобы узнать о новых возможностях и исправить ошибку!'
+    - '&8[&3Tr&bMenu&8] &bUPDATE &8| &3Обновление &a{0}&3 найдено! Скачайте его для новых фишек и исправления ошибок!'
     - '&bhttps://www.spigotmc.org/resources/83120/'
   Dependency:
-    Hooked: '&8[&3Tr&bMenu&8] &6HOOK &8| &7Soft-Dependency &f{0} &7is hooked.'
-    Abuse: '&8[&3Tr&bMenu&8] &6HOOK &8| &4Attempted to use the non-installed soft-depend plugin &c{0}'
+    Hooked: '&8[&3Tr&bMenu&8] &6HOOK &8| &7Допольнительный софт &f{0} &7привязан.'
+    Abuse: '&8[&3Tr&bMenu&8] &6HOOK &8| &4Попытка привязки к не установленому софту...&c{0}'
 
 Menu:
-  Loaded: '&8[&3Tr&bMenu&8] &aFINE &8| &a{0} &3менюшки были загружены за &8({1} ms)'
+  Loaded: '&8[&3Tr&bMenu&8] &aFINE &8| &a{0} &3Меню загрузились за &8({1} ms)'
   Expansions:
     Header:
-      - '&8[&3Tr&bMenu&8] &7Вы должны установить &f{0} &7расширение для PlaceholderAPI чтобы использовать данное меню!'
+      - '&8[&3Tr&bMenu&8] &7Требуется расширение &f{0} &7 для плагина PlaceholderAPI чтобы открыть!'
       - ==: JSON
         text: '&7Также не забудьте <&3&nreload@reload>'
         args:
@@ -27,13 +28,13 @@ Menu:
       text: '&8- <&a{0}@expansion>&r'
       args:
         expansion:
-          hover: '&7Нажмите, чтобы скачать!'
+          hover: '&7Скачать расширение'
           command: '/papi ecloud download {0}'
   Action:
-    Sound: '&8[&3Tr&bMenu&8] &7Неизвестный звук: &f{0}'
+    Sound: '&8[&3Tr&bMenu&8] &7Звук &f{0} &7не найден!'
 
 Paster:
-  Processing: '&8[&3Tr&bMenu&8] &7Содержимое вставляется ...'
+  Processing: '&8[&3Tr&bMenu&8] &7Содержимое вставляется...'
   Success: '&8[&3Tr&bMenu&8] &3Содержание вставлено в &a{0}'
   Failed: '&8[&3Tr&bMenu&8] &cПри вставке содержимого произошла ошибка. Пожалуйста, проверьте консоль.'
 
@@ -44,9 +45,9 @@ Command:
   Action:
     Unknown-Player: '&8[&3Tr&bMenu&8] &7Игрок &f{0} &7не в сети.'
   Template:
-    Empty: '&8[&3Tr&bMenu&8] &7Инвентаризация шаблонов пуста, создание меню отменено.'
+    Empty: '&8[&3Tr&bMenu&8] &7Меню пустой! Создание меню отменено.'
   Item:
-    No-Item: '&8[&3Tr&bMenu&8] &7Пожалуйста &fдержите предмет &7в руке.'
+    No-Item: '&8[&3Tr&bMenu&8] &7Возьмите предмет в руку.'
     To-Json:
       ==: JSON
       text: '&8[&3Tr&bMenu&8] &7Этот предмет был преобразован в формат JSON: <&3&nНажмите copy@copy>'
