@@ -12,9 +12,10 @@ import org.bukkit.entity.Player
 class ActionPointsSet(content: String, option: ActionOption) : AbstractAction(content, option) {
 
     override fun onExecute(player: Player, placeholderPlayer: Player) {
-            val amount = parseContent(placeholderPlayer).toIntOrNull() ?: -1
+            val amount = parseContent(placeholderPlayer).toDoubleOrNull() ?: -1.0
             if (amount > 0) {
-                HookPlugin.getPlayerPoints().setPoints(player, amount)
+                HookPlugin.getOptEco().setPoints(player, amount)
+                HookPlugin.getPlayerPoints().setPoints(player, amount.toInt)
             }
     }
 

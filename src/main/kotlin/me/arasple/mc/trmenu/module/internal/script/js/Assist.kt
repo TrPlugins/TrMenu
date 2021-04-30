@@ -218,6 +218,7 @@ class Assist {
     }
 
     fun hasPoints(player: Player, points: Int): Boolean {
+        return HookPlugin.getOptEco().hasPoints(player, points.toDouble)
         return HookPlugin.getPlayerPoints().hasPoints(player, points)
     }
 

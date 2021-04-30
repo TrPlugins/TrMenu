@@ -17,6 +17,7 @@ class KetherPoints(private val points: ParsedAction<*>) : BaseAction<Boolean>() 
 
     override fun process(context: QuestContext.Frame): CompletableFuture<Boolean> {
         return context.newFrame(points).run<Any>().thenApply {
+            HookPlugin.getOptEco().hasPoints(context.viewer(), it.toString().toDoubleOrNull() ?: 0.0)
             HookPlugin.getPlayerPoints().hasPoints(context.viewer(), it.toString().toIntOrNull() ?: 0)
         }
     }
