@@ -69,7 +69,7 @@ class NMSImpl : NMS() {
                         PacketPlayOutSetSlot(),
                         'a' to it.windowId,
                         'b' to it.slot,
-                        'c' to asNMSCopy(it.itemStack)
+                        'c' to toNMSCopy(it.itemStack)
                     )
                 }
             }
@@ -83,16 +83,16 @@ class NMSImpl : NMS() {
 
     override fun toNMSItemStack(vararg itemStack: ItemStack?): Any {
         if (itemStack.size > 1) {
-            return itemStack.map { asNMSCopy(it) }
+            return itemStack.map { toNMSCopy(it) }
         }
-        return asNMSCopy(itemStack[0])
+        return toNMSCopy(itemStack[0])
     }
 
     override fun getGameProfile(player: Player): GameProfile {
         return (player as CraftPlayer).profile
     }
 
-    private fun asNMSCopy(itemStack: ItemStack?): Any {
+    private fun toNMSCopy(itemStack: ItemStack?): Any {
         return if (itemStack == null || Items.isNull(itemStack)) emptyItemStack
         else CraftItemStack.asNMSCopy(itemStack)
     }

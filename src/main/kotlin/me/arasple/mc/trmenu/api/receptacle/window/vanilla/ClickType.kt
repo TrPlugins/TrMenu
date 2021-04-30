@@ -57,19 +57,11 @@ enum class ClickType(private val mode: Int, private val button: Int) {
 
     RIGHT_MOUSE_DRAG_ADD(5, 5),
 
-    // Starting middle mouse drag, only defined for creative players in non-player inventories. (Note: the vanilla client will still incorrectly send this for non-creative players - see MC-46584)
     MIDDLE_MOUSE_DRAG_ADD(5, 9),
 
     DOUBLE_CLICK(6, 0),
 
     UNKNOWN(-1, -1);
-
-//    LEFT_MOUSE_DRAG_ENDING(5, 2),
-//    LEFT_MOUSE_DRAG_STARTING(5, 0), // -999
-//    RIGHT_MOUSE_DRAG_STARTING(5, 4), // -999
-//    RIGHT_MOUSE_DRAG_ENDING(5, 6),
-//    MIDDLE_MOUSE_DRAG_STARTING(5, 8), // -999
-//    MIDDLE_MOUSE_DRAG_ENDING(5, 10),
 
     fun equals(mode: Int, button: Int): Boolean {
         return this.mode == mode && this.button == button
@@ -103,7 +95,7 @@ enum class ClickType(private val mode: Int, private val button: Int) {
             return from(modes.indexOf(mode), button, slot)
         }
 
-        private fun from(mode: Int, button: Int, slot: Int = -1): ClickType? {
+        fun from(mode: Int, button: Int, slot: Int = -1): ClickType? {
             if (slot == -999) {
                 return when {
                     LEFT.equals(mode, button) -> ABROAD_LEFT_ITEM

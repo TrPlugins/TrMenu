@@ -50,6 +50,7 @@ class Menu(
             }
 
             if (MenuOpenEvent(session, this, page, reason).call().isCancelled) return
+            block(session)
 
             if (Metadata.byBukkit(viewer, "FORCE_OPEN") || settings.openEvent.eval(session)) {
                 val layout = layout[page]
@@ -59,7 +60,6 @@ class Menu(
                 session.page = page
                 session.receptacle = layout.baseReceptacle().also { receptacle = it }
                 session.playerItemSlots()
-                block(session)
 
                 layout.initReceptacle(session)
                 loadTitle(session)
@@ -112,9 +112,7 @@ class Menu(
 
         if (settings.titleUpdate > 0 && settings.title.cyclable()) {
             session.arrange(Tasks.timer(10, settings.titleUpdate.toLong(), true) {
-                Performance.check("Menu:Title:Update") {
-                    setTitle.invoke()
-                }
+                setTitle()
             })
         }
     }

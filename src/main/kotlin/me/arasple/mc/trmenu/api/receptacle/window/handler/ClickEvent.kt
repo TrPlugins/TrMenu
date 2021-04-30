@@ -9,7 +9,7 @@ import org.bukkit.entity.Player
  *
  * This take place the same time with ReceptacleInteractEvent
  */
-fun interface ClickHandler {
+fun interface ClickEvent {
 
     fun run(player: Player, event: ReceptacleInteractEvent)
 

@@ -57,7 +57,7 @@ object TrMenuAPI {
             EvalResult(eval(player, script).get(timeout, TimeUnit.MILLISECONDS))
         } catch (e: TimeoutException) {
             println("§c[TrMenu] §8Timeout while parsing kether shell:")
-            e.localizedMessage.split("\n").forEach { println("         §8$it") }
+            e.localizedMessage?.split("\n")?.forEach { println("         §8$it") }
             EvalResult.FALSE
         }
     }

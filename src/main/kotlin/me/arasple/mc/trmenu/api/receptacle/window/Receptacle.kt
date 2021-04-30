@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.api.receptacle.window
 
+import io.izzel.taboolib.kotlin.Tasks
 import me.arasple.mc.trmenu.api.event.ReceptacleInteractEvent
 import me.arasple.mc.trmenu.api.receptacle.ReceptacleAPI
 import me.arasple.mc.trmenu.api.receptacle.nms.NMS
@@ -7,7 +8,7 @@ import me.arasple.mc.trmenu.api.receptacle.nms.packet.PacketWindowClose
 import me.arasple.mc.trmenu.api.receptacle.nms.packet.PacketWindowItems
 import me.arasple.mc.trmenu.api.receptacle.nms.packet.PacketWindowOpen
 import me.arasple.mc.trmenu.api.receptacle.nms.packet.PacketWindowSetSlot
-import me.arasple.mc.trmenu.api.receptacle.window.handler.ClickHandler
+import me.arasple.mc.trmenu.api.receptacle.window.handler.ClickEvent
 import me.arasple.mc.trmenu.api.receptacle.window.handler.ReceptacleHandler
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
@@ -27,10 +28,14 @@ open class Receptacle(
 ) {
 
     var title: String by Delegates.observable(title) { _, _, _ ->
-        forViewers { initializationPackets(it) }
+        forViewers {
+            Tasks.delay(3, true) {
+                initializationPackets(it)
+            }
+        }
     }
 
-    private var eventClick: ClickHandler = ClickHandler { _, _ -> }
+    private var eventClick: ClickEvent = ClickEvent { _, _ -> }
 
     private var eventOpen: ReceptacleHandler = ReceptacleHandler { _, _ -> }
 
@@ -77,8 +82,8 @@ open class Receptacle(
         this.eventClose = handler
     }
 
-    fun listenerClick(clickHandler: ClickHandler) {
-        this.eventClick = clickHandler
+    fun listenerClick(clickEvent: ClickEvent) {
+        this.eventClick = clickEvent
     }
 
     private fun forViewers(viewer: (Player) -> Unit) {
@@ -110,11 +115,8 @@ open class Receptacle(
     }
 
     private fun initializationPackets(player: Player) {
-        NMS.INSTANCE.sendInventoryPacket(
-            player,
-            PacketWindowOpen(type = type, title = title),
-            PacketWindowItems(items = items)
-        )
+        NMS.INSTANCE.sendInventoryPacket(player, PacketWindowOpen(type = type, title = title))
+        refresh(player)
     }
 
     fun clearItems() {

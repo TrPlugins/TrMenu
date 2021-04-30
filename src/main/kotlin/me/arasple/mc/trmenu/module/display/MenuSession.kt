@@ -66,9 +66,6 @@ class MenuSession(
     // 当前活动的图标记录
     val activeIcons = mutableSetOf<Icon>()
 
-    // 当前活动的槽位记录
-    private val activeSlots = mutableSetOf<Int>()
-
     // 玩家物品槽位记录
     private val playerItemSlots = mutableSetOf<Int>()
 
@@ -204,14 +201,13 @@ class MenuSession(
      * 更新活动槽位
      */
     fun updateActiveSlots() {
-        activeSlots.clear()
-        activeIcons.forEach { activeSlots.addAll(it.position.currentPosition(this)) }
-
         if (receptacle != null) {
             val rece = receptacle!!
             val type = rece.type
+            val active = activeIcons.flatMap { it.position.currentPosition(this) }
+
             type.totalSlots.forEach {
-                if (!activeSlots.contains(it) && !playerItemSlots.contains(it) && !menu!!.settings.freeSlots.contains(it)) {
+                if (!active.contains(it) && !playerItemSlots.contains(it) && !menu!!.settings.freeSlots.contains(it)) {
                     rece.setItem(null, it)
                 }
             }

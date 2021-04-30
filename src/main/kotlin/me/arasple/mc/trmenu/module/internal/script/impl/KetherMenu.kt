@@ -9,6 +9,7 @@ import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.api.event.MenuOpenEvent
 import me.arasple.mc.trmenu.module.internal.script.kether.BaseAction
 import java.util.concurrent.CompletableFuture
+import kotlin.math.min
 
 /**
  * @author Arasple
@@ -20,13 +21,24 @@ class KetherMenu(val type: Type, val menu: ParsedAction<*>?) : BaseAction<Void>(
 
         OPEN,
 
+        PAGE,
+
         CLOSE
 
     }
 
     override fun process(context: QuestContext.Frame): CompletableFuture<Void> {
+        val viewer = context.viewer()
+        val session = viewer.session()
+
         when (type) {
-            Type.CLOSE -> context.viewer().session()?.close(closePacket = true, updateInventory = true)
+            Type.CLOSE -> session?.close(closePacket = true, updateInventory = true)
+            Type.PAGE -> context.newFrame(menu).run<Int>().thenApply {
+                val menu = session?.menu ?: return@thenApply false
+                val page = min(it.coerceAtLeast(0), menu.layout.getSize() - 1)
+
+                menu.page(viewer, page)
+            }
             Type.OPEN -> context.newFrame(menu).run<String>().thenApply {
                 TrMenuAPI.getMenuById(it)?.open(context.viewer(), reason = MenuOpenEvent.Reason.CONSOLE)
             }
@@ -42,7 +54,7 @@ class KetherMenu(val type: Type, val menu: ParsedAction<*>?) : BaseAction<Void>(
             val type = Type.valueOf(it.nextToken().toUpperCase())
             KetherMenu(
                 type,
-                if (type == Type.OPEN) it.next(ArgTypes.ACTION) else null
+                if (type != Type.CLOSE) it.next(ArgTypes.ACTION) else null
             )
         }
 

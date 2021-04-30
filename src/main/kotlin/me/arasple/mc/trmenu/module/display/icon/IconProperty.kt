@@ -14,7 +14,6 @@ import me.arasple.mc.trmenu.util.Regexs
 class IconProperty(
     val priority: Int,
     val condition: Condition,
-    val inherit: Boolean = false,
     val display: Item,
     val action: Map<Set<ClickType>, Reactions>
 ) {
@@ -33,8 +32,8 @@ class IconProperty(
 
     fun handleClick(type: ClickType, session: MenuSession) {
         val reactions = action.entries
-            .filter {
-                it.key.any { it == ClickType.ALL || it == ClickType.NUMBER_KEY && it.isNumberKeyClick() } || it.key.contains(
+            .filter { set ->
+                set.key.any { it == ClickType.ALL || it == ClickType.NUMBER_KEY && it.isNumberKeyClick() } || set.key.contains(
                     type
                 )
             }

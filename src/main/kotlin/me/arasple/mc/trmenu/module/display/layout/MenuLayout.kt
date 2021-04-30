@@ -31,7 +31,6 @@ inline class MenuLayout(internal val layouts: Array<Layout>) {
 
     companion object {
 
-        @Deprecated("TO BE IMPROVED")
         val commonKeys = listOf(
             '#',
             '-',

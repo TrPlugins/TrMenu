@@ -12,7 +12,7 @@ import me.arasple.mc.trmenu.util.collections.IndivList
  */
 class Icon(
     val id: String,
-    private val refresh: Long,
+    val refresh: Long,
     update: Array<Int>,
     val position: Position,
     val defIcon: IconProperty,
@@ -22,7 +22,7 @@ class Icon(
     override fun startup(session: MenuSession) {
         update.forEach { (period, frames) ->
             session.arrange(
-                Tasks.timer(period, period, true) {
+                Tasks.timer(10, period, true) {
                     onUpdate(session, frames)
                 },
                 true
@@ -30,7 +30,7 @@ class Icon(
         }
         if (refresh > 0) {
             session.arrange(
-                Tasks.timer(refresh, refresh, true) {
+                Tasks.timer(10, refresh, true) {
                     onRefresh(session)
                 },
                 true
@@ -45,9 +45,14 @@ class Icon(
                 when (it) {
                     // Position
                     3 -> {
+                        val previous = position.currentPosition(session)
                         position.cycleIndex(session)
                         position.updatePosition(session)
-                        session.updateActiveSlots()
+                        val exclude = position.currentPosition(session).let { current ->
+                            return@let previous.filter { pre -> !current.contains(pre) }
+                        }
+                        settingItem(session, icon)
+                        session.receptacle?.setItem(null, exclude)
                     }
                     // Texture, Name, Lore
                     else -> {
@@ -59,10 +64,10 @@ class Icon(
                             else -> {
                             }
                         }
+                        settingItem(session, icon)
                     }
                 }
             }
-            settingItem(session, icon)
         }
     }
 

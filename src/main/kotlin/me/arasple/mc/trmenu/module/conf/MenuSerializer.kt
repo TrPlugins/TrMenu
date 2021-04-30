@@ -241,7 +241,7 @@ object MenuSerializer : ISerializer {
                 )
             )
 
-            IconProperty(priority, Condition(condition), inherit, item, clickActions)
+            IconProperty(priority, Condition(condition), item, clickActions)
         }
 
 }
