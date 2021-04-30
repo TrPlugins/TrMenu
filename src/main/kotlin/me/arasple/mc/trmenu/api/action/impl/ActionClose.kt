@@ -11,7 +11,7 @@ import org.bukkit.entity.Player
 class ActionClose : AbstractAction() {
 
     override fun onExecute(player: Player, placeholderPlayer: Player) {
-        player.getSession().close(closePacket = true, updateInventory = true)
+        player.session().close(closePacket = true, updateInventory = true)
     }
 
     companion object {

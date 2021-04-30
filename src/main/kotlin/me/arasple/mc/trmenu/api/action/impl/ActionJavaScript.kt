@@ -16,7 +16,7 @@ class ActionJavaScript(content: String, option: ActionOption) : AbstractAction(c
     }
 
     override fun onExecute(player: Player, placeholderPlayer: Player) {
-        JavaScriptAgent.eval(player.getSession(), baseContent)
+        JavaScriptAgent.eval(player.session(), baseContent)
     }
 
     companion object {

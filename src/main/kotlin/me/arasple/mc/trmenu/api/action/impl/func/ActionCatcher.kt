@@ -15,7 +15,7 @@ import org.bukkit.entity.Player
 class ActionCatcher(private val inputer: Inputer) : AbstractAction() {
 
     override fun onExecute(player: Player, placeholderPlayer: Player) {
-        inputer.startInput(player.getSession())
+        inputer.startInput(player.session())
     }
 
     companion object {

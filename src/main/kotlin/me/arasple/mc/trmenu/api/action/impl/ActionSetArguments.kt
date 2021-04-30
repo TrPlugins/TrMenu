@@ -23,7 +23,7 @@ class ActionSetArguments(content: String, option: ActionOption) : AbstractAction
         }.filterNot { it.isBlank() }
 
         Metadata.setBukkitMeta(player, "FORCE_ARGS")
-        player.getSession().arguments = args.toTypedArray()
+        player.session().arguments = args.toTypedArray()
     }
 
     companion object {

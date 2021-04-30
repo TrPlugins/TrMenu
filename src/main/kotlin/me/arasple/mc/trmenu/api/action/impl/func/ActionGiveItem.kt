@@ -16,6 +16,7 @@ class ActionGiveItem(content: String, option: ActionOption) : AbstractAction(con
         ItemMatcher.eval(parseContent(placeholderPlayer), !parsable).buildItem().forEach {
             CronusUtils.addItem(player, it)
         }
+        player.session().playerItemSlots()
     }
 
     companion object {

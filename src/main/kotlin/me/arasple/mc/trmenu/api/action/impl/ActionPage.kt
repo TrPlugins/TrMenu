@@ -12,7 +12,7 @@ import kotlin.math.min
 class ActionPage(content: String, option: ActionOption) : AbstractAction(content, option) {
 
     override fun onExecute(player: Player, placeholderPlayer: Player) {
-        val session = player.getSession()
+        val session = player.session()
         val menu = session.menu ?: return
         val page = min(parseContent(placeholderPlayer).toIntOrNull() ?: 0, menu.layout.getSize() - 1)
 

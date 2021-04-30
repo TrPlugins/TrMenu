@@ -108,7 +108,7 @@ object Shortcuts {
 
         @EventHandler(ignoreCancelled = true)
         fun toggleSneaking(e: PlayerToggleSneakEvent) {
-            sneaking.put(e.player.name, System.currentTimeMillis())
+            sneaking[e.player.name] = System.currentTimeMillis()
         }
 
         @EventHandler(ignoreCancelled = true)

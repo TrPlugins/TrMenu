@@ -18,12 +18,12 @@ abstract class AbstractAction(val baseContent: String = "", var option: ActionOp
         Actions.runAction(player, listOf(this))
     }
 
-    fun Player.getSession(): MenuSession {
+    fun Player.session(): MenuSession {
         return MenuSession.getSession(this)
     }
 
     fun parse(player: Player, string: String): String {
-        return player.getSession().parse(string)
+        return player.session().parse(string)
     }
 
     fun parseContent(player: Player): String {

@@ -13,7 +13,7 @@ class ActionDelArguments : AbstractAction() {
 
     override fun onExecute(player: Player, placeholderPlayer: Player) {
         Tasks.delay(3L, true) {
-            player.getSession().arguments = arrayOf()
+            player.session().arguments = arrayOf()
         }
     }
 

@@ -13,6 +13,7 @@ class ActionTakeItem(content: String, option: ActionOption) : AbstractAction(con
 
     override fun onExecute(player: Player, placeholderPlayer: Player) {
         ItemMatcher.eval(parseContent(placeholderPlayer), !parsable).takeItem(player)
+        player.session().playerItemSlots()
     }
 
     companion object {

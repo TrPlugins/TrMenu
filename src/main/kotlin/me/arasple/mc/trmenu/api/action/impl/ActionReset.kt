@@ -12,7 +12,7 @@ import org.bukkit.entity.Player
 class ActionReset(option: ActionOption) : AbstractAction(option = option) {
 
     override fun onExecute(player: Player, placeholderPlayer: Player) {
-        val session = player.getSession()
+        val session = player.session()
 
         Menu.menus.forEach {
             it.icons.forEach { icon ->

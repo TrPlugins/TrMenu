@@ -11,7 +11,7 @@ import org.bukkit.entity.Player
 class ActionRefresh(content: String, option: ActionOption) : AbstractAction(content, option) {
 
     override fun onExecute(player: Player, placeholderPlayer: Player) {
-        val session = player.getSession()
+        val session = player.session()
 
         if (baseContent.isBlank() || baseContent.equals("refresh", true)) {
             session.activeIcons.forEach { it.onRefresh(session) }

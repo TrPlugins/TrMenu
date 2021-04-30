@@ -13,7 +13,7 @@ class ActionSilentClose : AbstractAction() {
 
     override fun onExecute(player: Player, placeholderPlayer: Player) {
         Metadata.setBukkitMeta(player, "FORCE_CLOSE")
-        player.getSession().close(closePacket = true, updateInventory = true)
+        player.session().close(closePacket = true, updateInventory = true)
     }
 
     companion object {

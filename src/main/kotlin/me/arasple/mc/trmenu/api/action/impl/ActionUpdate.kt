@@ -11,7 +11,7 @@ import org.bukkit.entity.Player
 class ActionUpdate(content: String, option: ActionOption) : AbstractAction(content, option) {
 
     override fun onExecute(player: Player, placeholderPlayer: Player) {
-        val session = player.getSession()
+        val session = player.session()
 
         if (baseContent.isBlank() || baseContent.equals("update", true)) {
             session.activeIcons.forEach {
