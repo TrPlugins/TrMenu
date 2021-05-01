@@ -4,7 +4,7 @@ import me.arasple.mc.trmenu.module.internal.hook.HookAbstract
 import me.playernguyen.opteco.api.OptEcoAPI
 import org.bukkit.OfflinePlayer
 
-class HookPlayerPoints : HookAbstract() {
+class HookOptEco : HookAbstract() {
 
     private val OptEcoAPI: OptEcoAPI? = if (isHooked) OptEcoAPI() else null
         get() {
