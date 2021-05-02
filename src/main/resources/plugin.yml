@@ -26,6 +26,7 @@ softdepend:
   - ItemsAdder
   - floodgate-bukkit
   - FastScript
+  - OptEco
 
 built-time: ${built}
 built-by: ${builder}
