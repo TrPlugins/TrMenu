@@ -48,6 +48,7 @@ object Actions {
         ActionSetTitle.registery,
         ActionSetArguments.registery,
         ActionDelArguments.registery,
+        ActionReloadInventory.registery,
         ActionRefresh.registery,
         ActionUpdate.registery,
         ActionMetaSet.registery,

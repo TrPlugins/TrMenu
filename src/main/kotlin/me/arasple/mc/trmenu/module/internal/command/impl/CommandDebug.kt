@@ -1,7 +1,7 @@
 package me.arasple.mc.trmenu.module.internal.command.impl
 
 import io.izzel.taboolib.TabooLib
-import io.izzel.taboolib.loader.PluginHandle
+import io.izzel.taboolib.loader.PluginBoot
 import io.izzel.taboolib.module.command.base.Argument
 import io.izzel.taboolib.module.command.base.BaseSubCommand
 import io.izzel.taboolib.module.locale.chatcolor.TColor
@@ -28,7 +28,7 @@ import org.bukkit.entity.Player
  */
 class CommandDebug : BaseSubCommand() {
 
-    private val description = PluginHandle.getPluginDescription()
+    private val description = PluginBoot.getPluginFile().fileConfiguration
     
     override fun getArguments() = arrayOf(
         Argument("Type", true) {

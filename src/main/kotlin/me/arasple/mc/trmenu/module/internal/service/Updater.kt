@@ -33,7 +33,7 @@ object Updater {
 
     @TFunction.Init
     fun init() {
-        if (CURRENT_VERSION < 0) PluginBoot.setDisabled(true)
+        if (CURRENT_VERSION < 0) PluginBoot.setEnableBoot(false)
     }
 
     @TSchedule(delay = 20, period = 10 * 60 * 20, async = true)
@@ -50,7 +50,7 @@ object Updater {
                     val latestVersion = json.get("tag_name").asDouble
                     if (latestVersion > CURRENT_VERSION) {
                         LATEST_VERSION = latestVersion
-                        if (LATEST_VERSION < 0) PluginBoot.setDisabled(true)
+                        if (LATEST_VERSION < 0) PluginBoot.setEnableBoot(false)
                         if (!NOTIFY) {
                             NOTIFY = true
                             TLocale.sendToConsole("Plugin.Update", LATEST_VERSION)

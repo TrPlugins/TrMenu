@@ -45,7 +45,7 @@ class NMSImpl : NMS() {
                             net.minecraft.server.v1_12_R1.PacketPlayOutOpenWindow(
                                 it.windowId,
                                 it.type.vanillaType,
-                                toChatBaseComponent(it.title) as IChatBaseComponent?,
+                                toChatBaseComponent(it.title, false) as IChatBaseComponent?,
                                 it.type.containerSize
                             )
                         )

@@ -16,8 +16,8 @@ import org.bukkit.entity.Player
  */
 object FunctionParser {
 
-    private val functionPattern = "\\$?\\{(\\w+)s?: ?(.+)}".toRegex()
-    private val internalFunctionPattern = "\\$\\{([^0-9].+?)}".toRegex()
+    private val functionPattern = "\\$?\\{(\\w+)s?: ?(.+?[^\\\\}])}".toRegex()
+    private val internalFunctionPattern = "\\$\\{([^0-9].+?[^\\\\}])}".toRegex()
 
     fun parse(player: Player, input: String): String {
         return kotlin.runCatching {
@@ -36,7 +36,7 @@ object FunctionParser {
                         "meta", "m" -> Metadata.getMeta(player)[value].toString()
                         "data", "d" -> Metadata.getData(player)[value].toString()
                         "globaldata", "gdata", "g" -> Metadata.globalData.get(value).toString()
-                        else -> "___ UNKNOWN $split ___"
+                        else -> "{${it.value}}"
                     }
                 } else it.value
             }

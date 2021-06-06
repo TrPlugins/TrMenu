@@ -20,7 +20,7 @@ object RegisterCommands {
     private val registered = mutableSetOf<String>()
 
     private fun ofReaction(any: Any?): Reactions {
-        return Reactions.ofReaction(Property.asList(any))
+        return Reactions.ofReaction(Property.asAnyList(any))
     }
 
     @TFunction.Init
@@ -37,7 +37,9 @@ object RegisterCommands {
                 val argument = section.getConfigurationSection("arguments")
                 val reactions = ofReaction(section["execute"])
                 val subReactions = mutableMapOf<String, Reactions>()
-                argument?.getKeys(false)?.forEach { subReactions[it] = ofReaction(argument[it]) }
+                argument?.getKeys(false)?.forEach {
+                    subReactions[it] = ofReaction(argument[it])
+                }
 
                 CommandBuilder
                     .create(main, TrMenu.plugin)

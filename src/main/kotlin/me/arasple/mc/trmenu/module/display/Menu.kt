@@ -50,13 +50,16 @@ class Menu(
             }
 
             if (MenuOpenEvent(session, this, page, reason).call().isCancelled) return
+            session.menu = this
             block(session)
 
-            if (Metadata.byBukkit(viewer, "FORCE_OPEN") || settings.openEvent.eval(session)) {
+            if (!Metadata.byBukkit(viewer, "FORCE_OPEN") && !settings.openEvent.eval(session)) {
+                session.menu = null
+                return
+            } else {
                 val layout = layout[page]
                 val receptacle: Receptacle
 
-                session.menu = this
                 session.page = page
                 session.receptacle = layout.baseReceptacle().also { receptacle = it }
                 session.playerItemSlots()

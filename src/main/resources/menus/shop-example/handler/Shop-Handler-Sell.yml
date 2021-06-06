@@ -47,8 +47,8 @@ Icons:
         - '&8▪ &7Shift Left &f-16'
         - ''
     actions:
-      left: 'set-args: {0} {1} {2} `${js: Math.max(varInt("{3}") - 1, 1).toFixed(0)}`'
-      shift_left: 'set-args: {0} {1} {2} `${js: Math.max(varInt("{3}") - 16, 1).toFixed(0)}`'
+      left: 'set-args: {0} {1} {2} `${js: Math.max(funInt(3) - 1, 1).toFixed(0)}`'
+      shift_left: 'set-args: {0} {1} {2} `${js: Math.max(funInt(3) - 16, 1).toFixed(0)}`'
       all: 'update: +;-;X &&& sound: UI_BUTTON_CLICK-1-2'
 
   '+':
@@ -62,8 +62,8 @@ Icons:
         - '&8▪ &7Shift Left &f+16'
         - ''
     actions:
-      left: 'set-args: {0} {1} {2} `${js: Math.min(varInt("{3}") + 1, 64).toFixed(0)}`'
-      shift_left: 'set-args: {0} {1} {2} `${js: Math.min(varInt("{3}") + 16, 64).toFixed(0)}`'
+      left: 'set-args: {0} {1} {2} `${js: Math.min(funInt(3) + 1, 64).toFixed(0)}`'
+      shift_left: 'set-args: {0} {1} {2} `${js: Math.min(funInt(3) + 16, 64).toFixed(0)}`'
       all: 'update: +;-;X &&& sound: UI_BUTTON_CLICK-1-2'
 
   '*':
@@ -89,20 +89,20 @@ Icons:
   'X':
     display:
       material: '{1}'
-      amount: '${js: varInt("{3}")}'
+      amount: '${js: funInt(3)}'
       lore:
         - ''
         - '&7Price: &6${2}'
         - '&7Amount: &a{3}'
         - ''
-        - '&7Total Price: &e${js: varInt("{3}") * varDouble("{2}")}'
+        - '&7Total Price: &e${js: funInt(3) * funDouble(2)}'
         - ''
         - '${js: utils.hasItem(player, vars("mat:{1},amt:{3}")) ? "&b➥ &3Click to sell" : "&c➥ &8You do not have enough items"}'
     actions:
       all:
         - condition: 'js: utils.hasItem(player, vars("mat:{1},amt:{3}"))'
           actions:
-            - 'give-money: ${js: varInt("{3}") * varDouble("{2}")}'
+            - 'give-money: ${js: funInt(3) * funDouble(2)}'
             - 'take-item: material:{1},amt:{3}'
             - 'title: &3&lSold `&a&lMoney has been delivered`'
             - 'sound: BLOCK_NOTE_BLOCK_PLING-1-2'

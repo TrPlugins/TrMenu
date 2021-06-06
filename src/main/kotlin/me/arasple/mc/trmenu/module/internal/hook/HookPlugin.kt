@@ -1,5 +1,7 @@
 package me.arasple.mc.trmenu.module.internal.hook
 
+import io.izzel.taboolib.module.inject.TFunction
+import io.izzel.taboolib.module.locale.TLocale
 import me.arasple.mc.trmenu.module.internal.hook.impl.*
 
 /**
@@ -7,6 +9,13 @@ import me.arasple.mc.trmenu.module.internal.hook.impl.*
  * @date 2021/1/26 22:04
  */
 object HookPlugin {
+
+    @TFunction.Init
+    fun printInfo() {
+        registry.filter { it.isHooked }.forEach {
+            TLocale.sendToConsole("Plugin.Dependency.Hooked", it.name)
+        }
+    }
 
     private val registry: Array<HookAbstract> = arrayOf(
         HookHeadDatabase(),

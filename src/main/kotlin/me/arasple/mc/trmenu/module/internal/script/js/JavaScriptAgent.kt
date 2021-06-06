@@ -64,6 +64,12 @@ object JavaScriptAgent {
             "varDouble",
             java.util.function.Function<Any, Any?> { session.parse(it.toString()).toDoubleOrNull() ?: 0.0 },
         )
+        setAttribute(
+            "funInt", java.util.function.Function<Any, Any?> { session.parse("{$it}").toIntOrNull() ?: 0 },
+        )
+        setAttribute(
+            "funDouble", java.util.function.Function<Any, Any?> { session.parse("{$it}").toIntOrNull() ?: 0 },
+        )
 
         val compiledScript =
             if (cacheScript) preCompile(script)

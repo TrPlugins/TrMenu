@@ -52,15 +52,20 @@ class MenuSession(
             }
 
             if (def.isNotEmpty()) {
-                if (value.isEmpty()) {
-                    field = def
-                } else if (value.size < def.size) {
-                    val args = value.toMutableList()
-                    for (i in args.size until def.size) args.add(def[i])
-                    field = args.toTypedArray()
+                when {
+                    value.isEmpty() -> {
+                        field = def
+                    }
+                    value.size < def.size -> {
+                        val args = value.toMutableList()
+                        for (i in args.size until def.size) args.add(def[i])
+                        field = args.toTypedArray()
+                    }
+                    else -> field = value
                 }
                 return
-            } else field = value
+            }
+            field = value
         }
 
     // 当前活动的图标记录
