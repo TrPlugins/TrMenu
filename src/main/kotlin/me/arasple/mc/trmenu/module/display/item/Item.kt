@@ -1,6 +1,7 @@
 package me.arasple.mc.trmenu.module.display.item
 
 import io.izzel.taboolib.util.item.ItemBuilder
+import io.izzel.taboolib.util.item.Items
 import me.arasple.mc.trmenu.api.menu.IItem
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.display.texture.Texture
@@ -72,8 +73,10 @@ class Item(
             build(session)
         else {
             val current = cache[session.id]
-            val new = ItemBuilder(current).lore(lore(session)).build()
-            cache[session.id] = new
+            if (!Items.isNull(current)) {
+                val new = ItemBuilder(current).lore(lore(session)).build()
+                cache[session.id] = new
+            }
         }
     }
 
