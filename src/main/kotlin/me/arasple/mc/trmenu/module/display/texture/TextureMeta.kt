@@ -7,7 +7,7 @@ package me.arasple.mc.trmenu.module.display.texture
  */
 enum class TextureMeta(val regex: Regex) {
 
-    DATA_VALUE("(?i)[<{]data-?value[:=](\\d+?)[>}]"),
+    DATA_VALUE("(?i)[<{]data-?value[:=](.+?)[>}]"),
 
     MODEL_DATA("(?i)[<{]model-?data[:=](\\d+?)[>}]"),
 

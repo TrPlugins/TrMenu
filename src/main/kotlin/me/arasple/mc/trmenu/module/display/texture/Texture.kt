@@ -86,9 +86,11 @@ class Texture(
                         HookPlugin.getHeadDatabase().getId(itemStack)
                     } else ""
 
-                return if (hdb != null) "source:HDB:$hdb"
-                else if (itemMeta.hasOwner()) "head:${itemMeta.owningPlayer?.name}"
-                else "head:${Heads.seekTexture(itemStack)}"
+                return when {
+                    hdb != null -> "source:HDB:$hdb"
+                    itemMeta.hasOwner() -> "head:${itemMeta.owningPlayer?.name}"
+                    else -> "head:${Heads.seekTexture(itemStack)}"
+                }
             }
             // Model Data
             if (Version.isAfter(Version.v1_14) && itemMeta != null && itemMeta.hasCustomModelData()) {

@@ -7,6 +7,7 @@ import io.izzel.taboolib.module.locale.TLocale
 import me.arasple.mc.trmenu.module.conf.Loader
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.display.MenuSettings
+import me.arasple.mc.trmenu.module.internal.hook.HookPlugin
 import me.arasple.mc.trmenu.module.internal.service.RegisterCommands
 import me.arasple.mc.trmenu.module.internal.service.Shortcuts
 import org.bukkit.Bukkit
@@ -28,6 +29,7 @@ object TrMenu : Plugin() {
     override fun onEnable() {
         SETTINGS.listener { onSettingsReload() }.also { onSettingsReload() }
         TLocale.sendToConsole("Plugin.Enabled", plugin.description.version)
+        HookPlugin.printInfo()
         Loader.loadMenus()
     }
 

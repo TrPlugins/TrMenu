@@ -52,9 +52,9 @@ class Inputer(private val stages: CycleList<Catcher>) {
             Metadata.getMeta(session)["input"] = it
             if (stage.id.isNotBlank()) Metadata.getMeta(session)["input-${stage.id}"] = it
 
-            // TO FIX
             if (isCancelWord(it)) {
                 stage.cancel.eval(session)
+                finish.invoke()
                 false
             } else if (!stage.end.eval(session)) {
                 // BREAK
@@ -90,7 +90,15 @@ class Inputer(private val stages: CycleList<Catcher>) {
             when (type) {
                 Type.CHAT -> {
                     Tasks.delay(2) {
-                        Features.inputChat(viewer, respond)
+                        Features.inputChat(viewer, object : Features.ChatInput {
+                            override fun quit(): String {
+                                return ""
+                            }
+
+                            override fun onChat(content: String): Boolean {
+                                return respond(content)
+                            }
+                        })
                     }
                 }
                 Type.SIGN -> Features.inputSign(viewer, display[1].split("\n").toTypedArray()) {

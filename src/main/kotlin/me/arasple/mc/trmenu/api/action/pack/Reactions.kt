@@ -11,7 +11,7 @@ import org.bukkit.entity.Player
  * @author Arasple
  * @date 2021/1/29 17:51
  */
-inline class Reactions(private val reacts: List<React>) {
+data class Reactions(private val reacts: List<React>) {
 
     companion object {
 
