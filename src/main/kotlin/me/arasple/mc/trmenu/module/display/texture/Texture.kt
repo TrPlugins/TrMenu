@@ -4,7 +4,6 @@ import io.izzel.taboolib.Version
 import io.izzel.taboolib.internal.xseries.XMaterial
 import io.izzel.taboolib.util.Strings
 import io.izzel.taboolib.util.item.ItemBuilder
-import io.izzel.taboolib.util.item.Items
 import me.arasple.mc.trmenu.api.menu.ITexture
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.hook.HookPlugin
@@ -131,11 +130,8 @@ class Texture(
             val dynamic = Regexs.containsPlaceholder(texture)
             if (type == TextureType.NORMAL) {
                 if (texture.startsWith("{")) {
-                    val json = ItemHelper.fromJson(texture)
-                    if (!Items.isNull(json)) {
-                        type = TextureType.RAW
-                        if (!dynamic) static = json!!
-                    }
+                    type = TextureType.RAW
+                    if (!dynamic) static = ItemHelper.fromJson(texture)!!
                 }
             }
             return Texture(raw, type, texture, dynamic, static, meta)
