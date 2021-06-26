@@ -3,7 +3,6 @@ package me.arasple.mc.trmenu.module.internal.hook.impl
 import com.mojang.authlib.properties.Property
 import me.arasple.mc.trmenu.module.internal.hook.HookAbstract
 import net.skinsrestorer.api.SkinsRestorerAPI
-import net.skinsrestorer.bukkit.SkinsRestorer
 
 /**
  * @author Arasple
@@ -13,11 +12,7 @@ class HookSkinsRestorer : HookAbstract() {
 
     private val skinsRestorerAPI: SkinsRestorerAPI? =
         if (isHooked) {
-            val skinsRestorer = plugin as SkinsRestorer
-            if (!skinsRestorer.isBungeeEnabled) skinsRestorer.skinsRestorerBukkitAPI
-            else {
-                SkinsRestorerAPI.getApi()
-            }
+            SkinsRestorerAPI.getApi()
         } else {
             null
         }
