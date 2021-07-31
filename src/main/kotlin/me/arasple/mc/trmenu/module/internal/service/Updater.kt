@@ -2,17 +2,13 @@ package me.arasple.mc.trmenu.module.internal.service
 
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
-import io.izzel.taboolib.loader.PluginBoot
-import io.izzel.taboolib.module.inject.TFunction
-import io.izzel.taboolib.module.inject.TListener
-import io.izzel.taboolib.module.inject.TSchedule
-import io.izzel.taboolib.module.locale.TLocale
-import io.izzel.taboolib.util.IO
 import me.arasple.mc.trmenu.TrMenu
-import org.bukkit.event.EventHandler
-import org.bukkit.event.EventPriority
-import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
+import taboolib.common.LifeCycle
+import taboolib.common.env.DependencyDownloader
+import taboolib.common.platform.*
+import taboolib.module.lang.sendLang
+import taboolib.platform.util.sendLang
 import java.io.BufferedInputStream
 import java.net.URL
 import java.nio.charset.StandardCharsets
@@ -31,12 +27,14 @@ object Updater {
     var LATEST_VERSION = -1.0
     val NOTIFIED = mutableSetOf<UUID>()
 
-    @TFunction.Init
+    @Awake(LifeCycle.INIT)
     fun init() {
-        if (CURRENT_VERSION < 0) PluginBoot.setEnableBoot(false)
+//        if (CURRENT_VERSION < 0) PluginBoot.setEnableBoot(false)
+        submit(delay = 20, period = (10 * 60 * 20), async = true) {
+            grabInfo()
+        }
     }
 
-    @TSchedule(delay = 20, period = 10 * 60 * 20, async = true)
     private fun grabInfo() {
         if (LATEST_VERSION > 0) {
             return
@@ -45,15 +43,15 @@ object Updater {
         try {
             URL(API_URL).openStream().use { inputStream ->
                 BufferedInputStream(inputStream).use { bufferedInputStream ->
-                    read = IO.readFully(bufferedInputStream, StandardCharsets.UTF_8)
+                    read = DependencyDownloader.readFully(bufferedInputStream, StandardCharsets.UTF_8)
                     val json = JsonParser().parse(read) as JsonObject
                     val latestVersion = json.get("tag_name").asDouble
                     if (latestVersion > CURRENT_VERSION) {
                         LATEST_VERSION = latestVersion
-                        if (LATEST_VERSION < 0) PluginBoot.setEnableBoot(false)
+//                        if (LATEST_VERSION < 0) PluginBoot.setEnableBoot(false)
                         if (!NOTIFY) {
                             NOTIFY = true
-                            TLocale.sendToConsole("Plugin.Update", LATEST_VERSION)
+                            console().sendLang("Plugin.Update", LATEST_VERSION)
                         }
                     }
                 }
@@ -62,18 +60,13 @@ object Updater {
         }
     }
 
-    @TListener
-    class Listen : Listener {
-
-        @EventHandler(priority = EventPriority.HIGHEST)
-        fun onJoin(e: PlayerJoinEvent) {
-            val player = e.player
-            if (player.isOp && LATEST_VERSION > CURRENT_VERSION && !NOTIFIED.contains(player.uniqueId)) {
-                TLocale.sendTo(player, "Plugin.Update", LATEST_VERSION)
-                NOTIFIED.add(player.uniqueId)
-            }
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    fun onJoin(e: PlayerJoinEvent) {
+        val player = e.player
+        if (player.isOp && LATEST_VERSION > CURRENT_VERSION && !NOTIFIED.contains(player.uniqueId)) {
+            player.sendLang("Plugin.Update", LATEST_VERSION)
+            NOTIFIED.add(player.uniqueId)
         }
-
     }
 
 }

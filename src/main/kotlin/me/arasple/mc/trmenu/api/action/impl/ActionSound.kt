@@ -1,9 +1,9 @@
 package me.arasple.mc.trmenu.api.action.impl
 
-import io.izzel.taboolib.util.lite.Sounds
 import me.arasple.mc.trmenu.api.action.base.AbstractAction
 import me.arasple.mc.trmenu.api.action.base.ActionOption
 import org.bukkit.entity.Player
+import taboolib.library.xseries.XSound
 import taboolib.platform.util.sendLang
 
 /**
@@ -16,8 +16,10 @@ class ActionSound(content: String, option: ActionOption) : AbstractAction(conten
         parseContentSplited(placeholderPlayer, ";").forEach {
             val split = it.split("-")
             if (split.isNotEmpty()) {
-                val sound = Sounds.matchSounds(split[0]).orElse(null)
-                if (sound == null) {
+                val sound: XSound
+                try {
+                    sound = XSound.valueOf(split[0])
+                } catch (t: Throwable) {
                     player.sendLang("Menu.Action.Sound", it)
                     return
                 }

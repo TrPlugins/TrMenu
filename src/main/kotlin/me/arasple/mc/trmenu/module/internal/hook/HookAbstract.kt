@@ -1,8 +1,9 @@
 package me.arasple.mc.trmenu.module.internal.hook
 
-import io.izzel.taboolib.module.locale.TLocale
 import org.bukkit.Bukkit
 import org.bukkit.plugin.Plugin
+import taboolib.common.platform.console
+import taboolib.module.lang.sendLang
 
 /**
  * @author Arasple
@@ -29,7 +30,7 @@ abstract class HookAbstract {
     }
 
     fun reportAbuse() {
-        TLocale.sendToConsole("Plugin.Dependency.Abuse", name)
+        console().sendLang("Plugin.Dependency.Abuse", name)
     }
 
 }

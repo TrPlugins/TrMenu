@@ -1,15 +1,17 @@
 package me.arasple.mc.trmenu.module.internal.service
 
-import io.izzel.taboolib.internal.apache.lang3.ArrayUtils
-import io.izzel.taboolib.module.command.TCommandHandler
-import io.izzel.taboolib.module.command.lite.CommandBuilder
-import io.izzel.taboolib.module.inject.TFunction
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.action.pack.Reactions
 import me.arasple.mc.trmenu.module.conf.prop.Property
 import me.arasple.mc.trmenu.module.display.MenuSession
+import org.apache.commons.lang3.ArrayUtils
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
+import taboolib.common.LifeCycle
+import taboolib.common.platform.Awake
+import taboolib.common.platform.command
+import taboolib.common.platform.registerCommand
+import taboolib.common.platform.unregisterCommand
 
 /**
  * @author Arasple
@@ -23,11 +25,11 @@ object RegisterCommands {
         return Reactions.ofReaction(Property.asAnyList(any))
     }
 
-    @TFunction.Init
+    @Awake(LifeCycle.INIT)
     fun load() {
 
         registered.removeIf {
-            Bukkit.getPluginCommand(it)?.unregister(TCommandHandler.getCommandMap())
+            unregisterCommand("trmenu")
             true
         }
 
@@ -40,36 +42,25 @@ object RegisterCommands {
                 argument?.getKeys(false)?.forEach {
                     subReactions[it] = ofReaction(argument[it])
                 }
-
-                CommandBuilder
-                    .create(main, TrMenu.plugin)
-                    .aliases(*section.getStringList("aliases").toTypedArray())
-                    .tab { _, args ->
-                        val keys = argument?.getKeys(false)
-                        return@tab if (args.size == 1) {
-                            keys?.filter { it.startsWith(args[0]) }
-                        } else keys?.toList()
-                    }
-                    .execute { sender, args ->
-                        if (sender is Player) {
-                            val session = MenuSession.getSession(sender)
-
-                            if (args.isNotEmpty()) {
-                                subReactions[args[0]]?.let {
-                                    if (args.size > 1) session.arguments = ArrayUtils.remove(args, 0)
-                                    it.eval(sender)
-                                }
-                            } else {
-                                session.arguments = args
-                                reactions.eval(sender)
+                registered.add(main)
+                command(
+                    name = main,
+                    permission = section.getString("permission"),
+                    aliases = section.getStringList("aliases")
+                ) {
+                    execute<Player> { player, context, argument ->
+                        val session = MenuSession.getSession(player)
+                        if (context.args.isNotEmpty()) {
+                            subReactions[context.args[0]]?.let {
+                                if (context.args.size > 1) session.arguments = ArrayUtils.remove(context.args, 0)
+                                it.eval(player)
                             }
+                        } else {
+                            session.arguments = context.args
+                            reactions.eval(player)
                         }
                     }
-                    .forceRegister()
-                    .permission(section.getString("permission"))
-                    .build()
-
-                registered.add(main)
+                }
             }
         }
     }

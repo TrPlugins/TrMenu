@@ -1,7 +1,7 @@
 package me.arasple.mc.trmenu.util.net
 
 import com.google.gson.JsonParser
-import io.izzel.taboolib.util.IO
+import taboolib.common.env.DependencyDownloader
 import java.net.HttpURLConnection
 import java.net.URL
 import java.nio.charset.StandardCharsets
@@ -68,7 +68,7 @@ object PasteGG {
             con.doInput = true
             con.doOutput = true
             con.outputStream.also { it.write(json.toByteArray(StandardCharsets.UTF_8)) }
-            val source = JsonParser().parse(IO.readFully(con.inputStream, StandardCharsets.UTF_8)).asJsonObject
+            val source = JsonParser().parse(DependencyDownloader.readFully(con.inputStream, StandardCharsets.UTF_8)).asJsonObject
 
             success.invoke(source.toString())
         } catch (e: Throwable) {
