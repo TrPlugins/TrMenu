@@ -1,9 +1,5 @@
 package me.arasple.mc.trmenu.module.display.texture
 
-import io.izzel.taboolib.Version
-import io.izzel.taboolib.internal.xseries.XMaterial
-import io.izzel.taboolib.util.Strings
-import io.izzel.taboolib.util.item.ItemBuilder
 import me.arasple.mc.trmenu.api.menu.ITexture
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.hook.HookPlugin
@@ -20,7 +16,6 @@ import taboolib.common.util.Strings.similarDegree
 import taboolib.library.xseries.XMaterial
 import taboolib.module.nms.MinecraftVersion
 import taboolib.platform.util.ItemBuilder
-import java.util.*
 
 /**
  * @author Arasple
@@ -150,7 +145,7 @@ class Texture(
             var rawMaterial = id
 
             if (id is Int) {
-                builder.material = XMaterial.matchXMaterial(Material.getMaterial(id) ?: Material.AIR)
+                builder.material = XMaterial.matchXMaterial(Material::class.java.getDeclaredMethod("getMaterial").invoke(null, id) as Material ?: Material.AIR)
                 builder.damage = data.toShort()
             } else {
                 val name = id.toString()

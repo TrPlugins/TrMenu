@@ -9,6 +9,7 @@ import org.bukkit.Bukkit
 import taboolib.common.env.RuntimeDependency
 import taboolib.common.platform.Plugin
 import taboolib.common.platform.console
+import taboolib.common5.FileWatcher
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.SecuredFile
 import taboolib.module.lang.sendLang
@@ -37,7 +38,7 @@ object TrMenu : Plugin() {
     }
 
     override fun onEnable() {
-        SETTINGS.listener { onSettingsReload() }.also { onSettingsReload() }
+        FileWatcher.INSTANCE.addSimpleListener(SETTINGS.file) { onSettingsReload() }.also { onSettingsReload() }
         console().sendLang("Plugin.Enabled", plugin.description.version)
         HookPlugin.printInfo()
         Loader.loadMenus()
