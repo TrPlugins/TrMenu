@@ -107,7 +107,7 @@ object Actions {
     fun readAction(any: Any): List<AbstractAction> {
         val actions = mutableListOf<AbstractAction>()
         val findParser: (String) -> ((Any, ActionOption) -> AbstractAction) = { name ->
-            registries.find { it.first.matches(name.toLowerCase()) }?.second ?: registries[0].second
+            registries.find { it.first.matches(name.lowercase()) }?.second ?: registries[0].second
         }
 
         when (any) {

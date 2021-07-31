@@ -2,11 +2,11 @@ package me.arasple.mc.trmenu.api.receptacle.nms
 
 import com.mojang.authlib.GameProfile
 import io.izzel.taboolib.kotlin.Reflex
-import io.izzel.taboolib.module.inject.TInject
-import io.izzel.taboolib.module.packet.TPacketHandler
 import me.arasple.mc.trmenu.api.receptacle.nms.packet.PacketInventory
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import taboolib.module.nms.nmsProxy
+import taboolib.module.nms.sendPacket
 
 /**
  * @author Arasple
@@ -19,8 +19,9 @@ abstract class NMS {
         /**
          * @see NMSImpl
          */
-        @TInject(asm = "me.arasple.mc.trmenu.api.receptacle.nms.NMSImpl")
-        lateinit var INSTANCE: NMS
+        val INSTANCE by lazy {
+            nmsProxy<NMS>()
+        }
 
     }
 
@@ -31,10 +32,10 @@ abstract class NMS {
     abstract fun toNMSItemStack(vararg itemStack: ItemStack?): Any
 
     fun sendPacket(player: Player, packet: Any, vararg fields: Pair<Any, Any>) {
-        TPacketHandler.sendPacket(player, Reflex.of(packet).let { inst ->
+        player.sendPacket(Reflex.of(packet).let { inst ->
             fields.forEach { inst.set(it.first.toString(), it.second) }
             inst.instance
-        })
+        }!!)
     }
 
     abstract fun getGameProfile(player: Player): GameProfile

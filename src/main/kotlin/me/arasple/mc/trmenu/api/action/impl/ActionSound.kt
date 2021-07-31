@@ -1,10 +1,10 @@
 package me.arasple.mc.trmenu.api.action.impl
 
-import io.izzel.taboolib.module.locale.TLocale
 import io.izzel.taboolib.util.lite.Sounds
 import me.arasple.mc.trmenu.api.action.base.AbstractAction
 import me.arasple.mc.trmenu.api.action.base.ActionOption
 import org.bukkit.entity.Player
+import taboolib.platform.util.sendLang
 
 /**
  * @author Arasple
@@ -18,7 +18,7 @@ class ActionSound(content: String, option: ActionOption) : AbstractAction(conten
             if (split.isNotEmpty()) {
                 val sound = Sounds.matchSounds(split[0]).orElse(null)
                 if (sound == null) {
-                    TLocale.sendTo(player, "Menu.Action.Sound", it)
+                    player.sendLang("Menu.Action.Sound", it)
                     return
                 }
                 val volume: Float = split.getOrNull(1)?.toFloatOrNull() ?: 1f

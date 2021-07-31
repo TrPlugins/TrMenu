@@ -30,7 +30,7 @@ object FunctionParser {
                     if (split.size < 2) return@joinToString it.value
                     val value = split[1]
 
-                    when (split[0].removePrefix(" ").toLowerCase()) {
+                    when (split[0].removePrefix(" ").lowercase()) {
                         "kether", "ke" -> parseKetherFunction(player, value)
                         "javascript", "js" -> parseJavaScript(session, value)
                         "meta", "m" -> Metadata.getMeta(player)[value].toString()

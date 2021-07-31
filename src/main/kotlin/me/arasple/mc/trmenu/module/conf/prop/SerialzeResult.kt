@@ -1,6 +1,6 @@
 package me.arasple.mc.trmenu.module.conf.prop
 
-import io.izzel.taboolib.util.Strings
+import taboolib.common.util.replaceWithOrder
 import me.arasple.mc.trmenu.module.display.icon.Icon
 import me.arasple.mc.trmenu.module.display.layout.MenuLayout
 
@@ -21,7 +21,7 @@ class SerialzeResult(
 
     fun submitError(error: SerialzeError, vararg args: Any) {
         state = State.FAILED
-        errors.add(Strings.replaceWithOrder(SerialzeError.formatInfo(error), *args))
+        errors.add(SerialzeError.formatInfo(error).replaceWithOrder(*args))
     }
 
     @Suppress("UNCHECKED_CAST")

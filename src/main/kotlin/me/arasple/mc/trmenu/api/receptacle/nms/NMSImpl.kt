@@ -1,8 +1,6 @@
 package me.arasple.mc.trmenu.api.receptacle.nms
 
 import com.mojang.authlib.GameProfile
-import io.izzel.taboolib.Version
-import io.izzel.taboolib.util.item.Items
 import me.arasple.mc.trmenu.api.receptacle.nms.packet.*
 import net.minecraft.server.v1_12_R1.IChatBaseComponent
 import net.minecraft.server.v1_12_R1.PacketPlayOutSetSlot
@@ -16,6 +14,7 @@ import org.bukkit.craftbukkit.v1_16_R3.inventory.CraftItemStack
 import org.bukkit.craftbukkit.v1_16_R3.util.CraftChatMessage
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import taboolib.module.nms.MinecraftVersion
 
 /**
  * @author Arasple
@@ -24,7 +23,7 @@ import org.bukkit.inventory.ItemStack
 class NMSImpl : NMS() {
 
     private val emptyItemStack = CraftItemStack.asNMSCopy((ItemStack(Material.AIR)))
-    private val version = Version.getCurrentVersionInt()
+    private val version = MinecraftVersion.majorLegacy
 
     override fun sendInventoryPacket(player: Player, vararg packets: PacketInventory) {
         packets.forEach {
@@ -93,7 +92,7 @@ class NMSImpl : NMS() {
     }
 
     private fun toNMSCopy(itemStack: ItemStack?): Any {
-        return if (itemStack == null || Items.isNull(itemStack)) emptyItemStack
+        return if (itemStack == null || itemStack.type == Material.AIR) emptyItemStack
         else CraftItemStack.asNMSCopy(itemStack)
     }
 

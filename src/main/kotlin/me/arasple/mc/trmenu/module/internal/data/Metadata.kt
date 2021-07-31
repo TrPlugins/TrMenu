@@ -1,15 +1,14 @@
 package me.arasple.mc.trmenu.module.internal.data
 
-import io.izzel.taboolib.module.config.TConfig
-import io.izzel.taboolib.module.db.local.LocalPlayer
-import io.izzel.taboolib.module.inject.TFunction
-import io.izzel.taboolib.module.inject.TSchedule
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.module.display.MenuSession
-import org.bukkit.Bukkit
-import org.bukkit.configuration.file.FileConfiguration
+import me.arasple.mc.trmenu.module.internal.database.DatabaseLocal
 import org.bukkit.entity.Player
 import org.bukkit.metadata.FixedMetadataValue
+import taboolib.common.platform.submit
+import taboolib.library.configuration.FileConfiguration
+import taboolib.module.configuration.Config
+import taboolib.module.configuration.SecuredFile
 
 /**
  * @author Arasple
@@ -25,10 +24,19 @@ object Metadata {
 
     internal val meta = mutableMapOf<String, DataMap>()
     internal val data = mutableMapOf<String, DataMap>()
-    internal val globalData = TConfig.create(TrMenu.plugin, "data/globalData.yml")
 
-    @TSchedule(delay = 100, period = 20 * 30, async = true)
-    @TFunction.Cancel
+    @Config("data/globalData.yml")
+    lateinit var globalData: SecuredFile
+
+    private val localDatabase = DatabaseLocal()
+
+    init {
+        submit(delay = 100, period = (20 * 30), async = true) {
+            save()
+        }
+    }
+
+//    @TFunction.Cancel 暂不处理
     fun save() {
         data.forEach { (player, dataMap) ->
             getLocalePlayer(player).let {
@@ -36,14 +44,14 @@ object Metadata {
                     dataMap.data.forEach { (key, value) -> it.set("TrMenu.Data.$key", value) }
                 else println("NullData: $player")
             }
-            LocalPlayer.getHandler().save()
+//            LocalPlayer.getHandler().save()
         }
         globalData.saveToFile()
     }
 
     @Suppress("DEPRECATION")
     fun getLocalePlayer(playerName: String): FileConfiguration? {
-        return LocalPlayer.get(Bukkit.getOfflinePlayer(playerName))
+        return localDatabase.pull(playerName)
     }
 
     fun loadData(player: Player) {

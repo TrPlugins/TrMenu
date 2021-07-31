@@ -1,11 +1,5 @@
 package me.arasple.mc.trmenu.module.internal.command.impl
 
-import io.izzel.taboolib.TabooLib
-import io.izzel.taboolib.loader.PluginBoot
-import io.izzel.taboolib.module.command.base.Argument
-import io.izzel.taboolib.module.command.base.BaseSubCommand
-import io.izzel.taboolib.module.locale.chatcolor.TColor
-import io.izzel.taboolib.util.plugin.PluginUtils
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.module.display.Menu
@@ -18,58 +12,60 @@ import me.arasple.mc.trmenu.util.Time
 import me.arasple.mc.trmenu.util.bukkit.Heads
 import me.arasple.mc.trmenu.util.net.Paster
 import org.bukkit.Bukkit
-import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import taboolib.common.platform.subCommand
+import taboolib.module.chat.HexColor
+import taboolib.platform.BukkitPlugin
+import java.io.File
 
 /**
  * @author Arasple
  * @date 2021/1/28 15:50
  */
-class CommandDebug : BaseSubCommand() {
+object CommandDebug : CommandExpresser {
 
-    private val description = PluginBoot.getPluginFile().fileConfiguration
-    
-    override fun getArguments() = arrayOf(
-        Argument("Type", true) {
-            listOf(
-                "mirror",
-                "dump",
-                "info",
-                "player",
-                "menu",
-                "parseTexture"
-            )
+    override val command = subCommand {
+        dynamic(optional = true) {
+            suggestion<CommandSender> { _, _ ->
+                listOf(
+                    "mirror",
+                    "dump",
+                    "info",
+                    "player",
+                    "menu",
+                    "parseTexture"
+                )
+            }
         }
-    )
-
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>) {
-        if (args.isNotEmpty()) {
-            when (args[0].toLowerCase()) {
-                "mirror" -> mirror(sender)
-                "dump" -> dump(sender)
-                "info" -> info(sender)
-                "player" -> {
-                    val player = when {
-                        args.size > 1 -> Bukkit.getPlayerExact(args[1])
-                        sender is Player -> sender
-                        else -> null
+        execute<CommandSender> { sender, context, argument ->
+            if (context.args.isNotEmpty()) {
+                when (context.args[0].lowercase()) {
+                    "mirror" -> mirror(sender)
+                    "dump" -> dump(sender)
+                    "info" -> info(sender)
+                    "player" -> {
+                        val player = when {
+                            context.args.size > 1 -> Bukkit.getPlayerExact(context.args[1])
+                            sender is Player -> sender
+                            else -> null
+                        }
+                        if (player != null && player.isOnline) {
+                            player(sender, player)
+                        }
                     }
-                    if (player != null && player.isOnline) {
-                        player(sender, player)
+                    "menu" -> {
+                        val menu = when {
+                            context.args.size > 1 -> TrMenuAPI.getMenuById(context.args[1])
+                            else -> null
+                        }
+                        if (menu != null) {
+                            menu(sender, menu)
+                        }
                     }
-                }
-                "menu" -> {
-                    val menu = when {
-                        args.size > 1 -> TrMenuAPI.getMenuById(args[1])
-                        else -> null
+                    "parsetexture" -> {
+                        sender.send("&8[&7Texture&8] ${Texture.createTexture(context.args.getOrElse(1) { "AIR" })}")
                     }
-                    if (menu != null) {
-                        menu(sender, menu)
-                    }
-                }
-                "parsetexture" -> {
-                    sender.send("&8[&7Texture&8] ${Texture.createTexture(args.getOrElse(1) { "AIR" })}")
                 }
             }
         }
@@ -100,13 +96,20 @@ class CommandDebug : BaseSubCommand() {
             append("| Server OS: ${properties["os.name"]} ${properties["os.arch"]} ${properties["os.version"]}\n")
             append("| Server software: ${Bukkit.getServer().version} (${Bukkit.getServer().bukkitVersion})\n")
             append("| Java version: ${System.getProperty("java.version")}\n\n")
-            append("| TabooLib: ${TabooLib.getVersion()}\n")
-            append("| TrMenu: ${description.getString("version")}\n")
-            append("   ${description.getString("built-time")} by ${description.getString("built-by")})\n\n")
+            append("| TabooLib: 6.x\n")
+            append("| TrMenu: ${BukkitPlugin.getInstance().description.version}\n")
+//            append("   ${description.getString("built-time")} by ${description.getString("built-by")})\n\n")
             append("Installed Plugins: \n")
-            Bukkit.getPluginManager().plugins.sortedBy { it.name }.forEach {
-                val size = PluginUtils.getPluginFile(it).length() / 1024
-                append("· ${it.name} - ${it.description.version} ($size KB)\n")
+            Bukkit.getPluginManager().plugins.sortedBy { it.name }.forEach { plugin ->
+                var file: File? = null
+                try {
+                    Class.forName("org.bukkit.plugin.java.JavaPlugin").also {
+                        file = it.getMethod("getFile").also { it.isAccessible = true }.invoke(plugin) as File
+                    }
+                } catch (t: Throwable) {
+                }
+                val size = (file?.length() ?: 0) / 1024
+                append("· ${plugin.name} - ${plugin.description.version} ($size KB)\n")
             }
         }
         Paster.paste(sender, dump)
@@ -125,17 +128,16 @@ class CommandDebug : BaseSubCommand() {
                 
                 &2Server: &6${Bukkit.getServer().name}
                 &2Plugins: &6${Bukkit.getPluginManager().plugins.size}
-                &2TabooLib: &f${TabooLib.getVersion()}
+                &2TabooLib: &f6.x
                 
                 &2Total Menus: &6${Menu.menus.size}
                 &2Total Tasks: &6$totalTasks
                 &2Cached Skulls: &6${Heads.cacheSize()}
                 
-                &2Built-Info: &a${description.getString("version")}
-                &8( &3${description.getString("built-time")} &6by &b${description.getString("built-by")} &8)
-
                 &3&l「&8--------------------------------------------------&3&l」
             """.trimIndent().split("\n")
+        // &2Built-Info: &a${description.getString("version")}
+        // &8( &3${description.getString("built-time")} &6by &b${description.getString("built-by")} &8)
         )
     }
 
@@ -194,7 +196,7 @@ class CommandDebug : BaseSubCommand() {
      */
 
     private fun CommandSender.send(message: String) {
-        sendMessage(TColor.translate(message))
+        sendMessage(HexColor.translate(message))
     }
 
     private fun CommandSender.send(messages: List<String>) {

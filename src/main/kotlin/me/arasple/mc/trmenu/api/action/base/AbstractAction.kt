@@ -46,7 +46,7 @@ abstract class AbstractAction(val baseContent: String = "", var option: ActionOp
     abstract fun onExecute(player: Player, placeholderPlayer: Player = player)
 
     override fun toString(): String {
-        return "${javaClass.simpleName.substring(6)}: $baseContent${option.set.entries.joinToString("") { "{${it.key.name.toLowerCase()}=${it.value}}" }}"
+        return "${javaClass.simpleName.substring(6)}: $baseContent${option.set.entries.joinToString("") { "{${it.key.name.lowercase()}=${it.value}}" }}"
     }
 
 }

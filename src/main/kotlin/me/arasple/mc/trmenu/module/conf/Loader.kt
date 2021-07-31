@@ -1,7 +1,5 @@
 package me.arasple.mc.trmenu.module.conf
 
-import io.izzel.taboolib.module.locale.TLocale
-import io.izzel.taboolib.util.Files
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.api.event.MenuOpenEvent
@@ -9,6 +7,10 @@ import me.arasple.mc.trmenu.module.display.Menu
 import me.arasple.mc.trmenu.util.file.FileListener
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
+import taboolib.common.platform.console
+import taboolib.common.platform.releaseResourceFile
+import taboolib.module.lang.sendLang
+import taboolib.platform.util.sendLang
 import java.io.File
 import kotlin.system.measureNanoTime
 
@@ -31,7 +33,7 @@ object Loader {
                 "shop-example/categories/Shop-Ores.yml",
                 "shop-example/handler/Shop-Handler-Purchase.yml",
                 "shop-example/handler/Shop-Handler-Sell.yml",
-            ).forEach { Files.releaseResource(TrMenu.plugin, "menus/$it", true) }
+            ).forEach { releaseResourceFile("menus/$it", true) }
         }
 
         folder
@@ -63,7 +65,7 @@ object Loader {
             func(TrMenu.SETTINGS.getStringList("Loader.Menu-Files").flatMap { filterMenuFiles(File(it)) })
 
         }.also {
-            TLocale.sendTo(sender, "Menu.Loaded", Menu.menus.size, it / 1000000.0)
+            sender.sendLang("Menu.Loaded", Menu.menus.size, it / 1000000.0)
         }
 
     }
@@ -91,7 +93,7 @@ object Loader {
                         } else target
                     }
 
-                    TLocale.sendToConsole("Menu.Reloaded", file.name)
+                    console().sendLang("Menu.Reloaded", file.name)
                 }
             }
         }

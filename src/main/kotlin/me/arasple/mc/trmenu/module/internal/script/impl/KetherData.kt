@@ -41,7 +41,7 @@ class KetherData(val type: EditType, private val source: ParsedAction<*>, privat
 
         @KetherParser(["data"], namespace = "trmenu")
         fun parser() = ScriptParser.parser {
-            val type = when (it.nextToken().toLowerCase()) {
+            val type = when (it.nextToken().lowercase()) {
                 "del" -> DEL
                 "set" -> SET
                 "get" -> GET

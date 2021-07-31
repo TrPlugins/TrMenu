@@ -1,8 +1,8 @@
 package me.arasple.mc.trmenu.module.internal.hook
 
-import io.izzel.taboolib.module.inject.TSchedule
-import io.izzel.taboolib.module.locale.TLocale
 import me.arasple.mc.trmenu.module.internal.hook.impl.*
+import taboolib.common.platform.console
+import taboolib.module.lang.sendLang
 
 /**
  * @author Arasple
@@ -12,7 +12,7 @@ object HookPlugin {
 
     fun printInfo() {
         registry.filter { it.isHooked }.forEach {
-            TLocale.sendToConsole("Plugin.Dependency.Hooked", it.name)
+            console().sendLang("Plugin.Dependency.Hooked", it.name)
         }
     }
 

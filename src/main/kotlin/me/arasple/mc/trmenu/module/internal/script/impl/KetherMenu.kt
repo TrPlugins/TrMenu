@@ -8,6 +8,7 @@ import io.izzel.taboolib.kotlin.kether.common.loader.types.ArgTypes
 import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.api.event.MenuOpenEvent
 import me.arasple.mc.trmenu.module.internal.script.kether.BaseAction
+import java.util.*
 import java.util.concurrent.CompletableFuture
 import kotlin.math.min
 
@@ -51,7 +52,7 @@ class KetherMenu(val type: Type, val menu: ParsedAction<*>?) : BaseAction<Void>(
 
         @KetherParser(["menu"], namespace = "trmenu")
         fun parser() = ScriptParser.parser {
-            val type = Type.valueOf(it.nextToken().toUpperCase())
+            val type = Type.valueOf(it.nextToken().uppercase())
             KetherMenu(
                 type,
                 if (type != Type.CLOSE) it.next(ArgTypes.ACTION) else null

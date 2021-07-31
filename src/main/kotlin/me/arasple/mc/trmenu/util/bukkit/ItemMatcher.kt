@@ -1,13 +1,15 @@
 package me.arasple.mc.trmenu.util.bukkit
 
-import io.izzel.taboolib.util.item.ItemBuilder
-import io.izzel.taboolib.util.item.Items
 import me.arasple.mc.trmenu.module.internal.service.Performance
 import me.arasple.mc.trmenu.util.bukkit.ItemMatcher.TraitType.*
-import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
+import taboolib.library.xseries.XMaterial
+import taboolib.platform.util.ItemBuilder
+import taboolib.platform.util.hasItem
+import taboolib.platform.util.takeItem
+import java.util.*
 
 /**
  * @author Arasple
@@ -48,13 +50,13 @@ class ItemMatcher(private val matcher: Set<Match>) {
     }
 
     fun itemMatches(itemStack: ItemStack, ignoreAmount: Boolean = false): Boolean {
-        return matcher.all { it.itemsMatcher.match(itemStack) && if (ignoreAmount) true else itemStack.amount == it.amount }
+        return matcher.all { it.itemsMatcher(itemStack) && if (ignoreAmount) true else itemStack.amount == it.amount }
     }
 
     fun hasItem(player: Player): Boolean {
         Performance.check("Function:ItemMatcherCheck") {
             return matcher.all {
-                Items.hasItem(player.inventory, it.itemsMatcher, it.amount)
+                player.inventory.hasItem(it.amount, it.itemsMatcher)
             }
         }
         throw Exception()
@@ -62,23 +64,24 @@ class ItemMatcher(private val matcher: Set<Match>) {
 
     fun takeItem(player: Player): Boolean {
         return matcher.all {
-            Items.takeItem(player.inventory, it.itemsMatcher, it.amount)
+            player.inventory.takeItem(it.amount, it.itemsMatcher)
         }
     }
 
     fun buildItem(): List<ItemStack> {
         return matcher.map {
-            val itemBuilder = ItemBuilder(Material.BEDROCK).amount(it.amount)
+            val itemBuilder = ItemBuilder(XMaterial.BEDROCK)
+            itemBuilder.amount = it.amount
 
             it.traits.forEach { (trait, value) ->
                 when (trait) {
-                    MATERIAL -> itemBuilder.material(value.toUpperCase())
-                    DATA -> itemBuilder.damage(value.toIntOrNull() ?: 0)
-                    MODEL_DATA -> itemBuilder.customModelData(value.toIntOrNull() ?: 0)
-                    NAME -> itemBuilder.name(value)
-                    LORE -> itemBuilder.lore(value.split("\n"))
-                    HEAD -> itemBuilder.skullOwner(value)
-                    AMOUNT -> itemBuilder.amount(value.toIntOrNull() ?: 1)
+                    MATERIAL -> itemBuilder.material = XMaterial.valueOf(value.uppercase())
+                    DATA -> itemBuilder.damage = (value.toIntOrNull() ?: 0).toShort()
+                    MODEL_DATA -> itemBuilder.customModelData = value.toIntOrNull() ?: 0
+                    NAME -> itemBuilder.name = value
+                    LORE -> itemBuilder.lore.addAll(value.split("\n"))
+                    HEAD -> itemBuilder.skullOwner = value
+                    AMOUNT -> itemBuilder.amount = value.toIntOrNull() ?: 1
                 }
             }
 
@@ -94,7 +97,7 @@ class ItemMatcher(private val matcher: Set<Match>) {
 
         val amount = getTrait(AMOUNT)?.toIntOrNull() ?: 1
 
-        val itemsMatcher = Items.Matcher { itemStack ->
+        val itemsMatcher: ((itemStack: ItemStack) -> Boolean) = { itemStack ->
             val material = getTrait(MATERIAL)
             val materialMatch = material == null || itemStack.type.name.equals(material, true)
 

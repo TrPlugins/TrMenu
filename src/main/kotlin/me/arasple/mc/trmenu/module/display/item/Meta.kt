@@ -1,14 +1,13 @@
 package me.arasple.mc.trmenu.module.display.item
 
-import io.izzel.taboolib.module.nms.NMS
-import io.izzel.taboolib.module.nms.nbt.NBTCompound
-import io.izzel.taboolib.util.item.ItemBuilder
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.script.Condition
 import me.arasple.mc.trmenu.util.Regexs
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
+import taboolib.module.nms.ItemTag
+import taboolib.platform.util.ItemBuilder
 
 /**
  * @author Arasple
@@ -19,7 +18,7 @@ class Meta(
     private val amount: String,
     private val shiny: String,
     private val flags: Array<ItemFlag>,
-    private val nbt: NBTCompound?,
+    private val nbt: ItemTag?,
 ) {
 
     private val isAmountDynamic = amount.toIntOrNull() == null
@@ -40,14 +39,14 @@ class Meta(
 
     fun flags(builder: ItemBuilder) {
         if (flags.isNotEmpty()) {
-            builder.flags(*flags)
+            builder.flags.addAll(flags)
         }
     }
 
     fun nbt(session: MenuSession, itemStack: ItemStack): ItemMeta? {
         if (nbt != null && !nbt.isEmpty()) {
-            val nbt = if (isNBTDynamic) NBTCompound.fromJson(session.parse(nbt.toJson())) else nbt
-            if (nbt.isEmpty()) return NMS.handle().saveNBT(itemStack, nbt).itemMeta
+            val nbt = if (isNBTDynamic) ItemTag.fromJson(session.parse(nbt.toJson())) else nbt
+            if (nbt.isEmpty()) return itemStack.also { nbt.saveTo(it) }.itemMeta
         }
         return null
     }

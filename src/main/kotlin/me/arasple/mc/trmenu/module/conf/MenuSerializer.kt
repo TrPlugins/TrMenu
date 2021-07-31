@@ -1,7 +1,5 @@
 package me.arasple.mc.trmenu.module.conf
 
-import io.izzel.taboolib.module.nms.nbt.NBTBase
-import io.izzel.taboolib.module.nms.nbt.NBTCompound
 import me.arasple.mc.trmenu.api.action.pack.Reactions
 import me.arasple.mc.trmenu.api.menu.ISerializer
 import me.arasple.mc.trmenu.api.receptacle.window.vanilla.ClickType
@@ -28,6 +26,8 @@ import org.bukkit.configuration.MemorySection
 import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.ItemFlag
+import taboolib.module.nms.ItemTag
+import taboolib.module.nms.ItemTagData
 import java.io.File
 import kotlin.math.max
 
@@ -237,10 +237,9 @@ object MenuSerializer : ISerializer {
                     flags.mapNotNull { flag ->
                         ItemFlag.values().find { it.name.equals(flag, true) }
                     }.toTypedArray(),
-                    NBTCompound().also { nbt.forEach { (key, value) -> it[key] = NBTBase.toNBT(value) } }
+                    ItemTag().also { nbt.forEach { (key, value) -> it[key] = ItemTagData.toNBT(value) } }
                 )
             )
-
             IconProperty(priority, Condition(condition), item, clickActions)
         }
 

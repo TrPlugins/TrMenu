@@ -3,6 +3,7 @@ package me.arasple.mc.trmenu.util
 import me.arasple.mc.trmenu.TrMenu
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
+import taboolib.platform.BukkitPlugin
 import java.io.ByteArrayOutputStream
 import java.io.DataOutputStream
 import java.io.IOException

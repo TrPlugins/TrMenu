@@ -1,9 +1,9 @@
 package me.arasple.mc.trmenu.api.action.impl
 
-import io.izzel.taboolib.module.locale.TLocale
 import me.arasple.mc.trmenu.api.action.base.AbstractAction
 import me.arasple.mc.trmenu.api.action.base.ActionOption
 import org.bukkit.entity.Player
+import taboolib.platform.type.BukkitPlayer
 
 /**
  * @author Arasple
@@ -12,7 +12,7 @@ import org.bukkit.entity.Player
 class ActionActionbar(content: String, option: ActionOption) : AbstractAction(content, option) {
 
     override fun onExecute(player: Player, placeholderPlayer: Player) {
-        TLocale.Display.sendActionBar(player, parseContent(placeholderPlayer))
+        BukkitPlayer(player).sendActionBar(parseContent(placeholderPlayer))
     }
 
     companion object {

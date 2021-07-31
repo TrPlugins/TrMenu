@@ -1,18 +1,11 @@
 package me.arasple.mc.trmenu.module.internal.command.impl
 
-import io.izzel.taboolib.cronus.CronusUtils
-import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
-import io.izzel.taboolib.module.command.base.Argument
-import io.izzel.taboolib.module.command.base.BaseSubCommand
-import io.izzel.taboolib.module.locale.TLocale
-import io.izzel.taboolib.util.item.Items
-import io.izzel.taboolib.util.item.inventory.MenuBuilder
-import io.izzel.taboolib.util.lite.Sounds
 import me.arasple.mc.trmenu.module.display.layout.MenuLayout
 import me.arasple.mc.trmenu.module.display.texture.Texture
 import me.arasple.mc.trmenu.util.Time
 import me.arasple.mc.trmenu.util.net.Paster
-import org.bukkit.command.Command
+import org.apache.commons.lang3.math.NumberUtils
+import org.bukkit.Material
 import org.bukkit.command.CommandSender
 import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.configuration.MemoryConfiguration
@@ -20,44 +13,49 @@ import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
+import taboolib.common.platform.subCommand
+import taboolib.library.xseries.XSound
+import taboolib.module.ui.buildMenu
+import taboolib.module.ui.type.Basic
+import taboolib.platform.util.sendLang
 
 /**
  * @author Arasple
  * @date 2020/7/22 12:08
  */
-class CommandTemplate : BaseSubCommand() {
+object CommandTemplate : CommandExpresser {
 
-    override fun getArguments(): Array<Argument> {
-        return arrayOf(
-            Argument("Rows", false) {
+    override val command = subCommand {
+        dynamic(optional = true) {
+            suggestion<CommandSender> { _, _ ->
                 listOf("1", "2", "3", "4", "5", "6")
             }
-        )
-    }
+        }
+        execute<Player> { player, context, argument ->
+            val rows = (if (context.args.isNotEmpty()) NumberUtils.toInt(context.args[0], 5) else 3).coerceAtMost(6)
 
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>) {
-        val player = sender as Player
-        val rows = (if (args.isNotEmpty()) NumberUtils.toInt(args[0], 5) else 3).coerceAtMost(6)
+            buildMenu<Basic>("Template#$rows") {
+                rows(rows)
+                handLocked(false)
+                onClose { e ->
+                    val inventory = e.inventory
 
-        MenuBuilder.builder()
-            .title("Template#$rows")
-            .rows(rows)
-            .lockHand(false)
-            .close { e ->
-                val inventory = e.inventory
+                    if (inventory.all { it == null || it.type == Material.AIR }) {
+                        player.sendLang("Command.Template.Empty")
+                        return@onClose
+                    }
 
-                if (inventory.all { Items.isNull(it) }) {
-                    TLocale.sendTo(player, "Command.Template.Empty")
-                    return@close
+                    XSound.BLOCK_NOTE_BLOCK_BIT.play(player, 1f, 0f)
+                    Paster.paste(player, generate(inventory), "yml")
+
+                    inventory.contents.forEach {
+                        if (!(it == null || it.type == Material.AIR)) {
+                            player.inventory.addItem(it).values.forEach { e -> player.world.dropItem(player.location, e) }
+                        }
+                    }
                 }
-
-                Sounds.BLOCK_NOTE_BLOCK_BIT.play(player, 1f, 0f)
-                Paster.paste(player, generate(inventory), "yml")
-
-                inventory.contents.forEach { if (!Items.isNull(it)) CronusUtils.addItem(player, it) }
             }
-            .open(player)
-
+        }
     }
 
     /**
@@ -102,14 +100,13 @@ class CommandTemplate : BaseSubCommand() {
 
         for (i in 0 until inventory.size) {
             val item = inventory.getItem(i)
-            if (!Items.isNull(item)) {
+            if (item == null || item.type == Material.AIR) {
                 items.computeIfAbsent(item!!) { mutableSetOf() }.add(i)
             }
         }
 
         return items
     }
-
     private fun formatDisplaySection(item: ItemStack): ConfigurationSection {
         val section = MemoryConfiguration()
         val meta = item.itemMeta

@@ -1,10 +1,10 @@
 package me.arasple.mc.trmenu.module.internal.script.js
 
 import com.google.common.collect.Maps
-import io.izzel.taboolib.util.Features
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.script.EvalResult
 import org.bukkit.Bukkit
+import taboolib.common5.compileJS
 import java.util.function.Function
 import javax.script.CompiledScript
 import javax.script.ScriptContext
@@ -38,7 +38,7 @@ object JavaScriptAgent {
 
     fun preCompile(script: String): CompiledScript {
         return compiledScripts.computeIfAbsent(script) {
-            Features.compileScript(script)
+            script.compileJS()
         }
     }
 
@@ -73,7 +73,7 @@ object JavaScriptAgent {
 
         val compiledScript =
             if (cacheScript) preCompile(script)
-            else Features.compileScript(script)
+            else script.compileJS()
 
         return EvalResult(compiledScript?.eval(context))
 

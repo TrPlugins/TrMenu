@@ -1,14 +1,6 @@
 package me.arasple.mc.trmenu.module.internal.script.js
 
-import io.izzel.taboolib.common.plugin.bridge.BridgeImpl
-import io.izzel.taboolib.internal.apache.lang3.math.NumberUtils
 import io.izzel.taboolib.kotlin.Randoms
-import io.izzel.taboolib.module.nms.NMS
-import io.izzel.taboolib.module.nms.nbt.NBTBase
-import io.izzel.taboolib.module.tellraw.TellrawJson
-import io.izzel.taboolib.util.item.Equipments
-import io.izzel.taboolib.util.item.ItemBuilder
-import io.izzel.taboolib.util.item.Items
 import me.arasple.mc.trmenu.api.action.Actions
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.data.Metadata
@@ -18,12 +10,21 @@ import me.arasple.mc.trmenu.util.Bungees
 import me.arasple.mc.trmenu.util.bukkit.Heads
 import me.arasple.mc.trmenu.util.bukkit.ItemMatcher
 import me.clip.placeholderapi.PlaceholderAPI
+import org.apache.commons.lang3.math.NumberUtils
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.PlayerInventory
+import taboolib.library.xseries.XMaterial
+import taboolib.module.chat.TellrawJson
+import taboolib.module.nms.ItemTagData
+import taboolib.module.nms.getItemTag
+import taboolib.module.nms.i18n.I18n11700
+import taboolib.platform.compat.getBalance
+import taboolib.platform.util.ItemBuilder
+import taboolib.type.BukkitEquipment
 
 
 /**
@@ -108,12 +109,13 @@ class Assist {
     // utils.getEquipment("Arasple", "HEAD")
     fun getEquipment(player: String, equipmentSlot: String): ItemStack? {
         return getPlayer(player)?.run {
-            Equipments.getItems(this)[Equipments.fromNMS(equipmentSlot)]
+            BukkitEquipment.getItems(this)[BukkitEquipment.fromNMS(equipmentSlot)]
         }
     }
 
     fun hasEquipment(player: String, equipmentSlot: String): Boolean {
-        return !Items.isNull(getEquipment(player, equipmentSlot))
+        val item = getEquipment(player, equipmentSlot)
+        return !(item == null || item.type == Material.AIR)
     }
 
 
@@ -155,15 +157,18 @@ class Assist {
      */
 
     fun getItemBuildr(): ItemBuilder {
-        return ItemBuilder(Material.STONE)
+        return ItemBuilder(XMaterial.STONE)
     }
 
     fun getTellraw(): TellrawJson {
-        return TellrawJson.create()
+        return TellrawJson()
     }
 
-    fun getItemName(itemStack: ItemStack): String {
-        return Items.getName(itemStack)
+    fun getItemName(itemStack: ItemStack): String? {
+        return if (itemStack.type != Material.AIR && itemStack.itemMeta?.hasDisplayName() == true)
+            itemStack.itemMeta?.displayName
+        else
+            I18n11700.getName(itemStack)
     }
 
     fun hasItem(player: String, identify: String): Boolean {
@@ -205,8 +210,7 @@ class Assist {
      */
 
     fun hasMoney(player: Player, money: String): Boolean {
-        BridgeImpl.handle()
-        return hasMoney(player, toDouble(money))
+        return player.getBalance() >= toDouble(money)
     }
 
     fun hasMoney(player: Player, money: Double): Boolean {
@@ -312,22 +316,22 @@ class Assist {
      */
 
     fun getNBT(itemStack: ItemStack, string: String): String? {
-        val compound = NMS.handle().loadNBT(itemStack)
-        return compound.get(string)?.asString()
+        val itemTag = itemStack.getItemTag()
+        return itemTag[string]?.asString()
     }
 
     fun setNBT(itemStack: ItemStack, key: String, value: String): ItemStack {
-        val compound = NMS.handle().loadNBT(itemStack)
-        compound[key] = NBTBase(value)
-        return NMS.handle().saveNBT(itemStack, compound)
+        val itemTag = itemStack.getItemTag()
+        itemTag[key] = ItemTagData(value)
+        return itemStack.also { itemTag.saveTo(it) }
     }
 
     fun getLore(itemStack: ItemStack): MutableList<String> {
-        return itemStack.lore ?: mutableListOf("0")
+        return itemStack.itemMeta?.lore ?: mutableListOf("0")
     }
 
     fun setLore(itemStack: ItemStack, loreList: MutableList<String>): MutableList<String> {
-        itemStack.lore = loreList
-        return itemStack.lore ?: mutableListOf("0")
+        itemStack.itemMeta?.lore = loreList
+        return itemStack.itemMeta?.lore ?: mutableListOf("0")
     }
 }

@@ -1,9 +1,6 @@
 package me.arasple.mc.trmenu.module.display
 
 import io.izzel.taboolib.kotlin.kether.KetherTerminal
-import io.izzel.taboolib.module.locale.TLocale
-import io.izzel.taboolib.module.locale.chatcolor.TColor
-import io.izzel.taboolib.util.Strings
 import me.arasple.mc.trmenu.api.event.MenuCloseEvent
 import me.arasple.mc.trmenu.api.receptacle.window.Receptacle
 import me.arasple.mc.trmenu.module.display.icon.Icon
@@ -13,6 +10,9 @@ import me.arasple.mc.trmenu.module.internal.script.FunctionParser
 import me.arasple.mc.trmenu.module.internal.service.Performance
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitTask
+import taboolib.module.chat.HexColor
+import taboolib.common.util.replaceWithOrder
+import taboolib.platform.compat.replacePlaceholder
 import java.util.*
 
 /**
@@ -103,9 +103,9 @@ class MenuSession(
         Performance.check("Handler:StringParse") {
             val preColor = MenuSettings.PRE_COLOR
             val funced = FunctionParser.parse(placeholderPlayer, string)
-            val content = Strings.replaceWithOrder(if (preColor) funced else TColor.translate(funced), *arguments)
-            val papi = TLocale.Translate.setPlaceholders(placeholderPlayer, content)
-            return if (preColor) papi else TColor.translate(papi)
+            val content = (if (preColor) funced else HexColor.translate(funced)).replaceWithOrder(*arguments)
+            val papi = content.replacePlaceholder(placeholderPlayer)
+            return if (preColor) papi else HexColor.translate(papi)
         }
         throw Exception()
     }

@@ -1,10 +1,10 @@
 package me.arasple.mc.trmenu.util.net
 
 import com.google.gson.JsonParser
-import io.izzel.taboolib.module.locale.TLocale
-import io.izzel.taboolib.util.IO
 import me.arasple.mc.trmenu.util.Tasks
 import org.bukkit.command.CommandSender
+import taboolib.common.env.DependencyDownloader
+import taboolib.platform.util.sendLang
 import java.net.HttpURLConnection
 import java.net.URL
 import java.nio.charset.StandardCharsets
@@ -18,11 +18,11 @@ object Paster {
     private const val URL = "https://paste.helpch.at/"
 
     fun paste(sender: CommandSender, content: String, extension: String = "") {
-        TLocale.sendTo(sender, "Paster.Processing")
+        sender.sendLang("Paster.Processing")
         paste(
             content,
-            { TLocale.sendTo(sender, "Paster.Success", "$it.$extension") },
-            { TLocale.sendTo(sender, "Paster.Failed") }
+            { sender.sendLang("Paster.Success", "$it.$extension") },
+            { sender.sendLang("Paster.Failed") }
         )
     }
 
@@ -35,7 +35,7 @@ object Paster {
                 con.doInput = true
                 con.doOutput = true
                 con.outputStream.also { it.write(content.toByteArray(StandardCharsets.UTF_8)) }
-                val source = JsonParser().parse(IO.readFully(con.inputStream, StandardCharsets.UTF_8)).asJsonObject
+                val source = JsonParser().parse(DependencyDownloader.readFully(con.inputStream, StandardCharsets.UTF_8)).asJsonObject
                 url(URL + source.get("key").asString)
             } catch (e: Throwable) {
                 e.printStackTrace()

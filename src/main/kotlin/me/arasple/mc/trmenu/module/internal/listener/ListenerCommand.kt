@@ -1,22 +1,19 @@
 package me.arasple.mc.trmenu.module.internal.listener
 
-import io.izzel.taboolib.module.inject.TListener
 import me.arasple.mc.trmenu.api.event.MenuOpenEvent
 import me.arasple.mc.trmenu.module.display.Menu
-import org.bukkit.event.EventHandler
-import org.bukkit.event.EventPriority
-import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerCommandPreprocessEvent
+import taboolib.common.platform.EventPriority
+import taboolib.common.platform.SubscribeEvent
 
 
 /**
  * @author Arasple
  * @date 2020/2/29 17:43
  */
-@TListener
-class ListenerCommand : Listener {
+object ListenerCommand {
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @SubscribeEvent(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     fun onCommand(e: PlayerCommandPreprocessEvent) {
         val player = e.player
         val message = e.message.removePrefix("/")

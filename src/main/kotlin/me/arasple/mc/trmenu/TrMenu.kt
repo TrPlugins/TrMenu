@@ -1,34 +1,44 @@
 package me.arasple.mc.trmenu
 
-import io.izzel.taboolib.loader.Plugin
-import io.izzel.taboolib.module.config.TConfig
-import io.izzel.taboolib.module.inject.TInject
-import io.izzel.taboolib.module.locale.TLocale
 import me.arasple.mc.trmenu.module.conf.Loader
 import me.arasple.mc.trmenu.module.display.MenuSession
-import me.arasple.mc.trmenu.module.display.MenuSettings
 import me.arasple.mc.trmenu.module.internal.hook.HookPlugin
 import me.arasple.mc.trmenu.module.internal.service.RegisterCommands
 import me.arasple.mc.trmenu.module.internal.service.Shortcuts
 import org.bukkit.Bukkit
+import taboolib.common.env.RuntimeDependency
+import taboolib.common.platform.Plugin
+import taboolib.common.platform.console
+import taboolib.module.configuration.Config
+import taboolib.module.configuration.SecuredFile
+import taboolib.module.lang.sendLang
+import taboolib.platform.BukkitPlugin
 
 /**
  * @author Arasple
  * @date 2021/1/24 9:51
  */
+@RuntimeDependency(
+    value = "!org.apache.commons:commons-lang3:3.12.0",
+    test = "!org.apache.commons.lang3.ArrayUtils",
+    relocate = ["!org.apache.commons.lang3", "!me.arasple.mc.trmenu.shade.org.apache.commons.lang3"]
+)
 object TrMenu : Plugin() {
 
-    @TInject("settings.yml", locale = "Options.Language", migrate = true)
-    lateinit var SETTINGS: TConfig
+//    @TInject("settings.yml", locale = "Options.Language", migrate = true)
+    @Config("settings.yml",true)
+    lateinit var SETTINGS: SecuredFile
         private set
 
+    val plugin = BukkitPlugin.getInstance()
+    
     override fun onLoad() {
-        TLocale.sendToConsole("Plugin.Loading", Bukkit.getBukkitVersion())
+        console().sendLang("Plugin.Loading", Bukkit.getBukkitVersion())
     }
 
     override fun onEnable() {
         SETTINGS.listener { onSettingsReload() }.also { onSettingsReload() }
-        TLocale.sendToConsole("Plugin.Enabled", plugin.description.version)
+        console().sendLang("Plugin.Enabled", plugin.description.version)
         HookPlugin.printInfo()
         Loader.loadMenus()
     }
@@ -41,7 +51,6 @@ object TrMenu : Plugin() {
     }
 
     private fun onSettingsReload() {
-        MenuSettings.load()
         Shortcuts.Type.load()
         RegisterCommands.load()
     }

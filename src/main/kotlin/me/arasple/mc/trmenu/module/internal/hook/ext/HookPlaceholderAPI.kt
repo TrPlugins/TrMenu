@@ -1,8 +1,5 @@
 package me.arasple.mc.trmenu.module.internal.hook.ext
 
-import io.izzel.taboolib.module.inject.THook
-import io.izzel.taboolib.module.inject.TListener
-import io.izzel.taboolib.module.locale.TLocale
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.event.MenuOpenEvent
 import me.arasple.mc.trmenu.module.display.Menu
@@ -11,16 +8,14 @@ import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.module.internal.script.js.JavaScriptAgent
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
 import org.bukkit.entity.Player
-import org.bukkit.event.EventHandler
-import org.bukkit.event.Listener
+import taboolib.common.platform.SubscribeEvent
+import taboolib.platform.util.sendLang
 
 /**
  * @author Arasple
  * @date 2021/2/4 11:37
  */
-@THook
-@TListener
-class HookPlaceholderAPI : PlaceholderExpansion(), Listener {
+object HookPlaceholderAPI : PlaceholderExpansion() {
 
     override fun getIdentifier() = "trmenu"
 
@@ -36,7 +31,7 @@ class HookPlaceholderAPI : PlaceholderExpansion(), Listener {
             val args = params.split("_")
             val key = args.getOrElse(1) { "" }
 
-            return when (args[0].toLowerCase()) {
+            return when (args[0].lowercase()) {
                 "menus" -> Menu.menus.size
                 "args" -> session.arguments[key.toIntOrNull() ?: 0]
                 "meta" -> Metadata.getMeta(player)[key]
@@ -61,7 +56,7 @@ class HookPlaceholderAPI : PlaceholderExpansion(), Listener {
         }
     }
 
-    @EventHandler
+    @SubscribeEvent
     fun onMenuOpen(e: MenuOpenEvent) {
         val menu = e.menu
         val viewer = e.session.viewer
@@ -71,8 +66,8 @@ class HookPlaceholderAPI : PlaceholderExpansion(), Listener {
 
         if (expansions.isNotEmpty()) {
             e.isCancelled = true
-            TLocale.sendTo(viewer, "Menu.Expansions.Header", expansions.size)
-            expansions.forEach { TLocale.sendTo(viewer, "Menu.Expansions.Format", it) }
+            viewer.sendLang("Menu.Expansions.Header", expansions.size)
+            expansions.forEach { viewer.sendLang("Menu.Expansions.Format", it) }
         }
     }
 

@@ -152,7 +152,7 @@ enum class ReceptacleType(
         0..1
     );
 
-    val vanillaType by lazy { "minecraft:${toBukkitType().name.toLowerCase()}" }
+    val vanillaType by lazy { "minecraft:${toBukkitType().name.lowercase()}" }
 
     val mainInvSlots = (slotRange.last + 1..slotRange.last + 27).toList()
 

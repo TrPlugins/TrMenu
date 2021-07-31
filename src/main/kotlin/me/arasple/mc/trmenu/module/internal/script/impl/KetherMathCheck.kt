@@ -6,6 +6,7 @@ import io.izzel.taboolib.kotlin.kether.common.api.ParsedAction
 import io.izzel.taboolib.kotlin.kether.common.api.QuestContext
 import io.izzel.taboolib.kotlin.kether.common.loader.types.ArgTypes
 import me.arasple.mc.trmenu.module.internal.script.kether.BaseAction
+import java.util.*
 import java.util.concurrent.CompletableFuture
 
 /**
@@ -36,7 +37,7 @@ class KetherMathCheck(val type: Type, val menu: ParsedAction<*>?) : BaseAction<A
 
         @KetherParser(["mathcheck", "mtc"], namespace = "trmenu")
         fun parser() = ScriptParser.parser {
-            val type = Type.valueOf(it.nextToken().toUpperCase())
+            val type = Type.valueOf(it.nextToken().uppercase())
             KetherMathCheck(
                 type,
                 it.next(ArgTypes.ACTION)

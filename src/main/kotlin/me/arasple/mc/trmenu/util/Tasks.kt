@@ -3,6 +3,7 @@ package me.arasple.mc.trmenu.util
 import me.arasple.mc.trmenu.TrMenu
 import org.bukkit.Bukkit
 import org.bukkit.scheduler.BukkitTask
+import taboolib.platform.BukkitPlugin
 
 /**
  * @author Arasple
