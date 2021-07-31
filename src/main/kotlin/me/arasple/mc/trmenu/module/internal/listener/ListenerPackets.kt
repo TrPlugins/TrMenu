@@ -1,7 +1,5 @@
 package me.arasple.mc.trmenu.module.internal.listener
 
-import me.arasple.mc.trmenu.api.event.ReceptacleInteractEvent
-import org.bukkit.entity.Player
 import taboolib.common.platform.SubscribeEvent
 import taboolib.common.platform.submit
 import taboolib.module.nms.PacketReceiveEvent
@@ -19,7 +17,7 @@ object ListenerPackets {
             val button = e.packet.read<Int>("button")
             val clickType = ReceptacleClickType.from(mode!!, button!!, slot!!) ?: return
             val evt = ReceptacleInteractEvent(e.player, receptacle, clickType, slot).also { it.call() }
-            receptacle.callEventClick(e.player, evt)
+            receptacle.callEventClick(evt)
 
             if (evt.isCancelled) PacketWindowSetSlot(windowId = -1, slot = -1).send(e.player)
 
