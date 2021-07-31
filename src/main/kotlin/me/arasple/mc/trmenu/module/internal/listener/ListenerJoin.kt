@@ -1,10 +1,10 @@
 package me.arasple.mc.trmenu.module.internal.listener
 
 import me.arasple.mc.trmenu.module.internal.data.Metadata
-import me.arasple.mc.trmenu.util.Tasks
 import me.arasple.mc.trmenu.util.bukkit.Heads
 import org.bukkit.event.player.PlayerJoinEvent
 import taboolib.common.platform.SubscribeEvent
+import taboolib.common.platform.submit
 
 /**
  * @author Arasple
@@ -16,7 +16,7 @@ object ListenerJoin {
     fun onJoin(e: PlayerJoinEvent) {
         val player = e.player
 
-        Tasks.task(true) {
+        submit(async = true) {
             // 缓存玩家头颅备用
             Heads.getPlayerHead(player.name)
             // 加载 Metadata - Data 数据

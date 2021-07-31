@@ -1,9 +1,9 @@
 package me.arasple.mc.trmenu.util.net
 
 import com.google.gson.JsonParser
-import me.arasple.mc.trmenu.util.Tasks
 import org.bukkit.command.CommandSender
 import taboolib.common.env.DependencyDownloader
+import taboolib.common.platform.submit
 import taboolib.platform.util.sendLang
 import java.net.HttpURLConnection
 import java.net.URL
@@ -27,7 +27,7 @@ object Paster {
     }
 
     private fun paste(content: String, url: (String) -> Unit, failed: () -> Unit) {
-        Tasks.task(true) {
+        submit(async = true) {
             try {
                 val con = URL("${URL}documents").openConnection() as HttpURLConnection
                 con.requestMethod = "POST"

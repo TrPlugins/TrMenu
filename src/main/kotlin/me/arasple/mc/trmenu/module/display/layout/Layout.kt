@@ -6,9 +6,9 @@ import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.module.internal.service.Performance
 import me.arasple.mc.trmenu.util.Regexs
-import me.arasple.mc.trmenu.util.Tasks
 import me.arasple.mc.trmenu.util.collections.Variables
 import org.bukkit.event.inventory.InventoryType
+import taboolib.common.platform.submit
 import kotlin.math.max
 
 /**
@@ -90,7 +90,7 @@ class Layout(
                     cancelEvent()
                 }
 
-                Tasks.task(false) {
+                submit(async = false) {
                     Performance.check("Menu:Event:ClickHandle") {
                         session.getIconProperty(event.slot)?.handleClick(event.clickType, session)
                     }

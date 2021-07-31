@@ -2,8 +2,8 @@ package me.arasple.mc.trmenu.api.action.impl
 
 import me.arasple.mc.trmenu.api.action.base.AbstractAction
 import me.arasple.mc.trmenu.api.action.base.ActionOption
-import me.arasple.mc.trmenu.util.Tasks
 import org.bukkit.entity.Player
+import taboolib.common.platform.submit
 
 /**
  * @author Arasple
@@ -12,7 +12,7 @@ import org.bukkit.entity.Player
 class ActionDelArguments : AbstractAction() {
 
     override fun onExecute(player: Player, placeholderPlayer: Player) {
-        Tasks.delay(3L, true) {
+        submit(delay = 3L, async = true) {
             player.session().arguments = arrayOf()
         }
     }

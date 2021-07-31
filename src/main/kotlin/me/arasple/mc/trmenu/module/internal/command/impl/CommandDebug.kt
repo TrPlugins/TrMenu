@@ -7,7 +7,6 @@ import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.display.texture.Texture
 import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.module.internal.service.Performance
-import me.arasple.mc.trmenu.util.Tasks
 import me.arasple.mc.trmenu.util.Time
 import me.arasple.mc.trmenu.util.bukkit.Heads
 import me.arasple.mc.trmenu.util.net.Paster
@@ -15,6 +14,7 @@ import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import taboolib.common.platform.subCommand
+import taboolib.common.platform.submit
 import taboolib.module.chat.HexColor
 import taboolib.platform.BukkitPlugin
 import java.io.File
@@ -75,7 +75,7 @@ object CommandDebug : CommandExpresser {
      * 性能损害
      */
     private fun mirror(sender: CommandSender) {
-        Tasks.task(true) {
+        submit(async = true) {
             Performance.collect {
                 childFormat = "§8  {0}§7{1} §2[{3} ms] §7{4}%"
                 parentFormat = "§8  §8{0}§7{1} §8[{3} ms] §7{4}%"

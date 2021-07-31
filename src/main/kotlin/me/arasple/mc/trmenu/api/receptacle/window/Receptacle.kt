@@ -14,6 +14,7 @@ import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.ItemStack
+import taboolib.common.platform.submit
 import java.util.*
 import kotlin.properties.Delegates
 
@@ -29,7 +30,7 @@ open class Receptacle(
 
     var title: String by Delegates.observable(title) { _, _, _ ->
         forViewers {
-            Tasks.delay(3, true) {
+            submit(delay = 3, async = true) {
                 initializationPackets(it)
             }
         }

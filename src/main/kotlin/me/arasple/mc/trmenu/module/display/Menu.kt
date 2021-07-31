@@ -7,9 +7,9 @@ import me.arasple.mc.trmenu.module.display.icon.Icon
 import me.arasple.mc.trmenu.module.display.layout.MenuLayout
 import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.module.internal.service.Performance
-import me.arasple.mc.trmenu.util.Tasks
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
+import taboolib.common.platform.submit
 
 /**
  * @author Arasple
@@ -120,7 +120,7 @@ class Menu(
         }.also { it.invoke() }
 
         if (settings.titleUpdate > 0 && settings.title.cyclable()) {
-            session.arrange(Tasks.timer(10, settings.titleUpdate.toLong(), true) {
+            session.arrange(submit(delay = 10, period = settings.titleUpdate.toLong(), async = true) {
                 setTitle()
             })
         }
@@ -148,7 +148,7 @@ class Menu(
     private fun loadTasks(session: MenuSession) {
         settings.tasks.forEach { (period, reactions) ->
             session.arrange(
-                Tasks.timer(5L, period, true) {
+                submit(delay = 5L, period = period, async = true) {
                     Performance.check("Menu:CustomTasks") {
                         reactions.eval(session)
                     }

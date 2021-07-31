@@ -5,8 +5,8 @@ import me.arasple.mc.trmenu.api.receptacle.ReceptacleAPI
 import me.arasple.mc.trmenu.api.receptacle.nms.packet.PacketWindowClose
 import me.arasple.mc.trmenu.api.receptacle.nms.packet.PacketWindowSetSlot
 import me.arasple.mc.trmenu.api.receptacle.window.vanilla.ClickType
-import me.arasple.mc.trmenu.util.Tasks
 import taboolib.common.platform.SubscribeEvent
+import taboolib.common.platform.submit
 import taboolib.module.nms.PacketReceiveEvent
 
 object ListenerPackets {
@@ -30,12 +30,12 @@ object ListenerPackets {
             receptacle.close(e.player, false)
 
             // 防止关闭菜单后, 动态标题频率过快出现的卡假容器
-            Tasks.delay(1L, true) {
+            submit(delay = 1L, async = true) {
                 ReceptacleAPI.MANAGER.getViewingReceptacle(e.player) ?: kotlin.run {
                     e.player.updateInventory()
                 }
             }
-            Tasks.delay(4L, true) {
+            submit(delay = 4L, async = true) {
                 ReceptacleAPI.MANAGER.getViewingReceptacle(e.player) ?: kotlin.run {
                     PacketWindowClose().send(e.player)
                 }

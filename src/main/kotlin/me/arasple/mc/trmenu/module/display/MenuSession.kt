@@ -10,6 +10,7 @@ import me.arasple.mc.trmenu.module.internal.script.FunctionParser
 import me.arasple.mc.trmenu.module.internal.service.Performance
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitTask
+import taboolib.common.platform.PlatformExecutor
 import taboolib.module.chat.HexColor
 import taboolib.common.util.replaceWithOrder
 import taboolib.platform.compat.replacePlaceholder
@@ -75,10 +76,10 @@ class MenuSession(
     private val playerItemSlots = mutableSetOf<Int>()
 
     // 该会话正在运行的所有任务
-    private val tasking = mutableSetOf<BukkitTask>()
+    private val tasking = mutableSetOf<PlatformExecutor.PlatformTask>()
 
     // 临时任务（切换页码时允许删除）
-    private val temporaries = mutableSetOf<Int>()
+    private val temporaries = mutableSetOf<PlatformExecutor.PlatformTask>()
 
 
     /**
@@ -118,9 +119,9 @@ class MenuSession(
     /**
      * 为该会话新建一个任务
      */
-    fun arrange(task: BukkitTask, temporary: Boolean = false) {
+    fun arrange(task: PlatformExecutor.PlatformTask, temporary: Boolean = false) {
         tasking.add(task)
-        if (temporary) temporaries.add(task.taskId)
+        if (temporary) temporaries.add(task)
     }
 
     /**
@@ -142,7 +143,7 @@ class MenuSession(
     fun shutTemps() {
         activeIcons.clear()
         tasking.removeIf {
-            if (temporaries.remove(it.taskId)) {
+            if (temporaries.remove(it)) {
                 it.cancel()
                 true
             } else false

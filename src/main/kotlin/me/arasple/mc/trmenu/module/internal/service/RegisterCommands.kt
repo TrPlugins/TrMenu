@@ -12,6 +12,7 @@ import taboolib.common.platform.Awake
 import taboolib.common.platform.command
 import taboolib.common.platform.registerCommand
 import taboolib.common.platform.unregisterCommand
+import taboolib.module.configuration.SecuredFile
 
 /**
  * @author Arasple
@@ -25,7 +26,6 @@ object RegisterCommands {
         return Reactions.ofReaction(Property.asAnyList(any))
     }
 
-    @Awake(LifeCycle.INIT)
     fun load() {
 
         registered.removeIf {

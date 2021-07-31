@@ -31,16 +31,17 @@ taboolib {
         contributors {
             name("Arasple")
         }
+
         dependencies {
-            name("PlaceholderAPI")
-            name("Vault")
-            name("PlayerPoints")
-            name("HeadDatabase")
-            name("Oraxen")
-            name("SkinsRestorer")
-            name("ItemsAdder")
-            name("floodgate-bukkit")
-            name("FastScript")
+            name("PlaceholderAPI").optional(true)
+            name("Vault").optional(true)
+            name("PlayerPoints").optional(true)
+            name("HeadDatabase").optional(true)
+            name("Oraxen").optional(true)
+            name("SkinsRestorer").optional(true)
+            name("ItemsAdder").optional(true)
+            name("floodgate-bukkit").optional(true)
+            name("FastScript").optional(true)
         }
     }
 

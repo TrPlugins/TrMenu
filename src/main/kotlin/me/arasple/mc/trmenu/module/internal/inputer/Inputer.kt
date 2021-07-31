@@ -6,7 +6,6 @@ import me.arasple.mc.trmenu.api.action.impl.ActionSilentClose
 import me.arasple.mc.trmenu.api.action.pack.Reactions
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.data.Metadata
-import me.arasple.mc.trmenu.util.Tasks
 import me.arasple.mc.trmenu.util.bukkit.ItemHelper
 import me.arasple.mc.trmenu.util.collections.CycleList
 import me.arasple.mc.trmenu.util.readBuilder
@@ -15,11 +14,11 @@ import net.wesjd.anvilgui.AnvilGUI
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerEditBookEvent
 import taboolib.common.platform.SubscribeEvent
+import taboolib.common.platform.submit
 import taboolib.library.xseries.XMaterial
 import taboolib.platform.util.BookBuilder
 import taboolib.platform.util.hasLore
 import taboolib.platform.util.takeItem
-import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 import java.util.function.Consumer
 
@@ -85,7 +84,7 @@ class Inputer(private val stages: CycleList<Catcher>) {
             }
             when (type) {
                 Type.CHAT -> {
-                    Tasks.delay(2) {
+                    submit(delay = 2) {
                         /*Features.inputChat(viewer, object : Features.ChatInput {
                             override fun quit(): String {
                                 return ""

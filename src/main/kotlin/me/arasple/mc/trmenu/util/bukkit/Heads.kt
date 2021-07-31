@@ -6,11 +6,10 @@ import com.mojang.authlib.GameProfile
 import com.mojang.authlib.properties.Property
 import me.arasple.mc.trmenu.api.receptacle.nms.NMS
 import me.arasple.mc.trmenu.module.internal.hook.HookPlugin
-import me.arasple.mc.trmenu.util.Tasks
 import org.bukkit.Bukkit
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
-import taboolib.common.env.DependencyDownloader
+import taboolib.common.platform.submit
 import taboolib.library.xseries.XMaterial
 import java.net.URL
 import java.util.*
@@ -79,7 +78,7 @@ object Heads {
                     ?.also(block)
             }
             else -> {
-                Tasks.task(true) {
+                submit(async = true) {
                     val profile = JsonParser().parse(fromURL("${MOJANG_API[0]}$name")) as JsonObject
                     val uuid = profile["id"].asString
                     (JsonParser().parse(fromURL("${MOJANG_API[1]}$uuid")) as JsonObject).getAsJsonArray("properties")

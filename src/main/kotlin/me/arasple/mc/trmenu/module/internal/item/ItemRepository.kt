@@ -1,6 +1,6 @@
 package me.arasple.mc.trmenu.module.internal.item
 
-import me.arasple.mc.trmenu.util.Tasks
+import org.bukkit.Bukkit
 import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.submit
 import taboolib.library.xseries.getItemStack
@@ -37,7 +37,7 @@ object ItemRepository {
         data.getKeys(true).filter { !itemStacks.keys.contains(it) }.forEach { data.set(it, null) }
         itemStacks.forEach { (id, item) -> data.set(id, item) }
         data
-        if (!isCanceling) Tasks.delay { writing = false }
+        if (!isCanceling) submit(delay = 2L, async = !Bukkit.isPrimaryThread()) { writing = false }
     }
 
     private fun load() {
