@@ -1,7 +1,7 @@
 package me.arasple.mc.trmenu.api.event
 
-import me.arasple.mc.trmenu.api.receptacle.window.Receptacle
-import me.arasple.mc.trmenu.api.receptacle.window.vanilla.ClickType
+import taboolib.module.ui.receptacle.Receptacle
+import taboolib.module.ui.receptacle.ReceptacleClickType
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -14,7 +14,7 @@ import taboolib.common.platform.ProxyEvent
 class ReceptacleInteractEvent(
     val player: Player,
     val receptacle: Receptacle,
-    val clickType: ClickType,
+    val clickType: ReceptacleClickType,
     val slot: Int
 ) : ProxyEvent() {
 

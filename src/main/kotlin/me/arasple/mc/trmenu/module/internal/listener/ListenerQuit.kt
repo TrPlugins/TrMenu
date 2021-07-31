@@ -1,10 +1,10 @@
 package me.arasple.mc.trmenu.module.internal.listener
 
-import me.arasple.mc.trmenu.api.receptacle.ReceptacleAPI
 import me.arasple.mc.trmenu.module.display.Menu
 import me.arasple.mc.trmenu.module.display.MenuSession
 import org.bukkit.event.player.PlayerQuitEvent
 import taboolib.common.platform.SubscribeEvent
+import taboolib.module.ui.receptacle.setViewingReceptacle
 
 /**
  * @author Arasple
@@ -21,7 +21,7 @@ object ListenerQuit {
             it.icons.forEach { icon -> icon.onReset(session) }
         }
         MenuSession.removeSession(player)
-        ReceptacleAPI.MANAGER.setViewingReceptacle(player, null)
+        player.setViewingReceptacle(null)
     }
 
 }

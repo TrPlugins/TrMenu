@@ -4,12 +4,12 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.mojang.authlib.GameProfile
 import com.mojang.authlib.properties.Property
-import me.arasple.mc.trmenu.api.receptacle.nms.NMS
 import me.arasple.mc.trmenu.module.internal.hook.HookPlugin
 import org.bukkit.Bukkit
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
 import taboolib.common.platform.submit
+import taboolib.common.reflect.Reflex.Companion.invokeMethod
 import taboolib.library.xseries.XMaterial
 import java.net.URL
 import java.util.*
@@ -73,9 +73,10 @@ object Heads {
                 HookPlugin.getSkinsRestorer().getPlayerSkinTexture(name)?.also(block)
             }
             Bukkit.getPlayer(name)?.isOnline == true -> {
-                NMS.INSTANCE.getGameProfile(Bukkit.getPlayer(name)!!).properties["textures"]
-                    .find { it.value != null }?.value
+                Bukkit.getPlayer(name)!!.invokeMethod<GameProfile>("getProfile")?.properties?.get("textures")
+                    ?.find { it.value != null }?.value
                     ?.also(block)
+
             }
             else -> {
                 submit(async = true) {

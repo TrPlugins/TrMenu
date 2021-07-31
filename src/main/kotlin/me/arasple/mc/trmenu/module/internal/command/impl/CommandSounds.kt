@@ -1,7 +1,6 @@
 package me.arasple.mc.trmenu.module.internal.command.impl
 
-import me.arasple.mc.trmenu.api.receptacle.window.type.InventoryChest
-import me.arasple.mc.trmenu.api.receptacle.window.vanilla.ClickType
+import taboolib.module.ui.receptacle.ChestInventory
 import org.bukkit.Sound
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -10,6 +9,7 @@ import taboolib.common.platform.subCommand
 import taboolib.library.xseries.XMaterial
 import taboolib.library.xseries.XSound
 import taboolib.module.chat.TellrawJson
+import taboolib.module.ui.receptacle.ReceptacleClickType
 import taboolib.platform.type.BukkitPlayer
 import taboolib.platform.util.ItemBuilder
 
@@ -37,8 +37,8 @@ object CommandSounds : CommandExpresser {
         }
 
         val prevNext = arrayOf(page > 0, sounds.size > 54)
-        val receptacle = InventoryChest(6, "Sounds / Page: $page ; Filter: ${filter ?: "*"}")
-        val slotMap = receptacle.type.slotRange
+        val receptacle = ChestInventory(6, "Sounds / Page: $page ; Filter: ${filter ?: "*"}")
+        val slotMap = receptacle.type.containerSlots
             .mapIndexed { index, slot -> slot to index }
             .filter { it.second < sounds.size }
             .toMap()
@@ -51,9 +51,9 @@ object CommandSounds : CommandExpresser {
             receptacle.setItem(DISPLAY(sounds[index].name), slot)
         }
 
-        receptacle.listenerClick { _, e ->
+        receptacle.onClick { _, e ->
             val slot = e.slot
-            if (slot < 0) return@listenerClick
+            if (slot < 0) return@onClick
 
             e.isCancelled = true
             receptacle.refresh(e.slot)
@@ -62,14 +62,14 @@ object CommandSounds : CommandExpresser {
                 slot == ctrl -> stopPlaying(player)
                 slot == prev && prevNext[0] -> open(player, page - 1, filter)
                 slot == next && prevNext[1] -> open(player, page + 1, filter)
-                slot in receptacle.type.slotRange -> {
-                    val index = slotMap[slot] ?: return@listenerClick
+                slot in receptacle.type.containerSlots -> {
+                    val index = slotMap[slot] ?: return@onClick
                     val sound = sounds[index]
-                    when (e.clickType) {
-                        ClickType.DROP -> player.playSound(player.location, sound, 1f, 0f)
-                        ClickType.LEFT -> player.playSound(player.location, sound, 1f, 1f)
-                        ClickType.RIGHT -> player.playSound(player.location, sound, 1f, 2f)
-                        ClickType.MIDDLE -> TellrawJson()
+                    when (e.receptacleClickType) {
+                        ReceptacleClickType.DROP -> player.playSound(player.location, sound, 1f, 0f)
+                        ReceptacleClickType.LEFT -> player.playSound(player.location, sound, 1f, 1f)
+                        ReceptacleClickType.RIGHT -> player.playSound(player.location, sound, 1f, 2f)
+                        ReceptacleClickType.MIDDLE -> TellrawJson()
                             .newLine()
                             .append("§8▶ §7CLICK TO COPY: ")
                             .append("§a§n" + sound.name).suggestCommand(sound.name)

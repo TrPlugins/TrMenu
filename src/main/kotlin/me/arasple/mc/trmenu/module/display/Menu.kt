@@ -2,7 +2,7 @@ package me.arasple.mc.trmenu.module.display
 
 import me.arasple.mc.trmenu.api.event.MenuOpenEvent
 import me.arasple.mc.trmenu.api.event.MenuPageChangeEvent
-import me.arasple.mc.trmenu.api.receptacle.window.Receptacle
+import taboolib.module.ui.receptacle.Receptacle
 import me.arasple.mc.trmenu.module.display.icon.Icon
 import me.arasple.mc.trmenu.module.display.layout.MenuLayout
 import me.arasple.mc.trmenu.module.internal.data.Metadata
@@ -94,7 +94,7 @@ class Menu(
             if (menuPageChangeEvent.isCancelled) return
             if (override) {
                 receptacle = session.receptacle!!
-                receptacle.clearItems()
+                receptacle.clear()
             } else {
                 session.receptacle = layout.baseReceptacle().also { receptacle = it }
                 layout.initReceptacle(session)
@@ -105,7 +105,7 @@ class Menu(
             loadIcon(session)
 
             if (override) {
-                receptacle.refresh(viewer)
+                receptacle.refresh()
                 session.updateActiveSlots()
             } else receptacle.open(viewer)
         }

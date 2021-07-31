@@ -12,6 +12,7 @@ import taboolib.common.platform.console
 import taboolib.common5.FileWatcher
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.SecuredFile
+import taboolib.module.lang.registerLanguage
 import taboolib.module.lang.sendLang
 import taboolib.platform.BukkitPlugin
 

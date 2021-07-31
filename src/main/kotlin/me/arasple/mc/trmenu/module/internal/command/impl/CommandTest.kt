@@ -1,11 +1,11 @@
 package me.arasple.mc.trmenu.module.internal.command.impl
 
-import me.arasple.mc.trmenu.api.receptacle.ReceptacleAPI
-import me.arasple.mc.trmenu.api.receptacle.window.type.InventoryChest
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryType
 import taboolib.common.platform.*
 import taboolib.library.xseries.XMaterial
+import taboolib.module.ui.receptacle.ChestInventory
+import taboolib.module.ui.receptacle.createReceptacle
 
 /**
  * @author Arasple
@@ -16,8 +16,8 @@ object CommandTest : CommandExpresser {
     override val command = subCommand {
         // menu test
         execute<Player> { player, _, _ ->
-            val chest = ReceptacleAPI.createReceptacle(InventoryType.CHEST, "Def").also {
-                it as InventoryChest
+            val chest = InventoryType.CHEST.createReceptacle("Def").also {
+                it as ChestInventory
                 it.rows = 3
             }
 

@@ -1,6 +1,6 @@
 package me.arasple.mc.trmenu.api.menu
 
-import me.arasple.mc.trmenu.api.receptacle.window.Receptacle
+import taboolib.module.ui.receptacle.Receptacle
 import org.bukkit.entity.Player
 
 /**

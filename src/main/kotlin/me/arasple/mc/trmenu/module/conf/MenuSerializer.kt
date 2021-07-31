@@ -2,7 +2,7 @@ package me.arasple.mc.trmenu.module.conf
 
 import me.arasple.mc.trmenu.api.action.pack.Reactions
 import me.arasple.mc.trmenu.api.menu.ISerializer
-import me.arasple.mc.trmenu.api.receptacle.window.vanilla.ClickType
+import taboolib.module.ui.receptacle.ReceptacleClickType
 import me.arasple.mc.trmenu.module.conf.prop.Property
 import me.arasple.mc.trmenu.module.conf.prop.SerialzeError
 import me.arasple.mc.trmenu.module.conf.prop.SerialzeResult
@@ -213,9 +213,9 @@ object MenuSerializer : ISerializer {
             val priority = Property.PRIORITY.ofInt(it, order)
             val condition = Property.CONDITION.ofString(it, "")
             val inherit = Property.INHERIT.ofBoolean(it, false)
-            val clickActions = mutableMapOf<Set<ClickType>, Reactions>()
+            val clickActions = mutableMapOf<Set<ReceptacleClickType>, Reactions>()
             action?.getValues(false)?.forEach { (type, reaction) ->
-                val clickTypes = ClickType.matches(type)
+                val clickTypes = ReceptacleClickType.matches(type)
                 if (clickTypes.isNotEmpty()) {
                     val reactions = Reactions.ofReaction(reaction)
                     if (!reactions.isEmpty()) clickActions[clickTypes] = Reactions.ofReaction(reaction)

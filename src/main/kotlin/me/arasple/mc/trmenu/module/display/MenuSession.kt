@@ -2,7 +2,7 @@ package me.arasple.mc.trmenu.module.display
 
 import io.izzel.taboolib.kotlin.kether.KetherTerminal
 import me.arasple.mc.trmenu.api.event.MenuCloseEvent
-import me.arasple.mc.trmenu.api.receptacle.window.Receptacle
+import taboolib.module.ui.receptacle.Receptacle
 import me.arasple.mc.trmenu.module.display.icon.Icon
 import me.arasple.mc.trmenu.module.display.icon.IconProperty
 import me.arasple.mc.trmenu.module.display.layout.Layout
@@ -155,7 +155,7 @@ class MenuSession(
      */
     fun close(closePacket: Boolean, updateInventory: Boolean) {
         MenuCloseEvent(this).call()
-        receptacle?.close(viewer, closePacket)
+        receptacle?.close(closePacket)
         if (updateInventory) viewer.updateInventory()
     }
 

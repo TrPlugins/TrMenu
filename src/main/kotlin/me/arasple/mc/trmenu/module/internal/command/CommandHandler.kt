@@ -1,6 +1,7 @@
 package me.arasple.mc.trmenu.module.internal.command
 
 import me.arasple.mc.trmenu.module.internal.command.impl.*
+import taboolib.common.LifeCycle
 import taboolib.common.platform.*
 
 
@@ -15,7 +16,7 @@ object CommandHandler {
      * 暂时做了兼容, 命令框架应当需要大改.
      */
     @CommandBody(permission = "test"/*, description = "Test loaded menus"*/)
-    val test = CommandTest.command
+    val test = CommandTest
 
     @CommandBody(permission = "trmenu.command.list"/*, description = "List loaded menus"*/)
     val list = CommandList.command
@@ -40,5 +41,12 @@ object CommandHandler {
 
     @CommandBody(permission = "trmenu.command.debug"/*, description = "Print debug info"*/)
     val debug = CommandDebug.command
-    
+
+
+    @Awake(LifeCycle.ENABLE)
+    fun register() {
+        command("trmenu", aliases = listOf("menu"), permission = "trmenu.access") {
+
+        }
+    }
 }
