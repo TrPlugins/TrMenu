@@ -47,7 +47,7 @@ taboolib {
 
     relocate("net.wesjd.anvilgui", "${project.group}.module.internal.inputer.anvil")
 
-    version = "6.0.0-pre15"
+    version = "6.0.0-pre16"
 }
 
 
