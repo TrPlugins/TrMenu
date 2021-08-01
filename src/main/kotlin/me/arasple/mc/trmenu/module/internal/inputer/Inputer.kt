@@ -16,6 +16,7 @@ import org.bukkit.event.player.PlayerEditBookEvent
 import taboolib.common.platform.SubscribeEvent
 import taboolib.common.platform.submit
 import taboolib.library.xseries.XMaterial
+import taboolib.module.nms.inputSign
 import taboolib.platform.util.BookBuilder
 import taboolib.platform.util.hasLore
 import taboolib.platform.util.takeItem
@@ -97,9 +98,9 @@ class Inputer(private val stages: CycleList<Catcher>) {
                     }
                 }
                 Type.SIGN -> {
-                    /*Features.inputSign(viewer, display[1].split("\n").toTypedArray()) {
+                    viewer.inputSign(display[1].split("\n").toTypedArray()) {
                         respond(it.joinToString(""))
-                    }*/
+                    }
                 }
                 Type.ANVIL -> AnvilGUI.Builder()
                     .onClose { respond("") }
