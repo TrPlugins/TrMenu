@@ -28,7 +28,7 @@ object TrMenu : Plugin() {
     val plugin by lazy { BukkitPlugin.getInstance() }
     
     override fun onLoad() {
-        console().sendLang("Plugin-Loading", MinecraftVersion.runningVersion)
+        console().sendLang("Plugin-Loading", MinecraftVersion.minecraftVersion)
     }
 
     override fun onEnable() {

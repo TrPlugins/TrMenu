@@ -1,7 +1,7 @@
 Plugin-Loading:
-  - ''
+  - '&7'
   - '&7Loading &3Tr&bMenu &f&lPremium... &8{0}'
-  - ''
+  - '&7'
 Plugin-Enabled: '&8[&3Tr&bMenu&8] &bINFO &8| &3插件启用. 当前运行版本 &2{0}&7.'
 Plugin-Update:
   - '&8[&3Tr&bMenu&8] &bUPDATE &8| &3更新 &a{0}&3 找到, 通过下方链接下载!'
@@ -12,20 +12,19 @@ Plugin-Dependency-Abuse: '&8[&3Tr&bMenu&8] &6HOOK &8| &4试图使用未挂钩插
 Menu-Loaded: '&8[&3Tr&bMenu&8] &aFINE &8| &a{0} &3个菜单已加载 &8({1} ms)'
 Menu-Reloaded: '&8[&3Tr&bMenu&8] &aFINE &8| &7自动重新载入插件 &f{0}'
 Menu-Expansions-Header:
-  - '&8[&3Tr&bMenu&8] &7你必须安装 PAPI &f{0} &7拓展以使用此菜单.'
+  - type: TEXT
+    text: '&8[&3Tr&bMenu&8] &7你必须安装 PAPI &f{0} &7拓展以使用此菜单.'
   - type: JSON
-    text: '&7请在安装后 <&3&n点击重载@reload> 拓展'
+    text: '&7请在安装后 [&3&n点击重载] 拓展'
     args:
-      reload:
-        hover: '&7点击重载 PAPI 拓展'
+      - hover: '&7点击重载 PAPI 拓展'
         command: '/papi reload'
 Menu-Expansions-Format:
-  type: JSON
-  text: '&8- <&a{0}@expansion>&r'
-  args:
-    expansion:
-      hover: '&7点击下载'
-      command: '/papi ecloud download {0}'
+  - type: JSON
+    text: '&8- [&a{0}]&r'
+    args:
+      - hover: '&7点击下载'
+        command: '/papi ecloud download {0}'
 Menu-Action-Sound: '&8[&3Tr&bMenu&8] &7未知音效: &f{0}'
 
 Paster-Processing: '&8[&3Tr&bMenu&8] &7粘贴内容中 ...'
@@ -38,12 +37,11 @@ Command-Action-Unknown-Player: '&8[&3Tr&bMenu&8] &7玩家 &f{0} &7未在线.'
 Command-Template-Empty: '&8[&3Tr&bMenu&8] &7模板为空，操作取消.'
 Command-Item-No-Item: '&8[&3Tr&bMenu&8] &7请 &f手持 &7一个物品.'
 Command-Item-To-Json:
-  type: JSON
-  text: '&8[&3Tr&bMenu&8] &7物品已被转换为 JSON: <&3&n点击复制@copy>'
-  args:
-    copy:
-      hover: '&7点击复制'
-      suggest: '{0}'
+  - type: JSON
+    text: '&8[&3Tr&bMenu&8] &7物品已被转换为 JSON: [&3&n点击复制]'
+    args:
+      - hover: '&7点击复制'
+        suggest: '{0}'
 Command-Item-Saved: '&8[&3Tr&bMenu&8] &7保存物品 (Id: &f{0}&7) 到插件库存'
 Command-Item-Deleted: '&8[&3Tr&bMenu&8] &7删除物品 (Id: &f{0}&7) 从插件库存'
 Command-List-Error: '&8[&3Tr&bMenu&8] &7NORM &8| &7无有效加载菜单 &8(Filter: {0})'
@@ -52,9 +50,8 @@ Command-List-Header:
   - '&8[&3Tr&bMenu&8] &aFINE &8| &7加载了 &f{0} &7个菜单 &8(Filter: {1}): '
   - ''
 Command-List-Format:
-  type: JSON
-  text: '&8- <&3{0}@menu> &7| &8(标题: {1} / 图标: {2})&r'
-  args:
-    menu:
-      hover: '&7点击打开'
-      command: '/trmenu open {0}'
+  - type: JSON
+    text: '&8- [&3{0}] &7| &8(标题: {1} / 图标: {2})&r'
+    args:
+      - hover: '&7点击打开'
+        command: '/trmenu open {0}'
