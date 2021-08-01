@@ -59,7 +59,7 @@ object ItemHelper {
                     itemBuilder.material = XMaterial.valueOf(type.asString)
                 }
                 val data = parse["data"]
-                if (data != null) itemBuilder.damage = data.asShort
+                if (data != null) itemBuilder.damage = data.asInt
                 val amount = parse["amount"]
                 if (amount != null) itemBuilder.amount = amount.asInt
                 val itemBuild = itemBuilder.build()
