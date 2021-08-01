@@ -65,7 +65,7 @@ object Loader {
             func(TrMenu.SETTINGS.getStringList("Loader.Menu-Files").flatMap { filterMenuFiles(File(it)) })
 
         }.also {
-            sender.sendLang("Menu.Loaded", Menu.menus.size, it / 1000000.0)
+            sender.sendLang("Menu-Loaded", Menu.menus.size, it / 1000000.0)
         }
 
     }
@@ -93,7 +93,7 @@ object Loader {
                         } else target
                     }
 
-                    console().sendLang("Menu.Reloaded", file.name)
+                    console().sendLang("Menu-Reloaded", file.name)
                 }
             }
         }

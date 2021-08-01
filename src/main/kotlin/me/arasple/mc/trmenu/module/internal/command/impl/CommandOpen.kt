@@ -37,11 +37,11 @@ object CommandOpen : CommandExpresser {
             val arguments = if (context.args.size > 2) ArrayUtils.removeAll(context.args, 0, 1) else null
 
             if (menu == null) {
-                sender.sendLang("Command.Open.Unknown-Menu", context.args[0])
+                sender.sendLang("Command-Open-Unknown-Menu", context.args[0])
                 return@execute
             }
             if (player == null || !player.isOnline) {
-                sender.sendLang("Command.Open.Unknown-Player", context.args.getOrNull(1) ?: "null")
+                sender.sendLang("Command-Open-Unknown-Player", context.args.getOrNull(1) ?: "null")
                 return@execute
             }
 

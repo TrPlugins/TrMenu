@@ -41,7 +41,7 @@ object CommandTemplate : CommandExpresser {
                     val inventory = e.inventory
 
                     if (inventory.all { it == null || it.type == Material.AIR }) {
-                        player.sendLang("Command.Template.Empty")
+                        player.sendLang("Command-Template-Empty")
                         return@onClose
                     }
 

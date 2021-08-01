@@ -66,8 +66,8 @@ object HookPlaceholderAPI : PlaceholderExpansion() {
 
         if (expansions.isNotEmpty()) {
             e.isCancelled = true
-            viewer.sendLang("Menu.Expansions.Header", expansions.size)
-            expansions.forEach { viewer.sendLang("Menu.Expansions.Format", it) }
+            viewer.sendLang("Menu-Expansions-Header", expansions.size)
+            expansions.forEach { viewer.sendLang("Menu-Expansions-Format", it) }
         }
     }
 

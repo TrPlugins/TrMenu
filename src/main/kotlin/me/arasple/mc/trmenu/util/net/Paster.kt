@@ -18,11 +18,11 @@ object Paster {
     private const val URL = "https://paste.helpch.at/"
 
     fun paste(sender: CommandSender, content: String, extension: String = "") {
-        sender.sendLang("Paster.Processing")
+        sender.sendLang("Paster-Processing")
         paste(
             content,
-            { sender.sendLang("Paster.Success", "$it.$extension") },
-            { sender.sendLang("Paster.Failed") }
+            { sender.sendLang("Paster-Success", "$it.$extension") },
+            { sender.sendLang("Paster-Failed") }
         )
     }
 

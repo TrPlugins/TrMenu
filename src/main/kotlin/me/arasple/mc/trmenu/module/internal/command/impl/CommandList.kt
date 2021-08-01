@@ -18,13 +18,13 @@ object CommandList : CommandExpresser {
             val menus = Menu.menus.filter { filter == null || it.id.contains(filter, true) }.sortedBy { it.id }
 
             if (menus.isEmpty()) {
-                sender.sendLang("Command.List.Error", filter ?: "*")
+                sender.sendLang("Command-List-Error", filter ?: "*")
             } else {
-                sender.sendLang("Command.List.Header", menus.size, filter ?: "*")
+                sender.sendLang("Command-List-Header", menus.size, filter ?: "*")
 
                 menus.forEach {
                     sender.sendLang(
-                        "Command.List.Format", it.id,
+                        "Command-List-Format", it.id,
                         it.settings.title.elements.first(),
                         it.icons.size
                     )

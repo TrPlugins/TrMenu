@@ -20,7 +20,7 @@ class ActionSound(content: String, option: ActionOption) : AbstractAction(conten
                 try {
                     sound = XSound.valueOf(split[0])
                 } catch (t: Throwable) {
-                    player.sendLang("Menu.Action.Sound", it)
+                    player.sendLang("Menu-Action-Sound", it)
                     return
                 }
                 val volume: Float = split.getOrNull(1)?.toFloatOrNull() ?: 1f

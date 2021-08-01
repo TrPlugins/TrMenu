@@ -35,12 +35,12 @@ object TrMenu : Plugin() {
     val plugin = BukkitPlugin.getInstance()
     
     override fun onLoad() {
-        console().sendLang("Plugin.Loading", Bukkit.getBukkitVersion())
+        console().sendLang("Plugin-Loading", Bukkit.getBukkitVersion())
     }
 
     override fun onEnable() {
         FileWatcher.INSTANCE.addSimpleListener(SETTINGS.file) { onSettingsReload() }.also { onSettingsReload() }
-        console().sendLang("Plugin.Enabled", plugin.description.version)
+        console().sendLang("Plugin-Enabled", plugin.description.version)
         HookPlugin.printInfo()
         Loader.loadMenus()
     }

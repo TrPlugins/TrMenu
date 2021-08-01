@@ -12,7 +12,7 @@ object HookPlugin {
 
     fun printInfo() {
         registry.filter { it.isHooked }.forEach {
-            console().sendLang("Plugin.Dependency.Hooked", it.name)
+            console().sendLang("Plugin-Dependency-Hooked", it.name)
         }
     }
 

@@ -36,7 +36,7 @@ object CommandItem : CommandExpresser {
 
             if (context.args[0].equals("toJson", true)) {
                 item ?: kotlin.run {
-                    player.sendLang("Command.Item.No-Item")
+                    player.sendLang("Command-Item-No-Item")
                     return@execute
                 }
                 toJson(player, item)
@@ -48,10 +48,10 @@ object CommandItem : CommandExpresser {
                     }
                     "save" -> item?.let {
                         ItemRepository.getItemStacks()[value] = item
-                        player.sendLang("Command.Item.Saved", value)
+                        player.sendLang("Command-Item-Saved", value)
                     }
                     "delete" -> ItemRepository.removeItem(value)?.let {
-                        player.sendLang("Command.Item.Deleted", value)
+                        player.sendLang("Command-Item-Deleted", value)
                     }
                 }
             }
@@ -65,7 +65,7 @@ object CommandItem : CommandExpresser {
         json.addProperty("amount", item.amount)
         json.add("meta", JsonParser().parse(item.getItemTag().toJson()))
         val stringJson = json.toString()
-        if (stringJson.length < 200) player.sendLang("Command.Item.To-Json", stringJson)
+        if (stringJson.length < 200) player.sendLang("Command-Item-To-Json", stringJson)
         else Paster.paste(player, stringJson, "json")
     }
 

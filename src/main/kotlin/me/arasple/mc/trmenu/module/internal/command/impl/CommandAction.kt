@@ -24,7 +24,7 @@ object CommandAction : CommandExpresser {
             val player = Bukkit.getPlayerExact(context.args[0])
 
             if (player == null || !player.isOnline) {
-                sender.sendLang("Command.Action.Unknown-Player", context.args[0])
+                sender.sendLang("Command-Action-Unknown-Player", context.args[0])
                 return@execute
             }
 

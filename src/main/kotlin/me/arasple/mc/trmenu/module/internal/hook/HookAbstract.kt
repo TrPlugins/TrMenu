@@ -30,7 +30,7 @@ abstract class HookAbstract {
     }
 
     fun reportAbuse() {
-        console().sendLang("Plugin.Dependency.Abuse", name)
+        console().sendLang("Plugin-Dependency-Abuse", name)
     }
 
 }

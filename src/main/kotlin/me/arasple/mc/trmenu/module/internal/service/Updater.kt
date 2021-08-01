@@ -18,6 +18,7 @@ import java.util.*
  * @author Arasple
  * @date 2020/7/28 18:30
  */
+@SkipTo(LifeCycle.ENABLE)
 object Updater {
 
     private val API_URL = "https://api.github.com/repos/Arasple/${TrMenu.plugin.name}/releases/latest"
@@ -51,7 +52,7 @@ object Updater {
 //                        if (LATEST_VERSION < 0) PluginBoot.setEnableBoot(false)
                         if (!NOTIFY) {
                             NOTIFY = true
-                            console().sendLang("Plugin.Update", LATEST_VERSION)
+                            console().sendLang("Plugin-Update", LATEST_VERSION)
                         }
                     }
                 }
@@ -64,7 +65,7 @@ object Updater {
     fun onJoin(e: PlayerJoinEvent) {
         val player = e.player
         if (player.isOp && LATEST_VERSION > CURRENT_VERSION && !NOTIFIED.contains(player.uniqueId)) {
-            player.sendLang("Plugin.Update", LATEST_VERSION)
+            player.sendLang("Plugin-Update", LATEST_VERSION)
             NOTIFIED.add(player.uniqueId)
         }
     }
