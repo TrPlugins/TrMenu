@@ -12,6 +12,8 @@ import net.md_5.bungee.api.chat.TextComponent
 import net.wesjd.anvilgui.AnvilGUI
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerEditBookEvent
+import taboolib.common.LifeCycle
+import taboolib.common.platform.SkipTo
 import taboolib.common.platform.SubscribeEvent
 import taboolib.common.platform.submit
 import taboolib.library.xseries.XMaterial
@@ -30,6 +32,7 @@ import java.util.function.Consumer
  *
  * return = retype current stage
  */
+@SkipTo(LifeCycle.ENABLE)
 class Inputer(private val stages: CycleList<Catcher>) {
 
     fun startInput(session: MenuSession) {
@@ -146,7 +149,7 @@ class Inputer(private val stages: CycleList<Catcher>) {
     companion object {
 
         // TODO - RELOADABLE
-        private val cancelWords = TrMenu.SETTINGS.getStringList("Action.Inputer.Cancel-Words").map { it.toRegex() }
+        private val cancelWords by lazy { TrMenu.SETTINGS.getStringList("Action.Inputer.Cancel-Words").map { it.toRegex() } }
 
         fun isCancelWord(word: String): Boolean {
             return cancelWords.any { it.matches(word) }

@@ -17,21 +17,9 @@ import taboolib.platform.util.ItemBuilder
  * @author Arasple
  * @date 2021/2/1 17:39
  */
-object CommandSounds : CommandExpresser {
+object CommandSounds {
 
-    override val command = subCommand {
-        dynamic(optional = true) {
-            suggestion<CommandSender> { _, _ ->
-                XSound.values().map { it.name }
-            }
-
-        }
-        execute<CommandSender> { sender, _, argument ->
-            open(sender as Player, 0, argument)
-        }
-    }
-
-    private fun open(player: Player, page: Int, filter: String?) {
+    internal fun open(player: Player, page: Int, filter: String?) {
         val sounds = Sound.values().filter { filter == null || it.name.contains(filter, true) }.sorted().let {
             it.subList(54 * page, it.size)
         }

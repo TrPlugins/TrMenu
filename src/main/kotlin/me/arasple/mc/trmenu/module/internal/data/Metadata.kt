@@ -28,7 +28,7 @@ object Metadata {
     @Config("data/globalData.yml")
     lateinit var globalData: SecuredFile
 
-    private val localDatabase = DatabaseLocal()
+    private val localDatabase by lazy { DatabaseLocal() }
 
     init {
         submit(delay = 100, period = (20 * 30), async = true) {

@@ -13,14 +13,14 @@ Menu-Loaded: '&8[&3Tr&bMenu&8] &aFINE &8| &a{0} &3个菜单已加载 &8({1} ms)'
 Menu-Reloaded: '&8[&3Tr&bMenu&8] &aFINE &8| &7自动重新载入插件 &f{0}'
 Menu-Expansions-Header:
   - '&8[&3Tr&bMenu&8] &7你必须安装 PAPI &f{0} &7拓展以使用此菜单.'
-  - ==: JSON
+  - type: JSON
     text: '&7请在安装后 <&3&n点击重载@reload> 拓展'
     args:
       reload:
         hover: '&7点击重载 PAPI 拓展'
         command: '/papi reload'
 Menu-Expansions-Format:
-  ==: JSON
+  type: JSON
   text: '&8- <&a{0}@expansion>&r'
   args:
     expansion:
@@ -38,7 +38,7 @@ Command-Action-Unknown-Player: '&8[&3Tr&bMenu&8] &7玩家 &f{0} &7未在线.'
 Command-Template-Empty: '&8[&3Tr&bMenu&8] &7模板为空，操作取消.'
 Command-Item-No-Item: '&8[&3Tr&bMenu&8] &7请 &f手持 &7一个物品.'
 Command-Item-To-Json:
-  ==: JSON
+  type: JSON
   text: '&8[&3Tr&bMenu&8] &7物品已被转换为 JSON: <&3&n点击复制@copy>'
   args:
     copy:
@@ -52,7 +52,7 @@ Command-List-Header:
   - '&8[&3Tr&bMenu&8] &aFINE &8| &7加载了 &f{0} &7个菜单 &8(Filter: {1}): '
   - ''
 Command-List-Format:
-  ==: JSON
+  type: JSON
   text: '&8- <&3{0}@menu> &7| &8(标题: {1} / 图标: {2})&r'
   args:
     menu:

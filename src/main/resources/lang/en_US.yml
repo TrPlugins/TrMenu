@@ -13,14 +13,14 @@ Menu-Loaded: '&8[&3Tr&bMenu&8] &aFINE &8| &a{0} &3menus were loaded &8({1} ms)'
 Menu-Reloaded: '&8[&3Tr&bMenu&8] &aFINE &8| &7Automatically reloaded menu &f{0}'
 Menu-Expansions-Header:
   - '&8[&3Tr&bMenu&8] &7You have to install the &f{0} &7expansion for PlaceholderAPI to use this menu.'
-  - ==: JSON
+  - type: JSON
     text: '&7Also don''t forget to <&3&nreload@reload>'
     args:
       reload:
         hover: '&7Click to reload expansions of PAPI'
         command: '/papi reload'
 Menu-Expansions-Format:
-  ==: JSON
+  type: JSON
   text: '&8- <&a{0}@expansion>&r'
   args:
     expansion:
@@ -38,7 +38,7 @@ Command-Action-Unknown-Player: '&8[&3Tr&bMenu&8] &7Player &f{0} &7is not online.
 Command-Template-Empty: '&8[&3Tr&bMenu&8] &7The template inventory is empty, menu creation cancelled.'
 Command-Item-No-Item: '&8[&3Tr&bMenu&8] &7Please &fhold an item &7in hand.'
 Command-Item-To-Json:
-  ==: JSON
+  type: JSON
   text: '&8[&3Tr&bMenu&8] &7The item has been converted to JSON: <&3&nClick to copy@copy>'
   args:
     copy:
@@ -52,7 +52,7 @@ Command-List-Header:
   - '&8[&3Tr&bMenu&8] &aFINE &8| &7Loaded &f{0} &7menus &8(Filter: {1}): '
   - ''
 Command-List-Format:
-  ==: JSON
+  type: JSON
   text: '&8- <&3{0}@menu> &7| &8(Title: {1} / Icons: {2})&r'
   args:
     menu:

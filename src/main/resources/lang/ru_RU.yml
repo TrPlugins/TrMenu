@@ -13,14 +13,14 @@ Menu-Loaded: '&8[&3Tr&bMenu&8] &aFINE &8| &a{0} &3менюшки были заг
 Menu-Reloaded: '&8[&3Tr&bMenu&8] &7Вы должны установить &f{0} &7расширение для PlaceholderAPI чтобы использовать данное меню!'
 Menu-Expansions-Header:
   - '&7Также не забудьте <&3&nreload@reload>'
-  - ==: JSON
+  - type: JSON
     text: '&7Нажмите, чтобы перезагрузить расширения PAPI'
     args:
       reload:
         hover: '/papi reload'
         command: '&8- <&a{0}@expansion>&r'
 Menu-Expansions-Format:
-  ==: JSON
+  type: JSON
   text: '&7Нажмите, чтобы скачать!'
   args:
     expansion:
@@ -38,7 +38,7 @@ Command-Action-Unknown-Player: '&8[&3Tr&bMenu&8] &7Инвентаризация 
 Command-Template-Empty: '&8[&3Tr&bMenu&8] &7Пожалуйста &fдержите предмет &7в руке.'
 Command-Item-No-Item: '&8[&3Tr&bMenu&8] &7Этот предмет был преобразован в формат JSON: <&3&nНажмите copy@copy>'
 Command-Item-To-Json:
-  ==: JSON
+  type: JSON
   text: '&7Нажмите, чтобы скопировать'
   args:
     copy:
@@ -52,7 +52,7 @@ Command-List-Header:
   - '&8- <&3{0}@menu> &7| &8(Заголовок: {1} / Иконки: {2})&r'
   - ''
 Command-List-Format:
-  ==: JSON
+  type: JSON
   text: '&7Нажмите, чтобы открыть'
   args:
     menu:

@@ -44,9 +44,9 @@ object RegisterCommands {
                 }
                 registered.add(main)
                 command(
-                    name = main,
-                    permission = section.getString("permission"),
-                    aliases = section.getStringList("aliases")
+                    name = main ?: continue,
+                    permission = section.getString("permission") ?: "",
+                    aliases = section.getStringList("aliases") ?: listOf()
                 ) {
                     execute<Player> { player, context, argument ->
                         val session = MenuSession.getSession(player)
