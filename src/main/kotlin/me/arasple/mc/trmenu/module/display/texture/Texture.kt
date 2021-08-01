@@ -146,7 +146,7 @@ class Texture(
 
             if (id is Int) {
                 builder.material = XMaterial.matchXMaterial(Material::class.java.getDeclaredMethod("getMaterial").invoke(null, id) as Material ?: Material.AIR)
-                builder.damage = data.toShort()
+                builder.damage = data
             } else {
                 val name = id.toString()
                 try {

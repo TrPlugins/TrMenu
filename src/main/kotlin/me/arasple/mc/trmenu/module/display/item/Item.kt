@@ -5,9 +5,9 @@ import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.display.texture.Texture
 import me.arasple.mc.trmenu.util.bukkit.ItemHelper.defColorize
 import me.arasple.mc.trmenu.util.collections.CycleList
-import me.arasple.mc.trmenu.util.readBuilder
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
+import taboolib.platform.util.ItemBuilder
 
 /**
  * @author Arasple
@@ -62,7 +62,7 @@ class Item(
         else {
             val current = cache[session.id]
             try {
-                val new = current!!.readBuilder().also { it.name = name(session) }.build()
+                val new = ItemBuilder(current!!).also { it.name = name(session) }.build()
                 cache[session.id] = new
             } catch (t: Throwable) {
 
@@ -78,7 +78,7 @@ class Item(
         else {
             val current = cache[session.id]
             if (current?.type == Material.AIR) {
-                val new = current.readBuilder().also { it.lore.addAll(lore(session) ?: listOf()) }.build()
+                val new = ItemBuilder(current).also { it.lore.addAll(lore(session) ?: listOf()) }.build()
                 cache[session.id] = new
             }
         }

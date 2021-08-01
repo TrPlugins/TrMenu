@@ -4,8 +4,8 @@ import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.display.item.Item
 import me.arasple.mc.trmenu.module.display.item.Meta
 import me.arasple.mc.trmenu.module.display.texture.Texture
-import me.arasple.mc.trmenu.util.readBuilder
 import org.bukkit.inventory.ItemStack
+import taboolib.platform.util.ItemBuilder
 
 /**
  * @author Arasple
@@ -19,7 +19,7 @@ interface IItem {
      */
     fun generate(session: MenuSession, texture: Texture, name: String?, lore: List<String>?, meta: Meta): ItemStack {
         val item = texture.generate(session)
-        val builder = item.readBuilder()
+        val builder = ItemBuilder(item)
         if (item.itemMeta != null) {
             name?.let { builder.name = it }
             lore?.let { builder.lore.addAll(it) }

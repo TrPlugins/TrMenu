@@ -8,7 +8,6 @@ import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.util.bukkit.ItemHelper
 import me.arasple.mc.trmenu.util.collections.CycleList
-import me.arasple.mc.trmenu.util.readBuilder
 import net.md_5.bungee.api.chat.TextComponent
 import net.wesjd.anvilgui.AnvilGUI
 import org.bukkit.entity.Player
@@ -18,6 +17,7 @@ import taboolib.common.platform.submit
 import taboolib.library.xseries.XMaterial
 import taboolib.module.nms.inputSign
 import taboolib.platform.util.BookBuilder
+import taboolib.platform.util.ItemBuilder
 import taboolib.platform.util.hasLore
 import taboolib.platform.util.takeItem
 import java.util.concurrent.ConcurrentHashMap
@@ -183,10 +183,10 @@ class Inputer(private val stages: CycleList<Catcher>) {
             }
             // 发送书本
             player.inventory.addItem(
-                BookBuilder().also {
+                ItemBuilder(BookBuilder().also {
                     it.material = XMaterial.WRITABLE_BOOK
                     it.bookPages.add(BookBuilder.Text(java.lang.String.join("\n", origin), true))
-                }.build().readBuilder().also {
+                }.build()).also {
                     it.name = "§f$display"
                     it.lore.addAll(arrayOf("§0Features Input", if (disposable) "§0Disposable" else ""))
                 }.build()
