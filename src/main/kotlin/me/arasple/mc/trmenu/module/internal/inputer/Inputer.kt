@@ -18,10 +18,7 @@ import taboolib.common.platform.SubscribeEvent
 import taboolib.common.platform.submit
 import taboolib.library.xseries.XMaterial
 import taboolib.module.nms.inputSign
-import taboolib.platform.util.BookBuilder
-import taboolib.platform.util.ItemBuilder
-import taboolib.platform.util.hasLore
-import taboolib.platform.util.takeItem
+import taboolib.platform.util.*
 import java.util.concurrent.ConcurrentHashMap
 import java.util.function.Consumer
 
@@ -89,15 +86,9 @@ class Inputer(private val stages: CycleList<Catcher>) {
             when (type) {
                 Type.CHAT -> {
                     submit(delay = 2) {
-                        /*Features.inputChat(viewer, object : Features.ChatInput {
-                            override fun quit(): String {
-                                return ""
-                            }
-
-                            override fun onChat(content: String): Boolean {
-                                return respond(content)
-                            }
-                        })*/
+                        viewer.nextChat {
+                            respond(it)
+                        }
                     }
                 }
                 Type.SIGN -> {

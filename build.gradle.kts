@@ -48,7 +48,7 @@ taboolib {
     relocate("net.wesjd.anvilgui", "${project.group}.module.internal.inputer.anvil")
 
     classifier = null
-    version = "6.0.0-pre19"
+    version = "6.0.0-pre20"
 }
 
 
