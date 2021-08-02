@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.module.internal.command.impl
 
+import me.arasple.mc.trmenu.module.internal.command.CommandExpresser
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryType
 import taboolib.common.platform.*
@@ -12,6 +13,8 @@ import taboolib.module.ui.receptacle.createReceptacle
  * @date 2021/2/21 13:41
  */
 object CommandTest : CommandExpresser {
+
+    override val description = "Test loaded menus"
 
     override val command = subCommand {
         // menu test

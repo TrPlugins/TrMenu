@@ -1,7 +1,7 @@
 package me.arasple.mc.trmenu.module.internal.command.impl
 
-import io.izzel.taboolib.kotlin.Indexed
 import me.arasple.mc.trmenu.api.action.Actions
+import me.arasple.mc.trmenu.module.internal.command.CommandExpresser
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import taboolib.common.platform.subCommand
@@ -14,6 +14,8 @@ import kotlin.system.measureNanoTime
  */
 object CommandAction : CommandExpresser {
 
+    override val description = "Run actions for test"
+
     // menu action [Player] [Action]
     override val command = subCommand {
         // player
@@ -24,9 +26,9 @@ object CommandAction : CommandExpresser {
             // Action
             dynamic {
                 execute<CommandSender> { sender, context, argument ->
-                    val player = Bukkit.getPlayerExact(context.argument(-1))
+                    val player = context.argument(-1).let { if (it == null) null else Bukkit.getPlayerExact(it) }
                     if (player == null || !player.isOnline) {
-                        sender.sendLang("Command-Action-Unknown-Player", context.argument(-1))
+                        sender.sendLang("Command-Action-Unknown-Player", context.argument(-1) ?: "null")
                         return@execute
                     }
 

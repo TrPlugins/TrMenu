@@ -2,6 +2,7 @@ package me.arasple.mc.trmenu.module.internal.command.impl
 
 import me.arasple.mc.trmenu.module.display.layout.MenuLayout
 import me.arasple.mc.trmenu.module.display.texture.Texture
+import me.arasple.mc.trmenu.module.internal.command.CommandExpresser
 import me.arasple.mc.trmenu.util.Time
 import me.arasple.mc.trmenu.util.net.Paster
 import org.apache.commons.lang3.math.NumberUtils
@@ -24,6 +25,8 @@ import taboolib.platform.util.sendLang
  * @date 2020/7/22 12:08
  */
 object CommandTemplate : CommandExpresser {
+
+    override val description = "Print debug info"
 
     // menu template <rows>
     override val command = subCommand {

@@ -1,13 +1,13 @@
 package me.arasple.mc.trmenu.module.internal.script.impl
 
-import io.izzel.taboolib.kotlin.kether.KetherParser
-import io.izzel.taboolib.kotlin.kether.ScriptParser
-import io.izzel.taboolib.kotlin.kether.common.api.ParsedAction
-import io.izzel.taboolib.kotlin.kether.common.api.QuestContext
-import io.izzel.taboolib.kotlin.kether.common.loader.types.ArgTypes
 import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.api.event.MenuOpenEvent
 import me.arasple.mc.trmenu.module.internal.script.kether.BaseAction
+import taboolib.library.kether.ArgTypes
+import taboolib.library.kether.ParsedAction
+import taboolib.library.kether.QuestContext
+import taboolib.module.kether.KetherParser
+import taboolib.module.kether.scriptParser
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import kotlin.math.min
@@ -51,7 +51,7 @@ class KetherMenu(val type: Type, val menu: ParsedAction<*>?) : BaseAction<Void>(
     companion object {
 
         @KetherParser(["menu"], namespace = "trmenu")
-        fun parser() = ScriptParser.parser {
+        fun parser() = scriptParser {
             val type = Type.valueOf(it.nextToken().uppercase())
             KetherMenu(
                 type,

@@ -1,16 +1,17 @@
 package me.arasple.mc.trmenu.module.internal.command.impl
 
+import me.arasple.mc.trmenu.module.internal.command.CommandExpresser
 import taboolib.module.ui.receptacle.ChestInventory
 import org.bukkit.Sound
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import taboolib.common.platform.adaptPlayer
 import taboolib.common.platform.subCommand
 import taboolib.library.xseries.XMaterial
 import taboolib.library.xseries.XSound
 import taboolib.module.chat.TellrawJson
 import taboolib.module.ui.receptacle.ReceptacleClickType
-import taboolib.platform.type.BukkitPlayer
 import taboolib.platform.util.ItemBuilder
 
 /**
@@ -18,6 +19,8 @@ import taboolib.platform.util.ItemBuilder
  * @date 2021/2/1 17:39
  */
 object CommandSounds : CommandExpresser {
+
+    override val description = "Preview & test sounds"
 
     // menu sounds [sound]
     override val command = subCommand {
@@ -76,7 +79,7 @@ object CommandSounds : CommandExpresser {
                             .append("§a§n" + sound.name).suggestCommand(sound.name)
                             .hoverText("§8Click this text")
                             .newLine()
-                            .sendTo(BukkitPlayer(player))
+                            .sendTo(adaptPlayer(player))
                         else -> {
                         }
                     }

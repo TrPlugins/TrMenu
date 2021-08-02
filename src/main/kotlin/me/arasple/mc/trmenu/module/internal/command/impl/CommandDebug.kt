@@ -5,6 +5,7 @@ import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.module.display.Menu
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.display.texture.Texture
+import me.arasple.mc.trmenu.module.internal.command.CommandExpresser
 import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.module.internal.service.Performance
 import me.arasple.mc.trmenu.util.Time
@@ -25,6 +26,8 @@ import java.io.File
  */
 object CommandDebug : CommandExpresser {
 
+    override val description = "Print debug info"
+
     // menu debug <...>
     override val command = subCommand {
         dynamic(optional = true) {
@@ -44,7 +47,7 @@ object CommandDebug : CommandExpresser {
                     return@execute
                 }
 
-                when (context.argument(0).lowercase()) {
+                when (context.argument(0)?.lowercase()) {
                     "mirror" -> mirror(sender)
                     "dump" -> dump(sender)
                     "info" -> info(sender)

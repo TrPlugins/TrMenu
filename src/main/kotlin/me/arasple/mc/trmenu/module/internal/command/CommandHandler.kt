@@ -1,8 +1,11 @@
 package me.arasple.mc.trmenu.module.internal.command
 
+import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.module.internal.command.impl.*
-import taboolib.common.LifeCycle
+import org.bukkit.command.CommandSender
 import taboolib.common.platform.*
+import taboolib.module.chat.TellrawJson
+import taboolib.module.nms.MinecraftVersion
 
 
 /**
@@ -11,7 +14,7 @@ import taboolib.common.platform.*
  */
 @CommandHeader(name = "trmenu", aliases = ["menu", "trm"], permission = "trmenu.access")
 object CommandHandler {
-    @CommandBody(permission = "test"/*, description = "Test loaded menus"*/)
+    @CommandBody(permission = "test", optional = true/*, description = "Test loaded menus"*/)
     val test = CommandTest.command
 
     @CommandBody(permission = "trmenu.command.list"/*, description = "List loaded menus"*/)
@@ -37,5 +40,99 @@ object CommandHandler {
 
     @CommandBody(permission = "trmenu.command.debug"/*, description = "Print debug info"*/)
     val debug = CommandDebug.command
+
+    @CommandBody
+    val help = subCommand {
+        execute<CommandSender> { sender, _, _ ->
+            generateMainHelper(sender)
+        }
+    }
+
+    @CommandBody
+    val main = mainCommand {
+        execute<CommandSender> { sender, _, argument ->
+            if (argument.isEmpty()) {
+                generateMainHelper(sender)
+                return@execute
+            }
+            sender.sendMessage("§8[§3Tr§bMenu§8] §cERROR §3| Args §6$argument §3not found.")
+            TellrawJson()
+                .append("§8[§3Tr§bMenu§8] §bINFO §3| Type ").append("§f/trmenu help")
+                .hoverText("§f/trmenu help §8- §7more help...")
+                .suggestCommand("/trmenu help")
+                .append("§3 for help.")
+                .sendTo(adaptCommandSender(sender))
+        }
+    }
+
+
+   /**
+    * 非常烂的相似度匹配, 为 TabooLib 6 的命令帮助移除而写.
+    * 暂时弃坑
+    */
+    /*
+    fun surmiseArs(sender: CommandSender, arg: String) {
+        var selected: Pair<String, String>? = null
+        javaClass.fields.map {
+            val name: String
+            val desc: String
+            try {
+                name = it.name
+                (it.get(this) as CommandExpresser).apply {
+                    desc = this.description
+                }
+            } catch (t: Throwable) {
+                return@map null
+            }
+            return@map name to desc
+        }.forEach {
+            it ?: return@forEach
+            val origin = arg.toList()
+            val target = it.first.toList()
+
+
+            origin.intersect(target).size / origin.union(target).size
+
+        }
+
+    }
+    */
+
+    fun generateMainHelper(sender: CommandSender) {
+        val proxySender = adaptCommandSender(sender)
+        proxySender.sendMessage("")
+        TellrawJson()
+            .append("  ").append("§3§lTr§b§lMenu")
+            .hoverText("§7TrMenu is modern and advanced Minecraft menu-plugin")
+            .append(" ").append("§2${TrMenu.plugin.description.version}")
+            .hoverText("""
+                §7Plugin version: §2${TrMenu.plugin.description.version}
+                §7NMS version: §b${MinecraftVersion.minecraftVersion}
+            """.trimIndent()).sendTo(proxySender)
+        proxySender.sendMessage("")
+        TellrawJson()
+            .append("  §7Type: ").append("§3/trmenu §8[...]")
+            .hoverText("§f/trmenu §8[...]")
+            .suggestCommand("/trmenu ")
+            .sendTo(proxySender)
+        proxySender.sendMessage("  §7Args:")
+
+        fun displayArg(name: String, desc: String) {
+            TellrawJson()
+                .append("    §8- ").append("§f$name")
+                .hoverText("§f/trmenu $name §8- §7$desc")
+                .suggestCommand("/trmenu $name ")
+                .sendTo(proxySender)
+            proxySender.sendMessage("      §7$desc")
+        }
+        displayArg("list", CommandList.description)
+        displayArg("open", CommandOpen.description)
+        displayArg("reload", CommandReload.description)
+        displayArg("action", CommandAction.description)
+        displayArg("item", CommandItem.description)
+        displayArg("template", CommandTemplate.description)
+        displayArg("sounds", CommandSounds.description)
+        proxySender.sendMessage("")
+    }
 
 }

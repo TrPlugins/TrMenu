@@ -3,8 +3,8 @@ package me.arasple.mc.trmenu.module.internal.command.impl
 import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.api.event.MenuOpenEvent
 import me.arasple.mc.trmenu.module.display.Menu
+import me.arasple.mc.trmenu.module.internal.command.CommandExpresser
 import me.arasple.mc.trmenu.module.internal.data.Metadata
-import org.apache.commons.lang3.ArrayUtils
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
@@ -17,6 +17,8 @@ import taboolib.platform.util.sendLang
  */
 object CommandOpen : CommandExpresser {
 
+    override val description = "Open a menu for player"
+
     // menu open [menuId] [player] [args...]
     override val command = subCommand {
         // menuId
@@ -26,7 +28,7 @@ object CommandOpen : CommandExpresser {
             }
 
             execute<CommandSender> { sender, context, argument ->
-                val split = context.argument(-1).split(":")
+                val split = context.argument(-1)!!.split(":")
                 val menu = TrMenuAPI.getMenuById(split[0])
                 val page = split.getOrNull(1)?.toIntOrNull() ?: 0
                 val player = if (sender is Player) sender else null
@@ -51,14 +53,14 @@ object CommandOpen : CommandExpresser {
                 }
 
                 execute<CommandSender> { sender, context, argument ->
-                    val split = context.argument(-1).split(":")
+                    val split = context.argument(-1)!!.split(":")
                     val menu = TrMenuAPI.getMenuById(split[0])
                     val page = split.getOrNull(1)?.toIntOrNull() ?: 0
-                    val player = Bukkit.getPlayerExact(context.argument(0))
+                    val player = context.argument(0).let { if (it == null) null else Bukkit.getPlayerExact(it) }
                     val arguments = argument.substringAfter(" ").let { if (it.contains(" ")) it.split(" ").toTypedArray() else null }
 
                     if (menu == null) {
-                        sender.sendLang("Command-Open-Unknown-Menu", context.argument(-1))
+                        sender.sendLang("Command-Open-Unknown-Menu", context.argument(-1)!!)
                         return@execute
                     }
                     if (player == null || !player.isOnline) {

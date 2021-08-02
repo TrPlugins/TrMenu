@@ -2,6 +2,7 @@ package me.arasple.mc.trmenu.module.internal.command.impl
 
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
+import me.arasple.mc.trmenu.module.internal.command.CommandExpresser
 import me.arasple.mc.trmenu.module.internal.item.ItemRepository
 import me.arasple.mc.trmenu.util.bukkit.ItemHelper
 import me.arasple.mc.trmenu.util.net.Paster
@@ -19,6 +20,8 @@ import taboolib.type.BukkitEquipment
  * @date 2021/1/31 10:41
  */
 object CommandItem : CommandExpresser {
+
+    override val description = "Manipulate items"
 
     // toJson -NoValueNeeded-
     // fromJson [value]
@@ -47,7 +50,7 @@ object CommandItem : CommandExpresser {
                         }
                         toJson(player, item)
                     } else {
-                        when (context.argument(-1).lowercase()) {
+                        when (context.argument(-1)?.lowercase()) {
                             "fromjson" -> fromJson(player, argument)
                             "get" -> ItemRepository.getItem(argument)?.let {
                                 player.inventory.addItem(it).values.forEach { e ->

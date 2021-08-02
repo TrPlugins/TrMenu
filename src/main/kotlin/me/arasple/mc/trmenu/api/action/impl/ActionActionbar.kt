@@ -3,7 +3,7 @@ package me.arasple.mc.trmenu.api.action.impl
 import me.arasple.mc.trmenu.api.action.base.AbstractAction
 import me.arasple.mc.trmenu.api.action.base.ActionOption
 import org.bukkit.entity.Player
-import taboolib.platform.type.BukkitPlayer
+import taboolib.common.platform.adaptPlayer
 
 /**
  * @author Arasple
@@ -12,7 +12,7 @@ import taboolib.platform.type.BukkitPlayer
 class ActionActionbar(content: String, option: ActionOption) : AbstractAction(content, option) {
 
     override fun onExecute(player: Player, placeholderPlayer: Player) {
-        BukkitPlayer(player).sendActionBar(parseContent(placeholderPlayer))
+        adaptPlayer(player).sendActionBar(parseContent(placeholderPlayer))
     }
 
     companion object {

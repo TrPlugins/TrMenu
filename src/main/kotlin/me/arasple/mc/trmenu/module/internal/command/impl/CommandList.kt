@@ -1,6 +1,7 @@
 package me.arasple.mc.trmenu.module.internal.command.impl
 
 import me.arasple.mc.trmenu.module.display.Menu
+import me.arasple.mc.trmenu.module.internal.command.CommandExpresser
 import org.bukkit.command.CommandSender
 import taboolib.common.platform.subCommand
 import taboolib.platform.util.sendLang
@@ -11,10 +12,12 @@ import taboolib.platform.util.sendLang
  */
 object CommandList : CommandExpresser {
 
+    override val description = "List loaded menus"
+
     // menu list [filter]
     override val command = subCommand {
         execute<CommandSender> { sender, context, argument ->
-            val filter = context.argument(1).ifEmpty { null }
+            val filter = context.argument(1)?.ifEmpty { null }
             val menus = Menu.menus.filter { filter == null || it.id.contains(filter, true) }.sortedBy { it.id }
 
             if (menus.isEmpty()) {
