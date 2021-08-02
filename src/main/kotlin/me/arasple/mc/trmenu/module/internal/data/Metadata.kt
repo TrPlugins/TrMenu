@@ -5,6 +5,9 @@ import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.database.DatabaseLocal
 import org.bukkit.entity.Player
 import org.bukkit.metadata.FixedMetadataValue
+import taboolib.common.LifeCycle
+import taboolib.common.platform.Awake
+import taboolib.common.platform.SkipTo
 import taboolib.common.platform.submit
 import taboolib.library.configuration.FileConfiguration
 import taboolib.module.configuration.Config
@@ -20,6 +23,7 @@ import taboolib.module.configuration.SecuredFile
  * <meta> -> only lost when the server is shut down
  * <data> -> storable, (support MySQL)
  */
+@SkipTo(LifeCycle.LOAD)
 object Metadata {
 
     internal val meta = mutableMapOf<String, DataMap>()
@@ -28,7 +32,7 @@ object Metadata {
     @Config("data/globalData.yml")
     lateinit var globalData: SecuredFile
 
-    private val localDatabase by lazy { DatabaseLocal() }
+    private val localDatabase = DatabaseLocal()
 
     init {
         submit(delay = 100, period = (20 * 30), async = true) {

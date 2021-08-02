@@ -1,6 +1,5 @@
 package me.arasple.mc.trmenu.module.internal.script.js
 
-import io.izzel.taboolib.kotlin.Randoms
 import me.arasple.mc.trmenu.api.action.Actions
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.data.Metadata
@@ -17,6 +16,7 @@ import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.PlayerInventory
+import taboolib.common.util.random
 import taboolib.library.xseries.XMaterial
 import taboolib.module.chat.TellrawJson
 import taboolib.module.nms.ItemTagData
@@ -233,7 +233,7 @@ class Assist {
      * Numbers
      */
     fun chance(number: String): Boolean {
-        return Randoms.random(toDouble(number))
+        return random(toDouble(number))
     }
 
     fun randomInteger(low: Int, high: Int): Int {
@@ -241,7 +241,7 @@ class Assist {
     }
 
     fun randomDouble(low: Double, high: Double): Double {
-        return Randoms.random(low, high)
+        return random(low, high)
     }
 
     fun isNumber(number: String): Boolean {

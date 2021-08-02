@@ -1,6 +1,5 @@
 package me.arasple.mc.trmenu.module.display
 
-import io.izzel.taboolib.kotlin.kether.KetherTerminal
 import me.arasple.mc.trmenu.api.event.MenuCloseEvent
 import taboolib.module.ui.receptacle.Receptacle
 import me.arasple.mc.trmenu.module.display.icon.Icon
@@ -93,7 +92,6 @@ class MenuSession(
      * 取得主要对象
      */
     fun objects(): Triple<Player, Menu?, Receptacle?> {
-        KetherTerminal
         return Triple(viewer, menu, receptacle)
     }
 

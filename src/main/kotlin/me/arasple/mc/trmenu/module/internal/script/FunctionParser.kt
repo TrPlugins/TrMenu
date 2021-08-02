@@ -1,6 +1,5 @@
 package me.arasple.mc.trmenu.module.internal.script
 
-import io.izzel.taboolib.kotlin.Indexed
 import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.data.Metadata
@@ -57,7 +56,7 @@ object FunctionParser {
 
         session.menu?.settings?.internalFunctions?.forEach {
             if (it.id == func[0]) {
-                val args = Indexed.subList(func, 1, func.size - 1)
+                val args = func.subList(1, func.size - 1)
                 return it.compile(session, args).asString()
             }
         }

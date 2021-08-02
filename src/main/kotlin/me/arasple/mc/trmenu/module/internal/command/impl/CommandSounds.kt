@@ -25,13 +25,16 @@ object CommandSounds : CommandExpresser {
     // menu sounds [sound]
     override val command = subCommand {
         dynamic(optional = true) {
-            suggestion<CommandSender> { _, _ ->
+            suggestion<Player> { _, _ ->
                 XSound.values().map { it.name }
             }
 
-            execute<CommandSender> { sender, context, argument ->
-                open(sender as Player, 0, argument.ifEmpty { "*" })
+            execute<Player> { sender, context, argument ->
+                open(sender, 0, argument.ifEmpty { "*" })
             }
+        }
+        execute<Player> { sender, context, argument ->
+            open(sender, 0, "*")
         }
     }
 

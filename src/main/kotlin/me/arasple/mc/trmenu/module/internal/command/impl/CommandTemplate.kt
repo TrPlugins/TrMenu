@@ -31,7 +31,7 @@ object CommandTemplate : CommandExpresser {
     // menu template <rows>
     override val command = subCommand {
         dynamic(optional = true) {
-            suggestion<CommandSender> { _, _ ->
+            suggestion<Player> { _, _ ->
                 listOf("1", "2", "3", "4", "5", "6")
             }
             execute<Player> { player, _, argument ->

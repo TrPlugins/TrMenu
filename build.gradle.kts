@@ -66,7 +66,6 @@ dependencies {
     compileOnly("ink.ptms.core:v11604:11604:all")
     compileOnly("ink.ptms.core:v11600:11600:all")
     compileOnly("ink.ptms.core:v11200:11200:all")
-    compileOnly("io.izzel.taboolib:TabooLibKotlin:1.0.78")
     implementation("me.clip:placeholderapi:2.10.9")
     implementation("net.wesjd:anvilgui:1.4.0-SNAPSHOT")
     compileOnly(fileTree("libs"))

@@ -111,7 +111,7 @@ object CommandHandler {
             """.trimIndent()).sendTo(proxySender)
         proxySender.sendMessage("")
         TellrawJson()
-            .append("  §7Type: ").append("§3/trmenu §8[...]")
+            .append("  §7Type: ").append("§f/trmenu §8[...]")
             .hoverText("§f/trmenu §8[...]")
             .suggestCommand("/trmenu ")
             .sendTo(proxySender)

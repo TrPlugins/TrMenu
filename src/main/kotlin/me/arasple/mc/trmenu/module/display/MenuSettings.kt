@@ -8,6 +8,7 @@ import me.arasple.mc.trmenu.util.bukkit.ItemMatcher
 import me.arasple.mc.trmenu.util.collections.CycleList
 import me.clip.placeholderapi.PlaceholderAPI
 import org.apache.commons.lang3.ArrayUtils
+import taboolib.common.util.addSafely
 import taboolib.module.chat.HexColor
 
 /**
@@ -86,7 +87,8 @@ class MenuSettings(
             cmd.substring(0, cmd.length - 1)
         }
         for (i in 0..index) commands = ArrayUtils.remove(commands, 0)
-        return ArrayUtils.insert(0, commands, command)
+
+        return commands.toMutableList().also { it.addSafely(0, command, "") }.toTypedArray()
     }
 
 }

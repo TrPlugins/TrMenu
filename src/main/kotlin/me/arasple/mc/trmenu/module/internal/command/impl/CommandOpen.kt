@@ -28,7 +28,7 @@ object CommandOpen : CommandExpresser {
             }
 
             execute<CommandSender> { sender, context, argument ->
-                val split = context.argument(-1)!!.split(":")
+                val split = context.argument(0)!!.split(":")
                 val menu = TrMenuAPI.getMenuById(split[0])
                 val page = split.getOrNull(1)?.toIntOrNull() ?: 0
                 val player = if (sender is Player) sender else null

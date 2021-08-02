@@ -1,9 +1,9 @@
 package me.arasple.mc.trmenu.api.action.base
 
-import io.izzel.taboolib.kotlin.Randoms
 import me.arasple.mc.trmenu.module.internal.script.Condition
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
+import taboolib.common.util.random
 
 /**
  * @author Arasple
@@ -12,7 +12,7 @@ import org.bukkit.entity.Player
 class ActionOption(val set: Map<Type, String> = mapOf()) {
 
     fun evalChance(): Boolean {
-        return if (!set.containsKey(Type.CHANCE)) true else Randoms.Companion.random(set[Type.CHANCE]!!.toDoubleOrNull() ?: 0.0)
+        return if (!set.containsKey(Type.CHANCE)) true else random(set[Type.CHANCE]!!.toDoubleOrNull() ?: 0.0)
     }
 
     fun evalDelay(): Long {

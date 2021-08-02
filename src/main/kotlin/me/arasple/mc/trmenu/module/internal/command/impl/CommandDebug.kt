@@ -14,6 +14,7 @@ import me.arasple.mc.trmenu.util.net.Paster
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import taboolib.common.platform.adaptCommandSender
 import taboolib.common.platform.subCommand
 import taboolib.common.platform.submit
 import taboolib.module.chat.HexColor
@@ -84,12 +85,13 @@ object CommandDebug : CommandExpresser {
      */
     private fun mirror(sender: CommandSender) {
         submit(async = true) {
-            Performance.collect {
+            val proxySender = adaptCommandSender(sender)
+            Performance.collect(proxySender) {
                 childFormat = "§8  {0}§7{1} §2[{3} ms] §7{4}%"
                 parentFormat = "§8  §8{0}§7{1} §8[{3} ms] §7{4}%"
             }.run {
                 sender.sendMessage("\n§b§lTrMenu §a§l§nPerformance Mirror\n§r")
-                print(sender, getTotal(), 0)
+                print(proxySender, getTotal(), 0)
             }
         }
     }
