@@ -2,6 +2,7 @@ package me.arasple.mc.trmenu
 
 import me.arasple.mc.trmenu.module.conf.Loader
 import me.arasple.mc.trmenu.module.display.MenuSession
+import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.module.internal.hook.HookPlugin
 import me.arasple.mc.trmenu.module.internal.service.RegisterCommands
 import me.arasple.mc.trmenu.module.internal.service.Shortcuts
@@ -33,6 +34,7 @@ object TrMenu : Plugin() {
     }
 
     override fun onEnable() {
+        Metadata.localDatabase
         console().sendLang("Plugin-Enabled", plugin.description.version)
         HookPlugin.printInfo()
         submit {

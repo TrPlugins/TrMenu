@@ -23,7 +23,6 @@ import taboolib.module.configuration.SecuredFile
  * <meta> -> only lost when the server is shut down
  * <data> -> storable, (support MySQL)
  */
-@SkipTo(LifeCycle.LOAD)
 object Metadata {
 
     internal val meta = mutableMapOf<String, DataMap>()
@@ -31,8 +30,10 @@ object Metadata {
 
     @Config("data/globalData.yml")
     lateinit var globalData: SecuredFile
+        private set
 
-    private val localDatabase = DatabaseLocal()
+    @Awake(LifeCycle.LOAD)
+    val localDatabase by lazy { DatabaseLocal() }
 
     init {
         submit(delay = 100, period = (20 * 30), async = true) {
@@ -51,6 +52,7 @@ object Metadata {
 //            LocalPlayer.getHandler().save()
         }
         globalData.saveToFile()
+
     }
 
     @Suppress("DEPRECATION")

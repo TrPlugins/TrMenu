@@ -22,7 +22,17 @@ object ListenerPackets {
             if (evt.isCancelled) PacketWindowSetSlot(windowId = -1, slot = -1).send(e.player)
 
             return
-        } else if (e.packet.name == ("PacketPlayInCloseWindow") && e.packet.read<Int>("id") ?: -1 == 119) {
+        } else if (e.packet.name == ("PacketPlayInCloseWindow") && let {
+                return@let try {
+                    e.packet.read<Int>("id")
+                } catch (t: Throwable) {
+                    try {
+                        e.packet.read<Int>("a")
+                    } catch (t: Throwable) {
+                        -1
+                    }
+                }
+            } ?: -1 == 119) {
             receptacle.close(false)
 
             // 防止关闭菜单后, 动态标题频率过快出现的卡假容器
