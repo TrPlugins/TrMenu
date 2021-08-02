@@ -49,14 +49,15 @@ object RegisterCommands {
                     aliases = section.getStringList("aliases") ?: listOf()
                 ) {
                     execute<Player> { player, context, argument ->
+                        val args = argument.split(" ").toTypedArray()
                         val session = MenuSession.getSession(player)
-                        if (context.args.isNotEmpty()) {
-                            subReactions[context.args[0]]?.let {
-                                if (context.args.size > 1) session.arguments = ArrayUtils.remove(context.args, 0)
+                        if (args.isNotEmpty()) {
+                            subReactions[args[0]]?.let {
+                                if (args.size > 1) session.arguments = ArrayUtils.remove(args, 0)
                                 it.eval(player)
                             }
                         } else {
-                            session.arguments = context.args
+                            session.arguments = args
                             reactions.eval(player)
                         }
                     }

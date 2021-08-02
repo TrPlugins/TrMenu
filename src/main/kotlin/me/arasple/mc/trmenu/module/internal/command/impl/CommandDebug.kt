@@ -23,12 +23,63 @@ import java.io.File
  * @author Arasple
  * @date 2021/1/28 15:50
  */
-object CommandDebug {
+object CommandDebug : CommandExpresser {
+
+    // menu debug <...>
+    override val command = subCommand {
+        dynamic(optional = true) {
+            suggestion<CommandSender> { _, _ ->
+                listOf(
+                    "mirror",
+                    "dump",
+                    "info",
+                    "player",
+                    "menu",
+                    "parseTexture"
+                )
+            }
+
+            execute<CommandSender> { sender, context, argument ->
+                if (argument.isEmpty()) {
+                    return@execute
+                }
+
+                when (context.argument(0).lowercase()) {
+                    "mirror" -> mirror(sender)
+                    "dump" -> dump(sender)
+                    "info" -> info(sender)
+                    "player" -> {
+                        val player = when {
+                            argument.contains(" ") -> Bukkit.getPlayerExact(argument.substringAfter(" "))
+                            sender is Player -> sender
+                            else -> null
+                        }
+                        if (player != null && player.isOnline) {
+                            player(sender, player)
+                        }
+                    }
+                    "menu" -> {
+                        val menu = when {
+                            argument.contains(" ") -> TrMenuAPI.getMenuById(argument.substringAfter(" "))
+                            else -> null
+                        }
+                        if (menu != null) {
+                            menu(sender, menu)
+                        }
+                    }
+                    "parsetexture" -> {
+                        sender.send("&8[&7Texture&8] ${Texture.createTexture(if (argument.contains(" ")) argument.substringAfter(" ") else "AIR")}")
+                    }
+                }
+            }
+
+        }
+    }
 
     /**
      * 性能损害
      */
-    internal fun mirror(sender: CommandSender) {
+    private fun mirror(sender: CommandSender) {
         submit(async = true) {
             Performance.collect {
                 childFormat = "§8  {0}§7{1} §2[{3} ms] §7{4}%"
@@ -43,7 +94,7 @@ object CommandDebug {
     /**
      * 上传调试信息
      */
-    internal fun dump(sender: CommandSender) {
+    private fun dump(sender: CommandSender) {
         val properties = System.getProperties()
         val dump = buildString {
             append("TrMenu Dump Information (Date: ${Time.formatDate()})\n\n")
@@ -72,7 +123,7 @@ object CommandDebug {
     /**
      * 服务器信息查看
      */
-    internal fun info(sender: CommandSender) {
+    private fun info(sender: CommandSender) {
         val totalTasks = Bukkit.getScheduler().activeWorkers.filter { it.owner === TrMenu.plugin }.count() +
                 Bukkit.getScheduler().pendingTasks.filter { it.owner === TrMenu.plugin }.count()
 
@@ -98,7 +149,7 @@ object CommandDebug {
     /**
      * 玩家信息查看
      */
-    internal fun player(sender: CommandSender, player: Player) {
+    private fun player(sender: CommandSender, player: Player) {
 
         val session = MenuSession.getSession(player)
 
@@ -123,7 +174,7 @@ object CommandDebug {
     /**
      * 菜单信息查看
      */
-    internal fun menu(sender: CommandSender, menu: Menu) {
+    private fun menu(sender: CommandSender, menu: Menu) {
         sender.send(
             """
                 &a&l「&8--------------------------------------------------&a&l」
@@ -149,7 +200,7 @@ object CommandDebug {
      * PRIVATE FUNCS & FIELDS
      */
 
-    internal fun CommandSender.send(message: String) {
+    private fun CommandSender.send(message: String) {
         sendMessage(HexColor.translate(message))
     }
 

@@ -23,11 +23,46 @@ import taboolib.platform.util.sendLang
  * @author Arasple
  * @date 2020/7/22 12:08
  */
-object CommandTemplate {
+object CommandTemplate : CommandExpresser {
+
+    // menu template <rows>
+    override val command = subCommand {
+        dynamic(optional = true) {
+            suggestion<CommandSender> { _, _ ->
+                listOf("1", "2", "3", "4", "5", "6")
+            }
+            execute<Player> { player, _, argument ->
+                val rows = (if (argument.isNotEmpty()) NumberUtils.toInt(argument, 5) else 3).coerceAtMost(6)
+
+                buildMenu<Basic>("Template#$rows") {
+                    rows(rows)
+                    handLocked(false)
+                    onClose { e ->
+                        val inventory = e.inventory
+
+                        if (inventory.all { it == null || it.type == Material.AIR }) {
+                            player.sendLang("Command-Template-Empty")
+                            return@onClose
+                        }
+
+                        XSound.BLOCK_NOTE_BLOCK_BIT.play(player, 1f, 0f)
+                        Paster.paste(player, generate(inventory), "yml")
+
+                        inventory.contents.forEach {
+                            if (!(it == null || it.type == Material.AIR)) {
+                                player.inventory.addItem(it).values.forEach { e -> player.world.dropItem(player.location, e) }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     /**
      * 生成模板
      */
-    internal fun generate(inventory: Inventory): String {
+    private fun generate(inventory: Inventory): String {
         val rows = inventory.size / 9
         val keys = MenuLayout.commonKeys.iterator()
         val items = collectItems(inventory)

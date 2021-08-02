@@ -5,6 +5,7 @@ import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.hook.HookPlugin
 import me.arasple.mc.trmenu.module.internal.service.RegisterCommands
 import me.arasple.mc.trmenu.module.internal.service.Shortcuts
+import org.bukkit.Bukkit
 import taboolib.common.platform.Plugin
 import taboolib.common.platform.console
 import taboolib.common.platform.submit
@@ -28,8 +29,7 @@ object TrMenu : Plugin() {
     val plugin by lazy { BukkitPlugin.getInstance() }
     
     override fun onLoad() {
-//        console().sendLang("Plugin-Loading", MinecraftVersion.minecraftVersion)
-        console().sendLang("Plugin-Loading", "test")
+        console().sendLang("Plugin-Loading", Bukkit.getVersion())
     }
 
     override fun onEnable() {
