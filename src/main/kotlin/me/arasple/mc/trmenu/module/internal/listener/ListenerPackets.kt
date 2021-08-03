@@ -12,9 +12,9 @@ object ListenerPackets {
         val receptacle = e.player.getViewingReceptacle() ?: return
 
         if (e.packet.name == ("PacketPlayInWindowClick") && e.packet.read<Int>("a") ?: -1 == 119) {
-            val slot = e.packet.read<Int>("slot")
-            val mode = e.packet.read<String>("shift")
-            val button = e.packet.read<Int>("button")
+            val slot = e.packet.read<Int>("slot") ?: e.packet.read<Int>("c")
+            val mode = (e.packet.read<Any>("shift") ?: e.packet.read<Any>("f"))?.toString()
+            val button = e.packet.read<Int>("button") ?: e.packet.read<Int>("d")
             val clickType = ReceptacleClickType.from(mode!!, button!!, slot!!) ?: return
             val evt = ReceptacleInteractEvent(e.player, receptacle, clickType, slot).also { it.call() }
             receptacle.callEventClick(evt)

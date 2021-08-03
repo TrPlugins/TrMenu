@@ -34,7 +34,7 @@ object CommandSounds : CommandExpresser {
             }
         }
         execute<Player> { sender, context, argument ->
-            open(sender, 0, "*")
+            open(sender, 0, null)
         }
     }
 

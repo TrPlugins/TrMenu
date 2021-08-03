@@ -17,28 +17,28 @@ object CommandHandler {
     @CommandBody(permission = "test", optional = true/*, description = "Test loaded menus"*/)
     val test = CommandTest.command
 
-    @CommandBody(permission = "trmenu.command.list"/*, description = "List loaded menus"*/)
+    @CommandBody(permission = "trmenu.command.list", optional = true/*, description = "List loaded menus"*/)
     val list = CommandList.command
 
-    @CommandBody(permission = "trmenu.command.open"/*, description = "Open a menu for player"*/)
+    @CommandBody(permission = "trmenu.command.open", optional = true/*, description = "Open a menu for player"*/)
     val open = CommandOpen.command
 
-    @CommandBody(permission = "trmenu.command.reload"/*, description = "Reload all menus"*/)
+    @CommandBody(permission = "trmenu.command.reload", optional = true/*, description = "Reload all menus"*/)
     val reload = CommandReload.command
 
-    @CommandBody(permission = "trmenu.command.template"/*, description = "Quick layout menu", type = CommandType.PLAYER*/)
+    @CommandBody(permission = "trmenu.command.template", optional = true/*, description = "Quick layout menu", type = CommandType.PLAYER*/)
     val template = CommandTemplate.command
 
-    @CommandBody(permission = "trmenu.command.action"/*, description = "Run actions for test"*/)
+    @CommandBody(permission = "trmenu.command.action", optional = true/*, description = "Run actions for test"*/)
     val action = CommandAction.command
 
-    @CommandBody(permission = "trmenu.command.item"/*, description = "Manipulate items"*/)
+    @CommandBody(permission = "trmenu.command.item", optional = true/*, description = "Manipulate items"*/)
     val item = CommandItem.command
 
-    @CommandBody(permission = "trmenu.command.sounds"/*, description = "Preview & test sounds", type = CommandType.PLAYER*/)
+    @CommandBody(permission = "trmenu.command.sounds", optional = true/*, description = "Preview & test sounds", type = CommandType.PLAYER*/)
     var sounds = CommandSounds.command
 
-    @CommandBody(permission = "trmenu.command.debug"/*, description = "Print debug info"*/)
+    @CommandBody(permission = "trmenu.command.debug", optional = true/*, description = "Print debug info"*/)
     val debug = CommandDebug.command
 
     @CommandBody
