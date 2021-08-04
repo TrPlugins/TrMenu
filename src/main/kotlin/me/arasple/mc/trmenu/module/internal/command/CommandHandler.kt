@@ -66,11 +66,11 @@ object CommandHandler {
     }
 
 
-   /**
-    * 非常烂的相似度匹配, 为 TabooLib 6 的命令帮助移除而写.
-    * 暂时弃坑
-    */
-    /*
+    /**
+     * 非常烂的相似度匹配, 为 TabooLib 6 的命令帮助移除而写.
+     * 暂时弃坑
+     */
+     /*
     fun surmiseArs(sender: CommandSender, arg: String) {
         var selected: Pair<String, String>? = null
         javaClass.fields.map {
