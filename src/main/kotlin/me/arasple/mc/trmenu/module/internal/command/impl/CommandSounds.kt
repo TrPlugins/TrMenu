@@ -20,12 +20,10 @@ import taboolib.platform.util.ItemBuilder
  */
 object CommandSounds : CommandExpresser {
 
-    override val description = "Preview & test sounds"
-
     // menu sounds [sound]
     override val command = subCommand {
         dynamic(optional = true) {
-            suggestion<Player> { _, _ ->
+            suggestion<Player>(uncheck = true) { _, _ ->
                 XSound.values().map { it.name }
             }
 

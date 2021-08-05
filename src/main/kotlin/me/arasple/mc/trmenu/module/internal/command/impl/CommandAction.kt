@@ -14,13 +14,11 @@ import kotlin.system.measureNanoTime
  */
 object CommandAction : CommandExpresser {
 
-    override val description = "Run actions for test"
-
     // menu action [Player] [Action]
     override val command = subCommand {
         // player
         dynamic {
-            suggestion<CommandSender> { sender, context ->
+            suggestion<CommandSender>(uncheck = true) { sender, context ->
                 Bukkit.getOnlinePlayers().map { it.name }
             }
             // Action

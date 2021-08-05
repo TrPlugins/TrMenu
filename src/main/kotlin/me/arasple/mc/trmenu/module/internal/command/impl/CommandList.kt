@@ -12,8 +12,6 @@ import taboolib.platform.util.sendLang
  */
 object CommandList : CommandExpresser {
 
-    override val description = "List loaded menus"
-
     // menu list [filter]
     override val command = subCommand {
         execute<CommandSender> { sender, context, argument ->

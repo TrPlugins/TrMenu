@@ -6,6 +6,4 @@ interface CommandExpresser {
 
     val command: SimpleCommandBody
 
-    val description: String
-
 }

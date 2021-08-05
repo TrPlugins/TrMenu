@@ -27,8 +27,6 @@ import java.io.File
  */
 object CommandDebug : CommandExpresser {
 
-    override val description = "Print debug info"
-
     // menu debug <...>
     override val command = subCommand {
         dynamic(optional = true) {

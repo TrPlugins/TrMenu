@@ -17,6 +17,7 @@ import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.subCommand
 import taboolib.library.xseries.XSound
 import taboolib.module.ui.buildMenu
+import taboolib.module.ui.openMenu
 import taboolib.module.ui.type.Basic
 import taboolib.platform.util.sendLang
 
@@ -25,8 +26,6 @@ import taboolib.platform.util.sendLang
  * @date 2020/7/22 12:08
  */
 object CommandTemplate : CommandExpresser {
-
-    override val description = "Print debug info"
 
     // menu template <rows>
     override val command = subCommand {
@@ -37,7 +36,7 @@ object CommandTemplate : CommandExpresser {
             execute<Player> { player, _, argument ->
                 val rows = (if (argument.isNotEmpty()) NumberUtils.toInt(argument, 5) else 3).coerceAtMost(6)
 
-                buildMenu<Basic>("Template#$rows") {
+                player.openMenu<Basic>("Template#$rows") {
                     rows(rows)
                     handLocked(false)
                     onClose { e ->
@@ -104,8 +103,8 @@ object CommandTemplate : CommandExpresser {
 
         for (i in 0 until inventory.size) {
             val item = inventory.getItem(i)
-            if (item == null || item.type == Material.AIR) {
-                items.computeIfAbsent(item!!) { mutableSetOf() }.add(i)
+            if (!(item == null || item.type == Material.AIR)) {
+                items.computeIfAbsent(item) { mutableSetOf() }.add(i)
             }
         }
 

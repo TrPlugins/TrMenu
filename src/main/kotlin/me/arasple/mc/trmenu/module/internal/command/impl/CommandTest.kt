@@ -14,8 +14,6 @@ import taboolib.module.ui.receptacle.createReceptacle
  */
 object CommandTest : CommandExpresser {
 
-    override val description = "Test loaded menus"
-
     override val command = subCommand {
         // menu test
         execute<Player> { player, _, _ ->

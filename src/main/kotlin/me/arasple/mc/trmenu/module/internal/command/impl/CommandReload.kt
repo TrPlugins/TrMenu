@@ -11,8 +11,6 @@ import taboolib.common.platform.subCommand
  */
 object CommandReload : CommandExpresser {
 
-    override val description = "Reload all menus"
-
     override val command = subCommand {
         execute<CommandSender> { sender, _, _ ->
             Loader.loadMenus(sender)

@@ -17,8 +17,6 @@ import taboolib.platform.util.sendLang
  */
 object CommandOpen : CommandExpresser {
 
-    override val description = "Open a menu for player"
-
     // menu open [menuId] [player] [args...]
     override val command = subCommand {
         // menuId

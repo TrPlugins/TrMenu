@@ -21,8 +21,6 @@ import taboolib.type.BukkitEquipment
  */
 object CommandItem : CommandExpresser {
 
-    override val description = "Manipulate items"
-
     // toJson -NoValueNeeded-
     // fromJson [value]
     // save [id]
