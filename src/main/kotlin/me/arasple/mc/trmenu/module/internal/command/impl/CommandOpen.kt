@@ -48,7 +48,7 @@ object CommandOpen : CommandExpresser {
 
             // player
             dynamic(optional = true) {
-                suggestion<CommandSender> { _, _ ->
+                suggestion<CommandSender>(uncheck = true) { _, _ ->
                     Bukkit.getOnlinePlayers().map { it.name }
                 }
 
@@ -56,8 +56,12 @@ object CommandOpen : CommandExpresser {
                     val split = context.argument(-1)!!.split(":")
                     val menu = TrMenuAPI.getMenuById(split[0])
                     val page = split.getOrNull(1)?.toIntOrNull() ?: 0
-                    val player = context.argument(0).let { if (it == null) null else Bukkit.getPlayerExact(it) }
-                    val arguments = argument.substringAfter(" ").let { if (it.contains(" ")) it.split(" ").toTypedArray() else null }
+                    val player = if (argument.contains(" ")) Bukkit.getPlayerExact(argument.substringBefore(" ")) else sender as? Player
+                    val arguments = if (player != null) {
+                        argument.substringAfter(" ").let { if (it.contains(" ")) {
+                            it.split(" ").toTypedArray()
+                        } else { arrayOf(it) } }
+                    } else { null }
 
                     if (menu == null) {
                         sender.sendLang("Command-Open-Unknown-Menu", context.argument(-1)!!)

@@ -30,6 +30,16 @@ Paster-Processing: '&8[&3Tr&bMenu&8] &7Содержимое вставляетс
 Paster-Success: '&8[&3Tr&bMenu&8] &3Содержание вставлено в &a{0}'
 Paster-Failed: '&8[&3Tr&bMenu&8] &cПри вставке содержимого произошла ошибка. Пожалуйста, проверьте консоль.'
 
+Command-Help-Type: 'Тип'
+Command-Help-Args: 'Args'
+Command-List-Description: 'Список загруженных меню'
+Command-Open-Description: 'Открыть меню для плеера'
+Command-Reload-Description: 'Обновить все меню'
+Command-Template-Description: 'Меню быстрого макета'
+Command-Action-Description: 'Выполнить действия для теста'
+Command-Item-Description: 'Манипулировать предметами'
+Command-Sounds-Description: 'Предварительный просмотр и тестирование звуков'
+
 Command-Open-Unknown-Menu: '&8[&3Tr&bMenu&8] &7Неизвестное меню: &6{0} &7.'
 Command-Open-Unknown-Player: '&8[&3Tr&bMenu&8] &7Игрок &f{0} &7не в сети.'
 Command-Action-Unknown-Player: '&8[&3Tr&bMenu&8] &7Игрок &f{0} &7не в сети.'

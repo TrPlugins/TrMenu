@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender
 import taboolib.common.platform.*
 import taboolib.module.chat.TellrawJson
 import taboolib.module.nms.MinecraftVersion
+import taboolib.platform.util.asLangText
 
 
 /**
@@ -14,31 +15,31 @@ import taboolib.module.nms.MinecraftVersion
  */
 @CommandHeader(name = "trmenu", aliases = ["menu", "trm"], permission = "trmenu.access")
 object CommandHandler {
-    @CommandBody(permission = "test", optional = true/*, description = "Test loaded menus"*/)
+    @CommandBody(permission = "test", optional = true)
     val test = CommandTest.command
 
-    @CommandBody(permission = "trmenu.command.list", optional = true/*, description = "List loaded menus"*/)
+    @CommandBody(permission = "trmenu.command.list", optional = true)
     val list = CommandList.command
 
-    @CommandBody(permission = "trmenu.command.open", optional = true/*, description = "Open a menu for player"*/)
+    @CommandBody(permission = "trmenu.command.open", optional = true)
     val open = CommandOpen.command
 
-    @CommandBody(permission = "trmenu.command.reload", optional = true/*, description = "Reload all menus"*/)
+    @CommandBody(permission = "trmenu.command.reload", optional = true)
     val reload = CommandReload.command
 
-    @CommandBody(permission = "trmenu.command.template", optional = true/*, description = "Quick layout menu", type = CommandType.PLAYER*/)
+    @CommandBody(permission = "trmenu.command.template", optional = true)
     val template = CommandTemplate.command
 
-    @CommandBody(permission = "trmenu.command.action", optional = true/*, description = "Run actions for test"*/)
+    @CommandBody(permission = "trmenu.command.action", optional = true)
     val action = CommandAction.command
 
-    @CommandBody(permission = "trmenu.command.item", optional = true/*, description = "Manipulate items"*/)
+    @CommandBody(permission = "trmenu.command.item", optional = true)
     val item = CommandItem.command
 
-    @CommandBody(permission = "trmenu.command.sounds", optional = true/*, description = "Preview & test sounds", type = CommandType.PLAYER*/)
+    @CommandBody(permission = "trmenu.command.sounds", optional = true)
     var sounds = CommandSounds.command
 
-    @CommandBody(permission = "trmenu.command.debug", optional = true/*, description = "Print debug info"*/)
+    @CommandBody(permission = "trmenu.command.debug", optional = true)
     val debug = CommandDebug.command
 
     @CommandBody
@@ -102,20 +103,20 @@ object CommandHandler {
         val proxySender = adaptCommandSender(sender)
         proxySender.sendMessage("")
         TellrawJson()
-            .append("  ").append("§3§lTr§b§lMenu")
+            .append("  ").append("§3TrMenu")
             .hoverText("§7TrMenu is modern and advanced Minecraft menu-plugin")
-            .append(" ").append("§2${TrMenu.plugin.description.version}")
+            .append(" ").append("§f${TrMenu.plugin.description.version}")
             .hoverText("""
                 §7Plugin version: §2${TrMenu.plugin.description.version}
                 §7NMS version: §b${MinecraftVersion.minecraftVersion}
             """.trimIndent()).sendTo(proxySender)
         proxySender.sendMessage("")
         TellrawJson()
-            .append("  §7Type: ").append("§f/trmenu §8[...]")
+            .append("  §7${sender.asLangText("Command-Help-Type")}: ").append("§f/trmenu §8[...]")
             .hoverText("§f/trmenu §8[...]")
             .suggestCommand("/trmenu ")
             .sendTo(proxySender)
-        proxySender.sendMessage("  §7Args:")
+        proxySender.sendMessage("  §7${sender.asLangText("Command-Help-Args")}:")
 
         fun displayArg(name: String, desc: String) {
             TellrawJson()
@@ -125,13 +126,13 @@ object CommandHandler {
                 .sendTo(proxySender)
             proxySender.sendMessage("      §7$desc")
         }
-        displayArg("list", CommandList.description)
-        displayArg("open", CommandOpen.description)
-        displayArg("reload", CommandReload.description)
-        displayArg("action", CommandAction.description)
-        displayArg("item", CommandItem.description)
-        displayArg("template", CommandTemplate.description)
-        displayArg("sounds", CommandSounds.description)
+        displayArg("list", sender.asLangText("Command-List-Description"))
+        displayArg("open", sender.asLangText("Command-Open-Description"))
+        displayArg("reload", sender.asLangText("Command-Reload-Description"))
+        displayArg("action", sender.asLangText("Command-Template-Description"))
+        displayArg("item", sender.asLangText("Command-Action-Description"))
+        displayArg("template", sender.asLangText("Command-Item-Description"))
+        displayArg("sounds", sender.asLangText("Command-Sounds-Description"))
         proxySender.sendMessage("")
     }
 
