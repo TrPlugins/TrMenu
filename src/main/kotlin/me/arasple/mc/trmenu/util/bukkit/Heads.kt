@@ -8,9 +8,11 @@ import me.arasple.mc.trmenu.module.internal.hook.HookPlugin
 import org.bukkit.Bukkit
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
+import taboolib.common.platform.console
 import taboolib.common.platform.submit
 import taboolib.common.reflect.Reflex.Companion.invokeMethod
 import taboolib.library.xseries.XMaterial
+import taboolib.module.lang.sendLang
 import java.net.URL
 import java.util.*
 
@@ -80,7 +82,11 @@ object Heads {
             }
             else -> {
                 submit(async = true) {
-                    val profile = JsonParser().parse(fromURL("${MOJANG_API[0]}$name")) as JsonObject
+                    val profile = JsonParser().parse(fromURL("${MOJANG_API[0]}$name")) as? JsonObject
+                    if (profile == null) {
+                        console().sendMessage("§7[§3Texture§7] Texture player $name not found.")
+                        return@submit
+                    }
                     val uuid = profile["id"].asString
                     (JsonParser().parse(fromURL("${MOJANG_API[1]}$uuid")) as JsonObject).getAsJsonArray("properties")
                     (JsonParser().parse(fromURL("${MOJANG_API[1]}$uuid")) as JsonObject).getAsJsonArray("properties")

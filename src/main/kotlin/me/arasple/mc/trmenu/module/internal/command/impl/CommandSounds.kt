@@ -50,6 +50,7 @@ object CommandSounds : CommandExpresser {
             .filter { it.second < sounds.size }
             .toMap()
 
+        receptacle.hidePlayerInventory(true)
         receptacle.setItem(if (prevNext[0]) PREV[0] else PREV[1], prev)
         receptacle.setItem(if (prevNext[1]) NEXT[0] else NEXT[1], next)
         receptacle.setItem(CTRL, ctrl)

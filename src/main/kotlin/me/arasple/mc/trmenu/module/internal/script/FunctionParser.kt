@@ -8,6 +8,7 @@ import me.arasple.mc.trmenu.util.Regexs
 import me.arasple.mc.trmenu.util.collections.Variables
 import me.arasple.mc.trmenu.util.print
 import org.bukkit.entity.Player
+import taboolib.common.util.subList
 
 /**
  * @author Arasple
@@ -56,7 +57,7 @@ object FunctionParser {
 
         session.menu?.settings?.internalFunctions?.forEach {
             if (it.id == func[0]) {
-                val args = func.subList(1, func.size - 1)
+                val args = subList(func, 1, func.size - 1)
                 return it.compile(session, args).asString()
             }
         }
