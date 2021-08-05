@@ -1,6 +1,5 @@
 package me.arasple.mc.trmenu.api.action
 
-import io.izzel.taboolib.kotlin.Tasks
 import me.arasple.mc.trmenu.api.action.base.AbstractAction
 import me.arasple.mc.trmenu.api.action.base.ActionOption
 import me.arasple.mc.trmenu.api.action.impl.*
@@ -10,6 +9,7 @@ import me.arasple.mc.trmenu.api.action.impl.func.ActionTakeItem
 import me.arasple.mc.trmenu.api.action.impl.hook.*
 import me.arasple.mc.trmenu.api.action.impl.metadaa.*
 import org.bukkit.entity.Player
+import taboolib.common.platform.submit
 
 /**
  * @author Arasple
@@ -86,7 +86,7 @@ object Actions {
                     return@forEach
                 }
                 it is ActionDelay -> delay += it.getDelay(player)
-                delay > 0 -> Tasks.delay(delay) { it.run(player) }
+                delay > 0 -> submit(delay = delay) { it.run(player) }
                 else -> run.add(it)
             }
         }
@@ -107,7 +107,7 @@ object Actions {
     fun readAction(any: Any): List<AbstractAction> {
         val actions = mutableListOf<AbstractAction>()
         val findParser: (String) -> ((Any, ActionOption) -> AbstractAction) = { name ->
-            registries.find { it.first.matches(name.toLowerCase()) }?.second ?: registries[0].second
+            registries.find { it.first.matches(name.lowercase()) }?.second ?: registries[0].second
         }
 
         when (any) {

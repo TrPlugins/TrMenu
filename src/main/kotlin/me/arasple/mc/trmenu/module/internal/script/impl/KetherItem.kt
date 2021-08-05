@@ -1,12 +1,12 @@
 package me.arasple.mc.trmenu.module.internal.script.impl
 
-import io.izzel.taboolib.kotlin.kether.KetherParser
-import io.izzel.taboolib.kotlin.kether.ScriptParser
-import io.izzel.taboolib.kotlin.kether.common.api.ParsedAction
-import io.izzel.taboolib.kotlin.kether.common.api.QuestContext
-import io.izzel.taboolib.kotlin.kether.common.loader.types.ArgTypes
 import me.arasple.mc.trmenu.module.internal.script.kether.BaseAction
 import me.arasple.mc.trmenu.util.bukkit.ItemMatcher
+import taboolib.library.kether.ArgTypes
+import taboolib.library.kether.ParsedAction
+import taboolib.library.kether.QuestContext
+import taboolib.module.kether.KetherParser
+import taboolib.module.kether.scriptParser
 import java.util.concurrent.CompletableFuture
 
 /**
@@ -24,7 +24,7 @@ class KetherItem(private val itemMatcher: ParsedAction<*>) : BaseAction<Boolean>
     companion object {
 
         @KetherParser(["item"], namespace = "trmenu")
-        fun parser() = ScriptParser.parser {
+        fun parser() = scriptParser {
             KetherItem(it.next(ArgTypes.ACTION))
         }
 

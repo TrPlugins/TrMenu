@@ -1,10 +1,13 @@
 package me.arasple.mc.trmenu.module.internal.service
 
-import io.izzel.taboolib.module.inject.TFunction
-import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.module.display.Menu
-import org.bstats.bukkit.Metrics
 import org.bukkit.event.inventory.InventoryType
+import taboolib.common.LifeCycle
+import taboolib.common.platform.Awake
+import taboolib.common.platform.Platform
+import taboolib.module.metrics.Metrics
+import taboolib.module.metrics.charts.*
+import taboolib.platform.BukkitPlugin
 
 
 /**
@@ -13,7 +16,7 @@ import org.bukkit.event.inventory.InventoryType
  */
 object Metrics {
 
-    private val B_STATS: Metrics by lazy { Metrics(TrMenu.plugin, 5742) }
+    private val B_STATS: Metrics by lazy { Metrics(5742, BukkitPlugin.getInstance().description.version, Platform.BUKKIT) }
     var menuOpenCounts = 0
         get() {
             val count = field
@@ -22,17 +25,18 @@ object Metrics {
         }
 
 
-    @TFunction.Init
+
+    @Awake(LifeCycle.INIT)
     fun initialization() {
         B_STATS.let { metrics ->
-            metrics.addCustomChart(Metrics.SingleLineChart("menus") {
+            metrics.addCustomChart(SingleLineChart("menus") {
                 Menu.menus.sumBy { menu -> menu.layout.getSize() }
             })
-            metrics.addCustomChart(Metrics.SingleLineChart("menu_open_counts") {
+            metrics.addCustomChart(SingleLineChart("menu_open_counts") {
                 menuOpenCounts
             })
 
-            metrics.addCustomChart(Metrics.AdvancedPie("menu_size") {
+            metrics.addCustomChart(AdvancedPie("menu_size") {
                 val value = mutableMapOf<String, Int>()
 
                 Menu.menus
@@ -45,7 +49,7 @@ object Metrics {
                 value
             })
 
-            metrics.addCustomChart(Metrics.AdvancedPie("item_texture") {
+            metrics.addCustomChart(AdvancedPie("item_texture") {
                 val value = mutableMapOf<String, Int>()
 
                 Menu.menus
@@ -60,7 +64,7 @@ object Metrics {
                 value
             })
 
-            metrics.addCustomChart(Metrics.AdvancedPie("inventory_type") {
+            metrics.addCustomChart(AdvancedPie("inventory_type") {
                 val value = mutableMapOf<String, Int>()
 
                 Menu.menus

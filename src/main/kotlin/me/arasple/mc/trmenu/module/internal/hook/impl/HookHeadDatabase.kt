@@ -1,10 +1,11 @@
 package me.arasple.mc.trmenu.module.internal.hook.impl
 
-import io.izzel.taboolib.internal.xseries.XMaterial
-import io.izzel.taboolib.util.item.ItemBuilder
 import me.arasple.mc.trmenu.module.internal.hook.HookAbstract
 import me.arcaniax.hdb.api.HeadDatabaseAPI
 import org.bukkit.inventory.ItemStack
+import taboolib.library.xseries.XMaterial
+import taboolib.platform.util.ItemBuilder
+import java.util.*
 
 /**
  * @author Arasple
@@ -18,7 +19,7 @@ class HookHeadDatabase : HookAbstract() {
             return field
         }
 
-    private val empty = ItemBuilder(XMaterial.PLAYER_HEAD).name("UNHOOKED_${name.toUpperCase()}").build()
+    private val empty = ItemBuilder(XMaterial.PLAYER_HEAD).also { it.name = "UNHOOKED_${name.uppercase()}" }.build()
 
     fun getHead(id: String): ItemStack {
         return headDatabaseAPI?.getItemHead(id) ?: empty

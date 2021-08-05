@@ -1,71 +1,56 @@
-Plugin:
-  Loading:
-    - ''
-    - '&7Загрузка &3Tr&bMenu &f&lPremium... &8{0}'
-    - ''
-  Enabled: '&8[&3Tr&bMenu&8] &bINFO &8| &3Плагин включен. В настоящее время запущена версия &2{0}&7.'
-  Update:
-    - '&8[&3Tr&bMenu&8] &bUPDATE &8| &3Обновление &a{0}&3 найдено ! Скачайте его по ссылке ниже, чтобы узнать о новых возможностях и исправить ошибку!'
-    - '&bhttps://www.spigotmc.org/resources/83120/'
-  Dependency:
-    Hooked: '&8[&3Tr&bMenu&8] &6HOOK &8| &7Soft-Dependency &f{0} &7is hooked.'
-    Abuse: '&8[&3Tr&bMenu&8] &6HOOK &8| &4Attempted to use the non-installed soft-depend plugin &c{0}'
+Plugin-Loading:
+  - '&r'
+  - '&7Загрузка &3Tr&bMenu &f&lPremium... &8{0}'
+  - '&r'
+Plugin-Enabled: '&8[&3Tr&bMenu&8] &bINFO &8| &3Плагин включен. В настоящее время запущена версия &2{0}&7.'
+Plugin-Update:
+  - '&8[&3Tr&bMenu&8] &bUPDATE &8| &3Обновление &a{0}&3 найдено ! Скачайте его по ссылке ниже, чтобы узнать о новых возможностях и исправить ошибку!'
+  - '&bhttps://www.spigotmc.org/resources/83120/'
+Plugin-Dependency-Hooked: '&8[&3Tr&bMenu&8] &6HOOK &8| &7Soft-Dependency &f{0} &7is hooked.'
+Plugin-Dependency-Abuse: '&8[&3Tr&bMenu&8] &6HOOK &8| &4Attempted to use the non-installed soft-depend plugin &c{0}'
 
-Menu:
-  Loaded: '&8[&3Tr&bMenu&8] &aFINE &8| &a{0} &3менюшки были загружены за &8({1} ms)'
-  Expansions:
-    Header:
-      - '&8[&3Tr&bMenu&8] &7Вы должны установить &f{0} &7расширение для PlaceholderAPI чтобы использовать данное меню!'
-      - ==: JSON
-        text: '&7Также не забудьте <&3&nreload@reload>'
-        args:
-          reload:
-            hover: '&7Нажмите, чтобы перезагрузить расширения PAPI'
-            command: '/papi reload'
-    Format:
-      ==: JSON
-      text: '&8- <&a{0}@expansion>&r'
-      args:
-        expansion:
-          hover: '&7Нажмите, чтобы скачать!'
-          command: '/papi ecloud download {0}'
-  Action:
-    Sound: '&8[&3Tr&bMenu&8] &7Неизвестный звук: &f{0}'
+Menu-Loaded: '&8[&3Tr&bMenu&8] &aFINE &8| &a{0} &3менюшки были загружены за &8({1} ms)'
+Menu-Reloaded: '&8[&3Tr&bMenu&8] &aFINE &8| &7автоматически перезагружается меню xxx &f{0}'
+Menu-Expansions-Header:
+  - '&8[&3Tr&bMenu&8] &7Вы должны установить &f{0} &7расширение для PlaceholderAPI чтобы использовать данное меню!'
+  - type: JSON
+    text: '&7Также не забудьте [&3&nreload]'
+    args:
+      - hover: '&7Нажмите, чтобы перезагрузить расширения PAPI'
+        command: '/papi reload'
+Menu-Expansions-Format:
+  type: JSON
+  text: '&8- [&a{0}]&r'
+  args:
+    - hover: '&7Нажмите, чтобы скачать!'
+      command: '/papi ecloud download {0}'
+Menu-Action-Sound: '&8[&3Tr&bMenu&8] &7Неизвестный звук: &f{0}'
 
-Paster:
-  Processing: '&8[&3Tr&bMenu&8] &7Содержимое вставляется ...'
-  Success: '&8[&3Tr&bMenu&8] &3Содержание вставлено в &a{0}'
-  Failed: '&8[&3Tr&bMenu&8] &cПри вставке содержимого произошла ошибка. Пожалуйста, проверьте консоль.'
+Paster-Processing: '&8[&3Tr&bMenu&8] &7Содержимое вставляется ...'
+Paster-Success: '&8[&3Tr&bMenu&8] &3Содержание вставлено в &a{0}'
+Paster-Failed: '&8[&3Tr&bMenu&8] &cПри вставке содержимого произошла ошибка. Пожалуйста, проверьте консоль.'
 
-Command:
-  Open:
-    Unknown-Menu: '&8[&3Tr&bMenu&8] &7Неизвестное меню: &6{0} &7.'
-    Unknown-Player: '&8[&3Tr&bMenu&8] &7Игрок &f{0} &7не в сети.'
-  Action:
-    Unknown-Player: '&8[&3Tr&bMenu&8] &7Игрок &f{0} &7не в сети.'
-  Template:
-    Empty: '&8[&3Tr&bMenu&8] &7Инвентаризация шаблонов пуста, создание меню отменено.'
-  Item:
-    No-Item: '&8[&3Tr&bMenu&8] &7Пожалуйста &fдержите предмет &7в руке.'
-    To-Json:
-      ==: JSON
-      text: '&8[&3Tr&bMenu&8] &7Этот предмет был преобразован в формат JSON: <&3&nНажмите copy@copy>'
-      args:
-        copy:
-          hover: '&7Нажмите, чтобы скопировать'
-          suggest: '{0}'
-    Saved: '&8[&3Tr&bMenu&8] &7Сохранен предмет (Id: &f{0}&7) в хранилище'
-    Deleted: '&8[&3Tr&bMenu&8] &7Удален предмет (Id: &f{0}&7) из хранилища'
-  List:
-    Error: '&8[&3Tr&bMenu&8] &7NORM &8| &7Меню не найдено... &8(Фильтр: {0})'
-    Header:
-      - ''
-      - '&8[&3Tr&bMenu&8] &aFINE &8| &7Загружено &f{0} &7меню &8(Фильтр: {1}): '
-      - ''
-    Format:
-      ==: JSON
-      text: '&8- <&3{0}@menu> &7| &8(Заголовок: {1} / Иконки: {2})&r'
-      args:
-        menu:
-          hover: '&7Нажмите, чтобы открыть'
-          command: '/trmenu open {0}'
+Command-Open-Unknown-Menu: '&8[&3Tr&bMenu&8] &7Неизвестное меню: &6{0} &7.'
+Command-Open-Unknown-Player: '&8[&3Tr&bMenu&8] &7Игрок &f{0} &7не в сети.'
+Command-Action-Unknown-Player: '&8[&3Tr&bMenu&8] &7Игрок &f{0} &7не в сети.'
+Command-Template-Empty: '&8[&3Tr&bMenu&8] &7Инвентаризация шаблонов пуста, создание меню отменено.'
+Command-Item-No-Item: '&8[&3Tr&bMenu&8] &7Пожалуйста &fдержите предмет &7в руке.'
+Command-Item-To-Json:
+  type: JSON
+  text: '&8\[&3Tr&bMenu&8\] &7Этот предмет был преобразован в формат JSON: [&3&nНажмите copy]'
+  args:
+    - hover: '&7Нажмите, чтобы скопировать'
+      suggest: '{0}'
+Command-Item-Saved: '&8[&3Tr&bMenu&8] &7Сохранен предмет (Id: &f{0}&7) в хранилище'
+Command-Item-Deleted: '&8[&3Tr&bMenu&8] &7Удален предмет (Id: &f{0}&7) из хранилища'
+Command-List-Error: '&8[&3Tr&bMenu&8] &7NORM &8| &7Меню не найдено... &8(Фильтр: {0})'
+Command-List-Header:
+  - '&r'
+  - '&8[&3Tr&bMenu&8] &aFINE &8| &7Загружено &f{0} &7меню &8(Фильтр: {1}): '
+  - '&r'
+Command-List-Format:
+  type: JSON
+  text: '&8- [&3{0}] &7| &8(Заголовок: {1} / Иконки: {2})&r'
+  args:
+    - hover: '&7Нажмите, чтобы открыть'
+      command: '/trmenu open {0}'

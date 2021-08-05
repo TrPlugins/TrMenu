@@ -1,11 +1,11 @@
 package me.arasple.mc.trmenu.module.internal.item
 
-import io.izzel.taboolib.module.config.TConfig
-import io.izzel.taboolib.module.inject.TFunction
-import io.izzel.taboolib.module.inject.TSchedule
-import me.arasple.mc.trmenu.TrMenu
-import me.arasple.mc.trmenu.util.Tasks
+import org.bukkit.Bukkit
 import org.bukkit.inventory.ItemStack
+import taboolib.common.platform.submit
+import taboolib.library.xseries.getItemStack
+import taboolib.module.configuration.Config
+import taboolib.module.configuration.SecuredFile
 
 /**
  * @author Arasple
@@ -13,25 +13,33 @@ import org.bukkit.inventory.ItemStack
  */
 object ItemRepository {
 
-    private val data = TConfig.create(TrMenu.plugin, "data/itemRepository.yml").listener { load() }
+    @Config("data/itemRepository.yml")
+    private lateinit var data: SecuredFile
     private var writing = false
     private val itemStacks = mutableMapOf<String, ItemStack>()
 
-    @TSchedule(delay = 20 * 60, period = 20 * 60, async = true)
+    init {
+        submit(delay = (20 * 60), period = (20 * 60), async = true) {
+            saveTask()
+        }
+        submit(delay = 20) {
+            load()
+        }
+    }
+
     fun saveTask() = save(false)
 
-    @TFunction.Cancel
+//    @TFunction.Cancel - 暂时无法解决
     fun cancel() = save(true)
 
     private fun save(isCanceling: Boolean) {
         writing = true
         data.getKeys(true).filter { !itemStacks.keys.contains(it) }.forEach { data.set(it, null) }
         itemStacks.forEach { (id, item) -> data.set(id, item) }
-        data.saveToFile()
-        if (!isCanceling) Tasks.delay { writing = false }
+        data
+        if (!isCanceling) submit(delay = 2L, async = !Bukkit.isPrimaryThread()) { writing = false }
     }
 
-    @TSchedule(delay = 20)
     private fun load() {
         if (writing) return
         val keys = data.getKeys(true)

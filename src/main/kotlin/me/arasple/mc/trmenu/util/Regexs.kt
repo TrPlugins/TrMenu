@@ -20,7 +20,7 @@ object Regexs {
     }
 
     fun parseBoolean(string: String): Boolean {
-        return string.toLowerCase().matches(TRUE)
+        return string.lowercase().matches(TRUE)
     }
 
 }

@@ -1,6 +1,5 @@
 package me.arasple.mc.trmenu.module.internal.script
 
-import io.izzel.taboolib.kotlin.Indexed
 import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.data.Metadata
@@ -30,7 +29,7 @@ object FunctionParser {
                     if (split.size < 2) return@joinToString it.value
                     val value = split[1]
 
-                    when (split[0].removePrefix(" ").toLowerCase()) {
+                    when (split[0].removePrefix(" ").lowercase()) {
                         "kether", "ke" -> parseKetherFunction(player, value)
                         "javascript", "js" -> parseJavaScript(session, value)
                         "meta", "m" -> Metadata.getMeta(player)[value].toString()
@@ -57,7 +56,7 @@ object FunctionParser {
 
         session.menu?.settings?.internalFunctions?.forEach {
             if (it.id == func[0]) {
-                val args = Indexed.subList(func, 1, func.size - 1)
+                val args = func.subList(1, func.size - 1)
                 return it.compile(session, args).asString()
             }
         }

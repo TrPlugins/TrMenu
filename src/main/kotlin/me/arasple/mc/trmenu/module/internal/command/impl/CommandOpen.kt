@@ -1,49 +1,79 @@
 package me.arasple.mc.trmenu.module.internal.command.impl
 
-import io.izzel.taboolib.internal.apache.lang3.ArrayUtils
-import io.izzel.taboolib.module.command.base.Argument
-import io.izzel.taboolib.module.command.base.BaseSubCommand
-import io.izzel.taboolib.module.locale.TLocale
 import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.api.event.MenuOpenEvent
 import me.arasple.mc.trmenu.module.display.Menu
+import me.arasple.mc.trmenu.module.internal.command.CommandExpresser
 import me.arasple.mc.trmenu.module.internal.data.Metadata
 import org.bukkit.Bukkit
-import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import taboolib.common.platform.subCommand
+import taboolib.platform.util.sendLang
 
 /**
  * @author Arasple
  * @date 2021/1/28 20:11
  */
-class CommandOpen : BaseSubCommand() {
+object CommandOpen : CommandExpresser {
 
-    override fun getArguments() = arrayOf(
-        Argument("MenuId") { Menu.menus.map { it.id } },
-        Argument("Player", false),
-        Argument("Arguments", false)
-    )
+    override val description = "Open a menu for player"
 
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>) {
-        val split = args[0].split(":")
-        val menu = TrMenuAPI.getMenuById(split[0])
-        val page = split.getOrNull(1)?.toIntOrNull() ?: 0
-        val player = if (args.size > 1) Bukkit.getPlayerExact(args[1]) else if (sender is Player) sender else null
-        val arguments = if (args.size > 2) ArrayUtils.removeAll(args, 0, 1) else null
+    // menu open [menuId] [player] [args...]
+    override val command = subCommand {
+        // menuId
+        dynamic {
+            suggestion<CommandSender> { _, _ ->
+                Menu.menus.map { it.id }
+            }
 
-        if (menu == null) {
-            TLocale.sendTo(sender, "Command.Open.Unknown-Menu", args[0])
-            return
-        }
-        if (player == null || !player.isOnline) {
-            TLocale.sendTo(sender, "Command.Open.Unknown-Player", args.getOrNull(1))
-            return
-        }
+            execute<CommandSender> { sender, context, argument ->
+                val split = context.argument(0)!!.split(":")
+                val menu = TrMenuAPI.getMenuById(split[0])
+                val page = split.getOrNull(1)?.toIntOrNull() ?: 0
+                val player = if (sender is Player) sender else null
+                if (menu == null) {
+                    sender.sendLang("Command-Open-Unknown-Menu", argument)
+                    return@execute
+                }
+                if (player == null || !player.isOnline) {
+                    sender.sendLang("Command-Open-Unknown-Player", "CONSOLE")
+                    return@execute
+                }
+                menu.open(player, page, MenuOpenEvent.Reason.PLAYER_COMMAND) {
+                    arrayOf<String>()
+                }
 
-        menu.open(player, page, MenuOpenEvent.Reason.PLAYER_COMMAND) {
-            if (!Metadata.byBukkit(player, "FORCE_ARGS") || (arguments != null && arguments.isNotEmpty())) {
-                it.arguments = arguments ?: arrayOf()
+            }
+
+            // player
+            dynamic(optional = true) {
+                suggestion<CommandSender> { _, _ ->
+                    Bukkit.getOnlinePlayers().map { it.name }
+                }
+
+                execute<CommandSender> { sender, context, argument ->
+                    val split = context.argument(-1)!!.split(":")
+                    val menu = TrMenuAPI.getMenuById(split[0])
+                    val page = split.getOrNull(1)?.toIntOrNull() ?: 0
+                    val player = context.argument(0).let { if (it == null) null else Bukkit.getPlayerExact(it) }
+                    val arguments = argument.substringAfter(" ").let { if (it.contains(" ")) it.split(" ").toTypedArray() else null }
+
+                    if (menu == null) {
+                        sender.sendLang("Command-Open-Unknown-Menu", context.argument(-1)!!)
+                        return@execute
+                    }
+                    if (player == null || !player.isOnline) {
+                        sender.sendLang("Command-Open-Unknown-Player", context.argument(0) ?: "null")
+                        return@execute
+                    }
+
+                    menu.open(player, page, MenuOpenEvent.Reason.PLAYER_COMMAND) {
+                        if (!Metadata.byBukkit(player, "FORCE_ARGS") || (arguments != null && arguments.isNotEmpty())) {
+                            it.arguments = arguments ?: arrayOf()
+                        }
+                    }
+                }
             }
         }
     }

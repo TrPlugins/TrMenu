@@ -1,35 +1,27 @@
 package me.arasple.mc.trmenu.module.internal.command.impl
 
-import io.izzel.taboolib.cronus.CronusUtils
-import io.izzel.taboolib.module.command.base.Argument
-import io.izzel.taboolib.module.command.base.BaseSubCommand
-import io.izzel.taboolib.module.locale.TLocale
-import io.izzel.taboolib.util.item.Equipments
-import io.izzel.taboolib.util.item.Items
-import io.izzel.taboolib.util.lite.Sounds
+import com.google.gson.JsonObject
+import com.google.gson.JsonParser
+import me.arasple.mc.trmenu.module.internal.command.CommandExpresser
 import me.arasple.mc.trmenu.module.internal.item.ItemRepository
 import me.arasple.mc.trmenu.util.bukkit.ItemHelper
 import me.arasple.mc.trmenu.util.net.Paster
-import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import taboolib.common.platform.subCommand
+import taboolib.library.xseries.XSound
+import taboolib.module.nms.getItemTag
+import taboolib.platform.util.sendLang
+import taboolib.type.BukkitEquipment
 
 /**
  * @author Arasple
  * @date 2021/1/31 10:41
  */
-class CommandItem : BaseSubCommand() {
+object CommandItem : CommandExpresser {
 
-    override fun getArguments(): Array<Argument> {
-        return arrayOf(
-            Argument("Method") {
-                listOf("toJson", "fromJson", "save", "get", "delete")
-            },
-            // key
-            Argument("Value", false)
-        )
-    }
+    override val description = "Manipulate items"
 
     // toJson -NoValueNeeded-
     // fromJson [value]
@@ -37,42 +29,65 @@ class CommandItem : BaseSubCommand() {
     // get [id]
     // del [id]
 
-    override fun onCommand(player: CommandSender, command: Command, label: String, args: Array<String>) {
-        Sounds.ITEM_BOTTLE_FILL.play(player as Player, 1f, 0f)
-
-        val value = args.getOrNull(1)
-        val item = Equipments.getItems(player)[Equipments.HAND]
-
-        if (args[0].equals("toJson", true)) {
-            item ?: kotlin.run {
-                TLocale.sendTo(player, "Command.Item.No-Item")
-                return
+    // menu item [Method] <Value>
+    override val command = subCommand {
+        // Method
+        dynamic {
+            suggestion<CommandSender> { _, _ ->
+                listOf("toJson", "fromJson", "save", "get", "del")
             }
-            toJson(player, item)
-        } else if (value != null) {
-            when (args[0].toLowerCase()) {
-                "fromjson" -> fromJson(player, value)
-                "get" -> ItemRepository.getItem(value)?.let { CronusUtils.addItem(player, it) }
-                "save" -> item?.let {
-                    ItemRepository.getItemStacks()[value] = item
-                    TLocale.sendTo(player, "Command.Item.Saved", value)
-                }
-                "delete" -> ItemRepository.removeItem(value)?.let {
-                    TLocale.sendTo(player, "Command.Item.Deleted", value)
+            // Value
+            dynamic {
+                execute<CommandSender> { player, context, argument ->
+                    XSound.ITEM_BOTTLE_FILL.play(player as Player, 1f, 0f)
+
+                    val item = BukkitEquipment.getItems(player)[BukkitEquipment.HAND]
+
+                    if (context.argument(-1).equals("toJson", true)) {
+                        item ?: kotlin.run {
+                            player.sendLang("Command-Item-No-Item")
+                            return@execute
+                        }
+                        toJson(player, item)
+                    } else {
+                        when (context.argument(-1)?.lowercase()) {
+                            "fromjson" -> fromJson(player, argument)
+                            "get" -> ItemRepository.getItem(argument)?.let {
+                                player.inventory.addItem(it).values.forEach { e ->
+                                    player.world.dropItem(
+                                        player.location,
+                                        e
+                                    )
+                                }
+                            }
+                            "save" -> item?.let {
+                                ItemRepository.getItemStacks()[argument] = item
+                                player.sendLang("Command-Item-Saved", argument)
+                            }
+                            "delete" -> ItemRepository.removeItem(argument)?.let {
+                                player.sendLang("Command-Item-Deleted", argument)
+                            }
+                        }
+                    }
                 }
             }
         }
     }
 
-    private fun toJson(player: Player, itemStack: ItemStack) {
-        val json = Items.toJson(itemStack)
-        if (json.length < 200) TLocale.sendTo(player, "Command.Item.To-Json", json)
-        else Paster.paste(player, json, "json")
+    private fun toJson(player: Player, item: ItemStack) {
+        val json = JsonObject()
+        json.addProperty("type", item.type.name)
+        json.addProperty("data", item.data!!.data)
+        json.addProperty("amount", item.amount)
+        json.add("meta", JsonParser().parse(item.getItemTag().toJson()))
+        val stringJson = json.toString()
+        if (stringJson.length < 200) player.sendLang("Command-Item-To-Json", stringJson)
+        else Paster.paste(player, stringJson, "json")
     }
 
     private fun fromJson(player: Player, json: String) {
         ItemHelper.fromJson(json)?.let {
-            CronusUtils.addItem(player, it)
+            player.inventory.addItem(it).values.forEach { e -> player.world.dropItem(player.location, e) }
         }
     }
 

@@ -1,7 +1,7 @@
 package me.arasple.mc.trmenu.module.display.icon
 
 import me.arasple.mc.trmenu.api.action.pack.Reactions
-import me.arasple.mc.trmenu.api.receptacle.window.vanilla.ClickType
+import taboolib.module.ui.receptacle.ReceptacleClickType
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.display.item.Item
 import me.arasple.mc.trmenu.module.internal.script.Condition
@@ -15,7 +15,7 @@ class IconProperty(
     val priority: Int,
     val condition: Condition,
     val display: Item,
-    val action: Map<Set<ClickType>, Reactions>
+    val action: Map<Set<ReceptacleClickType>, Reactions>
 ) {
 
     fun isTextureUpdatable(): Boolean {
@@ -30,10 +30,10 @@ class IconProperty(
         return display.lore.cyclable() || display.lore.elements.any { it -> Regexs.containsPlaceholder(it.lore.joinToString(" ") { it.first }) }
     }
 
-    fun handleClick(type: ClickType, session: MenuSession) {
+    fun handleClick(type: ReceptacleClickType, session: MenuSession) {
         val reactions = action.entries
             .filter { set ->
-                set.key.any { it == ClickType.ALL || it == ClickType.NUMBER_KEY && it.isNumberKeyClick() } || set.key.contains(
+                set.key.any { it == ReceptacleClickType.ALL || it == ReceptacleClickType.NUMBER_KEY && it.isNumberKeyClick() } || set.key.contains(
                     type
                 )
             }

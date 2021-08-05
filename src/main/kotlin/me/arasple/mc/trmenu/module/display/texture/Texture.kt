@@ -1,9 +1,5 @@
 package me.arasple.mc.trmenu.module.display.texture
 
-import io.izzel.taboolib.Version
-import io.izzel.taboolib.internal.xseries.XMaterial
-import io.izzel.taboolib.util.Strings
-import io.izzel.taboolib.util.item.ItemBuilder
 import me.arasple.mc.trmenu.api.menu.ITexture
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.hook.HookPlugin
@@ -16,6 +12,10 @@ import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.LeatherArmorMeta
 import org.bukkit.inventory.meta.SkullMeta
+import taboolib.common.util.Strings.similarDegree
+import taboolib.library.xseries.XMaterial
+import taboolib.module.nms.MinecraftVersion
+import taboolib.platform.util.ItemBuilder
 
 /**
  * @author Arasple
@@ -48,7 +48,7 @@ class Texture(
                 val value = session.parse(metaValue)
                 when (meta) {
                     TextureMeta.DATA_VALUE -> itemStack.durability = value.toShortOrNull() ?: 0
-                    TextureMeta.MODEL_DATA -> itemMeta.setCustomModelData(value.toInt())
+                    TextureMeta.MODEL_DATA -> itemMeta?.setCustomModelData(value.toInt())
                     TextureMeta.LEATHER_DYE -> if (itemMeta is LeatherArmorMeta) itemMeta.setColor(
                         ItemHelper.serializeColor(
                             value
@@ -75,7 +75,7 @@ class Texture(
         val FALL_BACK = ItemStack(Material.BEDROCK)
 
         fun createTexture(itemStack: ItemStack): String {
-            val material = itemStack.type.name.toLowerCase().replace("_", " ")
+            val material = itemStack.type.name.lowercase().replace("_", " ")
             val itemMeta = itemStack.itemMeta
 
             // Head Meta
@@ -92,7 +92,7 @@ class Texture(
                 }
             }
             // Model Data
-            if (Version.isAfter(Version.v1_14) && itemMeta != null && itemMeta.hasCustomModelData()) {
+            if (MinecraftVersion.majorLegacy >= 11400 && itemMeta != null && itemMeta.hasCustomModelData()) {
                 return "$material{model-data:${itemMeta.customModelData}}"
             }
             // Leather
@@ -140,23 +140,24 @@ class Texture(
         private fun parseMaterial(material: String): ItemStack {
             val split = material.split(":", limit = 2)
             val data = split.getOrNull(1)?.toIntOrNull() ?: 0
-            val id = split[0].toIntOrNull() ?: split[0].toUpperCase().replace("[ _]".toRegex(), "_")
-            val builder = ItemBuilder(FALL_BACK)
+            val id = split[0].toIntOrNull() ?: split[0].uppercase().replace("[ _]".toRegex(), "_")
+            val builder = ItemBuilder(XMaterial.matchXMaterial(FALL_BACK))
+            var rawMaterial = id
 
             if (id is Int) {
-                builder.material(id)
-                builder.damage(data)
+                builder.material = XMaterial.matchXMaterial(Material::class.java.getDeclaredMethod("getMaterial").invoke(null, id) as Material ?: Material.AIR)
+                builder.damage = data
             } else {
                 val name = id.toString()
                 try {
-                    builder.material(Material.valueOf(name))
+                    builder.material = XMaterial.valueOf(name)
                 } catch (e: Throwable) {
                     val xMaterial =
                         XMaterial.values().find { it.name.equals(name, true) }
                             ?: XMaterial.values()
                                 .find { it -> it.legacy.any { it == name } }
                             ?: XMaterial.values()
-                                .maxByOrNull { Strings.similarDegree(name, it.name) }
+                                .maxByOrNull { similarDegree(name, it.name) }
                     return xMaterial?.parseItem() ?: FALL_BACK
                 }
             }

@@ -2,14 +2,14 @@ package me.arasple.mc.trmenu.module.display
 
 import me.arasple.mc.trmenu.api.event.MenuOpenEvent
 import me.arasple.mc.trmenu.api.event.MenuPageChangeEvent
-import me.arasple.mc.trmenu.api.receptacle.window.Receptacle
+import taboolib.module.ui.receptacle.Receptacle
 import me.arasple.mc.trmenu.module.display.icon.Icon
 import me.arasple.mc.trmenu.module.display.layout.MenuLayout
 import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.module.internal.service.Performance
-import me.arasple.mc.trmenu.util.Tasks
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
+import taboolib.common.platform.submit
 
 /**
  * @author Arasple
@@ -49,7 +49,10 @@ class Menu(
                 session.shut()
             }
 
-            if (MenuOpenEvent(session, this, page, reason).call().isCancelled) return
+            val menuOpenEvent = MenuOpenEvent(session, this, page, reason)
+            menuOpenEvent.call()
+
+            if (menuOpenEvent.isCancelled) return
             session.menu = this
             block(session)
 
@@ -85,10 +88,13 @@ class Menu(
             val receptacle: Receptacle
             val override = previous.isSimilar(layout)
 
-            if (MenuPageChangeEvent(session, session.page, page, override).call().isCancelled) return
+            val menuPageChangeEvent = MenuPageChangeEvent(session, session.page, page, override)
+            menuPageChangeEvent.call()
+
+            if (menuPageChangeEvent.isCancelled) return
             if (override) {
                 receptacle = session.receptacle!!
-                receptacle.clearItems()
+                receptacle.clear()
             } else {
                 session.receptacle = layout.baseReceptacle().also { receptacle = it }
                 layout.initReceptacle(session)
@@ -99,7 +105,7 @@ class Menu(
             loadIcon(session)
 
             if (override) {
-                receptacle.refresh(viewer)
+                receptacle.refresh()
                 session.updateActiveSlots()
             } else receptacle.open(viewer)
         }
@@ -114,7 +120,7 @@ class Menu(
         }.also { it.invoke() }
 
         if (settings.titleUpdate > 0 && settings.title.cyclable()) {
-            session.arrange(Tasks.timer(10, settings.titleUpdate.toLong(), true) {
+            session.arrange(submit(delay = 10, period = settings.titleUpdate.toLong(), async = true) {
                 setTitle()
             })
         }
@@ -142,7 +148,7 @@ class Menu(
     private fun loadTasks(session: MenuSession) {
         settings.tasks.forEach { (period, reactions) ->
             session.arrange(
-                Tasks.timer(5L, period, true) {
+                submit(delay = 5L, period = period, async = true) {
                     Performance.check("Menu:CustomTasks") {
                         reactions.eval(session)
                     }

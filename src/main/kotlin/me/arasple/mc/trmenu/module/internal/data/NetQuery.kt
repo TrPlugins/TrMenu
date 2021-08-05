@@ -3,7 +3,7 @@ package me.arasple.mc.trmenu.module.internal.data
 import com.google.common.collect.Maps
 import com.google.gson.JsonElement
 import com.google.gson.JsonParser
-import me.arasple.mc.trmenu.util.Tasks
+import taboolib.common.platform.submit
 import java.io.BufferedInputStream
 import java.io.ByteArrayOutputStream
 import java.net.HttpURLConnection
@@ -56,7 +56,7 @@ class NetQuery(private val url: String, private val span: Int) {
         if (updating) return
         updating = true
 
-        Tasks.task(true) {
+        submit(async = true) {
             try {
                 val connection = URL(url).openConnection() as HttpURLConnection
                 connection.requestMethod = "GET"

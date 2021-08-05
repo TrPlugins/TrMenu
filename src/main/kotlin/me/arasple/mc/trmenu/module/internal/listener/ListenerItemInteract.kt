@@ -1,26 +1,23 @@
 package me.arasple.mc.trmenu.module.internal.listener
 
-import io.izzel.taboolib.Version
-import io.izzel.taboolib.module.inject.TListener
-import io.izzel.taboolib.util.Baffle
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.event.MenuOpenEvent
 import me.arasple.mc.trmenu.module.display.Menu
 import me.arasple.mc.trmenu.module.display.MenuSession
-import org.bukkit.event.EventHandler
-import org.bukkit.event.EventPriority
-import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.Inventory
+import taboolib.common.platform.EventPriority
+import taboolib.common.platform.SubscribeEvent
+import taboolib.common5.Baffle
+import taboolib.module.nms.MinecraftVersion
 import java.util.concurrent.TimeUnit
 
 /**
  * @author Arasple
  * @date 2021/1/29 17:18
  */
-@TListener
-class ListenerItemInteract : Listener {
+object ListenerItemInteract {
 
     private val interactCooldown by lazy {
 
@@ -28,9 +25,9 @@ class ListenerItemInteract : Listener {
 
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     fun onInteract(e: PlayerInteractEvent) {
-        if (Version.isAfter(Version.v1_9) && e.hand == EquipmentSlot.OFF_HAND) return
+        if (MinecraftVersion.majorLegacy >= 10900 && e.hand == EquipmentSlot.OFF_HAND) return
         val player = e.player
         val item = e.item ?: return
         val session = MenuSession.getSession(player)

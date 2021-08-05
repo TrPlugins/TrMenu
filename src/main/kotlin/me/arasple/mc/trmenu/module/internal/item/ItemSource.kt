@@ -4,6 +4,7 @@ import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.hook.HookPlugin
 import me.arasple.mc.trmenu.module.internal.script.js.JavaScriptAgent
 import org.bukkit.inventory.ItemStack
+import java.util.*
 
 /**
  * @author Arasple
@@ -13,7 +14,7 @@ object ItemSource {
 
     fun fromSource(session: MenuSession, string: String): ItemStack? {
         val identifier = string.split(":", "=", limit = 2)
-        val name = identifier[0].replace("-", "").toUpperCase()
+        val name = identifier[0].replace("-", "").uppercase()
         val id = identifier[1]
 
         return when (name) {

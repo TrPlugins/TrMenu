@@ -1,7 +1,6 @@
 package me.arasple.mc.trmenu.util.file
 
-import io.izzel.taboolib.module.config.TConfigWatcher
-import io.izzel.taboolib.module.inject.TFunction
+import taboolib.common5.FileWatcher
 import java.io.File
 
 
@@ -37,11 +36,11 @@ object FileListener {
         }
     }
 
-    @TFunction.Cancel
+//    @TFunction.Cancel
     fun uninstall() {
         watcher.unregisterAll()
     }
 
-    private val watcher = TConfigWatcher()
+    private val watcher = FileWatcher()
 
 }

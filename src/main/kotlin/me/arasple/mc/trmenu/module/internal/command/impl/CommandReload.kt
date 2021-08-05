@@ -1,18 +1,21 @@
 package me.arasple.mc.trmenu.module.internal.command.impl
 
-import io.izzel.taboolib.module.command.base.BaseSubCommand
 import me.arasple.mc.trmenu.module.conf.Loader
-import org.bukkit.command.Command
+import me.arasple.mc.trmenu.module.internal.command.CommandExpresser
 import org.bukkit.command.CommandSender
+import taboolib.common.platform.subCommand
 
 /**
  * @author Arasple
  * @date 2021/1/27 11:44
  */
-class CommandReload : BaseSubCommand() {
+object CommandReload : CommandExpresser {
 
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>) {
-        Loader.loadMenus(sender)
+    override val description = "Reload all menus"
+
+    override val command = subCommand {
+        execute<CommandSender> { sender, _, _ ->
+            Loader.loadMenus(sender)
+        }
     }
-
 }

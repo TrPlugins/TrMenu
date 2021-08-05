@@ -1,72 +1,56 @@
-Plugin:
-  Loading:
-    - ''
-    - '&7Loading &3Tr&bMenu &f&lPremium... &8{0}'
-    - ''
-  Enabled: '&8[&3Tr&bMenu&8] &bINFO &8| &3Plugin has been enabled. Currently running version &2{0}&7.'
-  Update:
-    - '&8[&3Tr&bMenu&8] &bUPDATE &8| &3Update &a{0}&3 found ! Download it from the link below for new features and bug fix!'
-    - '&bhttps://www.spigotmc.org/resources/83120/'
-  Dependency:
-    Hooked: '&8[&3Tr&bMenu&8] &6HOOK &8| &7Soft-Dependency &f{0} &7is hooked.'
-    Abuse: '&8[&3Tr&bMenu&8] &6HOOK &8| &4Attempted to use the non-installed soft-depend plugin &c{0}'
+Plugin-Loading:
+  - '&r'
+  - '&7Loading &3Tr&bMenu &f&lPremium... &8{0}'
+  - '&r'
+Plugin-Enabled: '&8[&3Tr&bMenu&8] &bINFO &8| &3Plugin has been enabled. Currently running version &2{0}&7.'
+Plugin-Update:
+  - '&8[&3Tr&bMenu&8] &bUPDATE &8| &3Update &a{0}&3 found ! Download it from the link below for new features and bug fix!'
+  - '&bhttps://www.spigotmc.org/resources/83120/'
+Plugin-Dependency-Hooked: '&8[&3Tr&bMenu&8] &6HOOK &8| &7Soft-Dependency &f{0} &7is hooked.'
+Plugin-Dependency-Abuse: '&8[&3Tr&bMenu&8] &6HOOK &8| &4Attempted to use the non-installed soft-depend plugin &c{0}'
 
-Menu:
-  Loaded: '&8[&3Tr&bMenu&8] &aFINE &8| &a{0} &3menus were loaded &8({1} ms)'
-  Reloaded: '&8[&3Tr&bMenu&8] &aFINE &8| &7Automatically reloaded menu &f{0}'
-  Expansions:
-    Header:
-      - '&8[&3Tr&bMenu&8] &7You have to install the &f{0} &7expansion for PlaceholderAPI to use this menu.'
-      - ==: JSON
-        text: '&7Also don''t forget to <&3&nreload@reload>'
-        args:
-          reload:
-            hover: '&7Click to reload expansions of PAPI'
-            command: '/papi reload'
-    Format:
-      ==: JSON
-      text: '&8- <&a{0}@expansion>&r'
-      args:
-        expansion:
-          hover: '&7Click to download'
-          command: '/papi ecloud download {0}'
-  Action:
-    Sound: '&8[&3Tr&bMenu&8] &7Unkown sound: &f{0}'
+Menu-Loaded: '&8[&3Tr&bMenu&8] &aFINE &8| &a{0} &3menus were loaded &8({1} ms)'
+Menu-Reloaded: '&8[&3Tr&bMenu&8] &aFINE &8| &7Automatically reloaded menu &f{0}'
+Menu-Expansions-Header:
+  - '&8[&3Tr&bMenu&8] &7You have to install the &f{0} &7expansion for PlaceholderAPI to use this menu.'
+  - type: JSON
+    text: '&7Also don''t forget to [&3&nreload]'
+    args:
+      - hover: '&7Click to reload expansions of PAPI'
+        command: '/papi reload'
+Menu-Expansions-Format:
+  type: JSON
+  text: '&8- [&a{0}]&r'
+  args:
+    - hover: '&7Click to download'
+      command: '/papi ecloud download {0}'
+Menu-Action-Sound: '&8[&3Tr&bMenu&8] &7Unkown sound: &f{0}'
 
-Paster:
-  Processing: '&8[&3Tr&bMenu&8] &7Pasting content ...'
-  Success: '&8[&3Tr&bMenu&8] &3The content has been pasted to &a{0}'
-  Failed: '&8[&3Tr&bMenu&8] &cAn error occurred while pasting the content. Please check out console.'
+Paster-Processing: '&8[&3Tr&bMenu&8] &7Pasting content ...'
+Paster-Success: '&8[&3Tr&bMenu&8] &3The content has been pasted to &a{0}'
+Paster-Failed: '&8[&3Tr&bMenu&8] &cAn error occurred while pasting the content. Please check out console.'
 
-Command:
-  Open:
-    Unknown-Menu: '&8[&3Tr&bMenu&8] &7Unkown menu &6{0} &7.'
-    Unknown-Player: '&8[&3Tr&bMenu&8] &7Player &f{0} &7is not online.'
-  Action:
-    Unknown-Player: '&8[&3Tr&bMenu&8] &7Player &f{0} &7is not online.'
-  Template:
-    Empty: '&8[&3Tr&bMenu&8] &7The template inventory is empty, menu creation cancelled.'
-  Item:
-    No-Item: '&8[&3Tr&bMenu&8] &7Please &fhold an item &7in hand.'
-    To-Json:
-      ==: JSON
-      text: '&8[&3Tr&bMenu&8] &7The item has been converted to JSON: <&3&nClick to copy@copy>'
-      args:
-        copy:
-          hover: '&7Click to copy'
-          suggest: '{0}'
-    Saved: '&8[&3Tr&bMenu&8] &7Saved item (Id: &f{0}&7) to the repository'
-    Deleted: '&8[&3Tr&bMenu&8] &7Deleted item (Id: &f{0}&7) from the repository'
-  List:
-    Error: '&8[&3Tr&bMenu&8] &7NORM &8| &7No menus are found... &8(Filter: {0})'
-    Header:
-      - ''
-      - '&8[&3Tr&bMenu&8] &aFINE &8| &7Loaded &f{0} &7menus &8(Filter: {1}): '
-      - ''
-    Format:
-      ==: JSON
-      text: '&8- <&3{0}@menu> &7| &8(Title: {1} / Icons: {2})&r'
-      args:
-        menu:
-          hover: '&7Click to open'
-          command: '/trmenu open {0}'
+Command-Open-Unknown-Menu: '&8[&3Tr&bMenu&8] &7Unkown menu &6{0} &7.'
+Command-Open-Unknown-Player: '&8[&3Tr&bMenu&8] &7Player &f{0} &7is not online.'
+Command-Action-Unknown-Player: '&8[&3Tr&bMenu&8] &7Player &f{0} &7is not online.'
+Command-Template-Empty: '&8[&3Tr&bMenu&8] &7The template inventory is empty, menu creation cancelled.'
+Command-Item-No-Item: '&8[&3Tr&bMenu&8] &7Please &fhold an item &7in hand.'
+Command-Item-To-Json:
+  type: JSON
+  text: '&8\[&3Tr&bMenu&8\] &7The item has been converted to JSON: [&3&nClick to copy]'
+  args:
+    - hover: '&7Click to copy'
+      suggest: '{0}'
+Command-Item-Saved: '&8[&3Tr&bMenu&8] &7Saved item (Id: &f{0}&7) to the repository'
+Command-Item-Deleted: '&8[&3Tr&bMenu&8] &7Deleted item (Id: &f{0}&7) from the repository'
+Command-List-Error: '&8[&3Tr&bMenu&8] &7NORM &8| &7No menus are found... &8(Filter: {0})'
+Command-List-Header:
+  - '&r'
+  - '&8[&3Tr&bMenu&8] &aFINE &8| &7Loaded &f{0} &7menus &8(Filter: {1}): '
+  - '&r'
+Command-List-Format:
+  type: JSON
+  text: '&8- [&3{0}] &7| &8(Title: {1} / Icons: {2})&r'
+  args:
+    - hover: '&7Click to open'
+      command: '/trmenu open {0}'

@@ -1,15 +1,15 @@
 package me.arasple.mc.trmenu.module.internal.script.impl
 
-import io.izzel.taboolib.kotlin.kether.KetherParser
-import io.izzel.taboolib.kotlin.kether.ScriptParser
-import io.izzel.taboolib.kotlin.kether.common.api.ParsedAction
-import io.izzel.taboolib.kotlin.kether.common.api.QuestContext
-import io.izzel.taboolib.kotlin.kether.common.loader.types.ArgTypes
-import io.izzel.taboolib.kotlin.kether.common.util.LocalizedException
 import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.module.internal.script.kether.BaseAction
 import me.arasple.mc.trmenu.module.internal.script.kether.EditType
 import me.arasple.mc.trmenu.module.internal.script.kether.EditType.*
+import taboolib.library.kether.ArgTypes
+import taboolib.library.kether.LocalizedException
+import taboolib.library.kether.ParsedAction
+import taboolib.library.kether.QuestContext
+import taboolib.module.kether.KetherParser
+import taboolib.module.kether.scriptParser
 import java.util.concurrent.CompletableFuture
 
 /**
@@ -33,6 +33,7 @@ class KetherData(val type: EditType, private val source: ParsedAction<*>, privat
                 GET -> Metadata.getData(viewer)[it]
                 HAS -> Metadata.getData(viewer).data.containsKey(it)
             }
+
         }
 
     }
@@ -40,8 +41,8 @@ class KetherData(val type: EditType, private val source: ParsedAction<*>, privat
     companion object {
 
         @KetherParser(["data"], namespace = "trmenu")
-        fun parser() = ScriptParser.parser {
-            val type = when (it.nextToken().toLowerCase()) {
+        fun parser() = scriptParser {
+            val type = when (it.nextToken().lowercase()) {
                 "del" -> DEL
                 "set" -> SET
                 "get" -> GET

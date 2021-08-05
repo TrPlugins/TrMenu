@@ -1,12 +1,13 @@
 package me.arasple.mc.trmenu.api
 
-import io.izzel.taboolib.kotlin.kether.KetherShell
-import io.izzel.taboolib.kotlin.kether.common.util.LocalizedException
 import me.arasple.mc.trmenu.module.display.Menu
 import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.module.internal.script.EvalResult
 import me.arasple.mc.trmenu.module.internal.service.Performance
 import org.bukkit.entity.Player
+import taboolib.common.platform.adaptPlayer
+import taboolib.library.kether.LocalizedException
+import taboolib.module.kether.KetherShell
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
@@ -33,7 +34,7 @@ object TrMenuAPI {
         Performance.check("Handler:Script:Evaluation") {
             return try {
                 KetherShell.eval(script, namespace = listOf("trmenu", "trhologram")) {
-                    sender = player
+                    sender = adaptPlayer(player)
                     rootFrame().variables().run {
                         Metadata.getMeta(player).data.forEach { (key, value) ->
                             set(key, value.toString())

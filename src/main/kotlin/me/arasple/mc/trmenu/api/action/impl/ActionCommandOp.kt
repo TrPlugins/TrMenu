@@ -1,9 +1,9 @@
 package me.arasple.mc.trmenu.api.action.impl
 
-import io.izzel.taboolib.util.Features
 import me.arasple.mc.trmenu.api.action.base.AbstractAction
 import me.arasple.mc.trmenu.api.action.base.ActionOption
 import org.bukkit.entity.Player
+import taboolib.platform.util.dispatchCommand
 
 /**
  * @author Arasple
@@ -13,7 +13,11 @@ class ActionCommandOp(content: String, option: ActionOption) : AbstractAction(co
 
     override fun onExecute(player: Player, placeholderPlayer: Player) {
             parseContentSplited(placeholderPlayer, ";").forEach {
-                Features.dispatchCommand(player, it, true)
+                player.isOp.let { isOp ->
+                    player.isOp = true
+                    dispatchCommand(player, it)
+                    player.isOp = isOp
+                }
             }
     }
 

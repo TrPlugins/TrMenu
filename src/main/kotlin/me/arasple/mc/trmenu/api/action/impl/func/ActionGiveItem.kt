@@ -1,6 +1,5 @@
 package me.arasple.mc.trmenu.api.action.impl.func
 
-import io.izzel.taboolib.cronus.CronusUtils
 import me.arasple.mc.trmenu.api.action.base.AbstractAction
 import me.arasple.mc.trmenu.api.action.base.ActionOption
 import me.arasple.mc.trmenu.util.bukkit.ItemMatcher
@@ -14,7 +13,7 @@ class ActionGiveItem(content: String, option: ActionOption) : AbstractAction(con
 
     override fun onExecute(player: Player, placeholderPlayer: Player) {
         ItemMatcher.eval(parseContent(placeholderPlayer), !parsable).buildItem().forEach {
-            CronusUtils.addItem(player, it)
+            player.inventory.addItem(it).values.forEach { e -> player.world.dropItem(player.location, e) }
         }
         player.session().playerItemSlots()
     }

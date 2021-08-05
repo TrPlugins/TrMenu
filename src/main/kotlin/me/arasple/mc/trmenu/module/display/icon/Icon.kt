@@ -3,8 +3,8 @@ package me.arasple.mc.trmenu.module.display.icon
 import me.arasple.mc.trmenu.api.menu.IIcon
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.service.Performance
-import me.arasple.mc.trmenu.util.Tasks
 import me.arasple.mc.trmenu.util.collections.IndivList
+import taboolib.common.platform.submit
 
 /**
  * @author Arasple
@@ -22,7 +22,7 @@ class Icon(
     override fun startup(session: MenuSession) {
         update.forEach { (period, frames) ->
             session.arrange(
-                Tasks.timer(10, period, true) {
+                submit(delay = 10, period = period, async = true) {
                     onUpdate(session, frames)
                 },
                 true
@@ -30,7 +30,7 @@ class Icon(
         }
         if (refresh > 0) {
             session.arrange(
-                Tasks.timer(10, refresh, true) {
+                submit(delay = 10, period = refresh, async = true) {
                     onRefresh(session)
                 },
                 true

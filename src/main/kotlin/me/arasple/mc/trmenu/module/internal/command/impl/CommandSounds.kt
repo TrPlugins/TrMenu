@@ -1,31 +1,41 @@
 package me.arasple.mc.trmenu.module.internal.command.impl
 
-import io.izzel.taboolib.module.command.base.Argument
-import io.izzel.taboolib.module.command.base.BaseSubCommand
-import io.izzel.taboolib.module.tellraw.TellrawJson
-import io.izzel.taboolib.util.item.ItemBuilder
-import io.izzel.taboolib.util.lite.Materials
-import me.arasple.mc.trmenu.api.receptacle.window.type.InventoryChest
-import me.arasple.mc.trmenu.api.receptacle.window.vanilla.ClickType
-import org.bukkit.Material
+import me.arasple.mc.trmenu.module.internal.command.CommandExpresser
+import taboolib.module.ui.receptacle.ChestInventory
 import org.bukkit.Sound
-import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import taboolib.common.platform.adaptPlayer
+import taboolib.common.platform.subCommand
+import taboolib.library.xseries.XMaterial
+import taboolib.library.xseries.XSound
+import taboolib.module.chat.TellrawJson
+import taboolib.module.ui.receptacle.ReceptacleClickType
+import taboolib.platform.util.ItemBuilder
 
 /**
  * @author Arasple
  * @date 2021/2/1 17:39
  */
-class CommandSounds : BaseSubCommand() {
+object CommandSounds : CommandExpresser {
 
-    override fun getArguments() = arrayOf(
-        Argument("Filter", false)
-    )
+    override val description = "Preview & test sounds"
 
-    override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>) {
-        open(sender as Player, 0, args.getOrNull(0))
+    // menu sounds [sound]
+    override val command = subCommand {
+        dynamic(optional = true) {
+            suggestion<Player> { _, _ ->
+                XSound.values().map { it.name }
+            }
+
+            execute<Player> { sender, context, argument ->
+                open(sender, 0, argument.ifEmpty { "*" })
+            }
+        }
+        execute<Player> { sender, context, argument ->
+            open(sender, 0, null)
+        }
     }
 
     private fun open(player: Player, page: Int, filter: String?) {
@@ -34,8 +44,8 @@ class CommandSounds : BaseSubCommand() {
         }
 
         val prevNext = arrayOf(page > 0, sounds.size > 54)
-        val receptacle = InventoryChest(6, "Sounds / Page: $page ; Filter: ${filter ?: "*"}")
-        val slotMap = receptacle.type.slotRange
+        val receptacle = ChestInventory(6, "Sounds / Page: $page ; Filter: ${filter ?: "*"}")
+        val slotMap = receptacle.type.containerSlots
             .mapIndexed { index, slot -> slot to index }
             .filter { it.second < sounds.size }
             .toMap()
@@ -48,9 +58,9 @@ class CommandSounds : BaseSubCommand() {
             receptacle.setItem(DISPLAY(sounds[index].name), slot)
         }
 
-        receptacle.listenerClick { _, e ->
+        receptacle.onClick { _, e ->
             val slot = e.slot
-            if (slot < 0) return@listenerClick
+            if (slot < 0) return@onClick
 
             e.isCancelled = true
             receptacle.refresh(e.slot)
@@ -59,20 +69,20 @@ class CommandSounds : BaseSubCommand() {
                 slot == ctrl -> stopPlaying(player)
                 slot == prev && prevNext[0] -> open(player, page - 1, filter)
                 slot == next && prevNext[1] -> open(player, page + 1, filter)
-                slot in receptacle.type.slotRange -> {
-                    val index = slotMap[slot] ?: return@listenerClick
+                slot in receptacle.type.containerSlots -> {
+                    val index = slotMap[slot] ?: return@onClick
                     val sound = sounds[index]
-                    when (e.clickType) {
-                        ClickType.DROP -> player.playSound(player.location, sound, 1f, 0f)
-                        ClickType.LEFT -> player.playSound(player.location, sound, 1f, 1f)
-                        ClickType.RIGHT -> player.playSound(player.location, sound, 1f, 2f)
-                        ClickType.MIDDLE -> TellrawJson.create()
+                    when (e.receptacleClickType) {
+                        ReceptacleClickType.DROP -> player.playSound(player.location, sound, 1f, 0f)
+                        ReceptacleClickType.LEFT -> player.playSound(player.location, sound, 1f, 1f)
+                        ReceptacleClickType.RIGHT -> player.playSound(player.location, sound, 1f, 2f)
+                        ReceptacleClickType.MIDDLE -> TellrawJson()
                             .newLine()
                             .append("§8▶ §7CLICK TO COPY: ")
-                            .append("§a§n" + sound.name).clickSuggest(sound.name)
+                            .append("§a§n" + sound.name).suggestCommand(sound.name)
                             .hoverText("§8Click this text")
                             .newLine()
-                            .send(player)
+                            .sendTo(adaptPlayer(player))
                         else -> {
                         }
                     }
@@ -83,28 +93,36 @@ class CommandSounds : BaseSubCommand() {
         receptacle.open(player)
     }
 
-    companion object {
+    private const val prev = 65
+    private const val ctrl = 67
+    private const val next = 69
 
-        private const val prev = 65
-        private const val ctrl = 67
-        private const val next = 69
+    private val PREV = arrayOf(
+        ItemBuilder(XMaterial.CYAN_STAINED_GLASS_PANE).also {
+            it.name = "§3Previous Page"
+        }.build(),
+        ItemBuilder(XMaterial.GRAY_STAINED_GLASS_PANE).also {
+            it.name = "§7Previous Page"
+        }.build()
+    )
 
-        private val PREV = arrayOf(
-            ItemBuilder(Materials.CYAN_STAINED_GLASS_PANE.parseItem()).name("§3Previous Page").build(),
-            ItemBuilder(Materials.GRAY_STAINED_GLASS_PANE.parseItem()).name("§7Previous Page").build()
-        )
+    private val NEXT = arrayOf(
+        ItemBuilder(XMaterial.LIME_STAINED_GLASS_PANE).also {
+            it.name = "§aNext Page"
+        }.build(),
+        ItemBuilder(XMaterial.GRAY_STAINED_GLASS_PANE).also {
+            it.name = "§7Next Page"
+        }.build()
+    )
 
-        private val NEXT = arrayOf(
-            ItemBuilder(Materials.LIME_STAINED_GLASS_PANE.parseItem()).name("§aNext Page").build(),
-            ItemBuilder(Materials.GRAY_STAINED_GLASS_PANE.parseItem()).name("§7Next Page").build()
-        )
+    private val CTRL = ItemBuilder(XMaterial.ORANGE_STAINED_GLASS_PANE).also {
+        it.name = "§6Stop playing"
+    }.build()
 
-        private val CTRL = ItemBuilder(Materials.ORANGE_STAINED_GLASS_PANE.parseItem()).name("§6Stop playing").build()
-
-        private val DISPLAY: (String) -> ItemStack = { name ->
-            ItemBuilder(Material.PAPER)
-                .name("§f§n$name")
-                .lore(
+    private val DISPLAY: (String) -> ItemStack = { name ->
+        ItemBuilder(XMaterial.PAPER).also {
+            it.name = "§f§n$name"
+            it.lore.addAll(listOf(
                     "",
                     "§8· §7Press §fQ §7for Pitch 0",
                     "§8· §7Left Click for Pitch 1",
@@ -112,13 +130,12 @@ class CommandSounds : BaseSubCommand() {
                     "",
                     "§e▶ §6Middle-click to copy the name."
                 )
-                .build()
-        }
+            )
+        }.build()
+    }
 
-        private fun stopPlaying(player: Player) {
-            Sound.values().forEach { player.stopSound(it) }
-        }
-
+    private fun stopPlaying(player: Player) {
+        Sound.values().forEach { player.stopSound(it) }
     }
 
 }

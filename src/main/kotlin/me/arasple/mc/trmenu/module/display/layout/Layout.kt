@@ -1,14 +1,15 @@
 package me.arasple.mc.trmenu.module.display.layout
 
-import me.arasple.mc.trmenu.api.receptacle.ReceptacleAPI
-import me.arasple.mc.trmenu.api.receptacle.window.type.InventoryChest
+import taboolib.module.ui.receptacle.PacketInventory
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.module.internal.service.Performance
 import me.arasple.mc.trmenu.util.Regexs
-import me.arasple.mc.trmenu.util.Tasks
 import me.arasple.mc.trmenu.util.collections.Variables
 import org.bukkit.event.inventory.InventoryType
+import taboolib.common.platform.submit
+import taboolib.module.ui.receptacle.ChestInventory
+import taboolib.module.ui.receptacle.createReceptacle
 import kotlin.math.max
 
 /**
@@ -57,8 +58,8 @@ class Layout(
         keys
     }
 
-    fun baseReceptacle() = ReceptacleAPI.createReceptacle(type).also {
-        if (it is InventoryChest) it.rows = rows
+    fun baseReceptacle() = type.createReceptacle().also {
+        if (it is ChestInventory) it.rows = rows
     }
 
     fun initReceptacle(session: MenuSession) {
@@ -66,18 +67,18 @@ class Layout(
         menu ?: return
         receptacle ?: return
 
-        receptacle.listenerClose { player, _ ->
+        receptacle.onClose { player, _ ->
             if (!Metadata.byBukkit(player, "FORCE_CLOSE")) {
                 menu.settings.closeEvent.eval(session)
             }
             session.shut()
         }
-        receptacle.listenerClick { player, event ->
+        receptacle.onClick { player, event ->
             Performance.check("Menu:Event:Click") {
                 val cancelEvent = {
                     event.isCancelled = true
                     receptacle.refresh(event.slot)
-                    if (event.clickType.isItemMoveable()) {
+                    if (event.receptacleClickType.isItemMoveable()) {
                         event.receptacle.type.containerSlots.first().run(receptacle::refresh)
                         event.receptacle.type.hotBarSlots.forEach(receptacle::refresh)
                         event.receptacle.type.mainInvSlots.forEach(receptacle::refresh)
@@ -85,14 +86,14 @@ class Layout(
                 }
 
                 if (menu.settings.clickDelay.isCooldown(player.name)) {
-                    return@listenerClick cancelEvent()
+                    return@onClick cancelEvent()
                 } else if (!menu.isFreeSlot(event.slot)) {
                     cancelEvent()
                 }
 
-                Tasks.task(false) {
+                submit(async = false) {
                     Performance.check("Menu:Event:ClickHandle") {
-                        session.getIconProperty(event.slot)?.handleClick(event.clickType, session)
+                        session.getIconProperty(event.slot)?.handleClick(event.receptacleClickType, session)
                     }
                 }
             }

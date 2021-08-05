@@ -1,7 +1,6 @@
 package me.arasple.mc.trmenu.api.action.impl
 
-import io.izzel.taboolib.module.locale.TLocale
-import io.izzel.taboolib.util.Strings
+import taboolib.common.util.replaceWithOrder
 import me.arasple.mc.trmenu.api.action.base.AbstractAction
 import me.arasple.mc.trmenu.api.action.base.ActionOption
 import me.arasple.mc.trmenu.util.Regexs
@@ -22,8 +21,7 @@ class ActionTitle(
 ) : AbstractAction(option = option) {
 
     override fun onExecute(player: Player, placeholderPlayer: Player) {
-        TLocale.Display.sendTitle(
-            player,
+        player.sendTitle(
             parse(placeholderPlayer, title),
             parse(placeholderPlayer, subTitle),
             fadeIn,
@@ -46,8 +44,8 @@ class ActionTitle(
             val split = content.split(" ", limit = 5)
 
             ActionTitle(
-                Strings.replaceWithOrder(split.getOrElse(0) { "" }, *replacements),
-                Strings.replaceWithOrder(split.getOrElse(1) { "" }, *replacements),
+                split.getOrElse(0) { "" }.replaceWithOrder(*replacements),
+                split.getOrElse(1) { "" }.replaceWithOrder(*replacements),
                 split.getOrNull(2)?.toIntOrNull() ?: 15,
                 split.getOrNull(3)?.toIntOrNull() ?: 20,
                 split.getOrNull(4)?.toIntOrNull() ?: 15,

@@ -1,16 +1,21 @@
 package me.arasple.mc.trmenu
 
-import io.izzel.taboolib.loader.Plugin
-import io.izzel.taboolib.module.config.TConfig
-import io.izzel.taboolib.module.inject.TInject
-import io.izzel.taboolib.module.locale.TLocale
 import me.arasple.mc.trmenu.module.conf.Loader
 import me.arasple.mc.trmenu.module.display.MenuSession
-import me.arasple.mc.trmenu.module.display.MenuSettings
+import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.module.internal.hook.HookPlugin
 import me.arasple.mc.trmenu.module.internal.service.RegisterCommands
 import me.arasple.mc.trmenu.module.internal.service.Shortcuts
 import org.bukkit.Bukkit
+import taboolib.common.platform.Plugin
+import taboolib.common.platform.console
+import taboolib.common.platform.submit
+import taboolib.common5.FileWatcher
+import taboolib.module.configuration.Config
+import taboolib.module.configuration.SecuredFile
+import taboolib.module.lang.sendLang
+import taboolib.module.nms.MinecraftVersion
+import taboolib.platform.BukkitPlugin
 
 /**
  * @author Arasple
@@ -18,19 +23,24 @@ import org.bukkit.Bukkit
  */
 object TrMenu : Plugin() {
 
-    @TInject("settings.yml", locale = "Options.Language", migrate = true)
-    lateinit var SETTINGS: TConfig
+    @Config("settings.yml",true)
+    lateinit var SETTINGS: SecuredFile
         private set
 
+    val plugin by lazy { BukkitPlugin.getInstance() }
+    
     override fun onLoad() {
-        TLocale.sendToConsole("Plugin.Loading", Bukkit.getBukkitVersion())
+        console().sendLang("Plugin-Loading", Bukkit.getVersion())
     }
 
     override fun onEnable() {
-        SETTINGS.listener { onSettingsReload() }.also { onSettingsReload() }
-        TLocale.sendToConsole("Plugin.Enabled", plugin.description.version)
+        Metadata.localDatabase
+        console().sendLang("Plugin-Enabled", plugin.description.version)
         HookPlugin.printInfo()
-        Loader.loadMenus()
+        submit {
+            FileWatcher.INSTANCE.addSimpleListener(SETTINGS.file) { onSettingsReload() }.also { onSettingsReload() }
+            Loader.loadMenus()
+        }
     }
 
     override fun onDisable() {
@@ -41,7 +51,6 @@ object TrMenu : Plugin() {
     }
 
     private fun onSettingsReload() {
-        MenuSettings.load()
         Shortcuts.Type.load()
         RegisterCommands.load()
     }

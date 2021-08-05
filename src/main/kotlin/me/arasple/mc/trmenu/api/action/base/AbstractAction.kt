@@ -3,8 +3,8 @@ package me.arasple.mc.trmenu.api.action.base
 import me.arasple.mc.trmenu.api.action.Actions
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.util.Regexs
-import me.arasple.mc.trmenu.util.Tasks
 import org.bukkit.entity.Player
+import taboolib.common.platform.submit
 
 /**
  * @author Arasple
@@ -39,14 +39,14 @@ abstract class AbstractAction(val baseContent: String = "", var option: ActionOp
         if (!option.evalCondition(player)) return
 
         val proceed = { option.evalPlayers(player) { onExecute(it, player) } }
-        if (delay > 0) Tasks.delay(delay) { proceed.invoke() }
+        if (delay > 0) submit(delay = delay) { proceed.invoke() }
         else proceed.invoke()
     }
 
     abstract fun onExecute(player: Player, placeholderPlayer: Player = player)
 
     override fun toString(): String {
-        return "${javaClass.simpleName.substring(6)}: $baseContent${option.set.entries.joinToString("") { "{${it.key.name.toLowerCase()}=${it.value}}" }}"
+        return "${javaClass.simpleName.substring(6)}: $baseContent${option.set.entries.joinToString("") { "{${it.key.name.lowercase()}=${it.value}}" }}"
     }
 
 }

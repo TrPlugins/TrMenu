@@ -1,13 +1,13 @@
 package me.arasple.mc.trmenu.module.display.item
 
-import io.izzel.taboolib.util.item.ItemBuilder
-import io.izzel.taboolib.util.item.Items
 import me.arasple.mc.trmenu.api.menu.IItem
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.display.texture.Texture
 import me.arasple.mc.trmenu.util.bukkit.ItemHelper.defColorize
 import me.arasple.mc.trmenu.util.collections.CycleList
+import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
+import taboolib.platform.util.ItemBuilder
 
 /**
  * @author Arasple
@@ -61,8 +61,12 @@ class Item(
             build(session)
         else {
             val current = cache[session.id]
-            val new = ItemBuilder(current).name(name(session)).build()
-            cache[session.id] = new
+            try {
+                val new = ItemBuilder(current!!).also { it.name = name(session) }.build()
+                cache[session.id] = new
+            } catch (t: Throwable) {
+
+            }
         }
     }
 
@@ -73,8 +77,8 @@ class Item(
             build(session)
         else {
             val current = cache[session.id]
-            if (!Items.isNull(current)) {
-                val new = ItemBuilder(current).lore(lore(session)).build()
+            if (current?.type == Material.AIR) {
+                val new = ItemBuilder(current).also { it.lore.addAll(lore(session) ?: listOf()) }.build()
                 cache[session.id] = new
             }
         }

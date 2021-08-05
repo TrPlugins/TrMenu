@@ -4,14 +4,14 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import com.mojang.authlib.GameProfile
 import com.mojang.authlib.properties.Property
-import io.izzel.taboolib.loader.util.IO
-import io.izzel.taboolib.util.lite.Materials
-import me.arasple.mc.trmenu.api.receptacle.nms.NMS
 import me.arasple.mc.trmenu.module.internal.hook.HookPlugin
-import me.arasple.mc.trmenu.util.Tasks
 import org.bukkit.Bukkit
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
+import taboolib.common.platform.submit
+import taboolib.common.reflect.Reflex.Companion.invokeMethod
+import taboolib.library.xseries.XMaterial
+import java.net.URL
 import java.util.*
 
 /**
@@ -25,7 +25,7 @@ object Heads {
         "https://sessionserver.mojang.com/session/minecraft/profile/"
     )
 
-    private val DEFAULT_HEAD = Materials.PLAYER_HEAD.parseItem()!!
+    private val DEFAULT_HEAD = XMaterial.PLAYER_HEAD.parseItem()!!
     private val CACHED_PLAYER_TEXTURE = mutableMapOf<String, String?>()
     private val CACHED_SKULLS = mutableMapOf<String, ItemStack>()
 
@@ -73,12 +73,13 @@ object Heads {
                 HookPlugin.getSkinsRestorer().getPlayerSkinTexture(name)?.also(block)
             }
             Bukkit.getPlayer(name)?.isOnline == true -> {
-                NMS.INSTANCE.getGameProfile(Bukkit.getPlayer(name)!!).properties["textures"]
-                    .find { it.value != null }?.value
+                Bukkit.getPlayer(name)!!.invokeMethod<GameProfile>("getProfile")?.properties?.get("textures")
+                    ?.find { it.value != null }?.value
                     ?.also(block)
+
             }
             else -> {
-                Tasks.task(true) {
+                submit(async = true) {
                     val profile = JsonParser().parse(fromURL("${MOJANG_API[0]}$name")) as JsonObject
                     val uuid = profile["id"].asString
                     (JsonParser().parse(fromURL("${MOJANG_API[1]}$uuid")) as JsonObject).getAsJsonArray("properties")
@@ -112,7 +113,11 @@ object Heads {
     }
 
     private fun fromURL(url: String): String {
-        return IO.readFromURL(url, "")
+        return try {
+            String(URL(url).openStream().readBytes())
+        } catch (t: Throwable) {
+            ""
+        }
     }
 
 

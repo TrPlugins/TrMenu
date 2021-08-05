@@ -1,11 +1,7 @@
 package me.arasple.mc.trmenu.module.display
 
-import io.izzel.taboolib.kotlin.kether.KetherTerminal
-import io.izzel.taboolib.module.locale.TLocale
-import io.izzel.taboolib.module.locale.chatcolor.TColor
-import io.izzel.taboolib.util.Strings
 import me.arasple.mc.trmenu.api.event.MenuCloseEvent
-import me.arasple.mc.trmenu.api.receptacle.window.Receptacle
+import taboolib.module.ui.receptacle.Receptacle
 import me.arasple.mc.trmenu.module.display.icon.Icon
 import me.arasple.mc.trmenu.module.display.icon.IconProperty
 import me.arasple.mc.trmenu.module.display.layout.Layout
@@ -13,6 +9,10 @@ import me.arasple.mc.trmenu.module.internal.script.FunctionParser
 import me.arasple.mc.trmenu.module.internal.service.Performance
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitTask
+import taboolib.common.platform.PlatformExecutor
+import taboolib.module.chat.HexColor
+import taboolib.common.util.replaceWithOrder
+import taboolib.platform.compat.replacePlaceholder
 import java.util.*
 
 /**
@@ -75,10 +75,10 @@ class MenuSession(
     private val playerItemSlots = mutableSetOf<Int>()
 
     // 该会话正在运行的所有任务
-    private val tasking = mutableSetOf<BukkitTask>()
+    private val tasking = mutableSetOf<PlatformExecutor.PlatformTask>()
 
     // 临时任务（切换页码时允许删除）
-    private val temporaries = mutableSetOf<Int>()
+    private val temporaries = mutableSetOf<PlatformExecutor.PlatformTask>()
 
 
     /**
@@ -92,7 +92,6 @@ class MenuSession(
      * 取得主要对象
      */
     fun objects(): Triple<Player, Menu?, Receptacle?> {
-        KetherTerminal
         return Triple(viewer, menu, receptacle)
     }
 
@@ -103,9 +102,9 @@ class MenuSession(
         Performance.check("Handler:StringParse") {
             val preColor = MenuSettings.PRE_COLOR
             val funced = FunctionParser.parse(placeholderPlayer, string)
-            val content = Strings.replaceWithOrder(if (preColor) funced else TColor.translate(funced), *arguments)
-            val papi = TLocale.Translate.setPlaceholders(placeholderPlayer, content)
-            return if (preColor) papi else TColor.translate(papi)
+            val content = (if (preColor) funced else HexColor.translate(funced)).replaceWithOrder(*arguments)
+            val papi = content.replacePlaceholder(placeholderPlayer)
+            return if (preColor) papi else HexColor.translate(papi)
         }
         throw Exception()
     }
@@ -118,9 +117,9 @@ class MenuSession(
     /**
      * 为该会话新建一个任务
      */
-    fun arrange(task: BukkitTask, temporary: Boolean = false) {
+    fun arrange(task: PlatformExecutor.PlatformTask, temporary: Boolean = false) {
         tasking.add(task)
-        if (temporary) temporaries.add(task.taskId)
+        if (temporary) temporaries.add(task)
     }
 
     /**
@@ -142,7 +141,7 @@ class MenuSession(
     fun shutTemps() {
         activeIcons.clear()
         tasking.removeIf {
-            if (temporaries.remove(it.taskId)) {
+            if (temporaries.remove(it)) {
                 it.cancel()
                 true
             } else false
@@ -154,7 +153,7 @@ class MenuSession(
      */
     fun close(closePacket: Boolean, updateInventory: Boolean) {
         MenuCloseEvent(this).call()
-        receptacle?.close(viewer, closePacket)
+        receptacle?.close(closePacket)
         if (updateInventory) viewer.updateInventory()
     }
 
