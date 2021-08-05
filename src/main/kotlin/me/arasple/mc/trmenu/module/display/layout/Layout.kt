@@ -67,6 +67,8 @@ class Layout(
         menu ?: return
         receptacle ?: return
 
+        receptacle.hidePlayerInventory(session.menu!!.settings.hidePlayerInventory)
+
         receptacle.onClose { player, _ ->
             if (!Metadata.byBukkit(player, "FORCE_CLOSE")) {
                 menu.settings.closeEvent.eval(session)
