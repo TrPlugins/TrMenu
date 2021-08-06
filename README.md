@@ -1,5 +1,5 @@
 ![](https://i.loli.net/2021/02/09/Mgv3z51fL8poh4W.png)
-![](https://img.shields.io/github/last-commit/Arasple/TrMenu?logo=artstation&style=for-the-badge&color=9266CC)![](https://img.shields.io/github/issues/Arasple/TrMenu?style=for-the-badge&logo=slashdot)![](https://img.shields.io/github/release/Arasple/TrMenu?style=for-the-badge&color=00C58E&logo=ionic)
+![](https://img.shields.io/github/last-commit/Arasple/TrMenu?logo=artstation&style=for-the-badge&color=9266CC)![](https://img.shields.io/github/issues/InsinuateProjects/TrMenu?style=for-the-badge&logo=slashdot)![](https://img.shields.io/github/release/Arasple/TrMenu?style=for-the-badge&color=00C58E&logo=ionic)
 
 ---
 
@@ -39,7 +39,7 @@ By purchasing the plugin, you will greatly support the project and its continual
 Before asking for support, please make sure you have fully **read the wiki** and try to provide **information enough**
 to reproduce the issue
 
-Issues: https://github.com/TrMenu/TrMenu/issues  
+Issues: https://github.com/InsinuateProjects/TrMenu/issues  
 Discord : https://discord.gg/8CWa6KF
 
 ```
