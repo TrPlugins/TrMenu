@@ -54,7 +54,7 @@ object CommandOpen : CommandExpresser {
                     val split = context.argument(-1)!!.split(":")
                     val menu = TrMenuAPI.getMenuById(split[0])
                     val page = split.getOrNull(1)?.toIntOrNull() ?: 0
-                    val player = if (argument.contains(" ")) Bukkit.getPlayerExact(argument.substringBefore(" ")) else sender as? Player
+                    val player = Bukkit.getPlayerExact(if (argument.contains(" ")) argument.substringBefore(" ") else argument) ?: sender as? Player
                     val arguments = if (player != null) {
                         argument.substringAfter(" ").let { if (it.contains(" ")) {
                             it.split(" ").toTypedArray()
