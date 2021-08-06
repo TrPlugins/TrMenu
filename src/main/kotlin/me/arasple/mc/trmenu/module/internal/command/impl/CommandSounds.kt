@@ -7,18 +7,25 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.adaptPlayer
+import taboolib.common.platform.console
 import taboolib.common.platform.subCommand
 import taboolib.library.xseries.XMaterial
 import taboolib.library.xseries.XSound
 import taboolib.module.chat.TellrawJson
+import taboolib.module.lang.asLangText
+import taboolib.module.lang.asLangTextList
 import taboolib.module.ui.receptacle.ReceptacleClickType
 import taboolib.platform.util.ItemBuilder
+import taboolib.platform.util.asLangText
+import taboolib.platform.util.sendLang
 
 /**
  * @author Arasple
  * @date 2021/2/1 17:39
  */
 object CommandSounds : CommandExpresser {
+
+    private val playingSounds = mutableMapOf<Player, MutableSet<XSound>>()
 
     // menu sounds [sound]
     override val command = subCommand {
@@ -37,12 +44,12 @@ object CommandSounds : CommandExpresser {
     }
 
     private fun open(player: Player, page: Int, filter: String?) {
-        val sounds = Sound.values().filter { filter == null || it.name.contains(filter, true) }.sorted().let {
+        val sounds = XSound.values().filter { filter == null || it.name.contains(filter, true) }.sorted().let {
             it.subList(54 * page, it.size)
         }
 
         val prevNext = arrayOf(page > 0, sounds.size > 54)
-        val receptacle = ChestInventory(6, "Sounds / Page: $page ; Filter: ${filter ?: "*"}")
+        val receptacle = ChestInventory(6, player.asLangText("Menu-Internal-Sounds-Title", page, filter ?: "*"))
         val slotMap = receptacle.type.containerSlots
             .mapIndexed { index, slot -> slot to index }
             .filter { it.second < sounds.size }
@@ -55,6 +62,15 @@ object CommandSounds : CommandExpresser {
 
         slotMap.forEach { (slot, index) ->
             receptacle.setItem(DISPLAY(sounds[index].name), slot)
+        }
+
+        receptacle.onOpen { player, _ ->
+            playingSounds[player] = mutableSetOf()
+        }
+
+        receptacle.onClose { player, _ ->
+            stopPlaying(player)
+            playingSounds.remove(player)
         }
 
         receptacle.onClick { _, e ->
@@ -71,17 +87,12 @@ object CommandSounds : CommandExpresser {
                 slot in receptacle.type.containerSlots -> {
                     val index = slotMap[slot] ?: return@onClick
                     val sound = sounds[index]
+                    playingSounds[player]?.add(sound)
                     when (e.receptacleClickType) {
-                        ReceptacleClickType.DROP -> player.playSound(player.location, sound, 1f, 0f)
-                        ReceptacleClickType.LEFT -> player.playSound(player.location, sound, 1f, 1f)
-                        ReceptacleClickType.RIGHT -> player.playSound(player.location, sound, 1f, 2f)
-                        ReceptacleClickType.MIDDLE -> TellrawJson()
-                            .newLine()
-                            .append("§8▶ §7CLICK TO COPY: ")
-                            .append("§a§n" + sound.name).suggestCommand(sound.name)
-                            .hoverText("§8Click this text")
-                            .newLine()
-                            .sendTo(adaptPlayer(player))
+                        ReceptacleClickType.DROP -> sound.play(player, 1f, 0f)
+                        ReceptacleClickType.LEFT -> sound.play(player, 1f, 1f)
+                        ReceptacleClickType.RIGHT -> sound.play(player, 1f, 2f)
+                        ReceptacleClickType.MIDDLE -> player.sendLang("Menu-Internal-Sounds-Copy", sound.name)
                         else -> {
                         }
                     }
@@ -98,43 +109,37 @@ object CommandSounds : CommandExpresser {
 
     private val PREV = arrayOf(
         ItemBuilder(XMaterial.CYAN_STAINED_GLASS_PANE).also {
-            it.name = "§3Previous Page"
+            it.name = "§3${console().asLangText("Menu-Internal-Page-Previous")}"
         }.build(),
         ItemBuilder(XMaterial.GRAY_STAINED_GLASS_PANE).also {
-            it.name = "§7Previous Page"
+            it.name = "§7${console().asLangText("Menu-Internal-Page-Previous")}"
         }.build()
     )
 
     private val NEXT = arrayOf(
         ItemBuilder(XMaterial.LIME_STAINED_GLASS_PANE).also {
-            it.name = "§aNext Page"
+            it.name = "§a${console().asLangText("Menu-Internal-Page-Next")}"
         }.build(),
         ItemBuilder(XMaterial.GRAY_STAINED_GLASS_PANE).also {
-            it.name = "§7Next Page"
+            it.name = "§7${console().asLangText("Menu-Internal-Page-Next")}"
         }.build()
     )
 
     private val CTRL = ItemBuilder(XMaterial.ORANGE_STAINED_GLASS_PANE).also {
-        it.name = "§6Stop playing"
+        it.name = "§6${console().asLangText("Menu-Internal-Sounds-Stop-Playing")}"
     }.build()
 
     private val DISPLAY: (String) -> ItemStack = { name ->
         ItemBuilder(XMaterial.PAPER).also {
             it.name = "§f§n$name"
-            it.lore.addAll(listOf(
-                    "",
-                    "§8· §7Press §fQ §7for Pitch 0",
-                    "§8· §7Left Click for Pitch 1",
-                    "§8· §7Right Click for Pitch 2",
-                    "",
-                    "§e▶ §6Middle-click to copy the name."
-                )
-            )
+            it.lore.addAll(console().asLangTextList("Menu-Internal-Sounds-Display"))
         }.build()
     }
 
     private fun stopPlaying(player: Player) {
-        Sound.values().forEach { player.stopSound(it) }
+        playingSounds[player]?.forEach {
+            it.stopSound(player)
+        }
     }
 
 }

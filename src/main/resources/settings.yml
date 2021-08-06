@@ -1,6 +1,3 @@
-Options:
-  Language: en_US
-
 Loader:
   Menu-Files:
     - 'plugins/CustomMenusFolder'

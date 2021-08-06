@@ -26,6 +26,27 @@ Menu-Expansions-Format:
         command: '/papi ecloud download {0}'
 Menu-Action-Sound: '&8[&3Tr&bMenu&8] &7Неизвестный звук: &f{0}'
 
+Menu-Internal-Page-Previous: 'Предыдущая страница'
+Menu-Internal-Page-Next: 'Следующая Страница'
+Menu-Internal-Sounds-Title: 'Звуки / Страница: {0} ; Фильтр: {1}'
+Menu-Internal-Sounds-Stop-Playing: 'Хватит играть'
+Menu-Internal-Sounds-Display:
+  - '&r'
+  - '&8· &7Нажмите &fQ &7 для шага 0'
+  - '&8· &7Щелчок левой кнопкой мыши для высоты тона 1'
+  - '&8· &7Щелкните правой кнопкой мыши для перехода 2'
+  - '&r'
+  - '&e▶ &6Щелкните средней кнопкой мыши, чтобы скопировать имя.'
+Menu-Internal-Sounds-Copy:
+  - '&r'
+  - '&8▶ &7НАЖМИТЕ ДЛЯ КОПИРОВАНИЯ: '
+  - type: JSON
+    text: '[&a&n{0}]'
+    args:
+      - hover: '&8Щелкните этот текст, скопируйте в буфер обмена '
+        copy: '{0}'
+  - '&r'
+
 Paster-Processing: '&8[&3Tr&bMenu&8] &7Содержимое вставляется ...'
 Paster-Success: '&8[&3Tr&bMenu&8] &3Содержание вставлено в &a{0}'
 Paster-Failed: '&8[&3Tr&bMenu&8] &cПри вставке содержимого произошла ошибка. Пожалуйста, проверьте консоль.'

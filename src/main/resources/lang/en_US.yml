@@ -26,6 +26,27 @@ Menu-Expansions-Format:
         command: '/papi ecloud download {0}'
 Menu-Action-Sound: '&8[&3Tr&bMenu&8] &7Unkown sound: &f{0}'
 
+Menu-Internal-Page-Previous: 'Previous Page'
+Menu-Internal-Page-Next: 'Next Page'
+Menu-Internal-Sounds-Title: 'Sounds / Page: {0} ; Filter: {1}'
+Menu-Internal-Sounds-Stop-Playing: 'Stop playing'
+Menu-Internal-Sounds-Display:
+  - '&r'
+  - '&8· &7Press &fQ &7for Pitch 0'
+  - '&8· &7Left Click for Pitch 1'
+  - '&8· &7Right Click for Pitch 2'
+  - '&r'
+  - '&e▶ &6Middle-click to copy the name.'
+Menu-Internal-Sounds-Copy:
+  - '&r'
+  - '&8▶ &7CLICK TO COPY: '
+  - type: JSON
+    text: '[&a&n{0}]'
+    args:
+      - hover: '&8Click this text copy to clipboard'
+        copy: '{0}'
+  - '&r'
+
 Paster-Processing: '&8[&3Tr&bMenu&8] &7Pasting content ...'
 Paster-Success: '&8[&3Tr&bMenu&8] &3The content has been pasted to &a{0}'
 Paster-Failed: '&8[&3Tr&bMenu&8] &cAn error occurred while pasting the content. Please check out console.'

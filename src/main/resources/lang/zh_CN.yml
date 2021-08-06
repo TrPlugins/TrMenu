@@ -26,6 +26,27 @@ Menu-Expansions-Format:
         command: '/papi ecloud download {0}'
 Menu-Action-Sound: '&8[&3Tr&bMenu&8] &7未知音效: &f{0}'
 
+Menu-Internal-Page-Previous: '上一页'
+Menu-Internal-Page-Next: '下一页'
+Menu-Internal-Sounds-Title: '声音 / 当前页: {0} ; 过滤器: {1}'
+Menu-Internal-Sounds-Stop-Playing: '停止所有声音'
+Menu-Internal-Sounds-Display:
+  - '&r'
+  - '&8· &7按下 &fQ &7键试听音调 0'
+  - '&8· &7左键单击试听音调 1'
+  - '&8· &7右键单击试听音调 2'
+  - '&r'
+  - '&e▶ &6点击鼠标中键复制名称.'
+Menu-Internal-Sounds-Copy:
+  - '&r'
+  - '&8▶ &7点击复制: '
+  - type: JSON
+    text: '[&a&n{0}]'
+    args:
+      - hover: '&8单击此文本复制'
+        copy: '{0}'
+  - '&r'
+
 Paster-Processing: '&8[&3Tr&bMenu&8] &7粘贴内容中 ...'
 Paster-Success: '&8[&3Tr&bMenu&8] &3内容已被粘贴至 &a{0}'
 Paster-Failed: '&8[&3Tr&bMenu&8] &c粘贴过程中发生错误, 请检查后台.'
