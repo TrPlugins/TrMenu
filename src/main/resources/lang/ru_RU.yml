@@ -19,11 +19,11 @@ Menu-Expansions-Header:
       - hover: '&7Нажмите, чтобы перезагрузить расширения PAPI'
         command: '/papi reload'
 Menu-Expansions-Format:
-  type: JSON
-  text: '&8- [&a{0}]&r'
-  args:
-    - hover: '&7Нажмите, чтобы скачать!'
-      command: '/papi ecloud download {0}'
+  - type: JSON
+    text: '&8- [&a{0}]&r'
+    args:
+      - hover: '&7Нажмите, чтобы скачать!'
+        command: '/papi ecloud download {0}'
 Menu-Action-Sound: '&8[&3Tr&bMenu&8] &7Неизвестный звук: &f{0}'
 
 Paster-Processing: '&8[&3Tr&bMenu&8] &7Содержимое вставляется ...'
@@ -46,11 +46,11 @@ Command-Action-Unknown-Player: '&8[&3Tr&bMenu&8] &7Игрок &f{0} &7не в с
 Command-Template-Empty: '&8[&3Tr&bMenu&8] &7Инвентаризация шаблонов пуста, создание меню отменено.'
 Command-Item-No-Item: '&8[&3Tr&bMenu&8] &7Пожалуйста &fдержите предмет &7в руке.'
 Command-Item-To-Json:
-  type: JSON
-  text: '&8\[&3Tr&bMenu&8\] &7Этот предмет был преобразован в формат JSON: [&3&nНажмите copy]'
-  args:
-    - hover: '&7Нажмите, чтобы скопировать'
-      suggest: '{0}'
+  - type: JSON
+    text: '&8\[&3Tr&bMenu&8\] &7Этот предмет был преобразован в формат JSON: [&3&nНажмите copy]'
+    args:
+      - hover: '&7Нажмите, чтобы скопировать'
+        suggest: '{0}'
 Command-Item-Saved: '&8[&3Tr&bMenu&8] &7Сохранен предмет (Id: &f{0}&7) в хранилище'
 Command-Item-Deleted: '&8[&3Tr&bMenu&8] &7Удален предмет (Id: &f{0}&7) из хранилища'
 Command-List-Error: '&8[&3Tr&bMenu&8] &7NORM &8| &7Меню не найдено... &8(Фильтр: {0})'
@@ -59,8 +59,8 @@ Command-List-Header:
   - '&8[&3Tr&bMenu&8] &aFINE &8| &7Загружено &f{0} &7меню &8(Фильтр: {1}): '
   - '&r'
 Command-List-Format:
-  type: JSON
-  text: '&8- [&3{0}] &7| &8(Заголовок: {1} / Иконки: {2})&r'
-  args:
-    - hover: '&7Нажмите, чтобы открыть'
-      command: '/trmenu open {0}'
+  - type: JSON
+    text: '&8- [&3{0}] &7| &8(Заголовок: {1} / Иконки: {2})&r'
+    args:
+      - hover: '&7Нажмите, чтобы открыть'
+        command: '/trmenu open {0}'

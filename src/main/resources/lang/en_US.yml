@@ -19,11 +19,11 @@ Menu-Expansions-Header:
       - hover: '&7Click to reload expansions of PAPI'
         command: '/papi reload'
 Menu-Expansions-Format:
-  type: JSON
-  text: '&8- [&a{0}]&r'
-  args:
-    - hover: '&7Click to download'
-      command: '/papi ecloud download {0}'
+  - type: JSON
+    text: '&8- [&a{0}]&r'
+    args:
+      - hover: '&7Click to download'
+        command: '/papi ecloud download {0}'
 Menu-Action-Sound: '&8[&3Tr&bMenu&8] &7Unkown sound: &f{0}'
 
 Paster-Processing: '&8[&3Tr&bMenu&8] &7Pasting content ...'
@@ -46,11 +46,11 @@ Command-Action-Unknown-Player: '&8[&3Tr&bMenu&8] &7Player &f{0} &7is not online.
 Command-Template-Empty: '&8[&3Tr&bMenu&8] &7The template inventory is empty, menu creation cancelled.'
 Command-Item-No-Item: '&8[&3Tr&bMenu&8] &7Please &fhold an item &7in hand.'
 Command-Item-To-Json:
-  type: JSON
-  text: '&8\[&3Tr&bMenu&8\] &7The item has been converted to JSON: [&3&nClick to copy]'
-  args:
-    - hover: '&7Click to copy'
-      suggest: '{0}'
+  - type: JSON
+    text: '&8\[&3Tr&bMenu&8\] &7The item has been converted to JSON: [&3&nClick to copy]'
+    args:
+      - hover: '&7Click to copy'
+        suggest: '{0}'
 Command-Item-Saved: '&8[&3Tr&bMenu&8] &7Saved item (Id: &f{0}&7) to the repository'
 Command-Item-Deleted: '&8[&3Tr&bMenu&8] &7Deleted item (Id: &f{0}&7) from the repository'
 Command-List-Error: '&8[&3Tr&bMenu&8] &7NORM &8| &7No menus are found... &8(Filter: {0})'
@@ -59,8 +59,8 @@ Command-List-Header:
   - '&8[&3Tr&bMenu&8] &aFINE &8| &7Loaded &f{0} &7menus &8(Filter: {1}): '
   - '&r'
 Command-List-Format:
-  type: JSON
-  text: '&8- [&3{0}] &7| &8(Title: {1} / Icons: {2})&r'
-  args:
-    - hover: '&7Click to open'
-      command: '/trmenu open {0}'
+  - type: JSON
+    text: '&8- [&3{0}] &7| &8(Title: {1} / Icons: {2})&r'
+    args:
+      - hover: '&7Click to open'
+        command: '/trmenu open {0}'
