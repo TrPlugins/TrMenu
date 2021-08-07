@@ -1,4 +1,4 @@
-package me.arasple.mc.trmenu.module.internal.migrate
+package me.arasple.mc.trmenu.module.internal.migrate.plugin
 
 import com.extendedclip.deluxemenus.menu.Menu
 import org.bukkit.configuration.file.YamlConfiguration
@@ -8,7 +8,7 @@ import org.bukkit.event.inventory.InventoryType
  * @author Arasp
  * @date 2021/2/20 19:07
  */
-class MigrateDeluxeMenus : Migrate("DeluxeMenus") {
+object MigrateDeluxeMenus : MigratePlugin("DeluxeMenus") {
 
     override fun migrate() {
         Menu.getAllMenus().forEach {

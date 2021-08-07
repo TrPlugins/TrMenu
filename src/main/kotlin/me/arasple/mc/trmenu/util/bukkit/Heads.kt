@@ -10,7 +10,9 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
 import taboolib.common.platform.console
 import taboolib.common.platform.submit
+import taboolib.common.reflect.Reflex.Companion.getProperty
 import taboolib.common.reflect.Reflex.Companion.invokeMethod
+import taboolib.common.reflect.Reflex.Companion.setProperty
 import taboolib.library.xseries.XMaterial
 import taboolib.module.lang.sendLang
 import java.net.URL
@@ -59,8 +61,7 @@ object Heads {
             meta.owningPlayer?.name?.let { return it }
         }
 
-        val field = meta.javaClass.getDeclaredField("profile").also { it.isAccessible = true }
-        (field.get(meta) as GameProfile?)?.properties?.values()?.forEach {
+        meta.getProperty<GameProfile>("profile")!!.properties.values().forEach {
             if (it.name == "textures") return it.value
         }
         return null
@@ -103,12 +104,10 @@ object Heads {
     private fun modifyTexture(input: String, itemStack: ItemStack): ItemStack {
         val meta = itemStack.itemMeta as SkullMeta
         val profile = GameProfile(UUID.randomUUID(), null)
-        val field = meta.javaClass.getDeclaredField("profile")
         val texture = if (input.length in 60..100) encodeTexture(input) else input
 
         profile.properties.put("textures", Property("textures", texture, "TrMenu_TexturedSkull"))
-        field.isAccessible = true
-        field[meta] = profile
+        meta.setProperty("profile", profile)
         itemStack.itemMeta = meta
         return itemStack
     }
