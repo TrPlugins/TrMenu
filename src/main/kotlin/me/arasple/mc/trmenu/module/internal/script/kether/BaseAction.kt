@@ -21,7 +21,7 @@ abstract class BaseAction<T> : QuestAction<T>() {
     }
 
     fun QuestContext.Frame.viewer(): Player {
-        return ((this.context() as ScriptContext).sender ?: throw RuntimeException("No viewer found")) as Player
+        return ((this.context() as ScriptContext).sender ?: throw RuntimeException("No viewer found")).cast()
     }
 
 }
