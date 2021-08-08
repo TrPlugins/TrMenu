@@ -1,9 +1,9 @@
 package me.arasple.mc.trmenu.module.internal.script.impl
 
 import me.arasple.mc.trmenu.module.internal.script.kether.BaseAction
-import taboolib.library.kether.ArgTypes
-import taboolib.library.kether.ParsedAction
-import taboolib.library.kether.QuestContext
+import openapi.kether.ArgTypes
+import openapi.kether.ParsedAction
+import openapi.kether.QuestContext
 import taboolib.module.kether.KetherParser
 import taboolib.module.kether.scriptParser
 import java.util.concurrent.CompletableFuture

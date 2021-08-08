@@ -4,9 +4,9 @@ import me.arasple.mc.trmenu.module.display.Menu
 import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.module.internal.script.EvalResult
 import me.arasple.mc.trmenu.module.internal.service.Performance
+import openapi.kether.LocalizedException
 import org.bukkit.entity.Player
 import taboolib.common.platform.adaptPlayer
-import taboolib.library.kether.LocalizedException
 import taboolib.module.kether.KetherShell
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.TimeUnit
@@ -30,7 +30,7 @@ object TrMenuAPI {
     }
 
     @JvmStatic
-    fun eval(player: Player, script: String): CompletableFuture<Any?> {
+    private fun eval(player: Player, script: String): CompletableFuture<Any?> {
         Performance.check("Handler:Script:Evaluation") {
             return try {
                 KetherShell.eval(script, namespace = listOf("trmenu", "trhologram")) {
