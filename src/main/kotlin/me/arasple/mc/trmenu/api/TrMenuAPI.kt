@@ -30,7 +30,7 @@ object TrMenuAPI {
     }
 
     @JvmStatic
-    private fun eval(player: Player, script: String): CompletableFuture<Any?> {
+    fun eval(player: Player, script: String): CompletableFuture<Any?> {
         Performance.check("Handler:Script:Evaluation") {
             return try {
                 KetherShell.eval(script, namespace = listOf("trmenu", "trhologram")) {

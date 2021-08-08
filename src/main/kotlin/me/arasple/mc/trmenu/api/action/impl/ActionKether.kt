@@ -12,7 +12,7 @@ import org.bukkit.entity.Player
 class ActionKether(content: String, option: ActionOption) : AbstractAction(content, option) {
 
     override fun onExecute(player: Player, placeholderPlayer: Player) {
-        TrMenuAPI.instantKether(player, baseContent, 1629043800L)
+        TrMenuAPI.eval(player, baseContent)
     }
 
     companion object {
