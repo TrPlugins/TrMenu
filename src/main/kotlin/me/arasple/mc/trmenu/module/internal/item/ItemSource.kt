@@ -4,7 +4,6 @@ import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.hook.HookPlugin
 import me.arasple.mc.trmenu.module.internal.script.js.JavaScriptAgent
 import org.bukkit.inventory.ItemStack
-import java.util.*
 
 /**
  * @author Arasple

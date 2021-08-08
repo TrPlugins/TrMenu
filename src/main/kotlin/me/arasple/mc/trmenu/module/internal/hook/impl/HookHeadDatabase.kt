@@ -5,6 +5,7 @@ import me.arcaniax.hdb.api.HeadDatabaseAPI
 import org.bukkit.inventory.ItemStack
 import taboolib.library.xseries.XMaterial
 import taboolib.platform.util.ItemBuilder
+import taboolib.platform.util.buildItem
 import java.util.*
 
 /**
@@ -19,7 +20,7 @@ class HookHeadDatabase : HookAbstract() {
             return field
         }
 
-    private val empty = ItemBuilder(XMaterial.PLAYER_HEAD).also { it.name = "UNHOOKED_${name.uppercase()}" }.build()
+    private val empty = buildItem(XMaterial.PLAYER_HEAD) { name = "UNHOOKED_${super.name.uppercase()}" }
 
     fun getHead(id: String): ItemStack {
         return headDatabaseAPI?.getItemHead(id) ?: empty

@@ -15,6 +15,8 @@ import taboolib.common.reflect.Reflex.Companion.invokeMethod
 import taboolib.common.reflect.Reflex.Companion.setProperty
 import taboolib.library.xseries.XMaterial
 import taboolib.module.lang.sendLang
+import taboolib.module.nms.MinecraftVersion
+import taboolib.platform.util.buildItem
 import java.net.URL
 import java.util.*
 
@@ -38,8 +40,7 @@ object Heads {
     }
 
     fun getHead(id: String): ItemStack {
-        return if (id.length > 20) getCustomTextureHead(id)
-        else getPlayerHead(id)
+        return if (id.length > 20) getCustomTextureHead(id) else getPlayerHead(id)
     }
 
     fun getPlayerHead(name: String): ItemStack {

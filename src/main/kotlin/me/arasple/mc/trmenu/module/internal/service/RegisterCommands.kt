@@ -29,7 +29,7 @@ object RegisterCommands {
     fun load() {
 
         registered.removeIf {
-            unregisterCommand("trmenu")
+            unregisterCommand(it)
             true
         }
 
@@ -48,18 +48,29 @@ object RegisterCommands {
                     permission = section.getString("permission") ?: "",
                     aliases = section.getStringList("aliases") ?: listOf()
                 ) {
-                    execute<Player> { player, context, argument ->
-                        val args = argument.split(" ").toTypedArray()
-                        val session = MenuSession.getSession(player)
-                        if (args.isNotEmpty()) {
-                            subReactions[args[0]]?.let {
-                                if (args.size > 1) session.arguments = ArrayUtils.remove(args, 0)
-                                it.eval(player)
-                            }
-                        } else {
-                            session.arguments = args
-                            reactions.eval(player)
+                    dynamic(optional = true) {
+                        suggestion<Player>(uncheck = true) { _, _ ->
+                            argument?.getKeys(false)?.toList()
                         }
+                        execute<Player> { player, context, argument ->
+                            val args = if (argument.contains(" ")) argument.split(" ") else listOf(argument)
+                            val session = MenuSession.getSession(player)
+                            if (args.isNotEmpty()) {
+                                subReactions[args[0]]?.let {
+
+                                    if (args.size > 1) session.arguments = args.toMutableList().also { it.removeAt(0) }.toTypedArray()
+                                    it.eval(player)
+                                }
+                            } else {
+                                session.arguments = args.toTypedArray()
+                                reactions.eval(player)
+                            }
+                        }
+                    }
+                    execute<Player> { player, context, argument ->
+                        val session = MenuSession.getSession(player)
+                        session.arguments = arrayOf()
+                        reactions.eval(player)
                     }
                 }
             }
