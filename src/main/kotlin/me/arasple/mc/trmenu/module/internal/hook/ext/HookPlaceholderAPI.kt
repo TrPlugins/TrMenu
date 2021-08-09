@@ -6,24 +6,18 @@ import me.arasple.mc.trmenu.module.display.Menu
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.module.internal.script.js.JavaScriptAgent
-import me.clip.placeholderapi.expansion.PlaceholderExpansion
 import org.bukkit.entity.Player
 import taboolib.common.platform.SubscribeEvent
+import taboolib.platform.compat.PlaceholderExpansion
 import taboolib.platform.util.sendLang
 
 /**
  * @author Arasple
  * @date 2021/2/4 11:37
  */
-object HookPlaceholderAPI : PlaceholderExpansion() {
+object HookPlaceholderAPI : PlaceholderExpansion {
 
-    override fun getIdentifier() = "trmenu"
-
-    override fun getVersion() = TrMenu.plugin.description.version
-
-    override fun getAuthor() = "Arasple"
-
-    override fun persist() = true
+    override val identifier = "trmenu"
 
     override fun onPlaceholderRequest(player: Player, params: String): String {
         if (player.isOnline) {
