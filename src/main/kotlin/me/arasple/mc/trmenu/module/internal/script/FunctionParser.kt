@@ -57,7 +57,7 @@ object FunctionParser {
 
         session.menu?.settings?.internalFunctions?.forEach {
             if (it.id == func[0]) {
-                val args = subList(func, 1, func.size - 1)
+                val args = subList(func, 1, func.size)
                 return it.compile(session, args).asString()
             }
         }

@@ -8,6 +8,7 @@ import me.arasple.mc.trmenu.util.bukkit.ItemMatcher
 import me.arasple.mc.trmenu.util.collections.CycleList
 import me.clip.placeholderapi.PlaceholderAPI
 import org.apache.commons.lang3.ArrayUtils
+import org.bukkit.Bukkit
 import taboolib.common.util.addSafely
 import taboolib.module.chat.HexColor
 
@@ -46,8 +47,12 @@ class MenuSettings(
 
     val dependExpansions: Array<String> = expansions
         get() {
-            val registered = PlaceholderAPI.getRegisteredIdentifiers()
-            return field.filter { ex -> registered.none { it.equals(ex, true) } }.toTypedArray()
+            return if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+                val registered = PlaceholderAPI.getRegisteredIdentifiers()
+                field.filter { ex -> registered.none { it.equals(ex, true) } }.toTypedArray()
+            } else {
+                arrayOf("PLUGINCORE")
+            }
         }
 
     /**

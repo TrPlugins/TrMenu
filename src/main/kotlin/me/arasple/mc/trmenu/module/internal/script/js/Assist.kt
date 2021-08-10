@@ -20,6 +20,7 @@ import taboolib.common.util.random
 import taboolib.library.xseries.XMaterial
 import taboolib.module.chat.TellrawJson
 import taboolib.module.nms.ItemTagData
+import taboolib.module.nms.getI18nName
 import taboolib.module.nms.getItemTag
 import taboolib.module.nms.i18n.I18n11700
 import taboolib.platform.compat.getBalance
@@ -168,7 +169,7 @@ class Assist {
         return if (itemStack.type != Material.AIR && itemStack.itemMeta?.hasDisplayName() == true)
             itemStack.itemMeta?.displayName
         else
-            I18n11700.getName(itemStack)
+            itemStack.getI18nName()
     }
 
     fun hasItem(player: String, identify: String): Boolean {

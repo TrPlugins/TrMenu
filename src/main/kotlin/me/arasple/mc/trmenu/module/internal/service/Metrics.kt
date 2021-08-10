@@ -5,10 +5,9 @@ import org.bukkit.event.inventory.InventoryType
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.Platform
+import taboolib.common.platform.pluginVersion
 import taboolib.module.metrics.Metrics
 import taboolib.module.metrics.charts.*
-import taboolib.platform.BukkitPlugin
-
 
 /**
  * @author Arasple
@@ -16,7 +15,7 @@ import taboolib.platform.BukkitPlugin
  */
 object Metrics {
 
-    private val B_STATS: Metrics by lazy { Metrics(5742, BukkitPlugin.getInstance().description.version, Platform.BUKKIT) }
+    private val B_STATS: Metrics by lazy { Metrics(5742, pluginVersion, Platform.BUKKIT) }
     var menuOpenCounts = 0
         get() {
             val count = field

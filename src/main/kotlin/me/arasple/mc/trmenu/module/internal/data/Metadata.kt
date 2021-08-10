@@ -32,7 +32,6 @@ object Metadata {
     lateinit var globalData: SecuredFile
         private set
 
-    @Awake(LifeCycle.LOAD)
     val localDatabase by lazy { DatabaseLocal() }
 
     init {

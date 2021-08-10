@@ -27,7 +27,7 @@ class ActionCatcher(private val inputer: Inputer) : AbstractAction() {
         private val display = "display|name|title".toRegex()
         private val bookContent = "content|book".toRegex()
         private val itemLeft = "item-?left".toRegex()
-        private val itemRight = "item-?reft".toRegex()
+        private val itemRight = "item-?right".toRegex()
 
         private val name = "(input)?-?catchers?".toRegex()
 

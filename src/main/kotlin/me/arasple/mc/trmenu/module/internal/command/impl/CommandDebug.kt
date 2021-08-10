@@ -15,10 +15,10 @@ import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import taboolib.common.platform.adaptCommandSender
+import taboolib.common.platform.pluginVersion
 import taboolib.common.platform.subCommand
 import taboolib.common.platform.submit
 import taboolib.module.chat.HexColor
-import taboolib.platform.BukkitPlugin
 import java.io.File
 
 /**
@@ -105,7 +105,7 @@ object CommandDebug : CommandExpresser {
             append("| Server software: ${Bukkit.getServer().version} (${Bukkit.getServer().bukkitVersion})\n")
             append("| Java version: ${System.getProperty("java.version")}\n\n")
             append("| TabooLib: 6.x\n")
-            append("| TrMenu: ${BukkitPlugin.getInstance().description.version}\n")
+            append("| TrMenu: ${pluginVersion}\n")
 //            append("   ${description.getString("built-time")} by ${description.getString("built-by")})\n\n")
             append("Installed Plugins: \n")
             Bukkit.getPluginManager().plugins.sortedBy { it.name }.forEach { plugin ->
