@@ -1,9 +1,9 @@
 package me.arasple.mc.trmenu.module.internal.script.impl
 
 import me.arasple.mc.trmenu.module.internal.script.kether.BaseAction
-import openapi.kether.ArgTypes
-import openapi.kether.ParsedAction
-import openapi.kether.QuestContext
+import taboolib.library.kether.ArgTypes
+import taboolib.library.kether.ParsedAction
+import taboolib.library.kether.QuestContext
 import taboolib.module.kether.KetherParser
 import taboolib.module.kether.scriptParser
 import java.util.concurrent.CompletableFuture
@@ -23,11 +23,13 @@ class KetherMathCheck(val type: Type, val menu: ParsedAction<*>?) : BaseAction<A
 
     }
 
-    override fun process(context: QuestContext.Frame): CompletableFuture<Any> {
-        return context.newFrame(menu).run<String>().thenApply {
-            when (type) {
-                Type.INT -> it.toIntOrNull() != null
-                Type.DOUBLE -> it.toDoubleOrNull() != null
+    override fun process(context: QuestContext.Frame): CompletableFuture<Any>? {
+        return menu?.let {
+            context.newFrame(it).run<String>().thenApply {
+                when (type) {
+                    Type.INT -> it.toIntOrNull() != null
+                    Type.DOUBLE -> it.toDoubleOrNull() != null
+                }
             }
         }
     }

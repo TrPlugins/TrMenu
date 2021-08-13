@@ -4,7 +4,7 @@ import me.arasple.mc.trmenu.module.display.Menu
 import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.module.internal.script.EvalResult
 import me.arasple.mc.trmenu.module.internal.service.Performance
-import openapi.kether.LocalizedException
+import taboolib.library.kether.LocalizedException
 import org.bukkit.entity.Player
 import taboolib.common.platform.adaptPlayer
 import taboolib.module.kether.KetherShell

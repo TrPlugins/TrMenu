@@ -4,10 +4,10 @@ import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.module.internal.script.kether.BaseAction
 import me.arasple.mc.trmenu.module.internal.script.kether.EditType
 import me.arasple.mc.trmenu.module.internal.script.kether.EditType.*
-import openapi.kether.ParsedAction
-import openapi.kether.ArgTypes
-import openapi.kether.LocalizedException
-import openapi.kether.QuestContext
+import taboolib.library.kether.ParsedAction
+import taboolib.library.kether.ArgTypes
+import taboolib.library.kether.LocalizedException
+import taboolib.library.kether.QuestContext
 import taboolib.module.kether.KetherParser
 import taboolib.module.kether.scriptParser
 import java.util.concurrent.CompletableFuture
@@ -26,8 +26,10 @@ class KetherData(val type: EditType, private val source: ParsedAction<*>, privat
             when (type) {
                 DEL -> Metadata.getData(viewer).remove(it)
                 SET -> {
-                    context.newFrame(apply).run<String>().thenApply { apply ->
-                        Metadata.getData(viewer)[it] = apply
+                    apply?.let { it1 ->
+                        context.newFrame(it1).run<String>().thenApply { apply ->
+                            Metadata.getData(viewer)[it] = apply
+                        }
                     }
                 }
                 GET -> Metadata.getData(viewer)[it]

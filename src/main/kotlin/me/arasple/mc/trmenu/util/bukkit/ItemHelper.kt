@@ -10,6 +10,7 @@ import taboolib.library.xseries.XMaterial
 import taboolib.module.nms.ItemTag
 import taboolib.module.nms.ItemTagData
 import taboolib.platform.util.ItemBuilder
+import taboolib.platform.util.buildItem
 import kotlin.math.min
 
 /**
@@ -53,16 +54,16 @@ object ItemHelper {
         try {
             val parse = JsonParser().parse(json)
             if (parse is JsonObject) {
-                val itemBuilder = ItemBuilder(XMaterial.STONE)
-                val type = parse["type"]
-                if (type != null) {
-                    itemBuilder.material = XMaterial.valueOf(type.asString)
+                val itemBuild = buildItem(parse["type"].let { it ?: XMaterial.STONE; XMaterial.valueOf(it.asString) }) {
+                    parse["data"].let {
+                        it ?: return@let
+                        damage = it.asInt
+                    }
+                    parse["amount"].let {
+                        it ?: return@let
+                        amount = it.asInt
+                    }
                 }
-                val data = parse["data"]
-                if (data != null) itemBuilder.damage = data.asInt
-                val amount = parse["amount"]
-                if (amount != null) itemBuilder.amount = amount.asInt
-                val itemBuild = itemBuilder.build()
                 val meta = parse["meta"]
                 return if (meta != null) itemBuild.also { ItemTag.fromJson(meta.toString()).saveTo(it) }
                 else itemBuild

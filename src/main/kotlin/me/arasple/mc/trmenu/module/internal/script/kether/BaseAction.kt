@@ -3,8 +3,8 @@ package me.arasple.mc.trmenu.module.internal.script.kether
 import me.arasple.mc.trmenu.module.display.MenuSession
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
-import openapi.kether.QuestAction
-import openapi.kether.QuestContext
+import taboolib.library.kether.QuestAction
+import taboolib.library.kether.QuestContext
 import taboolib.module.kether.ScriptContext
 import java.util.concurrent.CompletableFuture
 

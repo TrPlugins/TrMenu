@@ -177,13 +177,12 @@ class Inputer(private val stages: CycleList<Catcher>) {
             }
             // 发送书本
             player.inventory.addItem(
-                ItemBuilder(BookBuilder().also {
-                    it.material = XMaterial.WRITABLE_BOOK
-                    it.bookPages.add(BookBuilder.Text(java.lang.String.join("\n", origin), true))
-                }.build()).also {
-                    it.name = "§f$display"
-                    it.lore.addAll(arrayOf("§0Features Input", if (disposable) "§0Disposable" else ""))
-                }.build()
+                buildBook {
+                    material = XMaterial.WRITABLE_BOOK
+                    bookPages.add(BookBuilder.Text(java.lang.String.join("\n", origin), true))
+                    name = "§f$display"
+                    lore.addAll(arrayOf("§0Features Input", if (disposable) "§0Disposable" else ""))
+                }
             )
             inputBookMap[player.name] = catcher
         }

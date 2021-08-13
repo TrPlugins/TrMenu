@@ -16,6 +16,7 @@ import taboolib.common.util.Strings.similarDegree
 import taboolib.library.xseries.XMaterial
 import taboolib.module.nms.MinecraftVersion
 import taboolib.platform.util.ItemBuilder
+import taboolib.platform.util.buildItem
 
 /**
  * @author Arasple
@@ -141,34 +142,35 @@ class Texture(
             val split = material.split(":", limit = 2)
             val data = split.getOrNull(1)?.toIntOrNull() ?: 0
             val id = split[0].toIntOrNull() ?: split[0].uppercase().replace("[ _]".toRegex(), "_")
-            val builder = ItemBuilder(XMaterial.matchXMaterial(FALL_BACK))
-            var rawMaterial = id
 
-            if (id is Int) {
-                XMaterial.matchXMaterial(id, 0).let {
-                    if (it.isPresent) {
-                        builder.material = it.get()
-                        builder.damage = data
-                    } else {
-                        XMaterial.STONE
+            return buildItem(XMaterial.matchXMaterial(FALL_BACK)) {
+                var rawMaterial = id
+
+                if (id is Int) {
+                    XMaterial.matchXMaterial(id, 0).let {
+                        if (it.isPresent) {
+                            this.material = it.get()
+                            this.damage = data
+                        } else {
+                            XMaterial.STONE
+                        }
+                    }
+
+                } else {
+                    val name = id.toString()
+                    try {
+                        this.material = XMaterial.valueOf(name)
+                    } catch (e: Throwable) {
+                        val xMaterial =
+                            XMaterial.values().find { it.name.equals(name, true) }
+                                ?: XMaterial.values()
+                                    .find { it -> it.legacy.any { it == name } }
+                                ?: XMaterial.values()
+                                    .maxByOrNull { similarDegree(name, it.name) }
+                        return xMaterial?.parseItem() ?: FALL_BACK
                     }
                 }
-
-            } else {
-                val name = id.toString()
-                try {
-                    builder.material = XMaterial.valueOf(name)
-                } catch (e: Throwable) {
-                    val xMaterial =
-                        XMaterial.values().find { it.name.equals(name, true) }
-                            ?: XMaterial.values()
-                                .find { it -> it.legacy.any { it == name } }
-                            ?: XMaterial.values()
-                                .maxByOrNull { similarDegree(name, it.name) }
-                    return xMaterial?.parseItem() ?: FALL_BACK
-                }
             }
-            return builder.build()
         }
 
     }

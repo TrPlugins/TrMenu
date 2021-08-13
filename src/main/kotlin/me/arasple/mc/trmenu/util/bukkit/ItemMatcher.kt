@@ -62,30 +62,27 @@ class ItemMatcher(private val matcher: Set<Match>) {
         throw Exception()
     }
 
-    fun takeItem(player: Player): Boolean {
-        return matcher.all {
-            player.inventory.takeItem(it.amount, it.itemsMatcher)
-        }
+    fun takeItem(player: Player) = matcher.all {
+        player.inventory.takeItem(it.amount, it.itemsMatcher)
     }
 
     fun buildItem(): List<ItemStack> {
         return matcher.map {
-            val itemBuilder = ItemBuilder(XMaterial.BEDROCK)
-            itemBuilder.amount = it.amount
+            taboolib.platform.util.buildItem(XMaterial.BEDROCK) {
+                amount = it.amount
 
-            it.traits.forEach { (trait, value) ->
-                when (trait) {
-                    MATERIAL -> itemBuilder.material = XMaterial.valueOf(value.uppercase())
-                    DATA -> itemBuilder.damage = (value.toIntOrNull() ?: 0)
-                    MODEL_DATA -> itemBuilder.customModelData = value.toIntOrNull() ?: 0
-                    NAME -> itemBuilder.name = value
-                    LORE -> itemBuilder.lore.addAll(value.split("\n"))
-                    HEAD -> itemBuilder.skullOwner = value
-                    AMOUNT -> itemBuilder.amount = value.toIntOrNull() ?: 1
+                it.traits.forEach { (trait, value) ->
+                    when (trait) {
+                        MATERIAL -> material = XMaterial.valueOf(value.uppercase())
+                        DATA -> damage = (value.toIntOrNull() ?: 0)
+                        MODEL_DATA -> customModelData = value.toIntOrNull() ?: 0
+                        NAME -> name = value
+                        LORE -> lore.addAll(value.split("\n"))
+                        HEAD -> skullOwner = value
+                        AMOUNT -> amount = value.toIntOrNull() ?: 1
+                    }
                 }
             }
-
-            itemBuilder.build()
         }
     }
 

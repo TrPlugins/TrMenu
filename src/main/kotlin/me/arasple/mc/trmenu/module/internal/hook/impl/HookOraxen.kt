@@ -5,6 +5,7 @@ import me.arasple.mc.trmenu.module.internal.hook.HookAbstract
 import org.bukkit.inventory.ItemStack
 import taboolib.library.xseries.XMaterial
 import taboolib.platform.util.ItemBuilder
+import taboolib.platform.util.buildItem
 import java.util.*
 
 /**
@@ -13,7 +14,7 @@ import java.util.*
  */
 class HookOraxen : HookAbstract() {
 
-    private val empty = ItemBuilder(XMaterial.BEDROCK).also { it.name = "UNHOOKED_${name.uppercase()}" }.build()
+    private val empty = buildItem(XMaterial.BEDROCK) { name = "UNHOOKED_${super.name.uppercase()}" }
 
     fun getItem(id: String): ItemStack {
         if (checkHooked()) {

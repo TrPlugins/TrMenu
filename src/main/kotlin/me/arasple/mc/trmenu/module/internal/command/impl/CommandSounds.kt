@@ -17,6 +17,7 @@ import taboolib.module.lang.asLangTextList
 import taboolib.module.ui.receptacle.ReceptacleClickType
 import taboolib.platform.util.ItemBuilder
 import taboolib.platform.util.asLangText
+import taboolib.platform.util.buildItem
 import taboolib.platform.util.sendLang
 
 /**
@@ -108,32 +109,32 @@ object CommandSounds : CommandExpresser {
     private const val next = 69
 
     private val PREV = arrayOf(
-        ItemBuilder(XMaterial.CYAN_STAINED_GLASS_PANE).also {
-            it.name = "§3${console().asLangText("Menu-Internal-Page-Previous")}"
-        }.build(),
-        ItemBuilder(XMaterial.GRAY_STAINED_GLASS_PANE).also {
-            it.name = "§7${console().asLangText("Menu-Internal-Page-Previous")}"
-        }.build()
+        buildItem(XMaterial.CYAN_STAINED_GLASS_PANE) {
+            name = "§3${console().asLangText("Menu-Internal-Page-Previous")}"
+        },
+        buildItem(XMaterial.GRAY_STAINED_GLASS_PANE) {
+            name = "§7${console().asLangText("Menu-Internal-Page-Previous")}"
+        }
     )
 
     private val NEXT = arrayOf(
-        ItemBuilder(XMaterial.LIME_STAINED_GLASS_PANE).also {
-            it.name = "§a${console().asLangText("Menu-Internal-Page-Next")}"
-        }.build(),
-        ItemBuilder(XMaterial.GRAY_STAINED_GLASS_PANE).also {
-            it.name = "§7${console().asLangText("Menu-Internal-Page-Next")}"
-        }.build()
+        buildItem(XMaterial.LIME_STAINED_GLASS_PANE) {
+            name = "§a${console().asLangText("Menu-Internal-Page-Next")}"
+        },
+        buildItem(XMaterial.GRAY_STAINED_GLASS_PANE) {
+            name = "§7${console().asLangText("Menu-Internal-Page-Next")}"
+        }
     )
 
-    private val CTRL = ItemBuilder(XMaterial.ORANGE_STAINED_GLASS_PANE).also {
-        it.name = "§6${console().asLangText("Menu-Internal-Sounds-Stop-Playing")}"
-    }.build()
+    private val CTRL = buildItem(XMaterial.ORANGE_STAINED_GLASS_PANE) {
+        name = "§6${console().asLangText("Menu-Internal-Sounds-Stop-Playing")}"
+    }
 
     private val DISPLAY: (String) -> ItemStack = { name ->
-        ItemBuilder(XMaterial.PAPER).also {
-            it.name = "§f§n$name"
-            it.lore.addAll(console().asLangTextList("Menu-Internal-Sounds-Display"))
-        }.build()
+        buildItem(XMaterial.PAPER) {
+            this.name = "§f§n$name"
+            lore.addAll(console().asLangTextList("Menu-Internal-Sounds-Display"))
+        }
     }
 
     private fun stopPlaying(player: Player) {

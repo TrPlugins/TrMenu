@@ -3,9 +3,9 @@ package me.arasple.mc.trmenu.module.internal.script.impl
 import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.api.event.MenuOpenEvent
 import me.arasple.mc.trmenu.module.internal.script.kether.BaseAction
-import openapi.kether.ArgTypes
-import openapi.kether.ParsedAction
-import openapi.kether.QuestContext
+import taboolib.library.kether.ArgTypes
+import taboolib.library.kether.ParsedAction
+import taboolib.library.kether.QuestContext
 import taboolib.module.kether.KetherParser
 import taboolib.module.kether.scriptParser
 import java.util.*
@@ -34,14 +34,18 @@ class KetherMenu(val type: Type, val menu: ParsedAction<*>?) : BaseAction<Void>(
 
         when (type) {
             Type.CLOSE -> session?.close(closePacket = true, updateInventory = true)
-            Type.PAGE -> context.newFrame(menu).run<Int>().thenApply {
-                val menu = session?.menu ?: return@thenApply false
-                val page = min(it.coerceAtLeast(0), menu.layout.getSize() - 1)
+            Type.PAGE -> menu?.let {
+                context.newFrame(it).run<Int>().thenApply {
+                    val menu = session?.menu ?: return@thenApply false
+                    val page = min(it.coerceAtLeast(0), menu.layout.getSize() - 1)
 
-                menu.page(viewer, page)
+                    menu.page(viewer, page)
+                }
             }
-            Type.OPEN -> context.newFrame(menu).run<String>().thenApply {
-                TrMenuAPI.getMenuById(it)?.open(context.viewer(), reason = MenuOpenEvent.Reason.CONSOLE)
+            Type.OPEN -> menu?.let {
+                context.newFrame(it).run<String>().thenApply {
+                    TrMenuAPI.getMenuById(it)?.open(context.viewer(), reason = MenuOpenEvent.Reason.CONSOLE)
+                }
             }
         }
 

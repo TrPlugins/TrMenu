@@ -23,7 +23,7 @@ object ListenerCommand {
                 val matches = it.settings.matchCommand(it, message)
                 if (matches != null) {
                     it.open(player, reason = MenuOpenEvent.Reason.BINDING_COMMANDS) { session ->
-                        session.arguments = matches
+                        session.arguments = matches.toTypedArray()
                     }
                     e.isCancelled = true
                     return

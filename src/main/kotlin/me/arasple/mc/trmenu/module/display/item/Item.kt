@@ -8,6 +8,7 @@ import me.arasple.mc.trmenu.util.collections.CycleList
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import taboolib.platform.util.ItemBuilder
+import taboolib.platform.util.buildItem
 
 /**
  * @author Arasple
@@ -62,7 +63,7 @@ class Item(
         else {
             val current = cache[session.id]
             try {
-                val new = ItemBuilder(current!!).also { it.name = name(session) }.build()
+                val new = buildItem(current!!) { name = name(session) }
                 cache[session.id] = new
             } catch (t: Throwable) {
 
@@ -73,12 +74,15 @@ class Item(
     override fun updateLore(session: MenuSession) {
         lore.cycleIndex(session.id)
 
-        if (!cache.containsKey(session.id))
+        if (!cache.containsKey(session.id)) {
             build(session)
-        else {
+        } else {
             val current = cache[session.id]
-            if (current?.type == Material.AIR) {
-                val new = ItemBuilder(current).also { it.lore.addAll(lore(session) ?: listOf()) }.build()
+            if (current != null && current.type != Material.AIR) {
+                val new = buildItem(current) {
+                    lore.clear()
+                    lore.addAll(lore(session) ?: listOf())
+                }
                 cache[session.id] = new
             }
         }

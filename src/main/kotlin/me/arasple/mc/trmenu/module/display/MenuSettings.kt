@@ -26,7 +26,7 @@ class MenuSettings(
     expansions: Array<String>,
     val minClickDelay: Int,
     val hidePlayerInventory: Boolean,
-    val boundCommands: Array<Regex>,
+    val boundCommands: List<Regex>,
     val boundItems: Array<ItemMatcher>,
     val openEvent: Reactions,
     val closeEvent: Reactions,
@@ -63,12 +63,12 @@ class MenuSettings(
      *         -> 不为空：命令匹配该菜单，支持打开，且携带传递参数
      *         -> Null： 命令与该菜单不匹配
      */
-    fun matchCommand(menu: Menu, command: String): Array<String>? = command.split(" ").toTypedArray().let { it ->
+    fun matchCommand(menu: Menu, command: String): List<String>? = command.split(" ").toMutableList().let { it ->
         if (it.isNotEmpty()) {
             for (i in it.indices) {
                 val read = read(it, i)
                 val c = read[0]
-                val args = ArrayUtils.remove(read, 0)
+                val args = read.toMutableList().also { it.removeAt(0) }
                 if (boundCommands.any { it.matches(c) } && !(!menu.settings.enableArguments && args.isNotEmpty())) {
                     return@let args
                 }
@@ -83,7 +83,7 @@ class MenuSettings(
      * - 'is upgrade' 作为打开命令
      * - 'is upgrade 233' 将只会从 233 开始作为第一个参数
      */
-    private fun read(cmds: Array<String>, index: Int): Array<String> {
+    private fun read(cmds: List<String>, index: Int): List<String> {
         var commands = cmds
         val command = if (index == 0) commands[index]
         else {
@@ -91,9 +91,9 @@ class MenuSettings(
             for (i in 0..index) cmd.append(commands[i]).append(" ")
             cmd.substring(0, cmd.length - 1)
         }
-        for (i in 0..index) commands = ArrayUtils.remove(commands, 0)
+        for (i in 0..index) commands = commands.toMutableList().also { it.removeAt(0) }
 
-        return commands.toMutableList().also { it.addSafely(0, command, "") }.toTypedArray()
+        return commands.toMutableList().also { it.addSafely(0, command, "") }
     }
 
 }

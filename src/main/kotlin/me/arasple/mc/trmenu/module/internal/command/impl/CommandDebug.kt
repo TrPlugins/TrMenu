@@ -190,7 +190,7 @@ object CommandDebug : CommandExpresser {
                     &6Layout: ${menu.layout.getSize()} &8(Def: ${menu.settings.defaultLayout})
                     &6MinCD: ${menu.settings.minClickDelay}
                     &6HidePINV: ${menu.settings.hidePlayerInventory}
-                    &6Bounds: ${menu.settings.boundCommands.contentToString()} / ${menu.settings.boundItems.contentToString()}
+                    &6Bounds: ${menu.settings.boundCommands.joinToString(", ")} / ${menu.settings.boundItems.contentToString()}
                 &eIcons:
                     ${menu.icons.joinToString { "&7[ &f${it.id} &7] &8${it.update} ;" }}
                     

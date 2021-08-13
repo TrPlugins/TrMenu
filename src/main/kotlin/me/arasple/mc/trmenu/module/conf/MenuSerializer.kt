@@ -111,7 +111,7 @@ object MenuSerializer : ISerializer {
             optionDependExpansions.toTypedArray(),
             optionMinClickDelay,
             optionHidePlayerInventory,
-            boundCommands.map { it.toRegex() }.toTypedArray(),
+            boundCommands.map { it.toRegex() },
             boundItems.map { ItemMatcher.of(it) }.toTypedArray(),
             Reactions.ofReaction(eventOpen),
             Reactions.ofReaction(eventClose),

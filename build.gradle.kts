@@ -1,5 +1,3 @@
-import java.text.SimpleDateFormat
-
 plugins {
     id("java")
     id("io.izzel.taboolib") version "1.12"
@@ -7,7 +5,7 @@ plugins {
 }
 
 group = "me.arasple.mc.trmenu"
-version = "3.0-PRE-14"
+version = "3.0-PRE-15"
 description = "Modern & Advanced Menu-Plugin for Minecraft Servers"
 
 taboolib {
@@ -48,7 +46,7 @@ taboolib {
     relocate("net.wesjd.anvilgui", "${project.group}.module.internal.inputer.anvil")
 
     classifier = null
-    version = "6.0.0-pre37"
+    version = "6.0.0-pre39"
 }
 
 
