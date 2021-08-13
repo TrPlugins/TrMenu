@@ -7,7 +7,6 @@ import me.arasple.mc.trmenu.module.internal.script.js.ScriptFunction
 import me.arasple.mc.trmenu.util.bukkit.ItemMatcher
 import me.arasple.mc.trmenu.util.collections.CycleList
 import me.clip.placeholderapi.PlaceholderAPI
-import org.apache.commons.lang3.ArrayUtils
 import org.bukkit.Bukkit
 import taboolib.common.util.addSafely
 import taboolib.module.chat.HexColor
@@ -93,7 +92,7 @@ class MenuSettings(
         }
         for (i in 0..index) commands = commands.toMutableList().also { it.removeAt(0) }
 
-        return commands.toMutableList().also { it.addSafely(0, command, "") }
+        return commands.toMutableList().also { it.add(0, command ?: return@also) }
     }
 
 }
