@@ -3,6 +3,7 @@ package me.arasple.mc.trmenu.api.action.impl
 import me.arasple.mc.trmenu.api.action.base.AbstractAction
 import me.arasple.mc.trmenu.api.action.base.ActionOption
 import org.bukkit.entity.Player
+import taboolib.common.platform.submit
 import taboolib.platform.util.dispatchCommand
 
 /**
@@ -13,7 +14,7 @@ class ActionCommand(content: String, option: ActionOption) : AbstractAction(cont
 
     override fun onExecute(player: Player, placeholderPlayer: Player) {
             parseContentSplited(placeholderPlayer, ";").forEach {
-                dispatchCommand(player, it)
+                submit(async = false) { dispatchCommand(player, it) }
             }
     }
 
