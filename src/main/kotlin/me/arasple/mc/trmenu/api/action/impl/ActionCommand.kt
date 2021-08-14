@@ -13,9 +13,9 @@ import taboolib.platform.util.dispatchCommand
 class ActionCommand(content: String, option: ActionOption) : AbstractAction(content, option) {
 
     override fun onExecute(player: Player, placeholderPlayer: Player) {
-            parseContentSplited(placeholderPlayer, ";").forEach {
-                submit(async = false) { dispatchCommand(player, it) }
-            }
+        parseContentSplited(placeholderPlayer, ";").forEach {
+            submit(async = false) { dispatchCommand(player, it) }
+        }
     }
 
     companion object {

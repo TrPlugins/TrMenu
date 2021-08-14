@@ -24,8 +24,10 @@ enum class TextureType(val regex: Regex, val group: Int) {
      *
      * head:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDRmNDUyZDk5OGVhYmFjNDY0MmM2YjBmZTVhOGY0ZTJlNjczZWRjYWUyYTZkZmQ5ZTZhMmU4NmU3ODZlZGFjMCJ9fX0=
      * head:44f452d998eabac4642c6b0fe5a8f4e2e673edcae2a6dfd9e6a2e86e786edac0
+     *
+     * Origin Regex [<{]?(player|custom|textured?)?-?(head|skull)[:=]([\\w.%{}]+)[>}]?
      */
-    HEAD("[<{]?(player|custom|textured?)?-?(head|skull)[:=]([\\w.%{}]+)[>}]?", 3),
+    HEAD("[<{]?(player|custom|textured?)?-?(head|skull)[:=]([\\S%{}]+)[>}]?", 3),
 
     /**
      * {identifier}:{parsedArgument}
