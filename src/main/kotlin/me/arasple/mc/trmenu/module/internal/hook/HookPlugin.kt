@@ -1,7 +1,7 @@
 package me.arasple.mc.trmenu.module.internal.hook
 
 import me.arasple.mc.trmenu.module.internal.hook.impl.*
-import taboolib.common.platform.console
+import taboolib.common.platform.function.console
 import taboolib.module.lang.sendLang
 
 /**

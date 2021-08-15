@@ -1,6 +1,6 @@
 package me.arasple.mc.trmenu.module.internal.database
 
-import taboolib.common.platform.getDataFolder
+import taboolib.common.platform.function.getDataFolder
 import taboolib.library.configuration.FileConfiguration
 import taboolib.module.configuration.SecuredFile
 import taboolib.module.database.ColumnOptionSQLite

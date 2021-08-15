@@ -9,7 +9,7 @@ import me.arasple.mc.trmenu.util.net.Paster
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import taboolib.common.platform.subCommand
+import taboolib.common.platform.command.subCommand
 import taboolib.library.xseries.XSound
 import taboolib.module.nms.getItemTag
 import taboolib.platform.util.sendLang

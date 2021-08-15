@@ -7,8 +7,8 @@ import me.arasple.mc.trmenu.module.display.MenuSession
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.Inventory
-import taboolib.common.platform.EventPriority
-import taboolib.common.platform.SubscribeEvent
+import taboolib.common.platform.event.EventPriority
+import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common5.Baffle
 import taboolib.module.nms.MinecraftVersion
 import java.util.concurrent.TimeUnit

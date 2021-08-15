@@ -8,7 +8,7 @@ import me.arasple.mc.trmenu.module.display.layout.Layout
 import me.arasple.mc.trmenu.module.internal.script.FunctionParser
 import me.arasple.mc.trmenu.module.internal.service.Performance
 import org.bukkit.entity.Player
-import taboolib.common.platform.PlatformExecutor
+import taboolib.common.platform.service.PlatformExecutor
 import taboolib.module.chat.HexColor
 import taboolib.common.util.replaceWithOrder
 import taboolib.platform.compat.replacePlaceholder

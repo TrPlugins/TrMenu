@@ -3,8 +3,8 @@ package me.arasple.mc.trmenu.module.internal.listener
 import me.arasple.mc.trmenu.module.display.MenuSession
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryOpenEvent
-import taboolib.common.platform.EventPriority
-import taboolib.common.platform.SubscribeEvent
+import taboolib.common.platform.event.EventPriority
+import taboolib.common.platform.event.SubscribeEvent
 
 /**
  * @author Arasple

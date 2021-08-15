@@ -3,7 +3,7 @@ package me.arasple.mc.trmenu.module.internal.command.impl
 import me.arasple.mc.trmenu.module.display.Menu
 import me.arasple.mc.trmenu.module.internal.command.CommandExpresser
 import org.bukkit.command.CommandSender
-import taboolib.common.platform.subCommand
+import taboolib.common.platform.command.subCommand
 import taboolib.platform.util.sendLang
 
 /**

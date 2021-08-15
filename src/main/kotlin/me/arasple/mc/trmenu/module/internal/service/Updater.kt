@@ -7,6 +7,10 @@ import org.bukkit.event.player.PlayerJoinEvent
 import taboolib.common.LifeCycle
 import taboolib.common.env.DependencyDownloader
 import taboolib.common.platform.*
+import taboolib.common.platform.event.EventPriority
+import taboolib.common.platform.event.SubscribeEvent
+import taboolib.common.platform.function.console
+import taboolib.common.platform.function.submit
 import taboolib.module.lang.sendLang
 import taboolib.platform.util.sendLang
 import java.io.BufferedInputStream

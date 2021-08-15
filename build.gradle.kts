@@ -1,11 +1,11 @@
 plugins {
     id("java")
-    id("io.izzel.taboolib") version "1.12"
+    id("io.izzel.taboolib") version "1.16"
     id("org.jetbrains.kotlin.jvm") version "1.5.10"
 }
 
 group = "me.arasple.mc.trmenu"
-version = "3.0-PRE-15"
+version = "3.0-PRE-16"
 description = "Modern & Advanced Menu-Plugin for Minecraft Servers"
 
 taboolib {
@@ -29,7 +29,6 @@ taboolib {
         contributors {
             name("Arasple")
         }
-
         dependencies {
             name("PlaceholderAPI").optional(true)
             name("Vault").optional(true)
@@ -46,9 +45,8 @@ taboolib {
     relocate("net.wesjd.anvilgui", "${project.group}.module.internal.inputer.anvil")
 
     classifier = null
-    version = "6.0.0-pre39"
+    version = "6.0.0-pre45"
 }
-
 
 repositories {
     mavenCentral()

@@ -2,7 +2,7 @@ package me.arasple.mc.trmenu.module.internal.item
 
 import org.bukkit.Bukkit
 import org.bukkit.inventory.ItemStack
-import taboolib.common.platform.submit
+import taboolib.common.platform.function.submit
 import taboolib.library.xseries.getItemStack
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.SecuredFile

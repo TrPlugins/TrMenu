@@ -9,7 +9,7 @@ import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.module.internal.service.Performance
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
-import taboolib.common.platform.submit
+import taboolib.common.platform.function.submit
 
 /**
  * @author Arasple

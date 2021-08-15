@@ -5,7 +5,7 @@ import org.bukkit.event.inventory.InventoryType
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.Platform
-import taboolib.common.platform.pluginVersion
+import taboolib.common.platform.function.pluginVersion
 import taboolib.module.metrics.Metrics
 import taboolib.module.metrics.charts.*
 

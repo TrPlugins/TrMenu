@@ -3,7 +3,7 @@ package me.arasple.mc.trmenu.module.internal.data
 import com.google.common.collect.Maps
 import com.google.gson.JsonElement
 import com.google.gson.JsonParser
-import taboolib.common.platform.submit
+import taboolib.common.platform.function.submit
 import java.io.BufferedInputStream
 import java.io.ByteArrayOutputStream
 import java.net.HttpURLConnection

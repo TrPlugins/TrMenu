@@ -14,7 +14,7 @@ import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.entity.Player
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
-import taboolib.common.platform.subCommand
+import taboolib.common.platform.command.subCommand
 import taboolib.library.xseries.XSound
 import taboolib.module.ui.buildMenu
 import taboolib.module.ui.openMenu

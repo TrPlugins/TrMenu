@@ -14,8 +14,8 @@ import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerEditBookEvent
 import taboolib.common.LifeCycle
 import taboolib.common.platform.SkipTo
-import taboolib.common.platform.SubscribeEvent
-import taboolib.common.platform.submit
+import taboolib.common.platform.event.SubscribeEvent
+import taboolib.common.platform.function.submit
 import taboolib.library.xseries.XMaterial
 import taboolib.module.nms.inputSign
 import taboolib.platform.util.*

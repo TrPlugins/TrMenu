@@ -3,8 +3,8 @@ package me.arasple.mc.trmenu.module.internal.listener
 import me.arasple.mc.trmenu.api.event.MenuOpenEvent
 import me.arasple.mc.trmenu.module.display.Menu
 import org.bukkit.event.player.PlayerCommandPreprocessEvent
-import taboolib.common.platform.EventPriority
-import taboolib.common.platform.SubscribeEvent
+import taboolib.common.platform.event.EventPriority
+import taboolib.common.platform.event.SubscribeEvent
 
 
 /**

@@ -4,7 +4,7 @@ import me.arasple.mc.trmenu.api.action.Actions
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.util.Regexs
 import org.bukkit.entity.Player
-import taboolib.common.platform.submit
+import taboolib.common.platform.function.submit
 
 /**
  * @author Arasple

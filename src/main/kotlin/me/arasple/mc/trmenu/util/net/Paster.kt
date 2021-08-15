@@ -3,7 +3,7 @@ package me.arasple.mc.trmenu.util.net
 import com.google.gson.JsonParser
 import org.bukkit.command.CommandSender
 import taboolib.common.env.DependencyDownloader
-import taboolib.common.platform.submit
+import taboolib.common.platform.function.submit
 import taboolib.platform.util.sendLang
 import java.net.HttpURLConnection
 import java.net.URL

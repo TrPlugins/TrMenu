@@ -1,7 +1,7 @@
 package me.arasple.mc.trmenu.module.internal.listener
 
-import taboolib.common.platform.SubscribeEvent
-import taboolib.common.platform.submit
+import taboolib.common.platform.event.SubscribeEvent
+import taboolib.common.platform.function.submit
 import taboolib.module.nms.PacketReceiveEvent
 import taboolib.module.ui.receptacle.*
 

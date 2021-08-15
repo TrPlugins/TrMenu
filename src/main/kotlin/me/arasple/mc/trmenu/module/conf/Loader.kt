@@ -7,8 +7,8 @@ import me.arasple.mc.trmenu.module.display.Menu
 import me.arasple.mc.trmenu.util.file.FileListener
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
-import taboolib.common.platform.console
-import taboolib.common.platform.releaseResourceFile
+import taboolib.common.platform.function.console
+import taboolib.common.platform.function.releaseResourceFile
 import taboolib.module.lang.sendLang
 import taboolib.platform.util.sendLang
 import java.io.File

@@ -1,0 +1,87 @@
+Plugin-Loading:
+  - '&r'
+  - '&7正在加載 &3Tr&bMenu &f&lPremium... &8{0}'
+  - '&r'
+Plugin-Enabled: '&8[&3Tr&bMenu&8] &bINFO &8| &3插件啟用. 當前運行版本 &2{0}&7.'
+Plugin-Update:
+  - '&8[&3Tr&bMenu&8] &bUPDATE &8| &3更新 &a{0}&3 找到, 通過下方鏈接下載!'
+  - '&bhttps://www.spigotmc.org/resources/83120/'
+Plugin-Dependency-Hooked: '&8[&3Tr&bMenu&8] &6HOOK &8| &7軟依賴 &f{0} &7已兼容.'
+Plugin-Dependency-Abuse: '&8[&3Tr&bMenu&8] &6HOOK &8| &4試圖使用未掛鉤插件 &c{0}'
+
+Menu-Loaded: '&8[&3Tr&bMenu&8] &aFINE &8| &a{0} &3個菜單已加載 &8({1} ms)'
+Menu-Reloaded: '&8[&3Tr&bMenu&8] &aFINE &8| &7自動重新載入菜單 &f{0}'
+Menu-Expansions-Header:
+  - '&8[&3Tr&bMenu&8] &7你必須安裝 PAPI &f{0} &7拓展以使用此菜單.'
+  - type: JSON
+    text: '&7請在安裝後 [&3&n點擊重載] 拓展'
+    args:
+      - hover: '&7點擊重載 PAPI 拓展'
+        command: '/papi reload'
+Menu-Expansions-Format:
+  - type: JSON
+    text: '&8- [&a{0}]&r'
+    args:
+      - hover: '&7點擊下載'
+        command: '/papi ecloud download {0}'
+Menu-Action-Sound: '&8[&3Tr&bMenu&8] &7未知音效: &f{0}'
+
+Menu-Internal-Page-Previous: '上一頁'
+Menu-Internal-Page-Next: '下一頁'
+Menu-Internal-Sounds-Title: '聲音 / 當前頁: {0} ; 過濾器: {1}'
+Menu-Internal-Sounds-Stop-Playing: '停止所有聲音'
+Menu-Internal-Sounds-Display:
+  - '&r'
+  - '&8· &7按下 &fQ &7鍵試聽音調 0'
+  - '&8· &7左鍵單擊試聽音調 1'
+  - '&8· &7右鍵單擊試聽音調 2'
+  - '&r'
+  - '&e▶ &6點擊鼠標中鍵複製名稱.'
+Menu-Internal-Sounds-Copy:
+  - '&r'
+  - '&8▶ &7點擊複製: '
+  - type: JSON
+    text: '[&a&n{0}]'
+    args:
+      - hover: '&8單擊此文本複制'
+        copy: '{0}'
+  - '&r'
+
+Paster-Processing: '&8[&3Tr&bMenu&8] &7粘貼內容中 ...'
+Paster-Success: '&8[&3Tr&bMenu&8] &3內容已被粘貼至 &a{0}'
+Paster-Failed: '&8[&3Tr&bMenu&8] &c粘貼過程中發生錯誤, 請檢查後台.'
+
+Command-Help-Type: '命令'
+Command-Help-Args: '參數'
+Command-List-Description: '列出加載的菜單'
+Command-Open-Description: '打開菜單'
+Command-Reload-Description: '重載所有菜單'
+Command-Template-Description: '創建模板菜單'
+Command-Item-Description: '操作物品信息'
+Command-Action-Description: '執行動作'
+Command-Sounds-Description: '試聽 & 調試聲音'
+
+Command-Open-Unknown-Menu: '&8[&3Tr&bMenu&8] &7未知菜單 &6{0} &7.'
+Command-Open-Unknown-Player: '&8[&3Tr&bMenu&8] &7玩家 &f{0} &7未在線.'
+Command-Action-Unknown-Player: '&8[&3Tr&bMenu&8] &7玩家 &f{0} &7未在線.'
+Command-Template-Empty: '&8[&3Tr&bMenu&8] &7模板為空，操作取消.'
+Command-Item-No-Item: '&8[&3Tr&bMenu&8] &7請 &f手持 &7一個物品.'
+Command-Item-To-Json:
+  - type: JSON
+    text: '&8\[&3Tr&bMenu&8\] &7物品已被轉換為 JSON: [&3&n點擊複製]'
+    args:
+      - hover: '&7點擊複製'
+        suggest: '{0}'
+Command-Item-Saved: '&8[&3Tr&bMenu&8] &7保存物品 (Id: &f{0}&7) 到插件庫存'
+Command-Item-Deleted: '&8[&3Tr&bMenu&8] &7刪除物品 (Id: &f{0}&7) 從插件庫存'
+Command-List-Error: '&8[&3Tr&bMenu&8] &7NORM &8| &7無有效加載菜單 &8(Filter: {0})'
+Command-List-Header:
+  - '&r'
+  - '&8[&3Tr&bMenu&8] &aFINE &8| &7加載了 &f{0} &7個菜單 &8(Filter: {1}): '
+  - '&r'
+Command-List-Format:
+  - type: JSON
+    text: '&8- [&3{0}] &7| &8(標題: {1} &8/ 圖標: {2})&r'
+    args:
+      - hover: '&7點擊打開'
+        command: '/trmenu open {0}'

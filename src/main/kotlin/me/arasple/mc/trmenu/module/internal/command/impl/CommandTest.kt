@@ -3,7 +3,8 @@ package me.arasple.mc.trmenu.module.internal.command.impl
 import me.arasple.mc.trmenu.module.internal.command.CommandExpresser
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryType
-import taboolib.common.platform.*
+import taboolib.common.platform.command.subCommand
+import taboolib.common.platform.function.submit
 import taboolib.library.xseries.XMaterial
 import taboolib.module.ui.receptacle.ChestInventory
 import taboolib.module.ui.receptacle.createReceptacle

@@ -4,15 +4,9 @@ import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.action.pack.Reactions
 import me.arasple.mc.trmenu.module.conf.prop.Property
 import me.arasple.mc.trmenu.module.display.MenuSession
-import org.apache.commons.lang3.ArrayUtils
-import org.bukkit.Bukkit
 import org.bukkit.entity.Player
-import taboolib.common.LifeCycle
-import taboolib.common.platform.Awake
-import taboolib.common.platform.command
-import taboolib.common.platform.registerCommand
-import taboolib.common.platform.unregisterCommand
-import taboolib.module.configuration.SecuredFile
+import taboolib.common.platform.command.command
+import taboolib.common.platform.function.unregisterCommand
 
 /**
  * @author Arasple

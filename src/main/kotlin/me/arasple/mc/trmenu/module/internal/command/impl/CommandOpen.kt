@@ -8,7 +8,7 @@ import me.arasple.mc.trmenu.module.internal.data.Metadata
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
-import taboolib.common.platform.subCommand
+import taboolib.common.platform.command.subCommand
 import taboolib.platform.util.sendLang
 
 /**

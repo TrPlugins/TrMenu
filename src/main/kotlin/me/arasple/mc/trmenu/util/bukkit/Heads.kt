@@ -8,8 +8,8 @@ import me.arasple.mc.trmenu.module.internal.hook.HookPlugin
 import org.bukkit.Bukkit
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
-import taboolib.common.platform.console
-import taboolib.common.platform.submit
+import taboolib.common.platform.function.console
+import taboolib.common.platform.function.submit
 import taboolib.common.reflect.Reflex.Companion.getProperty
 import taboolib.common.reflect.Reflex.Companion.invokeMethod
 import taboolib.common.reflect.Reflex.Companion.setProperty

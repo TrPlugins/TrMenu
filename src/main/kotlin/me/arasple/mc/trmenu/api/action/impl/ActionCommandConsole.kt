@@ -4,7 +4,7 @@ import me.arasple.mc.trmenu.api.action.base.AbstractAction
 import me.arasple.mc.trmenu.api.action.base.ActionOption
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
-import taboolib.common.platform.console
+import taboolib.common.platform.function.console
 
 /**
  * @author Arasple

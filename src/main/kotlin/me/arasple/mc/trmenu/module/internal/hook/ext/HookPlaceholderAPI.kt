@@ -7,7 +7,7 @@ import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.module.internal.script.js.JavaScriptAgent
 import org.bukkit.entity.Player
-import taboolib.common.platform.SubscribeEvent
+import taboolib.common.platform.event.SubscribeEvent
 import taboolib.platform.compat.PlaceholderExpansion
 import taboolib.platform.util.sendLang
 
@@ -31,7 +31,7 @@ object HookPlaceholderAPI : PlaceholderExpansion {
                 "meta" -> Metadata.getMeta(player)[key]
                 "data" -> Metadata.getData(player)[key]
                 "menu" -> menu(session, args)
-                "js" -> if (args.size > 1) JavaScriptAgent.eval(session, args[1]) else ""
+                "js" -> if (args.size > 1) JavaScriptAgent.eval(session, args[1]).asString() else ""
                 else -> ""
             }.toString()
         }

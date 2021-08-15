@@ -11,8 +11,8 @@ import org.bukkit.event.player.PlayerInteractEntityEvent
 import org.bukkit.event.player.PlayerSwapHandItemsEvent
 import org.bukkit.event.player.PlayerToggleSneakEvent
 import org.bukkit.inventory.EquipmentSlot
-import taboolib.common.platform.EventPriority
-import taboolib.common.platform.SubscribeEvent
+import taboolib.common.platform.event.EventPriority
+import taboolib.common.platform.event.SubscribeEvent
 import taboolib.module.nms.MinecraftVersion
 
 /**

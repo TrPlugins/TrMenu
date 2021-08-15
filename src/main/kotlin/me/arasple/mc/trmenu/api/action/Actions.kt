@@ -9,7 +9,7 @@ import me.arasple.mc.trmenu.api.action.impl.func.ActionTakeItem
 import me.arasple.mc.trmenu.api.action.impl.hook.*
 import me.arasple.mc.trmenu.api.action.impl.metadaa.*
 import org.bukkit.entity.Player
-import taboolib.common.platform.submit
+import taboolib.common.platform.function.submit
 
 /**
  * @author Arasple

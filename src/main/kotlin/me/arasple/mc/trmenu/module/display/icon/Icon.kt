@@ -4,7 +4,7 @@ import me.arasple.mc.trmenu.api.menu.IIcon
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.service.Performance
 import me.arasple.mc.trmenu.util.collections.IndivList
-import taboolib.common.platform.submit
+import taboolib.common.platform.function.submit
 
 /**
  * @author Arasple

@@ -3,8 +3,8 @@ package me.arasple.mc.trmenu.module.internal.listener
 import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.util.bukkit.Heads
 import org.bukkit.event.player.PlayerJoinEvent
-import taboolib.common.platform.SubscribeEvent
-import taboolib.common.platform.submit
+import taboolib.common.platform.event.SubscribeEvent
+import taboolib.common.platform.function.submit
 
 /**
  * @author Arasple

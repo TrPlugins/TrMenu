@@ -6,7 +6,7 @@ import me.arasple.mc.trmenu.module.internal.script.EvalResult
 import me.arasple.mc.trmenu.module.internal.service.Performance
 import taboolib.library.kether.LocalizedException
 import org.bukkit.entity.Player
-import taboolib.common.platform.adaptPlayer
+import taboolib.common.platform.function.adaptPlayer
 import taboolib.module.kether.KetherShell
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.TimeUnit

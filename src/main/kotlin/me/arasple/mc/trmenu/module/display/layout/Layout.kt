@@ -7,7 +7,7 @@ import me.arasple.mc.trmenu.module.internal.service.Performance
 import me.arasple.mc.trmenu.util.Regexs
 import me.arasple.mc.trmenu.util.collections.Variables
 import org.bukkit.event.inventory.InventoryType
-import taboolib.common.platform.submit
+import taboolib.common.platform.function.submit
 import taboolib.module.ui.receptacle.ChestInventory
 import taboolib.module.ui.receptacle.createReceptacle
 import kotlin.math.max

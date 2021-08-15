@@ -6,9 +6,9 @@ import org.bukkit.Sound
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import taboolib.common.platform.adaptPlayer
-import taboolib.common.platform.console
-import taboolib.common.platform.subCommand
+import taboolib.common.platform.function.adaptPlayer
+import taboolib.common.platform.function.console
+import taboolib.common.platform.command.subCommand
 import taboolib.library.xseries.XMaterial
 import taboolib.library.xseries.XSound
 import taboolib.module.chat.TellrawJson

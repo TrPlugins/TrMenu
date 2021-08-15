@@ -3,7 +3,7 @@ package me.arasple.mc.trmenu.api.action.impl
 import me.arasple.mc.trmenu.api.action.base.AbstractAction
 import me.arasple.mc.trmenu.api.action.base.ActionOption
 import org.bukkit.entity.Player
-import taboolib.platform.util.dispatchCommand
+import org.bukkit.Bukkit.dispatchCommand
 
 /**
  * @author Arasple

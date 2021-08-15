@@ -7,16 +7,14 @@ import me.arasple.mc.trmenu.module.internal.hook.HookPlugin
 import me.arasple.mc.trmenu.module.internal.service.RegisterCommands
 import me.arasple.mc.trmenu.module.internal.service.Shortcuts
 import org.bukkit.Bukkit
-import taboolib.common.LifeCycle
 import taboolib.common.platform.*
+import taboolib.common.platform.function.console
+import taboolib.common.platform.function.submit
 import taboolib.common5.FileWatcher
-import taboolib.library.configuration.YamlConfiguration
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.SecuredFile
 import taboolib.module.lang.sendLang
-import taboolib.module.nms.MinecraftVersion
 import taboolib.platform.BukkitPlugin
-import java.io.File
 
 /**
  * @author Arasple

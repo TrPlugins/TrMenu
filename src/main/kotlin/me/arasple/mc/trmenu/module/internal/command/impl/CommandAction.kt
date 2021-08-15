@@ -4,7 +4,7 @@ import me.arasple.mc.trmenu.api.action.Actions
 import me.arasple.mc.trmenu.module.internal.command.CommandExpresser
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
-import taboolib.common.platform.subCommand
+import taboolib.common.platform.command.subCommand
 import taboolib.platform.util.sendLang
 import kotlin.system.measureNanoTime
 

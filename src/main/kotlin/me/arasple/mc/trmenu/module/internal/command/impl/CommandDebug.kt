@@ -14,10 +14,10 @@ import me.arasple.mc.trmenu.util.net.Paster
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
-import taboolib.common.platform.adaptCommandSender
-import taboolib.common.platform.pluginVersion
-import taboolib.common.platform.subCommand
-import taboolib.common.platform.submit
+import taboolib.common.platform.function.adaptCommandSender
+import taboolib.common.platform.command.subCommand
+import taboolib.common.platform.function.pluginVersion
+import taboolib.common.platform.function.submit
 import taboolib.module.chat.HexColor
 import java.io.File
 
