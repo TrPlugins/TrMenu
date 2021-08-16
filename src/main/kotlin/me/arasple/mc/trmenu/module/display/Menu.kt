@@ -10,6 +10,7 @@ import me.arasple.mc.trmenu.module.internal.service.Performance
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import taboolib.common.platform.function.submit
+import java.util.function.Function
 
 /**
  * @author Arasple
@@ -29,6 +30,11 @@ class Menu(
     }
 
     val viewers: MutableSet<String> = mutableSetOf()
+
+    fun open(viewer: Player, page: Int = settings.defaultLayout, reason: MenuOpenEvent.Reason, block: Function<MenuSession, Void>) =
+        open(viewer, page, reason) { menuSession ->
+            block.apply(menuSession)
+        }
 
     /**
      * 开启菜单
@@ -164,6 +170,10 @@ class Menu(
     private fun forViewers(block: (Player) -> Unit) {
         viewers.mapNotNull { Bukkit.getPlayerExact(it) }.forEach(block)
     }
+
+    fun forSessions(block: Function<MenuSession, Void>) =
+        forSessions { block.apply(it) }
+
 
     fun forSessions(block: (MenuSession) -> Unit) {
         forViewers { block(MenuSession.getSession(it)) }

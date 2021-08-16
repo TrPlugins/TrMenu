@@ -4,6 +4,7 @@ import me.arasple.mc.trmenu.module.internal.script.Condition
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import taboolib.common.util.random
+import java.util.function.Function
 
 /**
  * @author Arasple
@@ -18,6 +19,9 @@ class ActionOption(val set: Map<Type, String> = mapOf()) {
     fun evalDelay(): Long {
         return if (!set.containsKey(Type.DELAY)) -1L else set[Type.DELAY]!!.toLongOrNull() ?: -1L
     }
+
+    fun evalPlayers(defPlayer: Player, action: Function<Player, Void>) =
+        evalPlayers(defPlayer) { action.apply(it) }
 
     fun evalPlayers(defPlayer: Player, action: (Player) -> Unit) {
         if (set.containsKey(Type.PLAYERS)) {

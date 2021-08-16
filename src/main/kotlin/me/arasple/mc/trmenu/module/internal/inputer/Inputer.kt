@@ -21,6 +21,7 @@ import taboolib.module.nms.inputSign
 import taboolib.platform.util.*
 import java.util.concurrent.ConcurrentHashMap
 import java.util.function.Consumer
+import java.util.function.Function
 
 
 /**
@@ -77,6 +78,9 @@ class Inputer(private val stages: CycleList<Catcher>) {
         val display: Array<String>,
         val items: Array<String>
     ) {
+
+        fun input(viewer: Player, respond: Function<String, Boolean>) =
+            input(viewer) { respond.apply(it) }
 
         fun input(viewer: Player, respond: (String) -> Boolean) {
             val session = MenuSession.getSession(viewer)

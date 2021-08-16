@@ -1,6 +1,6 @@
 plugins {
     id("java")
-    id("io.izzel.taboolib") version "1.16"
+    id("io.izzel.taboolib") version "1.18"
     id("org.jetbrains.kotlin.jvm") version "1.5.10"
 }
 
@@ -45,7 +45,7 @@ taboolib {
     relocate("net.wesjd.anvilgui", "${project.group}.module.internal.inputer.anvil")
 
     classifier = null
-    version = "6.0.0-pre45"
+    version = "6.0.0-pre48"
 }
 
 repositories {
