@@ -20,9 +20,7 @@ import java.util.concurrent.TimeUnit
 object ListenerItemInteract {
 
     private val interactCooldown by lazy {
-
         Baffle.of(TrMenu.SETTINGS.getLong("Menu.Settings.Bound-Item-Interval", 2000), TimeUnit.MILLISECONDS)
-
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
@@ -32,7 +30,7 @@ object ListenerItemInteract {
         val item = e.item ?: return
         val session = MenuSession.getSession(player)
 
-        if (player.openInventory.topInventory.location == null || player.openInventory.topInventory.holder != (player.inventory as Inventory).holder || session.menu != null) return
+        if (player.openInventory.topInventory.holder != (player.inventory as Inventory).holder || session.menu != null) return
         if (interactCooldown.hasNext(player.name)) {
             val menu = Menu.menus.find { it -> it.settings.boundItems.any { it.itemMatches(item, true) } }
             if (menu != null) {
