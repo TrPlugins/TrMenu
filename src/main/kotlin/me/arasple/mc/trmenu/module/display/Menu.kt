@@ -11,7 +11,6 @@ import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import taboolib.common.platform.function.submit
 import java.util.function.Consumer
-import java.util.function.Function
 
 /**
  * @author Arasple
@@ -32,7 +31,12 @@ class Menu(
 
     val viewers: MutableSet<String> = mutableSetOf()
 
-    fun open(viewer: Player, page: Int = settings.defaultLayout, reason: MenuOpenEvent.Reason, block: Consumer<MenuSession>) =
+    fun open(
+        viewer: Player,
+        page: Int = settings.defaultLayout,
+        reason: MenuOpenEvent.Reason,
+        block: Consumer<MenuSession>
+    ) =
         open(viewer, page, reason) { menuSession ->
             block.accept(menuSession)
         }
@@ -172,8 +176,8 @@ class Menu(
         viewers.mapNotNull { Bukkit.getPlayerExact(it) }.forEach(block)
     }
 
-    fun forSessions(block: Function<MenuSession, Void>) =
-        forSessions { block.apply(it) }
+    fun forSessions(block: Consumer<MenuSession>) =
+        forSessions { block.accept(it) }
 
 
     fun forSessions(block: (MenuSession) -> Unit) {
