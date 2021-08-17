@@ -10,6 +10,7 @@ import me.arasple.mc.trmenu.module.internal.service.Performance
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import taboolib.common.platform.function.submit
+import java.util.function.Consumer
 import java.util.function.Function
 
 /**
@@ -31,9 +32,9 @@ class Menu(
 
     val viewers: MutableSet<String> = mutableSetOf()
 
-    fun open(viewer: Player, page: Int = settings.defaultLayout, reason: MenuOpenEvent.Reason, block: Function<MenuSession, Void>) =
+    fun open(viewer: Player, page: Int = settings.defaultLayout, reason: MenuOpenEvent.Reason, block: Consumer<MenuSession>) =
         open(viewer, page, reason) { menuSession ->
-            block.apply(menuSession)
+            block.accept(menuSession)
         }
 
     /**
