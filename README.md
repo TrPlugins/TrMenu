@@ -16,6 +16,41 @@
 
 ---
 
+### 🌍 Developer
+
+Maven:
+```xml
+    <repositories>
+      <repository>
+        <id>roselle-public</id>
+        <url>https://repo.mcage.cn/repository/maven-releases/</url>
+      </repository>
+    </repositories>
+
+    <dependencies>
+      <dependency>
+        <groupId>me.arasple</groupId>
+        <artifactId>trmenu</artifactId>
+        <version>3.0-PRE-18</version>
+        <classifier>pure</classifier>
+        <scope>provided</scope>
+      </dependency>
+    </dependencies>
+```
+
+Gradle Kotlin DSL
+```kotlin
+repositories {
+  maven("https://repo.mcage.cn/repository/maven-releases/")
+}
+dependencies {
+  compileOnly("me.arasple:TrMenu:3.0-PRE-18:pure")
+}
+
+```
+
+---
+
 ### 🎯 Introduce
 
 TrMenu is a brand new advanced dynamic menu plugin  

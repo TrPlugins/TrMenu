@@ -30,7 +30,6 @@ object Metadata {
 
     @Config("data/globalData.yml")
     lateinit var globalData: SecuredFile
-        private set
 
     val localDatabase by lazy { DatabaseLocal() }
 
