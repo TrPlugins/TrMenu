@@ -100,7 +100,9 @@ configure<PublishingExtension> {
         maven {
             url = uri("https://repo.mcage.cn/repository/maven-releases/")
             credentials {
-                file("access.txt").readLines().apply {
+                file("access.txt").also {
+                    if (!it.exists()) return@credentials
+                }.readLines().apply {
                     username = this[0]
                     password = this[1]
                 }
