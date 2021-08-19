@@ -64,7 +64,7 @@ dependencies {
     compileOnly("ink.ptms.core:v11604:11604:all")
     compileOnly("ink.ptms.core:v11600:11600:all")
     compileOnly("ink.ptms.core:v11200:11200:all")
-    compileOnly("net.wesjd:anvilgui:1.5.2-SNAPSHOT")
+    compileOnly("net.wesjd:anvilgui:1.5.3-SNAPSHOT")
     compileOnly("me.clip:placeholderapi:2.10.9")
     compileOnly(fileTree("libs"))
 }

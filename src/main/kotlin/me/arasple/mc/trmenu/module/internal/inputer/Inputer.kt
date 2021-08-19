@@ -33,8 +33,8 @@ import java.util.function.Function
  */
 @SkipTo(LifeCycle.ENABLE)
 @RuntimeDependency(
-    value = "!net.wesjd:anvilgui:1.5.2-SNAPSHOT",
-    repository = "https://repo.codemc.org/repository/maven-public",
+    value = "!net.wesjd:anvilgui:1.5.3",
+    repository = "https://repo2s.ptms.ink/repository/maven-public/",
     test = "!net.wesjd.anvilgui.AnvilGUI",
     relocate = ["!net.wesjd.anvilgui", "!me.arasple.mc.trmenu.module.internal.inputer.anvil"]
 )
