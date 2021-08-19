@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "me.arasple.mc.trmenu"
-version = "3.0-PRE-18"
+version = "3.0-PRE-19"
 description = "Modern & Advanced Menu-Plugin for Minecraft Servers"
 
 taboolib {
@@ -47,7 +47,7 @@ taboolib {
     relocate("net.wesjd.anvilgui", "${project.group}.module.internal.inputer.anvil")
 
     classifier = null
-    version = "6.0.0-pre52"
+    version = "6.0.0-pre54"
 }
 
 repositories {
@@ -64,15 +64,14 @@ dependencies {
     compileOnly("ink.ptms.core:v11604:11604:all")
     compileOnly("ink.ptms.core:v11600:11600:all")
     compileOnly("ink.ptms.core:v11200:11200:all")
-    implementation("me.clip:placeholderapi:2.10.9")
-    implementation("net.wesjd:anvilgui:1.5.2-SNAPSHOT")
+    compileOnly("net.wesjd:anvilgui:1.5.2-SNAPSHOT")
+    compileOnly("me.clip:placeholderapi:2.10.9")
     compileOnly(fileTree("libs"))
 }
 
 tasks.shadowJar {
     dependencies {
-        project.configurations.getByName("implementation").allDependencies.forEach { exclude(dependency("${it.group}:${it.name}:${it.version}")) }
-        taboolib.modules.forEach { exclude(dependency("io.izzel:taboolib:6.0.0-pre51:$it")) }
+        taboolib.modules.forEach { exclude(dependency("io.izzel:taboolib:6.0.0-${taboolib.version}:$it")) }
         exclude(dependency("com.google.code.gson:gson:2.8.6"))
         exclude(dependency("org.bstats:bstats-bukkit:1.5"))
 
@@ -92,8 +91,8 @@ tasks.shadowJar {
 configure<PublishingExtension> {
     publications {
         create<MavenPublication>("shadow") {
-            group = "me.arasple"
             shadow.component(this)
+            groupId = "me.arasple"
         }
     }
     repositories {

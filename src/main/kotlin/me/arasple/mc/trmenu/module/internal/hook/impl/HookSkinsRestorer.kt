@@ -3,6 +3,7 @@ package me.arasple.mc.trmenu.module.internal.hook.impl
 import com.mojang.authlib.properties.Property
 import me.arasple.mc.trmenu.module.internal.hook.HookAbstract
 import net.skinsrestorer.api.SkinsRestorerAPI
+import org.bukkit.Bukkit
 
 /**
  * @author Arasple
@@ -23,11 +24,12 @@ class HookSkinsRestorer : HookAbstract() {
 
     fun getPlayerSkinTexture(name: String): String? {
         skinsRestorerAPI?.let {
-            if (it.getSkinData(name) == null) {
+            val uuid = Bukkit.getPlayerExact(name)?.uniqueId?.toString() ?: return null
+            if (it.getProfile(uuid) == null) {
                 return null
             }
 
-            val skinData = it.getSkinData(name)
+            val skinData = it.getProfile(name)
             return (skinData as Property).value
         }
         return null

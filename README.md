@@ -23,7 +23,7 @@ Maven:
     <repositories>
       <repository>
         <id>roselle-public</id>
-        <url>https://repo.mcage.cn/repository/maven-releases/</url>
+        <url>https://repo.mcage.cn/repository/maven-public/</url>
       </repository>
     </repositories>
 
@@ -41,7 +41,7 @@ Maven:
 Gradle Kotlin DSL
 ```kotlin
 repositories {
-  maven("https://repo.mcage.cn/repository/maven-releases/")
+  maven("https://repo.mcage.cn/repository/maven-public/")
 }
 dependencies {
   compileOnly("me.arasple:TrMenu:3.0-PRE-18:pure")

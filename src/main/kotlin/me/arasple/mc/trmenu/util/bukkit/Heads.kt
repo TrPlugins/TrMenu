@@ -44,8 +44,11 @@ object Heads {
     }
 
     fun getPlayerHead(name: String): ItemStack {
-        return CACHED_SKULLS.computeIfAbsent(name) {
-            DEFAULT_HEAD.clone().also { item -> playerTexture(name) { modifyTexture(it, item) } }
+        if (CACHED_SKULLS.containsKey(name)) {
+            return CACHED_SKULLS[name] ?: DEFAULT_HEAD
+        } else {
+            CACHED_SKULLS[name] = DEFAULT_HEAD.clone().also { item -> playerTexture(name) { modifyTexture(it, item) } ?: return DEFAULT_HEAD }
+            return CACHED_SKULLS[name] ?: DEFAULT_HEAD
         }
     }
 
@@ -71,15 +74,16 @@ object Heads {
     /**
      * PRIVATE UTILS
      */
-    private fun playerTexture(name: String, block: (String) -> Unit) {
+    private fun playerTexture(name: String, block: (String) -> Unit): Unit? {
         when {
             HookPlugin.getSkinsRestorer().isHooked -> {
-                HookPlugin.getSkinsRestorer().getPlayerSkinTexture(name)?.also(block)
+                HookPlugin.getSkinsRestorer().getPlayerSkinTexture(name)?.also(block) ?: return null
             }
             Bukkit.getPlayer(name)?.isOnline == true -> {
                 Bukkit.getPlayer(name)!!.invokeMethod<GameProfile>("getProfile")?.properties?.get("textures")
                     ?.find { it.value != null }?.value
                     ?.also(block)
+                    ?: return null
 
             }
             else -> {
@@ -100,6 +104,7 @@ object Heads {
                 }
             }
         }
+        return Unit
     }
 
     private fun modifyTexture(input: String, itemStack: ItemStack): ItemStack {

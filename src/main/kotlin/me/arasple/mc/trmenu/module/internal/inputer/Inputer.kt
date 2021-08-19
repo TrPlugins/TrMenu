@@ -13,6 +13,7 @@ import net.wesjd.anvilgui.AnvilGUI
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerEditBookEvent
 import taboolib.common.LifeCycle
+import taboolib.common.env.RuntimeDependency
 import taboolib.common.platform.SkipTo
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common.platform.function.submit
@@ -31,6 +32,12 @@ import java.util.function.Function
  * return = retype current stage
  */
 @SkipTo(LifeCycle.ENABLE)
+@RuntimeDependency(
+    value = "!net.wesjd:anvilgui:1.5.2-SNAPSHOT",
+    repository = "https://repo.codemc.org/repository/maven-public",
+    test = "!net.wesjd.anvilgui.AnvilGUI",
+    relocate = ["!net.wesjd.anvilgui", "!me.arasple.mc.trmenu.module.internal.inputer.anvil"]
+)
 class Inputer(private val stages: CycleList<Catcher>) {
 
     fun startInput(session: MenuSession) {
