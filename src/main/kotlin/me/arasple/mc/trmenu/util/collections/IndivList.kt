@@ -19,7 +19,12 @@ class IndivList<T>(val elements: List<T>) {
     }
 
     operator fun get(id: Int): T? {
-        return if (isEmpty()) null else elements[getIndex(id)]
+        // 缓解燃眉之急
+        return try {
+            if (isEmpty()) null else elements[getIndex(id)]
+        } catch (e: ArrayIndexOutOfBoundsException) {
+            null
+        }
     }
 
     fun getIndex(id: Int): Int {

@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.api.menu
 
+import me.arasple.mc.trmenu.module.display.Menu
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.display.icon.Icon
 import me.arasple.mc.trmenu.module.display.icon.IconProperty
@@ -22,7 +23,7 @@ interface IIcon {
     /**
      * 显示图标属性
      */
-    fun settingItem(session: MenuSession, icon: IconProperty)
+    fun settingItem(session: MenuSession, icon: IconProperty, lastMenuId: String?)
 
     /**
      * 更新显示属性 & 动画

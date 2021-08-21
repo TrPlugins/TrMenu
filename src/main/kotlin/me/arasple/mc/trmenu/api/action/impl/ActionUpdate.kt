@@ -12,16 +12,17 @@ class ActionUpdate(content: String, option: ActionOption) : AbstractAction(conte
 
     override fun onExecute(player: Player, placeholderPlayer: Player) {
         val session = player.session()
+        val menuId = session.menu?.id // 缓存菜单id避免打开下一个菜单出现图标覆盖
 
         if (baseContent.isBlank() || baseContent.equals("update", true)) {
             session.activeIcons.forEach {
                 it.onReset(session)
-                it.settingItem(session, it.getProperty(session))
+                it.settingItem(session, it.getProperty(session), menuId)
             }
         } else {
             baseContent.split(";").mapNotNull { session.getIcon(it) }.forEach {
                 it.onReset(session)
-                it.settingItem(session, it.getProperty(session))
+                it.settingItem(session, it.getProperty(session), menuId)
             }
         }
     }

@@ -1,6 +1,7 @@
 package me.arasple.mc.trmenu.module.display.icon
 
 import me.arasple.mc.trmenu.api.menu.IIcon
+import me.arasple.mc.trmenu.module.display.Menu
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.service.Performance
 import me.arasple.mc.trmenu.util.collections.IndivList
@@ -40,6 +41,7 @@ class Icon(
 
     override fun onUpdate(session: MenuSession, frames: Set<Int>) {
         Performance.check("Menu:Icon:Update") {
+            val menuId = session.menu?.id // 缓存菜单id避免打开下一个菜单出现图标覆盖
             val icon = getProperty(session)
             frames.forEach {
                 when (it) {
@@ -51,7 +53,7 @@ class Icon(
                         val exclude = position.currentPosition(session).let { current ->
                             return@let previous.filter { pre -> !current.contains(pre) }
                         }
-                        settingItem(session, icon)
+                        settingItem(session, icon, menuId)
                         session.receptacle?.setItem(null, exclude)
                     }
                     // Texture, Name, Lore
@@ -64,14 +66,17 @@ class Icon(
                             else -> {
                             }
                         }
-                        settingItem(session, icon)
+                        settingItem(session, icon, menuId)
                     }
                 }
             }
         }
     }
 
-    override fun settingItem(session: MenuSession, icon: IconProperty) {
+    override fun settingItem(session: MenuSession, icon: IconProperty, lastMenuId: String?) {
+        if (lastMenuId != null && session.menu?.id != lastMenuId) {
+            return
+        }
         session.receptacle?.setItem(icon.display.get(session), position.currentPosition(session))
     }
 
@@ -93,7 +98,7 @@ class Icon(
     }
 
     override fun getProperty(session: MenuSession): IconProperty {
-        return if (!subs.isEmpty() && subs.getIndex(session.id) >= 0) subs[session.id]!! else defIcon
+        return if (!subs.isEmpty() && subs.getIndex(session.id) >= 0) subs[session.id] ?: defIcon else defIcon
     }
 
     override fun isAvailable(session: MenuSession): Boolean {
@@ -135,19 +140,20 @@ class Icon(
      * 筛选子图标
      */
     private fun filter(session: MenuSession, iterator: Iterator<IndexedValue<IconProperty>>) {
+        val menuId = session.menu?.id // 缓存菜单id避免打开下一个菜单出现图标覆盖
         if (iterator.hasNext()) {
             val (index, property) = iterator.next()
             val eval = property.condition.eval(session)
 
             if (eval.asBoolean()) {
                 subs[session.id] = index
-                settingItem(session, getProperty(session))
+                settingItem(session, getProperty(session), menuId)
             } else {
                 subs[session.id] = -1
                 filter(session, iterator)
             }
         } else {
-            settingItem(session, getProperty(session))
+            settingItem(session, getProperty(session), menuId)
         }
     }
 

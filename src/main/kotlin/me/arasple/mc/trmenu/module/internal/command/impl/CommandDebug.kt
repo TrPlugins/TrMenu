@@ -14,6 +14,7 @@ import me.arasple.mc.trmenu.util.net.Paster
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import taboolib.common.io.taboolibId
 import taboolib.common.platform.function.adaptCommandSender
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.function.pluginVersion
@@ -104,7 +105,7 @@ object CommandDebug : CommandExpresser {
             append("| Server OS: ${properties["os.name"]} ${properties["os.arch"]} ${properties["os.version"]}\n")
             append("| Server software: ${Bukkit.getServer().version} (${Bukkit.getServer().bukkitVersion})\n")
             append("| Java version: ${System.getProperty("java.version")}\n\n")
-            append("| TabooLib: 6.x\n")
+            append("| TabooLib: 6.0.0-PRE\n")
             append("| TrMenu: ${pluginVersion}\n")
 //            append("   ${description.getString("built-time")} by ${description.getString("built-by")})\n\n")
             append("Installed Plugins: \n")

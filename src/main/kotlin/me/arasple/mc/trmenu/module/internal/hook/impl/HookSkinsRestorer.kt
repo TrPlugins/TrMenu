@@ -24,12 +24,11 @@ class HookSkinsRestorer : HookAbstract() {
 
     fun getPlayerSkinTexture(name: String): String? {
         skinsRestorerAPI?.let {
-            val uuid = Bukkit.getPlayerExact(name)?.uniqueId?.toString() ?: return null
-            if (it.getProfile(uuid) == null) {
+            if (it.getSkinData(name) == null) {
                 return null
             }
 
-            val skinData = it.getProfile(name)
+            val skinData = it.getSkinData(name)
             return (skinData as Property).value
         }
         return null

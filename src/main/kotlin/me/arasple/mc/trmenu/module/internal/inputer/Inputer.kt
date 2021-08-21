@@ -35,7 +35,7 @@ import java.util.function.Function
 @RuntimeDependency(
     value = "!net.wesjd:anvilgui:1.5.3",
     repository = "https://repo2s.ptms.ink/repository/maven-public/",
-    test = "!net.wesjd.anvilgui.AnvilGUI",
+    test = "!me.arasple.mc.trmenu.module.internal.inputer.anvil.AnvilGUI",
     relocate = ["!net.wesjd.anvilgui", "!me.arasple.mc.trmenu.module.internal.inputer.anvil"]
 )
 class Inputer(private val stages: CycleList<Catcher>) {
@@ -108,6 +108,7 @@ class Inputer(private val stages: CycleList<Catcher>) {
                     }
                 }
                 Type.ANVIL -> AnvilGUI.Builder()
+                    .plugin(TrMenu.plugin)
                     .onClose { respond("") }
                     .onComplete { _, text ->
                         if (respond(text)) AnvilGUI.Response.text("")
@@ -189,7 +190,6 @@ class Inputer(private val stages: CycleList<Catcher>) {
             // 发送书本
             player.inventory.addItem(
                 buildBook {
-                    material = XMaterial.WRITABLE_BOOK
                     bookPages.add(BookBuilder.Text(java.lang.String.join("\n", origin), true))
                     name = "§f$display"
                     lore.addAll(arrayOf("§0Features Input", if (disposable) "§0Disposable" else ""))

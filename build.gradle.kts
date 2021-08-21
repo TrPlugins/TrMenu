@@ -1,13 +1,13 @@
 plugins {
     `maven-publish`
     id("java")
-    id("io.izzel.taboolib") version "1.18"
+    id("io.izzel.taboolib") version "1.22"
     id("org.jetbrains.kotlin.jvm") version "1.5.10"
     id("com.github.johnrengelman.shadow") version "7.0.0"
 }
 
 group = "me.arasple.mc.trmenu"
-version = "3.0-PRE-19"
+version = "3.0-PRE-20"
 description = "Modern & Advanced Menu-Plugin for Minecraft Servers"
 
 taboolib {
@@ -47,7 +47,7 @@ taboolib {
     relocate("net.wesjd.anvilgui", "${project.group}.module.internal.inputer.anvil")
 
     classifier = null
-    version = "6.0.0-pre54"
+    version = "6.0.0-pre55"
 }
 
 repositories {

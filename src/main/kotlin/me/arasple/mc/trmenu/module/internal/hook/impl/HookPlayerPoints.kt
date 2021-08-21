@@ -4,6 +4,7 @@ import me.arasple.mc.trmenu.module.internal.hook.HookAbstract
 import org.black_ixx.playerpoints.PlayerPoints
 import org.black_ixx.playerpoints.PlayerPointsAPI
 import org.bukkit.OfflinePlayer
+import java.util.concurrent.TimeUnit
 
 /**
  * @author Arasple
@@ -18,11 +19,19 @@ class HookPlayerPoints : HookAbstract() {
         }
 
     fun getPoints(player: OfflinePlayer): Int {
-        return playerPointsAPI?.look(player.uniqueId) ?: -1
+        return try {
+            playerPointsAPI?.lookAsync(player.uniqueId)?.get(1, TimeUnit.SECONDS) ?: -1
+        } catch (t: Throwable) {
+            playerPointsAPI?.look(player.uniqueId) ?: -1
+        }
     }
 
     fun setPoints(player: OfflinePlayer, amount: Int) {
-        playerPointsAPI?.set(player.uniqueId, amount)
+        try {
+            playerPointsAPI?.setAsync(player.uniqueId, amount)
+        } catch (t: Throwable) {
+            playerPointsAPI?.set(player.uniqueId, amount)
+        }
     }
 
     fun hasPoints(player: OfflinePlayer, amount: Int): Boolean {
@@ -30,11 +39,19 @@ class HookPlayerPoints : HookAbstract() {
     }
 
     fun addPoints(player: OfflinePlayer, amount: Int) {
-        playerPointsAPI?.give(player.uniqueId, amount)
+        try {
+            playerPointsAPI?.giveAsync(player.uniqueId, amount)
+        } catch (t: Throwable) {
+            playerPointsAPI?.give(player.uniqueId, amount)
+        }
     }
 
     fun takePoints(player: OfflinePlayer, amount: Int) {
-        playerPointsAPI?.take(player.uniqueId, amount)
+        try {
+            playerPointsAPI?.takeAsync(player.uniqueId, amount)
+        } catch (t: Throwable) {
+            playerPointsAPI?.take(player.uniqueId, amount)
+        }
     }
 
 }

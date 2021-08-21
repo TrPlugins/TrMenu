@@ -7,10 +7,13 @@ import me.arasple.mc.trmenu.module.display.icon.IconProperty
 import me.arasple.mc.trmenu.module.display.layout.Layout
 import me.arasple.mc.trmenu.module.internal.script.FunctionParser
 import me.arasple.mc.trmenu.module.internal.service.Performance
+import me.arasple.mc.trmenu.util.parseGradients
+import me.arasple.mc.trmenu.util.parseRainbow
 import org.bukkit.entity.Player
 import taboolib.common.platform.service.PlatformExecutor
 import taboolib.module.chat.HexColor
 import taboolib.common.util.replaceWithOrder
+import taboolib.module.chat.colored
 import taboolib.platform.compat.replacePlaceholder
 import java.util.*
 
@@ -101,9 +104,9 @@ class MenuSession(
         Performance.check("Handler:StringParse") {
             val preColor = MenuSettings.PRE_COLOR
             val funced = FunctionParser.parse(placeholderPlayer, string)
-            val content = (if (preColor) funced else HexColor.translate(funced)).replaceWithOrder(*arguments)
+            val content = (if (preColor) funced else funced.colored().parseRainbow().parseGradients()).replaceWithOrder(*arguments)
             val papi = content.replacePlaceholder(placeholderPlayer)
-            return if (preColor) papi else HexColor.translate(papi)
+            return if (preColor) papi else papi.colored().parseRainbow().parseGradients()
         }
         throw Exception()
     }
