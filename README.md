@@ -31,7 +31,7 @@ Maven:
       <dependency>
         <groupId>me.arasple</groupId>
         <artifactId>trmenu</artifactId>
-        <version>3.0-PRE-18</version>
+        <version>3.0-PRE-20</version>
         <classifier>pure</classifier>
         <scope>provided</scope>
       </dependency>
@@ -44,7 +44,7 @@ repositories {
   maven("https://repo.mcage.cn/repository/maven-public/")
 }
 dependencies {
-  compileOnly("me.arasple:TrMenu:3.0-PRE-18:pure")
+  compileOnly("me.arasple:TrMenu:3.0-PRE-20:pure")
 }
 
 ```
