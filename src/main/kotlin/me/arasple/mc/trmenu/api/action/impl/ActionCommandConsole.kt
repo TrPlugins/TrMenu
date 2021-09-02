@@ -5,6 +5,7 @@ import me.arasple.mc.trmenu.api.action.base.ActionOption
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import taboolib.common.platform.function.console
+import taboolib.common.platform.function.submit
 
 /**
  * @author Arasple
@@ -14,7 +15,7 @@ class ActionCommandConsole(content: String, option: ActionOption) : AbstractActi
 
     override fun onExecute(player: Player, placeholderPlayer: Player) {
         parseContentSplited(placeholderPlayer, ";").forEach {
-            console().performCommand(it)
+            submit(async = false) { console().performCommand(it) }
         }
     }
 
