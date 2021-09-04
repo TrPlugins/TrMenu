@@ -3,7 +3,9 @@ package me.arasple.mc.trmenu.module.internal.hook.impl
 import me.arasple.mc.trmenu.module.internal.hook.HookAbstract
 import org.black_ixx.playerpoints.PlayerPoints
 import org.black_ixx.playerpoints.PlayerPointsAPI
+import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
+import taboolib.common.platform.function.submit
 import java.util.concurrent.TimeUnit
 
 /**
@@ -30,7 +32,7 @@ class HookPlayerPoints : HookAbstract() {
         try {
             playerPointsAPI?.setAsync(player.uniqueId, amount)
         } catch (t: Throwable) {
-            playerPointsAPI?.set(player.uniqueId, amount)
+            call { playerPointsAPI?.set(player.uniqueId, amount) }
         }
     }
 
@@ -42,7 +44,7 @@ class HookPlayerPoints : HookAbstract() {
         try {
             playerPointsAPI?.giveAsync(player.uniqueId, amount)
         } catch (t: Throwable) {
-            playerPointsAPI?.give(player.uniqueId, amount)
+            call { playerPointsAPI?.give(player.uniqueId, amount) }
         }
     }
 
@@ -50,7 +52,15 @@ class HookPlayerPoints : HookAbstract() {
         try {
             playerPointsAPI?.takeAsync(player.uniqueId, amount)
         } catch (t: Throwable) {
-            playerPointsAPI?.take(player.uniqueId, amount)
+            call { playerPointsAPI?.take(player.uniqueId, amount) }
+        }
+    }
+
+    private fun call(block: () -> Unit) {
+        if (Bukkit.isPrimaryThread()) {
+            block.invoke()
+        } else {
+            submit(async = false) { block.invoke() }
         }
     }
 
