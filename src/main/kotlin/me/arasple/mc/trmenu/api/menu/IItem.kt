@@ -4,6 +4,7 @@ import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.display.item.Item
 import me.arasple.mc.trmenu.module.display.item.Meta
 import me.arasple.mc.trmenu.module.display.texture.Texture
+import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import taboolib.platform.util.ItemBuilder
 import taboolib.platform.util.buildItem
@@ -20,6 +21,10 @@ interface IItem {
      */
     fun generate(session: MenuSession, texture: Texture, name: String?, lore: List<String>?, meta: Meta): ItemStack {
         val item = texture.generate(session)
+
+        if (item.type == Material.AIR || item.type.name.endsWith("_AIR")) {
+            return item
+        }
 
         val itemStack = buildItem(item) {
             if (item.itemMeta != null) {
