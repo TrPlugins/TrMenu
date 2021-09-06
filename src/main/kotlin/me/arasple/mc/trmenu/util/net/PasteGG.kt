@@ -68,7 +68,7 @@ object PasteGG {
             con.doInput = true
             con.doOutput = true
             con.outputStream.also { it.write(json.toByteArray(StandardCharsets.UTF_8)) }
-            val source = JsonParser().parse(DependencyDownloader.readFully(con.inputStream, StandardCharsets.UTF_8)).asJsonObject
+            val source = JsonParser.parseString(DependencyDownloader.readFully(con.inputStream, StandardCharsets.UTF_8)).asJsonObject
 
             success.invoke(source.toString())
         } catch (e: Throwable) {

@@ -17,7 +17,7 @@ object ListenerBukkitInventory {
     fun onOpen(e: InventoryOpenEvent) {
         val player = e.player as Player
 
-        MenuSession.getSession(player).shut()
+        MenuSession.getSession(player).close(closePacket = true, updateInventory = true)
     }
 
 }

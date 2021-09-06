@@ -1,4 +1,4 @@
-![](https://i.loli.net/2021/02/09/Mgv3z51fL8poh4W.png)
+![](https://attachment.mcbbs.net/data/myattachment/forum/202108/17/142921rll20j5kie5kzk1f.gif)
 ![](https://img.shields.io/github/last-commit/Arasple/TrMenu?logo=artstation&style=for-the-badge&color=9266CC)![](https://img.shields.io/github/issues/InsinuateProjects/TrMenu?style=for-the-badge&logo=slashdot)![](https://img.shields.io/github/release/Arasple/TrMenu?style=for-the-badge&color=00C58E&logo=ionic)
 
 ---
@@ -16,7 +16,18 @@
 
 ---
 
-### 🌍 Developer
+### 🌍 Languages
+
+* **en_US(English)** by _@Arasple_ & _@Score2_
+* **ru_RU(Русский)** by _@Liassid_
+* **vi_VN(Tiếng Việt)** by _@Galaxy-VN_
+* **zh_CN(简体中文)** by _@Arasple_ & _@Score2_
+* **zh_HK(繁體中文)** by _@Arasple_ & _@Score2_
+* **zh_TW(繁體中文)** copy from _zh_HK_
+
+---
+
+### ⛏ Developer
 
 Maven:
 ```xml
@@ -31,7 +42,7 @@ Maven:
       <dependency>
         <groupId>me.arasple</groupId>
         <artifactId>trmenu</artifactId>
-        <version>3.0-PRE-20</version>
+        <version>3.0-PRE-22</version>
         <classifier>pure</classifier>
         <scope>provided</scope>
       </dependency>
@@ -41,10 +52,10 @@ Maven:
 Gradle Kotlin DSL
 ```kotlin
 repositories {
-  maven("https://repo.mcage.cn/repository/maven-public/")
+  maven("https://repo.iroselle.com/repository/maven-public/")
 }
 dependencies {
-  compileOnly("me.arasple:TrMenu:3.0-PRE-20:pure")
+  compileOnly("me.arasple:TrMenu:3.0-PRE-22:pure")
 }
 
 ```
@@ -75,7 +86,8 @@ Before asking for support, please make sure you have fully **read the wiki** and
 to reproduce the issue
 
 Issues: https://github.com/InsinuateProjects/TrMenu/issues  
-Discord : https://discord.gg/8CWa6KF
+_TrPlugins Discord (Original) : https://discord.gg/8CWa6KF_
+**Insinuate Discord : https://discord.gg/Fs6fJN3jXj**
 
 ```
 1. I will not offer help to the one who didn't purchase the plugin

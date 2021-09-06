@@ -55,7 +55,7 @@ class Texture(
                             value
                         )
                     )
-                    TextureMeta.BANNER_PATTERN -> itemStack // TODO
+                    TextureMeta.BANNER_PATTERN -> itemStack // TODO 3.0-PRE23
                 }
             }
             itemStack.itemMeta = itemMeta

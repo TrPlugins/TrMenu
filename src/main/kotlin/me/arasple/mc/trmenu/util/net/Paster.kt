@@ -35,7 +35,7 @@ object Paster {
                 con.doInput = true
                 con.doOutput = true
                 con.outputStream.also { it.write(content.toByteArray(StandardCharsets.UTF_8)) }
-                val source = JsonParser().parse(DependencyDownloader.readFully(con.inputStream, StandardCharsets.UTF_8)).asJsonObject
+                val source = JsonParser.parseString(DependencyDownloader.readFully(con.inputStream, StandardCharsets.UTF_8)).asJsonObject
                 url(URL + source.get("key").asString)
             } catch (e: Throwable) {
                 e.printStackTrace()

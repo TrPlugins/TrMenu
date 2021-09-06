@@ -49,7 +49,7 @@ class NetQuery(private val url: String, private val span: Int) {
     }
 
     fun asJson(): JsonElement? {
-        return JsonParser().parse(get())
+        return JsonParser.parseString(get())
     }
 
     fun update() {

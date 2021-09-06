@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.module.display.item
 
+import com.google.gson.Gson
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.script.Condition
 import me.arasple.mc.trmenu.util.Regexs
@@ -7,6 +8,8 @@ import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 import taboolib.module.nms.ItemTag
+import taboolib.module.nms.getItemTag
+import taboolib.module.nms.setItemTag
 import taboolib.platform.util.ItemBuilder
 
 /**
@@ -46,7 +49,8 @@ class Meta(
     fun nbt(session: MenuSession, itemStack: ItemStack): ItemMeta? {
         if (nbt != null && !nbt.isEmpty()) {
             val nbt = if (isNBTDynamic) ItemTag.fromJson(session.parse(nbt.toJson())) else nbt
-            if (nbt.isEmpty()) return itemStack.also { nbt.saveTo(it) }.itemMeta
+//            val nbt = if (isNBTDynamic) ItemTag.fromJson(Gson().toJsonTree(nbt)) as ItemTag else nbt
+            if (nbt.isEmpty()) return itemStack.setItemTag(nbt).itemMeta
         }
         return null
     }

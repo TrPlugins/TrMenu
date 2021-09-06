@@ -13,6 +13,7 @@ import taboolib.common.platform.function.submit
 import taboolib.common5.FileWatcher
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.SecuredFile
+import taboolib.module.lang.Language
 import taboolib.module.lang.sendLang
 import taboolib.platform.BukkitPlugin
 
@@ -29,6 +30,7 @@ object TrMenu : Plugin() {
     val plugin by lazy { BukkitPlugin.getInstance() }
     
     override fun onLoad() {
+        Language.default = "en_US"
         console().sendLang("Plugin-Loading", Bukkit.getVersion())
     }
 

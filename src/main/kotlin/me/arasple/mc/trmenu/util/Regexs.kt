@@ -1,12 +1,15 @@
 package me.arasple.mc.trmenu.util
 
+import com.google.gson.JsonParser
+
 /**
  * @author Arasple
  * @date 2021/1/24 16:57
  */
 object Regexs {
 
-    private val PLACEHOLDER_API = "[%{](.+?)[%}]".toRegex()
+//    private val PLACEHOLDER_API = "[%{](.+?)[%}]".toRegex()
+    private val PLACEHOLDER_API = "(%)(.+?)(%)|(?!\\{\")((\\{)(.+?)(}))".toRegex()
     val ICON_KEY = "`(.+?)`".toRegex()
     val SENTENCE = "`(.+?)`".toRegex()
     val STRING = "\\{(\\w+)}".toRegex()

@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.util.bukkit
 
+import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import me.arasple.mc.trmenu.module.display.MenuSettings
@@ -43,7 +44,7 @@ object ItemHelper {
 
     fun isJson(json: String): Boolean {
         return try {
-            JsonParser().parse(json)
+            JsonParser.parseString(json)
             true
         } catch (e: Throwable) {
             false

@@ -11,7 +11,6 @@ import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import taboolib.common.platform.function.submit
 import java.util.function.Consumer
-import java.util.function.Function
 
 /**
  * @author Arasple
@@ -40,7 +39,7 @@ class Menu(
      */
     fun open(
         viewer: Player,
-        page: Int = settings.defaultLayout,
+        page: Int? = null,
         reason: MenuOpenEvent.Reason,
         block: (MenuSession) -> Unit = {}
     ) {
@@ -48,13 +47,15 @@ class Menu(
             val session = MenuSession.getSession(viewer)
             viewers.add(viewer.name)
 
+            val determinedPage = page ?: settings.defaultLayout
+
             if (session.menu == this) {
-                return page(viewer, page)
+                return page(viewer, determinedPage)
             } else if (session.menu != null) {
                 session.shut()
             }
 
-            val menuOpenEvent = MenuOpenEvent(session, this, page, reason)
+            val menuOpenEvent = MenuOpenEvent(session, this, determinedPage, reason)
             menuOpenEvent.call()
 
             if (menuOpenEvent.isCancelled) return
@@ -65,10 +66,10 @@ class Menu(
                 session.menu = null
                 return
             } else {
-                val layout = layout[page]
+                val layout = layout[determinedPage]
                 val receptacle: Receptacle
 
-                session.page = page
+                session.page = determinedPage
                 session.receptacle = layout.baseReceptacle().also { receptacle = it }
                 session.playerItemSlots()
 

@@ -79,12 +79,13 @@ class Layout(
             Performance.check("Menu:Event:Click") {
                 val cancelEvent = {
                     event.isCancelled = true
-                    receptacle.refresh(event.slot)
+/*                    receptacle.refresh(event.slot)
                     if (event.receptacleClickType.isItemMoveable()) {
                         event.receptacle.type.containerSlots.first().run(receptacle::refresh)
                         event.receptacle.type.hotBarSlots.forEach(receptacle::refresh)
                         event.receptacle.type.mainInvSlots.forEach(receptacle::refresh)
-                    }
+                    }*/
+                    event.refresh()
                 }
 
                 if (menu.settings.clickDelay.isCooldown(player.name)) {

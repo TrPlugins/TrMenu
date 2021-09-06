@@ -54,16 +54,16 @@ class MenuSession(
             }
 
             if (def.isNotEmpty()) {
-                when {
+                field = when {
                     value.isEmpty() -> {
-                        field = def
+                        def
                     }
                     value.size < def.size -> {
                         val args = value.toMutableList()
                         for (i in args.size until def.size) args.add(def[i])
-                        field = args.toTypedArray()
+                        args.toTypedArray()
                     }
-                    else -> field = value
+                    else -> value
                 }
                 return
             }
