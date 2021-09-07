@@ -8,15 +8,22 @@ import me.arasple.mc.trmenu.module.internal.item.ItemSource
 import me.arasple.mc.trmenu.util.Regexs
 import me.arasple.mc.trmenu.util.bukkit.Heads
 import me.arasple.mc.trmenu.util.bukkit.ItemHelper
+import org.bukkit.DyeColor
 import org.bukkit.Material
+import org.bukkit.block.banner.Pattern
+import org.bukkit.block.banner.PatternType
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.BannerMeta
 import org.bukkit.inventory.meta.LeatherArmorMeta
 import org.bukkit.inventory.meta.SkullMeta
+import org.bukkit.util.NumberConversions
+import taboolib.common.reflect.Reflex.Companion.invokeMethod
 import taboolib.common.util.Strings.similarDegree
 import taboolib.library.xseries.XMaterial
+import taboolib.module.kether.isInt
 import taboolib.module.nms.MinecraftVersion
-import taboolib.platform.util.ItemBuilder
 import taboolib.platform.util.buildItem
+import java.util.*
 
 /**
  * @author Arasple
@@ -35,7 +42,7 @@ class Texture(
         if (static != null) return static!!
         val temp = if (dynamic) session.parse(texture) else texture
 
-        val itemStack = when (type) {
+        var itemStack = when (type) {
             TextureType.NORMAL -> parseMaterial(temp)
             TextureType.HEAD -> Heads.getHead(temp)
             TextureType.REPO -> ItemRepository.getItem(temp)
@@ -44,21 +51,46 @@ class Texture(
         }
 
         if (itemStack != null) {
-            val itemMeta = itemStack.itemMeta
-            meta.forEach { (meta, metaValue) ->
-                val value = session.parse(metaValue)
-                when (meta) {
-                    TextureMeta.DATA_VALUE -> itemStack.durability = value.toShortOrNull() ?: 0
-                    TextureMeta.MODEL_DATA -> itemMeta?.setCustomModelData(value.toInt())
-                    TextureMeta.LEATHER_DYE -> if (itemMeta is LeatherArmorMeta) itemMeta.setColor(
-                        ItemHelper.serializeColor(
-                            value
-                        )
-                    )
-                    TextureMeta.BANNER_PATTERN -> itemStack // TODO 3.0-PRE23
+            itemStack = buildItem(itemStack) {
+                meta.forEach { (meta, metaValue) ->
+                    val value = session.parse(metaValue)
+                    when (meta) {
+                        TextureMeta.DATA_VALUE -> damage = value.toIntOrNull() ?: 0
+                        TextureMeta.MODEL_DATA -> customModelData = value.toInt()
+                        TextureMeta.LEATHER_DYE -> color = ItemHelper.serializeColor(value)
+                        TextureMeta.BANNER_PATTERN -> {
+                            patterns.clear()
+                            patterns.addAll(value.split(",").let {
+                                val patterns = mutableListOf<Pattern>()
+                                it.forEach {
+                                    val type = it.split(" ")
+                                    if (type.size == 1) {
+                                        finishing = {
+                                            try {
+                                                (it.itemMeta as? BannerMeta)?.baseColor = DyeColor.valueOf(type[0].uppercase())
+                                            } catch (e: Exception) {
+                                                (it.itemMeta as? BannerMeta)?.baseColor = DyeColor.BLACK
+                                            }
+                                        }
+                                    } else if (type.size == 2) {
+                                        try {
+                                            patterns.add(Pattern(
+                                                DyeColor.valueOf(type[0].uppercase()), PatternType.valueOf(
+                                                    type[1].uppercase()
+                                                )
+                                            ))
+                                        } catch (e: Exception) {
+                                            patterns.add(Pattern(DyeColor.BLACK, PatternType.BASE))
+                                        }
+                                    }
+                                }
+                                patterns
+                            })
+                        }
+                    }
                 }
+
             }
-            itemStack.itemMeta = itemMeta
             if (type == TextureType.NORMAL && !dynamic) {
                 static = itemStack
             }
@@ -147,19 +179,32 @@ class Texture(
                 var rawMaterial = id
 
                 if (id is Int) {
-                    XMaterial.matchXMaterial(id, 0).let {
+                    try {
+                        this.material = Material::class.java.invokeMethod<Material>("getMaterial", id.toInt(), fixed = true)!!
+                        this.damage = data
+                    } catch (t: Throwable) {
+                        t.printStackTrace()
+                        XMaterial.matchXMaterial(id, -1).let {
+                            if (it.isPresent) {
+                                setMaterial(it.get())
+                                this.damage = data
+                            } else {
+                                XMaterial.STONE
+                            }
+                        }
+                    }
+/*                    XMaterial.matchXMaterial(id, (-1).toByte()).let {
                         if (it.isPresent) {
-                            this.material = it.get()
+                            setMaterial(it.get())
                             this.damage = data
                         } else {
                             XMaterial.STONE
                         }
-                    }
-
+                    }*/
                 } else {
                     val name = id.toString()
                     try {
-                        this.material = XMaterial.valueOf(name)
+                        this.material = Material.getMaterial(name)!!
                     } catch (e: Throwable) {
                         val xMaterial =
                             XMaterial.values().find { it.name.equals(name, true) }
@@ -173,6 +218,25 @@ class Texture(
             }
         }
 
+    }
+
+    fun asMaterial(args: String): Material? {
+        return if (args.isInt()) {
+            try {
+                Material::class.java.invokeMethod<Material>("getMaterial", args.toInt(), fixed = true)
+            } catch (t: Throwable) {
+                Objects.requireNonNull(
+                    (XMaterial.matchXMaterial(
+                        NumberConversions.toInt(args),
+                        (-1).toByte()
+                    ).orElse(XMaterial.STONE) as XMaterial).parseMaterial()
+                )
+            }
+        } else {
+            Objects.requireNonNull(
+                (XMaterial.matchXMaterial(args.uppercase()).orElse(XMaterial.STONE) as XMaterial).parseMaterial()
+            )
+        }
     }
 
 }
