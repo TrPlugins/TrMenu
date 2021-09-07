@@ -10,7 +10,7 @@ Plugin-Dependency-Hooked: '&8[&3Tr&bMenu&8] &6KẾT NỐI &8| &7Phụ thuộc ph
 Plugin-Dependency-Abuse: '&8[&3Tr&bMenu&8] &6KẾT NỐI &8| &4Đã cố gắng sử dụng plugin phuộc thuộc phụ chưa cài đặt &c{0}'
 
 Menu-Loader-Loaded: '&8[&3Tr&bMenu&8] &aỔN &8| &a{0} &3menu đã được tải &8({1} ms)'
-Menu-Loader-Failed: '&8[&3Tr&bMenu&8] &cError &8| &4An error occurred while loading the menu &c{0} &4! Result: {1}'
+Menu-Loader-Failed: '&8[&3Tr&bMenu&8] &cLỖI &8| &4Đã xảy ra lỗi khi tải menu &c{0} &4! Kết quả: {1}'
 Menu-Loader-Reloaded: '&8[&3Tr&bMenu&8] &aỔN &8| &7Tự động tải lại menu &f{0}'
 Menu-Expansions-Header:
   - '&8[&3Tr&bMenu&8] &7Bạn phải cài đặt &f{0} &7expansion cho PlaceholderAPI để sử dụng menu này.'
