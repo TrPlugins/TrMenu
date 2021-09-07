@@ -49,7 +49,7 @@ object Updater {
             URL(API_URL).openStream().use { inputStream ->
                 BufferedInputStream(inputStream).use { bufferedInputStream ->
                     read = DependencyDownloader.readFully(bufferedInputStream, StandardCharsets.UTF_8)
-                    val json = JsonParser.parseString(read) as JsonObject
+                    val json = JsonParser().parse(read) as JsonObject
                     val latestVersion = json.get("tag_name").asDouble
                     if (latestVersion > CURRENT_VERSION) {
                         LATEST_VERSION = latestVersion

@@ -88,14 +88,14 @@ object Heads {
             }
             else -> {
                 submit(async = true) {
-                    val profile = JsonParser.parseString(fromURL("${MOJANG_API[0]}$name")) as? JsonObject
+                    val profile = JsonParser().parse(fromURL("${MOJANG_API[0]}$name")) as? JsonObject
                     if (profile == null) {
                         console().sendMessage("§7[§3Texture§7] Texture player $name not found.")
                         return@submit
                     }
                     val uuid = profile["id"].asString
-                    (JsonParser.parseString(fromURL("${MOJANG_API[1]}$uuid")) as JsonObject).getAsJsonArray("properties")
-                    (JsonParser.parseString(fromURL("${MOJANG_API[1]}$uuid")) as JsonObject).getAsJsonArray("properties")
+                    (JsonParser().parse(fromURL("${MOJANG_API[1]}$uuid")) as JsonObject).getAsJsonArray("properties")
+                    (JsonParser().parse(fromURL("${MOJANG_API[1]}$uuid")) as JsonObject).getAsJsonArray("properties")
                         .forEach {
                             if ("textures" == it.asJsonObject["name"].asString) {
                                 CACHED_PLAYER_TEXTURE[name] = it.asJsonObject["value"].asString.also(block)

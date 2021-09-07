@@ -45,7 +45,7 @@ object ItemHelper {
 
     fun isJson(json: String): Boolean {
         return try {
-            JsonParser.parseString(json)
+            JsonParser().parse(json)
             true
         } catch (e: Throwable) {
             false

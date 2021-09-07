@@ -26,6 +26,10 @@ interface IItem {
             return item
         }
 
+        meta.nbt(session, item)?.run {
+            item.itemMeta = this
+        }
+
         val itemStack = buildItem(item) {
             if (item.itemMeta != null) {
                 name?.let { this.name = it }
@@ -36,9 +40,7 @@ interface IItem {
 
             if (meta.hasAmount()) this.amount = meta.amount(session)
         }
-        meta.nbt(session, itemStack)?.also {
-            itemStack.itemMeta = it
-        }
+
         return itemStack
     }
 

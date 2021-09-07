@@ -18,7 +18,7 @@ object Time {
      * @author Bkm016
      */
     fun parseDuration(string: String): Duration {
-        var dur = string.toUpperCase(Locale.ENGLISH)
+        var dur = string.uppercase(Locale.ENGLISH)
         if (!dur.contains("T")) {
             if (dur.contains("D")) {
                 if (dur.contains("H") || dur.contains("M") || dur.contains("S")) dur = dur.replace("D", "DT")

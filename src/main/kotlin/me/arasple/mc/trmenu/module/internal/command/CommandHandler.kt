@@ -133,9 +133,9 @@ object CommandHandler {
         displayArg("list", sender.asLangText("Command-List-Description"))
         displayArg("open", sender.asLangText("Command-Open-Description"))
         displayArg("reload", sender.asLangText("Command-Reload-Description"))
-        displayArg("action", sender.asLangText("Command-Template-Description"))
-        displayArg("item", sender.asLangText("Command-Action-Description"))
-        displayArg("template", sender.asLangText("Command-Item-Description"))
+        displayArg("action", sender.asLangText("Command-Action-Description"))
+        displayArg("item", sender.asLangText("Command-Item-Description"))
+        displayArg("template", sender.asLangText("Command-Template-Description"))
         displayArg("sounds", sender.asLangText("Command-Sounds-Description"))
         proxySender.sendMessage("")
     }

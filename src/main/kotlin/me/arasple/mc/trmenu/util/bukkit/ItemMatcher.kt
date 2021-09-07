@@ -73,7 +73,7 @@ class ItemMatcher(private val matcher: Set<Match>) {
 
                 it.traits.forEach { (trait, value) ->
                     when (trait) {
-                        MATERIAL -> material = XMaterial.valueOf(value.uppercase())
+                        MATERIAL -> setMaterial(XMaterial.valueOf(value.uppercase()))
                         DATA -> damage = (value.toIntOrNull() ?: 0)
                         MODEL_DATA -> customModelData = value.toIntOrNull() ?: 0
                         NAME -> name = value

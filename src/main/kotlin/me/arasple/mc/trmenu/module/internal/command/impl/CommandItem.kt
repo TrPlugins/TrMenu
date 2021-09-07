@@ -86,7 +86,7 @@ object CommandItem : CommandExpresser {
         json.addProperty("type", item.type.name)
         json.addProperty("data", item.data!!.data)
         json.addProperty("amount", item.amount)
-//        json.add("meta", JsonParser.parseString(item.getItemTag().toJson()))
+//        json.add("meta", JsonParser().parse(item.getItemTag().toJson()))
         json.add("meta", Gson().toJsonTree(item.getItemTag()))
         val stringJson = json.toString()
         if (stringJson.length < 200) player.sendLang("Command-Item-To-Json", stringJson)

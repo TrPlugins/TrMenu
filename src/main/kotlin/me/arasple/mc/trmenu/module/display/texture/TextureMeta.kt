@@ -7,11 +7,11 @@ package me.arasple.mc.trmenu.module.display.texture
  */
 enum class TextureMeta(val regex: Regex) {
 
-    DATA_VALUE("(?i)[<{]data-?value[:=](.+?)[>}]"),
+    DATA_VALUE("(?i)[<{](data|data-value)[:=](.+?)[>}]"),
 
-    MODEL_DATA("(?i)[<{]model-?data[:=](\\d+?)[>}]"),
+    MODEL_DATA("(?i)[<{](model|model-data)[:=](\\d+?)[>}]"),
 
-    LEATHER_DYE("(?i)[<{]dye[:=](\\d{3},\\d{3},\\d{3})[>}]"),
+    LEATHER_DYE("(?i)[<{]dye[:=](\\d{1,3},\\d{1,3},\\d{1,3})[>}]"),
 
     BANNER_PATTERN("(?i)[<{]banner[:=](.+?)[>}]");
 
