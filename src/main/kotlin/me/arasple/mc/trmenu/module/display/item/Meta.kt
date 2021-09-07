@@ -50,7 +50,8 @@ class Meta(
         if (nbt != null && !nbt.isEmpty()) {
             val nbt = if (isNBTDynamic) ItemTag.fromJson(session.parse(nbt.toJson())) else nbt
 //            val nbt = if (isNBTDynamic) ItemTag.fromJson(Gson().toJsonTree(nbt)) as ItemTag else nbt
-            if (nbt.isEmpty()) return itemStack.setItemTag(nbt).itemMeta
+            nbt.saveTo(itemStack)
+            return itemStack.itemMeta
         }
         return null
     }

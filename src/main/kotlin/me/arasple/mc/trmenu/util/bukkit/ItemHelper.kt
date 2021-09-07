@@ -6,6 +6,7 @@ import com.google.gson.JsonParser
 import me.arasple.mc.trmenu.module.display.MenuSettings
 import org.bukkit.ChatColor
 import org.bukkit.Color
+import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import taboolib.library.xseries.XMaterial
 import taboolib.module.nms.ItemTag
@@ -55,22 +56,31 @@ object ItemHelper {
         try {
             val parse = JsonParser().parse(json)
             if (parse is JsonObject) {
-                val itemBuild = buildItem(parse["type"].let { it ?: XMaterial.STONE; XMaterial.valueOf(it.asString) }) {
-                    parse["data"].let {
-                        it ?: return@let
-                        damage = it.asInt
-                    }
-                    parse["amount"].let {
-                        it ?: return@let
-                        amount = it.asInt
+
+                val itemStack = parse["type"].let {
+                    it ?: XMaterial.STONE.parseItem()
+                    try {
+                        XMaterial.valueOf(it.asString).parseItem()
+                    } catch (e: IllegalArgumentException) {
+                        ItemStack(Material.valueOf(it.asString))
                     }
                 }
+
+                parse["data"].let {
+                    it ?: return@let
+                    itemStack?.durability = it.asShort
+                }
+                parse["amount"].let {
+                    it ?: return@let
+                    itemStack?.amount = it.asInt
+                }
                 val meta = parse["meta"]
-                return if (meta != null) itemBuild.also { ItemTag.fromJson(meta.toString()).saveTo(it) }
-                else itemBuild
+                return if (meta != null) itemStack.also { ItemTag.fromJson(meta.toString()).saveTo(it) }
+                else itemStack
             }
             return null
-        } catch (e: Throwable) {
+        } catch (t: Throwable) {
+            t.printStackTrace()
             return null
         }
     }
