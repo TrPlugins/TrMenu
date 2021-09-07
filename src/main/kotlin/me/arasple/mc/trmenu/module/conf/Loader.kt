@@ -65,7 +65,7 @@ object Loader {
             func(TrMenu.SETTINGS.getStringList("Loader.Menu-Files").flatMap { filterMenuFiles(File(it)) })
 
         }.also {
-            sender.sendLang("Menu-Loaded", Menu.menus.size, it / 1000000.0)
+            sender.sendLang("Menu-Loader-Loaded", Menu.menus.size, it / 1000000.0)
         }
 
     }
@@ -76,7 +76,24 @@ object Loader {
     private fun listen(file: File) {
         if (!FileListener.isListening(file)) {
             FileListener.listener(file) {
-                val reload = MenuSerializer.serializeMenu(file)
+                val reload = try {
+                    MenuSerializer.serializeMenu(file).also {
+                        console().sendLang(
+                            "Menu-Loader-Failed",
+                            file.nameWithoutExtension,
+                            it.type.name
+                        )
+                        it.errors.forEach { console().sendMessage("    §8$it") }
+                    }
+                } catch (t: Throwable) {
+                    console().sendLang(
+                        "Menu-Loader-Failed",
+                        file.nameWithoutExtension,
+                        t.message ?: "Nothing..."
+                    )
+                    console().sendMessage("§8${t.stackTraceToString()}")
+                    return@listener
+                }
                 val current = TrMenuAPI.getMenuById(file.nameWithoutExtension) ?: return@listener
 
                 if (reload.succeed()) {
@@ -93,7 +110,7 @@ object Loader {
                         } else target
                     }
 
-                    console().sendLang("Menu-Reloaded", file.name)
+                    console().sendLang("Menu-Loader-Reloaded", file.name)
                 }
             }
         }

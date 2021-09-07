@@ -2,15 +2,16 @@ Plugin-Loading:
   - '&r'
   - '&7正在加载 &3Tr&bMenu &f&lPremium... &8{0}'
   - '&r'
-Plugin-Enabled: '&8[&3Tr&bMenu&8] &bINFO &8| &3插件启用. 当前运行版本 &2{0}&7.'
+Plugin-Enabled: '&8[&3Tr&bMenu&8] &b信息 &8| &3插件启用. 当前运行版本 &2{0}&7.'
 Plugin-Update:
-  - '&8[&3Tr&bMenu&8] &bUPDATE &8| &3更新 &a{0}&3 找到, 通过下方链接下载!'
+  - '&8[&3Tr&bMenu&8] &b更新 &8| &3更新 &a{0}&3 找到, 通过下方链接下载!'
   - '&bhttps://www.spigotmc.org/resources/83120/'
-Plugin-Dependency-Hooked: '&8[&3Tr&bMenu&8] &6HOOK &8| &7软依赖 &f{0} &7已兼容.'
-Plugin-Dependency-Abuse: '&8[&3Tr&bMenu&8] &6HOOK &8| &4试图使用未挂钩插件 &c{0}'
+Plugin-Dependency-Hooked: '&8[&3Tr&bMenu&8] &6挂钩 &8| &7软依赖 &f{0} &7已兼容.'
+Plugin-Dependency-Abuse: '&8[&3Tr&bMenu&8] &6挂钩 &8| &4试图使用未挂钩插件 &c{0}'
 
-Menu-Loaded: '&8[&3Tr&bMenu&8] &aFINE &8| &a{0} &3个菜单已加载 &8({1} ms)'
-Menu-Reloaded: '&8[&3Tr&bMenu&8] &aFINE &8| &7自动重新载入菜单 &f{0}'
+Menu-Loader-Loaded: '&8[&3Tr&bMenu&8] &a良好 &8| &a{0} &3个菜单已加载 &8({1} ms)'
+Menu-Loader-Failed: '&8[&3Tr&bMenu&8] &c错误 &8| &4载入菜单 &c{0} &4过程中发生错误! 结果: {1}'
+Menu-Loader-Reloaded: '&8[&3Tr&bMenu&8] &a良好 &8| &7自动重新载入菜单 &f{0}'
 Menu-Expansions-Header:
   - '&8[&3Tr&bMenu&8] &7你必须安装 PAPI &f{0} &7拓展以使用此菜单.'
   - type: JSON
@@ -74,10 +75,10 @@ Command-Item-To-Json:
         suggest: '{0}'
 Command-Item-Saved: '&8[&3Tr&bMenu&8] &7保存物品 (Id: &f{0}&7) 到插件库存'
 Command-Item-Deleted: '&8[&3Tr&bMenu&8] &7删除物品 (Id: &f{0}&7) 从插件库存'
-Command-List-Error: '&8[&3Tr&bMenu&8] &7NORM &8| &7无有效加载菜单 &8(Filter: {0})'
+Command-List-Error: '&8[&3Tr&bMenu&8] &7普通 &8| &7无有效加载菜单 &8(Filter: {0})'
 Command-List-Header:
   - '&r'
-  - '&8[&3Tr&bMenu&8] &aFINE &8| &7加载了 &f{0} &7个菜单 &8(Filter: {1}): '
+  - '&8[&3Tr&bMenu&8] &a良好 &8| &7加载了 &f{0} &7个菜单 &8(Filter: {1}): '
   - '&r'
 Command-List-Format:
   - type: JSON

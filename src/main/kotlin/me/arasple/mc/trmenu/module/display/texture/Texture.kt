@@ -162,7 +162,7 @@ class Texture(
 
             val dynamic = Regexs.containsPlaceholder(texture)
             if (type == TextureType.NORMAL) {
-                if (texture.startsWith("{")) {
+                if (Regexs.JSON_TEXTURE.find(texture) != null) {
                     type = TextureType.RAW
                     if (!dynamic) static = ItemHelper.fromJson(texture)!!
                 }
