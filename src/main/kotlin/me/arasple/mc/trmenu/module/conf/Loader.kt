@@ -78,12 +78,14 @@ object Loader {
             FileListener.listener(file) {
                 val reload = try {
                     MenuSerializer.serializeMenu(file).also {
-                        console().sendLang(
-                            "Menu-Loader-Failed",
-                            file.nameWithoutExtension,
-                            it.type.name
-                        )
-                        it.errors.forEach { console().sendMessage("    §8$it") }
+                        if (!it.succeed()) {
+                            console().sendLang(
+                                "Menu-Loader-Failed",
+                                file.nameWithoutExtension,
+                                it.type.name
+                            )
+                            it.errors.forEach { console().sendMessage("    §8$it") }
+                        }
                     }
                 } catch (t: Throwable) {
                     console().sendLang(
