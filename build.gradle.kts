@@ -2,12 +2,12 @@ plugins {
     `maven-publish`
     id("java")
     id("io.izzel.taboolib") version "1.26"
-    id("org.jetbrains.kotlin.jvm") version "1.5.10"
+    id("org.jetbrains.kotlin.jvm") version "1.5.21"
     id("com.github.johnrengelman.shadow") version "7.0.0"
 }
 
 group = "me.arasple.mc.trmenu"
-version = "3.0-PRE-23"
+version = "3.0-PRE-24"
 description = "Modern & Advanced Menu-Plugin for Minecraft Servers"
 
 taboolib {

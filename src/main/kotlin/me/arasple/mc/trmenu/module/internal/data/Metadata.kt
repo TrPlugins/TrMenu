@@ -7,6 +7,7 @@ import org.bukkit.entity.Player
 import org.bukkit.metadata.FixedMetadataValue
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
+import taboolib.common.platform.Schedule
 import taboolib.common.platform.SkipTo
 import taboolib.common.platform.function.submit
 import taboolib.library.configuration.FileConfiguration
@@ -33,13 +34,9 @@ object Metadata {
 
     val localDatabase by lazy { DatabaseLocal() }
 
-    init {
-        submit(delay = 100, period = (20 * 30), async = true) {
-            save()
-        }
-    }
-
 //    @TFunction.Cancel 暂不处理
+    @Awake(LifeCycle.DISABLE)
+    @Schedule(delay = 100, period = 20 * 30, async = true)
     fun save() {
         data.forEach { (player, dataMap) ->
             getLocalePlayer(player).let {
@@ -47,10 +44,9 @@ object Metadata {
                     dataMap.data.forEach { (key, value) -> it.set("TrMenu.Data.$key", value) }
                 else println("NullData: $player")
             }
-//            LocalPlayer.getHandler().save()
+            localDatabase.push(player)
         }
         globalData.saveToFile()
-
     }
 
     @Suppress("DEPRECATION")

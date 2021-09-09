@@ -89,7 +89,10 @@ class Menu(
     fun page(viewer: Player, page: Int) {
         Performance.check("Menu:Event:ChangePage") {
             val session = MenuSession.getSession(viewer)
+//            val originPage = session.page
+//            session.page = page
             val previous = session.layout()!!
+            session.page = originPage
             val layout = layout[page]
             val receptacle: Receptacle
             val override = previous.isSimilar(layout)
@@ -98,6 +101,8 @@ class Menu(
             menuPageChangeEvent.call()
 
             if (menuPageChangeEvent.isCancelled) return
+//            val isPre = session.receptacle != null
+//            if (override && isPre) {
             if (override) {
                 receptacle = session.receptacle!!
                 receptacle.clear()
@@ -110,6 +115,7 @@ class Menu(
             session.playerItemSlots()
             loadIcon(session)
 
+//            if (override && isPre) {
             if (override) {
                 receptacle.refresh()
                 session.updateActiveSlots()

@@ -27,7 +27,7 @@ class ItemMatcher(private val matcher: Set<Match>) {
 
         fun of(raw: String): ItemMatcher {
             val matchers =
-                raw.split(";").mapNotNull {
+                raw.split("\\s*;\\s*".toRegex()).mapNotNull {
                     val match = it.split(",").mapNotNull { trait ->
                         val traits = trait.split(":", "=", limit = 2)
 

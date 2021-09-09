@@ -35,7 +35,11 @@ object FunctionParser {
                         "javascript", "js" -> parseJavaScript(session, value)
                         "meta", "m" -> Metadata.getMeta(player)[value].toString()
                         "data", "d" -> Metadata.getData(player)[value].toString()
-                        "globaldata", "gdata", "g" -> Metadata.globalData.get(value).toString()
+                        "globaldata", "gdata", "g" -> try {
+                            Metadata.globalData.get(value).toString()
+                        } catch (t: Throwable) {
+                            "null"
+                        }
                         else -> "{${it.value}}"
                     }
                 } else it.value
