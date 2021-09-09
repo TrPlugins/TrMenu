@@ -92,7 +92,7 @@ class Menu(
 //            val originPage = session.page
 //            session.page = page
             val previous = session.layout()!!
-            session.page = originPage
+//            session.page = originPage
             val layout = layout[page]
             val receptacle: Receptacle
             val override = previous.isSimilar(layout)
