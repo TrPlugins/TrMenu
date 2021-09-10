@@ -22,10 +22,10 @@ import me.arasple.mc.trmenu.module.internal.script.js.ScriptFunction
 import me.arasple.mc.trmenu.util.bukkit.ItemMatcher
 import me.arasple.mc.trmenu.util.collections.CycleList
 import me.arasple.mc.trmenu.util.collections.IndivList
-import org.bukkit.configuration.MemorySection
-import org.bukkit.configuration.file.YamlConfiguration
+import taboolib.library.configuration.MemorySection
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.ItemFlag
+import taboolib.library.configuration.YamlConfiguration
 import taboolib.module.nms.ItemTag
 import taboolib.module.nms.ItemTagData
 import java.io.File

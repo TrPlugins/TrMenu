@@ -86,8 +86,8 @@ class MenuSession(
     /**
      * 取得当前会话的布局
      */
-    fun layout(): Layout? {
-        return menu?.layout?.get(page)
+    fun layout(page: Int? = null): Layout? {
+        return menu?.layout?.get(page ?: this.page)
     }
 
     /**

@@ -1,9 +1,9 @@
 package me.arasple.mc.trmenu.module.conf.prop
 
 import org.apache.commons.lang.math.NumberUtils
-import org.bukkit.configuration.ConfigurationSection
-import org.bukkit.configuration.MemorySection
-import org.bukkit.configuration.file.YamlConfiguration
+import taboolib.library.configuration.ConfigurationSection
+import taboolib.library.configuration.MemorySection
+import taboolib.library.configuration.YamlConfiguration
 
 /**
  * @author Arasple

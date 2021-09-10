@@ -2,7 +2,7 @@ package me.arasple.mc.trmenu.api.menu
 
 import me.arasple.mc.trmenu.module.conf.prop.SerialzeResult
 import me.arasple.mc.trmenu.module.display.layout.MenuLayout
-import org.bukkit.configuration.MemorySection
+import taboolib.library.configuration.MemorySection
 import java.io.File
 
 /**

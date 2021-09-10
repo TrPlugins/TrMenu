@@ -1,8 +1,8 @@
 package me.arasple.mc.trmenu.module.internal.migrate.plugin
 
 import com.extendedclip.deluxemenus.menu.Menu
-import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.event.inventory.InventoryType
+import taboolib.library.configuration.YamlConfiguration
 
 /**
  * @author Arasp
