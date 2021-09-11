@@ -4,6 +4,7 @@ import me.arasple.mc.trmenu.module.conf.Loader
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.module.internal.hook.HookPlugin
+import me.arasple.mc.trmenu.module.internal.listener.ListenerItemInteract
 import me.arasple.mc.trmenu.module.internal.service.RegisterCommands
 import me.arasple.mc.trmenu.module.internal.service.Shortcuts
 import org.bukkit.Bukkit
@@ -23,7 +24,7 @@ import taboolib.platform.BukkitPlugin
  */
 object TrMenu : Plugin() {
 
-    @Config("settings.yml",true)
+    @Config("settings.yml",true, autoReload = true)
     lateinit var SETTINGS: SecuredFile
         private set
 
@@ -35,13 +36,12 @@ object TrMenu : Plugin() {
     }
 
     override fun onEnable() {
+        SETTINGS.onReload { onSettingsReload() }
+        onSettingsReload()
+        Loader.loadMenus()
         Metadata.localDatabase
         console().sendLang("Plugin-Enabled", plugin.description.version)
         HookPlugin.printInfo()
-        submit {
-            FileWatcher.INSTANCE.addSimpleListener(SETTINGS.file) { onSettingsReload() }.also { onSettingsReload() }
-            Loader.loadMenus()
-        }
     }
 
     override fun onDisable() {
@@ -52,6 +52,7 @@ object TrMenu : Plugin() {
     }
 
     private fun onSettingsReload() {
+        ListenerItemInteract.reload()
         Shortcuts.Type.load()
         RegisterCommands.load()
     }

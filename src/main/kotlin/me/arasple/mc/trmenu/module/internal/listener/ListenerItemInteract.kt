@@ -19,19 +19,24 @@ import java.util.concurrent.TimeUnit
  */
 object ListenerItemInteract {
 
-    private val interactCooldown by lazy {
-        Baffle.of(TrMenu.SETTINGS.getLong("Menu.Settings.Bound-Item-Interval", 2000), TimeUnit.MILLISECONDS)
+    private var interactCooldown: Baffle? = null
+
+    // 暂时处理的办法
+    fun reload() {
+        interactCooldown = Baffle.of(TrMenu.SETTINGS.getLong("Menu.Settings.Bound-Item-Interval", 2000), TimeUnit.MILLISECONDS)
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     fun onInteract(e: PlayerInteractEvent) {
+        ListenerItemInteract::interactCooldown
+
         if (MinecraftVersion.majorLegacy >= 10900 && e.hand == EquipmentSlot.OFF_HAND) return
         val player = e.player
         val item = e.item ?: return
         val session = MenuSession.getSession(player)
 
         if (player.openInventory.topInventory.holder != (player.inventory as Inventory).holder || session.menu != null) return
-        if (interactCooldown.hasNext(player.name)) {
+        if (interactCooldown?.hasNext(player.name) == true) {
             val menu = Menu.menus.find { it -> it.settings.boundItems.any { it.itemMatches(item, true) } }
             if (menu != null) {
                 e.isCancelled = true

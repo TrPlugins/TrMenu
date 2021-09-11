@@ -57,6 +57,7 @@ object MenuSerializer : ISerializer {
                 return result
             }
         }
+
         // 读取菜单布局
         val layout = serializeLayout(conf)
         if (!layout.succeed()) {
