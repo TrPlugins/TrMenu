@@ -34,7 +34,7 @@ Maven:
     <repositories>
       <repository>
         <id>roselle-public</id>
-        <url>https://repo.mcage.cn/repository/maven-public/</url>
+        <url>https://repo.iroselle.com/repository/maven-public/</url>
       </repository>
     </repositories>
 
@@ -42,7 +42,7 @@ Maven:
       <dependency>
         <groupId>me.arasple</groupId>
         <artifactId>trmenu</artifactId>
-        <version>3.0-PRE-22</version>
+        <version>{LATEST-VERSION}</version>
         <classifier>pure</classifier>
         <scope>provided</scope>
       </dependency>
@@ -55,7 +55,7 @@ repositories {
   maven("https://repo.iroselle.com/repository/maven-public/")
 }
 dependencies {
-  compileOnly("me.arasple:TrMenu:3.0-PRE-22:pure")
+  compileOnly("me.arasple:TrMenu:{LATEST-VERSION}:pure")
 }
 
 ```
