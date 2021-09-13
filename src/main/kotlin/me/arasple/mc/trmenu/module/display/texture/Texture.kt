@@ -220,23 +220,4 @@ class Texture(
 
     }
 
-    fun asMaterial(args: String): Material? {
-        return if (args.isInt()) {
-            try {
-                Material::class.java.invokeMethod<Material>("getMaterial", args.toInt(), fixed = true)
-            } catch (t: Throwable) {
-                Objects.requireNonNull(
-                    (XMaterial.matchXMaterial(
-                        NumberConversions.toInt(args),
-                        (-1).toByte()
-                    ).orElse(XMaterial.STONE) as XMaterial).parseMaterial()
-                )
-            }
-        } else {
-            Objects.requireNonNull(
-                (XMaterial.matchXMaterial(args.uppercase()).orElse(XMaterial.STONE) as XMaterial).parseMaterial()
-            )
-        }
-    }
-
 }

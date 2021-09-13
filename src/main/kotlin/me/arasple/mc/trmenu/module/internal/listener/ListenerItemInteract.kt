@@ -22,7 +22,7 @@ object ListenerItemInteract {
     private var interactCooldown: Baffle? = null
 
     // 暂时处理的办法
-    fun reload() {
+    fun load() {
         interactCooldown = Baffle.of(TrMenu.SETTINGS.getLong("Menu.Settings.Bound-Item-Interval", 2000), TimeUnit.MILLISECONDS)
     }
 

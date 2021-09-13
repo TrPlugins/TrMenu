@@ -2,10 +2,16 @@ package me.arasple.mc.trmenu.module.internal.item
 
 import org.bukkit.Bukkit
 import org.bukkit.inventory.ItemStack
+import taboolib.common.LifeCycle
+import taboolib.common.platform.Awake
+import taboolib.common.platform.Schedule
+import taboolib.common.platform.SkipTo
 import taboolib.common.platform.function.submit
 import taboolib.library.xseries.getItemStack
+import taboolib.library.xseries.setItemStack
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.SecuredFile
+import taboolib.module.configuration.util.getMap
 
 /**
  * @author Arasple
@@ -16,31 +22,24 @@ object ItemRepository {
     @Config("data/itemRepository.yml")
     private lateinit var data: SecuredFile
     private var writing = false
-    private val itemStacks = mutableMapOf<String, ItemStack>()
+    val itemStacks = mutableMapOf<String, ItemStack>()
 
-    init {
-        submit(delay = (20 * 60), period = (20 * 60), async = true) {
-            saveTask()
-        }
-        submit(delay = 20) {
-            load()
-        }
-    }
-
+    @Schedule(delay = 20 * 60, period = 20 * 60, async = true)
     fun saveTask() = save(false)
 
-//    @TFunction.Cancel - 暂时无法解决
+    @Awake(LifeCycle.DISABLE)
     fun cancel() = save(true)
 
     private fun save(isCanceling: Boolean) {
         writing = true
         data.getKeys(true).filter { !itemStacks.keys.contains(it) }.forEach { data.set(it, null) }
-        itemStacks.forEach { (id, item) -> data.set(id, item) }
-        data
+        itemStacks.forEach { (id, item) -> data.setItemStack(id, item) }
+        data.saveToFile()
         if (!isCanceling) submit(delay = 2L, async = !Bukkit.isPrimaryThread()) { writing = false }
     }
 
-    private fun load() {
+    @Schedule(delay = 20)
+    fun load() {
         if (writing) return
         val keys = data.getKeys(true)
         itemStacks.clear()
@@ -53,8 +52,6 @@ object ItemRepository {
         }
         keys.forEach { data.set(it, null) }
     }
-
-    fun getItemStacks() = itemStacks
 
     fun getItem(id: String): ItemStack? = itemStacks[id]
 

@@ -2,7 +2,6 @@ package me.arasple.mc.trmenu.module.internal.command.impl
 
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import com.google.gson.JsonParser
 import me.arasple.mc.trmenu.module.internal.command.CommandExpresser
 import me.arasple.mc.trmenu.module.internal.item.ItemRepository
 import me.arasple.mc.trmenu.util.bukkit.ItemHelper
@@ -10,7 +9,6 @@ import me.arasple.mc.trmenu.util.net.Paster
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import taboolib.common.platform.command.CommandContext
 import taboolib.common.platform.command.subCommand
 import taboolib.library.xseries.XSound
 import taboolib.module.nms.getItemTag
@@ -60,7 +58,7 @@ object CommandItem : CommandExpresser {
 
                     when (context.argument(-1)?.lowercase()) {
                         "fromjson" -> fromJson(player, argument)
-                        "get" -> ItemRepository.getItem(argument)?.let {
+                        "get" -> ItemRepository.itemStacks[argument]?.let {
                             player.inventory.addItem(it).values.forEach { e ->
                                 player.world.dropItem(
                                     player.location,
@@ -69,7 +67,7 @@ object CommandItem : CommandExpresser {
                             }
                         }
                         "save" -> item?.let {
-                            ItemRepository.getItemStacks()[argument] = item
+                            ItemRepository.itemStacks[argument] = item
                             player.sendLang("Command-Item-Saved", argument)
                         }
                         "delete", "del" -> ItemRepository.removeItem(argument)?.let {

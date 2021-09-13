@@ -10,8 +10,6 @@ import me.arasple.mc.trmenu.module.internal.service.Shortcuts
 import org.bukkit.Bukkit
 import taboolib.common.platform.*
 import taboolib.common.platform.function.console
-import taboolib.common.platform.function.submit
-import taboolib.common5.FileWatcher
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.SecuredFile
 import taboolib.module.lang.Language
@@ -52,7 +50,7 @@ object TrMenu : Plugin() {
     }
 
     private fun onSettingsReload() {
-        ListenerItemInteract.reload()
+        ListenerItemInteract.load()
         Shortcuts.Type.load()
         RegisterCommands.load()
     }

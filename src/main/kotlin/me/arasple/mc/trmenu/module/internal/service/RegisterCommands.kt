@@ -5,6 +5,7 @@ import me.arasple.mc.trmenu.api.action.pack.Reactions
 import me.arasple.mc.trmenu.module.conf.prop.Property
 import me.arasple.mc.trmenu.module.display.MenuSession
 import org.bukkit.entity.Player
+import taboolib.common.platform.command.PermissionDefault
 import taboolib.common.platform.command.command
 import taboolib.common.platform.function.unregisterCommand
 
@@ -32,6 +33,7 @@ object RegisterCommands {
                 val section = it.getConfigurationSection(main) ?: continue
                 val argument = section.getConfigurationSection("arguments")
                 val reactions = ofReaction(section["execute"])
+                val permission = section.get("permission")?.toString()
                 val subReactions = mutableMapOf<String, Reactions>()
                 argument?.getKeys(false)?.forEach {
                     subReactions[it] = ofReaction(argument[it])
@@ -39,7 +41,8 @@ object RegisterCommands {
                 registered.add(main)
                 command(
                     name = main ?: continue,
-                    permission = section.getString("permission") ?: "",
+                    permission = permission ?: "",
+                    permissionDefault = if (permission == null) PermissionDefault.TRUE else PermissionDefault.FALSE,
                     aliases = section.getStringList("aliases") ?: listOf()
                 ) {
                     dynamic(optional = true) {
