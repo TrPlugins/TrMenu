@@ -8,6 +8,7 @@ import me.arasple.mc.trmenu.module.internal.hook.HookPlugin
 import me.arasple.mc.trmenu.util.Bungees
 import me.arasple.mc.trmenu.util.bukkit.Heads
 import me.arasple.mc.trmenu.util.bukkit.ItemMatcher
+import me.arasple.mc.trmenu.util.ClassUtils
 import me.clip.placeholderapi.PlaceholderAPI
 import org.apache.commons.lang3.math.NumberUtils
 import org.bukkit.Bukkit
@@ -309,6 +310,10 @@ class Assist {
 
     fun sort(list: List<Any>): List<Any> {
         return list.sortedBy { it.toString() }
+    }
+
+    fun staticClass(className: String): Any? {
+        return ClassUtils.staticClass(className)
     }
 
 
