@@ -1,7 +1,7 @@
 plugins {
     `maven-publish`
     id("java")
-    id("io.izzel.taboolib") version "1.26"
+    id("io.izzel.taboolib") version "1.27"
     id("org.jetbrains.kotlin.jvm") version "1.5.21"
     id("com.github.johnrengelman.shadow") version "7.0.0"
 }
@@ -47,7 +47,7 @@ taboolib {
     relocate("net.wesjd.anvilgui", "${project.group}.module.internal.inputer.anvil")
 
     classifier = null
-    version = "6.0.2-5"
+    version = "6.0.2-7"
 }
 
 repositories {

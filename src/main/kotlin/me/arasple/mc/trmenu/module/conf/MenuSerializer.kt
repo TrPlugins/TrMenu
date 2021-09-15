@@ -192,7 +192,7 @@ object MenuSerializer : ISerializer {
                 result.submitError(SerialzeError.INVALID_ICON_UNDEFINED_TEXTURE, id)
             }
 
-            Icon(id, refresh.toLong(), update.toTypedArray(), position, defIcon, IndivList(subs))
+            Icon(id, refresh.toLong(), update.toTypedArray(), position, defIcon, IndivList(subs), section ?: YamlConfiguration())
         }
         return result
     }
