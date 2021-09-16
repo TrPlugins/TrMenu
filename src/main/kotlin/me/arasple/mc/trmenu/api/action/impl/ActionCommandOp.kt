@@ -2,8 +2,10 @@ package me.arasple.mc.trmenu.api.action.impl
 
 import me.arasple.mc.trmenu.api.action.base.AbstractAction
 import me.arasple.mc.trmenu.api.action.base.ActionOption
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.Bukkit.dispatchCommand
+import taboolib.common.platform.function.submit
 
 /**
  * @author Arasple
@@ -12,6 +14,7 @@ import org.bukkit.Bukkit.dispatchCommand
 class ActionCommandOp(content: String, option: ActionOption) : AbstractAction(content, option) {
 
     override fun onExecute(player: Player, placeholderPlayer: Player) {
+        {
             parseContentSplited(placeholderPlayer, ";").forEach {
                 player.isOp.let { isOp ->
                     player.isOp = true
@@ -19,6 +22,15 @@ class ActionCommandOp(content: String, option: ActionOption) : AbstractAction(co
                     player.isOp = isOp
                 }
             }
+        }.also {
+            if (Bukkit.isPrimaryThread()) {
+                it.invoke()
+            } else {
+                submit(async = false) {
+                    it.invoke()
+                }
+            }
+        }
     }
 
     companion object {

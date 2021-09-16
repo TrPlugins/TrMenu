@@ -14,8 +14,18 @@ import taboolib.common.platform.function.submit
 class ActionCommandConsole(content: String, option: ActionOption) : AbstractAction(content, option) {
 
     override fun onExecute(player: Player, placeholderPlayer: Player) {
-        parseContentSplited(placeholderPlayer, ";").forEach {
-            submit(async = false) { console().performCommand(it) }
+        {
+            parseContentSplited(placeholderPlayer, ";").forEach {
+                console().performCommand(it)
+            }
+        }.also {
+            if (Bukkit.isPrimaryThread()) {
+                it.invoke()
+            } else {
+                submit(async = false) {
+                    it.invoke()
+                }
+            }
         }
     }
 
