@@ -15,6 +15,7 @@ import taboolib.platform.util.buildItem
  * @date 2021/1/25 10:48
  */
 class Item(
+    val iconId: String,
     val texture: CycleList<Texture>,
     val name: CycleList<String>,
     val lore: CycleList<Lore>,

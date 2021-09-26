@@ -58,38 +58,9 @@ class Texture(
                         TextureMeta.DATA_VALUE -> damage = value.toIntOrNull() ?: 0
                         TextureMeta.MODEL_DATA -> customModelData = value.toInt()
                         TextureMeta.LEATHER_DYE -> color = ItemHelper.serializeColor(value)
-                        TextureMeta.BANNER_PATTERN -> {
-                            patterns.clear()
-                            patterns.addAll(value.split(",").let {
-                                val patterns = mutableListOf<Pattern>()
-                                it.forEach {
-                                    val type = it.split(" ")
-                                    if (type.size == 1) {
-                                        finishing = {
-                                            try {
-                                                (it.itemMeta as? BannerMeta)?.baseColor = DyeColor.valueOf(type[0].uppercase())
-                                            } catch (e: Exception) {
-                                                (it.itemMeta as? BannerMeta)?.baseColor = DyeColor.BLACK
-                                            }
-                                        }
-                                    } else if (type.size == 2) {
-                                        try {
-                                            patterns.add(Pattern(
-                                                DyeColor.valueOf(type[0].uppercase()), PatternType.valueOf(
-                                                    type[1].uppercase()
-                                                )
-                                            ))
-                                        } catch (e: Exception) {
-                                            patterns.add(Pattern(DyeColor.BLACK, PatternType.BASE))
-                                        }
-                                    }
-                                }
-                                patterns
-                            })
-                        }
+                        TextureMeta.BANNER_PATTERN -> ItemHelper.deserializePattern(this, value)
                     }
                 }
-
             }
             if (type == TextureType.NORMAL && !dynamic) {
                 static = itemStack

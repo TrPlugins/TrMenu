@@ -1,5 +1,7 @@
 package me.arasple.mc.trmenu.module.conf
 
+import com.google.gson.Gson
+import com.google.gson.JsonParser
 import me.arasple.mc.trmenu.api.action.pack.Reactions
 import me.arasple.mc.trmenu.api.menu.ISerializer
 import taboolib.module.ui.receptacle.ReceptacleClickType
@@ -22,10 +24,14 @@ import me.arasple.mc.trmenu.module.internal.script.js.ScriptFunction
 import me.arasple.mc.trmenu.util.bukkit.ItemMatcher
 import me.arasple.mc.trmenu.util.collections.CycleList
 import me.arasple.mc.trmenu.util.collections.IndivList
+import me.arasple.mc.trmenu.util.parseIconId
 import taboolib.library.configuration.MemorySection
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.ItemFlag
+import taboolib.common.reflect.Reflex.Companion.getProperty
+import taboolib.common.reflect.Reflex.Companion.setProperty
 import taboolib.library.configuration.YamlConfiguration
+import taboolib.module.configuration.SecuredFile
 import taboolib.module.nms.ItemTag
 import taboolib.module.nms.ItemTagData
 import java.io.File
@@ -71,7 +77,7 @@ object MenuSerializer : ISerializer {
             }
         }
         // 返回菜单
-        Menu(id, settings.result as MenuSettings, layout.result as MenuLayout, icons.asIcons()).also {
+        Menu(id, settings.result as MenuSettings, layout.result as MenuLayout, icons.asIcons(), conf).also {
             result.result = it
             return result
         }
@@ -163,12 +169,19 @@ object MenuSerializer : ISerializer {
         val icons = Property.ICONS.ofMap(conf)
 
         result.result = icons.map { (id, value) ->
-            val section = Property.asSection(value)
+            val section = Property.asSection(value).let {
+                it ?: return@let null
+                val section = YamlConfiguration()
+                section.setProperty("map", it.getProperty("map"))
+                section.loadFromString(section.saveToString().split("\n").joinToString("\n") { it.parseIconId(id) })
+                return@let section
+            }
+
             val refresh = Property.ICON_REFRESH.ofInt(section, -1)
             val update = Property.ICON_UPDATE.ofIntList(section)
             val display = Property.ICON_DISPLAY.ofSection(section)
             val action = Property.ACTIONS.ofSection(section)
-            val defIcon = loadIconProperty(null, section, display, action, -1)
+            val defIcon = loadIconProperty(id, null, section, display, action, -1)
             val slots = Property.ICON_DISPLAY_SLOT.ofLists(display)
             var pages = Property.ICON_DISPLAY_PAGE.ofIntList(display)
             var order = 0
@@ -178,21 +191,21 @@ object MenuSerializer : ISerializer {
                 if (slots.isNotEmpty()) {
                     val slot = CycleList(slots.map { Position.Slot.from(it) })
                     if (pages.isEmpty()) pages = pages.plus(0)
-                    Position(pages.map { it to slot }.toMap())
+                    Position(pages.associateWith { slot })
                 } else Position(search.mapValues { CycleList(Position.Slot.from(it.value)) })
 
             val subs = Property.ICON_SUB_ICONS.ofList(section).map {
                 val sub = Property.asSection(it)
                 val subDisplay = Property.ICON_DISPLAY.ofSection(sub)
                 val subAction = Property.ACTIONS.ofSection(sub)
-                loadIconProperty(defIcon, sub, subDisplay, subAction, order++)
+                loadIconProperty(id, defIcon, sub, subDisplay, subAction, order++)
             }.sortedBy { it.priority }
 
             if (defIcon.display.texture.isEmpty() || subs.any { it.display.texture.isEmpty() }) {
                 result.submitError(SerialzeError.INVALID_ICON_UNDEFINED_TEXTURE, id)
             }
 
-            Icon(id, refresh.toLong(), update.toTypedArray(), position, defIcon, IndivList(subs), section ?: YamlConfiguration())
+            Icon(id, refresh.toLong(), update.toTypedArray(), position, defIcon, IndivList(subs))
         }
         return result
     }
@@ -200,9 +213,8 @@ object MenuSerializer : ISerializer {
     /**
      * Func Ⅴ. 载入图标显示部分
      */
-    private val loadIconProperty: (IconProperty?, MemorySection?, MemorySection?, MemorySection?, Int) -> IconProperty =
-        { def, it, display, action, order ->
-
+    private val loadIconProperty: (String, IconProperty?, MemorySection?, MemorySection?, MemorySection?, Int) -> IconProperty =
+        { id, def, it, display, action, order ->
             val name = Property.ICON_DISPLAY_NAME.ofStringList(display)
             val texture = Property.ICON_DISPLAY_MATERIAL.ofStringList(display)
             val lore = Property.ICON_DISPLAY_LORE.ofLists(display)
@@ -224,6 +236,8 @@ object MenuSerializer : ISerializer {
             }
 
             val item = Item(
+                // 图标 id
+                id,
                 // 图标材质
                 if (def != null && texture.isEmpty()) def.display.texture
                 else CycleList(texture.map { Texture.createTexture(it) }),

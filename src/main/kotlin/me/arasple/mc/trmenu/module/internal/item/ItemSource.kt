@@ -24,6 +24,7 @@ object ItemSource {
             "JAVASCRIPT", "JS" -> JavaScriptAgent.eval(session, id).asItemStack()
             "ORAXEN" -> HookPlugin.getOraxen().getItem(id)
             "ITEMSADDER", "IA" -> HookPlugin.getItemsAdder().getItem(id)
+            "ZAPHKIEL", "ZL" -> HookPlugin.getZaphkiel().getItem(id)
             else -> null
         }
     }

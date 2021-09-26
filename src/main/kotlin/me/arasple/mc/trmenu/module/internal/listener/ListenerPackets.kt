@@ -11,7 +11,7 @@ object ListenerPackets {
     private fun e(e: PacketReceiveEvent) {
         val receptacle = e.player.getViewingReceptacle() ?: return
 
-        if (e.packet.name == ("PacketPlayInWindowClick") && e.packet.read<Int>("a") ?: -1 == 119) {
+        if (e.packet.name == ("PacketPlayInWindowClick") && (e.packet.read<Int>("a") ?: -1) == 119) {
             val slot = e.packet.read<Int>("slot") ?: e.packet.read<Int>("c")
             val mode = (e.packet.read<Any>("shift") ?: e.packet.read<Any>("f"))?.toString()
             val button = e.packet.read<Int>("button") ?: e.packet.read<Int>("d")
@@ -22,7 +22,7 @@ object ListenerPackets {
             if (evt.isCancelled) PacketWindowSetSlot(windowId = -1, slot = -1).send(e.player)
 
             return
-        } else if (e.packet.name == ("PacketPlayInCloseWindow") && let {
+        } else if (e.packet.name == ("PacketPlayInCloseWindow") && (let {
                 return@let try {
                     e.packet.read<Int>("id")
                 } catch (t: Throwable) {
@@ -32,7 +32,7 @@ object ListenerPackets {
                         -1
                     }
                 }
-            } ?: -1 == 119) {
+            } ?: -1) == 119) {
             receptacle.close(false)
 
             // 防止关闭菜单后, 动态标题频率过快出现的卡假容器

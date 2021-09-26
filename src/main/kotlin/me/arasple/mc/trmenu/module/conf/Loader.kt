@@ -76,6 +76,7 @@ object Loader {
     private fun listen(file: File) {
         if (!FileListener.isListening(file)) {
             FileListener.listener(file) {
+                val start = System.currentTimeMillis()
                 val reload = try {
                     MenuSerializer.serializeMenu(file).also {
                         if (!it.succeed()) {
@@ -112,7 +113,7 @@ object Loader {
                         } else target
                     }
 
-                    console().sendLang("Menu-Loader-Reloaded", file.name)
+                    console().sendLang("Menu-Loader-Reloaded", file.name, System.currentTimeMillis() - start)
                 }
             }
         }

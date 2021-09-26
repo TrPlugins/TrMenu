@@ -24,7 +24,8 @@ object HookPlugin {
         HookItemsAdder(),
         HookFloodgate(),
         HookVault(),
-        HookFastScript()
+        HookFastScript(),
+        HookZaphkiel()
     )
 
     fun getHeadDatabase(): HookHeadDatabase {
@@ -57,6 +58,10 @@ object HookPlugin {
 
     fun getFastScript(): HookFastScript {
         return registry[7] as HookFastScript
+    }
+
+    fun getZaphkiel(): HookZaphkiel {
+        return registry[8] as HookZaphkiel
     }
 
 }

@@ -13,6 +13,7 @@ import org.bukkit.entity.Player
 import taboolib.common.platform.service.PlatformExecutor
 import taboolib.module.chat.HexColor
 import taboolib.common.util.replaceWithOrder
+import taboolib.library.configuration.MemorySection
 import taboolib.module.chat.colored
 import taboolib.platform.compat.replacePlaceholder
 import java.util.*
@@ -100,10 +101,10 @@ class MenuSession(
     /**
      * 处理一个字符串，替换函数变量
      */
-    fun parse(string: String): String {
+    fun parse(string: String, section: MemorySection? = menu?.conf): String {
         Performance.check("Handler:StringParse") {
             val preColor = MenuSettings.PRE_COLOR
-            val funced = FunctionParser.parse(placeholderPlayer, string)
+            val funced = FunctionParser.parse(placeholderPlayer, string, section)
             val content = (if (preColor) funced else funced.colored().parseRainbow().parseGradients()).replaceWithOrder(*arguments)
             val papi = content.replacePlaceholder(placeholderPlayer)
             return if (preColor) papi else papi.colored().parseRainbow().parseGradients()
@@ -111,8 +112,8 @@ class MenuSession(
         throw Exception()
     }
 
-    fun parse(string: List<String>): List<String> {
-        return string.map { parse(it) }
+    fun parse(string: List<String>, section: MemorySection? = menu?.conf): List<String> {
+        return string.map { parse(it, section) }
     }
 
 

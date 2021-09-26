@@ -11,7 +11,7 @@ Plugin-Dependency-Abuse: '&8[&3Tr&bMenu&8] &6HOOK &8| &4Attempted to use the non
 
 Menu-Loader-Loaded: '&8[&3Tr&bMenu&8] &aFINE &8| &a{0} &3менюшки были загружены за &8({1} ms)'
 Menu-Loader-Failed: '&8[&3Tr&bMenu&8] &cError &8| &4An error occurred while loading the menu &c{0} &4! Result: {1}'
-Menu-Loader-Reloaded: '&8[&3Tr&bMenu&8] &aFINE &8| &7автоматически перезагружается меню xxx &f{0}'
+Menu-Loader-Reloaded: '&8[&3Tr&bMenu&8] &aFINE &8| &7автоматически перезагружается меню xxx &f{0} &8({1}ms)'
 Menu-Expansions-Header:
   - '&8[&3Tr&bMenu&8] &7Вы должны установить &f{0} &7расширение для PlaceholderAPI чтобы использовать данное меню!'
   - type: JSON

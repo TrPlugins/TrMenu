@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "me.arasple.mc.trmenu"
-version = "3.0-PRE-25"
+version = "3.0-PRE-26"
 description = "Modern & Advanced Menu-Plugin for Minecraft Servers"
 
 taboolib {
@@ -30,6 +30,7 @@ taboolib {
     description {
         contributors {
             name("Arasple")
+            name("Score2")
         }
         dependencies {
             name("PlaceholderAPI").optional(true)
@@ -47,7 +48,7 @@ taboolib {
     relocate("net.wesjd.anvilgui", "${project.group}.module.internal.inputer.anvil")
 
     classifier = null
-    version = "6.0.2-7"
+    version = "6.0.3-5"
 }
 
 repositories {
@@ -73,6 +74,7 @@ dependencies {
     // Hook Plugins
     compileOnly("me.clip:placeholderapi:2.10.9")
     compileOnly("com.github.oraxen:oraxen:-SNAPSHOT")
+    compileOnly("ink.ptms:Zaphkiel:1.6.0")
 
     compileOnly(fileTree("libs"))
 }

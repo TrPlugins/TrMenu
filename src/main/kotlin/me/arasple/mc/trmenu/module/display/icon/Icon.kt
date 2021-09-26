@@ -19,8 +19,7 @@ class Icon(
     update: Array<Int>,
     val position: Position,
     val defIcon: IconProperty,
-    val subs: IndivList<IconProperty>,
-    val section: MemorySection
+    val subs: IndivList<IconProperty>
 ) : IIcon {
 
     override fun startup(session: MenuSession) {

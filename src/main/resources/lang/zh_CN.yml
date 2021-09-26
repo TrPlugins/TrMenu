@@ -11,11 +11,11 @@ Plugin-Dependency-Abuse: '&8[&3Tr&bMenu&8] &6挂钩 &8| &4试图使用未挂钩�
 
 Menu-Loader-Loaded: '&8[&3Tr&bMenu&8] &a良好 &8| &a{0} &3个菜单已加载 &8({1} ms)'
 Menu-Loader-Failed: '&8[&3Tr&bMenu&8] &c错误 &8| &4载入菜单 &c{0} &4过程中发生错误! 结果: {1}'
-Menu-Loader-Reloaded: '&8[&3Tr&bMenu&8] &a良好 &8| &7自动重新载入菜单 &f{0}'
+Menu-Loader-Reloaded: '&8[&3Tr&bMenu&8] &a良好 &8| &7自动重新载入菜单 &f{0} &8({1}ms)'
 Menu-Expansions-Header:
   - '&8[&3Tr&bMenu&8] &7你必须安装 PAPI &f{0} &7拓展以使用此菜单.'
   - type: JSON
-    text: '&7请在安装后 [&3&n点击重载] 拓展'
+    text: '&7请在安装后 [&3&n点击重载] &7拓展'
     args:
       - hover: '&7点击重载 PAPI 拓展'
         command: '/papi reload'

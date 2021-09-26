@@ -6,9 +6,11 @@ import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.module.internal.script.js.JavaScriptAgent
 import me.arasple.mc.trmenu.util.Regexs
 import me.arasple.mc.trmenu.util.collections.Variables
+import me.arasple.mc.trmenu.util.ignoreCase
 import me.arasple.mc.trmenu.util.print
 import org.bukkit.entity.Player
 import taboolib.common.util.subList
+import taboolib.library.configuration.MemorySection
 
 /**
  * @author Arasple
@@ -19,8 +21,8 @@ object FunctionParser {
     private val functionPattern = "\\$?\\{(\\w+)s?: ?(.+?[^\\\\}])}".toRegex()
     private val internalFunctionPattern = "\\$\\{([^0-9].+?[^\\\\}])}".toRegex()
 
-    fun parse(player: Player, input: String): String {
-        return kotlin.runCatching {
+    fun parse(player: Player, input: String, section: MemorySection? = null): String {
+        return runCatching {
             if (!Regexs.containsPlaceholder(input)) return input
             val session = MenuSession.getSession(player)
 
@@ -40,6 +42,7 @@ object FunctionParser {
                         } catch (t: Throwable) {
                             "null"
                         }
+                        "node", "nodes", "n" -> section?.get(section.ignoreCase(value)).toString()
                         else -> "{${it.value}}"
                     }
                 } else it.value

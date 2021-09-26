@@ -6,8 +6,12 @@ import com.google.gson.JsonParser
 import me.arasple.mc.trmenu.module.display.MenuSettings
 import org.bukkit.ChatColor
 import org.bukkit.Color
+import org.bukkit.DyeColor
 import org.bukkit.Material
+import org.bukkit.block.banner.Pattern
+import org.bukkit.block.banner.PatternType
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.BannerMeta
 import taboolib.library.xseries.XMaterial
 import taboolib.module.nms.ItemTag
 import taboolib.module.nms.ItemTagData
@@ -34,6 +38,36 @@ object ItemHelper {
 
     fun deserializeColor(color: Color): String {
         return "${color.red},${color.green},${color.blue}"
+    }
+
+    fun deserializePattern(builder: ItemBuilder, string: String) {
+        builder.patterns.clear()
+        builder.patterns.addAll(string.split(",").let {
+            val patterns = mutableListOf<Pattern>()
+            it.forEach {
+                val type = it.split(" ")
+                if (type.size == 1) {
+                    builder.finishing = {
+                        try {
+                            (it.itemMeta as? BannerMeta)?.baseColor = DyeColor.valueOf(type[0].uppercase())
+                        } catch (e: Exception) {
+                            (it.itemMeta as? BannerMeta)?.baseColor = DyeColor.BLACK
+                        }
+                    }
+                } else if (type.size == 2) {
+                    try {
+                        patterns.add(Pattern(
+                            DyeColor.valueOf(type[0].uppercase()), PatternType.valueOf(
+                                type[1].uppercase()
+                            )
+                        ))
+                    } catch (e: Exception) {
+                        patterns.add(Pattern(DyeColor.BLACK, PatternType.BASE))
+                    }
+                }
+            }
+            patterns
+        })
     }
 
     fun defColorize(string: String, isLore: Boolean = false): String {
