@@ -65,7 +65,7 @@ object Heads {
             meta.owningPlayer?.name?.let { return it }
         }
 
-        meta.getProperty<GameProfile>("profile")!!.properties.values().forEach {
+        meta.getProperty<GameProfile>("profile")?.properties?.values()?.forEach {
             if (it.name == "textures") return it.value
         }
         return null
