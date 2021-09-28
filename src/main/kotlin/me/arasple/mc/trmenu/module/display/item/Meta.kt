@@ -49,7 +49,7 @@ class Meta(
     fun nbt(session: MenuSession, itemStack: ItemStack): ItemMeta? {
         if (nbt != null && !nbt.isEmpty()) {
             val nbt = if (isNBTDynamic) ItemTag.fromJson(session.parse(nbt.toJson())) else nbt
-//            val nbt = if (isNBTDynamic) ItemTag.fromJson(Gson().toJsonTree(nbt)) as ItemTag else nbt
+            nbt.putAll(itemStack.getItemTag())
             nbt.saveTo(itemStack)
             return itemStack.itemMeta
         }

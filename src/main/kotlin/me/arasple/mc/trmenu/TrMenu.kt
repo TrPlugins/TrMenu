@@ -1,10 +1,12 @@
 package me.arasple.mc.trmenu
 
 import me.arasple.mc.trmenu.module.conf.Loader
+import me.arasple.mc.trmenu.module.conf.prop.RunningPerformance
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.module.internal.hook.HookPlugin
 import me.arasple.mc.trmenu.module.internal.listener.ListenerItemInteract
+import me.arasple.mc.trmenu.module.internal.service.Performance
 import me.arasple.mc.trmenu.module.internal.service.RegisterCommands
 import me.arasple.mc.trmenu.module.internal.service.Shortcuts
 import org.bukkit.Bukkit
@@ -27,6 +29,9 @@ object TrMenu : Plugin() {
         private set
 
     val plugin by lazy { BukkitPlugin.getInstance() }
+
+    var performance = RunningPerformance.NORMAL
+        private set
     
     override fun onLoad() {
         Language.default = "en_US"
@@ -50,6 +55,10 @@ object TrMenu : Plugin() {
     }
 
     private fun onSettingsReload() {
+        performance = kotlin.runCatching {
+            RunningPerformance.valueOf(SETTINGS.getString("Options.Running-Performance"))
+        }.getOrNull() ?: RunningPerformance.NORMAL
+
         ListenerItemInteract.load()
         Shortcuts.Type.load()
         RegisterCommands.load()

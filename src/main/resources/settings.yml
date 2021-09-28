@@ -1,3 +1,7 @@
+Options:
+  Running-Performance: Normal
+  Multi-Thread: true
+
 Loader:
   Menu-Files:
     - 'plugins/CustomMenusFolder'

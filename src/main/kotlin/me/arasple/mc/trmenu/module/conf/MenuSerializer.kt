@@ -2,6 +2,7 @@ package me.arasple.mc.trmenu.module.conf
 
 import com.google.gson.Gson
 import com.google.gson.JsonParser
+import io.insinuate.utils.concurrent.TaskConcurrent
 import me.arasple.mc.trmenu.api.action.pack.Reactions
 import me.arasple.mc.trmenu.api.menu.ISerializer
 import taboolib.module.ui.receptacle.ReceptacleClickType
@@ -168,45 +169,49 @@ object MenuSerializer : ISerializer {
         val result = SerialzeResult(SerialzeResult.Type.ICON)
         val icons = Property.ICONS.ofMap(conf)
 
-        result.result = icons.map { (id, value) ->
-            val section = Property.asSection(value).let {
-                it ?: return@let null
-                val section = YamlConfiguration()
-                section.setProperty("map", it.getProperty("map"))
-                section.loadFromString(section.saveToString().split("\n").joinToString("\n") { it.parseIconId(id) })
-                return@let section
+        val taskConcurrent = TaskConcurrent<Pair<String, Any>, Icon>(icons.toList()) { it / 3 }
+        result.result = taskConcurrent.start(
+            { (id, value) ->
+                val section = Property.asSection(value).let {
+                    it ?: return@let null
+                    val section = YamlConfiguration()
+                    section.setProperty("map", it.getProperty("map"))
+                    section.loadFromString(section.saveToString().split("\n").joinToString("\n") { it.parseIconId(id) })
+                    return@let section
+                }
+
+                val refresh = Property.ICON_REFRESH.ofInt(section, -1)
+                val update = Property.ICON_UPDATE.ofIntList(section)
+                val display = Property.ICON_DISPLAY.ofSection(section)
+                val action = Property.ACTIONS.ofSection(section)
+                val defIcon = loadIconProperty(id, null, section, display, action, -1)
+                val slots = Property.ICON_DISPLAY_SLOT.ofLists(display)
+                var pages = Property.ICON_DISPLAY_PAGE.ofIntList(display)
+                var order = 0
+                val search = layout.search(id, pages)
+
+                val position =
+                    if (slots.isNotEmpty()) {
+                        val slot = CycleList(slots.map { Position.Slot.from(it) })
+                        if (pages.isEmpty()) pages = pages.plus(0)
+                        Position(pages.associateWith { slot })
+                    } else Position(search.mapValues { CycleList(Position.Slot.from(it.value)) })
+
+                val subs = Property.ICON_SUB_ICONS.ofList(section).map {
+                    val sub = Property.asSection(it)
+                    val subDisplay = Property.ICON_DISPLAY.ofSection(sub)
+                    val subAction = Property.ACTIONS.ofSection(sub)
+                    loadIconProperty(id, defIcon, sub, subDisplay, subAction, order++)
+                }.sortedBy { it.priority }
+
+                if (defIcon.display.texture.isEmpty() || subs.any { it.display.texture.isEmpty() }) {
+                    result.submitError(SerialzeError.INVALID_ICON_UNDEFINED_TEXTURE, id)
+                }
+
+                Icon(id, refresh.toLong(), update.toTypedArray(), position, defIcon, IndivList(subs))
             }
+        ).get()
 
-            val refresh = Property.ICON_REFRESH.ofInt(section, -1)
-            val update = Property.ICON_UPDATE.ofIntList(section)
-            val display = Property.ICON_DISPLAY.ofSection(section)
-            val action = Property.ACTIONS.ofSection(section)
-            val defIcon = loadIconProperty(id, null, section, display, action, -1)
-            val slots = Property.ICON_DISPLAY_SLOT.ofLists(display)
-            var pages = Property.ICON_DISPLAY_PAGE.ofIntList(display)
-            var order = 0
-            val search = layout.search(id, pages)
-
-            val position =
-                if (slots.isNotEmpty()) {
-                    val slot = CycleList(slots.map { Position.Slot.from(it) })
-                    if (pages.isEmpty()) pages = pages.plus(0)
-                    Position(pages.associateWith { slot })
-                } else Position(search.mapValues { CycleList(Position.Slot.from(it.value)) })
-
-            val subs = Property.ICON_SUB_ICONS.ofList(section).map {
-                val sub = Property.asSection(it)
-                val subDisplay = Property.ICON_DISPLAY.ofSection(sub)
-                val subAction = Property.ACTIONS.ofSection(sub)
-                loadIconProperty(id, defIcon, sub, subDisplay, subAction, order++)
-            }.sortedBy { it.priority }
-
-            if (defIcon.display.texture.isEmpty() || subs.any { it.display.texture.isEmpty() }) {
-                result.submitError(SerialzeError.INVALID_ICON_UNDEFINED_TEXTURE, id)
-            }
-
-            Icon(id, refresh.toLong(), update.toTypedArray(), position, defIcon, IndivList(subs))
-        }
         return result
     }
 

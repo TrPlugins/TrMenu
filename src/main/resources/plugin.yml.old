@@ -12,7 +12,7 @@ lib-version: ${libVersion}
 lib-download: ${libDownload}
 loader-version: ${loaderVersion}
 
-github: https://github.com/Arasple/${name}
+github: https://github.com/TrMenu/${name}
 description: Modern & Advanced Menu-Plugin for Minecraft Servers
 license: https://github.com/TrMenu/TrMenu/blob/v2/LICENSE.md
 
