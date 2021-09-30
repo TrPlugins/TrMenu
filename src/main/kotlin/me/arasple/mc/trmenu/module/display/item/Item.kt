@@ -15,7 +15,6 @@ import taboolib.platform.util.buildItem
  * @date 2021/1/25 10:48
  */
 class Item(
-    val iconId: String,
     val texture: CycleList<Texture>,
     val name: CycleList<String>,
     val lore: CycleList<Lore>,
@@ -26,7 +25,7 @@ class Item(
 
     private fun name(session: MenuSession) = this.name.current(session.id)?.let { defColorize(session.parse(it)) }
 
-    private fun lore(session: MenuSession) = this.lore.current(session.id)?.parse(session)?.map { defColorize(it) }
+    private fun lore(session: MenuSession) = this.lore.current(session.id)?.parse(session)?.map { defColorize(it, true) }
 
     fun get(session: MenuSession): ItemStack {
         return if (cache.containsKey(session.id)) cache[session.id]!!

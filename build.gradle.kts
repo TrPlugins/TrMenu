@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "me.arasple.mc.trmenu"
-version = "3.0-PRE-27"
+version = "3.0-RC-1"
 description = "Modern & Advanced Menu-Plugin for Minecraft Servers"
 
 taboolib {

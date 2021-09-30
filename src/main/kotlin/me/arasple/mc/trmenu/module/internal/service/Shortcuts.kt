@@ -41,7 +41,7 @@ object Shortcuts {
             if (player.isSneakingValid()) Type.REACTIONS[Type.SNEAKING_RIGHT_CLICK_PLAYER]
             else Type.REACTIONS[Type.RIGHT_CLICK_PLAYER]
 
-        MenuSession.getSession(player).arguments = arrayOf(clicked.name)
+        MenuSession.getSession(player).implicitArguments = arrayOf(clicked.name)
 
         return reaction?.eval(player) ?: false
     }
@@ -89,15 +89,14 @@ object Shortcuts {
 
         }
 
-
     }
 
     @SubscribeEvent(ignoreCancelled = true)
     fun rightClick(e: PlayerInteractEntityEvent) {
         if (MinecraftVersion.majorLegacy >= 10900 && e.hand == EquipmentSlot.OFF_HAND) return
 
-        val clicked = e.rightClicked
-        if (clicked is Player && Metadata.data.containsKey(clicked.name)) {
+        val clicked = e.rightClicked as? Player ?: return
+        if (Metadata.data.containsKey(clicked.name)) {
             e.isCancelled = rightClickPlayer(e.player, clicked)
         }
     }

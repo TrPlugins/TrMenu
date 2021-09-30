@@ -47,6 +47,8 @@ class MenuSession(
 
     private var mark = System.currentTimeMillis()
 
+    internal var implicitArguments: Array<String> = arrayOf()
+
     var arguments: Array<String> = arguments
         set(value) {
             val def = menu?.settings?.defaultArguments ?: kotlin.run {

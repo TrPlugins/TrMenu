@@ -246,8 +246,6 @@ object MenuSerializer : ISerializer {
             }
 
             val item = Item(
-                // 图标 id
-                id,
                 // 图标材质
                 if (def != null && texture.isEmpty()) def.display.texture
                 else CycleList(texture.map { Texture.createTexture(it) }),

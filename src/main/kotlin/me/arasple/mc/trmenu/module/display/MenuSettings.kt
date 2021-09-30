@@ -10,6 +10,7 @@ import me.clip.placeholderapi.PlaceholderAPI
 import org.bukkit.Bukkit
 import taboolib.common.util.addSafely
 import taboolib.module.chat.HexColor
+import taboolib.module.chat.colored
 
 /**
  * @author Arasple
@@ -37,8 +38,8 @@ class MenuSettings(
     companion object {
 
         val PRE_COLOR get() = TrMenu.SETTINGS.getBoolean("Menu.Icon.Item.Pre-Color", false)
-        val DEFAULT_NAME_COLOR get() = HexColor.translate(TrMenu.SETTINGS.getString("Menu.Icon.Item.Default-Name-Color", "&7"))
-        val DEFAULT_LORE_COLOR get() = HexColor.translate(TrMenu.SETTINGS.getString("Menu.Icon.Item.Default-Lore-Color", "&7"))
+        val DEFAULT_NAME_COLOR get() = TrMenu.SETTINGS.getString("Menu.Icon.Item.Default-Name-Color", "&7").colored()
+        val DEFAULT_LORE_COLOR get() = TrMenu.SETTINGS.getString("Menu.Icon.Item.Default-Lore-Color", "&7").colored()
 
     }
 

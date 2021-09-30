@@ -23,7 +23,14 @@ class ActionOpen(content: String, option: ActionOption) : AbstractAction(content
         val page = split.getOrNull(1)?.toIntOrNull() ?: 0
 
         menu.open(player, page, MenuOpenEvent.Reason.PLAYER_COMMAND) {
-            if (!Metadata.byBukkit(player, "FORCE_ARGS") || arguments.isNotEmpty()) it.arguments = arguments
+            if (!Metadata.byBukkit(player, "FORCE_ARGS") || arguments.isNotEmpty()) {
+                if (arguments.isEmpty()) {
+                    it.arguments = it.implicitArguments.clone()
+                    it.implicitArguments = arrayOf()
+                } else {
+                    it.arguments = arguments
+                }
+            }
         }
     }
 

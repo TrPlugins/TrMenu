@@ -6,10 +6,8 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
 import taboolib.library.xseries.XMaterial
-import taboolib.platform.util.ItemBuilder
 import taboolib.platform.util.hasItem
 import taboolib.platform.util.takeItem
-import java.util.*
 
 /**
  * @author Arasple
@@ -50,29 +48,42 @@ class ItemMatcher(private val matcher: Set<Match>) {
     }
 
     fun itemMatches(itemStack: ItemStack, ignoreAmount: Boolean = false): Boolean {
-        return matcher.all { it.itemsMatcher(itemStack) && if (ignoreAmount) true else itemStack.amount == it.amount }
+        return matcher.all {
+            it.itemsMatcher(itemStack) && if (ignoreAmount) true
+            else if (it.amount.first) itemStack.amount == it.amount.second else itemStack.amount != it.amount.second
+        }
     }
 
     fun hasItem(player: Player): Boolean {
         Performance.check("Function:ItemMatcherCheck") {
-            return matcher.all {
-                player.inventory.hasItem(it.amount, it.itemsMatcher)
+            return matcher.all { match ->
+                if (match.amount.first) player.inventory.any { it.amount != match.amount.second }
+                else player.inventory.hasItem(match.amount.second, match.itemsMatcher)
             }
         }
         throw Exception()
     }
 
-    fun takeItem(player: Player) = matcher.all {
-        player.inventory.takeItem(it.amount, it.itemsMatcher)
+    fun takeItem(player: Player) = matcher.all { match ->
+        if (match.amount.first)
+            player.inventory.all {
+                if (it.amount != match.amount.second) {
+                    player.inventory.remove(it)
+                    return@all true
+                }
+                false
+            }
+        else
+            player.inventory.takeItem(match.amount.second, match.itemsMatcher)
     }
 
     fun buildItem(): List<ItemStack> {
         return matcher.map {
             taboolib.platform.util.buildItem(XMaterial.BEDROCK) {
-                amount = it.amount
+                amount = it.amount.second
 
                 it.traits.forEach { (trait, value) ->
-                    when (trait) {
+                    when (trait.first) {
                         MATERIAL -> setMaterial(XMaterial.valueOf(value.uppercase()))
                         DATA -> damage = (value.toIntOrNull() ?: 0)
                         MODEL_DATA -> customModelData = value.toIntOrNull() ?: 0
@@ -86,31 +97,42 @@ class ItemMatcher(private val matcher: Set<Match>) {
         }
     }
 
-    class Match(val traits: Map<TraitType, String>) {
+    class Match(val traits: Map<Pair<TraitType, Boolean>, String>) {
 
-        private fun getTrait(type: TraitType): String? {
-            return traits[type]
+        private fun getTrait(type: TraitType): Pair<Boolean, String>? {
+            traits.forEach {
+                if (it.key.first == type) {
+                    return Pair(it.key.second, it.value)
+                }
+            }
+            return null
         }
 
-        val amount = getTrait(AMOUNT)?.toIntOrNull() ?: 1
+        val opposition: (Boolean, Boolean) -> Boolean = { oppose, origin ->
+            if (oppose) !origin else oppose
+        }
+
+        val amount = getTrait(AMOUNT).let { Pair(it?.first ?: true, it?.second?.toIntOrNull() ?: 1) }
 
         val itemsMatcher: ((itemStack: ItemStack) -> Boolean) = { itemStack ->
+            fun <T> oppose(trait: Pair<Boolean, T?>?) =
+                trait?.first ?: false
+
             val material = getTrait(MATERIAL)
-            val materialMatch = material == null || itemStack.type.name.equals(material, true)
+            val materialMatch = opposition(oppose(material), material == null || itemStack.type.name.equals(material.second, true))
 
-            val damage = getTrait(DATA)?.toShortOrNull()
-
+            val damage = getTrait(DATA)?.let { Pair(it.first, it.second.toShortOrNull()) }
             @Suppress("DEPRECATION")
-            val damageMatch = damage == null || itemStack.durability == damage
+            val damageMatch = opposition(oppose(damage), damage == null || itemStack.durability == damage.second)
 
-            val modelData = getTrait(MODEL_DATA)?.toIntOrNull()
-            val modelDataMatch = modelData == null || itemStack.itemMeta?.customModelData == modelData
+            val modelData = getTrait(MODEL_DATA)?.let { Pair(it.first, it.second.toIntOrNull()) }
+            val modelDataMatch = opposition(oppose(modelData), modelData == null || itemStack.itemMeta?.customModelData == modelData.second)
 
             val name = getTrait(NAME)
-            val nameMatch = name == null || itemStack.itemMeta?.displayName?.contains(name, true) == true
+            val nameMatch = opposition(oppose(name), name == null || itemStack.itemMeta?.displayName?.contains(name.second, true) == true)
 
             val lore = getTrait(LORE)
-            val loreMatch = lore == null || itemStack.itemMeta?.lore?.any { it.contains(lore, true) } ?: false
+            val loreMatch = opposition(oppose(lore), lore == null || itemStack.itemMeta?.lore?.any { it.contains(lore.second, true) } ?: false)
 
             val head = getTrait(HEAD)
             val headMatch = head == null || kotlin.run {
@@ -118,7 +140,7 @@ class ItemMatcher(private val matcher: Set<Match>) {
                 if (itemMeta is SkullMeta) {
                     val ownerPlayer = itemMeta.owningPlayer?.name
                     val texture = Heads.seekTexture(itemStack)
-                    head.equals(ownerPlayer, true) || head.equals(texture, true)
+                    opposition(oppose(head), head.second.equals(ownerPlayer, true) || head.second.equals(texture, true))
                 }
                 false
             }
@@ -148,8 +170,11 @@ class ItemMatcher(private val matcher: Set<Match>) {
 
         companion object {
 
-            fun of(type: String): TraitType? {
-                return values().find { it.regex.matches(type) }
+            // Trait, Opposite
+            fun of(type: String): Pair<TraitType, Boolean>? {
+                val trait = values().find { it.regex.matches(type.removePrefix("!")) } ?: return null
+                val oppose = type.first() == '!'
+                return Pair(trait, oppose)
             }
 
         }
