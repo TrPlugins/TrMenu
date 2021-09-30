@@ -1,7 +1,5 @@
 package me.arasple.mc.trmenu.module.conf
 
-import com.google.gson.Gson
-import com.google.gson.JsonParser
 import io.insinuate.utils.concurrent.TaskConcurrent
 import me.arasple.mc.trmenu.api.action.pack.Reactions
 import me.arasple.mc.trmenu.api.menu.ISerializer
@@ -31,8 +29,8 @@ import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.ItemFlag
 import taboolib.common.reflect.Reflex.Companion.getProperty
 import taboolib.common.reflect.Reflex.Companion.setProperty
+import taboolib.common.util.VariableReader
 import taboolib.library.configuration.YamlConfiguration
-import taboolib.module.configuration.SecuredFile
 import taboolib.module.nms.ItemTag
 import taboolib.module.nms.ItemTagData
 import java.io.File
@@ -71,7 +69,7 @@ object MenuSerializer : ISerializer {
             result.errors.addAll(layout.errors).also { return result }
         }
         // 读取菜单图标
-        val icons = serializeIcon(conf, layout.asLayout())
+        val icons = serializeIcons(conf, layout.asLayout())
         if (!icons.succeed()) {
             result.errors.addAll(icons.errors).also {
                 return result
@@ -155,7 +153,11 @@ object MenuSerializer : ISerializer {
 
         for (index in 0 until max(layout.size, playerInventory.size)) {
             val lay = arrayOf(layout.getOrElse(index) { listOf() }, playerInventory.getOrElse(index) { listOf() })
-            layouts.add(Layout(rows, bukkitType, lay[0], lay[1]))
+            layouts += Layout(rows, bukkitType, lay[0], lay[1])
+        }
+        if (layouts.isEmpty()) {
+            val lay = arrayOf(listOf<String>(), listOf())
+            layouts += Layout(rows, bukkitType, lay[0], lay[1])
         }
 
         result.result = MenuLayout(layouts.toTypedArray())
@@ -165,7 +167,7 @@ object MenuSerializer : ISerializer {
     /**
      * Ⅳ. 载入图标功能 Icons
      */
-    override fun serializeIcon(conf: MemorySection, layout: MenuLayout): SerialzeResult {
+    override fun serializeIcons(conf: MemorySection, layout: MenuLayout): SerialzeResult {
         val result = SerialzeResult(SerialzeResult.Type.ICON)
         val icons = Property.ICONS.ofMap(conf)
 
@@ -176,7 +178,10 @@ object MenuSerializer : ISerializer {
                     it ?: return@let null
                     val section = YamlConfiguration()
                     section.setProperty("map", it.getProperty("map"))
-                    section.loadFromString(section.saveToString().split("\n").joinToString("\n") { it.parseIconId(id) })
+                    section.loadFromString(section.saveToString().split("\n").joinToString("\n") {
+                        VariableReader(it, '@', '@')
+                        it.parseIconId(id)
+                    })
                     return@let section
                 }
 

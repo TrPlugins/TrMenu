@@ -5,19 +5,23 @@ import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.action.impl.ActionSilentClose
 import me.arasple.mc.trmenu.api.action.pack.Reactions
 import me.arasple.mc.trmenu.module.display.MenuSession
+import me.arasple.mc.trmenu.module.display.texture.Texture
 import me.arasple.mc.trmenu.module.internal.data.Metadata
+import me.arasple.mc.trmenu.module.internal.inputer.inputs.InputAnvil
+import me.arasple.mc.trmenu.module.internal.inputer.inputs.InputBook
 import me.arasple.mc.trmenu.util.bukkit.ItemHelper
 import me.arasple.mc.trmenu.util.collections.CycleList
+import me.arasple.mc.trmenu.util.reloadable
 import net.md_5.bungee.api.chat.TextComponent
-import net.wesjd.anvilgui.AnvilGUI
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerEditBookEvent
 import taboolib.common.LifeCycle
-import taboolib.common.env.RuntimeDependency
 import taboolib.common.platform.SkipTo
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common.platform.function.submit
+import taboolib.library.configuration.MemorySection
 import taboolib.library.xseries.XMaterial
+import taboolib.module.nms.getItemTag
 import taboolib.module.nms.inputSign
 import taboolib.platform.util.*
 import java.util.concurrent.ConcurrentHashMap
@@ -32,12 +36,6 @@ import java.util.function.Function
  * return = retype current stage
  */
 @SkipTo(LifeCycle.ENABLE)
-@RuntimeDependency(
-    value = "!net.wesjd:anvilgui:1.5.3",
-    repository = "https://repo2s.ptms.ink/repository/maven-public/",
-    test = "!me.arasple.mc.trmenu.module.internal.inputer.anvil.AnvilGUI",
-    relocate = ["!net.wesjd.anvilgui", "!me.arasple.mc.trmenu.module.internal.inputer.anvil"]
-)
 class Inputer(private val stages: CycleList<Catcher>) {
 
     fun startInput(session: MenuSession) {
@@ -83,7 +81,8 @@ class Inputer(private val stages: CycleList<Catcher>) {
         val cancel: Reactions,
         val end: Reactions,
         val display: Array<String>,
-        val items: Array<String>
+        val items: Array<String>,
+        val section: MemorySection
     ) {
 
         fun input(viewer: Player, respond: Function<String, Boolean>) =
@@ -107,24 +106,21 @@ class Inputer(private val stages: CycleList<Catcher>) {
                         respond(it.joinToString(""))
                     }
                 }
-                Type.ANVIL -> AnvilGUI.Builder()
-                    .plugin(TrMenu.plugin)
-                    .onClose { respond("") }
-                    .onComplete { _, text ->
-                        if (respond(text)) AnvilGUI.Response.text("")
-                        else AnvilGUI.Response.close()
-                    }
-                    .itemLeft(ItemHelper.fromJson(items[0]))
-                    .itemRight(ItemHelper.fromJson(items[1]))
-                    .title(display[0])
-                    .open(viewer)
-                Type.BOOK -> inputBook(
+                Type.ANVIL -> {
+                    InputAnvil(viewer, kotlin.runCatching { display[0] }.getOrElse { "TrMenu Anvil Catcher" },
+                        mapOf(
+                            0 to kotlin.runCatching { Texture.createTexture(items[0]).static }.getOrElse { InputAnvil.ANVIL_EMPTY_ITEM },
+                            1 to kotlin.runCatching { Texture.createTexture(items[1]).static }.getOrNull()
+                    ), respond).open()
+                }
+                Type.BOOK -> InputBook(
                     viewer,
                     display[0],
                     true,
                     display[1].split("\n")
-                ) { respond(it.joinToString("")) }
+                ) { respond(it.joinToString("")) }.open()
             }
+            items
         }
 
     }
@@ -151,76 +147,19 @@ class Inputer(private val stages: CycleList<Catcher>) {
 
     companion object {
 
-        // TODO - RELOADABLE
-        private val cancelWords by lazy { TrMenu.SETTINGS.getStringList("Action.Inputer.Cancel-Words").map { it.toRegex() } }
+        internal val cancelWords = reloadable {
+            TrMenu.SETTINGS.getStringList("Action.Inputer.Cancel-Words").map { it.toRegex() }
+        }
 
         fun isCancelWord(word: String): Boolean {
-            return cancelWords.any { it.matches(word) }
+            if (word == "ANVIL_CANCEL") {
+                return true
+            }
+            return cancelWords.value.any { it.matches(word) }
         }
 
         fun Player.retypable(): Boolean {
             return Metadata.byBukkit(this, "RE_ENTER")
         }
-
-        val inputBookMap: ConcurrentHashMap<String, Consumer<List<String>>> =
-            ConcurrentHashMap<String, Consumer<List<String>>>()
-
-
-        /**
-         * 向玩家发送一本书
-         * 并捕获该书本的编辑动作
-         *
-         * @param player     玩家
-         * @param display    展示名称
-         * @param disposable 编辑后销毁
-         * @param origin     原始内容
-         * @param catcher    编辑动作
-         */
-        fun inputBook(
-            player: Player,
-            display: String,
-            disposable: Boolean,
-            origin: List<String>,
-            catcher: Consumer<List<String>>
-        ) {
-            // 移除正在编辑的书本
-            player.inventory.takeItem(99) { item ->
-                item.hasLore("Features Input")
-            }
-            // 发送书本
-            player.inventory.addItem(
-                buildBook {
-                    bookPages.add(BookBuilder.Text(java.lang.String.join("\n", origin), true))
-                    name = "§f$display"
-                    lore.addAll(arrayOf("§0Features Input", if (disposable) "§0Disposable" else ""))
-                }
-            )
-            inputBookMap[player.name] = catcher
-        }
-
-
-        @SubscribeEvent
-        fun e(e: PlayerEditBookEvent) {
-            val bookLore = e.newBookMeta.lore
-            if (bookLore != null && bookLore.size > 0 && bookLore[0] == "§0Features Input") {
-                val consumer = inputBookMap[e.player.name]
-                if (consumer != null) {
-                    val pages: MutableList<String> = Lists.newArrayList()
-                    for (page in e.newBookMeta.pages) {
-
-                        pages.addAll(TextComponent(page).toPlainText().replace("§0", "").split("\n"))
-                    }
-                    consumer.accept(pages)
-                    // 一次性捕获
-                    if (bookLore.size > 1 && bookLore[1] == "§0Disposable") {
-                        inputBookMap.remove(e.player.name)
-                        e.player.inventory.takeItem(99) { item ->
-                            item.hasLore("Features Input")
-                        }
-                    }
-                }
-            }
-        }
     }
-
 }

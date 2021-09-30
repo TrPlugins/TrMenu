@@ -46,8 +46,8 @@ object Loader {
     /**
      * 多线程载入默认路径 & 自定义路径的所有菜单
      */
-    fun loadMenus(sender: CommandSender = Bukkit.getConsoleSender()) {
-        Menu.menus.removeIf { it ->
+    fun loadMenus(sender: CommandSender = Bukkit.getConsoleSender(), async: Boolean = false) {
+        if (!async) Menu.menus.removeIf { it ->
             it.forSessions { it.close(true, updateInventory = true) }
             true
         }
@@ -72,7 +72,13 @@ object Loader {
             },
             // success
             {
-                it.forEach { Menu.menus.add(it.result as Menu) }
+                synchronized(Menu.menus) {
+                    if (async) Menu.menus.removeIf { it ->
+                        it.forSessions { it.close(true, updateInventory = true) }
+                        true
+                    }
+                    it.forEach { Menu.menus.add(it.result as Menu) }
+                }
                 sender.sendLang("Menu-Loader-Loaded", Menu.menus.size, System.currentTimeMillis() - serializingTime)
             }
         ).get()

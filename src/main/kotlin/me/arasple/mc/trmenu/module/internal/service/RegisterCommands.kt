@@ -22,7 +22,6 @@ object RegisterCommands {
     }
 
     fun load() {
-
         registered.removeIf {
             unregisterCommand(it)
             true

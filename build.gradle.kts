@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "me.arasple.mc.trmenu"
-version = "3.0-PRE-26"
+version = "3.0-PRE-27"
 description = "Modern & Advanced Menu-Plugin for Minecraft Servers"
 
 taboolib {
@@ -46,9 +46,10 @@ taboolib {
     }
 
     relocate("net.wesjd.anvilgui", "${project.group}.module.internal.inputer.anvil")
+    relocate("io.insinuate.util", "me.arasple.mc.trmenu.util")
 
     classifier = null
-    version = "6.0.3-5"
+    version = "6.0.3-7"
 }
 
 repositories {

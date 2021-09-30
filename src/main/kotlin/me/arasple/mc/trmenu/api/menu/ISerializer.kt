@@ -17,6 +17,6 @@ interface ISerializer {
 
     fun serializeLayout(conf: MemorySection): SerialzeResult
 
-    fun serializeIcon(conf: MemorySection, layout: MenuLayout): SerialzeResult
+    fun serializeIcons(conf: MemorySection, layout: MenuLayout): SerialzeResult
 
 }

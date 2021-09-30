@@ -12,7 +12,7 @@ import java.util.concurrent.Future
 class TaskConcurrent<Task, Result>(val tasks: List<Task>, threads: (Int) -> Int = { it }) {
 
     private val poolExecutor =
-        Executors.newFixedThreadPool(if (TrMenu.SETTINGS.getBoolean("Options.Multi-Thread")) threads(TrMenu.performance.pools) else 1)!!
+        Executors.newFixedThreadPool(if (TrMenu.SETTINGS.getBoolean("Options.Multi-Thread", true)) threads(TrMenu.performance.pools) else 1)!!
 
     fun start(
         process: (Task) -> Result,

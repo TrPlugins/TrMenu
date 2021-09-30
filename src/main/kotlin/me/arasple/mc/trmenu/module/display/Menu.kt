@@ -11,6 +11,7 @@ import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import taboolib.common.platform.function.submit
 import taboolib.library.configuration.MemorySection
+import taboolib.platform.util.cancelNextChat
 import java.util.function.Consumer
 
 /**
@@ -71,6 +72,7 @@ class Menu(
                 if (session.receptacle != null || session.menu != this) {
                     return
                 }
+                viewer.cancelNextChat(false)
                 val layout = layout[determinedPage]
                 val receptacle: Receptacle
 

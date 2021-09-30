@@ -4,6 +4,7 @@ import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.event.MenuOpenEvent
 import me.arasple.mc.trmenu.module.display.Menu
 import me.arasple.mc.trmenu.module.display.MenuSession
+import me.arasple.mc.trmenu.util.reloadable
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.Inventory
@@ -19,16 +20,13 @@ import java.util.concurrent.TimeUnit
  */
 object ListenerItemInteract {
 
-    private var interactCooldown: Baffle? = null
-
-    // 暂时处理的办法
-    fun load() {
-        interactCooldown = Baffle.of(TrMenu.SETTINGS.getLong("Menu.Settings.Bound-Item-Interval", 2000), TimeUnit.MILLISECONDS)
+    internal val interactCooldown = reloadable {
+        Baffle.of(TrMenu.SETTINGS.getLong("Menu.Settings.Bound-Item-Interval", 2000), TimeUnit.MILLISECONDS)
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     fun onInteract(e: PlayerInteractEvent) {
-        ListenerItemInteract::interactCooldown
+        ListenerItemInteract::interactCooldown.get()
 
         if (MinecraftVersion.majorLegacy >= 10900 && e.hand == EquipmentSlot.OFF_HAND) return
         val player = e.player
@@ -36,7 +34,7 @@ object ListenerItemInteract {
         val session = MenuSession.getSession(player)
 
         if (player.openInventory.topInventory.holder != (player.inventory as Inventory).holder || session.menu != null) return
-        if (interactCooldown?.hasNext(player.name) == true) {
+        if (interactCooldown.value.hasNext(player.name)) {
             val menu = Menu.menus.find { it -> it.settings.boundItems.any { it.itemMatches(item, true) } }
             if (menu != null) {
                 e.isCancelled = true
