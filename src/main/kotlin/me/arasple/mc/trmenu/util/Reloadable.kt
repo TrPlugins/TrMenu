@@ -30,6 +30,11 @@ class Reloadable<out T>(val initializer: () -> T) : Lazy<T> {
             return reload()
         }
 
+    val get get() = value
+
+    @Suppress("UNCHECKED_CAST")
+    val getOrNull get() = _value as? T
+
 }
 
 fun <T> reloadable(initializer: () -> T) = Reloadable(initializer)

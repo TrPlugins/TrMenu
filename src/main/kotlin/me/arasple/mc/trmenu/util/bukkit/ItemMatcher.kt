@@ -6,6 +6,7 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
 import taboolib.library.xseries.XMaterial
+import taboolib.module.chat.colored
 import taboolib.platform.util.hasItem
 import taboolib.platform.util.takeItem
 
@@ -57,7 +58,7 @@ class ItemMatcher(private val matcher: Set<Match>) {
     fun hasItem(player: Player): Boolean {
         Performance.check("Function:ItemMatcherCheck") {
             return matcher.all { match ->
-                if (match.amount.first) player.inventory.any { it.amount != match.amount.second }
+                if (match.amount.first) player.inventory.any { it?.amount != match.amount.second }
                 else player.inventory.hasItem(match.amount.second, match.itemsMatcher)
             }
         }
@@ -67,7 +68,7 @@ class ItemMatcher(private val matcher: Set<Match>) {
     fun takeItem(player: Player) = matcher.all { match ->
         if (match.amount.first)
             player.inventory.all {
-                if (it.amount != match.amount.second) {
+                if (it?.amount != match.amount.second) {
                     player.inventory.remove(it)
                     return@all true
                 }
@@ -109,15 +110,16 @@ class ItemMatcher(private val matcher: Set<Match>) {
         }
 
         val opposition: (Boolean, Boolean) -> Boolean = { oppose, origin ->
-            if (oppose) !origin else oppose
+            if (oppose) !origin else origin
         }
 
-        val amount = getTrait(AMOUNT).let { Pair(it?.first ?: true, it?.second?.toIntOrNull() ?: 1) }
+        // 是否反判
+        private fun <T> oppose(trait: Pair<Boolean, T?>?) =
+            trait?.first ?: false
+
+        val amount = getTrait(AMOUNT).let { Pair(oppose(it), it?.second?.toIntOrNull() ?: 1) }
 
         val itemsMatcher: ((itemStack: ItemStack) -> Boolean) = { itemStack ->
-            fun <T> oppose(trait: Pair<Boolean, T?>?) =
-                trait?.first ?: false
-
             val material = getTrait(MATERIAL)
             val materialMatch = opposition(oppose(material), material == null || itemStack.type.name.equals(material.second, true))
 
@@ -129,10 +131,10 @@ class ItemMatcher(private val matcher: Set<Match>) {
             val modelDataMatch = opposition(oppose(modelData), modelData == null || itemStack.itemMeta?.customModelData == modelData.second)
 
             val name = getTrait(NAME)
-            val nameMatch = opposition(oppose(name), name == null || itemStack.itemMeta?.displayName?.contains(name.second, true) == true)
+            val nameMatch = opposition(oppose(name), name == null || itemStack.itemMeta?.displayName?.contains(name.second.colored(), true) == true)
 
             val lore = getTrait(LORE)
-            val loreMatch = opposition(oppose(lore), lore == null || itemStack.itemMeta?.lore?.any { it.contains(lore.second, true) } ?: false)
+            val loreMatch = opposition(oppose(lore), lore == null || itemStack.itemMeta?.lore?.any { it.contains(lore.second.colored(), true) } ?: false)
 
             val head = getTrait(HEAD)
             val headMatch = head == null || kotlin.run {

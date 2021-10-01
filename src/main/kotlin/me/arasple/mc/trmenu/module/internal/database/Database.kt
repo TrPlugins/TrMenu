@@ -9,10 +9,10 @@ import taboolib.library.configuration.FileConfiguration
  */
 abstract class Database {
 
-    abstract fun pull(player: String): FileConfiguration
+    abstract fun pull(player: Player): FileConfiguration
 
-    abstract fun push(player: String)
+    abstract fun push(player: Player)
 
-    abstract fun release(player: String)
+    abstract fun release(player: Player)
 
 }

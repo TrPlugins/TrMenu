@@ -1,5 +1,7 @@
 package me.arasple.mc.trmenu.module.internal.database
 
+import org.bukkit.entity.Player
+import taboolib.common.io.deepCopyTo
 import taboolib.common.platform.function.getDataFolder
 import taboolib.library.configuration.FileConfiguration
 import taboolib.module.configuration.SecuredFile
@@ -16,9 +18,20 @@ import java.util.concurrent.ConcurrentHashMap
  */
 class DatabaseLocal : Database() {
 
-    val host = File(getDataFolder(), "data.db").getHost()
+    private val host by lazy {
+        val target = File(getDataFolder(), "data/data.db")
+        val origin = File(getDataFolder(), "data.db")
 
-    val table = Table("trmenu", host) {
+        // 迁移到新目录
+        if (origin.exists()) {
+            origin.copyTo(target)
+            origin.delete()
+        }
+
+        target.getHost()
+    }
+
+    val table = Table("npc", host) {
         add {
             name("user")
             type(ColumnTypeSQLite.TEXT, 36) {
@@ -38,37 +51,37 @@ class DatabaseLocal : Database() {
         table.workspace(dataSource) { createTable(true) }.run()
     }
 
-    override fun pull(player: String): FileConfiguration {
-        return cache.computeIfAbsent(player) {
+    override fun pull(player: Player): FileConfiguration {
+        return cache.computeIfAbsent(player.name) {
             table.workspace(dataSource) {
-                select { where { "user" eq player } }
+                select { where { "user" eq player.name } }
             }.firstOrNull {
                 SecuredFile.loadConfiguration(getString("data"))
             } ?: SecuredFile()
         }
     }
 
-    override fun push(player: String) {
-        val file = cache[player] ?: return
-        if (table.workspace(dataSource) { select { where { "user" eq player } } }.find()) {
+    override fun push(player: Player) {
+        val file = cache[player.name] ?: return
+        if (table.workspace(dataSource) { select { where { "user" eq player.name } } }.find()) {
             table.workspace(dataSource) {
                 update {
                     set("data", file.saveToString())
                     where {
-                        "user" eq player
+                        "user" eq player.name
                     }
                 }
             }.run()
         } else {
             table.workspace(dataSource) {
                 insert("user", "data") {
-                    value(player, file.saveToString())
+                    value(player.name, file.saveToString())
                 }
             }.run()
         }
     }
 
-    override fun release(player: String) {
-        cache.remove(player)
+    override fun release(player: Player) {
+        cache.remove(player.name)
     }
 }

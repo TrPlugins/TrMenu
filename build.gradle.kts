@@ -3,11 +3,8 @@ plugins {
     id("java")
     id("io.izzel.taboolib") version "1.27"
     id("org.jetbrains.kotlin.jvm") version "1.5.21"
-    id("com.github.johnrengelman.shadow") version "7.0.0"
 }
 
-group = "me.arasple.mc.trmenu"
-version = "3.0-RC-1"
 description = "Modern & Advanced Menu-Plugin for Minecraft Servers"
 
 taboolib {
@@ -19,6 +16,7 @@ taboolib {
         "module-ui-receptacle",
         "module-lang",
         "module-database",
+        "module-database-mongodb",
         "module-metrics",
         "module-nms",
         "module-chat",
@@ -45,9 +43,6 @@ taboolib {
         }
     }
 
-    relocate("net.wesjd.anvilgui", "${project.group}.module.internal.inputer.anvil")
-    relocate("io.insinuate.util", "me.arasple.mc.trmenu.util")
-
     classifier = null
     version = "6.0.3-7"
 }
@@ -61,7 +56,6 @@ repositories {
 
 dependencies {
     // Libraries
-    compileOnly("net.wesjd:anvilgui:1.5.3-SNAPSHOT")
     compileOnly("org.jetbrains.kotlin:kotlin-stdlib")
     compileOnly("org.apache.commons:commons-lang3:3.12.0")
 
@@ -80,43 +74,23 @@ dependencies {
     compileOnly(fileTree("libs"))
 }
 
-tasks.shadowJar {
-    dependencies {
-        taboolib.modules.forEach { exclude(dependency("io.izzel:taboolib:${taboolib.version}:$it")) }
-        exclude(dependency("com.google.code.gson:gson:2.8.6"))
-        exclude(dependency("org.bstats:bstats-bukkit:1.5"))
-
-        exclude("data")
-        exclude("META-INF/*.kotlin_module")
-        exclude("META-INF/maven")
-        exclude("lang")
-        exclude("menus")
-        exclude("*.yml")
-        exclude("plugin.yml.old")
-        exclude("me/arasple/mc/trmenu/module/internal")
-    }
-    relocate("taboolib", "${project.group}.taboolib")
-    archiveClassifier.set("pure")
-}
-
-configure<PublishingExtension> {
-    publications {
-        create<MavenPublication>("shadow") {
-            shadow.component(this)
-            groupId = "me.arasple"
-        }
-    }
+publishing {
     repositories {
         maven {
             url = uri("https://repo.iroselle.com/repository/maven-releases/")
             credentials {
-                file("access.txt").also {
-                    if (!it.exists()) return@credentials
-                }.readLines().apply {
-                    username = this[0]
-                    password = this[1]
-                }
+                username = project.findProperty("user").toString()
+                password = project.findProperty("password").toString()
             }
+            authentication {
+                create<BasicAuthentication>("basic")
+            }
+        }
+    }
+    publications {
+        create<MavenPublication>("library") {
+            from(components["java"])
+            groupId = "me.arasple"
         }
     }
 }

@@ -5,11 +5,8 @@ import me.arasple.mc.trmenu.module.conf.prop.RunningPerformance
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.module.internal.hook.HookPlugin
-import me.arasple.mc.trmenu.module.internal.inputer.Inputer
 import me.arasple.mc.trmenu.module.internal.inputer.Inputer.Companion.cancelWords
-import me.arasple.mc.trmenu.module.internal.listener.ListenerItemInteract
 import me.arasple.mc.trmenu.module.internal.listener.ListenerItemInteract.interactCooldown
-import me.arasple.mc.trmenu.module.internal.service.Performance
 import me.arasple.mc.trmenu.module.internal.service.RegisterCommands
 import me.arasple.mc.trmenu.module.internal.service.Shortcuts
 import org.bukkit.Bukkit
@@ -45,7 +42,7 @@ object TrMenu : Plugin() {
         SETTINGS.onReload { onSettingsReload() }
         onSettingsReload()
         Loader.loadMenus()
-        Metadata.localDatabase
+        Metadata.database
         console().sendLang("Plugin-Enabled", plugin.description.version)
         HookPlugin.printInfo()
     }

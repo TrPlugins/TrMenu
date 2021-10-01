@@ -43,7 +43,6 @@ Maven:
         <groupId>me.arasple</groupId>
         <artifactId>trmenu</artifactId>
         <version>{LATEST-VERSION}</version>
-        <classifier>pure</classifier>
         <scope>provided</scope>
       </dependency>
     </dependencies>
@@ -55,7 +54,7 @@ repositories {
   maven("https://repo.iroselle.com/repository/maven-public/")
 }
 dependencies {
-  compileOnly("me.arasple:TrMenu:{LATEST-VERSION}:pure")
+  compileOnly("me.arasple:TrMenu:{LATEST-VERSION}")
 }
 
 ```

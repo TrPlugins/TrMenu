@@ -66,7 +66,6 @@ class InputAnvil(
                 respond(inputText)
             else
                 respond("ANVIL_CANCEL")
-
         }
     }
 

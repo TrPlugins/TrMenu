@@ -1,6 +1,5 @@
 package me.arasple.mc.trmenu.module.internal.hook.ext
 
-import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.event.MenuOpenEvent
 import me.arasple.mc.trmenu.module.display.Menu
 import me.arasple.mc.trmenu.module.display.MenuSession

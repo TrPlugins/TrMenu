@@ -1,6 +1,6 @@
 package me.arasple.mc.trmenu.module.conf
 
-import io.insinuate.utils.concurrent.TaskConcurrent
+import me.arasple.mc.trmenu.util.concurrent.TaskConcurrent
 import me.arasple.mc.trmenu.api.action.pack.Reactions
 import me.arasple.mc.trmenu.api.menu.ISerializer
 import taboolib.module.ui.receptacle.ReceptacleClickType
@@ -254,7 +254,7 @@ object MenuSerializer : ISerializer {
                 else CycleList(name),
                 // 图标显示描述
                 if (def != null && inherit && lore.isEmpty()) def.display.lore
-                else CycleList(lore.map { Lore(it) }),
+                else CycleList(lore.map { Lore(line(it)) }),
                 // 图标附加属性
                 Meta(amount, shiny,
                     flags.mapNotNull { flag ->
@@ -265,5 +265,9 @@ object MenuSerializer : ISerializer {
             )
             IconProperty(priority, Condition(condition), item, clickActions)
         }
+
+    val line: (List<String>) -> List<String> =
+        { origin -> mutableListOf<String>().also { list -> origin.forEach { list.addAll(it.split("\n")) } } }
+
 
 }

@@ -1,7 +1,16 @@
 Options:
+  # High, Normal, Low
   Running-Performance: Normal
   Multi-Thread: true
   Async-Load-Menus: true
+
+Database:
+  # LOCAL, MONGODB
+  Method: LOCAL
+  Url:
+    Client: 'mongodb://localhost:3307'
+    Database: trixey
+    Collection: menu
 
 Loader:
   Menu-Files:

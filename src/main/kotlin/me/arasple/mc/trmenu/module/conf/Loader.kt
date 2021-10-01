@@ -1,6 +1,6 @@
 package me.arasple.mc.trmenu.module.conf
 
-import io.insinuate.utils.concurrent.TaskConcurrent
+import me.arasple.mc.trmenu.util.concurrent.TaskConcurrent
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.api.event.MenuOpenEvent
@@ -11,12 +11,9 @@ import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import taboolib.common.platform.function.console
 import taboolib.common.platform.function.releaseResourceFile
-import taboolib.common.platform.function.submit
 import taboolib.module.lang.sendLang
 import taboolib.platform.util.sendLang
 import java.io.File
-import java.util.concurrent.ConcurrentHashMap
-import kotlin.system.measureNanoTime
 
 /**
  * @author Arasple
@@ -64,6 +61,11 @@ object Loader {
         taskConcurrent.start(
             // serializing
             {
+                // 修复 Purpur 的空文件载入问题
+                if (it.readText().isBlank()) {
+                    return@start SerialzeResult(SerialzeResult.Type.MENU, SerialzeResult.State.FAILED)
+                }
+
                 val result = MenuSerializer.serializeMenu(it)
                 if (result.succeed()) {
                     listen(it)
@@ -77,7 +79,10 @@ object Loader {
                         it.forSessions { it.close(true, updateInventory = true) }
                         true
                     }
-                    it.forEach { Menu.menus.add(it.result as Menu) }
+                    it.forEach {
+                        val menu = (it.result as? Menu) ?: return@forEach
+                        Menu.menus.add(menu)
+                    }
                 }
                 sender.sendLang("Menu-Loader-Loaded", Menu.menus.size, System.currentTimeMillis() - serializingTime)
             }

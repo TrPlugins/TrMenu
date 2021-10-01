@@ -1,4 +1,4 @@
-package io.insinuate.utils.concurrent
+package me.arasple.mc.trmenu.util.concurrent
 
 import me.arasple.mc.trmenu.TrMenu
 import java.util.concurrent.CompletableFuture
@@ -12,7 +12,7 @@ import java.util.concurrent.Future
 class TaskConcurrent<Task, Result>(val tasks: List<Task>, threads: (Int) -> Int = { it }) {
 
     private val poolExecutor =
-        Executors.newFixedThreadPool(if (TrMenu.SETTINGS.getBoolean("Options.Multi-Thread", true)) threads(TrMenu.performance.pools) else 1)!!
+        Executors.newFixedThreadPool((if (TrMenu.SETTINGS.getBoolean("Options.Multi-Thread", true)) threads(TrMenu.performance.pools) else 1) + 1)!!
 
     fun start(
         process: (Task) -> Result,
