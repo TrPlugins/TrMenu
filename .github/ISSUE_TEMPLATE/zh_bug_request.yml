@@ -1,5 +1,6 @@
 name: '🐞 错误报告'
-description: '**注意**: 未正确根据提示进行反馈错误可能会被忽略或关闭.'
+description: '注意: 未正确根据提示进行反馈错误可能会被忽略或关闭.'
+title: "[问题反馈]: "
 labels: ['🐞Bug | 问题', '🔍Recurring | 调查中...']
 body:
   - type: checkboxes
@@ -52,6 +53,7 @@ body:
         ```
         1. ...
         2. ...
+        3. ...
         ```
     validations:
       required: true
