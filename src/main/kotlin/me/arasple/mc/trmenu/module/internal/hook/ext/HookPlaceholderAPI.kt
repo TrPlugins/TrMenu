@@ -24,7 +24,7 @@ object HookPlaceholderAPI : PlaceholderExpansion {
             val args = params.split("_")
             val key = args.getOrElse(1) { "" }
 
-            return when (args[0].lowercase()) {
+            return kotlin.runCatching { when (args[0].lowercase()) {
                 "menus" -> Menu.menus.size
                 "args" -> session.arguments[key.toIntOrNull() ?: 0]
                 "meta" -> Metadata.getMeta(player)[key]
@@ -32,7 +32,7 @@ object HookPlaceholderAPI : PlaceholderExpansion {
                 "menu" -> menu(session, args)
                 "js" -> if (args.size > 1) JavaScriptAgent.eval(session, args[1]).asString() else ""
                 else -> ""
-            }.toString()
+            } }.getOrNull().toString()
         }
 
         return "__"

@@ -86,6 +86,7 @@ to reproduce the issue
 
 Issues: https://github.com/InsinuateProjects/TrMenu/issues  
 _TrPlugins Discord (Original) : https://discord.gg/8CWa6KF_
+
 **Insinuate Discord : https://discord.gg/Fs6fJN3jXj**
 
 ```
