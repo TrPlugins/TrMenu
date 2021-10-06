@@ -4,7 +4,7 @@ title: "[问题反馈]: "
 labels: ['🐞Bug | 问题', '🔍Recurring | 调查中...']
 body:
   - type: checkboxes
-    id: wiki
+    id: wikis
     attributes:
       label: '📚 是否已查阅 Wiki'
       description: '往往很多问题都是因为没有详细查阅 Wiki, 你是否已阅读 [Wiki](https://trmenu.trixey.cc/v/chinese/)?'
@@ -13,7 +13,7 @@ body:
           required: true
 
   - type: checkboxes
-    id: issues-reviewed
+    id: issues
     attributes:
       label: '🔗 是否存在重复 issue'
       description: '很多新错误往往是重复的，你翻阅过吗 [Issues](https://github.com/InsinuateProjects/TrMenu/issues)?'

@@ -45,7 +45,7 @@ Menu-Internal-Sounds-Copy:
     text: '[&a&n{0}]'
     args:
       - hover: '&8Щелкните этот текст, скопируйте в буфер обмена '
-        copy: '{0}'
+        suggest: '{0}'
   - '&r'
 
 Paster-Processing: '&8[&3Tr&bMenu&8] &7Содержимое вставляется ...'

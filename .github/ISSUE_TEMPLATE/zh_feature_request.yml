@@ -4,7 +4,7 @@ title: "[功能请求]: "
 labels: ['💠Enhancement | 增强']
 body:
   - type: checkboxes
-    id: wiki
+    id: wikis
     attributes:
       label: '📚 是否已查阅 Wiki'
       description: '往往很多需求都是因为没有详细查阅 Wiki, 你是否已阅读 [Wiki](https://trmenu.trixey.cc/v/chinese/)?'
