@@ -18,7 +18,11 @@ class ActionCommandOp(content: String, option: ActionOption) : AbstractAction(co
             parseContentSplited(placeholderPlayer, ";").forEach {
                 player.isOp.let { isOp ->
                     player.isOp = true
-                    dispatchCommand(player, it)
+                    try {
+                        dispatchCommand(player, it)
+                    } catch (e: Throwable) {
+                        e.printStackTrace()
+                    }
                     player.isOp = isOp
                 }
             }
