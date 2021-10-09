@@ -18,7 +18,7 @@ body:
       label: '🔗 Is there a duplicate issue'
       description: 'Some features may have been mentioned by others, have you read it [Issues](https://github.com/InsinuateProjects/TrMenu/issues)?'
       options:
-        - label: 'I have reviewed all existing issues, or a more detailed description of existing issues.'
+        - label: 'I have looked through the existing issue and found no duplicate content, or a more detailed description of the existing issue.'
           required: true
 
   - type: textarea

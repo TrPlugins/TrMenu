@@ -18,7 +18,7 @@ body:
       label: '🔗 是否存在重复 issue'
       description: '有些功能可能已经被别人提到过，你翻阅过吗 [Issues](https://github.com/InsinuateProjects/TrMenu/issues)?'
       options:
-        - label: '我已翻阅现有的所有 issue, 亦或是对现有 issue 的更详细的描述.'
+        - label: '我已翻阅现有的 issue 没有发现内容重复, 亦或是对现有 issue 的更详细的描述.'
           required: true
 
   - type: textarea
