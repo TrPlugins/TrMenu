@@ -10,6 +10,7 @@ import taboolib.module.database.ColumnTypeSQLite
 import taboolib.module.database.Table
 import taboolib.module.database.getHost
 import java.io.File
+import java.lang.Exception
 import java.util.concurrent.ConcurrentHashMap
 
 /**
@@ -57,7 +58,7 @@ class DatabaseLocal : Database() {
                 select { where { "user" eq player.name } }
             }.firstOrNull {
                 SecuredFile.loadConfiguration(getString("data"))
-            } ?: SecuredFile()
+            } ?: throw Exception()
         }
     }
 
