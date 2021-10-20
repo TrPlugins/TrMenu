@@ -15,6 +15,7 @@ import me.arasple.mc.trmenu.util.reloadable
 import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerEditBookEvent
+import org.bukkit.inventory.ItemStack
 import taboolib.common.LifeCycle
 import taboolib.common.platform.SkipTo
 import taboolib.common.platform.event.SubscribeEvent
@@ -107,18 +108,17 @@ class Inputer(private val stages: CycleList<Catcher>) {
                     }
                 }
                 Type.ANVIL -> {
-                    InputAnvil(viewer, kotlin.runCatching { display[0] }.getOrElse { "TrMenu Anvil Catcher" },
+                    viewer.inputAnvil(kotlin.runCatching { display[0] }.getOrElse { "TrMenu Anvil Catcher" },
                         mapOf(
                             0 to kotlin.runCatching { Texture.createTexture(items[0]).static }.getOrElse { InputAnvil.ANVIL_EMPTY_ITEM },
                             1 to kotlin.runCatching { Texture.createTexture(items[1]).static }.getOrNull()
-                    ), respond).open()
+                    ), respond)
                 }
-                Type.BOOK -> InputBook(
-                    viewer,
+                Type.BOOK -> viewer.inputBook(
                     display[0],
                     true,
                     display[1].split("\n")
-                ) { respond(it.joinToString("")) }.open()
+                ) { respond(it.joinToString("")) }
             }
             items
         }
@@ -161,5 +161,19 @@ class Inputer(private val stages: CycleList<Catcher>) {
         fun Player.retypable(): Boolean {
             return Metadata.byBukkit(this, "RE_ENTER")
         }
+
+        fun Player.inputAnvil(
+            title: String,
+            items: Map<Int, ItemStack?>,
+            respond: (String) -> Boolean,
+        ) = InputAnvil(this, title, items, respond).open()
+
+        fun Player.inputBook(
+            display: String,
+            disposable: Boolean,
+            origin: List<String>,
+            catcher: Consumer<List<String>>
+        ) = InputBook(this, display, disposable, origin, catcher).open()
+
     }
 }
