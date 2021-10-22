@@ -82,7 +82,7 @@ Command-List-Header:
   - '&r'
 Command-List-Format:
   - type: JSON
-    text: '&8- [&3{0}]<{1}> &7| &8(标题: {2} &8/ 图标: {3})&r'
+    text: '&8- [&3{0}]&8<{1}&8> &7| &8(标题: {2} &8/ 图标: {3})&r'
     args:
       - hover: '&7点击打开'
         command: '/trmenu open {0}'

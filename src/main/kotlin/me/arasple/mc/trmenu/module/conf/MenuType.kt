@@ -24,7 +24,7 @@ enum class MenuType(
 ) {
     YAML(
         arrayOf("yaml", "yml"),
-        ChatColor.DARK_AQUA,
+        ChatColor.AQUA,
         {
             YamlConfiguration().also { yaml -> yaml.loadFromString(it) }
         },
