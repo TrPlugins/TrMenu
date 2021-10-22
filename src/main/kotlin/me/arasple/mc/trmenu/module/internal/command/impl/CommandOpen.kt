@@ -60,8 +60,6 @@ object CommandOpen : CommandExpresser {
                             it.slice(1 until it.size)
                         }
                     }.getOrNull()?.toTypedArray() ?: arrayOf()
-                    println(" 原字符串: $arguments")
-                    println(" 打开的参数: $arguments")
 
                     menu ?: return@execute sender.sendLang("Command-Open-Unknown-Menu", context.argument(-1))
                     if (player == null || !player.isOnline) {

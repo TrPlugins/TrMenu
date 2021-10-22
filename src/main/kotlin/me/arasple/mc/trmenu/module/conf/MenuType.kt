@@ -36,10 +36,10 @@ enum class MenuType(
         arrayOf("json"),
         ChatColor.RED,
         {
-            YamlConfiguration().also { yaml -> yaml.setProperty("map", JsonParser().parse(it).asJsonObject.getProperty<LinkedTreeMap<String, JsonElement>>("members")!!.toMap()) }
+            YamlConfiguration().also { yaml -> yaml.setProperty("map", Gson().fromJson(JsonParser().parse(it).asJsonObject, Any::class.java)) }
         },
         {
-            Gson().toJson(it.getProperty("map"))
+            Gson().toJson(it.getProperty<Map<String, Any>>("map"))
         }
     ),
     ;
