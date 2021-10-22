@@ -47,7 +47,7 @@ object CommandDebug : CommandExpresser {
                     return@execute
                 }
 
-                when (context.argument(0)?.lowercase()) {
+                when (context.argument(0).lowercase()) {
                     "mirror" -> mirror(sender)
                     "dump" -> dump(sender)
                     "info" -> info(sender)
@@ -105,7 +105,6 @@ object CommandDebug : CommandExpresser {
             append("| Server OS: ${properties["os.name"]} ${properties["os.arch"]} ${properties["os.version"]}\n")
             append("| Server software: ${Bukkit.getServer().version} (${Bukkit.getServer().bukkitVersion})\n")
             append("| Java version: ${System.getProperty("java.version")}\n\n")
-            append("| TabooLib: 6.0.0-PRE\n")
             append("| TrMenu: ${pluginVersion}\n")
 //            append("   ${description.getString("built-time")} by ${description.getString("built-by")})\n\n")
             append("Installed Plugins: \n")
@@ -128,8 +127,8 @@ object CommandDebug : CommandExpresser {
      * 服务器信息查看
      */
     private fun info(sender: CommandSender) {
-        val totalTasks = Bukkit.getScheduler().activeWorkers.filter { it.owner === TrMenu.plugin }.count() +
-                Bukkit.getScheduler().pendingTasks.filter { it.owner === TrMenu.plugin }.count()
+        val totalTasks = Bukkit.getScheduler().activeWorkers.count { it.owner === TrMenu.plugin } +
+                Bukkit.getScheduler().pendingTasks.count { it.owner === TrMenu.plugin }
 
         sender.send(
             """
@@ -137,7 +136,6 @@ object CommandDebug : CommandExpresser {
                 
                 &2Server: &6${Bukkit.getServer().name}
                 &2Plugins: &6${Bukkit.getPluginManager().plugins.size}
-                &2TabooLib: &f6.x
                 
                 &2Total Menus: &6${Menu.menus.size}
                 &2Total Tasks: &6$totalTasks
@@ -145,8 +143,6 @@ object CommandDebug : CommandExpresser {
                 
                 &3&l「&8--------------------------------------------------&3&l」
             """.trimIndent().split("\n")
-        // &2Built-Info: &a${description.getString("version")}
-        // &8( &3${description.getString("built-time")} &6by &b${description.getString("built-by")} &8)
         )
     }
 

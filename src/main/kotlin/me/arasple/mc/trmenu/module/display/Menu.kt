@@ -2,6 +2,7 @@ package me.arasple.mc.trmenu.module.display
 
 import me.arasple.mc.trmenu.api.event.MenuOpenEvent
 import me.arasple.mc.trmenu.api.event.MenuPageChangeEvent
+import me.arasple.mc.trmenu.module.conf.MenuType
 import taboolib.module.ui.receptacle.Receptacle
 import me.arasple.mc.trmenu.module.display.icon.Icon
 import me.arasple.mc.trmenu.module.display.layout.MenuLayout
@@ -20,6 +21,7 @@ import java.util.function.Consumer
  */
 class Menu(
     val id: String,
+    val type: MenuType,
     val settings: MenuSettings,
     val layout: MenuLayout,
     val icons: Set<Icon>,

@@ -14,7 +14,7 @@ fun Throwable.print(title: String) {
     }
 }
 
-
+val Boolean.trueOrNull get() = if (this) true else null
 
 // 未来需要改进该功能
 fun String.parseSimplePlaceholder(map: Map<Regex, String>): String {

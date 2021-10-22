@@ -35,11 +35,11 @@ object CommandSounds : CommandExpresser {
                 XSound.values().map { it.name }
             }
 
-            execute<Player> { sender, context, argument ->
+            execute<Player> { sender, _, argument ->
                 open(sender, 0, argument.ifEmpty { "*" })
             }
         }
-        execute<Player> { sender, context, argument ->
+        execute<Player> { sender, _, _ ->
             open(sender, 0, null)
         }
     }

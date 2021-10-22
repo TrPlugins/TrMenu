@@ -49,12 +49,15 @@ object MenuSerializer : ISerializer {
         val id = file.nameWithoutExtension
         val result = SerialzeResult(SerialzeResult.Type.MENU)
         // 文件有效检测
-        if (!(file.isFile && file.length() > 0 && file.canRead() && file.extension.equals("yml", true))) {
+        if (!(file.isFile && file.length() > 0 && file.canRead() && MenuType.values().any { it.suffixes.any { file.extension.equals(it, true) } })) {
             result.submitError(SerialzeError.INVALID_FILE, file.name)
             return result
         }
+        // 菜单类型
+        val type = MenuType.values().find { it.suffixes.any { file.extension.equals(it, true) } }!!
         // 加载 YAML
-        val conf = YamlConfiguration.loadConfiguration(file)
+        val conf = type.serialize(file)
+
         // 读取菜单设置
         val settings = serializeSetting(conf)
         if (!settings.succeed()) {
@@ -76,7 +79,7 @@ object MenuSerializer : ISerializer {
             }
         }
         // 返回菜单
-        Menu(id, settings.result as MenuSettings, layout.result as MenuLayout, icons.asIcons(), conf).also {
+        Menu(id, type, settings.result as MenuSettings, layout.result as MenuLayout, icons.asIcons(), conf).also {
             result.result = it
             return result
         }

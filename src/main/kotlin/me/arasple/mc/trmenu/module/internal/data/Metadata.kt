@@ -67,7 +67,7 @@ object Metadata {
 
     @Suppress("DEPRECATION")
     fun getLocalePlayer(player: Player): FileConfiguration? {
-        return kotlin.runCatching { database.pull(player) }.getOrNull()
+        return database.pull(player)
     }
 
     fun loadData(player: Player) {

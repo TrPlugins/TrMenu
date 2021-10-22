@@ -6,6 +6,7 @@ import me.arasple.mc.trmenu.module.internal.command.CommandExpresser
 import me.arasple.mc.trmenu.module.internal.item.ItemRepository
 import me.arasple.mc.trmenu.util.bukkit.ItemHelper
 import me.arasple.mc.trmenu.util.net.Paster
+import org.bukkit.Material
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -80,11 +81,14 @@ object CommandItem : CommandExpresser {
     }
 
     private fun toJson(player: Player, item: ItemStack) {
+        if (item.type == Material.AIR || item.type.name.endsWith("_AIR")) {
+            player.sendLang("Command-Item-No-Item")
+            return
+        }
         val json = JsonObject()
         json.addProperty("type", item.type.name)
         json.addProperty("data", item.data!!.data)
         json.addProperty("amount", item.amount)
-//        json.add("meta", JsonParser().parse(item.getItemTag().toJson()))
         json.add("meta", Gson().toJsonTree(item.getItemTag()))
         val stringJson = json.toString()
         if (stringJson.length < 200) player.sendLang("Command-Item-To-Json", stringJson)

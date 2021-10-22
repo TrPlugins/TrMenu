@@ -2,6 +2,7 @@ package me.arasple.mc.trmenu.module.internal.command.impl
 
 import me.arasple.mc.trmenu.module.display.Menu
 import me.arasple.mc.trmenu.module.internal.command.CommandExpresser
+import net.md_5.bungee.api.ChatColor.COLOR_CHAR
 import org.bukkit.command.CommandSender
 import taboolib.common.platform.command.CommandContext
 import taboolib.common.platform.command.subCommand
@@ -32,10 +33,10 @@ object CommandList : CommandExpresser {
             sender.sendLang("Command-List-Error", filter ?: "*")
         } else {
             sender.sendLang("Command-List-Header", menus.size, filter ?: "*")
-
             menus.forEach {
                 sender.sendLang(
                     "Command-List-Format", it.id,
+                    COLOR_CHAR + it.type.color.char.toString() + it.type.name,
                     it.settings.title.elements.first(),
                     it.icons.size
                 )

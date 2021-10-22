@@ -58,7 +58,7 @@ class DatabaseLocal : Database() {
                 select { where { "user" eq player.name } }
             }.firstOrNull {
                 SecuredFile.loadConfiguration(getString("data"))
-            } ?: throw Exception()
+            } ?: SecuredFile()
         }
     }
 

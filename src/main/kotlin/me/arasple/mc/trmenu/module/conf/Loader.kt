@@ -50,10 +50,18 @@ object Loader {
         }
 
         val errors = mutableListOf<String>()
-        val tasks = mutableListOf<File>().also {
+
+        val files = mutableListOf<File>().also {
             it.addAll(filterMenuFiles(folder))
             it.addAll(TrMenu.SETTINGS.getStringList("Loader.Menu-Files").flatMap { filterMenuFiles(File(it)) })
         }
+        val tasks = mutableListOf<File>().also { tasks ->
+            files.forEach { file ->
+                if (!tasks.any { it.nameWithoutExtension == file.nameWithoutExtension })
+                    tasks.add(file)
+            }
+        }
+
         val taskConcurrent = TaskConcurrent<File, SerialzeResult>(tasks) { it / 2 }
 
         val serializingTime = System.currentTimeMillis()
@@ -148,7 +156,7 @@ object Loader {
                 file.listFiles()?.forEach {
                     addAll(filterMenuFiles(it))
                 }
-            } else if (!file.name.startsWith("#") && file.extension.equals("yml", true)) {
+            } else if (!file.name.startsWith("#")) {
                 add(file)
             }
             this
