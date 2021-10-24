@@ -7,7 +7,7 @@ body:
     id: wikis
     attributes:
       label: '📚 是否已查阅 Wiki'
-      description: '往往很多问题都是因为没有详细查阅 Wiki, 你是否已阅读 [Wiki](https://trmenu.trixey.cc/v/chinese/)?'
+      description: '往往很多问题都是因为没有详细查阅 Wiki, 你是否已阅读 [Wiki](https://trmenu.docs.insinuate.cn/)?'
       options:
         - label: '我已查阅 Wiki 对于该问题的相关内容, 并确定该问题是存在的.'
           required: true

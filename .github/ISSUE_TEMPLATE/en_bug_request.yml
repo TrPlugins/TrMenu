@@ -7,7 +7,7 @@ body:
     id: wikis
     attributes:
       label: '📚 Have you checked the Wiki'
-      description: 'Often many questions are caused by not checking the Wiki in detail, have you read [Wiki](https://trmenu.trixey.cc/v/chinese/)?'
+      description: 'Often many questions are caused by not checking the Wiki in detail, have you read [Wiki](https://trmenu.docs.insinuate.cn/)?'
       options:
         - label: 'I have checked the Wiki''s related content about the problem and determined that the problem exists.'
           required: true
