@@ -69,11 +69,6 @@ object Loader {
         taskConcurrent.start(
             // serializing
             {
-                // 修复 Purpur 的空文件载入问题
-                if (it.readText().isBlank()) {
-                    return@start SerialzeResult(SerialzeResult.Type.MENU, SerialzeResult.State.FAILED)
-                }
-
                 val result = MenuSerializer.serializeMenu(it)
                 if (result.succeed()) {
                     listen(it)
