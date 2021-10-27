@@ -51,7 +51,6 @@ repositories {
     mavenCentral()
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
     maven("https://repo.codemc.org/repository/maven-public")
-    maven("https://jitpack.io")
 }
 
 dependencies {
@@ -68,7 +67,6 @@ dependencies {
 
     // Hook Plugins
     compileOnly("me.clip:placeholderapi:2.10.9")
-    compileOnly("com.github.oraxen:oraxen:-SNAPSHOT")
     compileOnly("ink.ptms:Zaphkiel:1.6.0")
 
     compileOnly(fileTree("libs"))
