@@ -3,6 +3,7 @@ package me.arasple.mc.trmenu.module.display.icon
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.util.Regexs
 import me.arasple.mc.trmenu.util.collections.CycleList
+import java.util.concurrent.ConcurrentHashMap
 
 /**
  * @author Arasple
@@ -15,7 +16,7 @@ class Position(private val position: Map<Int, CycleList<Slot>>) {
             return position.keys
         }
 
-    private val cache = mutableMapOf<Int, List<Int>>()
+    private val cache = ConcurrentHashMap<Int, List<Int>>()
 
     fun currentPosition(session: MenuSession): List<Int> {
         return cache.computeIfAbsent(session.id) { refreshCurrentPosition(session) }

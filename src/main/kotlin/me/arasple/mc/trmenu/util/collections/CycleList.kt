@@ -1,5 +1,7 @@
 package me.arasple.mc.trmenu.util.collections
 
+import java.util.concurrent.ConcurrentHashMap
+
 /**
  * @author Arasple
  * @date 2021/1/23 23:15
@@ -8,7 +10,7 @@ class CycleList<T>(val elements: List<T>) {
 
     constructor(vararg element: T) : this(element.toList())
 
-    private val indexs = mutableMapOf<Int, Index>()
+    private val indexs = ConcurrentHashMap<Int, Index>()
 
     operator fun get(index: Int): T {
         return elements[index]

@@ -10,6 +10,7 @@ import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.module.internal.service.Performance
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
+import taboolib.common.platform.function.isPrimaryThread
 import taboolib.common.platform.function.submit
 import taboolib.library.configuration.MemorySection
 import taboolib.platform.util.cancelNextChat
@@ -48,6 +49,21 @@ class Menu(
         reason: MenuOpenEvent.Reason,
         block: (MenuSession) -> Unit = {}
     ) {
+        if(isPrimaryThread){
+            submit (async = true){
+                asyncOpen(viewer,page,reason,block)
+            }
+        }else{
+            asyncOpen(viewer,page,reason,block)
+        }
+    }
+
+    fun asyncOpen(
+        viewer: Player,
+        page: Int? = null,
+        reason: MenuOpenEvent.Reason,
+        block: (MenuSession) -> Unit = {}
+    ){
         Performance.check("Menu:Event:Open") {
             val session = MenuSession.getSession(viewer)
             viewers.add(viewer.name)
@@ -118,7 +134,6 @@ class Menu(
             session.page = page
             session.playerItemSlots()
             loadIcon(session)
-
             if (override) {
                 receptacle.refresh()
                 session.updateActiveSlots()
