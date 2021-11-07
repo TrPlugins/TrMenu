@@ -24,7 +24,7 @@ class DatabaseLocal : Database() {
         val origin = File(getDataFolder(), "data.db")
 
         // 迁移到新目录
-        if (origin.exists()) {
+        if (origin.exists() && !target.exists()) {
             origin.copyTo(target)
             origin.delete()
         }
