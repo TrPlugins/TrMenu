@@ -51,7 +51,9 @@ class Texture(
         }
 
         if (itemStack != null) {
-            itemStack = buildItem(itemStack) {
+            if (itemStack.type == Material.AIR || itemStack.type.name.endsWith("_AIR")) {
+                return itemStack
+            } else itemStack = buildItem(itemStack) {
                 meta.forEach { (meta, metaValue) ->
                     val value = session.parse(metaValue)
                     when (meta) {
@@ -177,13 +179,11 @@ class Texture(
                     try {
                         this.material = Material.getMaterial(name)!!
                     } catch (e: Throwable) {
-                        val xMaterial =
-                            XMaterial.values().find { it.name.equals(name, true) }
-                                ?: XMaterial.values()
-                                    .find { it -> it.legacy.any { it == name } }
-                                ?: XMaterial.values()
-                                    .maxByOrNull { similarDegree(name, it.name) }
-                        return xMaterial?.parseItem() ?: FALL_BACK
+                        return kotlin.runCatching { XMaterial.values().find { it.name.equals(name, true) }
+                            ?: XMaterial.values()
+                                .find { it -> it.legacy.any { it == name } }
+                            ?: XMaterial.values()
+                                .maxByOrNull { similarDegree(name, it.name) } }.getOrNull()?.parseItem() ?: FALL_BACK
                     }
                 }
             }
