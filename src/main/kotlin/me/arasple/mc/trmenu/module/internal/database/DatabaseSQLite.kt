@@ -1,6 +1,7 @@
 package me.arasple.mc.trmenu.module.internal.database
 
 import me.arasple.mc.trmenu.TrMenu
+import org.bukkit.entity.Player
 import taboolib.common.platform.function.getDataFolder
 import taboolib.library.configuration.FileConfiguration
 import taboolib.module.configuration.SecuredFile
@@ -15,7 +16,7 @@ import java.util.concurrent.ConcurrentHashMap
  * @Author sky
  * @Since 2020-08-14 14:46
  */
-class DatabaseSQLite : IndexedDatabase() {
+class DatabaseSQLite : Database() {
 
     private val host by lazy {
         val target = File(getDataFolder(), "data/${TrMenu.SETTINGS.getString("Database.Type.SQLite.file-name", "data")}.db")
@@ -50,37 +51,37 @@ class DatabaseSQLite : IndexedDatabase() {
         table.workspace(dataSource) { createTable(true) }.run()
     }
 
-    override fun pull(player: String): FileConfiguration {
-        return cache.computeIfAbsent(player) {
+    override fun pull(player: Player, indexPlayer: String): FileConfiguration {
+        return cache.computeIfAbsent(indexPlayer) {
             table.workspace(dataSource) {
-                select { where { "user" eq player } }
+                select { where { "user" eq indexPlayer } }
             }.firstOrNull {
                 SecuredFile.loadConfiguration(getString("data"))
             } ?: SecuredFile()
         }
     }
 
-    override fun push(player: String) {
-        val file = cache[player] ?: return
-        if (table.workspace(dataSource) { select { where { "user" eq player } } }.find()) {
+    override fun push(player: Player, indexPlayer: String) {
+        val file = cache[indexPlayer] ?: return
+        if (table.workspace(dataSource) { select { where { "user" eq indexPlayer } } }.find()) {
             table.workspace(dataSource) {
                 update {
                     set("data", file.saveToString())
                     where {
-                        "user" eq player
+                        "user" eq indexPlayer
                     }
                 }
             }.run()
         } else {
             table.workspace(dataSource) {
                 insert("user", "data") {
-                    value(player, file.saveToString())
+                    value(indexPlayer, file.saveToString())
                 }
             }.run()
         }
     }
 
-    override fun release(player: String) {
-        cache.remove(player)
+    override fun release(player: Player, indexPlayer: String) {
+        cache.remove(indexPlayer)
     }
 }

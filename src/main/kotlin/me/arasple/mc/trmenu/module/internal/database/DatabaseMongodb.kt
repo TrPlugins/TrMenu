@@ -16,30 +16,22 @@ class DatabaseMongodb : Database() {
         SETTINGS.getString("Database.Type.MongoDB.client"),
         SETTINGS.getString("Database.Type.MongoDB.database"),
         SETTINGS.getString("Database.Type.MongoDB.collection"),
-        try {
-            Index.valueOf(SETTINGS.getString("Database.Index.Player", "UUID").uppercase())
-        } catch (ignored: Throwable) {
-            Index.UUID
-        }
+        Index.valueOf(index.name)
     )
 
-    override fun pull(player: Player): FileConfiguration {
-        return collection[player.asIndexType()].also {
+    override fun pull(player: Player, indexPlayer: String): FileConfiguration {
+        return collection[indexPlayer].also {
             if (it.contains("username")) {
                 it.set("username", player.name)
             }
         }
     }
 
-    override fun push(player: Player) {
-        collection.update(player.asIndexType())
+    override fun push(player: Player, indexPlayer: String) {
+        collection.update(indexPlayer)
     }
 
-    override fun release(player: Player) {
-        collection.release(player.asIndexType())
-    }
-
-    private fun Player.asIndexType(): String {
-        return if (collection.index == Index.UUID) uniqueId.toString() else name
+    override fun release(player: Player, indexPlayer: String) {
+        collection.release(indexPlayer)
     }
 }

@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.module.internal.database
 
+import me.arasple.mc.trmenu.TrMenu
 import org.bukkit.entity.Player
 import taboolib.library.configuration.FileConfiguration
 
@@ -9,10 +10,25 @@ import taboolib.library.configuration.FileConfiguration
  */
 abstract class Database {
 
-    abstract fun pull(player: Player): FileConfiguration
+    val index: PlayerIndex
+        get() = PlayerIndex.of(TrMenu.SETTINGS.getString("Database.Index.Player", "USERNAME"))
 
-    abstract fun push(player: Player)
+    fun pull(player: Player): FileConfiguration {
+        return pull(player, if (index == PlayerIndex.UUID) player.uniqueId.toString() else player.name)
+    }
 
-    abstract fun release(player: Player)
+    abstract fun pull(player: Player, indexPlayer: String): FileConfiguration
+
+    fun push(player: Player) {
+        push(player, if (index == PlayerIndex.UUID) player.uniqueId.toString() else player.name)
+    }
+
+    abstract fun push(player: Player, indexPlayer: String)
+
+    fun release(player: Player) {
+        release(player, if (index == PlayerIndex.UUID) player.uniqueId.toString() else player.name)
+    }
+
+    abstract fun release(player: Player, indexPlayer: String)
 
 }
