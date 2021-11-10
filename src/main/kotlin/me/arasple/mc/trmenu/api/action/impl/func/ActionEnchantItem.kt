@@ -75,8 +75,12 @@ class ActionEnchantItem(content: String, option: ActionOption) : AbstractAction(
                     else -> level.toString()
                 }
                 val lore = meta.lore?: arrayListOf<String>()
-                val index = if (lineIndex.equals("last", true)) lore.size - 1 else lineIndex.toIntOrNull()?: 0
-                lore.add(if (lore.size >= index) index else 0, line)
+                if (lineIndex.equals("last", true)) {
+                    lore.add(line)
+                } else {
+                    val index = lineIndex.toIntOrNull()?: 0
+                    lore.add(if (lore.size >= index) index else 0, line)
+                }
                 meta.lore = lore
                 item.itemMeta = meta
             }
