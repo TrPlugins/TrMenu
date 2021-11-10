@@ -3,9 +3,7 @@ package me.arasple.mc.trmenu.api.action
 import me.arasple.mc.trmenu.api.action.base.AbstractAction
 import me.arasple.mc.trmenu.api.action.base.ActionOption
 import me.arasple.mc.trmenu.api.action.impl.*
-import me.arasple.mc.trmenu.api.action.impl.func.ActionCatcher
-import me.arasple.mc.trmenu.api.action.impl.func.ActionGiveItem
-import me.arasple.mc.trmenu.api.action.impl.func.ActionTakeItem
+import me.arasple.mc.trmenu.api.action.impl.func.*
 import me.arasple.mc.trmenu.api.action.impl.hook.*
 import me.arasple.mc.trmenu.api.action.impl.metadaa.*
 import org.bukkit.entity.Player
@@ -64,7 +62,10 @@ object Actions {
         ActionPointsSet.registery,
         ActionPointsAdd.registery,
         ActionPointsTake.registery,
+        // Item
+        ActionEnchantItem.registery,
         ActionTakeItem.registery,
+        ActionRepairItem.registery,
         ActionGiveItem.registery,
         // Advanced
         ActionCatcher.registery,
