@@ -5,12 +5,27 @@ Options:
   Async-Load-Menus: true
 
 Database:
-  # LOCAL, MONGODB
-  Method: LOCAL
-  Url:
-    Client: 'mongodb://localhost:3307'
-    Database: trixey
-    Collection: menu
+  # Local: SQLITE
+  # External: SQL, MONGODB
+  Method: SQLITE
+  Type:
+    SQLite:
+      file-name: data
+      table: npc
+    SQL:
+      host: localhost
+      port: 3306
+      user: root
+      password: root
+      database: test
+      table: trmenu_user_data
+    MongoDB:
+      client: 'mongodb://localhost:3307'
+      database: trixey
+      collection: menu
+  Index:
+    # UUID, USERNAME
+    Player: USERNAME
 
 Loader:
   Menu-Files:

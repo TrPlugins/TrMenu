@@ -2,7 +2,6 @@ package me.arasple.mc.trmenu.module.internal.database
 
 import me.arasple.mc.trmenu.TrMenu.SETTINGS
 import org.bukkit.entity.Player
-import taboolib.common.platform.function.adaptPlayer
 import taboolib.library.configuration.FileConfiguration
 import taboolib.module.database.bridge.Index
 import taboolib.module.database.bridge.createBridgeCollection
@@ -14,14 +13,18 @@ import taboolib.module.database.bridge.createBridgeCollection
 class DatabaseMongodb : Database() {
 
     val collection = createBridgeCollection(
-        SETTINGS.getString("Database.Url.Client"),
-        SETTINGS.getString("Database.Url.Database"),
-        SETTINGS.getString("Database.Url.Collection"),
-        Index.UUID
+        SETTINGS.getString("Database.Type.MongoDB.client"),
+        SETTINGS.getString("Database.Type.MongoDB.database"),
+        SETTINGS.getString("Database.Type.MongoDB.collection"),
+        try {
+            Index.valueOf(SETTINGS.getString("Database.Index.Player", "UUID").uppercase())
+        } catch (ignored: Throwable) {
+            Index.UUID
+        }
     )
 
     override fun pull(player: Player): FileConfiguration {
-        return collection[adaptPlayer(player)].also {
+        return collection[player.asIndexType()].also {
             if (it.contains("username")) {
                 it.set("username", player.name)
             }
@@ -29,10 +32,14 @@ class DatabaseMongodb : Database() {
     }
 
     override fun push(player: Player) {
-        collection.update(player.uniqueId.toString())
+        collection.update(player.asIndexType())
     }
 
     override fun release(player: Player) {
-        collection.release(player.uniqueId.toString())
+        collection.release(player.asIndexType())
+    }
+
+    private fun Player.asIndexType(): String {
+        return if (collection.index == Index.UUID) uniqueId.toString() else name
     }
 }
