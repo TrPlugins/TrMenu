@@ -4,9 +4,9 @@ import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.TrMenu.SETTINGS
 import me.arasple.mc.trmenu.api.event.CustomDatabaseEvent
 import me.arasple.mc.trmenu.module.display.MenuSession
-import me.arasple.mc.trmenu.module.internal.database.DatabaseLocal
+import me.arasple.mc.trmenu.module.internal.database.DatabaseSQLite
 import me.arasple.mc.trmenu.module.internal.database.DatabaseMongodb
-import me.arasple.mc.trmenu.util.reloadable
+import me.arasple.mc.trmenu.module.internal.database.DatabaseSQL
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.metadata.FixedMetadataValue
@@ -39,7 +39,8 @@ object Metadata {
     // Copy in the Adyeshach
     val database by lazy {
         when (val db = SETTINGS.getString("Database.Method")!!.uppercase(Locale.getDefault())) {
-            "LOCAL" -> DatabaseLocal()
+            "LOCAL", "SQLITE" -> DatabaseSQLite()
+            "SQL" -> DatabaseSQL()
             "MONGODB" -> DatabaseMongodb()
             else -> {
                 val event = CustomDatabaseEvent(db)

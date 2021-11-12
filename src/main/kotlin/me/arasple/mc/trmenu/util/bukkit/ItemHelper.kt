@@ -1,6 +1,5 @@
 package me.arasple.mc.trmenu.util.bukkit
 
-import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import me.arasple.mc.trmenu.module.display.MenuSettings
@@ -11,12 +10,12 @@ import org.bukkit.Material
 import org.bukkit.block.banner.Pattern
 import org.bukkit.block.banner.PatternType
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.PlayerInventory
 import org.bukkit.inventory.meta.BannerMeta
 import taboolib.library.xseries.XMaterial
 import taboolib.module.nms.ItemTag
-import taboolib.module.nms.ItemTagData
 import taboolib.platform.util.ItemBuilder
-import taboolib.platform.util.buildItem
+import java.lang.NumberFormatException
 import kotlin.math.min
 
 /**
@@ -116,6 +115,24 @@ object ItemHelper {
         } catch (t: Throwable) {
             t.printStackTrace()
             return null
+        }
+    }
+
+    fun fromPlayerInv(inv: PlayerInventory, item: String): Any? {
+        return when (item.lowercase()) {
+            "all" -> inv.contents
+            "armor" -> inv.armorContents
+            "hand" -> inv.itemInHand
+            "offhand" -> inv.itemInOffHand
+            "helmet" -> inv.armorContents[3]
+            "chestplate" -> inv.armorContents[2]
+            "leggings" -> inv.armorContents[1]
+            "boots" -> inv.armorContents[0]
+            else -> try {
+                inv.getItem(Integer.parseInt(item))
+            } catch (ignored: NumberFormatException) {
+                null
+            }
         }
     }
 

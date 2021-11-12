@@ -23,7 +23,6 @@ import taboolib.module.chat.TellrawJson
 import taboolib.module.nms.ItemTagData
 import taboolib.module.nms.getI18nName
 import taboolib.module.nms.getItemTag
-import taboolib.module.nms.i18n.I18n11700
 import taboolib.platform.compat.getBalance
 import taboolib.platform.util.ItemBuilder
 import taboolib.type.BukkitEquipment
@@ -46,6 +45,10 @@ class Assist {
      */
 
     fun runAction(player: Player, vararg actions: String) {
+        Actions.runAction(player, actions.filter { it.isNotBlank() })
+    }
+
+    fun runAction(player: Player, actions: List<String>) {
         Actions.runAction(player, actions.filter { it.isNotBlank() })
     }
 
