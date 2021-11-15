@@ -120,9 +120,9 @@ object ItemHelper {
 
     fun fromPlayerInv(inv: PlayerInventory, item: String): Any? {
         return when (item.lowercase()) {
-            "all" -> inv.contents
+            "all", "inv" -> inv.contents
             "armor" -> inv.armorContents
-            "hand" -> inv.itemInHand
+            "hand", "mainhand" -> inv.itemInHand
             "offhand" -> inv.itemInOffHand
             "helmet" -> inv.armorContents[3]
             "chestplate" -> inv.armorContents[2]
