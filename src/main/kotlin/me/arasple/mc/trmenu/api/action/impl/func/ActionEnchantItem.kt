@@ -18,18 +18,14 @@ class ActionEnchantItem(content: String, option: ActionOption) : AbstractAction(
 
     override fun onExecute(player: Player, placeholderPlayer: Player) {
         parseContentSplited(placeholderPlayer, ";").forEach {
-            val split = it.split(",", limit = 4).toTypedArray()
+            val split = it.split(",", " ", limit = 4).toTypedArray()
             if (split.size >= 3) {
                 val l = split[2].split("-").toTypedArray()
                 val level = if (l.size > 1) ((l[0].toIntOrNull()?: 0)..(l[1].toIntOrNull()?: 0)).random() else l[0].toIntOrNull()?: 0
                 if (level > 0) {
-                    if (split[1].startsWith("$ ")) {
-                        enchant(ItemHelper.fromPlayerInv(player.inventory, split[0]), split[1].substring(2), level, if (split.size > 3) split[3] else "0")
-                    } else {
-                        val enchant = XEnchantment.matchXEnchantment(split[1])
-                        if (enchant.isPresent) {
-                            enchant(ItemHelper.fromPlayerInv(player.inventory, split[0]), enchant.get().parseEnchantment(), level)
-                        }
+                    val enchant = XEnchantment.matchXEnchantment(split[1])
+                    if (enchant.isPresent) {
+                        enchant(ItemHelper.fromPlayerInv(player.inventory, split[0]), enchant.get().parseEnchantment(), level)
                     }
                 }
             }
@@ -46,44 +42,10 @@ class ActionEnchantItem(content: String, option: ActionOption) : AbstractAction(
 
         val registery = name to parser
 
-        fun enchant(any: Any?, customEnchant: String, level: Int, lineIndex: String = "0") {
-            if (any is Array<*>) {
-                any.forEach { enchantItem(it as ItemStack?, customEnchant, level, lineIndex) }
-            } else if (any is ItemStack) enchantItem(any, customEnchant, level, lineIndex)
-        }
-
         fun enchant(any: Any?, enchant: Enchantment?, level: Int) {
             if (any is Array<*>) {
                 any.forEach { enchantItem(it as ItemStack?, enchant, level) }
             } else if (any is ItemStack) enchantItem(any, enchant, level)
-        }
-
-        fun enchantItem(item: ItemStack?, customEnchant: String, level: Int, lineIndex: String = "0") {
-            if (item != null) {
-                val meta = item.itemMeta!!
-                val line = "$customEnchant " + when(level) {
-                    1 -> "I"
-                    2 -> "II"
-                    3 -> "III"
-                    4 -> "IV"
-                    5 -> "V"
-                    6 -> "VI"
-                    7 -> "VII"
-                    8 -> "VIII"
-                    9 -> "IX"
-                    10 -> "X"
-                    else -> level.toString()
-                }
-                val lore = meta.lore?: arrayListOf<String>()
-                if (lineIndex.equals("last", true)) {
-                    lore.add(line)
-                } else {
-                    val index = lineIndex.toIntOrNull()?: 0
-                    lore.add(if (lore.size >= index) index else 0, line)
-                }
-                meta.lore = lore
-                item.itemMeta = meta
-            }
         }
 
         fun enchantItem(item: ItemStack?, enchant: Enchantment?, level: Int) {

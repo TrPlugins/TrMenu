@@ -63,6 +63,7 @@ object Actions {
         ActionPointsAdd.registery,
         ActionPointsTake.registery,
         // Item
+        ActionEditItem.registery,
         ActionEnchantItem.registery,
         ActionTakeItem.registery,
         ActionRepairItem.registery,

@@ -6,9 +6,9 @@ import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.module.internal.data.NetQuery
 import me.arasple.mc.trmenu.module.internal.hook.HookPlugin
 import me.arasple.mc.trmenu.util.Bungees
+import me.arasple.mc.trmenu.util.ClassUtils
 import me.arasple.mc.trmenu.util.bukkit.Heads
 import me.arasple.mc.trmenu.util.bukkit.ItemMatcher
-import me.arasple.mc.trmenu.util.ClassUtils
 import me.clip.placeholderapi.PlaceholderAPI
 import org.apache.commons.lang3.math.NumberUtils
 import org.bukkit.Bukkit
@@ -26,6 +26,7 @@ import taboolib.module.nms.getItemTag
 import taboolib.platform.compat.getBalance
 import taboolib.platform.util.ItemBuilder
 import taboolib.type.BukkitEquipment
+import java.util.*
 
 
 /**
@@ -37,6 +38,8 @@ class Assist {
     companion object {
 
         val INSTANCE = Assist()
+
+        private val romanNumbers = TreeMap(mapOf(1000 to "M", 900 to "CM", 500 to "D", 400 to "CD", 100 to "C", 90 to "XC", 50 to "L", 40 to "XL", 10 to "X", 9 to "IX", 5 to "V", 4 to "IV", 1 to "I"))
 
     }
 
@@ -270,6 +273,16 @@ class Assist {
         return number.toDoubleOrNull() ?: def
     }
 
+    fun toRoman(number: String): String {
+        return toRoman(toInt(number))
+    }
+
+    fun toRoman(number: Int): String {
+        if (number < 1) return ""
+        val mapNumber = romanNumbers.floorKey(number)
+        return if (mapNumber == number) romanNumbers[number]!! else romanNumbers[mapNumber] + toRoman(number - mapNumber)
+    }
+
     fun isWithin(input: String, low: String, high: String): Boolean {
         return (low.toInt()..high.toInt()).contains(input.toInt())
     }
@@ -317,6 +330,10 @@ class Assist {
 
     fun staticClass(className: String): Any? {
         return ClassUtils.staticClass(className)
+    }
+
+    fun join(separator: String, list: List<Any>): String {
+        return list.joinToString(separator)
     }
 
 
