@@ -31,7 +31,7 @@ class DatabaseSQLite : Database() {
         target.getHost()
     }
 
-    val table = Table(TrMenu.SETTINGS.getString("Database.Type.SQLite.table", "npc"), host) {
+    val table = Table(TrMenu.SETTINGS.getString("Database.Type.SQLite.table", "data"), host) {
         add {
             name("user")
             type(ColumnTypeSQLite.TEXT, 36) {

@@ -56,14 +56,18 @@ object Metadata {
     fun save() {
         data.forEach { (playerName, dataMap) ->
             val player = Bukkit.getPlayerExact(playerName) ?: return@forEach
-            getLocalePlayer(player).let {
-                if (it != null)
-                    dataMap.data.forEach { (key, value) -> it.set("TrMenu.Data.$key", value) }
-                else println("NullData: $playerName")
-            }
-            database.push(player)
+            pushData(player, dataMap)
         }
         globalData.saveToFile()
+    }
+
+    fun pushData(player: Player, dataMap: DataMap = getData(player)) {
+        getLocalePlayer(player).let {
+            if (it != null)
+                dataMap.data.forEach { (key, value) -> it.set("TrMenu.Data.$key", value) }
+            else println("NullData: ${player.name}")
+        }
+        database.push(player)
     }
 
     @Suppress("DEPRECATION")

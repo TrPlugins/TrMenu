@@ -18,7 +18,7 @@ object ListenerQuit {
         val player = e.player
         val session = MenuSession.getSession(player)
         session.shut()
-        Metadata.database.push(player)
+        Metadata.pushData(player)
         Menu.menus.forEach {
             it.icons.forEach { icon -> icon.onReset(session) }
         }
