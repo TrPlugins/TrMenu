@@ -13,9 +13,9 @@ import taboolib.module.database.bridge.createBridgeCollection
 class DatabaseMongodb : Database() {
 
     val collection = createBridgeCollection(
-        SETTINGS.getString("Database.Type.MongoDB.client"),
-        SETTINGS.getString("Database.Type.MongoDB.database"),
-        SETTINGS.getString("Database.Type.MongoDB.collection"),
+        SETTINGS.getString("Database.Type.MongoDB.client") ?: "mongodb://localhost:3307",
+        SETTINGS.getString("Database.Type.MongoDB.database") ?: "trixey",
+        SETTINGS.getString("Database.Type.MongoDB.collection") ?: "menu",
         Index.valueOf(index.name)
     )
 

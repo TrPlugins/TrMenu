@@ -10,7 +10,7 @@ import me.arasple.mc.trmenu.util.ignoreCase
 import me.arasple.mc.trmenu.util.print
 import org.bukkit.entity.Player
 import taboolib.common.util.subList
-import taboolib.library.configuration.MemorySection
+import taboolib.module.configuration.Configuration
 
 /**
  * @author Arasple
@@ -21,7 +21,7 @@ object FunctionParser {
     private val functionPattern = "\\$?\\{(\\w+)s?: ?(.+?[^\\\\}])}".toRegex()
     private val internalFunctionPattern = "\\$\\{([^0-9].+?[^\\\\}])}".toRegex()
 
-    fun parse(player: Player, input: String, section: MemorySection? = null): String {
+    fun parse(player: Player, input: String, section: Configuration? = null): String {
         return runCatching {
             if (!Regexs.containsPlaceholder(input)) return input
             val session = MenuSession.getSession(player)

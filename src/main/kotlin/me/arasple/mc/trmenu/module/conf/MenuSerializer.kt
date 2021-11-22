@@ -24,13 +24,13 @@ import me.arasple.mc.trmenu.util.bukkit.ItemMatcher
 import me.arasple.mc.trmenu.util.collections.CycleList
 import me.arasple.mc.trmenu.util.collections.IndivList
 import me.arasple.mc.trmenu.util.parseIconId
-import taboolib.library.configuration.MemorySection
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.ItemFlag
 import taboolib.common.reflect.Reflex.Companion.getProperty
 import taboolib.common.reflect.Reflex.Companion.setProperty
 import taboolib.common.util.VariableReader
-import taboolib.library.configuration.YamlConfiguration
+import taboolib.module.configuration.Configuration
+import taboolib.module.configuration.SecuredFile
 import taboolib.module.nms.ItemTag
 import taboolib.module.nms.ItemTagData
 import java.io.File
@@ -55,7 +55,7 @@ object MenuSerializer : ISerializer {
         }
         // 菜单类型
         val type = MenuType.values().find { it.suffixes.any { file.extension.equals(it, true) } }!!
-        // 加载 YAML
+        // 加载配置文件
         val conf = type.serialize(file)
 
         // 读取菜单设置
@@ -88,7 +88,7 @@ object MenuSerializer : ISerializer {
     /**
      * Ⅱ. 载入菜单设置 MenuSettings
      */
-    override fun serializeSetting(conf: MemorySection): SerialzeResult {
+    override fun serializeSetting(conf: Configuration): SerialzeResult {
         val result = SerialzeResult(SerialzeResult.Type.MENU_SETTING)
         val options = Property.OPTIONS.ofSection(conf)
         val bindings = Property.BINDINGS.ofSection(conf)
@@ -142,7 +142,7 @@ object MenuSerializer : ISerializer {
     /**
      * Ⅲ. 载入布局功能 Layout
      */
-    override fun serializeLayout(conf: MemorySection): SerialzeResult {
+    override fun serializeLayout(conf: Configuration): SerialzeResult {
         val result = SerialzeResult(SerialzeResult.Type.MENU_LAYOUT)
         val layouts = mutableListOf<Layout>()
         val layout = Property.LAYOUT.ofLists(conf)
@@ -170,7 +170,7 @@ object MenuSerializer : ISerializer {
     /**
      * Ⅳ. 载入图标功能 Icons
      */
-    override fun serializeIcons(conf: MemorySection, layout: MenuLayout): SerialzeResult {
+    override fun serializeIcons(conf: Configuration, layout: MenuLayout): SerialzeResult {
         val result = SerialzeResult(SerialzeResult.Type.ICON)
         val icons = Property.ICONS.ofMap(conf)
 
@@ -179,7 +179,7 @@ object MenuSerializer : ISerializer {
             { (id, value) ->
                 val section = Property.asSection(value).let {
                     it ?: return@let null
-                    val section = YamlConfiguration()
+                    val section = SecuredFile()
                     section.setProperty("map", it.getProperty("map"))
                     section.loadFromString(section.saveToString().split("\n").joinToString("\n") {
                         VariableReader(it, '@', '@')
@@ -226,7 +226,7 @@ object MenuSerializer : ISerializer {
     /**
      * Func Ⅴ. 载入图标显示部分
      */
-    private val loadIconProperty: (String, IconProperty?, MemorySection?, MemorySection?, MemorySection?, Int) -> IconProperty =
+    private val loadIconProperty: (String, IconProperty?, Configuration?, Configuration?, Configuration?, Int) -> IconProperty =
         { id, def, it, display, action, order ->
             val name = Property.ICON_DISPLAY_NAME.ofStringList(display)
             val texture = Property.ICON_DISPLAY_MATERIAL.ofStringList(display)

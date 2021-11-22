@@ -11,7 +11,7 @@ import taboolib.library.configuration.FileConfiguration
 abstract class Database {
 
     val index: PlayerIndex
-        get() = PlayerIndex.of(TrMenu.SETTINGS.getString("Database.Index.Player", "USERNAME"))
+        get() = PlayerIndex.of(TrMenu.SETTINGS.getString("Database.Index.Player", "USERNAME")!!)
 
     fun pull(player: Player): FileConfiguration {
         return pull(player, if (index == PlayerIndex.UUID) player.uniqueId.toString() else player.name)

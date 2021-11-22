@@ -2,7 +2,7 @@ plugins {
     `maven-publish`
     id("java")
     id("io.izzel.taboolib") version "1.31"
-    id("org.jetbrains.kotlin.jvm") version "1.5.21"
+    id("org.jetbrains.kotlin.jvm") version "1.6.0"
 }
 
 description = "Modern & Advanced Menu-Plugin for Minecraft Servers"
@@ -44,7 +44,7 @@ taboolib {
     }
 
     classifier = null
-    version = "6.0.4-11"
+    version = "6.0.5-3"
 }
 
 repositories {
@@ -75,7 +75,7 @@ dependencies {
 publishing {
     repositories {
         maven {
-            url = uri("https://repo.iroselle.com/repository/maven-releases/")
+            url = uri("https://repo.iroselle.com/repository/trplugins/")
             credentials {
                 username = project.findProperty("user").toString()
                 password = project.findProperty("password").toString()

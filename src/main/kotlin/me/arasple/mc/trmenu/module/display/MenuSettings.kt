@@ -38,8 +38,8 @@ class MenuSettings(
     companion object {
 
         val PRE_COLOR get() = TrMenu.SETTINGS.getBoolean("Menu.Icon.Item.Pre-Color", false)
-        val DEFAULT_NAME_COLOR get() = TrMenu.SETTINGS.getString("Menu.Icon.Item.Default-Name-Color", "&7").colored()
-        val DEFAULT_LORE_COLOR get() = TrMenu.SETTINGS.getString("Menu.Icon.Item.Default-Lore-Color", "&7").colored()
+        val DEFAULT_NAME_COLOR get() = TrMenu.SETTINGS.getString("Menu.Icon.Item.Default-Name-Color", "&7")!!.colored()
+        val DEFAULT_LORE_COLOR get() = TrMenu.SETTINGS.getString("Menu.Icon.Item.Default-Lore-Color", "&7")!!.colored()
 
     }
 

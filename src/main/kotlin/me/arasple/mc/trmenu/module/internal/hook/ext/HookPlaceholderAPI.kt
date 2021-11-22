@@ -18,8 +18,8 @@ object HookPlaceholderAPI : PlaceholderExpansion {
 
     override val identifier = "trmenu"
 
-    override fun onPlaceholderRequest(player: Player, params: String): String {
-        if (player.isOnline) {
+    override fun onPlaceholderRequest(player: Player?, params: String): String {
+        if (player?.isOnline == true) {
             val session = MenuSession.getSession(player)
             val args = params.split("_")
             val key = args.getOrElse(1) { "" }

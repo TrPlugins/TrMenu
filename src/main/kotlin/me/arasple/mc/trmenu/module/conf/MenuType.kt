@@ -8,6 +8,9 @@ import com.google.gson.internal.LinkedTreeMap
 import org.bukkit.ChatColor
 import taboolib.common.reflect.Reflex.Companion.getProperty
 import taboolib.common.reflect.Reflex.Companion.setProperty
+import taboolib.module.configuration.Configuration
+import taboolib.module.configuration.SecuredFile
+import taboolib.module.configuration.toml.TomlFile
 import java.io.File
 
 /**
@@ -19,14 +22,14 @@ import java.io.File
 enum class MenuType(
     val suffixes: Array<String>,
     val color: ChatColor,
-    private val serialization: (String) -> YamlConfiguration,
-    private val deserialization: (YamlConfiguration) -> String
+    private val serialization: (String) -> Configuration,
+    private val deserialization: (Configuration) -> String
 ) {
     YAML(
         arrayOf("yaml", "yml"),
         ChatColor.AQUA,
         {
-            YamlConfiguration().also { yaml -> yaml.loadFromString(it) }
+            SecuredFile().also { yaml -> yaml.loadFromString(it) }
         },
         {
             it.saveToString()
@@ -34,25 +37,35 @@ enum class MenuType(
     ),
     JSON(
         arrayOf("json"),
-        ChatColor.RED,
+        ChatColor.GOLD,
         {
-            YamlConfiguration().also { yaml -> yaml.setProperty("map", Gson().fromJson(JsonParser().parse(it).asJsonObject, Any::class.java)) }
+            SecuredFile().also { yaml -> yaml.setProperty("map", Gson().fromJson(JsonParser().parse(it).asJsonObject, Any::class.java)) }
         },
         {
             Gson().toJson(it.getProperty<Map<String, Any>>("map"))
         }
     ),
+    TOML(
+        arrayOf("toml"),
+        ChatColor.GRAY,
+        {
+            TomlFile().also { toml -> toml.loadFromString(it) }
+        },
+        {
+            it.saveToString()
+        }
+    )
     ;
 
-    fun serialize(file: File): YamlConfiguration {
+    fun serialize(file: File): Configuration {
         return serialize(file.readText())
     }
 
-    fun serialize(text: String): YamlConfiguration {
+    fun serialize(text: String): Configuration {
         return serialization(text)
     }
 
-    fun deserialize(yaml: YamlConfiguration): String {
+    fun deserialize(yaml: Configuration): String {
         return deserialization(yaml)
     }
 }

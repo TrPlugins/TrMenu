@@ -15,7 +15,7 @@ class DatabaseSQL : Database() {
 
     private val host = TrMenu.SETTINGS.getHost("Database.Type.SQL")
 
-    val table = Table(TrMenu.SETTINGS.getString("Database.Type.SQL.table", "trmenu_user_data"), host) {
+    val table = Table(TrMenu.SETTINGS.getString("Database.Type.SQL.table", "trmenu_user_data")!!, host) {
         add {
             name("user")
             type(ColumnTypeSQL.VARCHAR, 36) {

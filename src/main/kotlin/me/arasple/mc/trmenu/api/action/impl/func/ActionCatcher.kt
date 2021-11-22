@@ -49,13 +49,13 @@ class ActionCatcher(private val inputer: Inputer) : AbstractAction() {
                             Reactions.ofReaction(Property.asAnyList(section[Property.getSectionKey(section, end, "end")]))
 
                         val display = arrayOf(
-                            section.getString(Property.getSectionKey(section, display, "display"), "TrMenu Catcher"),
+                            section.getString(Property.getSectionKey(section, display, "display"), "TrMenu Catcher")!!,
                             section.getStringList(Property.getSectionKey(section, display, "display")).joinToString("\n"),
                         )
 
                         val items = arrayOf(
-                            section.getString(Property.getSectionKey(section, itemLeft, "left")),
-                            section.getString(Property.getSectionKey(section, itemRight, "right"))
+                            section.getString(Property.getSectionKey(section, itemLeft, "left"))!!,
+                            section.getString(Property.getSectionKey(section, itemRight, "right"))!!
                         )
 
                         stages += Inputer.Catcher(id, type, start, cancel, end, display, items, section)
