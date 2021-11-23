@@ -7,6 +7,7 @@ import com.google.gson.JsonParser
 import com.google.gson.internal.LinkedTreeMap
 import org.bukkit.ChatColor
 import taboolib.common.reflect.Reflex.Companion.getProperty
+import taboolib.common.reflect.Reflex.Companion.invokeMethod
 import taboolib.common.reflect.Reflex.Companion.setProperty
 import taboolib.module.configuration.Configuration
 import taboolib.module.configuration.SecuredFile
@@ -22,14 +23,14 @@ import java.io.File
 enum class MenuType(
     val suffixes: Array<String>,
     val color: ChatColor,
-    private val serialization: (String) -> Configuration,
-    private val deserialization: (Configuration) -> String
+    private val serialization: (String) -> YamlConfiguration,
+    private val deserialization: (YamlConfiguration) -> String
 ) {
     YAML(
         arrayOf("yaml", "yml"),
         ChatColor.AQUA,
         {
-            SecuredFile().also { yaml -> yaml.loadFromString(it) }
+            YamlConfiguration().also { yaml -> yaml.loadFromString(it) }
         },
         {
             it.saveToString()
@@ -39,7 +40,7 @@ enum class MenuType(
         arrayOf("json"),
         ChatColor.GOLD,
         {
-            SecuredFile().also { yaml -> yaml.setProperty("map", Gson().fromJson(JsonParser().parse(it).asJsonObject, Any::class.java)) }
+            YamlConfiguration().also { yaml -> yaml.setProperty("map", Gson().fromJson(JsonParser().parse(it).asJsonObject, Any::class.java)) }
         },
         {
             Gson().toJson(it.getProperty<Map<String, Any>>("map"))
@@ -49,23 +50,24 @@ enum class MenuType(
         arrayOf("toml"),
         ChatColor.GRAY,
         {
-            TomlFile().also { toml -> toml.loadFromString(it) }
+            YamlConfiguration().also { yaml -> yaml.setProperty("mao", TomlFile().also { toml -> toml.loadFromString(it) }.getProperty<MutableMap<String, Any>>("root/values")) }
         },
         {
-            it.saveToString()
+            TomlFile().also { toml -> toml.setProperty("root/values", it.getProperty("map")) }.saveToString()
         }
     )
     ;
 
-    fun serialize(file: File): Configuration {
+    fun serialize(file: File): YamlConfiguration {
+
         return serialize(file.readText())
     }
 
-    fun serialize(text: String): Configuration {
+    fun serialize(text: String): YamlConfiguration {
         return serialization(text)
     }
 
-    fun deserialize(yaml: Configuration): String {
+    fun deserialize(yaml: YamlConfiguration): String {
         return deserialization(yaml)
     }
 }
