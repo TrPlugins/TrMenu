@@ -1,6 +1,6 @@
 package me.arasple.mc.trmenu.util
 
-import taboolib.module.configuration.Configuration
+import taboolib.library.configuration.MemorySection
 
 /**
  * @author Arasple
@@ -26,4 +26,4 @@ fun String.parseSimplePlaceholder(map: Map<Regex, String>): String {
 // 未来需要改进该功能
 fun String.parseIconId(iconId: String) = parseSimplePlaceholder(mapOf("(?i)@iconId@".toRegex() to iconId))
 
-fun Configuration.ignoreCase(path: String) = getKeys(true).find { it.equals(path, ignoreCase = true) } ?: path
+fun MemorySection.ignoreCase(path: String) = getKeys(true).find { it.equals(path, ignoreCase = true) } ?: path

@@ -1,5 +1,6 @@
 package me.arasple.mc.trmenu.module.internal.inputer
 
+import com.google.common.collect.Lists
 import me.arasple.mc.trmenu.TrMenu
 import me.arasple.mc.trmenu.api.action.impl.ActionSilentClose
 import me.arasple.mc.trmenu.api.action.pack.Reactions
@@ -8,18 +9,23 @@ import me.arasple.mc.trmenu.module.display.texture.Texture
 import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.module.internal.inputer.inputs.InputAnvil
 import me.arasple.mc.trmenu.module.internal.inputer.inputs.InputBook
+import me.arasple.mc.trmenu.util.bukkit.ItemHelper
 import me.arasple.mc.trmenu.util.collections.CycleList
 import me.arasple.mc.trmenu.util.reloadable
+import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.entity.Player
+import org.bukkit.event.player.PlayerEditBookEvent
 import org.bukkit.inventory.ItemStack
 import taboolib.common.LifeCycle
 import taboolib.common.platform.SkipTo
+import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common.platform.function.submit
 import taboolib.library.configuration.MemorySection
-import taboolib.module.configuration.Configuration
+import taboolib.library.xseries.XMaterial
+import taboolib.module.nms.getItemTag
 import taboolib.module.nms.inputSign
-import taboolib.platform.util.inputBook
-import taboolib.platform.util.nextChat
+import taboolib.platform.util.*
+import java.util.concurrent.ConcurrentHashMap
 import java.util.function.Consumer
 import java.util.function.Function
 
@@ -77,7 +83,7 @@ class Inputer(private val stages: CycleList<Catcher>) {
         val end: Reactions,
         val display: Array<String>,
         val items: Array<String>,
-        val section: Configuration
+        val section: MemorySection
     ) {
 
         fun input(viewer: Player, respond: Function<String, Boolean>) =

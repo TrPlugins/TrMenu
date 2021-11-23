@@ -11,7 +11,7 @@ import me.arasple.mc.trmenu.module.internal.service.Performance
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import taboolib.common.platform.function.submit
-import taboolib.module.configuration.Configuration
+import taboolib.library.configuration.MemorySection
 import taboolib.platform.util.cancelNextChat
 import java.util.function.Consumer
 
@@ -25,7 +25,7 @@ class Menu(
     val settings: MenuSettings,
     val layout: MenuLayout,
     val icons: Set<Icon>,
-    val conf: Configuration
+    val conf: MemorySection
 ) {
 
     companion object {
