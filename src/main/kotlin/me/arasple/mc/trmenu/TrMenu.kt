@@ -56,7 +56,7 @@ object TrMenu : Plugin() {
 
     private fun onSettingsReload() {
         performance = kotlin.runCatching {
-            RunningPerformance.valueOf(SETTINGS.getString("Options.Running-Performance")!!)
+            RunningPerformance.valueOf(SETTINGS.getString("Options.Running-Performance") ?: "Normal")
         }.getOrNull() ?: RunningPerformance.NORMAL
 
         cancelWords.reload()
