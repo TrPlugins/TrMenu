@@ -13,9 +13,8 @@ import org.bukkit.metadata.FixedMetadataValue
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.Schedule
-import taboolib.library.configuration.FileConfiguration
 import taboolib.module.configuration.Config
-import taboolib.module.configuration.SecuredFile
+import taboolib.module.configuration.Configuration
 import java.util.*
 
 /**
@@ -34,7 +33,7 @@ object Metadata {
     internal val data = mutableMapOf<String, DataMap>()
 
     @Config("data/globalData.yml")
-    lateinit var globalData: SecuredFile
+    lateinit var globalData: Configuration
 
     // Copy in the Adyeshach
     val database by lazy {
@@ -64,20 +63,20 @@ object Metadata {
     fun pushData(player: Player, dataMap: DataMap = getData(player)) {
         getLocalePlayer(player).let {
             if (it != null)
-                dataMap.data.forEach { (key, value) -> it.set("TrMenu.Data.$key", value) }
+                dataMap.data.forEach { (key, value) -> it["TrMenu.Data.$key"] = value }
             else println("NullData: ${player.name}")
         }
         database.push(player)
     }
 
     @Suppress("DEPRECATION")
-    fun getLocalePlayer(player: Player): FileConfiguration? {
+    fun getLocalePlayer(player: Player): Configuration? {
         return database.pull(player)
     }
 
     fun loadData(player: Player) {
         data[player.name] = DataMap(
-            getLocalePlayer(player)!!.getConfigurationSection("TrMenu.Data")?.getValues(true) ?: mutableMapOf()
+            getLocalePlayer(player)!!.getConfigurationSection("TrMenu.Data")?.toMap()?.toMutableMap() ?: mutableMapOf()
         )
     }
 

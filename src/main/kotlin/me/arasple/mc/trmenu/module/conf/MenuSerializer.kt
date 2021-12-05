@@ -17,6 +17,7 @@ import me.arasple.mc.trmenu.module.display.item.Lore
 import me.arasple.mc.trmenu.module.display.item.Meta
 import me.arasple.mc.trmenu.module.display.layout.Layout
 import me.arasple.mc.trmenu.module.display.layout.MenuLayout
+import me.arasple.mc.trmenu.module.display.suffixes
 import me.arasple.mc.trmenu.module.display.texture.Texture
 import me.arasple.mc.trmenu.module.internal.script.Condition
 import me.arasple.mc.trmenu.module.internal.script.js.ScriptFunction
@@ -24,13 +25,14 @@ import me.arasple.mc.trmenu.util.bukkit.ItemMatcher
 import me.arasple.mc.trmenu.util.collections.CycleList
 import me.arasple.mc.trmenu.util.collections.IndivList
 import me.arasple.mc.trmenu.util.parseIconId
-import taboolib.library.configuration.MemorySection
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.ItemFlag
 import taboolib.common.reflect.Reflex.Companion.getProperty
-import taboolib.common.reflect.Reflex.Companion.setProperty
+import taboolib.common.reflect.Reflex.Companion.invokeMethod
 import taboolib.common.util.VariableReader
-import taboolib.library.configuration.YamlConfiguration
+import taboolib.library.configuration.ConfigurationSection
+import taboolib.module.configuration.Configuration
+import taboolib.module.configuration.Type
 import taboolib.module.nms.ItemTag
 import taboolib.module.nms.ItemTagData
 import java.io.File
@@ -49,14 +51,14 @@ object MenuSerializer : ISerializer {
         val id = file.nameWithoutExtension
         val result = SerialzeResult(SerialzeResult.Type.MENU)
         // 文件有效检测
-        if (!(file.isFile && file.length() > 0 && file.canRead() && MenuType.values().any { it.suffixes.any { file.extension.equals(it, true) } })) {
+        if (!(file.isFile && file.length() > 0 && file.canRead() && Type.values().any { it.suffixes.any { file.extension.equals(it, true) } })) {
             result.submitError(SerialzeError.INVALID_FILE, file.name)
             return result
         }
         // 菜单类型
-        val type = MenuType.values().find { it.suffixes.any { file.extension.equals(it, true) } }!!
-        // 加载 YAML
-        val conf = type.serialize(file)
+        val type = Type.values().find { it.suffixes.any { file.extension.equals(it, true) } }!!
+        // 加载菜单配置
+        val conf = Configuration.loadFromFile(file, type)
 
         // 读取菜单设置
         val settings = serializeSetting(conf)
@@ -79,7 +81,7 @@ object MenuSerializer : ISerializer {
             }
         }
         // 返回菜单
-        Menu(id, type, settings.result as MenuSettings, layout.result as MenuLayout, icons.asIcons(), conf).also {
+        Menu(id, settings.result as MenuSettings, layout.result as MenuLayout, icons.asIcons(), conf).also {
             result.result = it
             return result
         }
@@ -88,7 +90,7 @@ object MenuSerializer : ISerializer {
     /**
      * Ⅱ. 载入菜单设置 MenuSettings
      */
-    override fun serializeSetting(conf: MemorySection): SerialzeResult {
+    override fun serializeSetting(conf: Configuration): SerialzeResult {
         val result = SerialzeResult(SerialzeResult.Type.MENU_SETTING)
         val options = Property.OPTIONS.ofSection(conf)
         val bindings = Property.BINDINGS.ofSection(conf)
@@ -142,7 +144,7 @@ object MenuSerializer : ISerializer {
     /**
      * Ⅲ. 载入布局功能 Layout
      */
-    override fun serializeLayout(conf: MemorySection): SerialzeResult {
+    override fun serializeLayout(conf: Configuration): SerialzeResult {
         val result = SerialzeResult(SerialzeResult.Type.MENU_LAYOUT)
         val layouts = mutableListOf<Layout>()
         val layout = Property.LAYOUT.ofLists(conf)
@@ -170,55 +172,49 @@ object MenuSerializer : ISerializer {
     /**
      * Ⅳ. 载入图标功能 Icons
      */
-    override fun serializeIcons(conf: MemorySection, layout: MenuLayout): SerialzeResult {
+    override fun serializeIcons(conf: Configuration, layout: MenuLayout): SerialzeResult {
         val result = SerialzeResult(SerialzeResult.Type.ICON)
-        val icons = Property.ICONS.ofMap(conf)
-
-        val taskConcurrent = TaskConcurrent<Pair<String, Any>, Icon>(icons.toList()) { it / 3 }
-        result.result = taskConcurrent.start(
-            { (id, value) ->
-                val section = Property.asSection(value).let {
-                    it ?: return@let null
-                    val section = YamlConfiguration()
-                    section.setProperty("map", it.getProperty("map"))
-                    section.loadFromString(section.saveToString().split("\n").joinToString("\n") {
-                        VariableReader(it, '@', '@')
-                        it.parseIconId(id)
-                    })
-                    return@let section
-                }
-
-                val refresh = Property.ICON_REFRESH.ofInt(section, -1)
-                val update = Property.ICON_UPDATE.ofIntList(section)
-                val display = Property.ICON_DISPLAY.ofSection(section)
-                val action = Property.ACTIONS.ofSection(section)
-                val defIcon = loadIconProperty(id, null, section, display, action, -1)
-                val slots = Property.ICON_DISPLAY_SLOT.ofLists(display)
-                var pages = Property.ICON_DISPLAY_PAGE.ofIntList(display)
-                var order = 0
-                val search = layout.search(id, pages)
-
-                val position =
-                    if (slots.isNotEmpty()) {
-                        val slot = CycleList(slots.map { Position.Slot.from(it) })
-                        if (pages.isEmpty()) pages = pages.plus(0)
-                        Position(pages.associateWith { slot })
-                    } else Position(search.mapValues { CycleList(Position.Slot.from(it.value)) })
-
-                val subs = Property.ICON_SUB_ICONS.ofList(section).map {
-                    val sub = Property.asSection(it)
-                    val subDisplay = Property.ICON_DISPLAY.ofSection(sub)
-                    val subAction = Property.ACTIONS.ofSection(sub)
-                    loadIconProperty(id, defIcon, sub, subDisplay, subAction, order++)
-                }.sortedBy { it.priority }
-
-                if (defIcon.display.texture.isEmpty() || subs.any { it.display.texture.isEmpty() }) {
-                    result.submitError(SerialzeError.INVALID_ICON_UNDEFINED_TEXTURE, id)
-                }
-
-                Icon(id, refresh.toLong(), update.toTypedArray(), position, defIcon, IndivList(subs))
+        val icons = Property.ICONS.ofMap(conf).map { (id, value) ->
+            val section = Property.asSection(value).let {
+                if (it !is Configuration) return@let null
+                return@let Configuration.loadFromString(it.saveToString().split("\n").joinToString("\n") {
+                    VariableReader(it, '@', '@')
+                    it.parseIconId(id)
+                })
             }
-        ).get()
+
+            val refresh = Property.ICON_REFRESH.ofInt(section, -1)
+            val update = Property.ICON_UPDATE.ofIntList(section)
+            val display = Property.ICON_DISPLAY.ofSection(section)
+            val action = Property.ACTIONS.ofSection(section)
+            val defIcon = loadIconProperty(id, null, section, display, action, -1)
+            val slots = Property.ICON_DISPLAY_SLOT.ofLists(display)
+            var pages = Property.ICON_DISPLAY_PAGE.ofIntList(display)
+            var order = 0
+            val search = layout.search(id, pages)
+
+            val position =
+                if (slots.isNotEmpty()) {
+                    val slot = CycleList(slots.map { Position.Slot.from(it) })
+                    if (pages.isEmpty()) pages = pages.plus(0)
+                    Position(pages.associateWith { slot })
+                } else Position(search.mapValues { CycleList(Position.Slot.from(it.value)) })
+
+            val subs = Property.ICON_SUB_ICONS.ofList(section).map {
+                val sub = Property.asSection(it)
+                val subDisplay = Property.ICON_DISPLAY.ofSection(sub)
+                val subAction = Property.ACTIONS.ofSection(sub)
+                loadIconProperty(id, defIcon, sub, subDisplay, subAction, order++)
+            }.sortedBy { it.priority }
+
+            if (defIcon.display.texture.isEmpty() || subs.any { it.display.texture.isEmpty() }) {
+                result.submitError(SerialzeError.INVALID_ICON_UNDEFINED_TEXTURE, id)
+            }
+
+            Icon(id, refresh.toLong(), update.toTypedArray(), position, defIcon, IndivList(subs))
+        }
+
+        result.result = icons
 
         return result
     }
@@ -226,7 +222,7 @@ object MenuSerializer : ISerializer {
     /**
      * Func Ⅴ. 载入图标显示部分
      */
-    private val loadIconProperty: (String, IconProperty?, MemorySection?, MemorySection?, MemorySection?, Int) -> IconProperty =
+    private val loadIconProperty: (String, IconProperty?, Configuration?, Configuration?, Configuration?, Int) -> IconProperty =
         { id, def, it, display, action, order ->
             val name = Property.ICON_DISPLAY_NAME.ofStringList(display)
             val texture = Property.ICON_DISPLAY_MATERIAL.ofStringList(display)

@@ -2,7 +2,7 @@ package me.arasple.mc.trmenu.module.internal.database
 
 import me.arasple.mc.trmenu.TrMenu.SETTINGS
 import org.bukkit.entity.Player
-import taboolib.library.configuration.FileConfiguration
+import taboolib.module.configuration.Configuration
 import taboolib.module.database.bridge.Index
 import taboolib.module.database.bridge.createBridgeCollection
 
@@ -19,10 +19,10 @@ class DatabaseMongodb : Database() {
         Index.valueOf(index.name)
     )
 
-    override fun pull(player: Player, indexPlayer: String): FileConfiguration {
+    override fun pull(player: Player, indexPlayer: String): Configuration {
         return collection[indexPlayer].also {
             if (it.contains("username")) {
-                it.set("username", player.name)
+                it["username"] = player.name
             }
         }
     }

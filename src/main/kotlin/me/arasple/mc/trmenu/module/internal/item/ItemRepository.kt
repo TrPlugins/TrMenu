@@ -10,8 +10,7 @@ import taboolib.common.platform.function.submit
 import taboolib.library.xseries.getItemStack
 import taboolib.library.xseries.setItemStack
 import taboolib.module.configuration.Config
-import taboolib.module.configuration.SecuredFile
-import taboolib.module.configuration.util.getMap
+import taboolib.module.configuration.Configuration
 
 /**
  * @author Arasple
@@ -20,7 +19,7 @@ import taboolib.module.configuration.util.getMap
 object ItemRepository {
 
     @Config("data/itemRepository.yml")
-    private lateinit var data: SecuredFile
+    private lateinit var data: Configuration
     private var writing = false
     val itemStacks = mutableMapOf<String, ItemStack>()
 
@@ -32,7 +31,7 @@ object ItemRepository {
 
     private fun save(isCanceling: Boolean) {
         writing = true
-        data.getKeys(true).filter { !itemStacks.keys.contains(it) }.forEach { data.set(it, null) }
+        data.getKeys(true).filter { !itemStacks.keys.contains(it) }.forEach { data[it] = null }
         itemStacks.forEach { (id, item) -> data.setItemStack(id, item) }
         data.saveToFile()
         if (!isCanceling) submit(delay = 2L, async = !Bukkit.isPrimaryThread()) { writing = false }
@@ -41,7 +40,7 @@ object ItemRepository {
     @Schedule(delay = 20)
     fun load() {
         if (writing) return
-        val keys = data.getKeys(true)
+        val keys = data.getKeys(true).toMutableList()
         itemStacks.clear()
         keys.removeIf {
             data.getItemStack(it)?.let { item ->
@@ -50,7 +49,7 @@ object ItemRepository {
             }
             false
         }
-        keys.forEach { data.set(it, null) }
+        keys.forEach { data[it] = null }
     }
 
     fun getItem(id: String): ItemStack? = itemStacks[id]

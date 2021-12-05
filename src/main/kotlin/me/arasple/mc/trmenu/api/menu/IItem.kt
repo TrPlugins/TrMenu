@@ -8,6 +8,7 @@ import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import taboolib.platform.util.ItemBuilder
 import taboolib.platform.util.buildItem
+import taboolib.platform.util.isAir
 
 /**
  * @author Arasple
@@ -22,7 +23,7 @@ interface IItem {
     fun generate(session: MenuSession, texture: Texture, name: String?, lore: List<String>?, meta: Meta): ItemStack {
         val item = texture.generate(session)
 
-        if (item.type == Material.AIR || item.type.name.endsWith("_AIR")) {
+        if (item.isAir) {
             return item
         }
 

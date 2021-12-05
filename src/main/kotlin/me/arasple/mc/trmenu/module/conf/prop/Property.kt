@@ -1,9 +1,11 @@
 package me.arasple.mc.trmenu.module.conf.prop
 
 import org.apache.commons.lang.math.NumberUtils
+import taboolib.common.reflect.Reflex.Companion.getProperty
+import taboolib.common.reflect.Reflex.Companion.setProperty
 import taboolib.library.configuration.ConfigurationSection
-import taboolib.library.configuration.MemorySection
-import taboolib.library.configuration.YamlConfiguration
+import taboolib.module.configuration.ConfigSection
+import taboolib.module.configuration.Configuration
 
 /**
  * @author Arasple
@@ -231,39 +233,39 @@ enum class Property(val default: String, val regex: Regex) {
 
     override fun toString(): String = default
 
-    fun ofString(conf: MemorySection?, def: String? = null): String {
+    fun ofString(conf: Configuration?, def: String? = null): String {
         return of(conf, def).toString()
     }
 
-    fun ofBoolean(conf: MemorySection?, def: Boolean = false): Boolean {
+    fun ofBoolean(conf: Configuration?, def: Boolean = false): Boolean {
         return ofString(conf, def.toString()).toBoolean()
     }
 
-    fun ofInt(conf: MemorySection?, def: Int = -1): Int {
+    fun ofInt(conf: Configuration?, def: Int = -1): Int {
         return ofString(conf).toIntOrNull() ?: def
     }
 
-    fun ofList(conf: MemorySection?): List<Any> {
+    fun ofList(conf: Configuration?): List<Any> {
         return asAnyList(of(conf))
     }
 
-    fun ofIntList(conf: MemorySection?, def: List<Int> = listOf()): List<Int> {
+    fun ofIntList(conf: Configuration?, def: List<Int> = listOf()): List<Int> {
         return asIntList(of(conf, def))
     }
 
-    fun ofStringList(conf: MemorySection?, def: List<String> = listOf()): List<String> {
+    fun ofStringList(conf: Configuration?, def: List<String> = listOf()): List<String> {
         return asList(of(conf, def))
     }
 
-    fun ofSection(conf: MemorySection?): MemorySection? {
+    fun ofSection(conf: Configuration?): Configuration? {
         return asSection(of(conf))
     }
 
-    fun ofMap(conf: MemorySection?, deep: Boolean = false): Map<String, Any> {
+    fun ofMap(conf: Configuration?, deep: Boolean = false): Map<String, Any?> {
         return ofSection(conf)?.getValues(deep) ?: mapOf()
     }
 
-    fun ofLists(conf: MemorySection?): List<List<String>> {
+    fun ofLists(conf: Configuration?): List<List<String>> {
         val list = ofList(conf)
         return if (list.firstOrNull() is List<*>) {
             list.map { asList(it) }
@@ -273,11 +275,11 @@ enum class Property(val default: String, val regex: Regex) {
         }
     }
 
-    fun of(conf: MemorySection?, def: Any? = null): Any? {
+    fun of(conf: Configuration?, def: Any? = null): Any? {
         return conf?.get(getKey(conf)) ?: def
     }
 
-    fun getKey(conf: MemorySection): String {
+    fun getKey(conf: Configuration): String {
         return getSectionKey(conf, this)
     }
 
@@ -335,26 +337,27 @@ enum class Property(val default: String, val regex: Regex) {
             return results
         }
 
-        fun asSection(any: Any?): MemorySection? = YamlConfiguration().let {
+        fun asSection(any: Any?): Configuration? = Configuration.empty().let {
             when (any) {
-                is MemorySection -> return any
+                is Configuration -> return any
+                is ConfigSection -> return Configuration.empty().also { it.setProperty("root/map", any.getProperty("root/map")) }
                 is Map<*, *> -> {
-                    any.entries.forEach { entry -> it.set(entry.key.toString(), entry.value) }
+                    any.entries.forEach { entry -> it[entry.key.toString()] = entry.value }
                     return@let it
                 }
                 is List<*> -> any.forEach { any ->
                     val args = any.toString().split(Regex(":"), 2)
-                    if (args.size == 2) it.set(args[0], args[1])
+                    if (args.size == 2) it[args[0]] = args[1]
                     return@let it
                 }
             }
             return@let null
         }
 
-        fun getSectionKey(section: ConfigurationSection?, property: Property) =
+        fun getSectionKey(section:  Configuration?, property: Property) =
             getSectionKey(section, property.regex, property.default, false)
 
-        fun getSectionKey(section: ConfigurationSection?, regex: Regex, default: String = "", deep: Boolean = false) =
+        fun getSectionKey(section:  Configuration?, regex: Regex, default: String = "", deep: Boolean = false) =
             section?.getKeys(deep)?.firstOrNull { it.matches(regex) } ?: default
 
     }

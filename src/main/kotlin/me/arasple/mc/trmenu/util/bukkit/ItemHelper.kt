@@ -15,8 +15,8 @@ import org.bukkit.inventory.meta.BannerMeta
 import taboolib.library.xseries.XMaterial
 import taboolib.module.nms.ItemTag
 import taboolib.platform.util.ItemBuilder
-import java.lang.NumberFormatException
 import kotlin.math.min
+
 
 /**
  * @author Arasple
@@ -91,7 +91,7 @@ object ItemHelper {
             if (parse is JsonObject) {
 
                 val itemStack = parse["type"].let {
-                    it ?: XMaterial.STONE.parseItem()
+                    it ?: return XMaterial.STONE.parseItem()
                     try {
                         XMaterial.valueOf(it.asString).parseItem()
                     } catch (e: IllegalArgumentException) {
@@ -108,7 +108,7 @@ object ItemHelper {
                     itemStack?.amount = it.asInt
                 }
                 val meta = parse["meta"]
-                return if (meta != null) itemStack.also { ItemTag.fromJson(meta.toString()).saveTo(it) }
+                return if (meta != null) itemStack.also { ItemTag.fromLegacyJson(meta.toString()).saveTo(it) }
                 else itemStack
             }
             return null

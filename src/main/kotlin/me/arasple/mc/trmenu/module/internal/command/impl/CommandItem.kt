@@ -11,8 +11,12 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.command.subCommand
+import taboolib.common.platform.function.submit
 import taboolib.library.xseries.XSound
+import taboolib.module.nms.ItemTag
+import taboolib.module.nms.ItemTagData
 import taboolib.module.nms.getItemTag
+import taboolib.platform.util.isAir
 import taboolib.platform.util.sendLang
 import taboolib.type.BukkitEquipment
 
@@ -69,6 +73,7 @@ object CommandItem : CommandExpresser {
                         }
                         "save" -> item?.let {
                             ItemRepository.itemStacks[argument] = item
+                            submit(async = true) { ItemRepository.saveTask() }
                             player.sendLang("Command-Item-Saved", argument)
                         }
                         "delete", "del" -> ItemRepository.removeItem(argument)?.let {
@@ -81,7 +86,7 @@ object CommandItem : CommandExpresser {
     }
 
     private fun toJson(player: Player, item: ItemStack) {
-        if (item.type == Material.AIR || item.type.name.endsWith("_AIR")) {
+        if (item.isAir) {
             player.sendLang("Command-Item-No-Item")
             return
         }

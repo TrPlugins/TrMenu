@@ -16,17 +16,21 @@ class TaskConcurrent<Task, Result>(val tasks: List<Task>, threads: (Int) -> Int 
 
     fun start(
         process: (Task) -> Result,
-        succeed: (List<Result>) -> Unit = {},
-        catching: ((Throwable) -> List<Result>)? = null
-    ): CompletableFuture<List<Result>> {
-        val future: CompletableFuture<List<Result>> = CompletableFuture.supplyAsync {
-            val tasksFuture = mutableListOf<Future<Result>>()
-            val tasksResult = mutableListOf<Result>()
+        succeed: (List<Pair<Task, Result>>) -> Unit = {},
+        catching: ((Throwable) -> List<Pair<Task, Result>>)? = null
+    ): CompletableFuture<List<Pair<Task, Result>>> {
+        val future: CompletableFuture<List<Pair<Task, Result>>> = CompletableFuture.supplyAsync {
+            val tasksFuture = mutableListOf<Future<Pair<Task, Result>>>()
+            val tasksResult = mutableListOf<Pair<Task, Result>>()
             tasks.forEach {
-                tasksFuture.add(poolExecutor.submit<Result> { process.invoke(it) })
+                tasksFuture.add(poolExecutor.submit<Pair<Task, Result>> { Pair(it, process.invoke(it)) })
             }
             tasksFuture.forEach {
-                kotlin.runCatching { tasksResult.add(it.get()) }
+                try {
+                    tasksResult.add(it.get())
+                } catch (t: Throwable) {
+                    t.printStackTrace()
+                }
             }
             tasksResult
         }

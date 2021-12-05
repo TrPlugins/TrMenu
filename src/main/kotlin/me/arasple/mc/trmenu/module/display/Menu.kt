@@ -2,7 +2,6 @@ package me.arasple.mc.trmenu.module.display
 
 import me.arasple.mc.trmenu.api.event.MenuOpenEvent
 import me.arasple.mc.trmenu.api.event.MenuPageChangeEvent
-import me.arasple.mc.trmenu.module.conf.MenuType
 import taboolib.module.ui.receptacle.Receptacle
 import me.arasple.mc.trmenu.module.display.icon.Icon
 import me.arasple.mc.trmenu.module.display.layout.MenuLayout
@@ -11,7 +10,9 @@ import me.arasple.mc.trmenu.module.internal.service.Performance
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import taboolib.common.platform.function.submit
-import taboolib.library.configuration.MemorySection
+import taboolib.module.configuration.ConfigFile
+import taboolib.module.configuration.Configuration
+import taboolib.module.configuration.Type
 import taboolib.platform.util.cancelNextChat
 import java.util.function.Consumer
 
@@ -21,11 +22,10 @@ import java.util.function.Consumer
  */
 class Menu(
     val id: String,
-    val type: MenuType,
     val settings: MenuSettings,
     val layout: MenuLayout,
     val icons: Set<Icon>,
-    val conf: MemorySection
+    val conf: ConfigFile
 ) {
 
     companion object {

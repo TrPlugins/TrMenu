@@ -2,7 +2,7 @@ package me.arasple.mc.trmenu.module.internal.migrate.plugin
 
 import com.extendedclip.deluxemenus.menu.Menu
 import org.bukkit.event.inventory.InventoryType
-import taboolib.library.configuration.YamlConfiguration
+import taboolib.module.configuration.Configuration
 
 /**
  * @author Arasp
@@ -14,18 +14,18 @@ object MigrateDeluxeMenus : MigratePlugin("DeluxeMenus") {
         Menu.getAllMenus().forEach {
             val name = it.menuName
             val defUpdate = it.updateInterval
-            YamlConfiguration().run {
+            Configuration.empty().run {
 
                 if (it.inventoryType != InventoryType.CHEST) {
-                    set("Type", it.name)
+                    this["Type"] = it.name
                 }
                 if (it.menuCommands.isNotEmpty()) {
-                    set("Bindings.Commands", it.menuCommands)
+                    this["Bindings.Commands"] = it.menuCommands
                 }
                 it.openHandler
-                set("Title", it.menuTitle)
-                set("Size", it.size)
-                set("Icons", it.menuItems)
+                this["Title"] = it.menuTitle
+                this["Size"] = it.size
+                this["Icons"] = it.menuItems
 
                 it.menuItems
                 it.openHandler

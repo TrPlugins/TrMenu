@@ -10,7 +10,7 @@ Plugin-Dependency-Hooked: '&8[&3Tr&bMenu&8] &6掛鉤 &8| &7軟依賴 &f{0} &7已
 Plugin-Dependency-Abuse: '&8[&3Tr&bMenu&8] &6掛鉤 &8| &4試圖使用未掛鉤插件 &c{0}'
 
 Menu-Loader-Loaded: '&8[&3Tr&bMenu&8] &a良好 &8| &a{0} &3個菜單已加載 &8({1} ms)'
-Menu-Loader-Failed: '&8[&3Tr&bMenu&8] &c錯誤 &8| &4載入菜單 &c{0} &4過程中發生錯誤! 結果: {1}'
+Menu-Loader-Failed: '&8[&3Tr&bMenu&8] &c錯誤 &8| &4載入菜單 &c{0} &4過程中發生錯誤! 定位於: {1}'
 Menu-Loader-Reloaded: '&8[&3Tr&bMenu&8] &a良好 &8| &7自動重新載入菜單 &f{0} &8({1}ms)'
 Menu-Expansions-Header:
   - '&8[&3Tr&bMenu&8] &7你必須安裝 PAPI &f{0} &7拓展以使用此菜單.'

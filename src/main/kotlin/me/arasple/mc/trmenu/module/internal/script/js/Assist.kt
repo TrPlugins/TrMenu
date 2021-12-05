@@ -192,11 +192,11 @@ class Assist {
     }
 
 
-    fun getData(player: Player): MutableMap<String, Any> {
+    fun getData(player: Player): MutableMap<String, Any?> {
         return Metadata.getData(player).data
     }
 
-    fun getMeta(player: Player): MutableMap<String, Any> {
+    fun getMeta(player: Player): MutableMap<String, Any?> {
         return Metadata.getMeta(player).data
     }
 

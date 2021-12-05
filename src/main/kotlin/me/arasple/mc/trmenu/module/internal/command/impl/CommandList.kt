@@ -1,6 +1,7 @@
 package me.arasple.mc.trmenu.module.internal.command.impl
 
 import me.arasple.mc.trmenu.module.display.Menu
+import me.arasple.mc.trmenu.module.display.color
 import me.arasple.mc.trmenu.module.internal.command.CommandExpresser
 import net.md_5.bungee.api.ChatColor.COLOR_CHAR
 import org.bukkit.command.CommandSender
@@ -36,7 +37,7 @@ object CommandList : CommandExpresser {
             menus.forEach {
                 sender.sendLang(
                     "Command-List-Format", it.id,
-                    COLOR_CHAR + it.type.color.char.toString() + it.type.name,
+                    it.conf.type.color + it.conf.type.name,
                     it.settings.title.elements.first(),
                     it.icons.size
                 )

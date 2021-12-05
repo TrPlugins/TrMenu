@@ -13,7 +13,7 @@ import org.bukkit.Bukkit
 import taboolib.common.platform.*
 import taboolib.common.platform.function.console
 import taboolib.module.configuration.Config
-import taboolib.module.configuration.SecuredFile
+import taboolib.module.configuration.Configuration
 import taboolib.module.lang.Language
 import taboolib.module.lang.sendLang
 import taboolib.platform.BukkitPlugin
@@ -25,7 +25,7 @@ import taboolib.platform.BukkitPlugin
 object TrMenu : Plugin() {
 
     @Config("settings.yml",true, autoReload = true)
-    lateinit var SETTINGS: SecuredFile
+    lateinit var SETTINGS: Configuration
         private set
 
     val plugin by lazy { BukkitPlugin.getInstance() }

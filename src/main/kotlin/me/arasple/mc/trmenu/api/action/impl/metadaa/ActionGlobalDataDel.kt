@@ -18,7 +18,7 @@ class ActionGlobalDataDel(content: String, option: ActionOption) : AbstractActio
 
         parseContentSplited(placeholderPlayer, ";").forEach { it ->
             val regex = Regex(it)
-            data.getKeys(true).filter { it.matches(regex) }.forEach { data.set(it, null) }
+            data.getKeys(true).filter { it.matches(regex) }.forEach { data[it] = null }
         }
     }
 

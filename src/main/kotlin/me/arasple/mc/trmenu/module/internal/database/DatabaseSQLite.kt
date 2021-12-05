@@ -3,8 +3,7 @@ package me.arasple.mc.trmenu.module.internal.database
 import me.arasple.mc.trmenu.TrMenu
 import org.bukkit.entity.Player
 import taboolib.common.platform.function.getDataFolder
-import taboolib.library.configuration.FileConfiguration
-import taboolib.module.configuration.SecuredFile
+import taboolib.module.configuration.Configuration
 import taboolib.module.database.ColumnOptionSQLite
 import taboolib.module.database.ColumnTypeSQLite
 import taboolib.module.database.Table
@@ -45,19 +44,19 @@ class DatabaseSQLite : Database() {
     }
 
     val dataSource = host.createDataSource()
-    val cache = ConcurrentHashMap<String, FileConfiguration>()
+    val cache = ConcurrentHashMap<String, Configuration>()
 
     init {
         table.workspace(dataSource) { createTable(true) }.run()
     }
 
-    override fun pull(player: Player, indexPlayer: String): FileConfiguration {
+    override fun pull(player: Player, indexPlayer: String): Configuration {
         return cache.computeIfAbsent(indexPlayer) {
             table.workspace(dataSource) {
                 select { where { "user" eq indexPlayer } }
             }.firstOrNull {
-                SecuredFile.loadConfiguration(getString("data"))
-            } ?: SecuredFile()
+                Configuration.loadFromString(getString("data"))
+            } ?: Configuration.empty()
         }
     }
 

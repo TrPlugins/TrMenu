@@ -12,9 +12,8 @@ import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.command.subCommand
 import taboolib.library.configuration.ConfigurationSection
-import taboolib.library.configuration.MemoryConfiguration
-import taboolib.library.configuration.YamlConfiguration
 import taboolib.library.xseries.XSound
+import taboolib.module.configuration.Configuration
 import taboolib.module.ui.openMenu
 import taboolib.module.ui.type.Basic
 import taboolib.platform.util.sendLang
@@ -25,6 +24,7 @@ import taboolib.platform.util.sendLang
  */
 object CommandTemplate : CommandExpresser {
 
+    // TODO 生成指定文件类型, 例如 json
     // menu template <rows>
     override val command = subCommand {
         dynamic(optional = true) {
@@ -68,15 +68,16 @@ object CommandTemplate : CommandExpresser {
         val items = collectItems(inventory)
         val layout = Array(rows) { "         " }.toMutableList()
         val layoutPlayerInventory = Array(4) { "         " }.toMutableList()
-        val yaml = YamlConfiguration().also { conf ->
-            conf.options().header(
+        val yaml = Configuration.empty().also { conf ->
+            // TODO 写入顶部注释
+            /*conf.options().header(
                 buildString {
                     appendLine()
                     append("Made by TrMenu Template\n")
                     append("Date: ${Time.formatDate()}\n ")
                     appendLine()
                 }
-            )
+            )*/
             conf["Title"] = "Template*$rows"
             conf["Layout"] = layout
             if (items.any { it -> it.value.any { it > inventory.size } }) {
@@ -109,7 +110,7 @@ object CommandTemplate : CommandExpresser {
         return items
     }
     private fun formatDisplaySection(item: ItemStack): ConfigurationSection {
-        val section = MemoryConfiguration()
+        val section = Configuration.empty()
         val meta = item.itemMeta
         section["material"] = Texture.createTexture(item)
         meta?.let {

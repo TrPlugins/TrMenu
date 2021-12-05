@@ -82,8 +82,19 @@ object Loader {
                         it.forSessions { it.close(true, updateInventory = true) }
                         true
                     }
-                    it.forEach {
-                        val menu = (it.result as? Menu) ?: return@forEach
+                    it.forEach { result ->
+                        val menu = (result.second.result as? Menu) ?: return@forEach let {
+                            if (result.first.isDirectory) {
+                                return@let
+                            }
+                            console().sendLang(
+                                "Menu-Loader-Failed",
+                                result.first.nameWithoutExtension,
+                                result.second.type.name
+                            )
+                            result.second.errors.forEach { console().sendMessage("    §8$it") }
+                            console().sendMessage("")
+                        }
                         Menu.menus.add(menu)
                     }
                 }
@@ -108,6 +119,7 @@ object Loader {
                                 it.type.name
                             )
                             it.errors.forEach { console().sendMessage("    §8$it") }
+                            console().sendMessage("")
                         }
                     }
                 } catch (t: Throwable) {
