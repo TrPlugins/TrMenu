@@ -1,5 +1,7 @@
 package me.arasple.mc.trmenu.api.action.pack
 
+import me.arasple.mc.trmenu.api.action.Actions
+import me.arasple.mc.trmenu.api.action.base.AbstractAction
 import me.arasple.mc.trmenu.module.display.MenuSession
 import org.bukkit.entity.Player
 
@@ -30,13 +32,15 @@ data class Reactions(private val reacts: List<Reaction>) {
 
     fun eval(player: Player): Boolean {
         if (isEmpty()) return true
-        val reacts = reacts.sortedBy { it.priority }
 
-        reacts.forEach {
-            if (!it.react(player)) return false
+        return Actions.runAction(player, getActions(player))
+    }
+
+    fun getActions(player: Player): List<AbstractAction> {
+        return mutableListOf<AbstractAction>().run {
+            reacts.sortedBy { it.priority }.forEach { addAll(it.getActions(player)) }
+            this
         }
-
-        return true
     }
 
     fun isEmpty(): Boolean {

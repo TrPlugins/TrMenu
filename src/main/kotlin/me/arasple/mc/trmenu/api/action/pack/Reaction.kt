@@ -1,6 +1,7 @@
 package me.arasple.mc.trmenu.api.action.pack
 
 import me.arasple.mc.trmenu.api.action.Actions
+import me.arasple.mc.trmenu.api.action.base.AbstractAction
 import me.arasple.mc.trmenu.module.conf.prop.Property
 import org.bukkit.entity.Player
 
@@ -12,7 +13,7 @@ abstract class Reaction(val priority: Int) {
 
     abstract fun isEmpty(): Boolean
 
-    abstract fun react(player: Player): Boolean
+    abstract fun getActions(player: Player): List<AbstractAction>
 
     companion object {
 
