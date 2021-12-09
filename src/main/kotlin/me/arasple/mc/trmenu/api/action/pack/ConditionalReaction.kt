@@ -1,9 +1,13 @@
 package me.arasple.mc.trmenu.api.action.pack
 
+import me.arasple.mc.trmenu.api.action.base.AbstractAction
 import me.arasple.mc.trmenu.module.internal.script.Condition
 import org.bukkit.entity.Player
 
-// Almost same has old Reactions.React class
+/**
+ * @author Rubenicos
+ * @date 2021/11/23 14:59
+ */
 class ConditionalReaction(priority: Int,
                           private val condition: String,
                           private val accept: Reactions,
@@ -16,9 +20,9 @@ class ConditionalReaction(priority: Int,
         return accept.isEmpty() && deny.isEmpty()
     }
 
-    override fun react(player: Player): Boolean {
-        return if (evalCondition(player)) accept.eval(player)
-        else deny.eval(player)
+    override fun getActions(player: Player): List<AbstractAction> {
+        return if (evalCondition(player)) accept.getActions(player)
+        else deny.getActions(player)
     }
 
     private fun evalCondition(player: Player): Boolean {

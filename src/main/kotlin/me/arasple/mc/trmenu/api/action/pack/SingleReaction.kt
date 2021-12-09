@@ -1,6 +1,5 @@
 package me.arasple.mc.trmenu.api.action.pack
 
-import me.arasple.mc.trmenu.api.action.Actions
 import me.arasple.mc.trmenu.api.action.base.AbstractAction
 import org.bukkit.entity.Player
 
@@ -14,7 +13,7 @@ class SingleReaction(priority: Int, private val actions: List<AbstractAction>) :
         return actions.isEmpty()
     }
 
-    override fun react(player: Player): Boolean {
-        return Actions.runAction(player, actions)
+    override fun getActions(player: Player): List<AbstractAction> {
+        return actions
     }
 }
