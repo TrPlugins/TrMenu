@@ -2,7 +2,7 @@ Plugin-Loading:
   - '&r'
   - '&7正在加載 &3Tr&bMenu &f&lPremium... &8{0}'
   - '&r'
-Plugin-Enabled: '&8[&3Tr&bMenu&8] &b信息 &8| &3插件啟用. 當前運行版本 &2{0}&7.'
+Plugin-Enabled: '&8[&3Tr&bMenu&8] &b良好 &8| &3插件啟用. 當前運行版本 &2{0}&7.'
 Plugin-Update:
   - '&8[&3Tr&bMenu&8] &b更新 &8| &3更新 &a{0}&3 找到, 通過下方鏈接下載!'
   - '&bhttps://www.spigotmc.org/resources/83120/'

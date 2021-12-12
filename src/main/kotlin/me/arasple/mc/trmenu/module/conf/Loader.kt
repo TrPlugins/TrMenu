@@ -163,7 +163,7 @@ object Loader {
                 file.listFiles()?.forEach {
                     addAll(filterMenuFiles(it))
                 }
-            } else if (!file.name.startsWith("#")) {
+            } else if (file.exists() && !file.name.startsWith("#")) {
                 add(file)
             }
             this
