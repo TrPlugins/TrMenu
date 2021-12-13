@@ -81,15 +81,17 @@ object Actions {
         var result = true
         var delay = 0L
 
-        actions.filter { it.option.evalChance() }.forEach {
-            when {
-                it is ActionReturn && it.option.evalCondition(player) -> {
-                    result = false
-                    return@forEach
+        run filter@ {
+            actions.filter { it.option.evalChance() }.forEach {
+                when {
+                    it is ActionReturn && it.option.evalCondition(player) -> {
+                        result = false
+                        return@filter
+                    }
+                    it is ActionDelay -> delay += it.getDelay(player)
+                    delay > 0 -> submit(delay = delay) { it.run(player) }
+                    else -> run.add(it)
                 }
-                it is ActionDelay -> delay += it.getDelay(player)
-                delay > 0 -> submit(delay = delay) { it.run(player) }
-                else -> run.add(it)
             }
         }
         run.forEach { it.run(player) }
