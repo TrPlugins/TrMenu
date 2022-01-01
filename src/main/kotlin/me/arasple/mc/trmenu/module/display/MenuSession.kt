@@ -11,7 +11,6 @@ import me.arasple.mc.trmenu.util.parseGradients
 import me.arasple.mc.trmenu.util.parseRainbow
 import org.bukkit.entity.Player
 import taboolib.common.platform.service.PlatformExecutor
-import taboolib.module.chat.HexColor
 import taboolib.common.util.replaceWithOrder
 import taboolib.module.chat.colored
 import taboolib.module.configuration.Configuration
@@ -27,7 +26,7 @@ class MenuSession(
     var menu: Menu?,
     var page: Int,
     arguments: Array<String>,
-    private var agent: Player? = null,
+    var agent: Player = viewer,
     var receptacle: Receptacle? = null
 ) {
 
@@ -42,7 +41,7 @@ class MenuSession(
      */
     val placeholderPlayer: Player
         get() {
-            return agent ?: viewer
+            return if (agent.isOnline) agent else viewer
         }
 
     private var mark = System.currentTimeMillis()
@@ -139,7 +138,7 @@ class MenuSession(
         menu?.removeViewer(viewer)
         menu = null
         page = -1
-        agent = null
+        agent = viewer
         receptacle = null
     }
 
