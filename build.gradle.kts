@@ -1,7 +1,7 @@
 plugins {
     `maven-publish`
     id("java")
-    id("io.izzel.taboolib") version "1.31"
+    id("io.izzel.taboolib") version "1.33"
     id("org.jetbrains.kotlin.jvm") version "1.6.0"
 }
 
@@ -11,6 +11,7 @@ taboolib {
     install(
         "common",
         "common-5",
+        "expansion-javascript",
         "module-kether",
         "module-ui",
         "module-ui-receptacle",
@@ -44,26 +45,25 @@ taboolib {
     }
 
     classifier = null
-    version = "6.0.6-24"
+    version = "6.0.7-13"
 }
 
 repositories {
     mavenCentral()
+    maven("https://repo.tabooproject.org/repository/releases")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
     maven("https://repo.codemc.org/repository/maven-public")
 }
 
 dependencies {
     // Libraries
-    compileOnly("org.jetbrains.kotlin:kotlin-stdlib")
+    compileOnly(kotlin("stdlib"))
     compileOnly("org.apache.commons:commons-lang3:3.12.0")
 
     // Server Core
-    compileOnly("ink.ptms.core:v11701:11701:mapped")
-    compileOnly("ink.ptms.core:v11701:11701:universal")
-    compileOnly("ink.ptms.core:v11604:11604:all")
-    compileOnly("ink.ptms.core:v11600:11600:all")
-    compileOnly("ink.ptms.core:v11200:11200:all")
+    compileOnly("ink.ptms.core:v11701:11701-minimize:mapped")
+    compileOnly("ink.ptms.core:v11701:11701-minimize:universal")
+    compileOnly("ink.ptms.core:v11604:11604")
 
     // Hook Plugins
     compileOnly("me.clip:placeholderapi:2.10.9")
