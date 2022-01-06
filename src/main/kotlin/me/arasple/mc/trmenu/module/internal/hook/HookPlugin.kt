@@ -1,8 +1,12 @@
 package me.arasple.mc.trmenu.module.internal.hook
 
 import me.arasple.mc.trmenu.module.internal.hook.impl.*
+import taboolib.common.io.runningClasses
 import taboolib.common.platform.function.console
 import taboolib.module.lang.sendLang
+import java.lang.reflect.Modifier
+import java.lang.reflect.TypeVariable
+import kotlin.reflect.KClass
 
 /**
  * @author Arasple
@@ -16,52 +20,54 @@ object HookPlugin {
         }
     }
 
-    private val registry: Array<HookAbstract> = arrayOf(
-        HookHeadDatabase(),
-        HookOraxen(),
-        HookPlayerPoints(),
-        HookSkinsRestorer(),
-        HookItemsAdder(),
-        HookFloodgate(),
-        HookVault(),
-        HookFastScript(),
-        HookZaphkiel()
-    )
+    private val registry = mutableListOf<HookAbstract>().also {
+        runningClasses.forEach { `class` ->
+            if (Modifier.isAbstract(`class`.modifiers)) return@forEach
+            if (`class`.superclass != HookAbstract::class.java) return@forEach
+
+            it.add(`class`.asSubclass(HookAbstract::class.java).getConstructor().newInstance())
+        }
+    }.toTypedArray()
+
+    @Suppress("UNCHECKED_CAST")
+    operator fun <T> get(clazz: Class<T>) = registry.find { it.javaClass == clazz } as T
+
+    operator fun <T : Any> get(clazz: KClass<T>) = this[clazz.java]
 
     fun getHeadDatabase(): HookHeadDatabase {
-        return registry[0] as HookHeadDatabase
+        return get(HookHeadDatabase::class.java)
     }
 
     fun getOraxen(): HookOraxen {
-        return registry[1] as HookOraxen
+        return get(HookOraxen::class.java)
     }
 
     fun getPlayerPoints(): HookPlayerPoints {
-        return registry[2] as HookPlayerPoints
+        return get(HookPlayerPoints::class.java)
     }
 
     fun getSkinsRestorer(): HookSkinsRestorer {
-        return registry[3] as HookSkinsRestorer
+        return get(HookSkinsRestorer::class.java)
     }
 
     fun getItemsAdder(): HookItemsAdder {
-        return registry[4] as HookItemsAdder
+        return get(HookItemsAdder::class.java)
     }
 
     fun getFloodgate(): HookFloodgate {
-        return registry[5] as HookFloodgate
+        return get(HookFloodgate::class.java)
     }
 
     fun getVault(): HookVault {
-        return registry[6] as HookVault
+        return get(HookVault::class.java)
     }
 
     fun getFastScript(): HookFastScript {
-        return registry[7] as HookFastScript
+        return get(HookFastScript::class.java)
     }
 
     fun getZaphkiel(): HookZaphkiel {
-        return registry[8] as HookZaphkiel
+        return get(HookZaphkiel::class.java)
     }
 
 }
