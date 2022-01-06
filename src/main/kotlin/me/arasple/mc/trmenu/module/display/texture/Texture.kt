@@ -3,6 +3,7 @@ package me.arasple.mc.trmenu.module.display.texture
 import me.arasple.mc.trmenu.api.menu.ITexture
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.hook.HookPlugin
+import me.arasple.mc.trmenu.module.internal.hook.impl.HookSkulls
 import me.arasple.mc.trmenu.module.internal.item.ItemRepository
 import me.arasple.mc.trmenu.module.internal.item.ItemSource
 import me.arasple.mc.trmenu.util.Regexs
@@ -89,10 +90,17 @@ class Texture(
                 val hdb =
                     if (HookPlugin.getHeadDatabase().isHooked) {
                         HookPlugin.getHeadDatabase().getId(itemStack)
-                    } else ""
+                    } else null
+                val skulls =
+                    if (hdb != null) null
+                    else if (HookPlugin[HookSkulls::class.java].isHooked) {
+                        HookPlugin[HookSkulls::class.java].getId(itemStack)
+                    } else null
+
 
                 return when {
                     hdb != null -> "source:HDB:$hdb"
+                    skulls != null -> "source:SKULLS:$skulls"
                     itemMeta.hasOwner() -> "head:${itemMeta.owningPlayer?.name}"
                     else -> "head:${Heads.seekTexture(itemStack)}"
                 }
