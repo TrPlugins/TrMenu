@@ -53,6 +53,9 @@ repositories {
     maven("https://repo.tabooproject.org/repository/releases")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
     maven("https://repo.codemc.org/repository/maven-public")
+    maven("https://repo.rosewooddev.io/repository/public/")
+    maven("https://repo.opencollab.dev/maven-snapshots/")
+    maven("https://jitpack.io")
 }
 
 dependencies {
@@ -66,8 +69,13 @@ dependencies {
     compileOnly("ink.ptms.core:v11604:11604")
 
     // Hook Plugins
-    compileOnly("me.clip:placeholderapi:2.10.9")
-    compileOnly("ink.ptms:Zaphkiel:1.6.0")
+    compileOnly("me.clip:placeholderapi:2.10.9") { isTransitive = false }
+    compileOnly("ink.ptms:Zaphkiel:1.6.0") { isTransitive = false }
+    compileOnly("ca.tweetzy:skulls:2.7.2") { isTransitive = false }
+    compileOnly("net.skinsrestorer:skinsrestorer-api:14.1.10") { isTransitive = false }
+    compileOnly("com.github.Th0rgal:Oraxen:-SNAPSHOT") { isTransitive = false }
+    compileOnly("org.black_ixx:playerpoints:3.1.1") { isTransitive = false }
+    compileOnly("com.github.MilkBowl:VaultAPI:-SNAPSHOT") { isTransitive = false }
 
     compileOnly(fileTree("libs"))
 }
