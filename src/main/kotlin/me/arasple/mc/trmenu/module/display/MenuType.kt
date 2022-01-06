@@ -1,6 +1,5 @@
 package me.arasple.mc.trmenu.module.display
 
-import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.ChatColor.COLOR_CHAR
 import taboolib.module.configuration.Type
 

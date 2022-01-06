@@ -37,8 +37,8 @@ object Metadata {
 
     // Copy in the Adyeshach
     val database by lazy {
-        when (val db = SETTINGS.getString("Database.Method")!!.uppercase(Locale.getDefault())) {
-            "LOCAL", "SQLITE" -> DatabaseSQLite()
+        when (val db = SETTINGS.getString("Database.Method")?.uppercase()) {
+            "LOCAL", "SQLITE", null -> DatabaseSQLite()
             "SQL" -> DatabaseSQL()
             "MONGODB" -> DatabaseMongodb()
             else -> {
