@@ -33,6 +33,7 @@ taboolib {
         }
         dependencies {
             name("PlaceholderAPI").optional(true)
+            name("Skulls").optional(true)
             name("Vault").optional(true)
             name("PlayerPoints").optional(true)
             name("HeadDatabase").optional(true)
