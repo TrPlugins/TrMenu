@@ -1,7 +1,7 @@
 package me.arasple.mc.trmenu.module.internal.command.impl
 
 import me.arasple.mc.trmenu.api.action.Actions
-import me.arasple.mc.trmenu.module.internal.command.CommandExpresser
+import me.arasple.mc.trmenu.module.internal.command.CommandExpression
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import taboolib.common.platform.command.subCommand
@@ -12,7 +12,7 @@ import kotlin.system.measureNanoTime
  * @author Arasple
  * @date 2021/1/31 10:41
  */
-object CommandAction : CommandExpresser {
+object CommandAction : CommandExpression {
 
     // menu action [Player] [Action]
     override val command = subCommand {

@@ -1,21 +1,16 @@
 package me.arasple.mc.trmenu.module.internal.command.impl
 
-import me.arasple.mc.trmenu.module.internal.command.CommandExpresser
+import me.arasple.mc.trmenu.module.internal.command.CommandExpression
 import taboolib.module.ui.receptacle.ChestInventory
-import org.bukkit.Sound
-import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import taboolib.common.platform.function.adaptPlayer
 import taboolib.common.platform.function.console
 import taboolib.common.platform.command.subCommand
 import taboolib.library.xseries.XMaterial
 import taboolib.library.xseries.XSound
-import taboolib.module.chat.TellrawJson
 import taboolib.module.lang.asLangText
 import taboolib.module.lang.asLangTextList
 import taboolib.module.ui.receptacle.ReceptacleClickType
-import taboolib.platform.util.ItemBuilder
 import taboolib.platform.util.asLangText
 import taboolib.platform.util.buildItem
 import taboolib.platform.util.sendLang
@@ -24,7 +19,7 @@ import taboolib.platform.util.sendLang
  * @author Arasple
  * @date 2021/2/1 17:39
  */
-object CommandSounds : CommandExpresser {
+object CommandSounds : CommandExpression {
 
     private val playingSounds = mutableMapOf<Player, MutableSet<XSound>>()
 

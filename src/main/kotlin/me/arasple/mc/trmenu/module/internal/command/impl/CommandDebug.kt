@@ -5,7 +5,7 @@ import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.module.display.Menu
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.display.texture.Texture
-import me.arasple.mc.trmenu.module.internal.command.CommandExpresser
+import me.arasple.mc.trmenu.module.internal.command.CommandExpression
 import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.module.internal.service.Performance
 import me.arasple.mc.trmenu.util.Time
@@ -14,7 +14,6 @@ import me.arasple.mc.trmenu.util.net.Paster
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
-import taboolib.common.io.taboolibId
 import taboolib.common.platform.function.adaptCommandSender
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.function.pluginVersion
@@ -26,7 +25,7 @@ import java.io.File
  * @author Arasple
  * @date 2021/1/28 15:50
  */
-object CommandDebug : CommandExpresser {
+object CommandDebug : CommandExpression {
 
     // menu debug <...>
     override val command = subCommand {

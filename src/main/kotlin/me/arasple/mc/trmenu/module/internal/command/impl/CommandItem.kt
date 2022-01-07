@@ -2,19 +2,16 @@ package me.arasple.mc.trmenu.module.internal.command.impl
 
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import me.arasple.mc.trmenu.module.internal.command.CommandExpresser
+import me.arasple.mc.trmenu.module.internal.command.CommandExpression
 import me.arasple.mc.trmenu.module.internal.item.ItemRepository
 import me.arasple.mc.trmenu.util.bukkit.ItemHelper
 import me.arasple.mc.trmenu.util.net.Paster
-import org.bukkit.Material
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.function.submit
 import taboolib.library.xseries.XSound
-import taboolib.module.nms.ItemTag
-import taboolib.module.nms.ItemTagData
 import taboolib.module.nms.getItemTag
 import taboolib.platform.util.isAir
 import taboolib.platform.util.sendLang
@@ -24,7 +21,7 @@ import taboolib.type.BukkitEquipment
  * @author Arasple
  * @date 2021/1/31 10:41
  */
-object CommandItem : CommandExpresser {
+object CommandItem : CommandExpression {
 
     // toJson -NoValueNeeded-
     // fromJson [value]

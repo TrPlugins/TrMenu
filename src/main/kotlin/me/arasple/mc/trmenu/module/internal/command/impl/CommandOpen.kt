@@ -3,7 +3,7 @@ package me.arasple.mc.trmenu.module.internal.command.impl
 import me.arasple.mc.trmenu.api.TrMenuAPI
 import me.arasple.mc.trmenu.api.event.MenuOpenEvent
 import me.arasple.mc.trmenu.module.display.Menu
-import me.arasple.mc.trmenu.module.internal.command.CommandExpresser
+import me.arasple.mc.trmenu.module.internal.command.CommandExpression
 import me.arasple.mc.trmenu.module.internal.data.Metadata
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
@@ -15,7 +15,7 @@ import taboolib.platform.util.sendLang
  * @author Arasple
  * @date 2021/1/28 20:11
  */
-object CommandOpen : CommandExpresser {
+object CommandOpen : CommandExpression {
 
     // menu open [menuId] [player] [args...]
     override val command = subCommand {
