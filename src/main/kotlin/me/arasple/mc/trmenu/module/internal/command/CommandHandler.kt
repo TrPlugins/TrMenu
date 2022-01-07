@@ -11,6 +11,7 @@ import taboolib.common.platform.function.adaptCommandSender
 import taboolib.module.chat.TellrawJson
 import taboolib.module.nms.MinecraftVersion
 import taboolib.platform.util.asLangText
+import java.util.*
 
 
 /**
@@ -22,31 +23,38 @@ object CommandHandler {
     @CommandBody(permission = "test", optional = true)
     val test = CommandTest.command
 
+    @AppearHelper
     @CommandBody(permission = "trmenu.command.list", optional = true)
     val list = CommandList.command
 
+    @AppearHelper
     @CommandBody(permission = "trmenu.command.open", optional = true)
     val open = CommandOpen.command
 
+    @AppearHelper
     @CommandBody(permission = "trmenu.command.reload", optional = true)
     val reload = CommandReload.command
 
+    @AppearHelper
     @CommandBody(permission = "trmenu.command.template", optional = true)
     val template = CommandTemplate.command
 
+    @AppearHelper
     @CommandBody(permission = "trmenu.command.action", optional = true)
     val action = CommandAction.command
 
+    @AppearHelper
     @CommandBody(permission = "trmenu.command.item", optional = true)
     val item = CommandItem.command
 
+    @AppearHelper
     @CommandBody(permission = "trmenu.command.sounds", optional = true)
     var sounds = CommandSounds.command
 
     @CommandBody(permission = "trmenu.command.debug", optional = true)
     val debug = CommandDebug.command
 
-    @CommandBody
+    @CommandBody(optional = true)
     val help = subCommand {
         execute<CommandSender> { sender, _, _ ->
             generateMainHelper(sender)
@@ -70,39 +78,6 @@ object CommandHandler {
         }
     }
 
-
-    /**
-     * 非常烂的相似度匹配, 为 TabooLib 6 的命令帮助移除而写.
-     * 暂时弃坑
-     */
-     /*
-    fun surmiseArs(sender: CommandSender, arg: String) {
-        var selected: Pair<String, String>? = null
-        javaClass.fields.map {
-            val name: String
-            val desc: String
-            try {
-                name = it.name
-                (it.get(this) as CommandExpresser).apply {
-                    desc = this.description
-                }
-            } catch (t: Throwable) {
-                return@map null
-            }
-            return@map name to desc
-        }.forEach {
-            it ?: return@forEach
-            val origin = arg.toList()
-            val target = it.first.toList()
-
-
-            origin.intersect(target).size / origin.union(target).size
-
-        }
-
-    }
-    */
-
     fun generateMainHelper(sender: CommandSender) {
         val proxySender = adaptCommandSender(sender)
         proxySender.sendMessage("")
@@ -122,7 +97,12 @@ object CommandHandler {
             .sendTo(proxySender)
         proxySender.sendMessage("  §7${sender.asLangText("Command-Help-Args")}:")
 
-        fun displayArg(name: String, desc: String) {
+        javaClass.declaredFields.forEach {
+            if (!it.isAnnotationPresent(AppearHelper::class.java)) return@forEach
+            val name = it.name
+            val regularName = name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+            val desc = sender.asLangText("Command-$regularName-Description")
+
             TellrawJson()
                 .append("    §8- ").append("§f$name")
                 .hoverText("§f/trmenu $name §8- §7$desc")
@@ -130,13 +110,6 @@ object CommandHandler {
                 .sendTo(proxySender)
             proxySender.sendMessage("      §7$desc")
         }
-        displayArg("list", sender.asLangText("Command-List-Description"))
-        displayArg("open", sender.asLangText("Command-Open-Description"))
-        displayArg("reload", sender.asLangText("Command-Reload-Description"))
-        displayArg("action", sender.asLangText("Command-Action-Description"))
-        displayArg("item", sender.asLangText("Command-Item-Description"))
-        displayArg("template", sender.asLangText("Command-Template-Description"))
-        displayArg("sounds", sender.asLangText("Command-Sounds-Description"))
         proxySender.sendMessage("")
     }
 
