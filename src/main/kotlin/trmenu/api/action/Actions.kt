@@ -1,0 +1,146 @@
+package trmenu.api.action
+
+import trmenu.api.action.base.AbstractAction
+import trmenu.api.action.base.ActionOption
+import org.bukkit.entity.Player
+import taboolib.common.platform.function.submit
+import trmenu.api.action.impl.*
+import trmenu.api.action.impl.func.*
+import trmenu.api.action.impl.hook.*
+import trmenu.api.action.impl.metadaa.*
+
+/**
+ * @author Arasple
+ * @date 2021/1/29 17:51
+ * TrMenu internal actions feature
+ */
+object Actions {
+
+    private val actionsBound = " ?(_\\|\\|_|&&&) ?".toRegex()
+    private val registries = listOf(
+        // Logic & Functional
+        ActionKether.registery,
+        ActionReturn.registery,
+        ActionDelay.registery,
+        ActionJavaScript.registery,
+        ActionRetype.registery,
+        // Bukkit
+        ActionTell.registery,
+        ActionChat.registery,
+        ActionSound.registery,
+        ActionTitle.registery,
+        ActionActionbar.registery,
+        ActionTellraw.registery,
+        ActionCommand.registery,
+        ActionCommandConsole.registery,
+        ActionCommandOp.registery,
+        // BungeeCord
+        ActionConnect.registery,
+        // Menu
+        ActionClose.registery,
+        ActionSilentClose.registery,
+        ActionSilentOpen.registery,
+        ActionOpen.registery,
+        ActionPage.registery,
+        ActionReset.registery,
+        ActionSetTitle.registery,
+        ActionSetArguments.registery,
+        ActionDelArguments.registery,
+        ActionReloadInventory.registery,
+        ActionRefresh.registery,
+        ActionUpdate.registery,
+        ActionSetAgent.registery,
+        ActionMetaSet.registery,
+        ActionMetaDel.registery,
+        ActionDataSet.registery,
+        ActionDataDel.registery,
+        ActionGlobalDataSet.registery,
+        ActionGlobalDataDel.registery,
+        // Hook
+        ActionMoneySet.registery,
+        ActionMoneyAdd.registery,
+        ActionMoneyTake.registery,
+        ActionPointsSet.registery,
+        ActionPointsAdd.registery,
+        ActionPointsTake.registery,
+        // Item
+        ActionEditItem.registery,
+        ActionEnchantItem.registery,
+        ActionTakeItem.registery,
+        ActionRepairItem.registery,
+        ActionGiveItem.registery,
+        // Advanced
+        ActionCatcher.registery,
+    )
+
+    fun runAction(player: Player, actions: List<String>) {
+        runAction(player, readAction(actions))
+    }
+
+    fun runAction(player: Player, actions: List<AbstractAction>): Boolean {
+        val run = mutableListOf<AbstractAction>()
+        var result = true
+        var delay = 0L
+
+        run filter@ {
+            actions.filter { it.option.evalChance() }.forEach {
+                when {
+                    it is ActionReturn && it.option.evalCondition(player) -> {
+                        result = false
+                        return@filter
+                    }
+                    it is ActionDelay -> delay += it.getDelay(player)
+                    delay > 0 -> submit(delay = delay) { it.run(player) }
+                    else -> run.add(it)
+                }
+            }
+        }
+        run.forEach { it.run(player) }
+        return result
+    }
+
+    /**
+     * 读取多个对象动作
+     */
+    fun readAction(any: List<Any>): List<AbstractAction> {
+        return any.flatMap { readAction(it) }
+    }
+
+    /**
+     * 读取一个文本动作
+     */
+    fun readAction(any: Any): List<AbstractAction> {
+        val actions = mutableListOf<AbstractAction>()
+        val findParser: (String) -> ((Any, ActionOption) -> AbstractAction) = { name ->
+            registries.find { it.first.matches(name.lowercase()) }?.second ?: registries[0].second
+        }
+
+        when (any) {
+            is Map<*, *> -> {
+                val entry = any.entries.firstOrNull() ?: return actions
+                val key = entry.key.toString()
+                val value = entry.value ?: return actions
+                findParser(key).invoke(value, ActionOption()).let { actions.add(it) }
+            }
+            else -> {
+                val loaded = any.toString().split(actionsBound).map {
+                    val split = it.split(": ", limit = 2)
+                    val parser = findParser(split[0])
+                    val string = split.getOrElse(1) { split[0] }
+
+                    run {
+                        val (content, option) = ActionOption.of(string)
+                        parser.invoke(content, option)
+                    }
+                }
+                loaded.maxByOrNull { it.option.set.size }?.let { def ->
+                    loaded.forEach { it.option = def.option }
+                }
+                actions.addAll(loaded)
+            }
+        }
+
+        return actions
+    }
+
+}

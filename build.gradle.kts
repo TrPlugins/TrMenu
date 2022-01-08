@@ -44,6 +44,7 @@ taboolib {
             name("FastScript").optional(true)
         }
     }
+    relocate(name.toLowerCase(), group.toString().toLowerCase())
 
     classifier = null
     version = "6.0.7-19"
