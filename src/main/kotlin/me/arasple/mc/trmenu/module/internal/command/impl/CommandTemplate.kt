@@ -3,6 +3,7 @@ package me.arasple.mc.trmenu.module.internal.command.impl
 import me.arasple.mc.trmenu.module.display.layout.MenuLayout
 import me.arasple.mc.trmenu.module.display.texture.Texture
 import me.arasple.mc.trmenu.module.internal.command.CommandExpression
+import me.arasple.mc.trmenu.util.Time
 import me.arasple.mc.trmenu.util.net.Paster
 import org.apache.commons.lang3.math.NumberUtils
 import org.bukkit.Material
@@ -78,7 +79,6 @@ object CommandTemplate : CommandExpression {
                 }
             )*/
             conf["Title"] = "Template*$rows"
-            conf["Layout"] = layout
             if (items.any { it -> it.value.any { it > inventory.size } }) {
                 conf["PlayerInventory"] = layoutPlayerInventory
             }
@@ -92,8 +92,15 @@ object CommandTemplate : CommandExpression {
             }
             yaml["Icons.$key.display"] = formatDisplaySection(item)
         }
+        yaml["Layout"] = layout
 
-        return yaml.saveToString()
+        return """
+                   
+                   # Made by TrMenu Template
+                   # Date: ${Time.formatDate()}
+                   
+                   
+               """.trimIndent() + yaml.saveToString()
     }
 
     private fun collectItems(inventory: Inventory): MutableMap<ItemStack, MutableSet<Int>> {
