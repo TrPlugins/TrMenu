@@ -28,6 +28,7 @@ repositories {
     maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/" }
     maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
     maven { url "https://repo.codemc.org/repository/maven-public" }
+    maven { url "https://repo.codemc.org/repository/nms" }
     maven { url "http://repo.extendedclip.com/content/repositories/placeholderapi/" }
     maven { url "https://jitpack.io" }
 }
@@ -35,8 +36,8 @@ repositories {
 dependencies {
     compile 'org.spigotmc:spigot:1.15.2-R0.1-SNAPSHOT'
     compile 'org.bstats:bstats-bukkit:1.7'
-    compile 'io.izzel.taboolib:TabooLib:5.2:all'
-    compile 'io.izzel.taboolib:TabooLibLoader:1.7:all'
+    compile 'io.izzel.taboolib:TabooLib:5.7.2:all'
+    compile 'io.izzel.taboolib:TabooLibLoader:3.0.5:all'
     compile 'me.clip:placeholderapi:2.10.4'
 
     shadow fileTree(dir: 'libs', includes: ['*.jar'])

@@ -8,17 +8,53 @@
         </autoDetectTypes>
       </configuration>
     </facet>
+    <facet type="kotlin-language" name="Kotlin">
+      <configuration version="4" platform="JVM 1.8" allPlatforms="JVM [1.8]" useProjectSettings="false">
+        <compilerSettings>
+          <option name="additionalArguments" value="-Xallow-no-source-files" />
+        </compilerSettings>
+        <compilerArguments>
+          <option name="destination" value="$MODULE_DIR$/../../build/classes/kotlin/main" />
+          <option name="classpath" value="$MODULE_DIR$/../../libs/BossShopPro.jar;D:/work/projects/InsinuateProjects/TrMenu/libs/DeluxeMenus-1.13.3-Release.jar;D:/work/projects/InsinuateProjects/TrMenu/libs/Floodgate-bukkit-api.jar;D:/work/projects/InsinuateProjects/TrMenu/libs/HeadDatabaseAPI.jar;D:/work/projects/InsinuateProjects/TrMenu/libs/ItemsAdder-API-2.1.25.jar;C:/Users/83669/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.6.0/a40b8b22529b733892edf4b73468ce598bb17f04/kotlin-stdlib-1.6.0.jar;C:/Users/83669/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-lang3/3.12.0/c6842c86792ff03b9f1d1fe2aab8dc23aa6c6f0e/commons-lang3-3.12.0.jar;C:/Users/83669/.gradle/caches/modules-2/files-2.1/ink.ptms.core/v11701/11701-minimize/f7d31e7647119a5d95f2301e4ecdff1e4430d4a0/v11701-11701-minimize-mapped.jar;C:/Users/83669/.gradle/caches/modules-2/files-2.1/ink.ptms.core/v11701/11701-minimize/3c4839fed9bc2f230beb3a54da7b159ccd4a7e60/v11701-11701-minimize-universal.jar;C:/Users/83669/.gradle/caches/modules-2/files-2.1/ink.ptms.core/v11604/11604/cebc86f71eeb2f720a18a8cebace97defaba7bd8/v11604-11604.jar;C:/Users/83669/.gradle/caches/modules-2/files-2.1/me.clip/placeholderapi/2.10.9/7eb806cf0ac9bca89d6d6fd02b650e5f6f92306d/placeholderapi-2.10.9.jar;C:/Users/83669/.gradle/caches/modules-2/files-2.1/ink.ptms/Zaphkiel/1.6.0/92ec19316304e310f22eeb0b68df0cca49ec897a/Zaphkiel-1.6.0.jar;C:/Users/83669/.gradle/caches/modules-2/files-2.1/ca.tweetzy/skulls/2.7.2/53489d4cef5b7219ea63e2c8eebd2b270835b650/skulls-2.7.2.jar;C:/Users/83669/.gradle/caches/modules-2/files-2.1/net.skinsrestorer/skinsrestorer-api/14.1.10/9012847022e0753672f18ac654bd9467fb565bca/skinsrestorer-api-14.1.10.jar;C:/Users/83669/.gradle/caches/modules-2/files-2.1/com.github.Th0rgal/Oraxen/-SNAPSHOT/b4bb8e4ba28049d54da0ae566bc2e4cfa25a7064/Oraxen--SNAPSHOT.jar;C:/Users/83669/.gradle/caches/modules-2/files-2.1/org.black_ixx/playerpoints/3.1.1/366c99fe159143f88e1e48f9448d28af6da5598e/playerpoints-3.1.1.jar;C:/Users/83669/.gradle/caches/modules-2/files-2.1/com.github.MilkBowl/VaultAPI/-SNAPSHOT/d23ad9fc39cecf9fdab74de5a009fe236e2d6ecb/VaultAPI--SNAPSHOT.jar;C:/Users/83669/.gradle/caches/modules-2/files-2.1/io.izzel/taboolib/6.0.7-16/cd1cffb04157ff26af400d0f4d82e53787a3a185/taboolib-6.0.7-16-common.jar;C:/Users/83669/.gradle/caches/modules-2/files-2.1/io.izzel/taboolib/6.0.7-16/9078e1b63ae15605835a5d2f879eb4e35572c2d5/taboolib-6.0.7-16-common-5.jar;C:/Users/83669/.gradle/caches/modules-2/files-2.1/io.izzel/taboolib/6.0.7-16/de8d7e9a75c67ec6291efea05be0894a3d5606c3/taboolib-6.0.7-16-expansion-javascript.jar;C:/Users/83669/.gradle/caches/modules-2/files-2.1/io.izzel/taboolib/6.0.7-16/a9830de167710472985a3d42aa1cf3e8a8cf119c/taboolib-6.0.7-16-module-kether.jar;C:/Users/83669/.gradle/caches/modules-2/files-2.1/io.izzel/taboolib/6.0.7-16/8de17c7ce78c1da45729869c3c998d6d7e56b6aa/taboolib-6.0.7-16-module-ui.jar;C:/Users/83669/.gradle/caches/modules-2/files-2.1/io.izzel/taboolib/6.0.7-16/2064a2ab22693fc2b23bb7ceefe4fb65e7448c4a/taboolib-6.0.7-16-module-ui-receptacle.jar;C:/Users/83669/.gradle/caches/modules-2/files-2.1/io.izzel/taboolib/6.0.7-16/a32e9961b694e08f81bc4d747215b205550822f4/taboolib-6.0.7-16-module-lang.jar;C:/Users/83669/.gradle/caches/modules-2/files-2.1/io.izzel/taboolib/6.0.7-16/ddd071347f8e8392319bea48628270480dbf2391/taboolib-6.0.7-16-module-database.jar;C:/Users/83669/.gradle/caches/modules-2/files-2.1/io.izzel/taboolib/6.0.7-16/944019f9e2d72bccf1f6f76655b1bc4fcab287c8/taboolib-6.0.7-16-module-database-mongodb.jar;C:/Users/83669/.gradle/caches/modules-2/files-2.1/io.izzel/taboolib/6.0.7-16/3f4dfdc20cadfd29425233e44cc8355fe8e72f16/taboolib-6.0.7-16-module-metrics.jar;C:/Users/83669/.gradle/caches/modules-2/files-2.1/io.izzel/taboolib/6.0.7-16/123ce962d30800e2b311266a531cc4fcf8b34ba9/taboolib-6.0.7-16-module-nms.jar;C:/Users/83669/.gradle/caches/modules-2/files-2.1/io.izzel/taboolib/6.0.7-16/f8263b49a46cabc8468c5b092eaf31cde00bf205/taboolib-6.0.7-16-module-chat.jar;C:/Users/83669/.gradle/caches/modules-2/files-2.1/io.izzel/taboolib/6.0.7-16/80bd58835f4b5d1ca910d0220ccb1fed252bbf5e/taboolib-6.0.7-16-module-nms-util.jar;C:/Users/83669/.gradle/caches/modules-2/files-2.1/io.izzel/taboolib/6.0.7-16/74ffa04546f90f161a2c75c5f891060556665333/taboolib-6.0.7-16-module-configuration.jar;C:/Users/83669/.gradle/caches/modules-2/files-2.1/io.izzel/taboolib/6.0.7-16/23c728b5f63b911fce4eec071884fb6328103bb4/taboolib-6.0.7-16-platform-bukkit.jar;C:/Users/83669/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar;C:/Users/83669/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.6.0/7857e365f925cfa060f941c1357cda1f8790502c/kotlin-stdlib-common-1.6.0.jar" />
+          <option name="noStdlib" value="true" />
+          <option name="moduleName" value="TrMenu" />
+          <option name="languageVersion" value="1.6" />
+          <option name="apiVersion" value="1.6" />
+          <option name="pluginOptions">
+            <array />
+          </option>
+          <option name="pluginClasspaths">
+            <array>
+              <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-scripting-jvm/1.6.0/aea1438a95ff80b5ff71ac9fc998462297ddffea/kotlin-scripting-jvm-1.6.0.jar" />
+              <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-scripting-common/1.6.0/5bb427e36a331fde47846d026b687b3d5a244f7c/kotlin-scripting-common-1.6.0.jar" />
+              <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.6.0/a40b8b22529b733892edf4b73468ce598bb17f04/kotlin-stdlib-1.6.0.jar" />
+              <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/13.0/919f0dfe192fb4e063e7dacadee7f8bb9a2672a9/annotations-13.0.jar" />
+              <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.6.0/7857e365f925cfa060f941c1357cda1f8790502c/kotlin-stdlib-common-1.6.0.jar" />
+              <option value="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-script-runtime/1.6.0/55f72526ddcff6fc77d72cdf949c7e3d9bd95620/kotlin-script-runtime-1.6.0.jar" />
+            </array>
+          </option>
+          <option name="errors">
+            <ArgumentParseErrors />
+          </option>
+        </compilerArguments>
+      </configuration>
+    </facet>
   </component>
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
+  <component name="NewModuleRootManager">
     <output url="file://$MODULE_DIR$/../../build/classes/java/main" />
     <exclude-output />
+    <content url="file://$MODULE_DIR$/../../src/main">
+      <sourceFolder url="file://$MODULE_DIR$/../../src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../src/main/java" isTestSource="false" />
+    </content>
     <content url="file://$MODULE_DIR$/../../src/main">
       <sourceFolder url="file://$MODULE_DIR$/../../src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../src/main/resources" type="java-resource" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/../../libs/HeadDatabaseAPI.jar!/" />
@@ -27,25 +63,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../libs/TabooMenu.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../libs/Yum.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/../../libs/NMS 113R2.jar!/" />
@@ -54,7 +72,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/../../libs/OraxenAPI.jar!/" />
@@ -63,10 +81,28 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module-library" scope="PROVIDED">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../libs/TabooMenu.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="PROVIDED">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../libs/Yum.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntry type="library" name="Gradle: org.spigotmc:spigot:1.15.2-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Gradle: org.bstats:bstats-bukkit:1.7" level="project" />
-    <orderEntry type="library" name="Gradle: io.izzel.taboolib:TabooLib:all:5.2" level="project" />
-    <orderEntry type="library" name="Gradle: io.izzel.taboolib:TabooLibLoader:all:1.7" level="project" />
+    <orderEntry type="library" name="Gradle: io.izzel.taboolib:TabooLib:all:5.7.2" level="project" />
+    <orderEntry type="library" name="Gradle: io.izzel.taboolib:TabooLibLoader:all:3.0.5" level="project" />
     <orderEntry type="library" name="Gradle: me.clip:placeholderapi:2.10.4" level="project" />
   </component>
 </module>
