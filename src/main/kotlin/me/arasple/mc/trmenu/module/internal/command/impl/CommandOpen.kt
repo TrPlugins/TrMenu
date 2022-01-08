@@ -21,7 +21,15 @@ object CommandOpen : CommandExpression {
     override val command = subCommand {
         // menuId
         dynamic {
-            suggestion<CommandSender> { _, _ ->
+            suggestion<CommandSender>(uncheck = true) { _, context ->
+                if (context.argumentOrNull(0)?.contains(":") == true) {
+                    val menuName = context.argument(0).substringBeforeLast(":")
+                    if (!Menu.menus.any { it.id == menuName }) {
+                        return@suggestion null
+                    }
+                    val menu = Menu.menus.find { it.id == menuName }!!
+                    return@suggestion (0 until menu.layout.getSize()).map { "$menuName:$it" }
+                }
                 Menu.menus.map { it.id }
             }
 
