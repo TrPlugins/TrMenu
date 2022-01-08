@@ -79,7 +79,7 @@ class Menu(
                 val receptacle: Receptacle
 
                 session.page = determinedPage
-                session.receptacle = layout.baseReceptacle().also { receptacle = it }
+                session.receptacle = layout.baseReceptacle(settings.purePacket).also { receptacle = it }
                 session.playerItemSlots()
 
                 layout.initReceptacle(session)
@@ -111,7 +111,7 @@ class Menu(
                 receptacle = session.receptacle!!
                 receptacle.clear()
             } else {
-                session.receptacle = layout.baseReceptacle().also { receptacle = it }
+                session.receptacle = layout.baseReceptacle(settings.purePacket).also { receptacle = it }
                 layout.initReceptacle(session)
             }
 
