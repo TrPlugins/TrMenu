@@ -104,6 +104,7 @@ object MenuSerializer : ISerializer {
         val optionFreeSlots = Property.OPTION_FREE_SLOTS.ofStringList(conf)
         val optionDefaultLayout = Property.OPTION_DEFAULT_LAYOUT.ofInt(options, 0)
         val optionHidePlayerInventory = Property.OPTION_HIDE_PLAYER_INVENTORY.ofBoolean(options, false)
+        val optionHidePurePacket = Property.OPTION_PURE_PACKET.ofBoolean(options, true)
         val optionMinClickDelay = Property.OPTION_MIN_CLICK_DELAY.ofInt(options, 200)
         val optionDependExpansions = Property.OPTION_DEPEND_EXPANSIONS.ofStringList(options)
         val boundCommands = Property.BINDING_COMMANDS.ofStringList(bindings)
@@ -122,6 +123,7 @@ object MenuSerializer : ISerializer {
             optionDependExpansions.toTypedArray(),
             optionMinClickDelay,
             optionHidePlayerInventory,
+            optionHidePurePacket,
             boundCommands.map { it.toRegex() },
             boundItems.map { ItemMatcher.of(it) }.toTypedArray(),
             Reactions.ofReaction(eventOpen),
@@ -178,7 +180,7 @@ object MenuSerializer : ISerializer {
             val section = Property.asSection(value).let {
                 if (it !is Configuration) return@let null
                 return@let Configuration.loadFromString(it.saveToString().split("\n").joinToString("\n") {
-                    VariableReader(it, '@', '@')
+//                    VariableReader("@", "@")
                     it.parseIconId(id)
                 })
             }

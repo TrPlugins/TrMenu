@@ -4,6 +4,8 @@ import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common.platform.function.submit
 import taboolib.module.nms.PacketReceiveEvent
 import taboolib.module.ui.receptacle.*
+import taboolib.module.ui.receptacle.operates.OperateWindowClose
+import taboolib.module.ui.receptacle.operates.OperateWindowSetSlot
 
 object ListenerPackets {
     
@@ -19,7 +21,7 @@ object ListenerPackets {
             val evt = ReceptacleInteractEvent(e.player, receptacle, clickType, slot).also { it.call() }
             receptacle.callEventClick(evt)
 
-            if (evt.isCancelled) PacketWindowSetSlot(windowId = -1, slot = -1).send(e.player)
+            if (evt.isCancelled) OperateWindowSetSlot(windowId = -1, slot = -1).send(e.player)
 
             return
         } else if (e.packet.name == ("PacketPlayInCloseWindow") && (let {
@@ -43,7 +45,7 @@ object ListenerPackets {
             }
             submit(delay = 4L, async = true) {
                 e.player.getViewingReceptacle() ?: kotlin.run {
-                    PacketWindowClose().send(e.player)
+                    OperateWindowClose().send(e.player)
                 }
             }
 

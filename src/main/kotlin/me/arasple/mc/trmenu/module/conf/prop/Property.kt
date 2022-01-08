@@ -75,6 +75,11 @@ enum class Property(val default: String, val regex: Regex) {
     OPTION_HIDE_PLAYER_INVENTORY("Hide-Player-Inventory", "hide-?player-?inv(entory)?s?"),
 
     /**
+     * 菜单选项 - 使用纯发包菜单
+     */
+    OPTION_PURE_PACKET("Pure-Packet", "pure-?pack(et)?s?"),
+
+    /**
      * 菜单选项 - 防频繁点击
      */
     OPTION_MIN_CLICK_DELAY("Min-Click-Delay", "min-?click-?delay"),

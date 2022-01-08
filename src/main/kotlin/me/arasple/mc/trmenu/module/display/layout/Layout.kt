@@ -1,6 +1,5 @@
 package me.arasple.mc.trmenu.module.display.layout
 
-import taboolib.module.ui.receptacle.PacketInventory
 import me.arasple.mc.trmenu.module.display.MenuSession
 import me.arasple.mc.trmenu.module.internal.data.Metadata
 import me.arasple.mc.trmenu.module.internal.service.Performance
@@ -58,7 +57,7 @@ class Layout(
         keys
     }
 
-    fun baseReceptacle() = type.createReceptacle().also {
+    fun baseReceptacle(packet: Boolean = true) = type.createReceptacle(packet = packet).also {
         if (it is ChestInventory) it.rows = rows
     }
 
