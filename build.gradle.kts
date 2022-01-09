@@ -1,8 +1,11 @@
+import trmenu.gradle.mavenConfigurate
+
+val taboolibVersion: String by project
+
 plugins {
-    `maven-publish`
-    id("java")
+    kotlin("jvm") version "1.6.10"
     id("io.izzel.taboolib") version "1.34"
-    id("org.jetbrains.kotlin.jvm") version "1.6.0"
+    `maven-publish`
 }
 
 description = "Modern & Advanced Menu-Plugin for Minecraft Servers"
@@ -47,8 +50,10 @@ taboolib {
     relocate(name.toLowerCase(), group.toString().toLowerCase())
 
     classifier = null
-    version = "6.0.7-19"
+    version = taboolibVersion
 }
+
+publishing(mavenConfigurate(artifactId = name.toLowerCase()))
 
 repositories {
     mavenCentral()
@@ -61,6 +66,9 @@ repositories {
 }
 
 dependencies {
+    taboo(project(":action")) { isTransitive = false }
+    taboo(project(":assist")) { isTransitive = false }
+
     // Libraries
     compileOnly(kotlin("stdlib"))
     compileOnly("org.apache.commons:commons-lang3:3.12.0")
@@ -80,25 +88,4 @@ dependencies {
     compileOnly("com.github.MilkBowl:VaultAPI:-SNAPSHOT") { isTransitive = false }
 
     compileOnly(fileTree("libs"))
-}
-
-publishing {
-    repositories {
-        maven {
-            url = uri("https://repo.iroselle.com/repository/trplugins/")
-            credentials {
-                username = project.findProperty("user").toString()
-                password = project.findProperty("password").toString()
-            }
-            authentication {
-                create<BasicAuthentication>("basic")
-            }
-        }
-    }
-    publications {
-        create<MavenPublication>("library") {
-            from(components["java"])
-            groupId = "me.arasple"
-        }
-    }
 }
