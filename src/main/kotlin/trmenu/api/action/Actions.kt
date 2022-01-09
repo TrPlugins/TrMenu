@@ -3,7 +3,10 @@ package trmenu.api.action
 import trmenu.api.action.base.AbstractAction
 import trmenu.api.action.base.ActionOption
 import org.bukkit.entity.Player
+import taboolib.common.io.getInstance
+import taboolib.common.io.runningClasses
 import taboolib.common.platform.function.submit
+import trmenu.api.action.base.ActionDesc
 import trmenu.api.action.impl.*
 import trmenu.api.action.impl.func.*
 import trmenu.api.action.impl.hook.*
@@ -17,61 +20,13 @@ import trmenu.api.action.impl.metadaa.*
 object Actions {
 
     private val actionsBound = " ?(_\\|\\|_|&&&) ?".toRegex()
-    private val registries = listOf(
-        // Logic & Functional
-        ActionKether.registery,
-        ActionReturn.registery,
-        ActionDelay.registery,
-        ActionJavaScript.registery,
-        ActionRetype.registery,
-        // Bukkit
-        ActionTell.registery,
-        ActionChat.registery,
-        ActionSound.registery,
-        ActionTitle.registery,
-        ActionActionbar.registery,
-        ActionTellraw.registery,
-        ActionCommand.registery,
-        ActionCommandConsole.registery,
-        ActionCommandOp.registery,
-        // BungeeCord
-        ActionConnect.registery,
-        // Menu
-        ActionClose.registery,
-        ActionSilentClose.registery,
-        ActionSilentOpen.registery,
-        ActionOpen.registery,
-        ActionPage.registery,
-        ActionReset.registery,
-        ActionSetTitle.registery,
-        ActionSetArguments.registery,
-        ActionDelArguments.registery,
-        ActionReloadInventory.registery,
-        ActionRefresh.registery,
-        ActionUpdate.registery,
-        ActionSetAgent.registery,
-        ActionMetaSet.registery,
-        ActionMetaDel.registery,
-        ActionDataSet.registery,
-        ActionDataDel.registery,
-        ActionGlobalDataSet.registery,
-        ActionGlobalDataDel.registery,
-        // Hook
-        ActionMoneySet.registery,
-        ActionMoneyAdd.registery,
-        ActionMoneyTake.registery,
-        ActionPointsSet.registery,
-        ActionPointsAdd.registery,
-        ActionPointsTake.registery,
-        // Item
-        ActionEditItem.registery,
-        ActionEnchantItem.registery,
-        ActionTakeItem.registery,
-        ActionRepairItem.registery,
-        ActionGiveItem.registery,
-        // Advanced
-        ActionCatcher.registery,
-    )
+    private val registries = mutableListOf<ActionDesc>().also { list ->
+        runningClasses.forEach { `class` ->
+            val instance = `class`.getInstance(false)?.get() ?: return@forEach
+            runCatching { instance.javaClass.asSubclass(ActionDesc::class.java) }.getOrNull() ?: return@forEach
+            list.add(instance as ActionDesc)
+        }
+    }
 
     fun runAction(player: Player, actions: List<String>) {
         runAction(player, readAction(actions))
@@ -112,7 +67,7 @@ object Actions {
     fun readAction(any: Any): List<AbstractAction> {
         val actions = mutableListOf<AbstractAction>()
         val findParser: (String) -> ((Any, ActionOption) -> AbstractAction) = { name ->
-            registries.find { it.first.matches(name.lowercase()) }?.second ?: registries[0].second
+            registries.find { it.registery.first.matches(name.lowercase()) }?.registery?.second ?: registries[0].registery.second
         }
 
         when (any) {
