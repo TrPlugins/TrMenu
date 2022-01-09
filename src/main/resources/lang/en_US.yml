@@ -10,10 +10,10 @@ Plugin-Dependency-Hooked: '&8[&3Tr&bMenu&8] &6HOOK &8| &7Soft-Dependency &f{0} &
 Plugin-Dependency-Abuse: '&8[&3Tr&bMenu&8] &6HOOK &8| &4Attempted to use the non-installed soft-depend plugin &c{0}'
 
 Menu-Loader-Loaded: '&8[&3Tr&bMenu&8] &aFINE &8| &a{0} &3menus were loaded &8({1} ms)'
-Menu-Loader-Failed: '&8[&3Tr&bMenu&8] &cError &8| &4An error occurred while loading the menu &c{0} &4! Located at: {1}'
-Menu-Loader-Reloaded: '&8[&3Tr&bMenu&8] &aFINE &8| &7Automatically reloaded menu &f{0} &8({1}ms)'
+Menu-Loader-Failed: '&8[&3Tr&bMenu&8] &cError &8| &4An error occurred while loading the trplugins.menu &c{0} &4! Located at: {1}'
+Menu-Loader-Reloaded: '&8[&3Tr&bMenu&8] &aFINE &8| &7Automatically reloaded trplugins.menu &f{0} &8({1}ms)'
 Menu-Expansions-Header:
-  - '&8[&3Tr&bMenu&8] &7You have to install the &f{0} &7expansion for PlaceholderAPI to use this menu.'
+  - '&8[&3Tr&bMenu&8] &7You have to install the &f{0} &7expansion for PlaceholderAPI to use this trplugins.menu.'
   - type: JSON
     text: '&7Also don''t forget to [&3&nreload]'
     args:
@@ -55,17 +55,17 @@ Paster-Failed: '&8[&3Tr&bMenu&8] &cAn error occurred while pasting the content. 
 Command-Help-Type: 'Type'
 Command-Help-Args: 'Args'
 Command-List-Description: 'List loaded menus'
-Command-Open-Description: 'Open a menu for player'
+Command-Open-Description: 'Open a trplugins.menu for player'
 Command-Reload-Description: 'Reload all menus'
-Command-Template-Description: 'Quick layout menu'
+Command-Template-Description: 'Quick layout trplugins.menu'
 Command-Action-Description: 'Run actions for test'
 Command-Item-Description: 'Manipulate items'
 Command-Sounds-Description: 'Preview & test sounds'
 
-Command-Open-Unknown-Menu: '&8[&3Tr&bMenu&8] &7Unkown menu &6{0} &7.'
+Command-Open-Unknown-Menu: '&8[&3Tr&bMenu&8] &7Unkown trplugins.menu &6{0} &7.'
 Command-Open-Unknown-Player: '&8[&3Tr&bMenu&8] &7Player &f{0} &7is not online.'
 Command-Action-Unknown-Player: '&8[&3Tr&bMenu&8] &7Player &f{0} &7is not online.'
-Command-Template-Empty: '&8[&3Tr&bMenu&8] &7The template inventory is empty, menu creation cancelled.'
+Command-Template-Empty: '&8[&3Tr&bMenu&8] &7The template inventory is empty, trplugins.menu creation cancelled.'
 Command-Item-No-Item: '&8[&3Tr&bMenu&8] &7Please &fhold an item &7in hand.'
 Command-Item-To-Json:
   - type: JSON

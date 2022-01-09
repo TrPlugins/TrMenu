@@ -63,10 +63,10 @@ dependencies {
 
 ### 🎯 Introduce
 
-TrMenu is a brand new advanced dynamic menu plugin  
+TrMenu is a brand new advanced dynamic trplugins.menu plugin  
 You can create unlimited & highly customized inventory GUIs
 
-It covers a larger variety of functions, and easier to configurae menu  
+It covers a larger variety of functions, and easier to configurae trplugins.menu  
 Also a detailed wiki help you qucik start
 
 ---

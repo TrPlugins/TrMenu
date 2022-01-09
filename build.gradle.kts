@@ -1,4 +1,4 @@
-import trmenu.gradle.mavenConfigurate
+import trplugins.menu.gradle.mavenConfigurate
 
 val taboolibVersion: String by project
 
@@ -47,7 +47,7 @@ taboolib {
             name("FastScript").optional(true)
         }
     }
-    relocate(name.toLowerCase(), group.toString().toLowerCase())
+    relocate("trplugins.menu", group.toString().toLowerCase())
 
     classifier = null
     version = taboolibVersion

@@ -50,7 +50,7 @@ Events:
         - 'sound: BLOCK_CHEST_OPEN-1-0'
       deny:
         - 'sound: ENTITY_ITEM_BREAK-1-0'
-        - 'title: `&c&lPermission Required` `&7&lYou need permission &6&ltrmenu.use &7&lto open this menu` 15 20 15'
+        - 'title: `&c&lPermission Required` `&7&lYou need permission &6&ltrmenu.use &7&lto open this trplugins.menu` 15 20 15'
         - 'return'
   Close:
     - 'sound: BLOCK_CHEST_CLOSE-1-0'

@@ -53,4 +53,4 @@ Icons:
     actions:
       all:
       - 'sound: UI_BUTTON_CLICK-1-2'
-      - 'menu: Shop-Ores'
+      - 'trplugins.menu: Shop-Ores'

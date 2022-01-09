@@ -8,7 +8,7 @@ Layout:
   - '#########'
 
 Events:
-  Close: 'menu: Shop-Categories'
+  Close: 'trplugins.menu: Shop-Categories'
 
 Icons:
 
@@ -26,7 +26,7 @@ Icons:
       material: red stained glass pane
       name: '&6Return'
     actions:
-      all: 'menu: Shop-Categories'
+      all: 'trplugins.menu: Shop-Categories'
 
   '0':
     display:
@@ -42,6 +42,6 @@ Icons:
       all:
         - 'sound: UI_BUTTON_CLICK-1-2'
       left:
-        - 'menu: Shop-Handler-Purchase Shop-Ores COAL_ORE 20 1 64'
+        - 'trplugins.menu: Shop-Handler-Purchase Shop-Ores COAL_ORE 20 1 64'
       right:
-        - 'menu: Shop-Handler-Sell Shop-Ores COAL_ORE 3.5 1 64'
+        - 'trplugins.menu: Shop-Handler-Sell Shop-Ores COAL_ORE 3.5 1 64'

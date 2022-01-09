@@ -22,7 +22,7 @@ Database:
     MongoDB:
       client: 'mongodb://localhost:3307'
       database: trixey
-      collection: menu
+      collection: trplugins.menu
   Index:
     # UUID, USERNAME
     Player: USERNAME

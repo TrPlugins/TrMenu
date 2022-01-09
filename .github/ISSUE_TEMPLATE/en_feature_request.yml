@@ -25,7 +25,7 @@ body:
     id: description
     attributes:
       label: '🔍 Detailed description'
-      description: 'Describe the function clearly, if there is a demo menu configuration file, please provide it in the next option.'
+      description: 'Describe the function clearly, if there is a demo trplugins.menu configuration file, please provide it in the next option.'
       value: |
         ```
         1. ...
@@ -39,7 +39,7 @@ body:
     id: configuration
     attributes:
       label: '⚙ Configurations'
-      description: 'Please provide a menu to describe the function as much as possible, please paste it in the relevant configuration section between the lines below.'
+      description: 'Please provide a trplugins.menu to describe the function as much as possible, please paste it in the relevant configuration section between the lines below.'
       value: |
         ```
 

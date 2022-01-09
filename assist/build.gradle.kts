@@ -1,5 +1,5 @@
-import trmenu.gradle.mavenConfigurate
-import trmenu.gradle.taboolib
+import trplugins.menu.gradle.mavenConfigurate
+import trplugins.menu.gradle.taboolib
 
 plugins {
     kotlin("jvm")

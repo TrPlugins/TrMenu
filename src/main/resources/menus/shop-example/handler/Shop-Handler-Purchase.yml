@@ -14,7 +14,7 @@ Events:
   Open:
     - 'reset'
   Close:
-    - 'menu: {0}'
+    - 'trplugins.menu: {0}'
     - 'del-args'
 
 Icons:
@@ -34,7 +34,7 @@ Icons:
       material: gray stained glass pane
       name: '&6Return'
     actions:
-      all: 'menu: {0} &&& sound: UI_BUTTON_CLICK-1-2'
+      all: 'trplugins.menu: {0} &&& sound: UI_BUTTON_CLICK-1-2'
 
   '-':
     display:
@@ -84,7 +84,7 @@ Icons:
               cancel: 'tell: &8Cancelled'
               end:
                 - 'set-args: {0} {1} {2} `${js: Math.min(Math.max(funInt("meta:input"), 1), 64).toFixed(0)}`'
-                - 'menu: Shop-Handler-Purchase'
+                - 'trplugins.menu: Shop-Handler-Purchase'
 
   'X':
     display:
