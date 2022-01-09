@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import taboolib.common.util.replaceWithOrder
 import taboolib.library.xseries.XMaterial
+import trmenu.api.action.base.ActionDesc
 
 /**
  * @author Rubenicos
@@ -116,10 +117,10 @@ class ActionEditItem(
         item.itemMeta = meta
     }
 
-    companion object {
-        private val name = "edit(-)?items?".toRegex()
+    companion object : ActionDesc {
+        override val name = "edit(-)?items?".toRegex()
 
-        private val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
+        override val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
             val content: String = value.toString()
             val split = content.split(" ", limit = 4)
             var rawValue = split.getOrElse(3) { "" }
@@ -152,8 +153,6 @@ class ActionEditItem(
                 option
             )
         }
-
-        val registery = name to parser
 
     }
 }

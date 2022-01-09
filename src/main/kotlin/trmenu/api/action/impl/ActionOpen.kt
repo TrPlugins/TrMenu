@@ -6,6 +6,7 @@ import trmenu.api.action.base.ActionOption
 import trmenu.api.event.MenuOpenEvent
 import trmenu.module.internal.data.Metadata
 import org.bukkit.entity.Player
+import trmenu.api.action.base.ActionDesc
 
 /**
  * @author Arasple
@@ -34,15 +35,13 @@ class ActionOpen(content: String, option: ActionOption) : AbstractAction(content
         }
     }
 
-    companion object {
+    companion object : ActionDesc {
 
-        private val name = "opens?|(open)?-?gui|(tr)?menu".toRegex()
+        override val name = "opens?|(open)?-?gui|(tr)?menu".toRegex()
 
-        private val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
+        override val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
             ActionOpen(value.toString(), option)
         }
-
-        val registery = name to parser
 
     }
 

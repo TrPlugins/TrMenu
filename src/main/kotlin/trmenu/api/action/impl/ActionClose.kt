@@ -3,6 +3,7 @@ package trmenu.api.action.impl
 import trmenu.api.action.base.AbstractAction
 import trmenu.api.action.base.ActionOption
 import org.bukkit.entity.Player
+import trmenu.api.action.base.ActionDesc
 
 /**
  * @author Arasple
@@ -14,15 +15,13 @@ class ActionClose : AbstractAction() {
         player.session().close(closePacket = true, updateInventory = true)
     }
 
-    companion object {
+    companion object : ActionDesc {
 
-        private val name = "close|shut".toRegex()
+        override val name = "close|shut".toRegex()
 
-        private val parser: (Any, ActionOption) -> AbstractAction = { _, _ ->
+        override val parser: (Any, ActionOption) -> AbstractAction = { _, _ ->
             ActionClose()
         }
-
-        val registery = name to parser
 
     }
 

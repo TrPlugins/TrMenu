@@ -3,6 +3,7 @@ package trmenu.api.action.impl
 import trmenu.api.action.base.AbstractAction
 import trmenu.api.action.base.ActionOption
 import org.bukkit.entity.Player
+import trmenu.api.action.base.ActionDesc
 
 /**
  * @author Arasple
@@ -17,15 +18,13 @@ class ActionSetTitle(content: String, option: ActionOption) : AbstractAction(con
         receptacle.title = parseContent(placeholderPlayer)
     }
 
-    companion object {
+    companion object : ActionDesc {
 
-        private val name = "set-?title".toRegex()
+        override val name = "set-?title".toRegex()
 
-        private val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
+        override val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
             ActionSetTitle(value.toString(), option)
         }
-
-        val registery = name to parser
 
     }
 

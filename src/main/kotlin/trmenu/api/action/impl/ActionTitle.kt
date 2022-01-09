@@ -5,6 +5,7 @@ import trmenu.api.action.base.AbstractAction
 import trmenu.api.action.base.ActionOption
 import trmenu.util.Regexs
 import org.bukkit.entity.Player
+import trmenu.api.action.base.ActionDesc
 
 /**
  * @author Arasple
@@ -30,11 +31,11 @@ class ActionTitle(
         )
     }
 
-    companion object {
+    companion object : ActionDesc {
 
-        private val name = "(send)?-?(sub)?titles?".toRegex()
+        override val name = "(send)?-?(sub)?titles?".toRegex()
 
-        private val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
+        override val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
             var content: String = value.toString()
             val replacements = Regexs.SENTENCE.findAll(content).mapIndexed { index, result ->
                 content = content.replace(result.value, "{$index}")
@@ -52,8 +53,6 @@ class ActionTitle(
                 option
             )
         }
-
-        val registery = name to parser
 
     }
 

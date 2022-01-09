@@ -7,6 +7,7 @@ import trmenu.module.conf.prop.Property
 import trmenu.module.internal.inputer.Inputer
 import trmenu.util.collections.CycleList
 import org.bukkit.entity.Player
+import trmenu.api.action.base.ActionDesc
 
 /**
  * @author Arasple
@@ -18,7 +19,7 @@ class ActionCatcher(private val inputer: Inputer) : AbstractAction() {
         inputer.startInput(player.session())
     }
 
-    companion object {
+    companion object : ActionDesc {
 
         val type = "type".toRegex()
         val start = "before|start".toRegex()
@@ -30,9 +31,9 @@ class ActionCatcher(private val inputer: Inputer) : AbstractAction() {
         val itemRight = "item-?right".toRegex()
 
 
-        val name = "(input)?-?catchers?".toRegex()
+        override val name = "(input)?-?catchers?".toRegex()
 
-        private val parser: (Any, ActionOption) -> AbstractAction = { value, _ ->
+        override val parser: (Any, ActionOption) -> AbstractAction = { value, _ ->
             val stages = mutableListOf<Inputer.Catcher>()
             if (value is Map<*, *>) {
                 value.forEach {
@@ -64,8 +65,6 @@ class ActionCatcher(private val inputer: Inputer) : AbstractAction() {
             }
             ActionCatcher(Inputer(CycleList(stages)))
         }
-
-        val registery = name to parser
 
     }
 

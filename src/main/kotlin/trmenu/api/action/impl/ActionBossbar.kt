@@ -9,6 +9,7 @@ import org.bukkit.Bukkit
 import org.bukkit.boss.BarColor
 import org.bukkit.boss.BarStyle
 import org.bukkit.entity.Player
+import trmenu.api.action.base.ActionDesc
 
 class ActionBossbar(
     val barContent: String,
@@ -31,11 +32,11 @@ class ActionBossbar(
         }
     }
 
-    companion object {
+    companion object : ActionDesc {
 
-        private val name = "(send)?-?boss(bar)?s?".toRegex()
+        override val name = "(send)?-?boss(bar)?s?".toRegex()
 
-        private val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
+        override val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
             var content: String = value.toString()
             val replacements = Regexs.SENTENCE.findAll(content).mapIndexed { index, result ->
                 content = content.replace(result.value, "{$index}")

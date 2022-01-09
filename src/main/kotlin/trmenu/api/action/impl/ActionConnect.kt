@@ -4,6 +4,7 @@ import trmenu.api.action.base.AbstractAction
 import trmenu.api.action.base.ActionOption
 import trmenu.util.Bungees
 import org.bukkit.entity.Player
+import trmenu.api.action.base.ActionDesc
 
 /**
  * @author Arasple
@@ -15,15 +16,13 @@ class ActionConnect(content: String, option: ActionOption) : AbstractAction(cont
         Bungees.connect(player, parseContent(placeholderPlayer))
     }
 
-    companion object {
+    companion object : ActionDesc {
 
-        private val name = "bungee|server|connect".toRegex()
+        override val name = "bungee|server|connect".toRegex()
 
-        private val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
+        override val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
             ActionConnect(value.toString(), option)
         }
-
-        val registery = name to parser
 
     }
 

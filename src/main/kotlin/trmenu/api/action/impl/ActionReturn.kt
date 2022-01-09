@@ -3,6 +3,7 @@ package trmenu.api.action.impl
 import trmenu.api.action.base.AbstractAction
 import trmenu.api.action.base.ActionOption
 import org.bukkit.entity.Player
+import trmenu.api.action.base.ActionDesc
 
 /**
  * @author Arasple
@@ -14,13 +15,11 @@ class ActionReturn : AbstractAction() {
         TODO("Not yet implemented")
     }
 
-    companion object {
+    companion object : ActionDesc {
 
-        private val name = "return|break".toRegex()
+        override val name = "return|break".toRegex()
 
-        private val parser: (Any, ActionOption) -> AbstractAction = { _, _ -> ActionReturn() }
-
-        val registery = name to parser
+        override val parser: (Any, ActionOption) -> AbstractAction = { _, _ -> ActionReturn() }
 
     }
 

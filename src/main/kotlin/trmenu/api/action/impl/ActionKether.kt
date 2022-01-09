@@ -4,6 +4,7 @@ import trmenu.api.TrMenuAPI
 import trmenu.api.action.base.AbstractAction
 import trmenu.api.action.base.ActionOption
 import org.bukkit.entity.Player
+import trmenu.api.action.base.ActionDesc
 
 /**
  * @author Arasple
@@ -15,15 +16,13 @@ class ActionKether(content: String, option: ActionOption) : AbstractAction(conte
         TrMenuAPI.eval(player, baseContent)
     }
 
-    companion object {
+    companion object : ActionDesc {
 
-        private val name = "ke(ther)?s?".toRegex()
+        override val name = "ke(ther)?s?".toRegex()
 
-        private val parser: (Any, ActionOption) -> AbstractAction = { it, option ->
+        override val parser: (Any, ActionOption) -> AbstractAction = { it, option ->
             ActionKether(it.toString(), option)
         }
-
-        val registery = name to parser
 
     }
 

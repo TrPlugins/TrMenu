@@ -4,6 +4,7 @@ import trmenu.api.action.base.AbstractAction
 import trmenu.api.action.base.ActionOption
 import trmenu.module.internal.script.js.JavaScriptAgent
 import org.bukkit.entity.Player
+import trmenu.api.action.base.ActionDesc
 
 /**
  * @author Arasple
@@ -19,15 +20,13 @@ class ActionJavaScript(content: String, option: ActionOption) : AbstractAction(c
         JavaScriptAgent.eval(player.session(), baseContent)
     }
 
-    companion object {
+    companion object : ActionDesc {
 
-        private val name = "((java)?-?script|js)s?".toRegex()
+        override val name = "((java)?-?script|js)s?".toRegex()
 
-        private val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
+        override val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
             ActionJavaScript(value.toString(), option)
         }
-
-        val registery = name to parser
 
     }
 

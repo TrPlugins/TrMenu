@@ -6,6 +6,7 @@ import org.bukkit.Bukkit
 import org.bukkit.Bukkit.dispatchCommand
 import org.bukkit.entity.Player
 import taboolib.common.platform.function.submit
+import trmenu.api.action.base.ActionDesc
 
 /**
  * @author Arasple
@@ -29,15 +30,13 @@ class ActionCommand(content: String, option: ActionOption) : AbstractAction(cont
         }
     }
 
-    companion object {
+    companion object : ActionDesc {
 
-        private val name = "command|cmd|player|execute".toRegex()
+        override val name = "command|cmd|player|execute".toRegex()
 
-        private val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
+        override val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
             ActionCommand(value.toString(), option)
         }
-
-        val registery = name to parser
 
     }
 

@@ -4,6 +4,7 @@ import trmenu.api.action.base.AbstractAction
 import trmenu.api.action.base.ActionOption
 import trmenu.util.bukkit.ItemMatcher
 import org.bukkit.entity.Player
+import trmenu.api.action.base.ActionDesc
 
 /**
  * @author Arasple
@@ -18,15 +19,13 @@ class ActionGiveItem(content: String, option: ActionOption) : AbstractAction(con
         player.session().playerItemSlots()
     }
 
-    companion object {
+    companion object : ActionDesc {
 
-        private val name = "(give|add)(-)?items?".toRegex()
+        override val name = "(give|add)(-)?items?".toRegex()
 
-        private val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
+        override val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
             ActionGiveItem(value.toString(), option)
         }
-
-        val registery = name to parser
 
     }
 

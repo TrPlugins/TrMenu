@@ -4,6 +4,7 @@ import trmenu.api.action.base.AbstractAction
 import trmenu.api.action.base.ActionOption
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
+import trmenu.api.action.base.ActionDesc
 
 /**
  * @author Rubenicos
@@ -17,15 +18,13 @@ class ActionSetAgent(content: String, option: ActionOption) : AbstractAction(con
         player.session().agent = agent
     }
 
-    companion object {
+    companion object : ActionDesc {
 
-        private val name = "(set|change)-?agent".toRegex()
+        override val name = "(set|change)-?agent".toRegex()
 
-        private val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
+        override val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
             ActionSetAgent(value.toString(), option)
         }
-
-        val registery = name to parser
 
     }
 }

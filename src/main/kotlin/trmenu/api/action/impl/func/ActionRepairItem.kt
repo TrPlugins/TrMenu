@@ -6,6 +6,7 @@ import trmenu.util.bukkit.ItemHelper
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import trmenu.api.action.base.ActionDesc
 
 /**
  * @author Rubenicos
@@ -20,15 +21,13 @@ class ActionRepairItem(content: String, option: ActionOption) : AbstractAction(c
         player.updateInventory()
     }
 
-    companion object {
+    companion object : ActionDesc {
 
-        private val name = "repair(-)?items?".toRegex()
+        override val name = "repair(-)?items?".toRegex()
 
-        private val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
+        override val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
             ActionRepairItem(value.toString(), option)
         }
-
-        val registery = name to parser
 
         private fun repair(any: Any?) {
             if (any is Array<*>) {

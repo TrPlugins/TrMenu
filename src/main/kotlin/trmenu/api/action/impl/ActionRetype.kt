@@ -4,6 +4,7 @@ import trmenu.api.action.base.AbstractAction
 import trmenu.api.action.base.ActionOption
 import trmenu.module.internal.data.Metadata
 import org.bukkit.entity.Player
+import trmenu.api.action.base.ActionDesc
 
 /**
  * @author Arasple
@@ -15,15 +16,13 @@ class ActionRetype : AbstractAction() {
         Metadata.setBukkitMeta(player, "RE_ENTER")
     }
 
-    companion object {
+    companion object : ActionDesc {
 
-        private val name = "re-?(peat|catcher|input|enter|type)s?".toRegex()
+        override val name = "re-?(peat|catcher|input|enter|type)s?".toRegex()
 
-        private val parser: (Any, ActionOption) -> AbstractAction = { _, _ ->
+        override val parser: (Any, ActionOption) -> AbstractAction = { _, _ ->
             ActionRetype()
         }
-
-        val registery = name to parser
 
     }
 

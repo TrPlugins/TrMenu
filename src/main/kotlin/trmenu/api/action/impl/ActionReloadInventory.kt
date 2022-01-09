@@ -4,6 +4,7 @@ import trmenu.api.action.base.AbstractAction
 import trmenu.api.action.base.ActionOption
 import org.bukkit.entity.Player
 import taboolib.common.platform.function.submit
+import trmenu.api.action.base.ActionDesc
 
 /**
  * @author Arasple
@@ -17,13 +18,11 @@ class ActionReloadInventory : AbstractAction() {
         }
     }
 
-    companion object {
+    companion object : ActionDesc {
 
-        private val name = "(reload|rl)-?inv(entory)?s?".toRegex()
+        override val name = "(reload|rl)-?inv(entory)?s?".toRegex()
 
-        private val parser: (Any, ActionOption) -> AbstractAction = { _, _ -> ActionReloadInventory() }
-
-        val registery = name to parser
+        override val parser: (Any, ActionOption) -> AbstractAction = { _, _ -> ActionReloadInventory() }
 
     }
 

@@ -4,6 +4,7 @@ import trmenu.api.action.base.AbstractAction
 import trmenu.api.action.base.ActionOption
 import org.bukkit.entity.Player
 import taboolib.common.platform.function.adaptPlayer
+import trmenu.api.action.base.ActionDesc
 
 /**
  * @author Arasple
@@ -15,15 +16,13 @@ class ActionActionbar(content: String, option: ActionOption) : AbstractAction(co
         adaptPlayer(player).sendActionBar(parseContent(placeholderPlayer))
     }
 
-    companion object {
+    companion object : ActionDesc {
 
-        private val name = "action(bar)?s?".toRegex()
+        override val name = "action(bar)?s?".toRegex()
 
-        private val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
+        override val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
             ActionActionbar(value.toString(), option)
         }
-
-        val registery = name to parser
 
     }
 

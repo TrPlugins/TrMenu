@@ -9,6 +9,7 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.EnchantmentStorageMeta
 import taboolib.library.xseries.XEnchantment
+import trmenu.api.action.base.ActionDesc
 
 /**
  * @author Rubenicos
@@ -32,15 +33,13 @@ class ActionEnchantItem(content: String, option: ActionOption) : AbstractAction(
         }
     }
 
-    companion object {
+    companion object : ActionDesc {
 
-        private val name = "enchant(-)?items?".toRegex()
+        override val name = "enchant(-)?items?".toRegex()
 
-        private val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
+        override val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
             ActionEnchantItem(value.toString(), option)
         }
-
-        val registery = name to parser
 
         fun enchant(any: Any?, enchant: Enchantment?, level: Int) {
             if (any is Array<*>) {

@@ -3,6 +3,7 @@ package trmenu.api.action.impl
 import trmenu.api.action.base.AbstractAction
 import trmenu.api.action.base.ActionOption
 import org.bukkit.entity.Player
+import trmenu.api.action.base.ActionDesc
 
 /**
  * @author Arasple
@@ -16,15 +17,13 @@ class ActionDelay(content: String) : AbstractAction(content) {
         TODO("Not yet implemented")
     }
 
-    companion object {
+    companion object : ActionDesc {
 
-        private val name = "delay|wait".toRegex()
+        override val name = "delay|wait".toRegex()
 
-        private val parser: (Any, ActionOption) -> AbstractAction = { value, _ ->
+        override val parser: (Any, ActionOption) -> AbstractAction = { value, _ ->
             ActionDelay(value.toString())
         }
-
-        val registery = name to parser
 
     }
 

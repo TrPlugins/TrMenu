@@ -3,6 +3,7 @@ package trmenu.api.action.impl
 import trmenu.api.action.base.AbstractAction
 import trmenu.api.action.base.ActionOption
 import org.bukkit.entity.Player
+import trmenu.api.action.base.ActionDesc
 
 /**
  * @author Arasple
@@ -16,15 +17,13 @@ class ActionTell(content: String, option: ActionOption) : AbstractAction(content
         }
     }
 
-    companion object {
+    companion object : ActionDesc {
 
-        private val name = "tell|message|msg|talk".toRegex()
+        override val name = "tell|message|msg|talk".toRegex()
 
-        private val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
+        override val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
             ActionTell(value.toString(), option)
         }
-
-        val registery = name to parser
 
     }
 

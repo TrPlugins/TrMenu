@@ -5,6 +5,7 @@ import trmenu.api.action.base.ActionOption
 import org.bukkit.entity.Player
 import taboolib.library.xseries.XSound
 import taboolib.platform.util.sendLang
+import trmenu.api.action.base.ActionDesc
 
 /**
  * @author Arasple
@@ -30,15 +31,13 @@ class ActionSound(content: String, option: ActionOption) : AbstractAction(conten
         }
     }
 
-    companion object {
+    companion object : ActionDesc {
 
-        private val name = "(play)?-?sounds?".toRegex()
+        override val name = "(play)?-?sounds?".toRegex()
 
-        private val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
+        override val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
             ActionSound(value.toString(), option)
         }
-
-        val registery = name to parser
 
     }
 

@@ -6,6 +6,7 @@ import trmenu.module.internal.data.Metadata
 import trmenu.util.Regexs
 import trmenu.util.collections.Variables
 import org.bukkit.entity.Player
+import trmenu.api.action.base.ActionDesc
 
 /**
  * @author Arasple
@@ -26,15 +27,13 @@ class ActionSetArguments(content: String, option: ActionOption) : AbstractAction
         player.session().arguments = args.toTypedArray()
     }
 
-    companion object {
+    companion object : ActionDesc {
 
-        private val name = "set-?arg(ument)?s?".toRegex()
+        override val name = "set-?arg(ument)?s?".toRegex()
 
-        private val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
+        override val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
             ActionSetArguments(value.toString(), option)
         }
-
-        val registery = name to parser
 
     }
 

@@ -8,6 +8,7 @@ import net.md_5.bungee.chat.ComponentSerializer
 import org.bukkit.entity.Player
 import taboolib.module.chat.HexColor
 import taboolib.module.chat.TellrawJson
+import trmenu.api.action.base.ActionDesc
 
 /**
  * @author Arasple
@@ -20,13 +21,13 @@ class ActionTellraw(content: String, option: ActionOption) : AbstractAction(cont
         player.spigot().sendMessage(*ComponentSerializer.parse(parseContent(placeholderPlayer)))
     }
 
-    companion object {
+    companion object : ActionDesc {
 
         private val matcher = "<(.+?)>".toRegex()
 
-        private val name = "(tell(raw)?|json)s?".toRegex()
+        override val name = "(tell(raw)?|json)s?".toRegex()
 
-        private val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
+        override val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
             val raw = value.toString()
             val json: String
             if (ItemHelper.isJson(raw)) {
@@ -61,8 +62,6 @@ class ActionTellraw(content: String, option: ActionOption) : AbstractAction(cont
 
             ActionTellraw(json, option)
         }
-
-        val registery = name to parser
 
     }
 

@@ -4,6 +4,7 @@ import trmenu.api.action.base.AbstractAction
 import trmenu.api.action.base.ActionOption
 import trmenu.module.display.Menu
 import org.bukkit.entity.Player
+import trmenu.api.action.base.ActionDesc
 
 /**
  * @author Arasple
@@ -21,15 +22,13 @@ class ActionReset(option: ActionOption) : AbstractAction(option = option) {
         }
     }
 
-    companion object {
+    companion object : ActionDesc {
 
-        private val name = "resets?".toRegex()
+        override val name = "resets?".toRegex()
 
-        private val parser: (Any, ActionOption) -> AbstractAction = { _, option ->
+        override val parser: (Any, ActionOption) -> AbstractAction = { _, option ->
             ActionReset(option)
         }
-
-        val registery = name to parser
 
     }
 

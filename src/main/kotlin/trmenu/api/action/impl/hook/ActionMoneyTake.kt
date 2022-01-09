@@ -4,6 +4,7 @@ import trmenu.api.action.base.AbstractAction
 import trmenu.api.action.base.ActionOption
 import trmenu.module.internal.hook.HookPlugin
 import org.bukkit.entity.Player
+import trmenu.api.action.base.ActionDesc
 
 /**
  * @author Arasple
@@ -18,15 +19,13 @@ class ActionMoneyTake(content: String, option: ActionOption) : AbstractAction(co
         }
     }
 
-    companion object {
+    companion object : ActionDesc {
 
-        private val name = "(take|remove|withdraw)-?(money|eco|coin)s?".toRegex()
+        override val name = "(take|remove|withdraw)-?(money|eco|coin)s?".toRegex()
 
-        private val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
+        override val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
             ActionMoneyTake(value.toString(), option)
         }
-
-        val registery = name to parser
 
     }
 
