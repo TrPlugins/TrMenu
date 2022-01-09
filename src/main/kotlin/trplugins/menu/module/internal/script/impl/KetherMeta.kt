@@ -42,7 +42,7 @@ class KetherMeta(val type: EditType, private val source: ParsedAction<*>, privat
 
     companion object {
 
-        @KetherParser(["meta"], namespace = "tr" + "menu")
+        @KetherParser(["meta"], namespace = "trmenu)
         fun parser() = scriptParser {
 
             val type = when (it.nextToken().lowercase()) {

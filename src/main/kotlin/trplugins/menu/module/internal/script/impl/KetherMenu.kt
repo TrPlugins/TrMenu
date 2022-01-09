@@ -53,7 +53,7 @@ class KetherMenu(val type: Type, val menu: ParsedAction<*>?) : BaseAction<Void>(
 
     companion object {
 
-        @KetherParser(["menu"], namespace = "tr" + "menu")
+        @KetherParser(["menu"], namespace = "trmenu)
         fun parser() = scriptParser {
             val type = Type.valueOf(it.nextToken().uppercase())
             KetherMenu(

@@ -23,7 +23,7 @@ class KetherPoints(private val points: ParsedAction<*>) : BaseAction<Boolean>() 
 
     companion object {
 
-        @KetherParser(["points"], namespace = "tr" + "menu")
+        @KetherParser(["points"], namespace = "trmenu)
         fun parser() = scriptParser {
             KetherPoints(it.next(ArgTypes.ACTION))
         }

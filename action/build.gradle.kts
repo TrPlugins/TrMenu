@@ -26,6 +26,10 @@ dependencies {
     taboolib("module-configuration", taboolibVersion)
 }
 
+tasks.create("sourceJar") {
+    sourceSets.main
+}
+
 publishing {
     repositories {
         maven {
@@ -43,6 +47,7 @@ publishing {
         create<MavenPublication>("library") {
             from(components["java"])
             artifactId = "action"
+
         }
     }
 }

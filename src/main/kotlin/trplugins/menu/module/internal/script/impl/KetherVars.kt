@@ -22,7 +22,7 @@ class KetherVars(private val source: ParsedAction<*>) : BaseAction<String>() {
 
     companion object {
 
-        @KetherParser(["vars", "var"], namespace = "tr" + "menu")
+        @KetherParser(["vars", "var"], namespace = "trmenu)
         fun parser() = scriptParser {
             KetherVars(it.next(ArgTypes.ACTION))
         }
