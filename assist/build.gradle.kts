@@ -25,4 +25,4 @@ dependencies {
     taboolib("module-configuration", taboolibVersion)
 }
 
-publishing(mavenConfigurate(artifactId = "action"))
+publishing(mavenConfigurate(artifactId = "assist"))
