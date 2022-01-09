@@ -26,4 +26,23 @@ dependencies {
     taboolib("module-configuration", taboolibVersion)
 }
 
-publishing(mavenConfigurate(artifactId = "action"))
+publishing {
+    repositories {
+        maven {
+            url = uri("https://repo.mcage.cn/repository/trplugins/")
+            credentials {
+                username = project.findProperty("user").toString()
+                password = project.findProperty("password").toString()
+            }
+            authentication {
+                create<BasicAuthentication>("basic")
+            }
+        }
+    }
+    publications {
+        create<MavenPublication>("library") {
+            from(components["java"])
+            artifactId = "action"
+        }
+    }
+}

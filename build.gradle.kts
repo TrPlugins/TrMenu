@@ -53,8 +53,6 @@ taboolib {
     version = taboolibVersion
 }
 
-publishing(mavenConfigurate(artifactId = name.toLowerCase()))
-
 repositories {
     mavenCentral()
     maven("https://repo.tabooproject.org/repository/releases")
@@ -88,4 +86,25 @@ dependencies {
     compileOnly("com.github.MilkBowl:VaultAPI:-SNAPSHOT") { isTransitive = false }
 
     compileOnly(fileTree("libs"))
+}
+
+publishing {
+    repositories {
+        maven {
+            url = uri("https://repo.mcage.cn/repository/trplugins/")
+            credentials {
+                username = project.findProperty("user").toString()
+                password = project.findProperty("password").toString()
+            }
+            authentication {
+                create<BasicAuthentication>("basic")
+            }
+        }
+    }
+    publications {
+        create<MavenPublication>("library") {
+            from(components["java"])
+            artifactId = rootProject.name.toLowerCase()
+        }
+    }
 }
