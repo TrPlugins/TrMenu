@@ -34,13 +34,13 @@ Maven:
     <repositories>
       <repository>
         <id>roselle-public</id>
-        <url>https://repo.iroselle.com/repository/maven-public/</url>
+        <url>https://repo.mcage.cn/repository/maven-public/</url>
       </repository>
     </repositories>
 
     <dependencies>
       <dependency>
-        <groupId>me.arasple</groupId>
+        <groupId>me.arasple.mc.trmenu</groupId>
         <artifactId>trmenu</artifactId>
         <version>{LATEST-VERSION}</version>
         <scope>provided</scope>
@@ -51,10 +51,10 @@ Maven:
 Gradle Kotlin DSL
 ```kotlin
 repositories {
-  maven("https://repo.iroselle.com/repository/maven-public/")
+  maven("https://repo.mcage.cn/repository/maven-public/")
 }
 dependencies {
-  compileOnly("me.arasple:TrMenu:{LATEST-VERSION}")
+  compileOnly("me.arasple.mc.trmenu:trmenu:{LATEST-VERSION}")
 }
 
 ```
