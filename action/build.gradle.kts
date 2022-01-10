@@ -1,9 +1,8 @@
-import trplugins.menu.gradle.mavenConfigurate
-import trplugins.menu.gradle.taboolib
+import trplugins.build.taboolib
 
 plugins {
     kotlin("jvm")
-    `maven-publish`
+    id("trplugins.build.publish")
 }
 
 val taboolibVersion: String by rootProject
@@ -24,30 +23,4 @@ dependencies {
     taboolib("expansion-javascript", taboolibVersion)
     taboolib("module-chat", taboolibVersion)
     taboolib("module-configuration", taboolibVersion)
-}
-
-tasks.create("sourceJar") {
-    sourceSets.main
-}
-
-publishing {
-    repositories {
-        maven {
-            url = uri("https://repo.mcage.cn/repository/trplugins/")
-            credentials {
-                username = project.findProperty("user").toString()
-                password = project.findProperty("password").toString()
-            }
-            authentication {
-                create<BasicAuthentication>("basic")
-            }
-        }
-    }
-    publications {
-        create<MavenPublication>("library") {
-            from(components["java"])
-            artifactId = "action"
-
-        }
-    }
 }

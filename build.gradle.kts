@@ -1,11 +1,9 @@
-import trplugins.menu.gradle.mavenConfigurate
-
 val taboolibVersion: String by project
 
 plugins {
     kotlin("jvm") version "1.6.10"
     id("io.izzel.taboolib") version "1.34"
-    `maven-publish`
+    id("trplugins.build.publish")
 }
 
 description = "Modern & Advanced Menu-Plugin for Minecraft Servers"
@@ -86,25 +84,4 @@ dependencies {
     compileOnly("com.github.MilkBowl:VaultAPI:-SNAPSHOT") { isTransitive = false }
 
     compileOnly(fileTree("libs"))
-}
-
-publishing {
-    repositories {
-        maven {
-            url = uri("https://repo.mcage.cn/repository/trplugins/")
-            credentials {
-                username = project.findProperty("user").toString()
-                password = project.findProperty("password").toString()
-            }
-            authentication {
-                create<BasicAuthentication>("basic")
-            }
-        }
-    }
-    publications {
-        create<MavenPublication>("library") {
-            from(components["java"])
-            artifactId = rootProject.name.toLowerCase()
-        }
-    }
 }

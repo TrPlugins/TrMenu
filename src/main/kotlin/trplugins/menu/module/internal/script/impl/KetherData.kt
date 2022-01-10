@@ -42,7 +42,7 @@ class KetherData(val type: EditType, private val source: ParsedAction<*>, privat
 
     companion object {
 
-        @KetherParser(["data"], namespace = "trmenu)
+        @KetherParser(["data"], namespace = "trmenu")
         fun parser() = scriptParser {
             val type = when (it.nextToken().lowercase()) {
                 "del" -> DEL
