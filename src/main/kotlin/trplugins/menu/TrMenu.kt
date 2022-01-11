@@ -17,6 +17,7 @@ import taboolib.module.configuration.Configuration
 import taboolib.module.lang.Language
 import taboolib.module.lang.sendLang
 import taboolib.platform.BukkitPlugin
+import trplugins.menu.api.action.Actions
 import trplugins.menu.module.internal.script.contentParser
 import trplugins.menu.module.internal.script.scriptParser
 
@@ -37,7 +38,7 @@ object TrMenu : Plugin() {
     
     override fun onLoad() {
         Language.default = "en_US"
-        trplugins.menu.api.action.Actions.init(contentParser, scriptParser)
+        Actions.init(contentParser, scriptParser)
         console().sendLang("Plugin-Loading", Bukkit.getVersion())
     }
 

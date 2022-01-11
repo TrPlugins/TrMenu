@@ -36,7 +36,7 @@ object TrMenuAPI {
     fun eval(player: Player, script: String): CompletableFuture<Any?> {
         Performance.check("Handler:Script:Evaluation") {
             return try {
-                KetherShell.eval(script, namespace = listOf(pluginId)) {
+                KetherShell.eval(script, namespace = listOf("trmenu")) {
                     sender = adaptPlayer(player)
                     rootFrame().variables().run {
                         Metadata.getMeta(player).data.forEach { (key, value) ->

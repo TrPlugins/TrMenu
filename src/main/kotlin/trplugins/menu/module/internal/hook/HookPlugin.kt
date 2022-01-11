@@ -1,7 +1,10 @@
 package trplugins.menu.module.internal.hook
 
+import taboolib.common.LifeCycle
 import taboolib.common.io.runningClasses
+import taboolib.common.platform.SkipTo
 import taboolib.common.platform.function.console
+import taboolib.common.platform.function.info
 import taboolib.module.lang.sendLang
 import trplugins.menu.module.internal.hook.impl.*
 import java.lang.reflect.Modifier
@@ -11,6 +14,7 @@ import kotlin.reflect.KClass
  * @author Arasple
  * @date 2021/1/26 22:04
  */
+@SkipTo(LifeCycle.ENABLE)
 object HookPlugin {
 
     fun printInfo() {
@@ -19,14 +23,16 @@ object HookPlugin {
         }
     }
 
-    private val registry = mutableListOf<HookAbstract>().also {
-        runningClasses.forEach { `class` ->
-            if (Modifier.isAbstract(`class`.modifiers)) return@forEach
-            if (`class`.superclass != HookAbstract::class.java) return@forEach
+    private val registry by lazy {
+        mutableListOf<HookAbstract>().also {
+            runningClasses.forEach { `class` ->
+                if (Modifier.isAbstract(`class`.modifiers)) return@forEach
+                if (`class`.superclass != HookAbstract::class.java) return@forEach
 
-            it.add(`class`.asSubclass(HookAbstract::class.java).getConstructor().newInstance())
-        }
-    }.toTypedArray()
+                it.add(`class`.asSubclass(HookAbstract::class.java).getConstructor().newInstance())
+            }
+        }.toTypedArray()
+    }
 
     @Suppress("UNCHECKED_CAST")
     operator fun <T> get(clazz: Class<T>) = registry.find { it.javaClass == clazz } as T
