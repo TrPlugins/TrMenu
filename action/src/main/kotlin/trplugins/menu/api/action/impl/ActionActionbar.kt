@@ -13,7 +13,7 @@ import trplugins.menu.api.action.base.ActionDesc
 class ActionActionbar(content: String, option: ActionOption) : AbstractAction(content, option) {
 
     override fun onExecute(player: ProxyPlayer, placeholderPlayer: ProxyPlayer) {
-        adaptPlayer(player).sendActionBar(parseContent(placeholderPlayer))
+        player.sendActionBar(parseContent(placeholderPlayer))
     }
 
     companion object : ActionDesc {
