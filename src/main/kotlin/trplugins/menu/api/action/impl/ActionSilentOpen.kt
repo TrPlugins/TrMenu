@@ -20,7 +20,7 @@ class ActionSilentOpen(val open: ActionOpen, option: ActionOption) : InternalAct
 
     companion object : ActionDesc {
 
-        override val name = "(force|silent)-?(open|trplugins.menu)".toRegex()
+        override val name = "(force|silent)-?(open|menu)".toRegex()
 
         override val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
             ActionSilentOpen(ActionOpen(value.toString(), option), option)
