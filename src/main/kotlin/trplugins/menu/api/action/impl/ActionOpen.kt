@@ -39,7 +39,7 @@ class ActionOpen(content: String, option: ActionOption) : InternalAction(content
 
     companion object : ActionDesc {
 
-        override val name = "opens?|(open)?-?gui|(tr)?trplugins.menu".toRegex()
+        override val name = "opens?|(open)?-?gui|(tr)?menu".toRegex()
 
         override val parser: (Any, ActionOption) -> AbstractAction = { value, option ->
             ActionOpen(value.toString(), option)
