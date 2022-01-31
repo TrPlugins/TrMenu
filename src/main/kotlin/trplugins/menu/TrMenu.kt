@@ -14,6 +14,7 @@ import taboolib.common.platform.*
 import taboolib.common.platform.function.console
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.Configuration
+import taboolib.module.kether.Kether
 import taboolib.module.lang.Language
 import taboolib.module.lang.sendLang
 import taboolib.platform.BukkitPlugin
@@ -67,6 +68,7 @@ object TrMenu : Plugin() {
         interactCooldown.reload()
         Shortcuts.Type.load()
         RegisterCommands.load()
+        Kether.isAllowToleranceParser = SETTINGS.getBoolean("Action.Kether.Allow-Tolerance-Parser",false)
     }
 
 }
