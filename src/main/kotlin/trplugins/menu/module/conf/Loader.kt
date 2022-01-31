@@ -166,7 +166,7 @@ object Loader {
                 file.listFiles()?.forEach {
                     addAll(filterMenuFiles(it))
                 }
-            } else if (file.exists() && !file.name.startsWith("#")) {
+            } else if (file.exists() && file.extension.equals("yml", ignoreCase = true) && !file.name.startsWith("#")) {
                 add(file)
             }
             this
