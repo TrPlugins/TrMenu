@@ -15,7 +15,10 @@ import taboolib.common.platform.function.submit
  * @date 2021/1/29 17:51
  * TrMenu internal actions feature
  */
-class Actions(val contentParser: trplugins.menu.util.function.ContentParser, val scriptParser: trplugins.menu.util.function.ScriptParser) {
+class Actions(
+    val contentParser: trplugins.menu.util.function.ContentParser,
+    val scriptParser: trplugins.menu.util.function.ScriptParser
+) {
 
     private val actionsBound = " ?(_\\|\\|_|&&&) ?".toRegex()
     private val registries = mutableListOf<ActionDesc>().also { list ->
@@ -25,6 +28,8 @@ class Actions(val contentParser: trplugins.menu.util.function.ContentParser, val
             list.add(instance as ActionDesc)
         }
     }
+    private val defaultAction =
+        registries.find { it.javaClass.name.contains("Kether") } ?: registries[0]
 
     fun runAction(player: ProxyPlayer, actions: List<String>) {
         runAction(player, readAction(actions))
@@ -35,7 +40,7 @@ class Actions(val contentParser: trplugins.menu.util.function.ContentParser, val
         var result = true
         var delay = 0L
 
-        run filter@ {
+        run filter@{
             actions.filter { it.option.evalChance() }.forEach {
                 when {
                     it is ActionReturn && it.option.evalCondition(player) -> {
@@ -65,7 +70,8 @@ class Actions(val contentParser: trplugins.menu.util.function.ContentParser, val
     fun readAction(any: Any): List<AbstractAction> {
         val actions = mutableListOf<AbstractAction>()
         val findParser: (String) -> (Any, ActionOption) -> AbstractAction = { name ->
-            registries.find { it.registery.first.matches(name.lowercase()) }?.registery?.second ?: registries[0].registery.second
+            registries.find { it.registery.first.matches(name.lowercase()) }?.registery?.second
+                ?: defaultAction.registery.second
         }
 
         when (any) {
@@ -107,7 +113,10 @@ class Actions(val contentParser: trplugins.menu.util.function.ContentParser, val
             instance ?: error("Actions instance not initialized.")
         }
 
-        fun init(contentParser: trplugins.menu.util.function.ContentParser, scriptParser: trplugins.menu.util.function.ScriptParser) {
+        fun init(
+            contentParser: trplugins.menu.util.function.ContentParser,
+            scriptParser: trplugins.menu.util.function.ScriptParser
+        ) {
             instance = Actions(contentParser, scriptParser)
         }
 
