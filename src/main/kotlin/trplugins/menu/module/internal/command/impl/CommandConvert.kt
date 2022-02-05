@@ -42,20 +42,20 @@ object CommandConvert : CommandExpression {
                     if (menu.conf.type == type)
                         return@execute sender.sendLang("Command-Convert-Type-Already", menu.id, type.name)
 
-                    val converted = Configuration.empty(type).also { it.root = menu.conf.root }
-                    menu.conf.file?.let {
+                    // 进行转换
+                    menu.conf.changeType(type)
+
+                    menu.conf.file?.let { file: File ->
                         // 备份原文件
-                        File(it.parentFile, "${it.name}.bak").let {
+                        File(file.parentFile, "${file.name}.bak").let {
                             it.renameTo(it)
                         }
                         // 释放转换产物
-                        File(it.parentFile, "${it.nameWithoutExtension}.${type.suffixes[0]}").let {
-                            converted.file = it
-                            converted.saveToFile()
+                        File(file.parentFile, "${file.nameWithoutExtension}.${type.suffixes[0]}").let {
+                            menu.conf.file = it
+                            menu.conf.saveToFile()
                         }
                     }
-                    // 替换配置文件
-                    menu.conf = converted
                     sender.sendLang("Command-Convert-Converted", menu.id, type.name)
                 }
             }

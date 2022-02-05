@@ -59,6 +59,7 @@ Command-Open-Description: '打开菜单'
 Command-Reload-Description: '重载所有菜单'
 Command-Template-Description: '创建模板菜单'
 Command-Item-Description: '操作物品信息'
+Command-Convert-Description: '转换菜单类型'
 Command-Action-Description: '执行动作'
 Command-Sounds-Description: '试听 & 调试声音'
 
