@@ -46,7 +46,6 @@ object HookPlaceholderAPI : PlaceholderExpansion {
             "page" -> session.page.toString()
             "pages" -> session.menu?.layout?.layouts?.size.toString()
             "next" -> (session.page + 1).toString()
-            "node" -> session.parse("{node: $params[2]}")
             "prev" -> (session.page - 1).toString()
             "title" -> session.menu?.settings?.title?.get(session.id).toString()
             else -> ""
