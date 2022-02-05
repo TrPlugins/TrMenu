@@ -17,7 +17,7 @@ import taboolib.platform.util.sendLang
  */
 object CommandOpen : CommandExpression {
 
-    // trplugins.menu open [menuId] [player] [args...]
+    // trm open [menuId] [player] [args...]
     override val command = subCommand {
         // menuId
         dynamic {

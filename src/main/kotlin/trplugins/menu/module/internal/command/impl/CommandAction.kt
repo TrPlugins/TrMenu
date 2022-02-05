@@ -15,7 +15,7 @@ import kotlin.system.measureNanoTime
  */
 object CommandAction : CommandExpression {
 
-    // trplugins.menu action [Player] [Action]
+    // trm action [Player] [Action]
     override val command = subCommand {
         // player
         dynamic {

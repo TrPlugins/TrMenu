@@ -30,7 +30,7 @@ object CommandItem : CommandExpression {
     // get [id]
     // del [id]
 
-    // trplugins.menu item [Method] <Value>
+    // trm item [Method] <Value>
     override val command = subCommand {
         // Method
         dynamic {

@@ -1,4 +1,4 @@
-package trplugins.menu.module.display
+package trplugins.menu.api
 
 import net.md_5.bungee.api.ChatColor.COLOR_CHAR
 import taboolib.module.configuration.Type
@@ -11,8 +11,8 @@ import taboolib.module.configuration.Type
  * @since 2021/12/04 11:08
  */
 val Type.suffixes get() = when (this) {
-    Type.YAML -> arrayOf("yaml", "yml")
-    Type.TOML -> arrayOf("toml", "tml")
+    Type.YAML -> arrayOf("yml", "yaml")
+    Type.TOML -> arrayOf("tml", "toml")
     Type.JSON -> arrayOf("json")
     Type.HOCON -> arrayOf("conf")
     else -> arrayOf()

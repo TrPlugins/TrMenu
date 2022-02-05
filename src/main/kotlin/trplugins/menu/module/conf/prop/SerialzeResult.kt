@@ -10,7 +10,7 @@ import trplugins.menu.module.display.layout.MenuLayout
  */
 class SerialzeResult(
     val type: Type,
-    private var state: State = State.SUCCESS,
+    var state: State = State.SUCCESS,
     val errors: MutableList<String> = mutableListOf(),
     var result: Any? = null
 ) {
@@ -36,7 +36,8 @@ class SerialzeResult(
     enum class State {
 
         SUCCESS,
-        FAILED
+        FAILED,
+        IGNORE
 
     }
 

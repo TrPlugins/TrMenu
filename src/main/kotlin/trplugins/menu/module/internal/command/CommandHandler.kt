@@ -48,6 +48,10 @@ object CommandHandler {
     val item = CommandItem.command
 
     @AppearHelper
+    @CommandBody(permission = "trmenu.command.convert", optional = true)
+    val convert = CommandConvert.command
+
+    @AppearHelper
     @CommandBody(permission = "trmenu.command.sounds", optional = true)
     var sounds = CommandSounds.command
 

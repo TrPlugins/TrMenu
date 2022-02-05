@@ -58,8 +58,9 @@ Command-List-Description: 'Danh sách các trplugins.menu đã tải'
 Command-Open-Description: 'Mở trplugins.menu cho người chơi'
 Command-Reload-Description: 'Tải lại tất cả các trplugins.menu'
 Command-Template-Description: 'Menu bố cục nhanh'
-Command-Action-Description: 'Chạy các hành động để kiểm tra'
 Command-Item-Description: 'Thao tác các vật phẩm'
+Command-Convert-Description: 'Convert menu type'
+Command-Action-Description: 'Chạy các hành động để kiểm tra'
 Command-Sounds-Description: 'Xem trước & thử các âm thanh'
 
 Command-Open-Unknown-Menu: '&8[&3Tr&bMenu&8] &7Không xác định trplugins.menu &6{0} &7.'
@@ -86,3 +87,7 @@ Command-List-Format:
     args:
       - hover: '&7Nhấn để mở'
         command: '/trmenu open {0}'
+Command-Convert-Unknown-Menu: '&8[&3Tr&bMenu&8] &7Unknown menu &6{0} &7.'
+Command-Convert-Unknown-Type: '&8[&3Tr&bMenu&8] &7Unknown type &b{0} &7.'
+Command-Convert-Type-Already: '&8[&3Tr&bMenu&8] &7The type of menu &6{0} &7 is already &b{1} &7.'
+Command-Convert-Converted: '&8[&3Tr&bMenu&8] &7Typecast menu &6{0} &7 to &b{1}&7.'

@@ -58,8 +58,9 @@ Command-List-Description: 'Список загруженных меню'
 Command-Open-Description: 'Открыть меню для плеера'
 Command-Reload-Description: 'Обновить все меню'
 Command-Template-Description: 'Меню быстрого макета'
-Command-Action-Description: 'Выполнить действия для теста'
 Command-Item-Description: 'Манипулировать предметами'
+Command-Convert-Description: 'Convert menu type'
+Command-Action-Description: 'Выполнить действия для теста'
 Command-Sounds-Description: 'Предварительный просмотр и тестирование звуков'
 
 Command-Open-Unknown-Menu: '&8[&3Tr&bMenu&8] &7Неизвестное меню: &6{0} &7.'
@@ -86,3 +87,7 @@ Command-List-Format:
     args:
       - hover: '&7Нажмите, чтобы открыть'
         command: '/trmenu open {0}'
+Command-Convert-Unknown-Menu: '&8[&3Tr&bMenu&8] &7Unknown menu &6{0} &7.'
+Command-Convert-Unknown-Type: '&8[&3Tr&bMenu&8] &7Unknown type &b{0} &7.'
+Command-Convert-Type-Already: '&8[&3Tr&bMenu&8] &7The type of menu &6{0} &7 is already &b{1} &7.'
+Command-Convert-Converted: '&8[&3Tr&bMenu&8] &7Typecast menu &6{0} &7 to &b{1}&7.'
