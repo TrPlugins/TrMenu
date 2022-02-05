@@ -10,6 +10,7 @@ Plugin-Dependency-Hooked: '&8[&3Tr&bMenu&8] &6挂钩 &8| &7软依赖 &f{0} &7已
 Plugin-Dependency-Abuse: '&8[&3Tr&bMenu&8] &6挂钩 &8| &4试图使用未挂钩插件 &c{0}'
 
 Menu-Loader-Loaded: '&8[&3Tr&bMenu&8] &a良好 &8| &a{0} &3个菜单已加载 &8({1} ms)'
+Menu-Loader-Loading: '&8[&3Tr&bMenu&8] &6线程 &8| &3正在载入菜单...'
 Menu-Loader-Failed: '&8[&3Tr&bMenu&8] &c错误 &8| &4载入菜单 &c{0} &4过程中发生错误! 定位于: {1}'
 Menu-Loader-Reloaded: '&8[&3Tr&bMenu&8] &a良好 &8| &7自动重新载入菜单 &f{0} &8({1}ms)'
 Menu-Expansions-Header:

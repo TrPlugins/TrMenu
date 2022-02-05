@@ -46,14 +46,18 @@ object MenuSerializer : ISerializer {
     override fun serializeMenu(file: File): SerialzeResult {
         val id = file.nameWithoutExtension
         val result = SerialzeResult(SerialzeResult.Type.MENU)
+        // 文件格式检测
+        if (!Type.values().any { it.suffixes.any { file.extension.equals(it, true) } }) {
+            result.state = SerialzeResult.State.IGNORE
+            return result
+        }
         // 文件有效检测
-        if (!(file.isFile && file.length() > 0 && file.canRead() && Type.values().any { it.suffixes.any { file.extension.equals(it, true) } })) {
+        if (!(file.isFile && file.length() > 0 && file.canRead())) {
             result.submitError(SerialzeError.INVALID_FILE, file.name)
             return result
         }
         // 菜单类型
-        val type = Type.values().find { it.suffixes.any { file.extension.equals(it, true) } }
-            ?: return result.also { it.state = SerialzeResult.State.IGNORE }
+        val type = Type.values().find { it.suffixes.any { file.extension.equals(it, true) } }!!
         // 加载菜单配置
         val conf = Configuration.loadFromFile(file, type)
 
@@ -179,7 +183,7 @@ object MenuSerializer : ISerializer {
                 return@let Configuration.loadFromString(it.saveToString().split("\n").joinToString("\n") {
 //                    VariableReader("@", "@")
                     it.parseIconId(id)
-                })
+                }, conf.type)
             }
 
             val refresh = Property.ICON_REFRESH.ofInt(section, -1)

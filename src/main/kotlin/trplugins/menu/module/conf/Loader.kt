@@ -40,10 +40,14 @@ object Loader {
         folder
     }
 
+    var isLoading = false
+        private set
+
     /**
      * 多线程载入默认路径 & 自定义路径的所有菜单
      */
     fun loadMenus(sender: CommandSender = Bukkit.getConsoleSender(), async: Boolean = false) {
+        isLoading = true
         if (!async) Menu.menus.removeIf { it ->
             it.forSessions { it.close(true, updateInventory = true) }
             true
@@ -108,6 +112,7 @@ object Loader {
                     }
                 }
                 sender.sendLang("Menu-Loader-Loaded", Menu.menus.size, System.currentTimeMillis() - serializingTime)
+                isLoading = false
             }
         ).get()
     }
@@ -115,7 +120,7 @@ object Loader {
     /**
      * 监听菜单
      */
-    private fun listen(file: File) {
+    internal fun listen(file: File) {
         if (!FileListener.isListening(file)) {
             FileListener.listener(file) {
                 val start = System.currentTimeMillis()

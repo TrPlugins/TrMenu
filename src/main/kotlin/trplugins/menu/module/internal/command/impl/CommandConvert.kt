@@ -7,8 +7,10 @@ import taboolib.module.configuration.Configuration
 import taboolib.module.configuration.Type
 import taboolib.platform.util.sendLang
 import trplugins.menu.api.suffixes
+import trplugins.menu.module.conf.Loader
 import trplugins.menu.module.display.Menu
 import trplugins.menu.module.internal.command.CommandExpression
+import trplugins.menu.util.file.FileListener
 import java.io.File
 
 /**
@@ -46,6 +48,8 @@ object CommandConvert : CommandExpression {
                     menu.conf.changeType(type)
 
                     menu.conf.file?.let { file: File ->
+                        // 取消原文件监听器
+                        FileListener.watcher.removeListener(file)
                         // 备份原文件
                         File(file.parentFile, "${file.name}.bak").let {
                             file.renameTo(it)
@@ -54,6 +58,8 @@ object CommandConvert : CommandExpression {
                         File(file.parentFile, "${file.nameWithoutExtension}.${type.suffixes[0]}").let {
                             menu.conf.file = it
                             menu.conf.saveToFile()
+                            // 开始监听新文件
+                            Loader.listen(it)
                         }
                     }
                     sender.sendLang("Command-Convert-Converted", menu.id, type.name)

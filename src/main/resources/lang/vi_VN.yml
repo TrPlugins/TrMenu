@@ -10,6 +10,7 @@ Plugin-Dependency-Hooked: '&8[&3Tr&bMenu&8] &6KẾT NỐI &8| &7Phụ thuộc ph
 Plugin-Dependency-Abuse: '&8[&3Tr&bMenu&8] &6KẾT NỐI &8| &4Đã cố gắng sử dụng plugin phuộc thuộc phụ chưa cài đặt &c{0}'
 
 Menu-Loader-Loaded: '&8[&3Tr&bMenu&8] &aỔN &8| &a{0} &3menu đã được tải &8({1} ms)'
+Menu-Loader-Loading: '&8[&3Tr&bMenu&8] &6THREAD &8| &3Loading menus...'
 Menu-Loader-Failed: '&8[&3Tr&bMenu&8] &cLỖI &8| &4Đã xảy ra lỗi khi tải trplugins.menu &c{0} &4! Đặt vị trí tại: {1}'
 Menu-Loader-Reloaded: '&8[&3Tr&bMenu&8] &aỔN &8| &7Tự động tải lại trplugins.menu &f{0} &8({1}ms)'
 Menu-Expansions-Header:

@@ -13,7 +13,7 @@ inline class SerialzeError(val id: Int) {
 
         fun formatInfo(error: SerialzeError): String {
             return when (error) {
-                INVALID_FILE -> "Invalid file {0}. Menu configuration must be a YAML file"
+                INVALID_FILE -> "Invalid file {0}. The menu configuration format is not supported"
                 INVALID_ICON_UNDEFINED_TEXTURE -> "Invalid icon {0}. Icon must have a material texture, even if it is to be set AIR"
                 else -> "Unknown error."
             }
