@@ -10,6 +10,7 @@ import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common.platform.function.pluginId
 import taboolib.platform.compat.PlaceholderExpansion
 import taboolib.platform.util.sendLang
+import trplugins.menu.util.ignoreCase
 
 /**
  * @author Arasple
@@ -30,6 +31,7 @@ object HookPlaceholderAPI : PlaceholderExpansion {
                 "args" -> session.arguments[key.toIntOrNull() ?: 0]
                 "meta" -> Metadata.getMeta(player)[key]
                 "data" -> Metadata.getData(player)[key]
+                "node" -> session.menu?.conf?.let { it[it.ignoreCase(args.slice(1 until args.size).joinToString("_"))].toString() }.toString()
                 "menu" -> menu(session, args)
                 "js" -> if (args.size > 1) JavaScriptAgent.eval(session, args[1]).asString() else ""
                 else -> ""
