@@ -25,7 +25,6 @@ class MenuSettings(
     expansions: Array<String>,
     val minClickDelay: Int,
     val hidePlayerInventory: Boolean,
-    val purePacket: Boolean,
     val boundCommands: List<Regex>,
     val boundItems: Array<ItemMatcher>,
     val openEvent: Reactions,

@@ -5,7 +5,7 @@ import trplugins.menu.module.display.MenuSession
 import trplugins.menu.module.internal.data.Metadata
 import org.bukkit.event.player.PlayerQuitEvent
 import taboolib.common.platform.event.SubscribeEvent
-import taboolib.module.ui.receptacle.setViewingReceptacle
+import trplugins.menu.api.receptacle.setViewingReceptacle
 
 /**
  * @author Arasple

@@ -2,7 +2,6 @@ package trplugins.menu.module.display
 
 import trplugins.menu.module.display.layout.Layout
 import trplugins.menu.api.event.MenuCloseEvent
-import taboolib.module.ui.receptacle.Receptacle
 import trplugins.menu.module.display.icon.Icon
 import trplugins.menu.module.display.icon.IconProperty
 import trplugins.menu.module.internal.script.FunctionParser
@@ -16,6 +15,7 @@ import taboolib.common.util.replaceWithOrder
 import taboolib.module.chat.colored
 import taboolib.module.configuration.Configuration
 import taboolib.platform.compat.replacePlaceholder
+import trplugins.menu.api.receptacle.Receptacle
 import java.util.*
 
 /**

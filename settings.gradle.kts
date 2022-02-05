@@ -1,3 +1,7 @@
 rootProject.name = "TrMenu"
 
-include(":action", ":assist")
+include(
+    ":action",
+    ":assist",
+    ":receptacle",
+)

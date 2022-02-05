@@ -2,9 +2,9 @@ package trplugins.menu.module.display.layout
 
 import org.bukkit.event.inventory.InventoryType
 import taboolib.common.platform.function.submit
-import taboolib.module.ui.receptacle.ChestInventory
-import taboolib.module.ui.receptacle.createReceptacle
 import trplugins.menu.api.action.eval
+import trplugins.menu.api.receptacle.ChestInventory
+import trplugins.menu.api.receptacle.createReceptacle
 import trplugins.menu.module.display.MenuSession
 import trplugins.menu.module.internal.data.Metadata
 import trplugins.menu.module.internal.service.Performance
@@ -58,7 +58,7 @@ class Layout(
         keys
     }
 
-    fun baseReceptacle(packet: Boolean = true) = type.createReceptacle(packet = packet).also {
+    fun baseReceptacle() = type.createReceptacle().also {
         if (it is ChestInventory) it.rows = rows
     }
 

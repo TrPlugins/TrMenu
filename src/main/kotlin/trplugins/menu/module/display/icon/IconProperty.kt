@@ -1,8 +1,8 @@
 package trplugins.menu.module.display.icon
 
 import trplugins.menu.api.reaction.Reactions
-import taboolib.module.ui.receptacle.ReceptacleClickType
 import trplugins.menu.api.action.eval
+import trplugins.menu.api.receptacle.ReceptacleClickType
 import trplugins.menu.module.display.MenuSession
 import trplugins.menu.module.display.item.Item
 import trplugins.menu.util.Regexs

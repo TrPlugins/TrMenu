@@ -15,7 +15,6 @@ taboolib {
         "expansion-javascript",
         "module-kether",
         "module-ui",
-        "module-ui-receptacle",
         "module-lang",
         "module-database",
         "module-database-mongodb",
@@ -64,6 +63,7 @@ repositories {
 dependencies {
     taboo(project(":action")) { isTransitive = false }
     taboo(project(":assist")) { isTransitive = false }
+    taboo(project(":receptacle")) { isTransitive = false }
 
     // Libraries
     compileOnly(kotlin("stdlib"))

@@ -1,7 +1,7 @@
 package trplugins.menu.api.menu
 
-import taboolib.module.ui.receptacle.Receptacle
 import org.bukkit.entity.Player
+import trplugins.menu.api.receptacle.Receptacle
 
 /**
  * @author Arasple

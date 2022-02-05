@@ -1,7 +1,6 @@
 package trplugins.menu.module.internal.command.impl
 
 import trplugins.menu.module.internal.command.CommandExpression
-import taboolib.module.ui.receptacle.ChestInventory
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.function.console
@@ -10,10 +9,11 @@ import taboolib.library.xseries.XMaterial
 import taboolib.library.xseries.XSound
 import taboolib.module.lang.asLangText
 import taboolib.module.lang.asLangTextList
-import taboolib.module.ui.receptacle.ReceptacleClickType
 import taboolib.platform.util.asLangText
 import taboolib.platform.util.buildItem
 import taboolib.platform.util.sendLang
+import trplugins.menu.api.receptacle.ChestInventory
+import trplugins.menu.api.receptacle.ReceptacleClickType
 
 /**
  * @author Arasple

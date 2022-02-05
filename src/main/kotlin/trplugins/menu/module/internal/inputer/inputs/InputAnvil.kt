@@ -8,8 +8,8 @@ import taboolib.common.reflect.Reflex.Companion.getProperty
 import taboolib.library.xseries.XMaterial
 import taboolib.module.nms.PacketReceiveEvent
 import taboolib.module.nms.getI18nName
-import taboolib.module.ui.receptacle.Receptacle
-import taboolib.module.ui.receptacle.ReceptacleType
+import trplugins.menu.api.receptacle.Receptacle
+import trplugins.menu.api.receptacle.ReceptacleType
 import taboolib.platform.util.buildItem
 import java.util.concurrent.ConcurrentHashMap
 

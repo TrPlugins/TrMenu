@@ -6,8 +6,8 @@ import org.bukkit.event.inventory.InventoryType
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.function.submit
 import taboolib.library.xseries.XMaterial
-import taboolib.module.ui.receptacle.ChestInventory
-import taboolib.module.ui.receptacle.createReceptacle
+import trplugins.menu.api.receptacle.ChestInventory
+import trplugins.menu.api.receptacle.createReceptacle
 
 /**
  * @author Arasple

@@ -2,7 +2,6 @@ package trplugins.menu.module.conf
 
 import trplugins.menu.api.reaction.Reactions
 import trplugins.menu.api.menu.ISerializer
-import taboolib.module.ui.receptacle.ReceptacleClickType
 import trplugins.menu.module.conf.prop.Property
 import trplugins.menu.module.conf.prop.SerialzeError
 import trplugins.menu.module.conf.prop.SerialzeResult
@@ -31,6 +30,7 @@ import taboolib.module.configuration.Type
 import taboolib.module.nms.ItemTag
 import taboolib.module.nms.ItemTagData
 import trplugins.menu.api.action.ofReaction
+import trplugins.menu.api.receptacle.ReceptacleClickType
 import java.io.File
 import kotlin.math.max
 
@@ -124,7 +124,6 @@ object MenuSerializer : ISerializer {
             optionDependExpansions.toTypedArray(),
             optionMinClickDelay,
             optionHidePlayerInventory,
-            optionHidePurePacket,
             boundCommands.map { it.toRegex() },
             boundItems.map { ItemMatcher.of(it) }.toTypedArray(),
             Reactions.ofReaction(eventOpen),

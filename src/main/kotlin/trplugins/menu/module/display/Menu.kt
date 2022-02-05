@@ -2,7 +2,6 @@ package trplugins.menu.module.display
 
 import trplugins.menu.api.event.MenuOpenEvent
 import trplugins.menu.api.event.MenuPageChangeEvent
-import taboolib.module.ui.receptacle.Receptacle
 import trplugins.menu.module.display.icon.Icon
 import trplugins.menu.module.display.layout.MenuLayout
 import trplugins.menu.module.internal.data.Metadata
@@ -14,6 +13,7 @@ import taboolib.common.platform.function.submit
 import taboolib.module.configuration.ConfigFile
 import taboolib.platform.util.cancelNextChat
 import trplugins.menu.api.action.eval
+import trplugins.menu.api.receptacle.Receptacle
 import java.util.function.Consumer
 
 /**
@@ -82,7 +82,7 @@ class Menu(
                 val receptacle: Receptacle
 
                 session.page = determinedPage
-                session.receptacle = layout.baseReceptacle(settings.purePacket).also { receptacle = it }
+                session.receptacle = layout.baseReceptacle().also { receptacle = it }
                 session.playerItemSlots()
 
                 layout.initReceptacle(session)
@@ -114,7 +114,7 @@ class Menu(
                 receptacle = session.receptacle!!
                 receptacle.clear()
             } else {
-                session.receptacle = layout.baseReceptacle(settings.purePacket).also { receptacle = it }
+                session.receptacle = layout.baseReceptacle().also { receptacle = it }
                 layout.initReceptacle(session)
             }
 
