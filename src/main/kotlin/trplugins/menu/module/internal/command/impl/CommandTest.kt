@@ -16,7 +16,7 @@ import taboolib.module.ui.receptacle.createReceptacle
 object CommandTest : CommandExpression {
 
     override val command = subCommand {
-        // trplugins.menu test
+        // trm test
         execute<Player> { player, _, _ ->
             val chest = InventoryType.CHEST.createReceptacle("Def").also {
                 it as ChestInventory

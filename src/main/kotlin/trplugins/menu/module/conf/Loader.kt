@@ -73,6 +73,9 @@ object Loader {
             // serializing
             {
                 val result = MenuSerializer.serializeMenu(it)
+                if (result.state == SerialzeResult.State.IGNORE) {
+                    return@start result
+                }
                 if (result.succeed()) {
                     listen(it)
                 } else errors.addAll(result.errors)
@@ -86,6 +89,9 @@ object Loader {
                         true
                     }
                     it.forEach { result ->
+                        if (result.second.state == SerialzeResult.State.IGNORE) {
+                            return@forEach
+                        }
                         val menu = (result.second.result as? Menu) ?: return@forEach let {
                             if (result.first.isDirectory) {
                                 return@let

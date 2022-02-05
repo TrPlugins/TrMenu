@@ -23,7 +23,7 @@ object CommandSounds : CommandExpression {
 
     private val playingSounds = mutableMapOf<Player, MutableSet<XSound>>()
 
-    // trplugins.menu sounds [sound]
+    // trm sounds [sound]
     override val command = subCommand {
         dynamic(optional = true) {
             suggestion<Player>(uncheck = true) { _, _ ->

@@ -27,7 +27,7 @@ import java.io.File
  */
 object CommandDebug : CommandExpression {
 
-    // trplugins.menu debug <...>
+    // trm debug <...>
     override val command = subCommand {
         dynamic(optional = true) {
             suggestion<CommandSender> { _, _ ->

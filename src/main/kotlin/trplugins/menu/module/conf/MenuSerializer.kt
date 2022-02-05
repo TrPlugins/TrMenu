@@ -16,7 +16,7 @@ import trplugins.menu.module.display.item.Lore
 import trplugins.menu.module.display.item.Meta
 import trplugins.menu.module.display.layout.Layout
 import trplugins.menu.module.display.layout.MenuLayout
-import trplugins.menu.module.display.suffixes
+import trplugins.menu.api.suffixes
 import trplugins.menu.module.display.texture.Texture
 import trplugins.menu.module.internal.script.js.ScriptFunction
 import trplugins.menu.util.bukkit.ItemMatcher
@@ -52,7 +52,8 @@ object MenuSerializer : ISerializer {
             return result
         }
         // 菜单类型
-        val type = Type.values().find { it.suffixes.any { file.extension.equals(it, true) } }!!
+        val type = Type.values().find { it.suffixes.any { file.extension.equals(it, true) } }
+            ?: return result.also { it.state = SerialzeResult.State.IGNORE }
         // 加载菜单配置
         val conf = Configuration.loadFromFile(file, type)
 

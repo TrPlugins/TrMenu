@@ -1,7 +1,7 @@
 package trplugins.menu.module.internal.command.impl
 
 import trplugins.menu.module.display.Menu
-import trplugins.menu.module.display.color
+import trplugins.menu.api.color
 import trplugins.menu.module.internal.command.CommandExpression
 import org.bukkit.command.CommandSender
 import taboolib.common.platform.command.subCommand
@@ -13,7 +13,7 @@ import taboolib.platform.util.sendLang
  */
 object CommandList : CommandExpression {
 
-    // trplugins.menu list [filter]
+    // trm list [filter]
     override val command = subCommand {
         execute<CommandSender> { sender, context, argument ->
             find(sender, null)

@@ -344,7 +344,9 @@ enum class Property(val default: String, val regex: Regex) {
         fun asSection(any: Any?): Configuration? = Configuration.empty().let {
             when (any) {
                 is Configuration -> return any
-                is ConfigSection -> return Configuration.empty().also { it.setProperty("root/map", any.getProperty("root/map")) }
+                is ConfigSection -> {
+                    return Configuration.empty().also { it.root = any.root }
+                }
                 is Map<*, *> -> {
                     any.entries.forEach { entry -> it[entry.key.toString()] = entry.value }
                     return@let it

@@ -86,3 +86,7 @@ Command-List-Format:
     args:
       - hover: '&7点击打开'
         command: '/trmenu open {0}'
+Command-Convert-Unknown-Menu: '&8[&3Tr&bMenu&8] &7未知菜单 &6{0} &7.'
+Command-Convert-Unknown-Type: '&8[&3Tr&bMenu&8] &7未知类型 &b{0} &7.'
+Command-Convert-Type-Already: '&8[&3Tr&bMenu&8] &7菜单 &6{0} &7的类型已经是 &b{1} &7了.'
+Command-Convert-Converted: '&8[&3Tr&bMenu&8] &7已将菜单 &6{0} &7的类型转换为 &b{1}&7.'

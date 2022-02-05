@@ -86,3 +86,7 @@ Command-List-Format:
     args:
       - hover: '&7Nhấn để mở'
         command: '/trmenu open {0}'
+Command-Convert-Unknown-Menu: '&8[&3Tr&bMenu&8] &7Unknown menu &6{0} &7.'
+Command-Convert-Unknown-Type: '&8[&3Tr&bMenu&8] &7Unknown type &b{0} &7.'
+Command-Convert-Type-Already: '&8[&3Tr&bMenu&8] &7The type of menu &6{0} &7 is already &b{1} &7.'
+Command-Convert-Converted: '&8[&3Tr&bMenu&8] &7Typecast menu &6{0} &7 to &b{1}&7.'

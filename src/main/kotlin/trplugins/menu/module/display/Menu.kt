@@ -25,7 +25,7 @@ class Menu(
     val settings: MenuSettings,
     val layout: MenuLayout,
     val icons: Set<Icon>,
-    val conf: ConfigFile
+    conf: ConfigFile
 ) {
 
     companion object {
@@ -33,6 +33,9 @@ class Menu(
         val menus = mutableListOf<Menu>()
 
     }
+
+    var conf: ConfigFile = conf
+        internal set
 
     val viewers: MutableSet<String> = mutableSetOf()
 

@@ -26,7 +26,7 @@ import taboolib.platform.util.sendLang
 object CommandTemplate : CommandExpression {
 
     // TODO 生成指定文件类型, 例如 json
-    // trplugins.menu template <rows>
+    // trm template <rows>
     override val command = subCommand {
         dynamic(optional = true) {
             suggestion<Player> { _, _ ->
