@@ -48,7 +48,7 @@ object CommandConvert : CommandExpression {
                     menu.conf.file?.let { file: File ->
                         // 备份原文件
                         File(file.parentFile, "${file.name}.bak").let {
-                            it.renameTo(it)
+                            file.renameTo(it)
                         }
                         // 释放转换产物
                         File(file.parentFile, "${file.nameWithoutExtension}.${type.suffixes[0]}").let {
