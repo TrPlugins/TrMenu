@@ -29,7 +29,7 @@ object Metrics {
     fun initialization() {
         B_STATS.let { metrics ->
             metrics.addCustomChart(SingleLineChart("menus") {
-                Menu.menus.sumBy { menu -> menu.layout.getSize() }
+                Menu.menus.sumOf { menu -> menu.layout.getSize() }
             })
             metrics.addCustomChart(SingleLineChart("menu_open_counts") {
                 menuOpenCounts

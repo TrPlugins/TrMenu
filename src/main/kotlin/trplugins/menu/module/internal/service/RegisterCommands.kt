@@ -34,17 +34,17 @@ object RegisterCommands {
                 val section = it.getConfigurationSection(main) ?: continue
                 val argument = section.getConfigurationSection("arguments")
                 val reactions = ofReaction(section["execute"])
-                val permission = section.get("permission")?.toString()
+                val permission = section["permission"]?.toString()
                 val subReactions = mutableMapOf<String, Reactions>()
                 argument?.getKeys(false)?.forEach {
                     subReactions[it] = ofReaction(argument[it])
                 }
                 registered.add(main)
                 command(
-                    name = main ?: continue,
+                    name = main,
                     permission = permission ?: "",
                     permissionDefault = if (permission == null) PermissionDefault.TRUE else PermissionDefault.FALSE,
-                    aliases = section.getStringList("aliases") ?: listOf()
+                    aliases = section.getStringList("aliases")
                 ) {
                     dynamic(optional = true) {
                         suggestion<Player>(uncheck = true) { _, _ ->

@@ -1,10 +1,10 @@
 package trplugins.menu.util.net
 
-import com.google.gson.JsonParser
 import taboolib.common.env.DependencyDownloader
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.function.submit
 import taboolib.module.lang.sendLang
+import trplugins.menu.util.parseJson
 import java.net.HttpURLConnection
 import java.net.URL
 import java.nio.charset.StandardCharsets
@@ -35,7 +35,7 @@ object Paster {
                 con.doInput = true
                 con.doOutput = true
                 con.outputStream.also { it.write(content.toByteArray(StandardCharsets.UTF_8)) }
-                val source = JsonParser().parse(DependencyDownloader.readFully(con.inputStream, StandardCharsets.UTF_8)).asJsonObject
+                val source = DependencyDownloader.readFully(con.inputStream, StandardCharsets.UTF_8).parseJson().asJsonObject
                 url(URL + source.get("key").asString)
             } catch (e: Throwable) {
                 e.printStackTrace()

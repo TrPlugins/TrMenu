@@ -3,7 +3,7 @@ package trplugins.menu.module.conf
 import trplugins.menu.api.reaction.Reactions
 import trplugins.menu.api.menu.ISerializer
 import trplugins.menu.module.conf.prop.Property
-import trplugins.menu.module.conf.prop.SerialzeError
+import trplugins.menu.module.conf.prop.SerializeError
 import trplugins.menu.module.conf.prop.SerialzeResult
 import trplugins.menu.module.display.Menu
 import trplugins.menu.module.display.MenuSettings
@@ -53,7 +53,7 @@ object MenuSerializer : ISerializer {
         }
         // 文件有效检测
         if (!(file.isFile && file.length() > 0 && file.canRead())) {
-            result.submitError(SerialzeError.INVALID_FILE, file.name)
+            result.submitError(SerializeError.INVALID_FILE, file.name)
             return result
         }
         // 菜单类型
@@ -105,7 +105,7 @@ object MenuSerializer : ISerializer {
         val optionFreeSlots = Property.OPTION_FREE_SLOTS.ofStringList(conf)
         val optionDefaultLayout = Property.OPTION_DEFAULT_LAYOUT.ofInt(options, 0)
         val optionHidePlayerInventory = Property.OPTION_HIDE_PLAYER_INVENTORY.ofBoolean(options, false)
-        val optionHidePurePacket = Property.OPTION_PURE_PACKET.ofBoolean(options, true)
+//        val optionHidePurePacket = Property.OPTION_PURE_PACKET.ofBoolean(options, true)
         val optionMinClickDelay = Property.OPTION_MIN_CLICK_DELAY.ofInt(options, 200)
         val optionDependExpansions = Property.OPTION_DEPEND_EXPANSIONS.ofStringList(options)
         val boundCommands = Property.BINDING_COMMANDS.ofStringList(bindings)
@@ -210,7 +210,7 @@ object MenuSerializer : ISerializer {
             }.sortedBy { it.priority }
 
             if (defIcon.display.texture.isEmpty() || subs.any { it.display.texture.isEmpty() }) {
-                result.submitError(SerialzeError.INVALID_ICON_UNDEFINED_TEXTURE, id)
+                result.submitError(SerializeError.INVALID_ICON_UNDEFINED_TEXTURE, id)
             }
 
             Icon(id, refresh.toLong(), update.toTypedArray(), position, defIcon, IndivList(subs))

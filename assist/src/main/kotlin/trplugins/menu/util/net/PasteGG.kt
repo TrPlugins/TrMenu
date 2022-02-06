@@ -1,7 +1,8 @@
 package trplugins.menu.util.net
 
-import com.google.gson.JsonParser
+import taboolib.common.Isolated
 import taboolib.common.env.DependencyDownloader
+import trplugins.menu.util.parseJson
 import java.net.HttpURLConnection
 import java.net.URL
 import java.nio.charset.StandardCharsets
@@ -12,6 +13,7 @@ import java.util.*
  * @author Arasple
  * @date 2021/4/3 9:36
  */
+@Isolated
 object PasteGG {
 
     private const val URL = "https://api.paste.gg/v1/pastes"
@@ -68,7 +70,7 @@ object PasteGG {
             con.doInput = true
             con.doOutput = true
             con.outputStream.also { it.write(json.toByteArray(StandardCharsets.UTF_8)) }
-            val source = JsonParser().parse(DependencyDownloader.readFully(con.inputStream, StandardCharsets.UTF_8)).asJsonObject
+            val source = DependencyDownloader.readFully(con.inputStream, StandardCharsets.UTF_8).parseJson().asJsonObject
 
             success.invoke(source.toString())
         } catch (e: Throwable) {

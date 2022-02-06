@@ -150,8 +150,6 @@ class Texture(
             val id = split[0].toIntOrNull() ?: split[0].uppercase().replace("[ _]".toRegex(), "_")
 
             return buildItem(XMaterial.matchXMaterial(FALL_BACK)) {
-                var rawMaterial = id
-
                 if (id is Int) {
                     try {
                         this.material = Material::class.java.invokeMethod<Material>("getMaterial", id.toInt(), fixed = true)!!

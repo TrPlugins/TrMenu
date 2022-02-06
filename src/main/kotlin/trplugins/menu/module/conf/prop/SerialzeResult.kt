@@ -19,9 +19,9 @@ class SerialzeResult(
         return state == State.SUCCESS && result != null
     }
 
-    fun submitError(error: SerialzeError, vararg args: Any) {
+    fun submitError(error: SerializeError, vararg args: Any) {
         state = State.FAILED
-        errors.add(SerialzeError.formatInfo(error).replaceWithOrder(*args))
+        errors.add(SerializeError.formatInfo(error).replaceWithOrder(*args))
     }
 
     @Suppress("UNCHECKED_CAST")

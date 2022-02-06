@@ -15,6 +15,7 @@ import org.bukkit.inventory.meta.BannerMeta
 import taboolib.library.xseries.XMaterial
 import taboolib.module.nms.ItemTag
 import taboolib.platform.util.ItemBuilder
+import trplugins.menu.util.parseJson
 import kotlin.math.min
 
 
@@ -78,7 +79,7 @@ object ItemHelper {
 
     fun isJson(json: String): Boolean {
         return try {
-            JsonParser().parse(json)
+            json.parseJson()
             true
         } catch (e: Throwable) {
             false
