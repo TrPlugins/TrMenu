@@ -55,7 +55,7 @@ object ReceptacleListener {
                 // 防止关闭菜单后, 动态标题频率过快出现的卡假容器
                 submit(delay = 1, async = true) {
                     val viewingReceptacle = e.player.getViewingReceptacle()
-                    if (viewingReceptacle != null) {
+                    if (viewingReceptacle == null) {
                         e.player.updateInventory()
                     }
                 }
