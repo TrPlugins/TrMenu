@@ -22,6 +22,8 @@ import trplugins.menu.util.bukkit.ItemHelper
  */
 class EnchantItem(handle: ActionHandle) : ActionBase(handle) {
 
+    override val regex = "enchant(-)?items?".toRegex()
+
     override fun onExecute(contents: ActionContents, player: ProxyPlayer, placeholderPlayer: ProxyPlayer) {
         contents.stringContent().parseContentSplited(placeholderPlayer, ";").forEach {
             val split = it.split(",", " ", limit = 4).toTypedArray()

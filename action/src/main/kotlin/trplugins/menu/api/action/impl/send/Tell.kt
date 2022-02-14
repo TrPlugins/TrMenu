@@ -14,7 +14,7 @@ import trplugins.menu.api.action.base.ActionContents
  */
 class Tell(handle: ActionHandle) : ActionBase(handle) {
 
-    override val regex = alias("tell", "message", "msg", "talk")
+    override val regex = "tell|message|msg|talk".toRegex()
 
     override fun onExecute(contents: ActionContents, player: ProxyPlayer, placeholderPlayer: ProxyPlayer) {
         contents.stringContent().parseContentSplited(placeholderPlayer).forEach {

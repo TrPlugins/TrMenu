@@ -11,4 +11,5 @@ import trplugins.menu.api.action.base.ActionBase
  * @since 2022/02/10 22:09
  */
 class Break(handle: ActionHandle) : ActionBase(handle) {
+    override val regex = "return|break".toRegex()
 }

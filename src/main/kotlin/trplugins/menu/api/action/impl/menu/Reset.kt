@@ -16,6 +16,8 @@ import trplugins.menu.module.display.session
  */
 class Reset(handle: ActionHandle) : ActionBase(handle) {
 
+    override val regex = "resets?".toRegex()
+
     override fun onExecute(contents: ActionContents, player: ProxyPlayer, placeholderPlayer: ProxyPlayer) {
         val session = player.session()
 

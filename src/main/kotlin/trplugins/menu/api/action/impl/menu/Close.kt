@@ -14,7 +14,8 @@ import trplugins.menu.module.display.session
  * @since 2022/02/14 11:13
  */
 class Close(handle: ActionHandle) : ActionBase(handle) {
-    override val regex = alias("shut")
+
+    override val regex = "close|shut".toRegex()
 
     override fun onExecute(contents: ActionContents, player: ProxyPlayer, placeholderPlayer: ProxyPlayer) {
         player.session().close(closePacket = true, updateInventory = true)

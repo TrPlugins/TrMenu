@@ -16,7 +16,7 @@ import trplugins.menu.module.internal.data.Metadata
  */
 class SilenceClose(handle: ActionHandle) : ActionBase(handle) {
 
-    override val regex = alias("force-close")
+    override val regex = "(force|silent)-?(close|shut)".toRegex()
 
     override fun onExecute(contents: ActionContents, player: ProxyPlayer, placeholderPlayer: ProxyPlayer) {
         Metadata.setBukkitMeta(player.cast(), "FORCE_CLOSE")

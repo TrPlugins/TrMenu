@@ -14,7 +14,7 @@ import trplugins.menu.api.action.base.ActionContents
  */
 class Chat(handle: ActionHandle) : ActionBase(handle) {
 
-    override val regex = alias("say")
+    override val regex = "chat|send|say".toRegex()
 
     override fun onExecute(contents: ActionContents, player: ProxyPlayer, placeholderPlayer: ProxyPlayer) {
         contents.stringContent().parseContentSplited(placeholderPlayer, contents.stringContent()).forEach {

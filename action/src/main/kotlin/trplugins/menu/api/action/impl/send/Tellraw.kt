@@ -18,7 +18,7 @@ import trplugins.menu.util.jsonParser
  */
 class Tellraw(handle: ActionHandle) : ActionBase(handle) {
 
-    override val regex = alias("json", "send-json", "send-$lowerName")
+    override val regex = "(tell(raw)?|json)s?".toRegex()
 
     override fun onExecute(contents: ActionContents, player: ProxyPlayer, placeholderPlayer: ProxyPlayer) {
         player.sendRawMessage(contents.stringContent().parseContent(placeholderPlayer))

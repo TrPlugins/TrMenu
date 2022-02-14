@@ -17,7 +17,7 @@ class SilenceOpen(handle: ActionHandle) : ActionBase(handle) {
 
     val open = Open(handle)
 
-    override val regex = alias("force-open")
+    override val regex = "(force|silent)-?(open|menu)".toRegex()
 
     override fun onExecute(contents: ActionContents, player: ProxyPlayer, placeholderPlayer: ProxyPlayer) {
         Metadata.setBukkitMeta(player.cast(), "FORCE_OPEN")

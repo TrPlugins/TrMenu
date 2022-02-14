@@ -16,6 +16,8 @@ import trplugins.menu.module.display.session
  */
 class SetTitle(handle: ActionHandle) : ActionBase(handle) {
 
+    override val regex = "set-?title".toRegex()
+
     override fun onExecute(contents: ActionContents, player: ProxyPlayer, placeholderPlayer: ProxyPlayer) {
         val session = player.session()
         val receptacle = session.receptacle ?: return

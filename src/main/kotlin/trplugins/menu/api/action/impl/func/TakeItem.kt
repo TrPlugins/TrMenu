@@ -17,7 +17,7 @@ import trplugins.menu.util.bukkit.ItemMatcher
  */
 class TakeItem(handle: ActionHandle) : ActionBase(handle) {
 
-    override val regex = alias("remove-item")
+    override val regex = "(take|remove)(-)?items?".toRegex()
 
     override fun onExecute(contents: ActionContents, player: ProxyPlayer, placeholderPlayer: ProxyPlayer) {
         ItemMatcher.eval(contents.stringContent().parseContent(placeholderPlayer), !isParsable(contents.stringContent())).takeItem(player.cast())

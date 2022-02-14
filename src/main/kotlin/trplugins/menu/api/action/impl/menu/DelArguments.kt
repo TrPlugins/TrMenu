@@ -14,7 +14,7 @@ import trplugins.menu.module.display.session
  * @author Score2
  * @since 2022/02/14 12:05
  */
-class ClearArguments(handle: ActionHandle) : ActionBase(handle) {
+class DelArguments(handle: ActionHandle) : ActionBase(handle) {
 
     override val regex = "(clear|cls|del|rem)-?arg(ument)?s?".toRegex()
 

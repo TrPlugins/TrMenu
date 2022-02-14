@@ -18,7 +18,7 @@ import trplugins.menu.api.action.base.ActionContents
  */
 class Sound(handle: ActionHandle) : ActionBase(handle) {
 
-    override val regex = alias("play-$lowerName")
+    override val regex = "(play)?-?sounds?".toRegex()
 
     override fun onExecute(contents: ActionContents, player: ProxyPlayer, placeholderPlayer: ProxyPlayer) {
         contents.stringContent().parseContentSplited(placeholderPlayer, ";").forEach {

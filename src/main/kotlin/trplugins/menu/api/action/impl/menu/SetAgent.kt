@@ -17,6 +17,8 @@ import trplugins.menu.module.display.session
  */
 class SetAgent(handle: ActionHandle) : ActionBase(handle) {
 
+    override val regex = "(set|change)-?agent".toRegex()
+
     override fun onExecute(contents: ActionContents, player: ProxyPlayer, placeholderPlayer: ProxyPlayer) {
         val agent = Bukkit.getPlayerExact(contents.stringContent().parseContent(placeholderPlayer)) ?: return
 

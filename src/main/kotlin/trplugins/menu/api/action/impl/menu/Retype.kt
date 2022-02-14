@@ -14,6 +14,9 @@ import trplugins.menu.module.internal.data.Metadata
  * @since 2022/02/14 12:18
  */
 class Retype(handle: ActionHandle) : ActionBase(handle) {
+
+    override val regex = "re-?(peat|catcher|input|enter|type)s?".toRegex()
+
     override fun onExecute(contents: ActionContents, player: ProxyPlayer, placeholderPlayer: ProxyPlayer) {
         Metadata.setBukkitMeta(player.cast(), "RE_ENTER")
     }

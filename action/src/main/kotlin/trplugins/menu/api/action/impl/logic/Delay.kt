@@ -12,6 +12,7 @@ import trplugins.menu.api.action.base.ActionBase
  * @since 2022/02/10 22:09
  */
 class Delay(handle: ActionHandle) : ActionBase(handle) {
+    override val regex = "delay|wait".toRegex()
     fun getDelay(player: ProxyPlayer, content: String) =
         player.parse(content).toLongOrNull() ?: 0L
 }

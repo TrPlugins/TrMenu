@@ -19,7 +19,7 @@ import trplugins.menu.util.conf.Property
  */
 class Catcher(handle: ActionHandle) : ActionBase(handle) {
 
-    override val regex = alias("input")
+    override val regex = "(input)?-?catchers?".toRegex()
 
     val type = "type".toRegex()
     val start = "before|start".toRegex()

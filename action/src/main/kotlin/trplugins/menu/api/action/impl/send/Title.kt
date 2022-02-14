@@ -16,7 +16,7 @@ import trplugins.menu.util.Regexs
  */
 class Title(handle: ActionHandle) : ActionBase(handle) {
 
-    override val regex = alias("send-title", "send-subtitle")
+    override val regex = "(send)?-?(sub)?titles?".toRegex()
 
     override fun onExecute(contents: ActionContents, player: ProxyPlayer, placeholderPlayer: ProxyPlayer) {
         val title: String by contents

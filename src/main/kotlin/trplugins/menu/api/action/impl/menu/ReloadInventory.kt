@@ -16,7 +16,7 @@ import trplugins.menu.module.display.session
  */
 class ReloadInventory(handle: ActionHandle) : ActionBase(handle) {
 
-    override val regex = alias("rl-inv")
+    override val regex = "(reload|rl)-?inv(entory)?s?".toRegex()
 
     override fun onExecute(contents: ActionContents, player: ProxyPlayer, placeholderPlayer: ProxyPlayer) {
         submit(delay = 2) {

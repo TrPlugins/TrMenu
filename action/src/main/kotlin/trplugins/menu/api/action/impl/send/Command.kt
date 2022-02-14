@@ -16,7 +16,7 @@ import trplugins.menu.api.action.base.ActionContents
  */
 class Command(handle: ActionHandle) : ActionBase(handle) {
 
-    override val regex = alias("cmd", "player", "execute")
+    override val regex = "command|cmd|player|execute".toRegex()
 
     override fun onExecute(contents: ActionContents, player: ProxyPlayer, placeholderPlayer: ProxyPlayer) {
         {

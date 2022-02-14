@@ -17,6 +17,8 @@ import trplugins.menu.api.action.base.ActionContents
  */
 class Console(handle: ActionHandle) : ActionBase(handle) {
 
+    override val regex = "console".toRegex()
+
     override fun onExecute(contents: ActionContents, player: ProxyPlayer, placeholderPlayer: ProxyPlayer) {
         {
             contents.stringContent().parseContentSplited(placeholderPlayer, ";").forEach {

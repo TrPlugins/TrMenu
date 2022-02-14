@@ -15,6 +15,8 @@ import trplugins.menu.module.display.session
  */
 class Update(handle: ActionHandle) : ActionBase(handle) {
 
+    override val regex = "(icon)?-?update".toRegex()
+
     override fun onExecute(contents: ActionContents, player: ProxyPlayer, placeholderPlayer: ProxyPlayer) {
         val session = player.session()
         val menuId = session.menu?.id // 缓存菜单id避免打开下一个菜单出现图标覆盖

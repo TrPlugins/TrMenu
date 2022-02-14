@@ -16,6 +16,8 @@ import kotlin.math.min
  */
 class Page(handle: ActionHandle) : ActionBase(handle) {
 
+    override val regex = "(set|switch)?-?(layout|shape|page)s?".toRegex()
+
     override fun onExecute(contents: ActionContents, player: ProxyPlayer, placeholderPlayer: ProxyPlayer) {
         val session = player.session()
         val menu = session.menu ?: return

@@ -18,7 +18,7 @@ import trplugins.menu.module.internal.data.Metadata
  */
 class Open(handle: ActionHandle) : ActionBase(handle) {
 
-    override val regex = alias("gui", "menu")
+    override val regex = "opens?|(open)?-?gui|(tr)?menu".toRegex()
 
     override fun onExecute(contents: ActionContents, player: ProxyPlayer, placeholderPlayer: ProxyPlayer) {
         val args = contents.stringContent().parseContentSplited(placeholderPlayer, " ")

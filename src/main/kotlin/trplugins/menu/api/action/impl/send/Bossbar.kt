@@ -21,7 +21,7 @@ import trplugins.menu.util.Regexs
  */
 class Bossbar(handle: ActionHandle) : ActionBase(handle) {
 
-    override val regex = alias("send-$lowerName")
+    override val regex = "(send)?-?boss(bar)?s?".toRegex()
 
     override fun onExecute(contents: ActionContents, player: ProxyPlayer, placeholderPlayer: ProxyPlayer) {
         val barContent: String by contents

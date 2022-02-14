@@ -18,6 +18,8 @@ import trplugins.menu.util.bukkit.ItemHelper
  */
 class RepairItem(handle: ActionHandle) : ActionBase(handle) {
 
+    override val regex = "repair(-)?items?".toRegex()
+
     override fun onExecute(contents: ActionContents, player: ProxyPlayer, placeholderPlayer: ProxyPlayer) {
         contents.stringContent().parseContentSplited(placeholderPlayer, ";").forEach {
             repair(ItemHelper.fromPlayerInv(player.cast<Player>().inventory, it))

@@ -23,16 +23,18 @@ import trplugins.menu.util.bukkit.ItemHelper
  */
 class EditItem(handle: ActionHandle) : ActionBase(handle) {
 
+    override val regex = "edit(-)?items?".toRegex()
+
     @Suppress("UNCHECKED_CAST")
     override fun onExecute(contents: ActionContents, player: ProxyPlayer, placeholderPlayer: ProxyPlayer) {
         val method: Int by contents
         val itemString = contents["item"] as String // 名称重合
         val part: Pair<Int, String> by contents
-        val list = contents["value"] as String // 伞兵 idea
+        val list = contents["value"] as List<String> // 伞兵 idea
 
-        if (method < 1 || itemString.isBlank() || part.first < 1 || (list as List<String>).isEmpty()) return
+        if (method < 1 || itemString.isBlank() || part.first < 1 || list.isEmpty()) return
         val item = ItemHelper.fromPlayerInv(player.cast<Player>().inventory, itemString) ?: return
-        val value = placeholderPlayer.session().parse(list as List<String>)
+        val value = placeholderPlayer.session().parse(list)
 
         fun material(item: ItemStack, material: Material) {
             item.type = material

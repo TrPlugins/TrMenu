@@ -14,6 +14,9 @@ import trplugins.menu.module.display.session
  * @since 2022/02/14 11:15
  */
 class Refresh(handle: ActionHandle) : ActionBase(handle) {
+
+    override val regex = "(icon)?-?refresh".toRegex()
+
     override fun onExecute(contents: ActionContents, player: ProxyPlayer, placeholderPlayer: ProxyPlayer) {
         val session = player.session()
         val baseContent = contents.stringContent()

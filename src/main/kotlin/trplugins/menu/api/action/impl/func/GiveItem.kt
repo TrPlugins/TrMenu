@@ -18,7 +18,7 @@ import trplugins.menu.util.bukkit.ItemMatcher
  */
 class GiveItem(handle: ActionHandle) : ActionBase(handle) {
 
-    override val regex = alias("add-item")
+    override val regex = "(give|add)(-)?items?".toRegex()
 
     override fun onExecute(contents: ActionContents, player: ProxyPlayer, placeholderPlayer: ProxyPlayer) {
         ItemMatcher.eval(contents.stringContent().parseContent(placeholderPlayer), !isParsable(contents.stringContent())).buildItem().forEach {

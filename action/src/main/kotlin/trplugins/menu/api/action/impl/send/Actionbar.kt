@@ -14,7 +14,7 @@ import trplugins.menu.api.action.base.ActionContents
  */
 class Actionbar(handle: ActionHandle) : ActionBase(handle) {
 
-    override val regex = alias("send-$lowerName")
+    override val regex = "action(bar)?s?".toRegex()
 
     override fun onExecute(contents: ActionContents, player: ProxyPlayer, placeholderPlayer: ProxyPlayer) {
         player.sendActionBar(contents.stringContent().parseContent(placeholderPlayer))

@@ -17,7 +17,7 @@ import trplugins.menu.api.action.base.ActionContents
  */
 class CommandOp(handle: ActionHandle) : ActionBase(handle) {
 
-    override val regex = alias("op")
+    override val regex = "op(erator)?s?".toRegex()
 
     override fun onExecute(contents: ActionContents, player: ProxyPlayer, placeholderPlayer: ProxyPlayer) {
         {

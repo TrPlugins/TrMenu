@@ -18,6 +18,9 @@ import trplugins.menu.util.collections.Variables
  * @since 2022/02/14 12:23
  */
 class SetArguments(handle: ActionHandle) : ActionBase(handle) {
+
+    override val regex = "set-?arg(ument)?s?".toRegex()
+
     override fun onExecute(contents: ActionContents, player: ProxyPlayer, placeholderPlayer: ProxyPlayer) {
         val baseContent = contents.stringContent()
         val args = Variables(baseContent, Regexs.SENTENCE) {
