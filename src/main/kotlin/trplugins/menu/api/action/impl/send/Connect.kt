@@ -16,7 +16,7 @@ import trplugins.menu.util.Bungees
  */
 class Connect(handle: ActionHandle) : ActionBase(handle) {
 
-    override val regex = "op(erator)?s?".toRegex()
+    override val regex = "bungee|server|connect".toRegex()
 
     override fun onExecute(contents: ActionContents, player: ProxyPlayer, placeholderPlayer: ProxyPlayer) {
         Bungees.connect(player.cast(), contents.stringContent().parseContent(placeholderPlayer))
