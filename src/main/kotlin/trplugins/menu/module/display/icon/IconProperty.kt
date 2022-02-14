@@ -1,7 +1,7 @@
 package trplugins.menu.module.display.icon
 
+import taboolib.common.platform.function.adaptPlayer
 import trplugins.menu.api.reaction.Reactions
-import trplugins.menu.api.action.eval
 import trplugins.menu.api.receptacle.ReceptacleClickType
 import trplugins.menu.module.display.MenuSession
 import trplugins.menu.module.display.item.Item
@@ -39,7 +39,7 @@ class IconProperty(
             }
             .map { it.value }
 
-        reactions.forEach { it.eval(session) }
+        reactions.forEach { it.eval(adaptPlayer(session.viewer)) }
     }
 
 

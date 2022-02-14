@@ -1,15 +1,5 @@
 package trplugins.menu.module.internal.inputer
 
-import trplugins.menu.TrMenu
-import trplugins.menu.api.action.impl.ActionSilentClose
-import trplugins.menu.api.reaction.Reactions
-import trplugins.menu.module.display.MenuSession
-import trplugins.menu.module.display.texture.Texture
-import trplugins.menu.module.internal.data.Metadata
-import trplugins.menu.module.internal.inputer.inputs.InputAnvil
-import trplugins.menu.module.internal.inputer.inputs.InputBook
-import trplugins.menu.util.collections.CycleList
-import trplugins.menu.util.reloadable
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import taboolib.common.LifeCycle
@@ -20,7 +10,16 @@ import taboolib.module.configuration.Configuration
 import taboolib.module.nms.inputSign
 import taboolib.platform.util.inputBook
 import taboolib.platform.util.nextChat
-import trplugins.menu.api.action.eval
+import trplugins.menu.TrMenu
+import trplugins.menu.TrMenu.actionHandle
+import trplugins.menu.api.reaction.Reactions
+import trplugins.menu.module.display.MenuSession
+import trplugins.menu.module.display.texture.Texture
+import trplugins.menu.module.internal.data.Metadata
+import trplugins.menu.module.internal.inputer.inputs.InputAnvil
+import trplugins.menu.module.internal.inputer.inputs.InputBook
+import trplugins.menu.util.collections.CycleList
+import trplugins.menu.util.reloadable
 import java.util.function.Consumer
 import java.util.function.Function
 
@@ -45,16 +44,16 @@ class Inputer(private val stages: CycleList<Catcher>) {
 
     private fun run(session: MenuSession, stage: Catcher, finish: () -> Unit) {
         val viewer = session.viewer
-        stage.start.eval(session)
+        stage.start.eval(adaptPlayer(viewer))
         stage.input(viewer) {
             Metadata.getMeta(session)["input"] = it
             if (stage.id.isNotBlank()) Metadata.getMeta(session)["input-${stage.id}"] = it
 
             if (isCancelWord(it)) {
-                stage.cancel.eval(session)
+                stage.cancel.eval(adaptPlayer(viewer))
                 finish.invoke()
                 false
-            } else if (!stage.end.eval(session)) {
+            } else if (!stage.end.eval(adaptPlayer(viewer))) {
                 // BREAK
                 finish.invoke()
                 false
@@ -87,7 +86,7 @@ class Inputer(private val stages: CycleList<Catcher>) {
         fun input(viewer: Player, respond: (String) -> Boolean) {
             val session = MenuSession.getSession(viewer)
             if (type != Type.CHAT && session.isViewing()) {
-                ActionSilentClose().assign(adaptPlayer(viewer))
+                actionHandle.getFindRegistered("SilentClose").ofEntry().assign(adaptPlayer(viewer))
             }
             when (type) {
                 Type.CHAT -> {

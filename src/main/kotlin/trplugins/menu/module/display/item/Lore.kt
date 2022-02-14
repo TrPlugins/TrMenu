@@ -1,6 +1,6 @@
 package trplugins.menu.module.display.item
 
-import trplugins.menu.api.action.base.ActionOption
+import trplugins.menu.api.action.base.ActionBase
 import trplugins.menu.module.display.MenuSession
 import trplugins.menu.module.internal.script.evalScript
 import trplugins.menu.util.collections.Variables
@@ -15,7 +15,7 @@ class Lore(lore: List<String>) {
         .map {
             var condition: String? = null
             val line = buildString {
-                Variables(it, ActionOption.Type.CONDITION.regex) { it[2] }.element.forEach { element ->
+                Variables(it, ActionBase.OptionType.CONDITION.regex) { it[2] }.element.forEach { element ->
                     if (element.isVariable) condition = element.value
                     else append(element.value)
                 }

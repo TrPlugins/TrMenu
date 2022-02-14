@@ -12,6 +12,7 @@ import org.bukkit.entity.Player
 import org.bukkit.metadata.FixedMetadataValue
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
+import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.Schedule
 import taboolib.module.configuration.Config
 import taboolib.module.configuration.Configuration
@@ -100,6 +101,7 @@ object Metadata {
     private fun <T> getPlayerName(target: T): String {
         return when (target) {
             is Player -> target.name
+            is ProxyPlayer -> target.name
             is MenuSession -> target.placeholderPlayer.name
             else -> throw Exception("?????")
         }

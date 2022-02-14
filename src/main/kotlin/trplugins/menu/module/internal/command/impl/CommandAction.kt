@@ -1,12 +1,13 @@
 package trplugins.menu.module.internal.command.impl
 
-import trplugins.menu.module.internal.command.CommandExpression
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import taboolib.common.platform.command.subCommand
+import taboolib.common.platform.function.adaptPlayer
 import taboolib.platform.util.sendLang
-import trplugins.menu.api.action.Actions
-import trplugins.menu.api.action.runAction
+import trplugins.menu.TrMenu.actionHandle
+import trplugins.menu.api.action.base.ActionEntry
+import trplugins.menu.module.internal.command.CommandExpression
 import kotlin.system.measureNanoTime
 
 /**
@@ -31,10 +32,10 @@ object CommandAction : CommandExpression {
                         return@execute
                     }
 
-                    val (hidePrint, action) = argument.startsWith("#") to Actions.readAction(argument.removePrefix("#"))
+                    val (hidePrint, action) = argument.startsWith("#") to ActionEntry.of(actionHandle, argument.removePrefix("#"))
 
                     measureNanoTime {
-                        Actions.runAction(player, action).let {
+                        actionHandle.runAction(adaptPlayer(player), action).let {
                             sender.sendMessage("§8[§7Action§8] §7Result: §3$it")
                         }
                     }.also {

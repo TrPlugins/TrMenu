@@ -1,19 +1,19 @@
 package trplugins.menu.module.display
 
-import trplugins.menu.api.event.MenuOpenEvent
-import trplugins.menu.api.event.MenuPageChangeEvent
-import trplugins.menu.module.display.icon.Icon
-import trplugins.menu.module.display.layout.MenuLayout
-import trplugins.menu.module.internal.data.Metadata
-import trplugins.menu.module.internal.service.Performance
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
+import taboolib.common.platform.function.adaptPlayer
 import taboolib.common.platform.function.pluginId
 import taboolib.common.platform.function.submit
 import taboolib.module.configuration.ConfigFile
 import taboolib.platform.util.cancelNextChat
-import trplugins.menu.api.action.eval
+import trplugins.menu.api.event.MenuOpenEvent
+import trplugins.menu.api.event.MenuPageChangeEvent
 import trplugins.menu.api.receptacle.Receptacle
+import trplugins.menu.module.display.icon.Icon
+import trplugins.menu.module.display.layout.MenuLayout
+import trplugins.menu.module.internal.data.Metadata
+import trplugins.menu.module.internal.service.Performance
 import java.util.function.Consumer
 
 /**
@@ -70,7 +70,7 @@ class Menu(
             session.menu = this
             block(session)
 
-            if (!Metadata.byBukkit(viewer, "FORCE_OPEN") && !settings.openEvent.eval(session)) {
+            if (!Metadata.byBukkit(viewer, "FORCE_OPEN") && !settings.openEvent.eval(adaptPlayer(session.viewer))) {
                 session.menu = null
                 return
             } else {
@@ -168,7 +168,7 @@ class Menu(
             session.arrange(
                 submit(delay = 5L, period = period, async = true) {
                     Performance.check("Menu:CustomTasks") {
-                        reactions.eval(session)
+                        reactions.eval(adaptPlayer(session.viewer))
                     }
                 }
             )

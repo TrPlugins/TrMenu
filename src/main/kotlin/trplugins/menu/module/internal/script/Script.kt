@@ -16,12 +16,6 @@ import trplugins.menu.module.internal.script.js.JavaScriptAgent
  * @author Score2
  * @since 2022/01/09 17:48
  */
-val scriptParser = trplugins.menu.util.function.ScriptParser { player, script ->
-    player.evalScript(script)
-}
-val contentParser = trplugins.menu.util.function.ContentParser { player, content ->
-    player.session().parse(content)
-}
 
 fun EvalResult.asItemStack(): ItemStack? {
     return any as ItemStack?

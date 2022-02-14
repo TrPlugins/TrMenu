@@ -18,9 +18,9 @@ import taboolib.module.kether.Kether
 import taboolib.module.lang.Language
 import taboolib.module.lang.sendLang
 import taboolib.platform.BukkitPlugin
-import trplugins.menu.api.action.Actions
-import trplugins.menu.module.internal.script.contentParser
-import trplugins.menu.module.internal.script.scriptParser
+import trplugins.menu.api.action.ActionHandle
+import trplugins.menu.module.display.session
+import trplugins.menu.module.internal.script.evalScript
 
 /**
  * @author Arasple
@@ -36,10 +36,12 @@ object TrMenu : Plugin() {
 
     var performance = RunningPerformance.NORMAL
         private set
+
+    lateinit var actionHandle: ActionHandle
     
     override fun onLoad() {
         Language.default = "en_US"
-        Actions.init(contentParser, scriptParser)
+        actionHandle = ActionHandle({ t, u -> t.evalScript(u) }, { t, u -> t.session().parse(u) })
         console().sendLang("Plugin-Loading", Bukkit.getVersion())
     }
 

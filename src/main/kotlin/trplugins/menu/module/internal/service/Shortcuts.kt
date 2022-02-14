@@ -1,9 +1,5 @@
 package trplugins.menu.module.internal.service
 
-import trplugins.menu.TrMenu
-import trplugins.menu.api.reaction.Reactions
-import trplugins.menu.module.display.MenuSession
-import trplugins.menu.module.internal.data.Metadata
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.event.inventory.InventoryClickEvent
@@ -13,9 +9,13 @@ import org.bukkit.event.player.PlayerToggleSneakEvent
 import org.bukkit.inventory.EquipmentSlot
 import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.event.SubscribeEvent
+import taboolib.common.platform.function.adaptPlayer
 import taboolib.module.nms.MinecraftVersion
-import trplugins.menu.api.action.eval
-import trplugins.menu.api.action.ofReaction
+import trplugins.menu.TrMenu
+import trplugins.menu.TrMenu.actionHandle
+import trplugins.menu.api.reaction.Reactions
+import trplugins.menu.module.display.MenuSession
+import trplugins.menu.module.internal.data.Metadata
 
 /**
  * @author Arasple
@@ -34,7 +34,7 @@ object Shortcuts {
             if (player.isSneakingValid()) Type.REACTIONS[Type.SNEAKING_OFFHAND]
             else Type.REACTIONS[Type.OFFHAND]
 
-        return reaction?.eval(player) ?: false
+        return reaction?.eval(adaptPlayer(player)) ?: false
     }
 
 
@@ -45,7 +45,7 @@ object Shortcuts {
 
         MenuSession.getSession(player).implicitArguments = arrayOf(clicked.name)
 
-        return reaction?.eval(player) ?: false
+        return reaction?.eval(adaptPlayer(player)) ?: false
     }
 
     private fun borderClick(player: Player, click: ClickType) {
@@ -54,7 +54,7 @@ object Shortcuts {
             click.isRightClick -> Type.PLAYER_INVENTORY_BORDER_RIGHT
             else -> Type.PLAYER_INVENTORY_BORDER_MIDDLE
         }
-        Type.REACTIONS[type]?.eval(player)
+        Type.REACTIONS[type]?.eval(adaptPlayer(player))
     }
 
     enum class Type(val key: String) {
@@ -81,7 +81,7 @@ object Shortcuts {
                 REACTIONS.clear()
 
                 values().forEach {
-                    Reactions.ofReaction(TrMenu.SETTINGS.get("Shortcuts.${it.key}")).let { react ->
+                    Reactions.ofReaction(actionHandle, TrMenu.SETTINGS["Shortcuts.${it.key}"]).let { react ->
                         if (!react.isEmpty()) {
                             REACTIONS[it] = react
                         }

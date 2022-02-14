@@ -1,8 +1,18 @@
 package trplugins.menu.module.conf
 
-import trplugins.menu.api.reaction.Reactions
+import org.bukkit.event.inventory.InventoryType
+import org.bukkit.inventory.ItemFlag
+import taboolib.common.platform.function.pluginId
+import taboolib.module.configuration.Configuration
+import taboolib.module.configuration.Type
+import taboolib.module.nms.ItemTag
+import taboolib.module.nms.ItemTagData
+import trplugins.menu.TrMenu
+import trplugins.menu.TrMenu.actionHandle
 import trplugins.menu.api.menu.ISerializer
-import trplugins.menu.module.conf.prop.Property
+import trplugins.menu.api.reaction.Reactions
+import trplugins.menu.api.receptacle.ReceptacleClickType
+import trplugins.menu.api.suffixes
 import trplugins.menu.module.conf.prop.SerializeError
 import trplugins.menu.module.conf.prop.SerialzeResult
 import trplugins.menu.module.display.Menu
@@ -15,22 +25,13 @@ import trplugins.menu.module.display.item.Lore
 import trplugins.menu.module.display.item.Meta
 import trplugins.menu.module.display.layout.Layout
 import trplugins.menu.module.display.layout.MenuLayout
-import trplugins.menu.api.suffixes
 import trplugins.menu.module.display.texture.Texture
 import trplugins.menu.module.internal.script.js.ScriptFunction
 import trplugins.menu.util.bukkit.ItemMatcher
 import trplugins.menu.util.collections.CycleList
 import trplugins.menu.util.collections.IndivList
+import trplugins.menu.util.conf.Property
 import trplugins.menu.util.parseIconId
-import org.bukkit.event.inventory.InventoryType
-import org.bukkit.inventory.ItemFlag
-import taboolib.common.platform.function.pluginId
-import taboolib.module.configuration.Configuration
-import taboolib.module.configuration.Type
-import taboolib.module.nms.ItemTag
-import taboolib.module.nms.ItemTagData
-import trplugins.menu.api.action.ofReaction
-import trplugins.menu.api.receptacle.ReceptacleClickType
 import java.io.File
 import kotlin.math.max
 
@@ -126,14 +127,14 @@ object MenuSerializer : ISerializer {
             optionHidePlayerInventory,
             boundCommands.map { it.toRegex() },
             boundItems.map { ItemMatcher.of(it) }.toTypedArray(),
-            Reactions.ofReaction(eventOpen),
-            Reactions.ofReaction(eventClose),
-            Reactions.ofReaction(eventClick),
+            Reactions.ofReaction(actionHandle, eventOpen),
+            Reactions.ofReaction(actionHandle, eventClose),
+            Reactions.ofReaction(actionHandle, eventClick),
             mutableMapOf<Long, Reactions>().run {
                 tasks.forEach { (_, content) ->
                     val map = Property.asSection(content)
                     val period = Property.PERIOD.ofInt(map, -1)
-                    val reactions = Reactions.ofReaction(Property.TASKS.ofList(map))
+                    val reactions = Reactions.ofReaction(actionHandle, Property.TASKS.ofList(map))
                     if (period > 0 && !reactions.isEmpty()) this[period.toLong()] = reactions
                 }
                 this
@@ -241,8 +242,8 @@ object MenuSerializer : ISerializer {
             action?.getValues(false)?.forEach { (type, reaction) ->
                 val clickTypes = ReceptacleClickType.matches(type)
                 if (clickTypes.isNotEmpty()) {
-                    val reactions = Reactions.ofReaction(reaction)
-                    if (!reactions.isEmpty()) clickActions[clickTypes] = Reactions.ofReaction(reaction)
+                    val reactions = Reactions.ofReaction(actionHandle, reaction)
+                    if (!reactions.isEmpty()) clickActions[clickTypes] = Reactions.ofReaction(actionHandle, reaction)
                 }
             }
 

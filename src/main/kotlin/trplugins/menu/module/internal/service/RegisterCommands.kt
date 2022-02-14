@@ -1,15 +1,15 @@
 package trplugins.menu.module.internal.service
 
-import trplugins.menu.TrMenu
-import trplugins.menu.api.reaction.Reactions
-import trplugins.menu.module.conf.prop.Property
-import trplugins.menu.module.display.MenuSession
 import org.bukkit.entity.Player
 import taboolib.common.platform.command.PermissionDefault
 import taboolib.common.platform.command.command
+import taboolib.common.platform.function.adaptPlayer
 import taboolib.common.platform.function.unregisterCommand
-import trplugins.menu.api.action.eval
-import trplugins.menu.api.action.ofReaction
+import trplugins.menu.TrMenu
+import trplugins.menu.TrMenu.actionHandle
+import trplugins.menu.api.reaction.Reactions
+import trplugins.menu.module.display.MenuSession
+import trplugins.menu.util.conf.Property
 
 /**
  * @author Arasple
@@ -20,7 +20,7 @@ object RegisterCommands {
     private val registered = mutableSetOf<String>()
 
     private fun ofReaction(any: Any?): Reactions {
-        return Reactions.ofReaction(Property.asAnyList(any))
+        return Reactions.ofReaction(actionHandle, Property.asAnyList(any))
     }
 
     fun load() {
@@ -56,18 +56,18 @@ object RegisterCommands {
                             if (args.isNotEmpty()) {
                                 subReactions[args[0]]?.let {
                                     if (args.size > 1) session.arguments = args.toMutableList().also { it.removeAt(0) }.toTypedArray()
-                                    it.eval(player)
+                                    it.eval(adaptPlayer(player))
                                 }
                             } else {
                                 session.arguments = args.toTypedArray()
-                                reactions.eval(player)
+                                reactions.eval(adaptPlayer(player))
                             }
                         }
                     }
                     execute<Player> { player, context, argument ->
                         val session = MenuSession.getSession(player)
                         session.arguments = arrayOf()
-                        reactions.eval(player)
+                        reactions.eval(adaptPlayer(player))
                     }
                 }
             }
