@@ -86,6 +86,12 @@ class EditItem(handle: ActionHandle) : ActionBase(handle) {
             item.itemMeta = meta
         }
 
+        fun customModelData(item: ItemStack, model: Int?) {
+            val meta = item.itemMeta?: return
+            meta.setCustomModelData(model)
+            item.itemMeta = meta
+        }
+
         when (part.first) {
             1 -> { // Material
                 if (method == 1) {
@@ -122,6 +128,16 @@ class EditItem(handle: ActionHandle) : ActionBase(handle) {
                     } else if (item is ItemStack) flags(item, flags)
                 }
             }
+            5 -> { // CustomModelData
+                val model = when (method) {
+                    1 -> value[0].toIntOrNull() ?: return
+                    2 -> null
+                    else -> return
+                }
+                if (item is Array<*>) {
+                    item.forEach { (it as ItemStack?)?.let { item -> customModelData(item, model) } }
+                } else if (item is ItemStack) customModelData(item, model)
+            }
         }
     }
 
@@ -157,6 +173,7 @@ class EditItem(handle: ActionHandle) : ActionBase(handle) {
                 "name", "displayname" -> 2
                 "lore", "description" -> 3
                 "flag", "flags" -> 4
+                "custommodeldata", "modeldata", "model" -> 5
                 else -> 0
             } to part.getOrElse(1) { "" }
         }
