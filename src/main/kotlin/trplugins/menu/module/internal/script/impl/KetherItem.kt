@@ -23,7 +23,7 @@ class KetherItem(private val itemMatcher: ParsedAction<*>) : BaseAction<Boolean>
 
     companion object {
 
-        @KetherParser(["item"], namespace = "trmenu")
+        @KetherParser(["item"], namespace = "trmenu", shared = true)
         fun parser() = scriptParser {
             KetherItem(it.next(ArgTypes.ACTION))
         }

@@ -23,7 +23,7 @@ class KetherMoney(private val money: ParsedAction<*>) : BaseAction<Boolean>() {
 
     companion object {
 
-        @KetherParser(["money", "eco"], namespace = "trmenu")
+        @KetherParser(["money", "eco"], namespace = "trmenu", shared = true)
         fun parser() = scriptParser {
             KetherMoney(it.next(ArgTypes.ACTION))
         }

@@ -36,7 +36,7 @@ class KetherMathCheck(val type: Type, val menu: ParsedAction<*>?) : BaseAction<A
 
     companion object {
 
-        @KetherParser(["mathcheck", "mtc"], namespace = "trmenu")
+        @KetherParser(["mathcheck", "mtc"], namespace = "trmenu", shared = true)
         fun parser() = scriptParser {
             val type = Type.valueOf(it.nextToken().uppercase())
             KetherMathCheck(

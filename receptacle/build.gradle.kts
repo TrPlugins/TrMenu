@@ -12,6 +12,7 @@ repositories {
     maven("https://repo.tabooproject.org/repository/releases")
     maven("https://repo.codemc.io/repository/nms/")
     maven("https://hub.spigotmc.org/nexus/content/groups/public/")
+    maven("https://repo.opencollab.dev/maven-snapshots//")
 }
 
 dependencies {
@@ -23,6 +24,8 @@ dependencies {
     compileOnly("ink.ptms.core:v11600:11600-minimize")
     compileOnly("ink.ptms.core:v11200:11200-minimize")
     compileOnly("ink.ptms.core:v11400:11400-minimize")
+
+    compileOnly("org.geysermc.floodgate:api:2.1.1-SNAPSHOT")
 
     taboolib("common", taboolibVersion)
     taboolib("module-nms", taboolibVersion)
