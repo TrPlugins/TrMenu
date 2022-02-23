@@ -82,7 +82,7 @@ class Layout(
                     event.refresh()
                 }
 
-                if (menu.settings.clickDelay.hasNext(player.name)) {
+                if (menu.settings.clickDelay.isCooldown(player.name)) {
                     return@onClick cancelEvent()
                 } else if (!menu.isFreeSlot(event.slot)) {
                     cancelEvent()

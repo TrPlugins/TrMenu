@@ -25,6 +25,13 @@ class Title(handle: ActionHandle) : ActionBase(handle) {
         val stay: Int by contents
         val fadeOut: Int by contents
 
+        player.sendTitle(
+            placeholderPlayer.parse(title),
+            placeholderPlayer.parse(subTitle),
+            fadeIn,
+            stay,
+            fadeOut
+        )
     }
 
     override fun readContents(contents: Any): ActionContents {

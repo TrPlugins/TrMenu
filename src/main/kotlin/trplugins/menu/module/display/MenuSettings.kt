@@ -7,8 +7,10 @@ import trplugins.menu.util.bukkit.ItemMatcher
 import trplugins.menu.util.collections.CycleList
 import me.clip.placeholderapi.PlaceholderAPI
 import org.bukkit.Bukkit
+import taboolib.common.platform.function.pluginId
 import taboolib.common5.Baffle
 import taboolib.module.chat.colored
+import trplugins.menu.util.Cooldown
 import java.util.concurrent.TimeUnit
 
 /**
@@ -42,7 +44,7 @@ class MenuSettings(
 
     }
 
-    val clickDelay = Baffle.of(minClickDelay.toLong(), TimeUnit.MINUTES)
+    val clickDelay = Cooldown("CLICK_DELAY", minClickDelay).also { it.plugin = pluginId }
 
     val dependExpansions: Array<String> = expansions
         get() {
