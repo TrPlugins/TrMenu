@@ -38,6 +38,7 @@ object TrMenu : Plugin() {
         private set
 
     lateinit var actionHandle: ActionHandle
+        private set
     
     override fun onLoad() {
         Language.default = "en_US"

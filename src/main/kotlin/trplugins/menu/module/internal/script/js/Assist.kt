@@ -16,6 +16,7 @@ import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.PlayerInventory
+import taboolib.common.platform.function.adaptPlayer
 import taboolib.common.util.random
 import taboolib.library.xseries.XMaterial
 import taboolib.module.chat.TellrawJson
@@ -25,6 +26,7 @@ import taboolib.module.nms.getItemTag
 import taboolib.platform.compat.getBalance
 import taboolib.platform.util.ItemBuilder
 import taboolib.type.BukkitEquipment
+import trplugins.menu.TrMenu
 import java.util.*
 
 
@@ -47,11 +49,11 @@ class Assist {
      */
 
     fun runAction(player: Player, vararg actions: String) {
-        runAction(player, actions.filter { it.isNotBlank() })
+        TrMenu.actionHandle.runAction(adaptPlayer(player), actions.filter { it.isNotBlank() })
     }
 
     fun runAction(player: Player, actions: List<String>) {
-        runAction(player, actions.filter { it.isNotBlank() })
+        TrMenu.actionHandle.runAction(adaptPlayer(player), actions.filter { it.isNotBlank() })
     }
 
 
