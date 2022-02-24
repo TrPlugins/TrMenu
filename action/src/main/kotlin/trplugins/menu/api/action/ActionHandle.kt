@@ -36,7 +36,11 @@ class ActionHandle(
 
             it.add(`class`.asSubclass(ActionBase::class.java).invokeConstructor(this))
         }
-    }.toTypedArray()
+    }
+
+    fun registerActions(vararg bases: ActionBase) {
+        bases.forEach { registries.add(it) }
+    }
 
     fun getFindRegistered(key: String): ActionBase =
         registries.find { key.lowercase() == it.lowerName || it.regex.matches(key.lowercase()) } ?: defaultAction
