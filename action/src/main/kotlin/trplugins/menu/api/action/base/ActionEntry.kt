@@ -45,7 +45,7 @@ data class ActionEntry(
                     val entry = any.entries.firstOrNull() ?: return entries
                     val key = entry.key.toString()
                     val value = entry.value ?: return entries
-                    val registered = handle.getFindRegistered(key)
+                    val registered = handle.getRegisteredAction(key)
 
                     val actionEntry = registered.ofEntry(value, registered.Option())
                     entries.add(actionEntry)
@@ -54,7 +54,7 @@ data class ActionEntry(
                     val loaded = any.toString().split(ActionHandle.actionsBound).map {
                         val split = it.split(": ", limit = 2)
                         val string = split.getOrElse(1) { split[0] }
-                        val registered = handle.getFindRegistered(split[0])
+                        val registered = handle.getRegisteredAction(split[0])
 
                         val (content, option) = registered.ofOption(string)
                         registered.ofEntry(content, option)

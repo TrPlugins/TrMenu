@@ -83,6 +83,14 @@ abstract class ActionBase(val handle: ActionHandle) {
         return content.removePrefix(" ") to Option(options)
     }
 
+    fun register() {
+        handle.register(this)
+    }
+
+    fun unregister() {
+        handle.unregister(this)
+    }
+
     inner class Option(val set: Map<OptionType, String> = mapOf()) {
 
         fun evalChance(): Boolean {

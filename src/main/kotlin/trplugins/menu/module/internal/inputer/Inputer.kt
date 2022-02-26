@@ -86,7 +86,7 @@ class Inputer(private val stages: CycleList<Catcher>) {
         fun input(viewer: Player, respond: (String) -> Boolean) {
             val session = MenuSession.getSession(viewer)
             if (type != Type.CHAT && session.isViewing()) {
-                actionHandle.getFindRegistered("SilentClose").ofEntry().assign(adaptPlayer(viewer))
+                actionHandle.getRegisteredAction("SilentClose").ofEntry().assign(adaptPlayer(viewer))
             }
             when (type) {
                 Type.CHAT -> {

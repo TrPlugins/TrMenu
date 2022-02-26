@@ -1,11 +1,9 @@
 package trplugins.menu.api.action
 
-import taboolib.common.io.getInstance
 import taboolib.common.io.runningClasses
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.function.submit
 import taboolib.common.reflect.Reflex.Companion.invokeConstructor
-import taboolib.common.reflect.ReflexClass
 import trplugins.menu.api.action.base.ActionBase
 import trplugins.menu.api.action.base.ActionEntry
 import trplugins.menu.api.action.impl.logic.Break
@@ -29,20 +27,42 @@ class ActionHandle(
     private val default: String = "tell"
 ) {
 
-    val registries = mutableListOf<ActionBase>().also {
-        runningClasses.forEach { `class` ->
+    private val registries = mutableSetOf<ActionBase>()
+
+    init {
+        register(*runningClasses.toTypedArray())
+    }
+
+    fun register(vararg classes: Class<*>) {
+        classes.forEach { `class` ->
             if (Modifier.isAbstract(`class`.modifiers)) return@forEach
             if (`class`.superclass != ActionBase::class.java) return@forEach
 
-            it.add(`class`.asSubclass(ActionBase::class.java).invokeConstructor(this))
+            register(`class`.asSubclass(ActionBase::class.java).invokeConstructor(this))
         }
     }
 
-    fun registerActions(vararg bases: ActionBase) {
-        bases.forEach { registries.add(it) }
+    fun register(vararg bases: ActionBase) {
+        bases.forEach {
+            registries.add(it)
+        }
     }
 
-    fun getFindRegistered(key: String): ActionBase =
+    fun unregister(vararg bases: ActionBase) {
+        bases.forEach { base ->
+            registries.remove(base)
+        }
+    }
+
+    fun unregister(vararg names: String) {
+        return unregister(*names.map { getRegisteredAction(it) }.toTypedArray())
+    }
+
+    fun unregister(vararg classes: Class<*>) {
+        return unregister(*classes.map { it.simpleName }.toTypedArray())
+    }
+
+    fun getRegisteredAction(key: String): ActionBase =
         registries.find { key.lowercase() == it.lowerName || it.regex.matches(key.lowercase()) } ?: defaultAction
 
     val defaultAction by lazy { registries.find { it.name.equals(default, true) }!! }
