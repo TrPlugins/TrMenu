@@ -134,7 +134,7 @@ class Menu(
      */
     private fun loadTitle(session: MenuSession) {
         val setTitle = {
-            session.receptacle?.title = settings.title.next(session.id)?.let { session.parse(it, conf) } ?: pluginId
+            session.receptacle?.title = settings.title.next(session.id)?.let { session.parse(it) } ?: pluginId
         }.also { it.invoke() }
 
         if (settings.titleUpdate > 0 && settings.title.cyclable()) {

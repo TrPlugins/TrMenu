@@ -16,6 +16,7 @@ import taboolib.module.chat.colored
 import taboolib.module.configuration.Configuration
 import taboolib.platform.compat.replacePlaceholder
 import trplugins.menu.api.receptacle.Receptacle
+import trplugins.menu.util.ignoreCase
 import java.util.*
 
 /**
@@ -103,10 +104,15 @@ class MenuSession(
     /**
      * 处理一个字符串，替换函数变量
      */
-    fun parse(string: String, section: Configuration? = menu?.conf): String {
+    fun parse(string: String): String {
         Performance.check("Handler:StringParse") {
             val preColor = MenuSettings.PRE_COLOR
-            val funced = FunctionParser.parse(placeholderPlayer, string, section)
+            val funced = FunctionParser.parse(placeholderPlayer, string) { type, value ->
+                when (type) {
+                    "node", "nodes", "n" -> menu?.conf?.get(parse(menu!!.conf.ignoreCase(value))).toString()
+                    else -> null
+                }
+            }
             val content = (if (preColor) funced else funced.colored().parseRainbow().parseGradients()).replaceWithOrder(*arguments)
             val papi = content.replacePlaceholder(placeholderPlayer)
             return if (preColor) papi else papi.colored().parseRainbow().parseGradients()
@@ -114,8 +120,8 @@ class MenuSession(
         throw Exception()
     }
 
-    fun parse(string: List<String>, section: Configuration? = menu?.conf): List<String> {
-        return string.map { parse(it, section) }
+    fun parse(string: List<String>): List<String> {
+        return string.map { parse(it) }
     }
 
 
