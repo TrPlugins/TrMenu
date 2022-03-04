@@ -21,7 +21,7 @@ object FunctionParser {
     private val functionPattern = "\\$?\\{(\\w+)s?: ?(.+?[^\\\\}])}".toRegex()
     private val internalFunctionPattern = "\\$\\{([^0-9].+?[^\\\\}])}".toRegex()
 
-    fun parse(player: Player, input: String, section: Configuration? = null): String {
+    fun parse(player: Player, input: String, block: (type: String, value: String) -> String? = { _, value -> "{$value}" }): String {
         return runCatching {
             if (!Regexs.containsPlaceholder(input)) return input
             val session = MenuSession.getSession(player)
@@ -38,7 +38,7 @@ object FunctionParser {
                         "meta", "m" -> Metadata.getMeta(player)[value].toString()
                         "data", "d" -> Metadata.getData(player)[value].toString()
                         "globaldata", "gdata", "g" -> runCatching { Metadata.globalData[value].toString() }.getOrElse { "null" }
-                        "node", "nodes", "n" -> section?.get(section.ignoreCase(value)).toString()
+
                         else -> "{${it.value}}"
                     }
                 } else it.value
