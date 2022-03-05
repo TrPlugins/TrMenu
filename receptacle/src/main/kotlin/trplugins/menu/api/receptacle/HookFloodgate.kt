@@ -23,7 +23,7 @@ class HookFloodgate private constructor() {
 
         fun isBedrockPlayer(player: Player): Boolean {
             if (hook == null) {
-                Bukkit.getPluginManager().getPlugin("floodgate") ?: return false
+                Bukkit.getPluginManager().getPlugin("floodgate-bukkit") ?: return false
                 hook = HookFloodgate()
             }
             return hook?.isBedrockPlayer(player) ?: false

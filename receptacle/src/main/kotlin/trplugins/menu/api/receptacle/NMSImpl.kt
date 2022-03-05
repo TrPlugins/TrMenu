@@ -29,122 +29,139 @@ class NMSImpl : NMS() {
     private val Player.staticInventory get() = staticInventories[this]?.second
     private fun Player.isBedrockPlayer() = HookFloodgate.isBedrockPlayer(this)
 
+    @Deprecated("")
     override fun sendInventoryPacket(player: Player, vararg packets: PacketInventory) {
         packets.forEach {
             when (it) {
                 // Close Window Packet
-                is PacketWindowClose -> {
-                    if (player.isBedrockPlayer()) {
-                        player.closeInventory()
-                        staticInventories.remove(player)
-                    } else {
-                        player.sendPacket(PacketPlayOutCloseWindow(it.windowId))
-                    }
-                }
+                is PacketWindowClose ->
+                    sendWindowsClose(player, it.windowId)
                 // Update Window Slot
-                is PacketWindowSetSlot -> {
-                    when {
-                        player.isBedrockPlayer() -> {
-                            player.staticInventory!!.setItem(it.slot, it.itemStack)
-                        }
-                        MinecraftVersion.majorLegacy >= 11701 -> {
-                            sendPacket(
-                                player,
-                                PacketPlayOutSetSlot::class.java.unsafeInstance(),
-                                "containerId" to it.windowId,
-                                "stateId" to -1,
-                                "slot" to it.slot,
-                                "itemStack" to toNMSCopy(it.itemStack)
-                            )
-                        }
-                        else -> {
-                            player.sendPacket(PacketPlayOutSetSlot(it.windowId, it.slot, toNMSCopy(it.itemStack)))
-                        }
-                    }
-                }
+                is PacketWindowSetSlot ->
+                    sendWindowsSetSlot(player, it.windowId, it.slot, it.itemStack, it.stateId)
                 // Update Window Items
-                is PacketWindowItems -> {
-                    when {
-                        player.isBedrockPlayer() -> {
-                            it.items.forEach { player.staticInventory?.addItem(it) }
-                        }
-                        MinecraftVersion.majorLegacy >= 11701 -> {
-                            sendPacket(
-                                player,
-                                PacketPlayOutWindowItems::class.java.unsafeInstance(),
-                                "containerId" to it.windowId,
-                                "stateId" to 1,
-                                "items" to it.items.map { i -> toNMSCopy(i) }.toList(),
-                                "carriedItem" to emptyItemStack
-                            )
-                        }
-                        MinecraftVersion.majorLegacy >= 11700 -> {
-                            sendPacket(
-                                player,
-                                PacketPlayOutWindowItems::class.java.unsafeInstance(),
-                                "containerId" to it.windowId,
-                                "items" to it.items.map { i -> toNMSCopy(i) }.toList()
-                            )
-                        }
-                        MinecraftVersion.majorLegacy >= 11000 -> {
-                            sendPacket(
-                                player,
-                                PacketPlayOutWindowItems::class.java.unsafeInstance(),
-                                "a" to it.windowId,
-                                "b" to it.items.map { i -> toNMSCopy(i) }.toList()
-                            )
-                        }
-                        else -> {
-                            sendPacket(
-                                player,
-                                PacketPlayOutWindowItems::class.java.unsafeInstance(),
-                                "a" to it.windowId,
-                                "b" to it.items.map { i -> toNMSCopy(i) }.toTypedArray()
-                            )
-                        }
-                    }
-                }
+                is PacketWindowItems ->
+                    sendWindowsItems(player, it.windowId, it.items)
                 // Open Window Packet
-                is PacketWindowOpen -> {
-                    when {
-                        player.isBedrockPlayer() -> {
-                            val inventory = Bukkit.createInventory(null, it.type.toBukkitType(), it.title)
-                            player.openInventory(inventory)
-                            val windowId = player.getProperty<Int>("entity/containerCounter")!!
-                            staticInventories[player] = Pair(windowId, inventory)
-                        }
-                        MinecraftVersion.isUniversal -> {
-                            sendPacket(
-                                player,
-                                PacketPlayOutOpenWindow::class.java.unsafeInstance(),
-                                "containerId" to it.windowId,
-                                "type" to it.type.vanillaId,
-                                "title" to CraftChatMessage.fromStringOrNull(it.title)
-                            )
-                        }
-                        MinecraftVersion.majorLegacy >= 11400 -> {
-                            sendPacket(
-                                player,
-                                PacketPlayOutOpenWindow(),
-                                "a" to it.windowId,
-                                "b" to it.type.vanillaId,
-                                "c" to CraftChatMessage.fromStringOrNull(it.title)
-                            )
-                        }
-                        else -> {
-                            sendPacket(
-                                player,
-                                PacketPlayOutOpenWindow(),
-                                "a" to it.windowId,
-                                "b" to it.type.id,
-                                "c" to ChatComponentText(it.title),
-                                "d" to it.type.containerSize - 1 // Fixed ViaVersion can not view 6x9 menu bug.
-                            )
-                        }
-                    }
-                }
+                is PacketWindowOpen ->
+                    sendWindowsOpen(player, it.windowId, it.type, it.title)
             }
         }
+    }
+
+    override fun sendWindowsClose(player: Player, windowId: Int) {
+        if (player.isBedrockPlayer()) {
+            player.closeInventory()
+            staticInventories.remove(player)
+        } else {
+            player.sendPacket(PacketPlayOutCloseWindow(windowId))
+        }
+    }
+
+    override fun sendWindowsItems(player: Player, windowId: Int, items: Array<ItemStack?>) {
+        when {
+            player.isBedrockPlayer() -> {
+                items.forEach { player.staticInventory?.addItem(it) }
+            }
+            MinecraftVersion.majorLegacy >= 11701 -> {
+                sendPacket(
+                    player,
+                    PacketPlayOutWindowItems::class.java.unsafeInstance(),
+                    "containerId" to windowId,
+                    "stateId" to 1,
+                    "items" to items.map { i -> toNMSCopy(i) }.toList(),
+                    "carriedItem" to emptyItemStack
+                )
+            }
+            MinecraftVersion.majorLegacy >= 11700 -> {
+                sendPacket(
+                    player,
+                    PacketPlayOutWindowItems::class.java.unsafeInstance(),
+                    "containerId" to windowId,
+                    "items" to items.map { i -> toNMSCopy(i) }.toList()
+                )
+            }
+            MinecraftVersion.majorLegacy >= 11000 -> {
+                sendPacket(
+                    player,
+                    PacketPlayOutWindowItems::class.java.unsafeInstance(),
+                    "a" to windowId,
+                    "b" to items.map { i -> toNMSCopy(i) }.toList()
+                )
+            }
+            else -> {
+                sendPacket(
+                    player,
+                    PacketPlayOutWindowItems::class.java.unsafeInstance(),
+                    "a" to windowId,
+                    "b" to items.map { i -> toNMSCopy(i) }.toTypedArray()
+                )
+            }
+        }
+    }
+
+    override fun sendWindowsOpen(player: Player, windowId: Int, type: ReceptacleType, title: String) {
+        when {
+            player.isBedrockPlayer() -> {
+                val inventory = Bukkit.createInventory(null, type.toBukkitType(), title)
+                player.openInventory(inventory)
+                val windowId = player.getProperty<Int>("entity/containerCounter")!!
+                staticInventories[player] = Pair(windowId, inventory)
+            }
+            MinecraftVersion.isUniversal -> {
+                sendPacket(
+                    player,
+                    PacketPlayOutOpenWindow::class.java.unsafeInstance(),
+                    "containerId" to windowId,
+                    "type" to type.vanillaId,
+                    "title" to CraftChatMessage.fromStringOrNull(title)
+                )
+            }
+            MinecraftVersion.majorLegacy >= 11400 -> {
+                sendPacket(
+                    player,
+                    PacketPlayOutOpenWindow(),
+                    "a" to windowId,
+                    "b" to type.vanillaId,
+                    "c" to CraftChatMessage.fromStringOrNull(title)
+                )
+            }
+            else -> {
+                sendPacket(
+                    player,
+                    PacketPlayOutOpenWindow(),
+                    "a" to windowId,
+                    "b" to type.id,
+                    "c" to ChatComponentText(title),
+                    "d" to type.containerSize - 1 // Fixed ViaVersion can not view 6x9 menu bug.
+                )
+            }
+        }
+    }
+
+    override fun sendWindowsSetSlot(player: Player, windowId: Int, slot: Int, itemStack: ItemStack?, stateId: Int) {
+        when {
+            player.isBedrockPlayer() -> {
+                player.staticInventory!!.setItem(slot, itemStack)
+            }
+            MinecraftVersion.majorLegacy >= 11701 -> {
+                sendPacket(
+                    player,
+                    PacketPlayOutSetSlot::class.java.unsafeInstance(),
+                    "containerId" to windowId,
+                    "stateId" to -1,
+                    "slot" to slot,
+                    "itemStack" to toNMSCopy(itemStack)
+                )
+            }
+            else -> {
+                player.sendPacket(PacketPlayOutSetSlot(windowId, slot, toNMSCopy(itemStack)))
+            }
+        }
+    }
+
+    override fun sendWindowsUpdateData(player: Player, windowId: Int, property: Int, value: Int) {
+        TODO("Not yet implemented")
     }
 
     fun toNMSCopy(itemStack: ItemStack?): net.minecraft.server.v1_16_R3.ItemStack? {

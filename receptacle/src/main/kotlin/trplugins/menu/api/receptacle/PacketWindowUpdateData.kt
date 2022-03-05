@@ -7,6 +7,7 @@ package trplugins.menu.api.receptacle
  *
  * TODO This packet is used to inform the client that part of a GUI window should be updated.
  */
+@Deprecated("NMS#sendWindowUpdateData")
 class PacketWindowUpdateData(val property: Int, val value: Int) : PacketInventory {
 
     val windowId: Int = 119

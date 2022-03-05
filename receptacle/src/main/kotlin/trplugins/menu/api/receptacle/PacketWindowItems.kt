@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack
  *
  * @param items Array of Slot
  */
+@Deprecated("NMS#sendWindowItems")
 class PacketWindowItems(val items: Array<ItemStack?>) : PacketInventory {
 
     val windowId = 119

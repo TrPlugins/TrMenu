@@ -56,7 +56,7 @@ open class Receptacle(var type: ReceptacleType, title: String = type.toBukkitTyp
     fun setItem(itemStack: ItemStack? = null, vararg slots: Int, display: Boolean = true) {
         slots.forEach { contents[it] = itemStack }
         if (display && viewer != null) {
-            slots.forEach { PacketWindowSetSlot(it, itemStack, stateId = stateId).send(viewer!!) }
+            slots.forEach { nmsProxy<NMS>().sendWindowsSetSlot(viewer!!, slot = it, itemStack = itemStack, stateId = stateId) }
         }
     }
 
@@ -71,9 +71,9 @@ open class Receptacle(var type: ReceptacleType, title: String = type.toBukkitTyp
         if (viewer != null) {
             setupPlayerInventorySlots()
             if (slot >= 0) {
-                PacketWindowSetSlot(slot, contents[slot], stateId = stateId).send(viewer!!)
+                nmsProxy<NMS>().sendWindowsSetSlot(viewer!!, slot = slot, itemStack = contents[slot], stateId = stateId)
             } else {
-                PacketWindowItems(contents).send(viewer!!)
+                nmsProxy<NMS>().sendWindowsItems(viewer!!, items = contents)
             }
         }
     }
@@ -100,7 +100,7 @@ open class Receptacle(var type: ReceptacleType, title: String = type.toBukkitTyp
     fun close(sendPacket: Boolean = true) {
         if (viewer != null) {
             if (sendPacket) {
-                PacketWindowClose().send(viewer!!)
+                nmsProxy<NMS>().sendWindowsClose(viewer!!)
             }
             onClose(viewer!!, this)
             viewer!!.setViewingReceptacle(null)
@@ -115,7 +115,7 @@ open class Receptacle(var type: ReceptacleType, title: String = type.toBukkitTyp
 
     internal fun initializationPackets() {
         if (viewer != null) {
-            nmsProxy<NMS>().sendInventoryPacket(viewer!!, PacketWindowOpen(type, title))
+            nmsProxy<NMS>().sendWindowsOpen(viewer!!, title = title, type = type)
             refresh()
         }
     }

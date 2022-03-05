@@ -6,6 +6,7 @@ import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common.platform.function.submit
 import taboolib.module.nms.MinecraftVersion
 import taboolib.module.nms.PacketReceiveEvent
+import taboolib.module.nms.nmsProxy
 
 @PlatformSide([Platform.BUKKIT])
 object ReceptacleListener {
@@ -40,7 +41,7 @@ object ReceptacleListener {
                 evt.call()
                 receptacle.callEventClick(evt)
                 if (evt.isCancelled) {
-                    PacketWindowSetSlot(slot = -1, windowId = -1).send(e.player)
+                    nmsProxy<NMS>().sendWindowsSetSlot(e.player, slot = -1, windowId = -1)
                 }
                 e.isCancelled = true
             }
@@ -62,7 +63,7 @@ object ReceptacleListener {
                 submit(delay = 4, async = true) {
                     val viewingReceptacle = e.player.getViewingReceptacle()
                     if (viewingReceptacle == receptacle) {
-                        PacketWindowClose().send(e.player)
+                        nmsProxy<NMS>().sendWindowsClose(e.player)
                     }
                 }
             }

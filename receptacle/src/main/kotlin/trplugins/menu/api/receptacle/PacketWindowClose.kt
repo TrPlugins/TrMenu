@@ -10,6 +10,7 @@ package trplugins.menu.api.receptacle
  *
  * This is the ID of the window that was closed. 0 for player inventory.
  */
+@Deprecated("NMS#sendWindowClose")
 class PacketWindowClose : PacketInventory {
 
     val windowId = 119
