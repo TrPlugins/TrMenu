@@ -11,6 +11,7 @@ import taboolib.module.nms.getI18nName
 import trplugins.menu.api.receptacle.Receptacle
 import trplugins.menu.api.receptacle.ReceptacleType
 import taboolib.platform.util.buildItem
+import trplugins.menu.api.receptacle.VanillaLayout
 import java.util.concurrent.ConcurrentHashMap
 
 /**
@@ -26,7 +27,7 @@ class InputAnvil(
     val respond: (String) -> Boolean,
 ) {
 
-    val receptacle = Receptacle(ReceptacleType.ANVIL, title)
+    val receptacle = Receptacle(VanillaLayout.ANVIL, title)
     var inputText: String
     private var succeed = false
 

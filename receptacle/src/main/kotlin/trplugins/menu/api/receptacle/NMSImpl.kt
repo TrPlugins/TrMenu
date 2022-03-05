@@ -100,7 +100,7 @@ class NMSImpl : NMS() {
         }
     }
 
-    override fun sendWindowsOpen(player: Player, windowId: Int, type: ReceptacleType, title: String) {
+    override fun sendWindowsOpen(player: Player, windowId: Int, type: VanillaLayout, title: String) {
         when {
             player.isBedrockPlayer() -> {
                 val inventory = Bukkit.createInventory(null, type.toBukkitType(), title)

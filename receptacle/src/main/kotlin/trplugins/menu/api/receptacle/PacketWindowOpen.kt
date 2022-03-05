@@ -14,7 +14,7 @@ package trplugins.menu.api.receptacle
  * @param title The title of the window
  */
 @Deprecated("NMS#sendWindowOpen")
-class PacketWindowOpen(val type: ReceptacleType, val title: String) : PacketInventory {
+class PacketWindowOpen(val type: VanillaLayout, val title: String) : PacketInventory {
 
     val windowId = 119
 }

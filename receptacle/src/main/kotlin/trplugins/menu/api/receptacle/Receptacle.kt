@@ -9,7 +9,7 @@ import taboolib.module.nms.nmsProxy
  * @author Arasple
  * @date 2020/11/29 10:38
  */
-open class Receptacle(var type: ReceptacleType, title: String = type.toBukkitType().defaultTitle) {
+open class Receptacle(var type: VanillaLayout, title: String = type.toBukkitType().defaultTitle) {
 
     private var viewer: Player? = null
 
