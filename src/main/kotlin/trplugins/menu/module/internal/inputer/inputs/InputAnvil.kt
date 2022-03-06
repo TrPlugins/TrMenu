@@ -9,7 +9,6 @@ import taboolib.library.xseries.XMaterial
 import taboolib.module.nms.PacketReceiveEvent
 import taboolib.module.nms.getI18nName
 import trplugins.menu.api.receptacle.Receptacle
-import trplugins.menu.api.receptacle.ReceptacleType
 import taboolib.platform.util.buildItem
 import trplugins.menu.api.receptacle.VanillaLayout
 import java.util.concurrent.ConcurrentHashMap
