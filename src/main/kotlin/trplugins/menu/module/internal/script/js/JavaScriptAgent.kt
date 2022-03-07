@@ -64,6 +64,9 @@ object JavaScriptAgent {
             "varDouble", java.util.function.Function<Any, Any?> { session.parse(it.toString()).toDoubleOrNull() ?: 0.0 },
         )
         setAttribute(
+            "funs", java.util.function.Function<Any, Any?> { session.parse("{$it}").toString()) },
+        )
+        setAttribute(
             "funInt", java.util.function.Function<Any, Any?> { session.parse("{$it}").toIntOrNull() ?: 0 },
         )
         setAttribute(
