@@ -61,14 +61,61 @@ object JavaScriptAgent {
             "varInt", java.util.function.Function<Any, Any?> { session.parse(it.toString()).toIntOrNull() ?: 0 },
         )
         setAttribute(
-            "varDouble",
-            java.util.function.Function<Any, Any?> { session.parse(it.toString()).toDoubleOrNull() ?: 0.0 },
+            "varDouble", java.util.function.Function<Any, Any?> { session.parse(it.toString()).toDoubleOrNull() ?: 0.0 },
+        )
+        setAttribute(
+            "funs", java.util.function.Function<Any, Any?> { session.parse("{$it}").toString()) },
         )
         setAttribute(
             "funInt", java.util.function.Function<Any, Any?> { session.parse("{$it}").toIntOrNull() ?: 0 },
         )
         setAttribute(
-            "funDouble", java.util.function.Function<Any, Any?> { session.parse("{$it}").toIntOrNull() ?: 0 },
+            "funDouble", java.util.function.Function<Any, Any?> { session.parse("{$it}").toDoubleOrNull() ?: 0.0 },
+        )
+        setAttribute(
+            "kes", java.util.function.Function<Any, Any?> { session.parse("{ke: $it}") },
+        )
+        setAttribute(
+            "keInt", java.util.function.Function<Any, Any?> { session.parse("{ke: $it}").toIntOrNull() ?: 0 },
+        )
+        setAttribute(
+            "keDouble", java.util.function.Function<Any, Any?> { session.parse("{ke: $it}").toDoubleOrNull() ?: 0.0 },
+        )
+        setAttribute(
+            "nodes", java.util.function.Function<Any, Any?> { session.parse("{node: $it}") },
+        )
+        setAttribute(
+            "nodeInt", java.util.function.Function<Any, Any?> { session.parse("{node: $it}").toIntOrNull() ?: 0 },
+        )
+        setAttribute(
+            "nodeDouble", java.util.function.Function<Any, Any?> { session.parse("{node: $it}").toDoubleOrNull() ?: 0.0 },
+        )
+        setAttribute(
+            "metas", java.util.function.Function<Any, Any?> { session.parse("{meta: $it}") },
+        )
+        setAttribute(
+            "metaInt", java.util.function.Function<Any, Any?> { session.parse("{meta: $it}").toIntOrNull() ?: 0 },
+        )
+        setAttribute(
+            "metaDouble", java.util.function.Function<Any, Any?> { session.parse("{meta: $it}").toDoubleOrNull() ?: 0.0 },
+        )
+        setAttribute(
+            "datas", java.util.function.Function<Any, Any?> { session.parse("{data: $it}") },
+        )
+        setAttribute(
+            "dataInt", java.util.function.Function<Any, Any?> { session.parse("{data: $it}").toIntOrNull() ?: 0 },
+        )
+        setAttribute(
+            "dataDouble", java.util.function.Function<Any, Any?> { session.parse("{data: $it}").toDoubleOrNull() ?: 0.0 },
+        )
+        setAttribute(
+            "gdatas", java.util.function.Function<Any, Any?> { session.parse("{gdata: $it}") },
+        )
+        setAttribute(
+            "gdataInt", java.util.function.Function<Any, Any?> { session.parse("{gdata: $it}").toIntOrNull() ?: 0 },
+        )
+        setAttribute(
+            "gdataDouble", java.util.function.Function<Any, Any?> { session.parse("{gdata: $it}").toDoubleOrNull() ?: 0.0 },
         )
 
         val compiledScript =
