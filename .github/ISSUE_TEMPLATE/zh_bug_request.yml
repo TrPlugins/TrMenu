@@ -7,7 +7,7 @@ body:
     id: latests
     attributes:
       label: '🚀 是否已尝试最新的版本'
-      description: '你的问题, 也许已经被发现并被修复 [Actions](https://github.com/InsinuateProjects/TrMenu/actions)?'
+      description: '你的问题, 也许已经被发现并被修复于[最新版](https://github.com/InsinuateProjects/TrMenu/actions)?'
       options:
         - label: '我已更新 TrMenu 至最新的版本, 并且同样复现该问题.'
           required: true

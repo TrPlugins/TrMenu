@@ -7,7 +7,7 @@ body:
     id: latests
     attributes:
       label: '🚀 Have you tried the latest version'
-      description: 'Your bugs, may have been found and fixed in latest version. [Actions](https://github.com/InsinuateProjects/TrMenu/actions)?'
+      description: 'Your bugs, may have been found and fixed in [latest version](https://github.com/InsinuateProjects/TrMenu/actions)?'
       options:
         - label: 'I have updated TrMenu to the latest version and the same bug is reproduced.'
           required: true
