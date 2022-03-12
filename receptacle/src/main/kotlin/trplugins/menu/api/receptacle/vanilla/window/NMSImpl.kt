@@ -1,4 +1,4 @@
-package trplugins.menu.api.receptacle
+package trplugins.menu.api.receptacle.vanilla.window
 
 import net.minecraft.server.v1_16_R3.*
 import org.bukkit.Bukkit
@@ -15,7 +15,6 @@ import taboolib.module.nms.MinecraftVersion
 import taboolib.module.nms.sendPacket
 import taboolib.platform.util.isAir
 import trplugins.menu.api.receptacle.hook.HookFloodgate
-import trplugins.menu.api.receptacle.vanilla.window.WindowLayout
 
 /**
  * @author Arasple

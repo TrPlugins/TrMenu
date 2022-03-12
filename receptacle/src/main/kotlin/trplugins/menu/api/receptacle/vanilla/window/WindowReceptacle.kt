@@ -18,7 +18,7 @@ open class WindowReceptacle(var type: WindowLayout, title: String = type.toBukki
 
     override var onClose: ((player: Player, receptacle: Receptacle<ItemStack>) -> Unit) = { _, _ -> }
 
-    override var onClick: ((player: Player, event: ReceptacleInteractEvent) -> Unit) = { _, _ -> }
+    override var onClick: ((player: Player, event: ReceptacleInteractEvent<ItemStack>) -> Unit) = { _, _ -> }
 
     private val contents by lazy { arrayOfNulls<ItemStack?>(type.totalSize) }
 
@@ -41,19 +41,19 @@ open class WindowReceptacle(var type: WindowLayout, title: String = type.toBukki
         this.hidePlayerInventory = hidePlayerInventory
     }
 
-    override fun getElement(slot: Int): Element<ItemStack>? {
+    override fun getElement(slot: Int): ItemStack? {
         setupPlayerInventorySlots()
-        return contents.getOrNull(slot)?.encaseElement
+        return contents.getOrNull(slot)
     }
 
     override fun hasElement(slot: Int): Boolean {
         return getElement(slot) != null
     }
 
-    override fun setElement(element: Element<ItemStack>?, vararg slots: Int, display: Boolean) {
-        slots.forEach { contents[it] = element?.entry }
+    override fun setElement(element: ItemStack??, vararg slots: Int, display: Boolean) {
+        slots.forEach { contents[it] = element }
         if (display && viewer != null) {
-            slots.forEach { nmsProxy<NMS>().sendWindowsSetSlot(viewer!!, slot = it, itemStack = element?.entry, stateId = stateId) }
+            slots.forEach { nmsProxy<NMS>().sendWindowsSetSlot(viewer!!, slot = it, itemStack = element, stateId = stateId) }
         }
     }
 
@@ -92,7 +92,7 @@ open class WindowReceptacle(var type: WindowLayout, title: String = type.toBukki
         }
     }
 
-    override fun callEventClick(event: ReceptacleInteractEvent) {
+    override fun callEventClick(event: ReceptacleInteractEvent<ItemStack>) {
         if (viewer != null) {
             onClick(viewer!!, event)
         }

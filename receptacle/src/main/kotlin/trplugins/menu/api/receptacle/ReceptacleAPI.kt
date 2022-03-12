@@ -64,5 +64,3 @@ fun InventoryType.createReceptacle(title: String = defaultTitle): WindowReceptac
     }
     return ChestInventory()
 }
-
-val <T> T.encaseElement get() = Element(this)

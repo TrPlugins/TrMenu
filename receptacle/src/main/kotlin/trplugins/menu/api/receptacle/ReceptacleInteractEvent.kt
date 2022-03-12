@@ -7,7 +7,7 @@ import taboolib.common.platform.event.ProxyEvent
  * @author Arasple
  * @date 2020/12/5 21:42
  */
-class ReceptacleInteractEvent(val player: Player, val receptacle: Receptacle, val receptacleClickType: ReceptacleClickType, val slot: Int) : ProxyEvent() {
+class ReceptacleInteractEvent<Element>(val player: Player, val receptacle: Receptacle<Element>, val receptacleClickType: ReceptacleClickType, val slot: Int) : ProxyEvent() {
 
     var element: Element?
         set(value) = receptacle.setElement(value, slot)

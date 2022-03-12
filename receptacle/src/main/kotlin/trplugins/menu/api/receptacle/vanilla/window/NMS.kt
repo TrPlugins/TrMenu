@@ -1,4 +1,4 @@
-package trplugins.menu.api.receptacle
+package trplugins.menu.api.receptacle.vanilla.window
 
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack

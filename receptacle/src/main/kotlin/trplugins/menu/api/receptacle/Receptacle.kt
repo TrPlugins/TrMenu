@@ -9,37 +9,37 @@ import org.bukkit.entity.Player
  * @author Score2
  * @since 2022/03/10 19:28
  */
-abstract class Receptacle<T>(val layout: ReceptacleLayout) {
+abstract class Receptacle<Element>(val layout: ReceptacleLayout) {
 
     abstract var title: String
-    abstract var onOpen: ((player: Player, receptacle: Receptacle<T>) -> Unit)
-    abstract var onClose: ((player: Player, receptacle: Receptacle<T>) -> Unit)
-    abstract var onClick: ((player: Player, event: ReceptacleInteractEvent) -> Unit)
+    abstract var onOpen: ((player: Player, receptacle: Receptacle<Element>) -> Unit)
+    abstract var onClose: ((player: Player, receptacle: Receptacle<Element>) -> Unit)
+    abstract var onClick: ((player: Player, event: ReceptacleInteractEvent<Element>) -> Unit)
 
-    abstract fun getElement(slot: Int): Element<T>?
+    abstract fun getElement(slot: Int): Element?
     abstract fun hasElement(slot: Int): Boolean
-    abstract fun setElement(element: Element<T>? = null, vararg slots: Int, display: Boolean = true)
+    abstract fun setElement(element: Element? = null, vararg slots: Int, display: Boolean = true)
 
     abstract fun clear(display: Boolean = true)
     abstract fun refresh(slot: Int = -1)
     abstract fun open(player: Player)
     abstract fun close(sendPacket: Boolean = true)
-    abstract fun callEventClick(event: ReceptacleInteractEvent)
+    abstract fun callEventClick(event: ReceptacleInteractEvent<Element>)
 
 
-    fun setElement(element: Element<T>?, slots: Collection<Int>, display: Boolean) {
+    fun setElement(element: Element?, slots: Collection<Int>, display: Boolean) {
         setElement(element, *slots.toIntArray(), display = display)
     }
 
-    fun onOpen(handler: (player: Player, receptacle: Receptacle<T>) -> Unit) {
+    fun onOpen(handler: (player: Player, receptacle: Receptacle<Element>) -> Unit) {
         this.onOpen = handler
     }
 
-    fun onClose(handler: (player: Player, receptacle: Receptacle<T>) -> Unit) {
+    fun onClose(handler: (player: Player, receptacle: Receptacle<Element>) -> Unit) {
         this.onClose = handler
     }
 
-    fun onClick(clickEvent: (player: Player, event: ReceptacleInteractEvent) -> Unit) {
+    fun onClick(clickEvent: (player: Player, event: ReceptacleInteractEvent<Element>) -> Unit) {
         this.onClick = clickEvent
     }
 }
