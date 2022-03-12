@@ -7,7 +7,7 @@ import taboolib.common.platform.event.ProxyEvent
  * @author Arasple
  * @date 2020/12/5 21:42
  */
-class ReceptacleCloseEvent(val player: Player, val receptacle: Receptacle) : ProxyEvent() {
+class ReceptacleCloseEvent<Element>(val player: Player, val receptacle: Receptacle<Element>) : ProxyEvent() {
 
     override val allowCancelled: Boolean
         get() = false

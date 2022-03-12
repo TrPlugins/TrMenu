@@ -199,6 +199,7 @@ open class WindowLayout(val vanillaId: Int, slotRange: IntRange): ReceptacleLayo
         )
 
 
+        @JvmStatic
         fun ofRows(rows: Int): WindowLayout {
             return when (rows) {
                 1 -> GENERIC_9X1

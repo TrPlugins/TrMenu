@@ -52,12 +52,12 @@ object CommandSounds : CommandExpression {
             .toMap()
 
         receptacle.hidePlayerInventory(true)
-        receptacle.setItem(if (prevNext[0]) PREV[0] else PREV[1], prev)
-        receptacle.setItem(if (prevNext[1]) NEXT[0] else NEXT[1], next)
-        receptacle.setItem(CTRL, ctrl)
+        receptacle.setElement(if (prevNext[0]) PREV[0] else PREV[1], prev)
+        receptacle.setElement(if (prevNext[1]) NEXT[0] else NEXT[1], next)
+        receptacle.setElement(CTRL, ctrl)
 
         slotMap.forEach { (slot, index) ->
-            receptacle.setItem(DISPLAY(sounds[index].name), slot)
+            receptacle.setElement(DISPLAY(sounds[index].name), slot)
         }
 
         receptacle.onOpen = { player, _ ->

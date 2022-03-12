@@ -27,7 +27,7 @@ abstract class Receptacle<Element>(val layout: ReceptacleLayout) {
     abstract fun callEventClick(event: ReceptacleInteractEvent<Element>)
 
 
-    fun setElement(element: Element?, slots: Collection<Int>, display: Boolean) {
+    fun setElement(element: Element?, slots: Collection<Int>, display: Boolean = true) {
         setElement(element, *slots.toIntArray(), display = display)
     }
 

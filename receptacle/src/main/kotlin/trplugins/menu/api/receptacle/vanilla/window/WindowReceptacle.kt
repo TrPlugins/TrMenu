@@ -50,7 +50,7 @@ open class WindowReceptacle(var type: WindowLayout, title: String = type.toBukki
         return getElement(slot) != null
     }
 
-    override fun setElement(element: ItemStack??, vararg slots: Int, display: Boolean) {
+    override fun setElement(element: ItemStack?, vararg slots: Int, display: Boolean) {
         slots.forEach { contents[it] = element }
         if (display && viewer != null) {
             slots.forEach { nmsProxy<NMS>().sendWindowsSetSlot(viewer!!, slot = it, itemStack = element, stateId = stateId) }

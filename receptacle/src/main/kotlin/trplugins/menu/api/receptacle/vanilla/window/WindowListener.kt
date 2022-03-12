@@ -14,10 +14,7 @@ object WindowListener {
 
     @SubscribeEvent
     fun onPacket(e: PacketReceiveEvent) {
-        val receptacle = e.player.getViewingReceptacle() ?: return
-        if (receptacle !is WindowReceptacle) {
-            return
-        }
+        val receptacle = e.player.getViewingReceptacle() as? WindowReceptacle ?: return
         if (e.packet.name == "PacketPlayInWindowClick") {
             val id = if (MinecraftVersion.isUniversal) {
                 e.packet.read<Int>("containerId")
