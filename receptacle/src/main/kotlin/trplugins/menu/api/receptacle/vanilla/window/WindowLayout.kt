@@ -1,6 +1,7 @@
-package trplugins.menu.api.receptacle
+package trplugins.menu.api.receptacle.vanilla.window
 
 import org.bukkit.event.inventory.InventoryType
+import trplugins.menu.api.receptacle.ReceptacleLayout
 
 /**
  * TrMenu
@@ -9,7 +10,7 @@ import org.bukkit.event.inventory.InventoryType
  * @author Score2
  * @since 2022/03/05 14:35
  */
-open class VanillaLayout(val vanillaId: Int, slotRange: IntRange): ReceptacleLayout(slotRange) {
+open class WindowLayout(val vanillaId: Int, slotRange: IntRange): ReceptacleLayout(slotRange) {
 
     val id by lazy { "minecraft:${toBukkitType().name.lowercase()}" }
 
@@ -41,7 +42,7 @@ open class VanillaLayout(val vanillaId: Int, slotRange: IntRange): ReceptacleLay
          * A 1-row inventory, not used by the notchian server.
          */
         @JvmField
-        val GENERIC_9X1 = VanillaLayout(
+        val GENERIC_9X1 = WindowLayout(
             0,
             0..8
         )
@@ -50,7 +51,7 @@ open class VanillaLayout(val vanillaId: Int, slotRange: IntRange): ReceptacleLay
          * A 2-row inventory, not used by the notchian server.
          */
         @JvmField
-        val GENERIC_9X2 = VanillaLayout(
+        val GENERIC_9X2 = WindowLayout(
             1,
             0..17
         )
@@ -59,7 +60,7 @@ open class VanillaLayout(val vanillaId: Int, slotRange: IntRange): ReceptacleLay
          * General-purpose 3-row inventory. Used by Chest, minecart with chest, ender chest, and barrel
          */
         @JvmField
-        val GENERIC_9X3 = VanillaLayout(
+        val GENERIC_9X3 = WindowLayout(
             2,
             0..26
         )
@@ -68,7 +69,7 @@ open class VanillaLayout(val vanillaId: Int, slotRange: IntRange): ReceptacleLay
          * A 4-row inventory, not used by the notchian server.
          */
         @JvmField
-        val GENERIC_9X4 = VanillaLayout(
+        val GENERIC_9X4 = WindowLayout(
             3,
             0..35
         )
@@ -77,7 +78,7 @@ open class VanillaLayout(val vanillaId: Int, slotRange: IntRange): ReceptacleLay
          * A 5-row inventory, not used by the notchian server.
          */
         @JvmField
-        val GENERIC_9X5 = VanillaLayout(
+        val GENERIC_9X5 = WindowLayout(
             4,
             0..44
         )
@@ -86,7 +87,7 @@ open class VanillaLayout(val vanillaId: Int, slotRange: IntRange): ReceptacleLay
          * General-purpose 6-row inventory, used by large chests.
          */
         @JvmField
-        val GENERIC_9X6 = VanillaLayout(
+        val GENERIC_9X6 = WindowLayout(
             5,
             0..53
         )
@@ -95,7 +96,7 @@ open class VanillaLayout(val vanillaId: Int, slotRange: IntRange): ReceptacleLay
          * General-purpose 3-by-3 square inventory, used by Dispenser and Dropper
          */
         @JvmField
-        val GENERIC_3X3 = VanillaLayout(
+        val GENERIC_3X3 = WindowLayout(
             6,
             0..8
         )
@@ -104,7 +105,7 @@ open class VanillaLayout(val vanillaId: Int, slotRange: IntRange): ReceptacleLay
          * Anvil
          */
         @JvmField
-        val ANVIL = VanillaLayout(
+        val ANVIL = WindowLayout(
             7,
             0..2
         )
@@ -113,92 +114,92 @@ open class VanillaLayout(val vanillaId: Int, slotRange: IntRange): ReceptacleLay
          * Beacon
          */
         @JvmField
-        val BEACON = VanillaLayout(
+        val BEACON = WindowLayout(
             8,
             0..0
         )
 
         @JvmField
-        val BLAST_FURNACE = VanillaLayout(
+        val BLAST_FURNACE = WindowLayout(
             9,
             0..2
         )
 
         @JvmField
-        val BREWING_STAND = VanillaLayout(
+        val BREWING_STAND = WindowLayout(
             10,
             0..4
         )
 
         @JvmField
-        val CRAFTING = VanillaLayout(
+        val CRAFTING = WindowLayout(
             11,
             0..9
         )
 
         @JvmField
-        val ENCHANTMENT_TABLE = VanillaLayout(
+        val ENCHANTMENT_TABLE = WindowLayout(
             12,
             0..1
         )
 
         @JvmField
-        val FURNACE = VanillaLayout(
+        val FURNACE = WindowLayout(
             13,
             0..2
         )
 
 
         @JvmField
-        val GRINDSTONE = VanillaLayout(
+        val GRINDSTONE = WindowLayout(
             14,
             0..2
         )
 
         @JvmField
-        val HOPPER = VanillaLayout(
+        val HOPPER = WindowLayout(
             15,
             0..4
         )
 
         @JvmField
-        val LOOM = VanillaLayout(
+        val LOOM = WindowLayout(
             17,
             0..3
         )
 
         @JvmField
-        val MERCHANT = VanillaLayout(
+        val MERCHANT = WindowLayout(
             18,
             0..2
         )
 
         @JvmField
-        val SHULKER_BOX = VanillaLayout(
+        val SHULKER_BOX = WindowLayout(
             19,
             0..26
         )
 
         @JvmField
-        val SMOKER = VanillaLayout(
+        val SMOKER = WindowLayout(
             20,
             0..2
         )
 
         @JvmField
-        val CARTOGRAPHY = VanillaLayout(
+        val CARTOGRAPHY = WindowLayout(
             21,
             0..2
         )
 
         @JvmField
-        val STONE_CUTTER = VanillaLayout(
+        val STONE_CUTTER = WindowLayout(
             22,
             0..1
         )
 
 
-        fun ofRows(rows: Int): VanillaLayout {
+        fun ofRows(rows: Int): WindowLayout {
             return when (rows) {
                 1 -> GENERIC_9X1
                 2 -> GENERIC_9X2

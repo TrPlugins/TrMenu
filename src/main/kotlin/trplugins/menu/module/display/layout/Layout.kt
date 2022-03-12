@@ -3,7 +3,7 @@ package trplugins.menu.module.display.layout
 import org.bukkit.event.inventory.InventoryType
 import taboolib.common.platform.function.adaptPlayer
 import taboolib.common.platform.function.submit
-import trplugins.menu.api.receptacle.ChestInventory
+import trplugins.menu.api.receptacle.vanilla.window.ChestInventory
 import trplugins.menu.api.receptacle.createReceptacle
 import trplugins.menu.module.display.MenuSession
 import trplugins.menu.module.internal.data.Metadata
@@ -69,13 +69,13 @@ class Layout(
 
         receptacle.hidePlayerInventory(session.menu!!.settings.hidePlayerInventory)
 
-        receptacle.onClose { player, _ ->
+        receptacle.onClose = { player, _ ->
             if (!Metadata.byBukkit(player, "FORCE_CLOSE")) {
                 menu.settings.closeEvent.eval(adaptPlayer(session.viewer))
             }
             session.shut()
         }
-        receptacle.onClick { player, event ->
+        receptacle.onClick = onClick@{ player, event ->
             Performance.check("Menu:Event:Click") {
                 val cancelEvent = {
                     event.isCancelled = true

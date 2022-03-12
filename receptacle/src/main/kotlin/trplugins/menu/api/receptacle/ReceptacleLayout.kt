@@ -9,15 +9,15 @@ package trplugins.menu.api.receptacle
  */
 open class ReceptacleLayout(val slotRange: IntRange) {
 
-    val mainInvSlots = (slotRange.last + 1..slotRange.last + 27).toList()
+    val mainInvSlots by lazy { (slotRange.last + 1..slotRange.last + 27).toList() }
 
-    val hotBarSlots = (mainInvSlots.last() + 1..mainInvSlots.last() + 9).toList()
+    val hotBarSlots by lazy { (mainInvSlots.last() + 1..mainInvSlots.last() + 9).toList() }
 
-    val containerSlots = slotRange.toList()
+    val containerSlots by lazy { slotRange.toList() }
 
-    val containerSize = containerSlots.size + 1
+    val containerSize by lazy { containerSlots.size + 1 }
 
-    val totalSlots = (0..hotBarSlots.last()).toList()
+    val totalSlots by lazy { (0..hotBarSlots.last()).toList() }
 
-    val totalSize = totalSlots.size
+    val totalSize by lazy { totalSlots.size }
 }

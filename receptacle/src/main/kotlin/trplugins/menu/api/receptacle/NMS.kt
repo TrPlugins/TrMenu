@@ -2,14 +2,13 @@ package trplugins.menu.api.receptacle
 
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import trplugins.menu.api.receptacle.vanilla.window.WindowLayout
 
 /**
  * @author Arasple
  * @date 2020/12/4 21:20
  */
 abstract class NMS {
-
-    abstract fun sendInventoryPacket(player: Player, vararg packets: PacketInventory)
 
     /**
      * This packet is sent by the client when closing a window.
@@ -40,7 +39,7 @@ abstract class NMS {
      * @param type The window type to use for display. See ReceptacleType for the different values.
      * @param title The title of the window
      */
-    abstract fun sendWindowsOpen(player: Player, windowId: Int = 119, type: VanillaLayout, title: String)
+    abstract fun sendWindowsOpen(player: Player, windowId: Int = 119, type: WindowLayout, title: String)
 
     /**
      * Sent by the server when an item in a slot (in a window) is added/removed.

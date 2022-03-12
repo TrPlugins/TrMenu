@@ -1,7 +1,7 @@
 package trplugins.menu.api.menu
 
 import org.bukkit.entity.Player
-import trplugins.menu.api.receptacle.Receptacle
+import trplugins.menu.api.receptacle.vanilla.window.WindowReceptacle
 
 /**
  * @author Arasple
@@ -9,8 +9,8 @@ import trplugins.menu.api.receptacle.Receptacle
  */
 interface IManager {
 
-    fun getViewingReceptacle(player: Player): Receptacle?
+    fun getViewingReceptacle(player: Player): WindowReceptacle?
 
-    fun setViewingReceptacle(player: Player, receptacle: Receptacle? = null)
+    fun setViewingReceptacle(player: Player, receptacle: WindowReceptacle? = null)
 
 }

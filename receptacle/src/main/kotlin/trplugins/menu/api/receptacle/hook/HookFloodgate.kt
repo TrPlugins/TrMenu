@@ -1,4 +1,4 @@
-package trplugins.menu.api.receptacle
+package trplugins.menu.api.receptacle.hook
 
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
@@ -6,7 +6,7 @@ import org.geysermc.floodgate.api.FloodgateApi
 
 /**
  * TrMenu
- * trplugins.menu.api.receptacle.HookFloodgate
+ * trplugins.menu.api.receptacle.hook.HookFloodgate
  *
  * @author Score2
  * @since 2022/02/19 22:58

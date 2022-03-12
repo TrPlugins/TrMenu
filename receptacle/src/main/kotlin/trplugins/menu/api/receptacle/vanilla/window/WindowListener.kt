@@ -1,4 +1,4 @@
-package trplugins.menu.api.receptacle
+package trplugins.menu.api.receptacle.vanilla.window
 
 import taboolib.common.platform.Platform
 import taboolib.common.platform.PlatformSide
@@ -7,13 +7,17 @@ import taboolib.common.platform.function.submit
 import taboolib.module.nms.MinecraftVersion
 import taboolib.module.nms.PacketReceiveEvent
 import taboolib.module.nms.nmsProxy
+import trplugins.menu.api.receptacle.*
 
 @PlatformSide([Platform.BUKKIT])
-object ReceptacleListener {
+object WindowListener {
 
     @SubscribeEvent
     fun onPacket(e: PacketReceiveEvent) {
         val receptacle = e.player.getViewingReceptacle() ?: return
+        if (receptacle !is WindowReceptacle) {
+            return
+        }
         if (e.packet.name == "PacketPlayInWindowClick") {
             val id = if (MinecraftVersion.isUniversal) {
                 e.packet.read<Int>("containerId")

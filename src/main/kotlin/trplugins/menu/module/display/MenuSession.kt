@@ -13,9 +13,8 @@ import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.service.PlatformExecutor
 import taboolib.common.util.replaceWithOrder
 import taboolib.module.chat.colored
-import taboolib.module.configuration.Configuration
 import taboolib.platform.compat.replacePlaceholder
-import trplugins.menu.api.receptacle.Receptacle
+import trplugins.menu.api.receptacle.vanilla.window.WindowReceptacle
 import trplugins.menu.util.ignoreCase
 import java.util.*
 
@@ -29,7 +28,7 @@ class MenuSession(
     var page: Int,
     arguments: Array<String>,
     var agent: Player = viewer,
-    var receptacle: Receptacle? = null
+    var receptacle: WindowReceptacle? = null
 ) {
 
     /**
@@ -97,7 +96,7 @@ class MenuSession(
     /**
      * 取得主要对象
      */
-    fun objects(): Triple<Player, Menu?, Receptacle?> {
+    fun objects(): Triple<Player, Menu?, WindowReceptacle?> {
         return Triple(viewer, menu, receptacle)
     }
 
@@ -204,7 +203,7 @@ class MenuSession(
                         else -> -1
                     }
                     if (slot > 0) {
-                        receptacle!!.setItem(itemStack, slot)
+                        receptacle!!.setElement(itemStack, slot)
                         playerItemSlots.add(slot)
                     }
                 }
@@ -223,7 +222,7 @@ class MenuSession(
 
             type.totalSlots.forEach {
                 if (!active.contains(it) && !playerItemSlots.contains(it) && !menu!!.settings.freeSlots.contains(it)) {
-                    rece.setItem(null, it)
+                    rece.setElement(null, it)
                 }
             }
         }

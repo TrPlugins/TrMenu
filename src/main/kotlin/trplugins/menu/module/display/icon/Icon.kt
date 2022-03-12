@@ -54,7 +54,7 @@ class Icon(
                             return@let previous.filter { pre -> !current.contains(pre) }
                         }
                         settingItem(session, icon, menuId)
-                        session.receptacle?.setItem(null, exclude)
+                        session.receptacle?.setElement(null, exclude)
                     }
                     // Texture, Name, Lore
                     else -> {
@@ -77,7 +77,7 @@ class Icon(
         if (lastMenuId != null && session.menu?.id != lastMenuId) {
             return
         }
-        session.receptacle?.setItem(icon.display.get(session), position.currentPosition(session))
+        session.receptacle?.setElement(icon.display.get(session), position.currentPosition(session))
     }
 
     override fun onRefresh(session: MenuSession) {

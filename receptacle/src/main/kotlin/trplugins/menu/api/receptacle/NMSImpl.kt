@@ -14,6 +14,8 @@ import taboolib.common.reflect.Reflex.Companion.unsafeInstance
 import taboolib.module.nms.MinecraftVersion
 import taboolib.module.nms.sendPacket
 import taboolib.platform.util.isAir
+import trplugins.menu.api.receptacle.hook.HookFloodgate
+import trplugins.menu.api.receptacle.vanilla.window.WindowLayout
 
 /**
  * @author Arasple
@@ -28,26 +30,6 @@ class NMSImpl : NMS() {
     private val Player.staticContainerId get() = staticInventories[this]?.first
     private val Player.staticInventory get() = staticInventories[this]?.second
     private fun Player.isBedrockPlayer() = HookFloodgate.isBedrockPlayer(this)
-
-    @Deprecated("")
-    override fun sendInventoryPacket(player: Player, vararg packets: PacketInventory) {
-        packets.forEach {
-            when (it) {
-                // Close Window Packet
-                is PacketWindowClose ->
-                    sendWindowsClose(player, it.windowId)
-                // Update Window Slot
-                is PacketWindowSetSlot ->
-                    sendWindowsSetSlot(player, it.windowId, it.slot, it.itemStack, it.stateId)
-                // Update Window Items
-                is PacketWindowItems ->
-                    sendWindowsItems(player, it.windowId, it.items)
-                // Open Window Packet
-                is PacketWindowOpen ->
-                    sendWindowsOpen(player, it.windowId, it.type, it.title)
-            }
-        }
-    }
 
     override fun sendWindowsClose(player: Player, windowId: Int) {
         if (player.isBedrockPlayer()) {
@@ -100,7 +82,7 @@ class NMSImpl : NMS() {
         }
     }
 
-    override fun sendWindowsOpen(player: Player, windowId: Int, type: VanillaLayout, title: String) {
+    override fun sendWindowsOpen(player: Player, windowId: Int, type: WindowLayout, title: String) {
         when {
             player.isBedrockPlayer() -> {
                 val inventory = Bukkit.createInventory(null, type.toBukkitType(), title)

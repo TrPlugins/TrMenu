@@ -1,7 +1,6 @@
 package trplugins.menu.api.receptacle
 
 import org.bukkit.entity.Player
-import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.event.ProxyEvent
 
 /**
@@ -10,15 +9,15 @@ import taboolib.common.platform.event.ProxyEvent
  */
 class ReceptacleInteractEvent(val player: Player, val receptacle: Receptacle, val receptacleClickType: ReceptacleClickType, val slot: Int) : ProxyEvent() {
 
-    var itemStack: ItemStack?
-        set(value) = receptacle.setItem(value, slot)
-        get() = receptacle.getItem(slot)
+    var element: Element?
+        set(value) = receptacle.setElement(value, slot)
+        get() = receptacle.getElement(slot)
 
     fun refresh() {
         if (receptacleClickType.isItemMoveable()) {
-            receptacle.type.hotBarSlots.forEach { receptacle.refresh(it) }
-            receptacle.type.mainInvSlots.forEach { receptacle.refresh(it) }
-            receptacle.type.containerSlots.forEach { receptacle.refresh(it) }
+            receptacle.layout.hotBarSlots.forEach { receptacle.refresh(it) }
+            receptacle.layout.mainInvSlots.forEach { receptacle.refresh(it) }
+            receptacle.layout.containerSlots.forEach { receptacle.refresh(it) }
         } else {
             receptacle.refresh(slot)
         }

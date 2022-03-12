@@ -9,7 +9,7 @@ import taboolib.module.configuration.ConfigFile
 import taboolib.platform.util.cancelNextChat
 import trplugins.menu.api.event.MenuOpenEvent
 import trplugins.menu.api.event.MenuPageChangeEvent
-import trplugins.menu.api.receptacle.Receptacle
+import trplugins.menu.api.receptacle.vanilla.window.WindowReceptacle
 import trplugins.menu.module.display.icon.Icon
 import trplugins.menu.module.display.layout.MenuLayout
 import trplugins.menu.module.internal.data.Metadata
@@ -79,7 +79,7 @@ class Menu(
                 }
                 viewer.cancelNextChat(false)
                 val layout = layout[determinedPage]
-                val receptacle: Receptacle
+                val receptacle: WindowReceptacle
 
                 session.page = determinedPage
                 session.receptacle = layout.baseReceptacle().also { receptacle = it }
@@ -103,7 +103,7 @@ class Menu(
             val session = MenuSession.getSession(viewer)
             val previous = session.layout(page)!!
             val layout = layout[page]
-            val receptacle: Receptacle
+            val receptacle: WindowReceptacle
             val override = previous.isSimilar(layout) && session.receptacle != null
 
             val menuPageChangeEvent = MenuPageChangeEvent(session, session.page, page, override)

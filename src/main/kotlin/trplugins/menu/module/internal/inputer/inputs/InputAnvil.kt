@@ -8,9 +8,9 @@ import taboolib.common.reflect.Reflex.Companion.getProperty
 import taboolib.library.xseries.XMaterial
 import taboolib.module.nms.PacketReceiveEvent
 import taboolib.module.nms.getI18nName
-import trplugins.menu.api.receptacle.Receptacle
+import trplugins.menu.api.receptacle.vanilla.window.WindowReceptacle
 import taboolib.platform.util.buildItem
-import trplugins.menu.api.receptacle.VanillaLayout
+import trplugins.menu.api.receptacle.vanilla.window.WindowLayout
 import java.util.concurrent.ConcurrentHashMap
 
 /**
@@ -26,25 +26,25 @@ class InputAnvil(
     val respond: (String) -> Boolean,
 ) {
 
-    val receptacle = Receptacle(VanillaLayout.ANVIL, title)
+    val receptacle = WindowReceptacle(WindowLayout.ANVIL, title)
     var inputText: String
     private var succeed = false
 
     init {
         items.forEach {
-            receptacle.setItem(it.value, it.key)
+            receptacle.setElement(it.value, it.key)
         }
-        if (!receptacle.hasItem(0)) {
-            receptacle.setItem(ANVIL_EMPTY_ITEM, 0)
+        if (!receptacle.hasElement(0)) {
+            receptacle.setElement(ANVIL_EMPTY_ITEM, 0)
         }
-        inputText = receptacle.getItem(0)?.let {
+        inputText = receptacle.getElement(0)?.let {
             if (it.itemMeta?.hasDisplayName() == true) {
                 it.itemMeta?.displayName
             } else {
                 it.getI18nName(player)
             }
         } ?: ""
-        receptacle.onClick { _, e ->
+        receptacle.onClick = onClick@{ _, e ->
             e.isCancelled = true
             if (e.slot == 2) {
                 succeed = true
@@ -53,12 +53,12 @@ class InputAnvil(
             }
             receptacle.refresh(0)
             receptacle.refresh(1)
-            if (receptacle.hasItem(2)) {
+            if (receptacle.hasElement(2)) {
                 receptacle.refresh(2)
             }
             (3..38).forEach { receptacle.refresh(it) }
         }
-        receptacle.onClose { player, _ ->
+        receptacle.onClose = { player, _ ->
             inputs.remove(player)
             if (succeed)
                 respond(inputText)
@@ -89,7 +89,7 @@ class InputAnvil(
             val input = inputs[e.player] ?: return
             val inputText = e.packet.source.getProperty<String>("a")!!
 
-            input.receptacle.getItem(2)?.let {
+            input.receptacle.getElement(2)?.let {
                 it.itemMeta?.let {
                     if (!it.hasDisplayName()) return@let
                     it.setDisplayName(
