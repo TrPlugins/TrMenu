@@ -32,14 +32,14 @@ object FunctionParser {
                     if (split.size < 2) return@joinToString it.value
                     val value = split[1]
 
-                    when (split[0].removePrefix(" ").lowercase()) {
+                    when (val type = split[0].removePrefix(" ").lowercase()) {
                         "kether", "ke" -> parseKetherFunction(player, value)
                         "javascript", "js" -> parseJavaScript(session, value)
                         "meta", "m" -> Metadata.getMeta(player)[value].toString()
                         "data", "d" -> Metadata.getData(player)[value].toString()
                         "globaldata", "gdata", "g" -> runCatching { Metadata.globalData[value].toString() }.getOrElse { "null" }
 
-                        else -> "{${it.value}}"
+                        else -> block(type, value) ?: "{${it.value}}"
                     }
                 } else it.value
             }
