@@ -2,7 +2,7 @@ val taboolibVersion: String by project
 
 plugins {
     kotlin("jvm") version "1.6.10"
-    id("io.izzel.taboolib") version "1.34"
+    id("io.izzel.taboolib") version "1.38"
     id("trplugins.build.publish")
 }
 
