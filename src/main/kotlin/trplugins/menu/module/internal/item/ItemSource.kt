@@ -5,6 +5,7 @@ import trplugins.menu.module.internal.hook.HookPlugin
 import trplugins.menu.module.internal.hook.impl.HookSkulls
 import trplugins.menu.module.internal.script.js.JavaScriptAgent
 import org.bukkit.inventory.ItemStack
+import trplugins.menu.api.event.CustomItemSourceEvent
 import trplugins.menu.module.internal.script.asItemStack
 
 /**
@@ -31,7 +32,7 @@ object ItemSource {
             "ORAXEN" -> HookPlugin.getOraxen().getItem(id)
             "ITEMSADDER", "IA" -> HookPlugin.getItemsAdder().getItem(id)
             "ZAPHKIEL", "ZL" -> HookPlugin.getZaphkiel().getItem(id)
-            else -> null
+            else -> CustomItemSourceEvent(name, id).also { it.call() }.source
         }
     }
 
