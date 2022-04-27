@@ -32,7 +32,7 @@ object ItemSource {
             "ORAXEN" -> HookPlugin.getOraxen().getItem(id)
             "ITEMSADDER", "IA" -> HookPlugin.getItemsAdder().getItem(id)
             "ZAPHKIEL", "ZL" -> HookPlugin.getZaphkiel().getItem(id)
-            else -> CustomItemSourceEvent(name, id).also { it.call() }.source
+            else -> CustomItemSourceEvent(name, id, session).also { it.call() }.source
         }
     }
 
