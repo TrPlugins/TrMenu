@@ -303,6 +303,10 @@ class Assist {
     fun isGreaterOrEqual(input1: String, input2: String): Boolean {
         return toDouble(input1) >= toDouble(input2)
     }
+    
+    fun isIncludes(input1: String, input2: String): Boolean {
+        return input1.contains(input2)
+    }
 
     /**
      * Hook
