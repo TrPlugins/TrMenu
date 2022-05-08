@@ -110,7 +110,7 @@ object JavaScriptAgent {
         )
         
         setAttribute(
-            "funcs", java.util.function.Function<Any, Any?> { session.parse("${$it}") },
+            "funcs", java.util.function.Function<Any, Any?> { session.parse("${$" + it +"}") },
         )
         setAttribute(
             "funcInt", java.util.function.Function<Any, Any?> { session.parse("${$it}").toIntOrNull() ?: 0 },
