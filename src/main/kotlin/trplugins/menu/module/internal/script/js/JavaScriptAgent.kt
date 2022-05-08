@@ -108,6 +108,17 @@ object JavaScriptAgent {
         setAttribute(
             "dataDouble", java.util.function.Function<Any, Any?> { session.parse("{data: $it}").toDoubleOrNull() ?: 0.0 },
         )
+        
+        setAttribute(
+            "funcs", java.util.function.Function<Any, Any?> { session.parse("${$it}") },
+        )
+        setAttribute(
+            "funcInt", java.util.function.Function<Any, Any?> { session.parse("${$it}").toIntOrNull() ?: 0 },
+        )
+        setAttribute(
+            "funcDouble", java.util.function.Function<Any, Any?> { session.parse("${$it}").toDoubleOrNull() ?: 0.0 },
+        )
+        
         setAttribute(
             "gdatas", java.util.function.Function<Any, Any?> { session.parse("{gdata: $it}") },
         )
