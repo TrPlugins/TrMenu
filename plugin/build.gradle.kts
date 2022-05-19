@@ -25,6 +25,7 @@ taboolib {
     )
 
     description {
+        name(rootProject.name)
         contributors {
             name("Arasple")
             name("Score2")
