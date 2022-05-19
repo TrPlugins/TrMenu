@@ -1,0 +1,94 @@
+Plugin-Loading:
+  - '&r'
+  - '&7Đang tải &3Tr&bMenu &f&lPremium... &8{0}'
+  - '&r'
+Plugin-Enabled: '&8[&3Tr&bMenu&8] &bTHÔNG TIN &8| &3Plugin đã được bật. Hiện đang chạy phiên bản &2{0}&7.'
+Plugin-Update:
+  - '&8[&3Tr&bMenu&8] &bCẬP NHẬT &8| &3Cập nhật &a{0}&3 đã tìm thấy ! Tải nó bằng đường dẫn phía dưới cho tính năng mới và sửa lỗi!'
+  - '&bhttps://www.spigotmc.org/resources/83120/'
+Plugin-Dependency-Hooked: '&8[&3Tr&bMenu&8] &6KẾT NỐI &8| &7Phụ thuộc phụ &f{0} &7đã được kết nối.'
+Plugin-Dependency-Abuse: '&8[&3Tr&bMenu&8] &6KẾT NỐI &8| &4Đã cố gắng sử dụng plugin phuộc thuộc phụ chưa cài đặt &c{0}'
+
+Menu-Loader-Loaded: '&8[&3Tr&bMenu&8] &aỔN &8| &a{0} &3menu đã được tải &8({1} ms)'
+Menu-Loader-Loading: '&8[&3Tr&bMenu&8] &6THREAD &8| &3Loading menus...'
+Menu-Loader-Failed: '&8[&3Tr&bMenu&8] &cLỖI &8| &4Đã xảy ra lỗi khi tải trplugins.menu &c{0} &4! Đặt vị trí tại: {1}'
+Menu-Loader-Reloaded: '&8[&3Tr&bMenu&8] &aỔN &8| &7Tự động tải lại trplugins.menu &f{0} &8({1}ms)'
+Menu-Expansions-Header:
+  - '&8[&3Tr&bMenu&8] &7Bạn phải cài đặt &f{0} &7expansion cho PlaceholderAPI để sử dụng trplugins.menu này.'
+  - type: JSON
+    text: '&7Và đừng quên tải lại chúng [&3&nreload]'
+    args:
+      - hover: '&7Nhấn để tải lại expansions của PAPI'
+        command: '/papi reload'
+Menu-Expansions-Format:
+  - type: JSON
+    text: '&8- [&a{0}]&r'
+    args:
+      - hover: '&7Nhấn để tải xuống'
+        command: '/papi ecloud download {0}'
+Menu-Action-Sound: '&8[&3Tr&bMenu&8] &7Âm thanh không xác định: &f{0}'
+
+Menu-Internal-Page-Previous: 'Trang Trước'
+Menu-Internal-Page-Next: 'Trang Tiếp Theo'
+Menu-Internal-Sounds-Title: 'Âm Thanh / Trang: {0} ; Filter: {1}'
+Menu-Internal-Sounds-Stop-Playing: 'Ngưng Chạy Nhạc'
+Menu-Internal-Sounds-Display:
+  - '&r'
+  - '&8· &7Nhấn Q &fQ &7cho Pitch 0'
+  - '&8· &7Chuột Trái cho Pitch 1'
+  - '&8· &7Chuột Phải cho Pitch 2'
+  - '&r'
+  - '&e▶ &6Chuột giữa để sao chép tên.'
+Menu-Internal-Sounds-Copy:
+  - '&r'
+  - '&8▶ &7NHẤN ĐỂ SAO CHÉP: '
+  - type: JSON
+    text: '[&a&n{0}]'
+    args:
+      - hover: '&8Nhấn vào dòng chữ này để sao chép vào bàn phím'
+        suggest: '{0}'
+  - '&r'
+
+Paster-Processing: '&8[&3Tr&bMenu&8] &7Đang dán nội dung ...'
+Paster-Success: '&8[&3Tr&bMenu&8] &3Nội dung đã được dán vào &a{0}'
+Paster-Failed: '&8[&3Tr&bMenu&8] &cĐã xảy ra lỗi khi đang dán nội dung. Vui lòng kiểm tra console.'
+
+Command-Help-Type: 'Type'
+Command-Help-Args: 'Args'
+Command-List-Description: 'Danh sách các trplugins.menu đã tải'
+Command-Open-Description: 'Mở trplugins.menu cho người chơi'
+Command-Reload-Description: 'Tải lại tất cả các trplugins.menu'
+Command-Template-Description: 'Menu bố cục nhanh'
+Command-Item-Description: 'Thao tác các vật phẩm'
+Command-Convert-Description: 'Convert menu type'
+Command-Action-Description: 'Chạy các hành động để kiểm tra'
+Command-Sounds-Description: 'Xem trước & thử các âm thanh'
+
+Command-Open-Unknown-Menu: '&8[&3Tr&bMenu&8] &7Không xác định trplugins.menu &6{0} &7.'
+Command-Open-Unknown-Player: '&8[&3Tr&bMenu&8] &Người chơi &f{0} &7không trực tuyến.'
+Command-Action-Unknown-Player: '&8[&3Tr&bMenu&8] &7Người chơi &f{0} &7không trực tuyến.'
+Command-Template-Empty: '&8[&3Tr&bMenu&8] &7Bản mẫu kho đồ trống, tạo trplugins.menu đã được hủy.'
+Command-Item-No-Item: '&8[&3Tr&bMenu&8] &7Vui lòng &fcầm vật phẩm &7trên tay.'
+Command-Item-To-Json:
+  - type: JSON
+    text: '&8\[&3Tr&bMenu&8\] &7Vật phẩm đã được chuyển đổi thành JSON: [&3&nNhấn để sao chép]'
+    args:
+      - hover: '&7Nhấn để sao chép'
+        suggest: '{0}'
+Command-Item-Saved: '&8[&3Tr&bMenu&8] &7Đã lưu vật phẩm (Id: &f{0}&7) vào repository'
+Command-Item-Deleted: '&8[&3Tr&bMenu&8] &7Đã xóa vật phẩm (Id: &f{0}&7) từ repository'
+Command-List-Error: '&8[&3Tr&bMenu&8] &7NORM &8| &7Không tìm thấy trplugins.menu nào... &8(Filter: {0})'
+Command-List-Header:
+  - '&r'
+  - '&8[&3Tr&bMenu&8] &aỔN &8| &7Đã tải thành công &f{0} &7menu &8(Filter: {1}): '
+  - '&r'
+Command-List-Format:
+  - type: JSON
+    text: '&8- [&3{0}]&8<{1}&8> &7| &8(Title: {2} &8/ Icons: {3})&r'
+    args:
+      - hover: '&7Nhấn để mở'
+        command: '/trmenu open {0}'
+Command-Convert-Unknown-Menu: '&8[&3Tr&bMenu&8] &7Unknown menu &6{0} &7.'
+Command-Convert-Unknown-Type: '&8[&3Tr&bMenu&8] &7Unknown type &b{0} &7.'
+Command-Convert-Type-Already: '&8[&3Tr&bMenu&8] &7The type of menu &6{0} &7 is already &b{1} &7.'
+Command-Convert-Converted: '&8[&3Tr&bMenu&8] &7Typecast menu &6{0} &7 to &b{1}&7.'

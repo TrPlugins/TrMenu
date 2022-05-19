@@ -1,7 +1,8 @@
 rootProject.name = "TrMenu"
 
 include(
-    ":action",
-    ":assist",
-    ":receptacle",
+    ":api:common",
+    ":api:receptacle",
+    ":api:action",
+    ":plugin",
 )

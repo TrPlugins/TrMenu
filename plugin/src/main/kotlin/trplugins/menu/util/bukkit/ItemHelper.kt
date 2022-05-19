@@ -26,7 +26,7 @@ import kotlin.math.min
 object ItemHelper {
 
     fun serializeColor(color: String): Color {
-        val rgb = color.split(",").toTypedArray()
+        val rgb = color.split(",")
         if (rgb.size == 3) {
             val r = min(rgb[0].toIntOrNull() ?: 0, 255)
             val g = min(rgb[1].toIntOrNull() ?: 0, 255)
