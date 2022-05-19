@@ -59,9 +59,9 @@ repositories {
 }
 
 dependencies {
-    compileOnly(project(":common"))
-    compileOnly(project(":api:receptacle"))
-    compileOnly(project(":api:action"))
+    taboo(project(":common"))
+    taboo(project(":api:receptacle"))
+    taboo(project(":api:action"))
 
     // Libraries
     compileOnly("org.apache.commons:commons-lang3:3.12.0")
