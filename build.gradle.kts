@@ -34,13 +34,8 @@ subprojects {
 
     repositories {
         mavenCentral()
-        maven("https://repo.tabooproject.org/repository/releases")
-        maven("https://hub.spigotmc.org/nexus/content/groups/public/")
-        maven("https://repo.codemc.io/repository/nms/")
-        maven("https://repo.opencollab.dev/maven-snapshots/")
-        maven("https://repo.codemc.org/repository/maven-public")
-        maven("https://jitpack.io")
     }
+
     dependencies {
         "compileOnly"(kotlin("stdlib"))
     }

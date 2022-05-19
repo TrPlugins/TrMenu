@@ -49,8 +49,13 @@ taboolib {
 }
 
 repositories {
+    mavenCentral()
+    maven("https://repo.tabooproject.org/repository/releases")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
+    maven("https://repo.codemc.org/repository/maven-public")
     maven("https://repo.rosewooddev.io/repository/public/")
+    maven("https://repo.opencollab.dev/maven-snapshots/")
+    maven("https://jitpack.io")
 }
 
 dependencies {

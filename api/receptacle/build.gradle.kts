@@ -24,6 +24,14 @@ taboolib {
     version = taboolibVersion
 }
 
+repositories {
+    mavenCentral()
+    maven("https://repo.tabooproject.org/repository/releases")
+    maven("https://repo.codemc.io/repository/nms/")
+    maven("https://hub.spigotmc.org/nexus/content/groups/public/")
+    maven("https://repo.opencollab.dev/maven-snapshots//")
+}
+
 dependencies {
     compileOnly(project(":common"))
 

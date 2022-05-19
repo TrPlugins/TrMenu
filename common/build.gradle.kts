@@ -27,6 +27,11 @@ taboolib {
     version = taboolibVersion
 }
 
+repositories {
+    mavenCentral()
+    maven("https://repo.tabooproject.org/repository/releases")
+}
+
 dependencies {
     compileOnly("com.google.code.gson:gson:2.8.7")
     compileOnly("com.electronwill.night-config:core:3.6.5")

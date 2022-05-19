@@ -26,6 +26,12 @@ taboolib {
     version = taboolibVersion
 }
 
+repositories {
+    mavenCentral()
+    maven("https://repo.tabooproject.org/repository/releases")
+    maven("https://hub.spigotmc.org/nexus/content/groups/public/")
+}
+
 dependencies {
     api(project(":common"))
 
