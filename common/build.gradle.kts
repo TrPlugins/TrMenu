@@ -1,9 +1,10 @@
-plugins {
-    id("io.izzel.taboolib")
-    id("trplugins.build.publish")
-}
+import java.util.UUID
 
 val taboolibVersion: String by rootProject
+
+plugins {
+    id("io.izzel.taboolib")
+}
 
 taboolib {
     description {
@@ -30,3 +31,4 @@ dependencies {
     compileOnly("com.google.code.gson:gson:2.8.7")
     compileOnly("com.electronwill.night-config:core:3.6.5")
 }
+tasks.tabooRelocateJar { onlyIf { false } }

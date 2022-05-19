@@ -1,9 +1,10 @@
-plugins {
-    id("io.izzel.taboolib")
-    id("trplugins.build.publish")
-}
+import java.util.UUID
 
 val taboolibVersion: String by rootProject
+
+plugins {
+    id("io.izzel.taboolib")
+}
 
 taboolib {
     description {
@@ -26,7 +27,9 @@ taboolib {
 }
 
 dependencies {
-    api(project(":api:common"))
+    api(project(":common"))
 
     compileOnly("net.md-5:bungeecord-chat:1.18-R0.1-SNAPSHOT")
 }
+
+tasks.tabooRelocateJar { onlyIf { false } }

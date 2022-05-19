@@ -1,8 +1,9 @@
-val taboolibVersion: String by project
+import java.util.UUID
+
+val taboolibVersion: String by rootProject
 
 plugins {
     id("io.izzel.taboolib")
-    id("trplugins.build.publish")
 }
 
 taboolib {
@@ -48,19 +49,14 @@ taboolib {
 }
 
 repositories {
-    mavenCentral()
-    maven("https://repo.tabooproject.org/repository/releases")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
-    maven("https://repo.codemc.org/repository/maven-public")
     maven("https://repo.rosewooddev.io/repository/public/")
-    maven("https://repo.opencollab.dev/maven-snapshots/")
-    maven("https://jitpack.io")
 }
 
 dependencies {
-    taboo(project(":api:common")) { isTransitive = false }
-    taboo(project(":api:receptacle")) { isTransitive = false }
-    taboo(project(":api:action")) { isTransitive = false }
+    compileOnly(project(":common"))
+    compileOnly(project(":api:receptacle"))
+    compileOnly(project(":api:action"))
 
     // Libraries
     compileOnly("org.apache.commons:commons-lang3:3.12.0")
