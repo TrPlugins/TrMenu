@@ -79,7 +79,7 @@ object FunctionParser {
 
     private fun parseLangText(player: Player, text: String): String {
         val split = text.split("=", limit = 2)
-        return HookPlugin.getTriton().getText(player, split[0], if (split.size < 2) emptyArray() else split[1].split("_\\|\\|_").toTypedArray()).toString()
+        return HookPlugin.getTriton().getText(player, split[0], if (split.size < 2) emptyArray() else split[1].split("_||_").toTypedArray()).toString()
     }
 
 }
