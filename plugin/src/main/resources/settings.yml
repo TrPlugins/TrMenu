@@ -4,6 +4,9 @@ Options:
   Multi-Thread: true
   Async-Load-Menus: true
 
+  Placeholders:
+    JavaScript-Parse: false
+
 Database:
   # Local: SQLITE
   # External: SQL, MONGODB

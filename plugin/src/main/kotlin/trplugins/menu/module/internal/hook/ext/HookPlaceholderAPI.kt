@@ -10,6 +10,7 @@ import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common.platform.function.pluginId
 import taboolib.platform.compat.PlaceholderExpansion
 import taboolib.platform.util.sendLang
+import trplugins.menu.TrMenu
 import trplugins.menu.util.ignoreCase
 
 /**
@@ -17,6 +18,8 @@ import trplugins.menu.util.ignoreCase
  * @date 2021/2/4 11:37
  */
 object HookPlaceholderAPI : PlaceholderExpansion {
+
+    val enabledParseJavaScript get() = TrMenu.SETTINGS.getBoolean("Options.Placeholders.JavaScript-Parse", false)
 
     override val identifier = pluginId
 
@@ -35,7 +38,7 @@ object HookPlaceholderAPI : PlaceholderExpansion {
                 "globaldata" -> runCatching { Metadata.globalData[value()].toString() }.getOrElse { "null" }
                 "node" -> session.menu?.conf?.let { it[it.ignoreCase(value())].toString() }.toString()
                 "menu" -> menu(session, args)
-                "js" -> if (args.size > 1) JavaScriptAgent.eval(session, args[1]).asString() else ""
+                "js" -> if (enabledParseJavaScript) if (args.size > 1) JavaScriptAgent.eval(session, args[1]).asString() else "" else "UNABLE_PARSE"
                 else -> ""
             } }.getOrNull().toString()
         }
