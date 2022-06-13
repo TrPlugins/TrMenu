@@ -149,43 +149,50 @@ class Texture(
             val data = split.getOrNull(1)?.toIntOrNull() ?: 0
             val id = split[0].toIntOrNull() ?: split[0].uppercase().replace("[ _]".toRegex(), "_")
 
-            return buildItem(XMaterial.matchXMaterial(FALL_BACK)) {
-                if (id is Int) {
-                    try {
-                        this.material = Material::class.java.invokeMethod<Material>("getMaterial", id.toInt(), fixed = true)!!
-                        this.damage = data
-                    } catch (t: Throwable) {
-                        t.printStackTrace()
-                        XMaterial.matchXMaterial(id, -1).let {
-                            if (it.isPresent) {
-                                setMaterial(it.get())
-                                this.damage = data
-                            } else {
-                                XMaterial.STONE
+
+            val item = try {
+                buildItem(XMaterial.matchXMaterial(FALL_BACK)) {
+                    if (id is Int) {
+                        try {
+                            this.material = Material::class.java.invokeMethod<Material>(
+                                "getMaterial",
+                                id.toInt(),
+                                fixed = true
+                            )!!
+                            this.damage = data
+                        } catch (t: Throwable) {
+                            t.printStackTrace()
+                            XMaterial.matchXMaterial(id, -1).let {
+                                if (it.isPresent) {
+                                    setMaterial(it.get())
+                                    this.damage = data
+                                } else {
+                                    XMaterial.STONE
+                                }
                             }
                         }
+                        /*                    XMaterial.matchXMaterial(id, (-1).toByte()).let {
+                    if (it.isPresent) {
+                        setMaterial(it.get())
+                        this.damage = data
+                    } else {
+                        XMaterial.STONE
                     }
-/*                    XMaterial.matchXMaterial(id, (-1).toByte()).let {
-                        if (it.isPresent) {
-                            setMaterial(it.get())
-                            this.damage = data
-                        } else {
-                            XMaterial.STONE
-                        }
-                    }*/
-                } else {
-                    val name = id.toString()
-                    try {
+                }*/
+                    } else {
+                        val name = id.toString()
                         this.material = Material.getMaterial(name)!!
-                    } catch (e: Throwable) {
-                        return kotlin.runCatching { XMaterial.values().find { it.name.equals(name, true) }
-                            ?: XMaterial.values()
-                                .find { it -> it.legacy.any { it == name } }
-                            ?: XMaterial.values()
-                                .maxByOrNull { similarDegree(name, it.name) } }.getOrNull()?.parseItem() ?: FALL_BACK
                     }
                 }
+            } catch (e: Throwable) {
+                runCatching { XMaterial.values().find { it.name.equals(id.toString(), true) }
+                    ?: XMaterial.values().find { it -> it.legacy.any { it == id.toString() } }
+                    ?: XMaterial.values().maxByOrNull { similarDegree(id.toString(), it.name) } }.getOrNull()?.parseItem()
+                    ?: FALL_BACK
             }
+
+            return item
+
         }
 
     }
