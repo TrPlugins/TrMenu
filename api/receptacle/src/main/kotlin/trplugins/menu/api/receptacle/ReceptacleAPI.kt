@@ -42,11 +42,11 @@ fun InventoryType.createReceptacle(title: String = defaultTitle): WindowReceptac
     if (this != CHEST) {
         val receptacleType = when (this.name) {
             "ENDER_CHEST", "BARREL" -> WindowLayout.GENERIC_9X3
-            "DISPENSER", "DROPPER" -> WindowLayout.GENERIC_3X3
+            "DISPENSER", "DROPPER" -> WindowLayout.GENERIC_3x3
             "ANVIL" -> WindowLayout.ANVIL
             "FURNACE" -> WindowLayout.FURNACE
             "WORKBENCH", "CRAFTING" -> WindowLayout.CRAFTING
-            "ENCHANTING" -> WindowLayout.ENCHANTMENT_TABLE
+            "ENCHANTING" -> WindowLayout.ENCHANTMENT
             "BREWING" -> WindowLayout.BREWING_STAND
             "MERCHANT" -> WindowLayout.MERCHANT
             "BEACON" -> WindowLayout.BEACON
@@ -55,9 +55,9 @@ fun InventoryType.createReceptacle(title: String = defaultTitle): WindowReceptac
             "BLAST_FURNACE" -> WindowLayout.BLAST_FURNACE
             "SMOKER" -> WindowLayout.SMOKER
             "LOOM" -> WindowLayout.LOOM
-            "CARTOGRAPHY" -> WindowLayout.CARTOGRAPHY
+            "CARTOGRAPHY" -> WindowLayout.CARTOGRAPHY_TABLE
             "GRINDSTONE" -> WindowLayout.GRINDSTONE
-            "STONECUTTER" -> WindowLayout.STONE_CUTTER
+            "STONECUTTER" -> WindowLayout.STONECUTTER
             else -> throw IllegalArgumentException("Unsupported $this")
         }
         return WindowReceptacle(receptacleType, title)
