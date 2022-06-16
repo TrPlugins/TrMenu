@@ -4,7 +4,8 @@ package trplugins.menu.util
  * @author Arasple
  * @date 2021/1/31 11:53
  */
-inline class EvalResult(val any: Any? = null) {
+@JvmInline
+value class EvalResult(val any: Any? = null) {
 
     fun asBoolean(def: Boolean = false): Boolean {
         return when (any) {

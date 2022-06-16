@@ -2,13 +2,13 @@ package trplugins.menu.api.receptacle.vanilla.window
 
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import trplugins.menu.api.receptacle.vanilla.window.WindowLayout
 
 /**
  * @author Arasple
  * @date 2020/12/4 21:20
  */
 abstract class NMS {
+
 
     /**
      * This packet is sent by the client when closing a window.
@@ -61,4 +61,5 @@ abstract class NMS {
      * TODO This packet is used to inform the client that part of a GUI window should be updated.
      */
     abstract fun sendWindowsUpdateData(player: Player, windowId: Int = 119, property: Int, value: Int)
+
 }

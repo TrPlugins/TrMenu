@@ -1,6 +1,9 @@
 @file:SuppressWarnings("unchecked")
+@file:Suppress("DEPRECATION")
+
 package trplugins.menu.util
 
+import com.google.gson.JsonElement
 import com.google.gson.JsonParser
 
 /**
@@ -12,4 +15,4 @@ import com.google.gson.JsonParser
  */
 val jsonParser = JsonParser()
 
-fun String.parseJson() = jsonParser.parse(this)
+fun String.parseJson(): JsonElement = jsonParser.parse(this)

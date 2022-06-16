@@ -7,7 +7,7 @@ package trplugins.menu.util
 object Regexs {
 
     private val PLACEHOLDER_API = "(%)(.+?)(%)|(?!\\{\")((\\{)(.+?)(}))".toRegex()
-    val JSON_TEXTURE = "\\{[\\s]*\"".toRegex()
+    val JSON_TEXTURE = "\\{\\s*\"".toRegex()
     val ICON_KEY = "`(.+?)`".toRegex()
     val SENTENCE = "`(.+?)`".toRegex()
     val STRING = "\\{(\\w+)}".toRegex()

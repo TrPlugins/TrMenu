@@ -10,12 +10,11 @@ import trplugins.menu.api.receptacle.ReceptacleLayout
  * @author Score2
  * @since 2022/03/05 14:35
  */
-open class WindowLayout(val vanillaId: Int, slotRange: IntRange): ReceptacleLayout(slotRange) {
+open class WindowLayout(val vanillaId: String, val serialId: Int, slotRange: IntRange) : ReceptacleLayout(slotRange) {
 
     val id by lazy { "minecraft:${toBukkitType().name.lowercase()}" }
-
     fun toBukkitType(): InventoryType {
-        return when (vanillaId) {
+        return when (serialId) {
             0, 1, 2, 3, 4, 5 -> InventoryType.CHEST
             6 -> InventoryType.HOPPER
             7 -> InventoryType.ANVIL
@@ -36,6 +35,7 @@ open class WindowLayout(val vanillaId: Int, slotRange: IntRange): ReceptacleLayo
             else -> InventoryType.CHEST
         }
     }
+
     companion object {
 
         /**
@@ -43,6 +43,7 @@ open class WindowLayout(val vanillaId: Int, slotRange: IntRange): ReceptacleLayo
          */
         @JvmField
         val GENERIC_9X1 = WindowLayout(
+            "GENERIC_9x1",
             0,
             0..8
         )
@@ -52,6 +53,7 @@ open class WindowLayout(val vanillaId: Int, slotRange: IntRange): ReceptacleLayo
          */
         @JvmField
         val GENERIC_9X2 = WindowLayout(
+            "GENERIC_9x2",
             1,
             0..17
         )
@@ -61,6 +63,7 @@ open class WindowLayout(val vanillaId: Int, slotRange: IntRange): ReceptacleLayo
          */
         @JvmField
         val GENERIC_9X3 = WindowLayout(
+            "GENERIC_9x3",
             2,
             0..26
         )
@@ -70,6 +73,7 @@ open class WindowLayout(val vanillaId: Int, slotRange: IntRange): ReceptacleLayo
          */
         @JvmField
         val GENERIC_9X4 = WindowLayout(
+            "GENERIC_9x4",
             3,
             0..35
         )
@@ -79,6 +83,7 @@ open class WindowLayout(val vanillaId: Int, slotRange: IntRange): ReceptacleLayo
          */
         @JvmField
         val GENERIC_9X5 = WindowLayout(
+            "GENERIC_9x5",
             4,
             0..44
         )
@@ -88,6 +93,7 @@ open class WindowLayout(val vanillaId: Int, slotRange: IntRange): ReceptacleLayo
          */
         @JvmField
         val GENERIC_9X6 = WindowLayout(
+            "GENERIC_9x6",
             5,
             0..53
         )
@@ -96,7 +102,8 @@ open class WindowLayout(val vanillaId: Int, slotRange: IntRange): ReceptacleLayo
          * General-purpose 3-by-3 square inventory, used by Dispenser and Dropper
          */
         @JvmField
-        val GENERIC_3X3 = WindowLayout(
+        val GENERIC_3x3 = WindowLayout(
+            "GENERIC_3x3",
             6,
             0..8
         )
@@ -106,6 +113,7 @@ open class WindowLayout(val vanillaId: Int, slotRange: IntRange): ReceptacleLayo
          */
         @JvmField
         val ANVIL = WindowLayout(
+            "ANVIL",
             7,
             0..2
         )
@@ -115,36 +123,42 @@ open class WindowLayout(val vanillaId: Int, slotRange: IntRange): ReceptacleLayo
          */
         @JvmField
         val BEACON = WindowLayout(
+            "BEACON",
             8,
             0..0
         )
 
         @JvmField
         val BLAST_FURNACE = WindowLayout(
+            "BLAST_FURNACE",
             9,
             0..2
         )
 
         @JvmField
         val BREWING_STAND = WindowLayout(
+            "BREWING_STAND",
             10,
             0..4
         )
 
         @JvmField
         val CRAFTING = WindowLayout(
+            "CRAFTING",
             11,
             0..9
         )
 
         @JvmField
-        val ENCHANTMENT_TABLE = WindowLayout(
+        val ENCHANTMENT = WindowLayout(
+            "ENCHANTMENT",
             12,
             0..1
         )
 
         @JvmField
         val FURNACE = WindowLayout(
+            "FURNACE",
             13,
             0..2
         )
@@ -152,52 +166,59 @@ open class WindowLayout(val vanillaId: Int, slotRange: IntRange): ReceptacleLayo
 
         @JvmField
         val GRINDSTONE = WindowLayout(
+            "GRINDSTONE",
             14,
             0..2
         )
 
         @JvmField
         val HOPPER = WindowLayout(
+            "HOPPER",
             15,
             0..4
         )
 
         @JvmField
         val LOOM = WindowLayout(
+            "LOOM",
             17,
             0..3
         )
 
         @JvmField
         val MERCHANT = WindowLayout(
+            "MERCHANT",
             18,
             0..2
         )
 
         @JvmField
         val SHULKER_BOX = WindowLayout(
+            "SHULKER_BOX",
             19,
             0..26
         )
 
         @JvmField
         val SMOKER = WindowLayout(
+            "SMOKER",
             20,
             0..2
         )
 
         @JvmField
-        val CARTOGRAPHY = WindowLayout(
+        val CARTOGRAPHY_TABLE = WindowLayout(
+            "CARTOGRAPHY_TABLE",
             21,
             0..2
         )
 
         @JvmField
-        val STONE_CUTTER = WindowLayout(
+        val STONECUTTER = WindowLayout(
+            "STONECUTTER",
             22,
             0..1
         )
-
 
         @JvmStatic
         fun ofRows(rows: Int): WindowLayout {
@@ -212,4 +233,5 @@ open class WindowLayout(val vanillaId: Int, slotRange: IntRange): ReceptacleLayo
             }
         }
     }
+
 }

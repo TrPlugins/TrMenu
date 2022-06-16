@@ -54,4 +54,5 @@ class Cooldown {
     fun reset(player: String) {
         data.remove(player)
     }
+
 }
