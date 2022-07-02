@@ -35,7 +35,7 @@ class EnchantItem(handle: ActionHandle) : ActionBase(handle) {
                     if (enchant.isPresent) {
                         enchant(
                             ItemHelper.fromPlayerInv(player.cast<Player>().inventory, split[0]),
-                            enchant.get().parseEnchantment(),
+                            enchant.get().enchant,
                             level
                         )
                     }
