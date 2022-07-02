@@ -1,8 +1,7 @@
 package trplugins.menu.module.internal.hook.impl
 
-import com.mojang.authlib.properties.Property
-import trplugins.menu.module.internal.hook.HookAbstract
 import net.skinsrestorer.api.SkinsRestorerAPI
+import trplugins.menu.module.internal.hook.HookAbstract
 
 /**
  * @author Arasple
@@ -28,7 +27,7 @@ class HookSkinsRestorer : HookAbstract() {
             }
 
             val skinData = it.getSkinData(name)
-            return (skinData as Property).value
+            return skinData.value
         }
         return null
     }
