@@ -1,0 +1,92 @@
+name: '🐞 Bug Report'
+description: 'Warning: If you don’t follow the prompts to give feedback, this issue may be ignored or closed.'
+title: "[Bug]: "
+labels: ['🐞Bug | 问题', '🔍Recurring | 调查中...']
+body:
+  - type: checkboxes
+    id: latests
+    attributes:
+      label: '🚀 Have you tried the latest version'
+      description: 'Your bugs, may have been found and fixed in [latest version](https://github.com/InsinuateProjects/TrMenu/actions)?'
+      options:
+        - label: 'I have updated TrMenu to the latest version and the same bug is reproduced.'
+          required: true
+
+  - type: checkboxes
+    id: wikis
+    attributes:
+      label: '📚 Have you checked the Wiki'
+      description: 'Often many questions are caused by not checking the Wiki in detail, have you read [Wiki](https://trmenu.docs.insinuate.cn/)?'
+      options:
+        - label: 'I have checked the Wiki''s related content about the problem and determined that the problem exists.'
+          required: true
+
+  - type: checkboxes
+    id: issues
+    attributes:
+      label: '🔗 Is there a duplicate Issue'
+      description: 'Many new errors are often repeated, have you read it [Issues](https://github.com/InsinuateProjects/TrMenu/issues)?'
+      options:
+        - label: 'I have looked through the existing issue and found no duplicate content, or a more detailed description of the existing issue.'
+          required: true
+
+  - type: textarea
+    id: server-info
+    attributes:
+      label: '📰 Server details'
+      description: '[Must provide] Enter the command ''/trmenu debug dump'' and paste the content in the link below.'
+      value: |
+        ```
+        TrMenu Dump Information (Date: xxxx-xx-xx xx:xx:xx)
+
+          | Server OS: xxxx
+          | Server software: xxxx
+          | Java version: xxxx
+
+          | TabooLib: x.x.x
+          | TrMenu: x.x.x
+        Installed Plugins:
+          · XXXXXX - x.x.x
+          · XXXXXX - x.x.x
+          · XXXXXX - x.x.x
+        ```
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: '🔍 Detailed description'
+      description: 'A clear description of the problem, including the relevant steps to reproduce.'
+      value: |
+        ```
+        1. ...
+        2. ...
+        3. ...
+        ```
+    validations:
+      required: true
+
+  - type: textarea
+    id: server-logs
+    attributes:
+      label: '🗄 Server log'
+      description: 'If there are any related server logs or exceptions, please paste them between the lines below or upload the complete log file.'
+      value: |
+        ```
+
+        ```
+    validations:
+      required: false
+
+  - type: textarea
+    id: configuration
+    attributes:
+      label: '⚙ Configurations'
+      description: 'Please provide the problematic menu (part) as much as possible, please paste in the relevant configuration part between the ``` lines below.'
+      value: |
+        ```
+
+        ```
+    validations:
+      required: false

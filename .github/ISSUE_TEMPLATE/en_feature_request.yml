@@ -1,0 +1,48 @@
+name: '🛸 Feature Request'
+description: 'Warning: If you don’t follow the prompts to give feedback, this issue may be ignored or closed.'
+title: "[Feature]: "
+labels: ['💠Enhancement | 增强']
+body:
+  - type: checkboxes
+    id: wikis
+    attributes:
+      label: '📚 Have you checked the Wiki'
+      description: 'Often many questions are caused by not checking the Wiki in detail, have you read [Wiki](https://trmenu.docs.insinuate.cn/)?'
+      options:
+        - label: 'I have checked the Wiki and determined that this feature does not exist.'
+          required: true
+
+  - type: checkboxes
+    id: issues-reviewed
+    attributes:
+      label: '🔗 Is there a duplicate issue'
+      description: 'Some features may have been mentioned by others, have you read it [Issues](https://github.com/InsinuateProjects/TrMenu/issues)?'
+      options:
+        - label: 'I have looked through the existing issue and found no duplicate content, or a more detailed description of the existing issue.'
+          required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: '🔍 Detailed description'
+      description: 'Describe the function clearly, if there is a demo menu configuration file, please provide it in the next option.'
+      value: |
+        ```
+        1. ...
+        2. ...
+        3. ...
+        ```
+    validations:
+      required: true
+
+  - type: textarea
+    id: configuration
+    attributes:
+      label: '⚙ Configurations'
+      description: 'Please provide a menu to describe the function as much as possible, please paste it in the relevant configuration section between the lines below.'
+      value: |
+        ```
+
+        ```
+    validations:
+      required: false

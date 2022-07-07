@@ -1,0 +1,48 @@
+name: '🛸 功能请求'
+description: '注意: 未正确根据提示发布功能请求可能会被忽略或关闭.'
+title: "[功能]: "
+labels: ['💠Enhancement | 增强']
+body:
+  - type: checkboxes
+    id: wikis
+    attributes:
+      label: '📚 是否已查阅 Wiki'
+      description: '往往很多需求都是因为没有详细查阅 Wiki, 你是否已阅读 [Wiki](https://trmenu.docs.insinuate.cn/)?'
+      options:
+        - label: '我已查阅 Wiki 并确定没有存在该功能.'
+          required: true
+
+  - type: checkboxes
+    id: issues-reviewed
+    attributes:
+      label: '🔗 是否存在重复 issue'
+      description: '有些功能可能已经被别人提到过，你翻阅过吗 [Issues](https://github.com/InsinuateProjects/TrMenu/issues)?'
+      options:
+        - label: '我已翻阅现有的 issue 没有发现内容重复, 亦或是对现有 issue 的更详细的描述.'
+          required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: '🔍 详细的描述'
+      description: '对该功能清晰地描述, 如果有演示菜单配置文件, 请提供在下一个选项.'
+      value: |
+        ```
+        1. ...
+        2. ...
+        3. ...
+        ```
+    validations:
+      required: true
+
+  - type: textarea
+    id: configuration
+    attributes:
+      label: '⚙ 配置文件'
+      description: '请尽可能提供用于描述该功能的菜单, 请粘贴在下面的 ``` 行之间相关的配置部分.'
+      value: |
+        ```
+
+        ```
+    validations:
+      required: false
