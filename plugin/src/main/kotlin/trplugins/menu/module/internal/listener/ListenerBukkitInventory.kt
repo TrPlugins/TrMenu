@@ -27,7 +27,7 @@ object ListenerBukkitInventory {
         MenuSession.getSession(e.player).shut()
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     fun e(e: PlayerDeathEvent) {
         MenuSession.getSession(e.entity).shut()
     }
