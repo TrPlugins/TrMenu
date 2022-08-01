@@ -4,7 +4,8 @@ package trplugins.menu.module.conf.prop
  * @author Arasple
  * @date 2021/1/25 10:17
  */
-inline class SerializeError(val id: Int) {
+@JvmInline
+value class SerializeError(val id: Int) {
 
     companion object {
 

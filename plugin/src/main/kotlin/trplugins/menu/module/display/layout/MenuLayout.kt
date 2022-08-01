@@ -4,7 +4,8 @@ package trplugins.menu.module.display.layout
  * @author Arasple
  * @date 2021/1/24 20:54
  */
-inline class MenuLayout(internal val layouts: Array<Layout>) {
+@JvmInline
+value class MenuLayout(internal val layouts: Array<Layout>) {
 
     fun search(iconKey: String, pages: List<Int>): Map<Int, Set<Int>> {
         val ps = mutableMapOf<Int, MutableSet<Int>>()

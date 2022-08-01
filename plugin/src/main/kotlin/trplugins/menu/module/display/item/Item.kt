@@ -8,6 +8,7 @@ import trplugins.menu.util.collections.CycleList
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import taboolib.platform.util.buildItem
+import taboolib.platform.util.isAir
 
 /**
  * @author Arasple
@@ -29,6 +30,31 @@ class Item(
     fun get(session: MenuSession): ItemStack {
         return if (cache.containsKey(session.id)) cache[session.id]!!
         else build(session)
+    }
+
+    override fun generate(session: MenuSession, texture: Texture, name: String?, lore: List<String>?, meta: Meta): ItemStack {
+        val item = texture.generate(session)
+
+        if (item.isAir) {
+            return item
+        }
+
+        val itemStack = buildItem(item) {
+            if (item.itemMeta != null) {
+                name?.let { this.name = it }
+                lore?.let { this.lore.addAll(it) }
+            }
+            meta.flags(this)
+            meta.shiny(session, this)
+
+            if (meta.hasAmount()) this.amount = meta.amount(session)
+        }
+
+        meta.nbt(session, itemStack)?.run {
+            itemStack.itemMeta = this
+        }
+
+        return itemStack
     }
 
     private fun build(
