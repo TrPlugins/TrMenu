@@ -75,4 +75,8 @@ object HookPlugin {
         return get(HookZaphkiel::class.java)
     }
 
+    fun getTriton(): HookTriton {
+        return get(HookTriton::class.java)
+    }
+
 }

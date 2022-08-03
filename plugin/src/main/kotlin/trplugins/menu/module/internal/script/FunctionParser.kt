@@ -11,6 +11,7 @@ import trplugins.menu.util.print
 import org.bukkit.entity.Player
 import taboolib.common.util.subList
 import taboolib.module.configuration.Configuration
+import trplugins.menu.module.internal.hook.HookPlugin
 
 /**
  * @author Arasple
@@ -38,6 +39,7 @@ object FunctionParser {
                         "meta", "m" -> Metadata.getMeta(player)[value].toString()
                         "data", "d" -> Metadata.getData(player)[value].toString()
                         "globaldata", "gdata", "g" -> runCatching { Metadata.globalData[value].toString() }.getOrElse { "null" }
+                        "lang", "triton" -> parseLangText(player, value)
 
                         else -> block(type, value) ?: "{${it.value}}"
                     }
@@ -73,6 +75,11 @@ object FunctionParser {
 
     private fun parseJavaScript(session: MenuSession, input: String): String {
         return JavaScriptAgent.eval(session, input).asString()
+    }
+
+    private fun parseLangText(player: Player, text: String): String {
+        val split = text.split("=", limit = 2)
+        return HookPlugin.getTriton().getText(player, split[0], if (split.size < 2) emptyArray() else split[1].split("_||_").toTypedArray()).toString()
     }
 
 }

@@ -41,6 +41,7 @@ taboolib {
             name("ItemsAdder").optional(true)
             name("floodgate-bukkit").optional(true)
             name("FastScript").optional(true)
+            name("Triton").optional(true)
         }
     }
     relocate("trplugins.menu", group.toString().toLowerCase())
@@ -81,6 +82,8 @@ dependencies {
     compileOnly("com.github.Th0rgal:Oraxen:master-SNAPSHOT") { isTransitive = false }
     compileOnly("org.black_ixx:playerpoints:3.1.1") { isTransitive = false }
     compileOnly("com.github.MilkBowl:VaultAPI:-SNAPSHOT") { isTransitive = false }
+    compileOnly("com.github.tritonmc.Triton:core:v3.7.3") { isTransitive = false }
+    compileOnly("com.github.tritonmc.Triton:api:v3.7.3") { isTransitive = false }
 
     compileOnly(fileTree("libs"))
 }
