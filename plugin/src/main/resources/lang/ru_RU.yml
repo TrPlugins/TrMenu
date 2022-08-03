@@ -2,32 +2,31 @@ Plugin-Loading:
   - '&r'
   - '&7Загрузка &3Tr&bMenu &f&lPremium... &8{0}'
   - '&r'
-Plugin-Enabled: '&8[&3Tr&bMenu&8] &bINFO &8| &3Плагин включен. В настоящее время запущена версия &2{0}&7.'
+Plugin-Enabled: '&8[&3Tr&bMenu&8] &bINFO &8| &3Плагин включен. Версия плагина &2{0}&7'
 Plugin-Update:
-  - '&8[&3Tr&bMenu&8] &bUPDATE &8| &3Обновление &a{0}&3 найдено ! Скачайте его по ссылке ниже, чтобы узнать о новых возможностях и исправить ошибку!'
+  - '&8[&3Tr&bMenu&8] &bUPDATE &8| &3Обновление &a{0}&3! Скачайте его для новых фишек и исправления ошибок!'
   - '&bhttps://www.spigotmc.org/resources/83120/'
-Plugin-Dependency-Hooked: '&8[&3Tr&bMenu&8] &6HOOK &8| &7Soft-Dependency &f{0} &7is hooked.'
-Plugin-Dependency-Abuse: '&8[&3Tr&bMenu&8] &6HOOK &8| &4Attempted to use the non-installed soft-depend plugin &c{0}'
+Plugin-Dependency-Hooked: '&8[&3Tr&bMenu&8] &6HOOK &8| &7Дополнительный софт &f{0} &7is привязан.'
+Plugin-Dependency-Abuse: '&8[&3Tr&bMenu&8] &6HOOK &8| &4Попытка привязки к не установленому софту... &c{0}'
 
-Menu-Loader-Loaded: '&8[&3Tr&bMenu&8] &aFINE &8| &a{0} &3менюшки были загружены за &8({1} ms)'
-Menu-Loader-Loading: '&8[&3Tr&bMenu&8] &6THREAD &8| &3Loading menus...'
-Menu-Loader-Failed: '&8[&3Tr&bMenu&8] &cError &8| &4An error occurred while loading the trplugins.menu &c{0} &4! Located at: {1}'
-Menu-Loader-Reloaded: '&8[&3Tr&bMenu&8] &aFINE &8| &7автоматически перезагружается меню xxx &f{0} &8({1}ms)'
+Menu-Loader-Loaded: '&8[&3Tr&bMenu&8] &aFINE &8| &a{0} &3Меню загрузились &8({1} с)'
+Menu-Loader-Loading: '&8[&3Tr&bMenu&8] &6THREAD &8| &3Загрузка меню...'
+Menu-Loader-Failed: '&8[&3Tr&bMenu&8] &cError &8| &4Произошла ошибка при загрузке trplugins.menu &c{0} &4! Находится: {1}'
+Menu-Loader-Reloaded: '&8[&3Tr&bMenu&8] &aFINE &8| &7Автоматически перезагружается меню &f{0} &7за &8({1}ms)'
 Menu-Expansions-Header:
-  - '&8[&3Tr&bMenu&8] &7Вы должны установить &f{0} &7расширение для PlaceholderAPI чтобы использовать данное меню!'
+  - '&8[&3Tr&bMenu&8] &7Требуется расширение &f{0}&7  для плагина PlaceholderAPI чтобы открыть меню!'
   - type: JSON
-    text: '&7Также не забудьте [&3&nreload]'
+    text: '&7Также не забудьте &7[&3&nПерезагрузить]'
     args:
-      - hover: '&7Нажмите, чтобы перезагрузить расширения PAPI'
+      - hover: '&7Щелкните, чтобы перезагрузить расширения PAPI'
         command: '/papi reload'
 Menu-Expansions-Format:
   - type: JSON
     text: '&8- [&a{0}]&r'
     args:
-      - hover: '&7Нажмите, чтобы скачать!'
+      - hover: '&7Скачать расширение!'
         command: '/papi ecloud download {0}'
-Menu-Action-Sound: '&8[&3Tr&bMenu&8] &7Неизвестный звук: &f{0}'
-
+Menu-Action-Sound: '&8[&3Tr&bMenu&8] &7Звук: &f{0} &7не найден!'
 Menu-Internal-Page-Previous: 'Предыдущая страница'
 Menu-Internal-Page-Next: 'Следующая Страница'
 Menu-Internal-Sounds-Title: 'Звуки / Страница: {0} ; Фильтр: {1}'
@@ -45,11 +44,11 @@ Menu-Internal-Sounds-Copy:
   - type: JSON
     text: '[&a&n{0}]'
     args:
-      - hover: '&8Щелкните этот текст, скопируйте в буфер обмена '
+      - hover: '&8Щелкните, чтобы скопировать'
         suggest: '{0}'
   - '&r'
 
-Paster-Processing: '&8[&3Tr&bMenu&8] &7Содержимое вставляется ...'
+Paster-Processing: '&8[&3Tr&bMenu&8] &7Содержимое вставляется...'
 Paster-Success: '&8[&3Tr&bMenu&8] &3Содержание вставлено в &a{0}'
 Paster-Failed: '&8[&3Tr&bMenu&8] &cПри вставке содержимого произошла ошибка. Пожалуйста, проверьте консоль.'
 
@@ -60,24 +59,24 @@ Command-Open-Description: 'Открыть меню для плеера'
 Command-Reload-Description: 'Обновить все меню'
 Command-Template-Description: 'Меню быстрого макета'
 Command-Item-Description: 'Манипулировать предметами'
-Command-Convert-Description: 'Convert menu type'
+Command-Convert-Description: 'Конвертировать тип меню'
 Command-Action-Description: 'Выполнить действия для теста'
 Command-Sounds-Description: 'Предварительный просмотр и тестирование звуков'
 
 Command-Open-Unknown-Menu: '&8[&3Tr&bMenu&8] &7Неизвестное меню: &6{0} &7.'
 Command-Open-Unknown-Player: '&8[&3Tr&bMenu&8] &7Игрок &f{0} &7не в сети.'
 Command-Action-Unknown-Player: '&8[&3Tr&bMenu&8] &7Игрок &f{0} &7не в сети.'
-Command-Template-Empty: '&8[&3Tr&bMenu&8] &7Инвентаризация шаблонов пуста, создание меню отменено.'
-Command-Item-No-Item: '&8[&3Tr&bMenu&8] &7Пожалуйста &fдержите предмет &7в руке.'
+Command-Template-Empty: '&8[&3Tr&bMenu&8] &Меню пустое! Создание меню отменено.'
+Command-Item-No-Item: '&8[&3Tr&bMenu&8] &7Возьмите предмет в руку.'
 Command-Item-To-Json:
   - type: JSON
-    text: '&8\[&3Tr&bMenu&8\] &7Этот предмет был преобразован в формат JSON: [&3&nНажмите copy]'
+    text: '&8\[&3Tr&bMenu&8\] &7Этот предмет был преобразован в формат JSON: [&3&nЩелкните скопировать]'
     args:
-      - hover: '&7Нажмите, чтобы скопировать'
+      - hover: '&7Щелкните, чтобы скопировать'
         suggest: '{0}'
 Command-Item-Saved: '&8[&3Tr&bMenu&8] &7Сохранен предмет (Id: &f{0}&7) в хранилище'
 Command-Item-Deleted: '&8[&3Tr&bMenu&8] &7Удален предмет (Id: &f{0}&7) из хранилища'
-Command-List-Error: '&8[&3Tr&bMenu&8] &7NORM &8| &7Меню не найдено... &8(Фильтр: {0})'
+Command-List-Error: '&8[&3Tr&bMenu&8] &7NORM &8| &7Меню не найдено... &8(&3Фильтр: &a{0})'
 Command-List-Header:
   - '&r'
   - '&8[&3Tr&bMenu&8] &aFINE &8| &7Загружено &f{0} &7меню &8(Фильтр: {1}): '
@@ -86,9 +85,9 @@ Command-List-Format:
   - type: JSON
     text: '&8- [&3{0}]&8<{1}&8> &7| &8(Заголовок: {2} &8/ Иконки: {3})&r'
     args:
-      - hover: '&7Нажмите, чтобы открыть'
+      - hover: '&7Щелкните, чтобы открыть'
         command: '/trmenu open {0}'
-Command-Convert-Unknown-Menu: '&8[&3Tr&bMenu&8] &7Unknown menu &6{0} &7.'
-Command-Convert-Unknown-Type: '&8[&3Tr&bMenu&8] &7Unknown type &b{0} &7.'
-Command-Convert-Type-Already: '&8[&3Tr&bMenu&8] &7The type of menu &6{0} &7 is already &b{1} &7.'
-Command-Convert-Converted: '&8[&3Tr&bMenu&8] &7Typecast menu &6{0} &7 to &b{1}&7.'
+Command-Convert-Unknown-Menu: '&8[&3Tr&bMenu&8] &7Неизвестное меню: &6{0} &7.'
+Command-Convert-Unknown-Type: '&8[&3Tr&bMenu&8] &7Неизвестный вид &b{0} &7.'
+Command-Convert-Type-Already: '&8[&3Tr&bMenu&8] &7Вид меню &6{0} &7 находится &b{1} &7.'
+Command-Convert-Converted: '&8[&3Tr&bMenu&8] &7Типичное меню от &6{0} &7 до &b{1}&7.'
