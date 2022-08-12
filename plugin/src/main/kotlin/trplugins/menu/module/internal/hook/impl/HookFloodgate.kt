@@ -2,7 +2,7 @@ package trplugins.menu.module.internal.hook.impl
 
 import trplugins.menu.module.internal.hook.HookAbstract
 import org.bukkit.entity.Player
-import org.geysermc.floodgate.FloodgateAPI
+import org.geysermc.floodgate.api.FloodgateApi
 
 /**
  * @author Arasple
@@ -11,7 +11,7 @@ import org.geysermc.floodgate.FloodgateAPI
 class HookFloodgate : HookAbstract() {
 
     fun isBedrockPlayer(player: Player): Boolean {
-        return if (checkHooked()) FloodgateAPI.isBedrockPlayer(player) else false
+        return if (checkHooked()) FloodgateApi.getInstance().isFloodgatePlayer(player.uniqueId) else false
     }
 
     override fun getPluginName(): String {
