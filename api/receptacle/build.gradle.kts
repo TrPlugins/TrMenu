@@ -37,7 +37,7 @@ dependencies {
     compileOnly("ink.ptms:nms-all:1.0.0")
     compileOnly("ink.ptms.core:v11900:11900-minimize:universal")
     compileOnly("ink.ptms.core:v11900:11900-minimize:mapped")
-    compileOnly("org.geysermc.floodgate:api:2.1.1-SNAPSHOT")
+    compileOnly(fileTree("libs"))
 }
 
 tasks.tabooRelocateJar { onlyIf { false } }
