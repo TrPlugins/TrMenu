@@ -18,6 +18,7 @@ import trplugins.menu.module.display.texture.Texture
 import trplugins.menu.module.internal.data.Metadata
 import trplugins.menu.module.internal.inputer.inputs.InputAnvil
 import trplugins.menu.module.internal.inputer.inputs.InputBook
+import trplugins.menu.util.bukkit.ItemHelper
 import trplugins.menu.util.collections.CycleList
 import trplugins.menu.util.reloadable
 import java.util.function.Consumer
@@ -76,7 +77,7 @@ class Inputer(private val stages: CycleList<Catcher>) {
         val cancel: Reactions,
         val end: Reactions,
         val display: Array<String>,
-        val items: Array<String>,
+        val items: Array<String?>,
         val section: Configuration
     ) {
 
@@ -104,8 +105,8 @@ class Inputer(private val stages: CycleList<Catcher>) {
                 Type.ANVIL -> {
                     viewer.inputAnvil(kotlin.runCatching { display[0] }.getOrElse { "TrMenu Anvil Catcher" },
                         mapOf(
-                            0 to kotlin.runCatching { Texture.createTexture(items[0]).static }.getOrElse { InputAnvil.ANVIL_EMPTY_ITEM },
-                            1 to kotlin.runCatching { Texture.createTexture(items[1]).static }.getOrNull()
+                            0 to kotlin.runCatching { items[0]?.let { ItemHelper.fromJson(it) } }.getOrElse { InputAnvil.ANVIL_EMPTY_ITEM },
+                            1 to kotlin.runCatching { items[1]?.let { ItemHelper.fromJson(it) } }.getOrNull()
                     ), respond)
                 }
                 Type.BOOK -> viewer.inputBook(

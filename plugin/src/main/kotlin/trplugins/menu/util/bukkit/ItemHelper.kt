@@ -114,7 +114,6 @@ object ItemHelper {
             }
             return null
         } catch (t: Throwable) {
-            t.printStackTrace()
             return null
         }
     }

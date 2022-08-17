@@ -59,8 +59,8 @@ class Catcher(handle: ActionHandle) : ActionBase(handle) {
                     )
 
                     val items = arrayOf(
-                        section.getString(Property.getSectionKey(section, itemLeft)) ?: "left",
-                        section.getString(Property.getSectionKey(section, itemRight)) ?: "right"
+                        section.getString(Property.getSectionKey(section, itemLeft)),
+                        section.getString(Property.getSectionKey(section, itemRight))
                     )
 
                     stages += Inputer.Catcher(id, type, start, cancel, end, display, items, section)
