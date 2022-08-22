@@ -74,7 +74,7 @@ class Icon(
     }
 
     override fun settingItem(session: MenuSession, icon: IconProperty, lastMenuId: String?) {
-        if (lastMenuId != null && session.menu?.id != lastMenuId) {
+        if (lastMenuId != null && session.menu?.id != lastMenuId && !isAvailable(session)) {
             return
         }
         session.receptacle?.setElement(icon.display.get(session), position.currentPosition(session))
