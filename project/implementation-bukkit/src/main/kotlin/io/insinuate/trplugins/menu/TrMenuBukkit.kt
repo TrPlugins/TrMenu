@@ -1,4 +1,4 @@
-package com.github.username
+package io.insinuate.trplugins.menu
 
 import taboolib.common.platform.Plugin
 
@@ -9,9 +9,9 @@ import taboolib.common.platform.Plugin
  * @author 坏黑
  * @since 2022/5/6 22:20
  */
-object BukkitPlugin : Plugin() {
+object TrMenuBukkit : Plugin() {
 
     override fun onEnable() {
-        Common.info("BukkitPlugin is enabled!")
+        TrMenu.info("BukkitPlugin is enabled!")
     }
 }

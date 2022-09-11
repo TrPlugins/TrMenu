@@ -3,7 +3,7 @@
 
 ---
 
-### 🔔 What's new in TrMenu v3?
+### 🔔 What's new in TrMenu v4?
 
 - Now, it's a fresh start!
 

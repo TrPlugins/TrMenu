@@ -1,5 +1,7 @@
-rootProject.name = "ExampleProject"
+rootProject.name = "TrMenu"
 
 include("plugin")
-include("project:common")
-include("project:implementation-bukkit")
+
+file("project").listFiles()!!.filter { it.isDirectory }.forEach {
+    include("project:${it.name}")
+}
