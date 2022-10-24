@@ -1,6 +1,6 @@
 plugins {
-    id("org.gradle.java")
-    id("org.gradle.maven-publish")
+    java
+    `maven-publish`
     id("org.jetbrains.kotlin.jvm") version "1.7.10" apply false
     id("io.izzel.taboolib") version "1.42" apply false
 }

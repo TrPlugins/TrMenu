@@ -5,8 +5,10 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":project:common"))
-    implementation(project(":project:implementation-bukkit"))
+    // all of subprojects
+    rootProject.subprojects.map { it.path }.filter { it.startsWith(":project:") }.forEach {
+        implementation(project(it))
+    }
 }
 
 tasks {
