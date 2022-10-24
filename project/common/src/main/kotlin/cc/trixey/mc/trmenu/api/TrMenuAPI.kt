@@ -1,4 +1,4 @@
-package io.insinuate.trplugins.menu.api
+package cc.trixey.mc.trmenu.api
 
 /**
  * TrMenu
