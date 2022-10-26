@@ -1,7 +1,7 @@
 plugins {
     java
     `maven-publish`
-    id("org.jetbrains.kotlin.jvm") version "1.7.10" apply false
+    id("org.jetbrains.kotlin.jvm") version "1.7.20" apply false
     id("io.izzel.taboolib") version "1.42" apply false
 }
 
