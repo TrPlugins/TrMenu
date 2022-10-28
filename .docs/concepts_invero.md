@@ -1,0 +1,57 @@
+# Invero Concepts
+
+---
+
+### Window
+
+> Provider of vanlian container  
+> Bukkit inventory and packet-based utilties
+
+- Types:
+    - Chest/Hoper...
+    - Anvil (Text Input)
+
+### Panel
+
+> An abstract form of GUI  
+> No width, height. Only size(slots)
+
+Page Properties
+
+- Parent ?
+- Children ?
+- Size ? Caculatable width & height ?
+- Elements
+- Weight (render and interact priority)
+
+Page Types
+
+- Base Panel
+    - Standard Panel
+    - Generator Panel
+
+- Paged Panel
+    - Paged Standard Panel
+    - Paged Generator Panel
+    - Paged Scroll Panel
+    - Paged Tab Panel
+    - Paged Netesed Panel
+
+- IO Panel
+    - Storage Panel
+    - Crafting Panel
+
+### Slot
+
+- SLOT_EMPTY
+- SLOT_ITEM
+- SLOT_IO
+- SLOT_ELEMENT
+- SLOT_CHILD
+- SLOT_PARENT
+
+### Animation
+
+> Played for Panel with PacketOutWindowItems   
+> When playing an animation, no interaction is allowed  
+

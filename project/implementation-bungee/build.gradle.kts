@@ -1,4 +1,4 @@
-val taboolib_version: String by project
+val taboolibVersion: String by project
 
 plugins {
     id("io.izzel.taboolib")
@@ -11,7 +11,7 @@ taboolib {
     install("common", "platform-bungee")
     options("skip-minimize", "keep-kotlin-module")
     classifier = null
-    version = taboolib_version
+    version = taboolibVersion
 }
 
 dependencies {

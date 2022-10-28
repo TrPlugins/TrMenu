@@ -6,11 +6,8 @@ import taboolib.common.platform.PlatformSide
 import taboolib.common.platform.Plugin
 
 /**
- * ExampleProject
- * com.github.username.BukkitPlugin
- *
- * @author 坏黑
- * @since 2022/5/6 22:20
+ * @author Arasple
+ * @since 2022/10/28 17:06
  */
 @PlatformSide([Platform.BUKKIT])
 object TrMenuBukkit : Plugin(), PlatformBridge {
@@ -22,4 +19,5 @@ object TrMenuBukkit : Plugin(), PlatformBridge {
     override fun onEnable() {
 
     }
+
 }

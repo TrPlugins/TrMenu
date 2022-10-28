@@ -1,4 +1,4 @@
-val taboolib_version: String by project
+val taboolibVersion: String by project
 
 plugins {
 }

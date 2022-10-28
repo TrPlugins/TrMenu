@@ -6,14 +6,11 @@ import taboolib.common.platform.PlatformSide
 import taboolib.common.platform.Plugin
 
 /**
- * ExampleProject
- * com.github.username.BukkitPlugin
- *
- * @author 坏黑
- * @since 2022/5/6 22:20
+ * @author Arasple
+ * @since 2022/10/28 17:05
  */
-@PlatformSide([Platform.BUKKIT])
-object TrMenuBungee : Plugin(), PlatformBridge {
+@PlatformSide([Platform.BUNGEE])
+class TrMenuBungee : Plugin(), PlatformBridge {
 
     override fun onLoad() {
         PlatformFactory.registerAPI<PlatformBridge>(this)
@@ -22,4 +19,5 @@ object TrMenuBungee : Plugin(), PlatformBridge {
     override fun onEnable() {
 
     }
+
 }
