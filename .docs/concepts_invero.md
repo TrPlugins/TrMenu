@@ -7,9 +7,11 @@
 > Provider of vanlian container  
 > Bukkit inventory and packet-based utilties
 
-- Types:
+- InvenroryTypes:
     - Chest/Hoper...
     - Anvil (Text Input)
+- WindowTypes:
+    - Inventory
 
 ### Panel
 

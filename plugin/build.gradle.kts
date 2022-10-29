@@ -5,18 +5,18 @@ plugins {
 }
 
 dependencies {
-    // all of subprojects
-    rootProject.subprojects.map { it.path }.filter { it.startsWith(":project:") }.forEach {
-        implementation(project(it))
-    }
+    rootProject.subprojects
+        .map { it.path }
+        .filter { it.startsWith(":project:") }
+        .forEach {
+            implementation(project(it))
+        }
 }
 
 tasks {
     withType<ShadowJar> {
         archiveClassifier.set("")
-        exclude("META-INF/maven/**")
-        exclude("META-INF/tf/**")
-        exclude("module-info.java")
+        exclude("META-INF/**")
     }
     build {
         dependsOn(shadowJar)
