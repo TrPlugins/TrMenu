@@ -10,7 +10,7 @@ import java.util.concurrent.CopyOnWriteArrayList
  * @author Arasple
  * @since 2022/10/21
  */
-@Deprecated("Invero 1.x 需要重写")
+@Deprecated("")
 object InveroManager {
 
     private val registeredPools = CopyOnWriteArrayList<InveroPool>()
@@ -32,11 +32,11 @@ object InveroManager {
 
     fun destory(invero: Invero) {
         invero.pool.removeInvero(invero)
-        invero.view.closeAll()
+        invero.view.close()
     }
 
     fun unregisterPlayer(player: Player) {
-        findViewingInvero(player)?.view?.close(player, true)
+        findViewingInvero(player)?.view?.close()
         player.updateInventory()
     }
 

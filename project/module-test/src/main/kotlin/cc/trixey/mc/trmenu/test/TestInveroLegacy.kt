@@ -19,7 +19,7 @@ import taboolib.common.platform.function.submitAsync
  *
  * TODO # Invero 开发目标：
  * - [√] 基本的容器特征，标题改变，物品应用，交互检测和事件
- * - [ ] 妥善的玩家背包处理方式
+ * - [ ] 妥善的玩家背包处理方式 ***
  * - [ ] 输入与输出的支持
  * - [ ] 特殊容器的特征支持 *可缓
  *
@@ -34,15 +34,13 @@ fun registerTestingCommand() {
             execute<ProxyCommandSender> { sender, _, _ ->
                 sender.sendMessage("Registeredpool Lists:")
                 testPool.forInveros {
-                    sender.sendMessage("$it: ${it.property} / @${it.pool.index} -- ${it.view.viewers}")
+                    sender.sendMessage("$it: ${it.property} / @${it.pool.index} -- ${it.view.viewer}")
                 }
             }
         }
         literal("testInsertable") {
             execute<Player> { player, _, _ ->
-                val chest = testPool.createInvero(WindowProperty.GENERIC_9X6, "Insertable Testing") {
-
-                    applyBukkitInventory()
+                val chest = testPool.createInvero(WindowProperty.GENERIC_9X6, "Insertable Testing", player.uniqueId) {
 
                     onPostOpen {
                         if (player.isOp) {
@@ -53,7 +51,7 @@ fun registerTestingCommand() {
                     }
 
                     onOpen {
-                        val playerContents = it.view.getPlayerContents(player).contents
+                        val playerContents = it.view.playerContents.contents
                         it.setPlayerContents(playerContents)
                     }
 
@@ -67,9 +65,10 @@ fun registerTestingCommand() {
                             """
                                     ————————————————————————————————————————
                                     
-                                    Interact: ${it.interactType}
+                                    Interact: ${it.type}
                                     Slot: ${it.slot} / ${it.slotItem}
                                     CarriedItem: ${it.carriedItem}
+                                    Action: ${it.action}
                                 """.trimIndent()
                         )
 
@@ -90,12 +89,12 @@ fun registerTestingCommand() {
 
                 } as InvChest
 
-                chest.open(player)
+                chest.open()
             }
         }
         literal("testBasic") {
             execute { player, _, _ ->
-                testInvero.open(player)
+                testInvero.open()
 
                 // Item host test
                 repeat(50) {
@@ -122,7 +121,6 @@ fun registerTestingCommand() {
                         index = 0
                         cancel()
                     }
-
                     testInvero.title = titles[index++]
                     if (index == titles.size - 1) index = 0
                 }

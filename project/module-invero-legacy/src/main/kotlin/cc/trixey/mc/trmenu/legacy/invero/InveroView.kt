@@ -3,15 +3,16 @@ package cc.trixey.mc.trmenu.legacy.invero
 import cc.trixey.mc.trmenu.legacy.invero.nms.sendWindowClose
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import taboolib.platform.util.onlinePlayers
+import taboolib.common.platform.function.getProxyPlayer
+import java.util.*
 
 /**
  * @author Arasple
  * @since 2022/10/21
  */
-class InveroView(val invero: Invero) {
+class InveroView(val invero: Invero, var viewer: UUID?) {
 
-    val viewers = LinkedHashMap<String, PlayerContents>()
+    val playerContents = PlayerContents(getViewer()!!)
 
     class PlayerContents(val contents: Array<ItemStack?>) {
 
@@ -30,49 +31,32 @@ class InveroView(val invero: Invero) {
             }
 
         }
-
     }
 
-    fun getPlayerContents(player: Player): PlayerContents {
-        val contents = viewers[player.name]
-        assert(contents != null) { "Player ${player.name} is has no viewing contents" }
-
-        return contents!!
+    fun forViewer(function: (Player) -> Unit) {
+        getViewer()?.let(function)
     }
 
-    fun forViewers(function: (Player) -> Unit) {
-        onlinePlayers.filter(::isViewing).forEach(function)
-    }
-
-    fun closeAll(closePacket: Boolean = true) {
-        forViewers {
-            close(it, closePacket)
-        }
-    }
-
-    fun close(player: Player, closePacket: Boolean = true) {
-        removeViewing(player)
+    fun close(closePacket: Boolean = true) {
         if (closePacket) {
-            player.sendWindowClose(invero.pool.index)
+            getViewer()?.sendWindowClose(invero.pool.index)
+            viewer = null
         }
     }
 
-    fun setViewing(player: Player) {
-        assert(!viewers.containsKey(player.name)) { "Player ${player.name} is alreday viewing this invero" }
+    fun hasViewer() = getViewer()?.isOnline ?: false
 
-        viewers[player.name] = PlayerContents(player)
-    }
-
-    fun removeViewing(player: Player): Boolean {
-        return viewers.remove(player.name) != null
+    fun getViewer(): Player? {
+        return viewer?.let { getProxyPlayer(it)?.castSafely<Player>() }
     }
 
     fun isViewing(player: Player): Boolean {
-        return player.name in viewers.keys
+        return viewer == player.uniqueId
     }
 
-    fun hasViewer(): Boolean {
-        return viewers.isNotEmpty()
+    fun setViewing(player: Player) {
+        close()
+        viewer = player.uniqueId
     }
 
 }

@@ -4,6 +4,7 @@ import cc.trixey.mc.trmenu.legacy.invero.InveroManager.poolIndex
 import cc.trixey.mc.trmenu.legacy.invero.nms.WindowProperty
 import cc.trixey.mc.trmenu.legacy.invero.type.InvChest
 import cc.trixey.mc.trmenu.legacy.invero.type.InvHopper
+import java.util.*
 import java.util.concurrent.CopyOnWriteArrayList
 
 /**
@@ -17,11 +18,9 @@ class InveroPool(
 ) {
 
     fun createInvero(
-        type: WindowProperty,
-        title: String = "Untitled",
-        constructor: Invero.() -> Unit = {}
+        type: WindowProperty, title: String = "Untitled", viewer: UUID? = null, constructor: Invero.() -> Unit = {}
     ): Invero {
-        return createInvero(this, type, title).also {
+        return createInvero(this, type, title, viewer).also {
             inveros.add(it)
             constructor(it)
         }
@@ -42,12 +41,10 @@ class InveroPool(
     companion object {
 
         private fun createInvero(
-            pool: InveroPool,
-            type: WindowProperty,
-            title: String
+            pool: InveroPool, type: WindowProperty, title: String, viewer: UUID?
         ): Invero {
             if (type.isOrdinaryChest) {
-                return InvChest(pool, type.rows, title)
+                return InvChest(pool, type.rows, title, viewer)
             } else return when (type) {
                 WindowProperty.GENERIC_3X3 -> TODO()
                 WindowProperty.ANVIL -> TODO()
@@ -58,7 +55,7 @@ class InveroPool(
                 WindowProperty.ENCHANTMENT -> TODO()
                 WindowProperty.FURNACE -> TODO()
                 WindowProperty.GRINDSTONE -> TODO()
-                WindowProperty.HOPPER -> InvHopper(pool, title)
+                WindowProperty.HOPPER -> InvHopper(pool, title, viewer)
                 WindowProperty.LOOM -> TODO()
                 WindowProperty.MERCHANT -> TODO()
                 WindowProperty.SHULKER_BOX -> TODO()

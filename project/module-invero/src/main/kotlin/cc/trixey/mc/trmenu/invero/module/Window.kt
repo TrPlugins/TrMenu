@@ -1,9 +1,7 @@
-package cc.trixey.mc.trmenu.invero.struc
+package cc.trixey.mc.trmenu.invero.module
 
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryEvent
-import org.bukkit.event.inventory.InventoryType
-import org.bukkit.inventory.Inventory
 
 /**
  * @author Arasple
@@ -15,9 +13,9 @@ interface Window : Parentable {
 
     val panels: List<Panel>
 
-    val type: InventoryType
+    val type: TypeAddress
 
-    val inventories: Array<Inventory>
+    val inventory: PairedInventory
 
     fun getViewer(): Player?
 

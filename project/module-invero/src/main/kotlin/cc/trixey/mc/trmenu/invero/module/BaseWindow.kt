@@ -1,7 +1,5 @@
-package cc.trixey.mc.trmenu.invero.impl
+package cc.trixey.mc.trmenu.invero.module
 
-import cc.trixey.mc.trmenu.invero.struc.Panel
-import cc.trixey.mc.trmenu.invero.struc.Window
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.*
 import taboolib.common.platform.function.getProxyPlayer

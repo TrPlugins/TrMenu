@@ -150,6 +150,10 @@ enum class InteractType(val mode: Mode, val button: Int, val slot: Int = -1) {
         isKeyboardClick || isShiftClick || isCreativeAction || isDoubleClick
     }
 
+    fun maxStackSize(slot: Int): Int {
+        return 64
+    }
+
     /*
     # Paiting interaction
 

@@ -1,21 +1,20 @@
 package cc.trixey.mc.trmenu.legacy.invero
 
-import cc.trixey.mc.trmenu.legacy.invero.bukkit.BukkitInveroHolder
 import cc.trixey.mc.trmenu.legacy.invero.event.InveroCloseEvent
 import cc.trixey.mc.trmenu.legacy.invero.event.InveroInteractEvent
 import cc.trixey.mc.trmenu.legacy.invero.event.InveroPostOpenEvent
 import cc.trixey.mc.trmenu.legacy.invero.nms.WindowProperty
-import cc.trixey.mc.trmenu.legacy.invero.window.InteractType
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import java.util.*
 import java.util.concurrent.CopyOnWriteArrayList
 
 /**
  * @author Arasple
  * @since 2022/10/21
  */
-@Deprecated("Legacy")
-abstract class Invero {
+@Deprecated("")
+abstract class Invero(viewer: UUID?) {
 
     internal val interactCallback = CopyOnWriteArrayList<(event: InveroInteractEvent) -> Unit>()
 
@@ -24,20 +23,6 @@ abstract class Invero {
     internal var postOpenCallback: ((event: InveroPostOpenEvent) -> Unit) = {}
 
     internal var openedCallback: ((invero: Invero) -> Unit) = {}
-
-    /**
-     * 用 Bukkit 的容器代替虚拟容器
-     * 针对含有 ItemInsert 功能的容器
-     */
-    internal var bukkitInveroHolder: BukkitInveroHolder? = null
-
-    fun applyBukkitInventory(boolean: Boolean = true) {
-        bukkitInveroHolder = if (boolean) BukkitInveroHolder(this) else null
-    }
-
-    fun isUsingBukkitInventory(): Boolean {
-        return bukkitInveroHolder != null
-    }
 
     fun onClose(e: (event: InveroCloseEvent) -> Unit) {
         closeCallback = e
@@ -59,7 +44,7 @@ abstract class Invero {
      * 当前容器的观众
      */
     val view: InveroView by lazy {
-        InveroView(this)
+        InveroView(this, viewer)
     }
 
     /**
@@ -92,7 +77,7 @@ abstract class Invero {
     /**
      * 为玩家打开容器
      */
-    abstract fun open(player: Player)
+    abstract fun open()
 
     /**
      * 容器内的物品管理
@@ -120,16 +105,12 @@ abstract class Invero {
 
     abstract fun tick()
 
-    protected fun forViewers(function: (Player) -> Unit) {
-        view.forViewers(function)
-    }
-
     fun release() {
         InveroManager.destory(this)
     }
 
-    fun updateQuickCraft(player: Player, interactType: InteractType, clickedItem: ItemStack?) {
-
+    fun forViewer(function: (Player) -> Unit) {
+        view.forViewer(function)
     }
 
     abstract fun refreshWindow()

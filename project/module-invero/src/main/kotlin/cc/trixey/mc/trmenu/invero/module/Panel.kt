@@ -1,4 +1,4 @@
-package cc.trixey.mc.trmenu.invero.struc
+package cc.trixey.mc.trmenu.invero.module
 
 /**
  * @author Arasple

@@ -1,5 +1,6 @@
 package cc.trixey.mc.trmenu.legacy.invero.type
 
+import cc.trixey.mc.trmenu.legacy.invero.Invero
 import cc.trixey.mc.trmenu.legacy.invero.InveroManager
 import cc.trixey.mc.trmenu.legacy.invero.InveroPool
 import cc.trixey.mc.trmenu.legacy.invero.event.InveroPostOpenEvent
@@ -7,9 +8,9 @@ import cc.trixey.mc.trmenu.legacy.invero.nms.WindowProperty
 import cc.trixey.mc.trmenu.legacy.invero.nms.refreshWindowItems
 import cc.trixey.mc.trmenu.legacy.invero.nms.sendWindowOpen
 import cc.trixey.mc.trmenu.legacy.invero.nms.sendWindowSetSlot
-import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.function.warning
+import java.util.*
 
 /**
  * @author Arasple
@@ -19,7 +20,8 @@ open class InvInstance(
     override val pool: InveroPool,
     final override val property: WindowProperty,
     title: String,
-) : cc.trixey.mc.trmenu.legacy.invero.Invero() {
+    viewer: UUID?,
+) : Invero(viewer) {
 
     override var title: String = title
         set(value) {
@@ -27,15 +29,16 @@ open class InvInstance(
             if (!view.hasViewer()) {
                 warning("Attempt to change title to [$value] while there is no viewers")
             }
-            forViewers {
+            forViewer {
                 it.sendWindowOpen(pool.index, property, value)
                 it.refreshWindowItems(pool.index, contents)
             }
         }
 
-    override fun open(player: Player) {
-        val previous: cc.trixey.mc.trmenu.legacy.invero.Invero? = InveroManager.findViewingInvero(player)?.also {
-            it.view.close(player, false)
+    override fun open() {
+        val player = view.getViewer()!!
+        val previous: Invero? = InveroManager.findViewingInvero(player)?.also {
+            it.view.close()
         }
 
         InveroPostOpenEvent(player, this, previous).apply {
@@ -44,14 +47,8 @@ open class InvInstance(
 
             if (!isCancelled) {
                 view.setViewing(player)
+                player.sendWindowOpen(pool.index, property, title)
 
-                if (isUsingBukkitInventory()) {
-                    player.openInventory(bukkitInveroHolder!!.inventory)
-                } else {
-                    player.sendWindowOpen(pool.index, property, title)
-                }
-
-                // TODO (BUKKIT ID?)
                 refreshWindow()
                 openedCallback(this@InvInstance)
             }
@@ -70,13 +67,13 @@ open class InvInstance(
     }
 
     override fun refreshItem(slot: Int) {
-        forViewers {
+        forViewer {
             it.sendWindowSetSlot(pool.index, slot, contents[slot])
         }
     }
 
     override fun refreshItems(vararg slots: Int) {
-        forViewers { viewer ->
+        forViewer { viewer ->
             slots.forEach {
                 viewer.sendWindowSetSlot(pool.index, it, contents[it])
             }
@@ -85,7 +82,7 @@ open class InvInstance(
 
     override fun setItem(slot: Int, itemStack: ItemStack?, update: Boolean) {
         contents[slot] = itemStack
-        if (update) forViewers {
+        if (update) forViewer {
             it.sendWindowSetSlot(pool.index, slot, itemStack)
         }
     }
@@ -114,7 +111,7 @@ open class InvInstance(
     }
 
     override fun refreshWindow() {
-        forViewers {
+        forViewer {
             it.refreshWindowItems(pool.index, contents)
         }
     }

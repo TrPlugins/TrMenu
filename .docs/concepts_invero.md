@@ -2,6 +2,11 @@
 
 ---
 
+```text
+Window can have only one viewer  
+Panels can be children of many windows  
+```
+
 ### Window
 
 > Provider of vanlian container  

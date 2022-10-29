@@ -1,6 +1,7 @@
 package cc.trixey.mc.trmenu.legacy.invero.event
 
 import cc.trixey.mc.trmenu.legacy.invero.Invero
+import cc.trixey.mc.trmenu.legacy.invero.window.InteractAction
 import cc.trixey.mc.trmenu.legacy.invero.window.InteractType
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -12,7 +13,8 @@ import org.bukkit.inventory.ItemStack
 class InveroInteractEvent(
     player: Player,
     invero: Invero,
-    val interactType: InteractType,
+    val type: InteractType,
+    val action: InteractAction,
     val slot: Int,
     val carriedItem: ItemStack?
 ) : InveroEvent(player, invero) {
