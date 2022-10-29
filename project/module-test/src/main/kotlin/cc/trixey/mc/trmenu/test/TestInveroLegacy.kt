@@ -66,8 +66,12 @@ fun registerTestingCommand() {
                                     ————————————————————————————————————————
                                     
                                     Interact: ${it.type}
-                                    Slot: ${it.slot} / ${it.slotItem}
-                                    CarriedItem: ${it.carriedItem}
+                                    Slot: ${it.slot}
+                                    
+                                    ItemCursor: ${it.carriedItem}
+                                    ItemSlot: ${it.slotItem}
+                                    ItemBukkitCursor: ${player.itemOnCursor}
+                                    
                                     Action: ${it.action}
                                 """.trimIndent()
                         )

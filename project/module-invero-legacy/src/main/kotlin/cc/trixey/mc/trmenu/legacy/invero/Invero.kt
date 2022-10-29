@@ -1,13 +1,16 @@
 package cc.trixey.mc.trmenu.legacy.invero
 
 import cc.trixey.mc.trmenu.legacy.invero.event.InveroCloseEvent
+import cc.trixey.mc.trmenu.legacy.invero.event.InveroDragEvent
 import cc.trixey.mc.trmenu.legacy.invero.event.InveroInteractEvent
 import cc.trixey.mc.trmenu.legacy.invero.event.InveroPostOpenEvent
 import cc.trixey.mc.trmenu.legacy.invero.nms.WindowProperty
+import cc.trixey.mc.trmenu.legacy.invero.window.InteractType
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import java.util.*
 import java.util.concurrent.CopyOnWriteArrayList
+import kotlin.collections.ArrayDeque
 
 /**
  * @author Arasple
@@ -121,6 +124,39 @@ abstract class Invero(viewer: UUID?) {
             if (itemStack == null) {
                 refreshItem(index)
             }
+        }
+    }
+
+    val deque by lazy {
+        ArrayDeque<InteractType>(property.entireWindowSize)
+    }
+
+    fun handleDragEvent(type: InteractType) {
+        deque.add(type)
+        if (deque.first().slot == -999 && deque.last().slot == -999) {
+            deque.removeFirst()
+            deque.removeLast()
+
+            val slots = deque.map { it.slot }
+            val dragType = if (type.button == 0) {
+                InveroDragEvent.DragType.SINGLE
+            } else {
+                InveroDragEvent.DragType.EVEN
+            }
+
+            view.getViewer()?.let {
+                InveroDragEvent(it, this, dragType, slots).call()
+                it.sendMessage(
+                    """
+                §3——————————————————————————————§f
+                DragType: ${dragType.name}
+                Slots: $slots
+                
+                IType: ${type.name}
+                    """.trimIndent()
+                )
+            }
+            deque.clear()
         }
     }
 

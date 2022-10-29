@@ -7,7 +7,7 @@ import cc.trixey.mc.trmenu.legacy.invero.event.InveroInteractEvent
 import cc.trixey.mc.trmenu.legacy.invero.window.InteractAction
 import cc.trixey.mc.trmenu.legacy.invero.window.InteractAction.*
 import cc.trixey.mc.trmenu.legacy.invero.window.InteractType
-import cc.trixey.mc.trmenu.legacy.invero.window.InteractType.*
+import cc.trixey.mc.trmenu.legacy.invero.window.InteractType.Mode
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.event.SubscribeEvent
@@ -46,22 +46,9 @@ object WindowListener {
                 val type = InteractType.find(mode, button, slot) ?: return
                 val cursor = packet.read<Any?>(indexs[4])?.asCraftMirror()
                 val action = identifyingAction(player, invero, type, cursor)
-                if (type.isIgnoreSuggested) {
-                    e.isCancelled = true
-                    when (type) {
-                        LEFT_MOUSE_DRAG_STARTING -> {
 
-                        }
-                        LEFT_MOUSE_DRAG_ADD_SLOT -> TODO()
-                        LEFT_MOUSE_DRAG_ENDING -> TODO()
-                        RIGHT_MOUSE_DRAG_STARTING -> TODO()
-                        RIGHT_MOUSE_DRAG_ADD_SLOT -> TODO()
-                        RIGHT_MOUSE_DRAG_ENDING -> TODO()
-                        MIDDLE_MOUSE_DRAG_STARTING -> TODO()
-                        MIDDLE_MOUSE_DRAG_ADD_SLOT -> TODO()
-                        MIDDLE_MOUSE_DRAG_ENDING -> TODO()
-                        else -> TODO()
-                    }
+                if (type.isIgnoreSuggested) {
+                    invero.handleDragEvent(type)
                 }
 
                 invero.apply {
@@ -76,7 +63,7 @@ object WindowListener {
                     }
                 }
 
-                e.isCancelled = true
+                e.isCancelled = false
                 player.sendActionBar("ContainerID: $id")
             }
 
@@ -115,6 +102,7 @@ object WindowListener {
         val clicked = invero.getItem(slot)
         val isCursorAir = cursor.isAir()
         val isClickedAir = clicked.isAir()
+
         val isLeftButton = button == 0
         val slotMaxStackSize = type.maxStackSize(slot)
 

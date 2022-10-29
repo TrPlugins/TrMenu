@@ -12,7 +12,9 @@ import java.util.*
  */
 class InveroView(val invero: Invero, var viewer: UUID?) {
 
-    val playerContents = PlayerContents(getViewer()!!)
+    val playerContents by lazy {
+        PlayerContents(getViewer()!!)
+    }
 
     class PlayerContents(val contents: Array<ItemStack?>) {
 
