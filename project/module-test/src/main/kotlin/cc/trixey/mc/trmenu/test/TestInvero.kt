@@ -1,6 +1,6 @@
 package cc.trixey.mc.trmenu.test
 
-import cc.trixey.mc.trmenu.invero.impl.CompleteWindow
+import cc.trixey.mc.trmenu.invero.window.CompleteWindow
 import org.bukkit.entity.Player
 import taboolib.common.platform.command.CommandBody
 import taboolib.common.platform.command.CommandHeader
@@ -16,8 +16,10 @@ object TestInvero {
     @CommandBody
     val release = subCommand {
         execute<Player> { player, _, _ ->
-            val completeWindow = CompleteWindow(player)
-            completeWindow.open()
+            val window = CompleteWindow(player)
+
+            window.title = "Hello Invero"
+            window.open()
         }
     }
 

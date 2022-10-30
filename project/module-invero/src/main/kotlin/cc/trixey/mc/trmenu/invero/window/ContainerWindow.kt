@@ -1,4 +1,4 @@
-package cc.trixey.mc.trmenu.invero.impl
+package cc.trixey.mc.trmenu.invero.window
 
 import cc.trixey.mc.trmenu.invero.module.BaseWindow
 import cc.trixey.mc.trmenu.invero.module.PairedInventory
@@ -16,9 +16,14 @@ import taboolib.library.reflex.Reflex.Companion.getProperty
 /**
  * @author Arasple
  * @since 2022/10/29 16:23
+ *
+ * 一个标准的容器窗口
+ * 玩家的背包将不受到调用和影响
  */
 open class ContainerWindow(
-    viewer: Player, title: String = "Untitled", override val type: TypeAddress = TypeAddress.ofRows(6)
+    viewer: Player,
+    title: String = "Untitled",
+    override val type: TypeAddress = TypeAddress.ofRows(6)
 ) : BaseWindow(viewer.uniqueId) {
 
     override var title = title
