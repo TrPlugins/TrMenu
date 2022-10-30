@@ -12,7 +12,13 @@ import java.util.*
  */
 class PairedInventory(var container: Inventory, private val playerUUID: UUID?) {
 
-    fun getPlayerInventory(): PlayerInventory? {
+    constructor(container: Inventory, player: Player) : this(container, player.uniqueId)
+
+    fun getPlayerInventory(): PlayerInventory {
+        return getPlayerInventorySafely() ?: throw NullPointerException("getPlayerInventory() is null")
+    }
+
+    fun getPlayerInventorySafely(): PlayerInventory? {
         return playerUUID?.let { getProxyPlayer(it)?.castSafely<Player>()?.inventory }
     }
 

@@ -16,5 +16,6 @@ taboolib {
 }
 
 dependencies {
+    api(project(":project:module-invero"))
     api(project(":project:module-invero-legacy"))
 }

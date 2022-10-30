@@ -2,17 +2,15 @@ package cc.trixey.mc.trmenu.invero.impl
 
 import cc.trixey.mc.trmenu.invero.module.PairedInventory
 import org.bukkit.Bukkit
-import org.bukkit.event.inventory.InventoryCloseEvent
-import org.bukkit.event.inventory.InventoryOpenEvent
+import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import java.util.*
 
 /**
  * @author Arasple
  * @since 2022/10/29 16:44
  */
 class CompleteWindow(
-    viewer: UUID,
+    viewer: Player,
 ) : ContainerWindow(viewer) {
 
     /**
@@ -29,19 +27,12 @@ class CompleteWindow(
      * 可调用 Window 的容器 Inventory，
      * 以及玩家的 PlayerInventory 对象
      */
-    override val inventory: PairedInventory by lazy {
+    override val pairedInventory: PairedInventory by lazy {
         PairedInventory(Bukkit.createInventory(WindowHolder(this), type.bukkitType, title), viewer)
     }
 
-    override fun handleOpen(e: InventoryOpenEvent) {
-
-    }
-
-    override fun handleClose(e: InventoryCloseEvent) {
-    }
-
     private fun backupPlayerInventory() {
-        (inventory.getPlayerInventory() ?: throw NullPointerException("backupPlayerInventory")).apply {
+        pairedInventory.getPlayerInventory().apply {
             contents.forEachIndexed { index, itemStack ->
                 playerItems[index] = itemStack
             }
@@ -50,7 +41,11 @@ class CompleteWindow(
     }
 
     private fun restorePlayerInventory() {
-
+        pairedInventory.getPlayerInventory().apply {
+            playerItems.forEachIndexed { index, itemStack ->
+                contents[index] = itemStack
+            }
+        }
     }
 
 }

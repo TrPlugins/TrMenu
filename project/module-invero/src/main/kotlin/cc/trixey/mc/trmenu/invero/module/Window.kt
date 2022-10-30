@@ -15,9 +15,11 @@ interface Window : Parentable {
 
     val type: TypeAddress
 
-    val inventory: PairedInventory
+    val pairedInventory: PairedInventory
 
-    fun getViewer(): Player?
+    fun getViewerSafe(): Player?
+
+    fun open()
 
     fun handleEvent(e: InventoryEvent)
 

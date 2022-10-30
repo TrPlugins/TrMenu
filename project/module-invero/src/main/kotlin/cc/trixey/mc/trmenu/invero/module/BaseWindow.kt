@@ -25,8 +25,12 @@ abstract class BaseWindow(val viewer: UUID) : Window {
 
     abstract fun handleClose(e: InventoryCloseEvent)
 
-    override fun getViewer(): Player? {
+    override fun getViewerSafe(): Player? {
         return getProxyPlayer(viewer)?.castSafely()
+    }
+
+    fun getViewer(): Player {
+        return getProxyPlayer(viewer)?.castSafely() ?: throw Exception("Expected viewer is not valid")
     }
 
     override fun handleEvent(e: InventoryEvent) {

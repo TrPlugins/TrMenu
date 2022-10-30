@@ -5,54 +5,93 @@ import cc.trixey.mc.trmenu.invero.module.PairedInventory
 import cc.trixey.mc.trmenu.invero.module.TypeAddress
 import cc.trixey.mc.trmenu.invero.util.handler
 import org.bukkit.Bukkit
+import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryDragEvent
 import org.bukkit.event.inventory.InventoryOpenEvent
-import java.util.*
+import org.bukkit.inventory.ItemStack
+import taboolib.library.reflex.Reflex.Companion.getProperty
 
 /**
  * @author Arasple
  * @since 2022/10/29 16:23
  */
 open class ContainerWindow(
-    viewer: UUID, title: String = "Untitled", override val type: TypeAddress = TypeAddress.ofRows(6)
-) : BaseWindow(viewer) {
+    viewer: Player, title: String = "Untitled", override val type: TypeAddress = TypeAddress.ofRows(6)
+) : BaseWindow(viewer.uniqueId) {
 
-    override var title: String = title
+    override var title = title
         set(value) {
-            getViewer()?.let {
+            getViewerSafe()?.let {
                 handler.updateWindowTitle(it, this, value)
             }
             field = value
         }
 
-    override val inventory: PairedInventory by lazy {
+    override val pairedInventory by lazy {
         PairedInventory(Bukkit.createInventory(WindowHolder(this), type.bukkitType, title), null)
     }
 
+    override fun open() {
+        getViewer().openInventory(pairedInventory.container)
+    }
+
     override fun handleClick(e: InventoryClickEvent) {
-        TODO("Not yet implemented")
+        e.whoClicked.sendMessage(
+            """
+                §8——————————————————————————————§f
+                Action: ${e.action.name}
+                ClickType: ${e.click.name}
+                SlotType: ${e.slotType.name}
+                Slot: ${e.slot}
+                HotbarButton: ${e.hotbarButton}
+                Current: ${e.currentItem}
+                
+                §3>> Reflection:
+                §2whichSlot: ${e.getProperty<Int>("whichSlot")}
+                §2rawSlot: ${e.getProperty<Int>("rawSlot")}
+                §2hotbarKey: ${e.getProperty<Int>("hotbarKey")}
+                §2current: ${e.getProperty<ItemStack>("current")}
+            """.trimIndent()
+        )
     }
 
     override fun handleDrag(e: InventoryDragEvent) {
-        TODO("Not yet implemented")
+        e.whoClicked.sendMessage(
+            """
+                §3——————————————————————————————§f
+                DragType: ${e.type.name}
+                NewItems: ${e.newItems}
+                
+                Cursor: ${e.cursor}
+                OldCursor: ${e.oldCursor}
+                
+                RawSlots: ${e.rawSlots}
+                InventorySlots: ${e.inventorySlots}
+            """.trimIndent()
+        )
     }
 
+    /*
+    ItemsMove (Shift 移动物品) 和 ItemsCollect (双击收集物品)
+    都应当考虑兼容 IO Panel 物品输入和输出
+     */
+
     override fun handleItemsMove(e: InventoryClickEvent) {
-        TODO("Not yet implemented")
+        e.whoClicked.sendMessage("\nItemsMoveHandle\n")
     }
 
     override fun handleItemsCollect(e: InventoryClickEvent) {
-        TODO("Not yet implemented")
+        e.whoClicked.sendMessage("\nhandleItemsCollect\n")
     }
 
     override fun handleOpen(e: InventoryOpenEvent) {
-        TODO("Not yet implemented")
+        e.player.sendMessage("\nhandleOpen\n")
     }
 
     override fun handleClose(e: InventoryCloseEvent) {
-        TODO("Not yet implemented")
+        e.player.sendMessage("\nhandleClose\n")
     }
 
 }

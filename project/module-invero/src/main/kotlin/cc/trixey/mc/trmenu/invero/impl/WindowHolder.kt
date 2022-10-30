@@ -11,7 +11,7 @@ import org.bukkit.inventory.InventoryHolder
 class WindowHolder(val window: Window) : InventoryHolder {
 
     override fun getInventory(): Inventory {
-        return window.inventory.container
+        return window.pairedInventory.container
     }
 
 }

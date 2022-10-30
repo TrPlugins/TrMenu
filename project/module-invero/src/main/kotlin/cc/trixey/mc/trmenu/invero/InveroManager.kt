@@ -1,7 +1,7 @@
 package cc.trixey.mc.trmenu.invero
 
 import cc.trixey.mc.trmenu.invero.impl.WindowHolder
-import org.bukkit.event.inventory.InventoryEvent
+import org.bukkit.event.inventory.*
 import taboolib.common.platform.event.SubscribeEvent
 
 /**
@@ -11,10 +11,20 @@ import taboolib.common.platform.event.SubscribeEvent
 object InveroManager {
 
     @SubscribeEvent
-    fun e(e: InventoryEvent) {
-        val holder = e.inventory.holder
-        if (holder is WindowHolder) {
-            holder.window.handleEvent(e)
+    fun e(e: InventoryClickEvent) = e.passInventoryEvent()
+
+    @SubscribeEvent
+    fun e(e: InventoryDragEvent) = e.passInventoryEvent()
+
+    @SubscribeEvent
+    fun e(e: InventoryOpenEvent) = e.passInventoryEvent()
+
+    @SubscribeEvent
+    fun e(e: InventoryCloseEvent) = e.passInventoryEvent()
+
+    private fun InventoryEvent.passInventoryEvent() = inventory.holder.let {
+        if (it is WindowHolder) {
+            it.window.handleEvent(this)
         }
     }
 
