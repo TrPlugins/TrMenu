@@ -133,6 +133,8 @@ abstract class Invero(viewer: UUID?) {
 
     fun handleDragEvent(type: InteractType) {
         deque.add(type)
+
+        if (deque.size < 3) return
         if (deque.first().slot == -999 && deque.last().slot == -999) {
             deque.removeFirst()
             deque.removeLast()

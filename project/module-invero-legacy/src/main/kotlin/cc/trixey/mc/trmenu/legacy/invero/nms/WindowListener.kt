@@ -47,12 +47,12 @@ object WindowListener {
                 val cursor = packet.read<Any?>(indexs[4])?.asCraftMirror()
                 val action = identifyingAction(player, invero, type, cursor)
 
-                if (type.isIgnoreSuggested) {
+                if (mode == Mode.QUICK_CRAFT) {
                     invero.handleDragEvent(type)
+                    return
                 }
 
                 invero.apply {
-                    amend()
                     InveroInteractEvent(player, this, type, action, slot, cursor).apply {
                         call()
                         interactCallback.forEach { it(this) }
@@ -80,7 +80,7 @@ object WindowListener {
                             player.updateInventory()
                         }
                     }
-                    e.isCancelled = true
+                    e.isCancelled = false
                 }
             }
         }

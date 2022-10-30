@@ -10,7 +10,12 @@ import java.util.concurrent.CopyOnWriteArrayList
  * @author Arasple
  * @since 2022/10/21
  */
-@Deprecated("")
+@Deprecated(
+    """
+        此模块皆在尝试研究通过纯数据包的虚拟容器，实现玩家背包物品的交互模拟
+        仍在研究测试过程中
+    """
+)
 object InveroManager {
 
     private val registeredPools = CopyOnWriteArrayList<InveroPool>()

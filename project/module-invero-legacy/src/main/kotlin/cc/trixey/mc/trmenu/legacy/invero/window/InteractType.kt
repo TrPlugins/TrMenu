@@ -88,10 +88,6 @@ enum class InteractType(val mode: Mode, val button: Int, val slot: Int = -1) {
 
     }
 
-    val isIgnoreSuggested by lazy {
-        mode == QUICK_CRAFT && button in arrayOf(1, 2, 5, 6, 9, 10)
-    }
-
     val bukkitClickType by lazy {
         when (this) {
             LEFT_CLICK -> ClickType.LEFT
