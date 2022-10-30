@@ -14,6 +14,10 @@ class PairedInventory(var container: Inventory, private val playerUUID: UUID?) {
 
     constructor(container: Inventory, player: Player) : this(container, player.uniqueId)
 
+    val isComplete by lazy {
+        playerUUID != null
+    }
+
     fun getPlayerInventory(): PlayerInventory {
         return getPlayerInventorySafely() ?: throw NullPointerException("getPlayerInventory() is null")
     }
