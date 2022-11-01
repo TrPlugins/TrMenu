@@ -1,4 +1,4 @@
-package cc.trixey.mc.trmenu.invero.window
+package cc.trixey.mc.trmenu.invero.impl
 
 import cc.trixey.mc.trmenu.invero.module.Window
 import org.bukkit.inventory.Inventory

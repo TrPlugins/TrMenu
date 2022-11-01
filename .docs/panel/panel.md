@@ -3,6 +3,60 @@
 > An abstract form of GUI  
 > No width, height. Only size(slots)
 
+
+Concept `buildPanel` function
+
+```
+buildPanel<BasicPanel> { this@Window ->
+
+    weight(PanelWeight.NORMAL)
+    
+    claim {
+        absolute(0, 1, 2, 3, 4, 5, 6, 7, 8)
+        absolute(25)
+        layout(
+            type = Layout.ABSOLUTE,
+            layout = """"
+                      #########,
+                      ###XXX###,
+                      ###XXX###,
+                      ##BB#####,
+                      #########,
+                     """",
+            collect = 'X', 'B'
+        )
+        
+        applyRole(0, PositionRole.SLOT_ITEM)
+        applyRole(25, PositionRole.SLOT_PANEL)
+    }
+    
+    elements {
+      buildElement<IconNormalItem> {
+           static(true)
+           item(ItemStack(Material.DIAMOND))
+           distribute(
+                buildDistributor<NormalDistributor> {
+                  1, 2, 3
+                }
+           )
+      }
+    }
+    
+    onRender {
+      
+    }
+    
+    onInteract {
+      
+    }
+    
+    onDiscard {
+    
+    }
+    
+}
+```
+
 - Size (How many slos are this panel intended to occupy?)
 - Distribute
     - Relative

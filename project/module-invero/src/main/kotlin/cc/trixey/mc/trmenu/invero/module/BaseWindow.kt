@@ -11,7 +11,7 @@ import java.util.*
  */
 abstract class BaseWindow(val viewer: UUID) : Window {
 
-    override val panels: List<Panel> = listOf()
+    override val panels: LinkedList<Panel> = LinkedList()
 
     abstract fun handleClick(e: InventoryClickEvent)
 

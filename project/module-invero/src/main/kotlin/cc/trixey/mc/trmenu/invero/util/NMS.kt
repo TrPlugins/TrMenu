@@ -19,4 +19,9 @@ abstract class NMS {
      */
     abstract fun updateWindowTitle(player: Player, window: Window, title: String)
 
+    /**
+     * Update the window's title
+     */
+    abstract fun closeWindow(player: Player)
+
 }

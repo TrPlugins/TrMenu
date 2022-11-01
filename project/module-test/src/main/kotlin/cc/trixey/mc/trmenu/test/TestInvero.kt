@@ -1,7 +1,7 @@
 package cc.trixey.mc.trmenu.test
 
+import cc.trixey.mc.trmenu.invero.impl.ContainerWindow
 import cc.trixey.mc.trmenu.invero.module.Window
-import cc.trixey.mc.trmenu.invero.window.ContainerWindow
 import org.bukkit.entity.Player
 import taboolib.common.platform.command.CommandBody
 import taboolib.common.platform.command.CommandHeader

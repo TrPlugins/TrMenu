@@ -1,6 +1,6 @@
 package cc.trixey.mc.trmenu.invero
 
-import cc.trixey.mc.trmenu.invero.window.WindowHolder
+import cc.trixey.mc.trmenu.invero.impl.WindowHolder
 import org.bukkit.event.inventory.*
 import taboolib.common.platform.event.SubscribeEvent
 

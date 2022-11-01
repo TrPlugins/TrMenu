@@ -1,7 +1,6 @@
-package cc.trixey.mc.trmenu.invero.window
+package cc.trixey.mc.trmenu.invero.impl
 
 import cc.trixey.mc.trmenu.invero.module.PairedInventory
-import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryOpenEvent

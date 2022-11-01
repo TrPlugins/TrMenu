@@ -1,6 +1,6 @@
 package cc.trixey.mc.trmenu.invero.module
 
-import cc.trixey.mc.trmenu.invero.window.WindowHolder
+import cc.trixey.mc.trmenu.invero.impl.WindowHolder
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryEvent
 

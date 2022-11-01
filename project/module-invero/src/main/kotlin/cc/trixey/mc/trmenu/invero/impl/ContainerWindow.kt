@@ -1,4 +1,4 @@
-package cc.trixey.mc.trmenu.invero.window
+package cc.trixey.mc.trmenu.invero.impl
 
 import cc.trixey.mc.trmenu.invero.module.BaseWindow
 import cc.trixey.mc.trmenu.invero.module.PairedInventory
@@ -10,6 +10,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryDragEvent
 import org.bukkit.event.inventory.InventoryOpenEvent
 import org.bukkit.inventory.ItemStack
+import taboolib.common.platform.function.submit
 import taboolib.library.reflex.Reflex.Companion.getProperty
 
 /**
@@ -27,6 +28,12 @@ open class ContainerWindow(
         set(value) {
             getViewerSafe()?.let {
                 handler.updateWindowTitle(it, this, value)
+                // 防止未处理的残留虚拟容器
+                submit {
+                    if (!hasViewer()) {
+                        handler.closeWindow(it)
+                    }
+                }
             }
             field = value
         }

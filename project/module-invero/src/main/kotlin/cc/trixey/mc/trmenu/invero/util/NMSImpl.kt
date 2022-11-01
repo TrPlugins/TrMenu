@@ -2,6 +2,7 @@ package cc.trixey.mc.trmenu.invero.util
 
 import cc.trixey.mc.trmenu.invero.module.Window
 import net.minecraft.server.v1_16_R3.ChatComponentText
+import net.minecraft.server.v1_16_R3.PacketPlayOutCloseWindow
 import net.minecraft.server.v1_16_R3.PacketPlayOutOpenWindow
 import net.minecraft.world.inventory.Container
 import net.minecraft.world.inventory.Containers
@@ -64,6 +65,12 @@ class NMSImpl : NMS() {
         }
 
         player.updateInventory()
+    }
+
+    override fun closeWindow(player: Player) {
+        val containerId = getPlayerWindowId(player)
+
+        player.postPacket(PacketPlayOutCloseWindow(containerId))
     }
 
 }
