@@ -3,10 +3,12 @@ package cc.trixey.mc.trmenu.invero.util
 import cc.trixey.mc.trmenu.invero.module.Window
 import net.minecraft.server.v1_16_R3.ChatComponentText
 import net.minecraft.server.v1_16_R3.PacketPlayOutOpenWindow
+import net.minecraft.world.inventory.Container
 import net.minecraft.world.inventory.Containers
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer
 import org.bukkit.craftbukkit.v1_16_R3.util.CraftChatMessage
 import org.bukkit.entity.Player
+
 import taboolib.library.reflex.Reflex.Companion.getProperty
 import taboolib.library.reflex.Reflex.Companion.unsafeInstance
 import taboolib.module.nms.MinecraftVersion.isUniversal
@@ -18,7 +20,15 @@ import taboolib.module.nms.MinecraftVersion.majorLegacy
  */
 class NMSImpl : NMS() {
 
-    override fun getPlayerWindowId(player: Player) = (player as CraftPlayer).handle.activeContainer.windowId
+    override fun getPlayerWindowId(player: Player): Int {
+        player as CraftPlayer
+
+        return if (isUniversal) {
+            player.handle.getProperty<Container>("containerMenu")!!.getProperty<Int>("containerId")!!
+        } else {
+            player.handle.activeContainer.windowId
+        }
+    }
 
     override fun updateWindowTitle(player: Player, window: Window, title: String) {
         val containerId = getPlayerWindowId(player)

@@ -1,5 +1,7 @@
 package cc.trixey.mc.trmenu.invero.module
 
+import cc.trixey.mc.trmenu.invero.window.WindowHolder
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.PlayerInventory
@@ -13,6 +15,16 @@ import java.util.*
 class PairedInventory(var container: Inventory, private val playerUUID: UUID?) {
 
     constructor(container: Inventory, player: Player) : this(container, player.uniqueId)
+    constructor(window: Window, player: Player?) : this(
+        window.let {
+            if (it.type.isOrdinaryChest) {
+                Bukkit.createInventory(WindowHolder(it), it.type.containerSize, it.title)
+            } else {
+                Bukkit.createInventory(WindowHolder(it), it.type.bukkitType, it.title)
+            }
+        },
+        player?.uniqueId
+    )
 
     val isComplete by lazy {
         playerUUID != null

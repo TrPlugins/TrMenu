@@ -29,7 +29,7 @@ class CompleteWindow(viewer: Player) : ContainerWindow(viewer) {
      * 以及玩家的 PlayerInventory 对象
      */
     override val pairedInventory: PairedInventory by lazy {
-        PairedInventory(Bukkit.createInventory(WindowHolder(this), type.bukkitType, title), viewer)
+        PairedInventory(this, viewer)
     }
 
     override fun handleOpen(e: InventoryOpenEvent) {
@@ -47,7 +47,7 @@ class CompleteWindow(viewer: Player) : ContainerWindow(viewer) {
      */
     private fun backupPlayerInventory() {
         pairedInventory.getPlayerInventory().apply {
-            contents.forEachIndexed { index, itemStack ->
+            storageContents.forEachIndexed { index, itemStack ->
                 playerItems[index] = itemStack
             }
             clear()
@@ -60,7 +60,7 @@ class CompleteWindow(viewer: Player) : ContainerWindow(viewer) {
     private fun restorePlayerInventory() {
         pairedInventory.getPlayerInventory().apply {
             playerItems.forEachIndexed { index, itemStack ->
-                contents[index] = itemStack
+                storageContents[index] = itemStack
             }
         }
     }

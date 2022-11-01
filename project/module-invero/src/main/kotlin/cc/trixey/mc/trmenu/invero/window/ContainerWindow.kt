@@ -4,7 +4,6 @@ import cc.trixey.mc.trmenu.invero.module.BaseWindow
 import cc.trixey.mc.trmenu.invero.module.PairedInventory
 import cc.trixey.mc.trmenu.invero.module.TypeAddress
 import cc.trixey.mc.trmenu.invero.util.handler
-import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
@@ -21,9 +20,7 @@ import taboolib.library.reflex.Reflex.Companion.getProperty
  * 玩家的背包将不受到调用和影响
  */
 open class ContainerWindow(
-    viewer: Player,
-    title: String = "Untitled",
-    override val type: TypeAddress = TypeAddress.ofRows(6)
+    viewer: Player, title: String = "Untitled", override val type: TypeAddress = TypeAddress.ofRows(6)
 ) : BaseWindow(viewer.uniqueId) {
 
     override var title = title
@@ -35,7 +32,7 @@ open class ContainerWindow(
         }
 
     override val pairedInventory by lazy {
-        PairedInventory(Bukkit.createInventory(WindowHolder(this), type.bukkitType, title), null)
+        PairedInventory(this, null)
     }
 
     override fun open() {

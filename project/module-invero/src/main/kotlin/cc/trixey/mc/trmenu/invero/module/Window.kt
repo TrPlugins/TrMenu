@@ -1,5 +1,6 @@
 package cc.trixey.mc.trmenu.invero.module
 
+import cc.trixey.mc.trmenu.invero.window.WindowHolder
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryEvent
 
@@ -22,5 +23,12 @@ interface Window : Parentable {
     fun open()
 
     fun handleEvent(e: InventoryEvent)
+
+    fun hasViewer(): Boolean {
+        return getViewerSafe()?.let {
+            val holder = it.openInventory.topInventory.holder
+            holder is WindowHolder && holder.window == this
+        } ?: false
+    }
 
 }
