@@ -1,8 +1,6 @@
 package cc.trixey.mc.trmenu.invero.impl
 
-import cc.trixey.mc.trmenu.invero.module.BaseWindow
-import cc.trixey.mc.trmenu.invero.module.PairedInventory
-import cc.trixey.mc.trmenu.invero.module.TypeAddress
+import cc.trixey.mc.trmenu.invero.module.*
 import cc.trixey.mc.trmenu.invero.util.handler
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
@@ -24,6 +22,9 @@ open class ContainerWindow(
     viewer: Player, title: String = "Untitled", override val type: TypeAddress = TypeAddress.ofRows(6)
 ) : BaseWindow(viewer.uniqueId) {
 
+    /**
+     * Title of the container
+     */
     override var title = title
         set(value) {
             getViewerSafe()?.let {
@@ -38,6 +39,9 @@ open class ContainerWindow(
             field = value
         }
 
+    /**
+     * Bukkit based inventory of the Window
+     */
     override val pairedInventory by lazy {
         PairedInventory(this, null)
     }
@@ -96,11 +100,24 @@ open class ContainerWindow(
     }
 
     override fun handleOpen(e: InventoryOpenEvent) {
+        if (!e.isCancelled) {
+            WindowHolder.registerWindow(this)
+        }
+        panels.forEach { it.render() }
         e.player.sendMessage("\nhandleOpen\n")
     }
 
     override fun handleClose(e: InventoryCloseEvent) {
+        WindowHolder.unregisterWindow(this)
         e.player.sendMessage("\nhandleClose\n")
+    }
+
+    override fun getChildren(): List<Panel> {
+        return panels
+    }
+
+    override fun getParent(): Parentable? {
+        return null
     }
 
 }

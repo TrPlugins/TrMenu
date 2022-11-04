@@ -7,8 +7,6 @@ import org.bukkit.Material
 import org.bukkit.Sound
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import taboolib.common.LifeCycle
-import taboolib.common.platform.Awake
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.command
 import taboolib.common.platform.function.submitAsync
@@ -27,7 +25,7 @@ import taboolib.common.platform.function.submitAsync
 private val testPool = InveroManager.registerPool("Invero")
 private val testInvero = testPool.createInvero(WindowProperty.GENERIC_9X6) as InvChest
 
-@Awake(value = LifeCycle.ACTIVE)
+//@Awake(value = LifeCycle.ACTIVE)
 fun registerTestingCommand() {
     command("inveorLegacy") {
         literal("list") {

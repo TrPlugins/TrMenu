@@ -1,6 +1,6 @@
 package cc.trixey.mc.trmenu.invero.module
 
-import cc.trixey.mc.trmenu.invero.event.PanelRenderEvent
+import java.util.*
 
 /**
  * @author Arasple
@@ -8,6 +8,28 @@ import cc.trixey.mc.trmenu.invero.event.PanelRenderEvent
  */
 interface Panel : Parentable {
 
-    fun onRender(e: (event: PanelRenderEvent) -> Unit)
+    /**
+     * The window to which this panel belongs
+     */
+    val window: Window
+
+    /**
+     * Panel weight
+     * Weight can define the render priority of the panel's elements
+     */
+    var weight: PanelWeight
+
+    /**
+     * Panel Elements
+     */
+    val elements: LinkedList<PanelElement>
+
+    override fun getParent() = window
+
+    fun weight(weight: PanelWeight) {
+        this.weight = weight
+    }
+
+    fun render()
 
 }

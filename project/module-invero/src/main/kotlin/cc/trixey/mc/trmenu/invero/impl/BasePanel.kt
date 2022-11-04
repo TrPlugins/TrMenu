@@ -1,7 +1,10 @@
 package cc.trixey.mc.trmenu.invero.impl
 
-import cc.trixey.mc.trmenu.invero.event.PanelRenderEvent
-import cc.trixey.mc.trmenu.invero.module.IconElement
+import cc.trixey.mc.trmenu.invero.module.Panel
+import cc.trixey.mc.trmenu.invero.module.PanelElement
+import cc.trixey.mc.trmenu.invero.module.PanelWeight
+import cc.trixey.mc.trmenu.invero.module.Window
+import org.bukkit.inventory.ItemStack
 import java.util.*
 import java.util.concurrent.CopyOnWriteArrayList
 
@@ -9,23 +12,39 @@ import java.util.concurrent.CopyOnWriteArrayList
  * @author Arasple
  * @since 2022/11/1 21:33
  */
-class BasePanel {
+class BasePanel(
+    override val window: Window,
+    override var weight: PanelWeight = PanelWeight.NORMAL,
+    override val elements: LinkedList<PanelElement> = LinkedList()
+) : Panel {
 
     /**
      * Claimed Slots
-     * Not necessarily need to render it
      */
     val claimed: CopyOnWriteArrayList<Int> = CopyOnWriteArrayList()
 
-    /**
-     * Panel Elements
-     */
-    val elements: LinkedList<IconElement> = LinkedList()
 
-    internal var eventRender: ((event: PanelRenderEvent) -> Unit) = {}
-
-    fun onRender(e: (event: PanelRenderEvent) -> Unit) {
-        eventRender = e
+    // TODO IMPROVABLE PROTOTYPE
+    fun claim(slot: Int) {
+        claimed.add(slot)
     }
+
+    // TODO IMPROVABLE PROTOTYPE
+    fun item(itemStack: ItemStack, distribute: Int) {
+        elements.add(BaseItem(itemStack, distribute))
+    }
+
+    // TODO IMPROVABLE PROTOTYPE
+    override fun render() {
+        elements.forEach {
+            when (it) {
+                is BaseItem -> {
+                    window.pairedInventory.container.setItem(it.distribute, it.itemStack)
+                }
+            }
+        }
+    }
+
+    override fun getChildren() = null
 
 }

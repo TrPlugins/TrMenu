@@ -6,8 +6,8 @@ package cc.trixey.mc.trmenu.invero.module
  */
 interface Parentable {
 
-//    fun getChildren(): List<Parentable>
+    fun getChildren(): List<Parentable>?
 
-//    fun getParent(): Parentable?
+    fun getParent(): Parentable?
 
 }
