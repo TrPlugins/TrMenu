@@ -9,7 +9,6 @@ import cc.trixey.mc.trmenu.invero.util.buildElement
 import cc.trixey.mc.trmenu.invero.util.buildPanel
 import cc.trixey.mc.trmenu.invero.util.buildWindow
 import org.bukkit.Material
-import org.bukkit.entity.Player
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.CommandBody
 import taboolib.common.platform.command.CommandHeader
@@ -21,13 +20,24 @@ import taboolib.platform.util.buildItem
 /**
  * @author Arasple
  * @since 2022/10/29 10:51
+ *
+ * TODO
+ * [ ] Window 交互与 Panel、PanelElement 的传递
+ * [ ] 嵌套 Panel 的实现和子父传递
+ * [ ] 层叠 Panel 的交互、渲染处理
+ * [ ] DynamicElement 的实现
+ * [ ] Animation for Panel 动画组件的实现
+ * [ ] Element 的主动请求更新
+ * [ ] 更多常规类型的 Panel
+ * [ ] 更多常规类型的 Element
+ * [ ] 交互性、储存容器的实现
  */
 @CommandHeader(name = "testInvero")
 object TestInvero {
 
     @CommandBody
     val release = subCommand {
-        execute<Player> { player, _, _ ->
+        execute { player, _, _ ->
 
             val window =
                 buildWindow<ContainerWindow>(player) {
@@ -50,7 +60,6 @@ object TestInvero {
                 }
 
             submit(delay = 20L) {
-                player.sendMessage("Test::Animated_Title::Submited")
                 window.testAnimatedTitle()
             }
         }
@@ -73,7 +82,7 @@ object TestInvero {
         var index = 0
 
         submitAsync(period = frameTicks) {
-            if (!hasViewer()) cancel().also { return@submitAsync }
+            if (!isViewing()) cancel().also { return@submitAsync }
             title = animatedTitles[index++]
             if (index == animatedTitles.size - 1) index = 0
         }

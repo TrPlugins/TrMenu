@@ -43,7 +43,7 @@ abstract class BaseWindow(val viewer: UUID) : Window {
      * Render all panels at once
      */
     fun render(clearance: Boolean = false) {
-        if (!hasViewer()) throw IllegalStateException("Unable to render this panel while the owner Window is not opened by a player")
+        if (!hasViewer()) throw IllegalStateException("Unable to render this panel while the viewer does not exists")
         if (clearance) pairedInventory.clear()
 
         // forEach Panels at its weight from low to high

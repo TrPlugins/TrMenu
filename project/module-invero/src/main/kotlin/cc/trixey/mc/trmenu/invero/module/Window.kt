@@ -25,7 +25,9 @@ interface Window : Parentable {
 
     fun handleEvent(e: InventoryEvent)
 
-    fun hasViewer(): Boolean {
+    fun hasViewer() = getViewerSafe() != null
+
+    fun isViewing(): Boolean {
         return getViewerSafe()?.let {
             val holder = it.openInventory.topInventory.holder
             holder is WindowHolder && holder.window == this

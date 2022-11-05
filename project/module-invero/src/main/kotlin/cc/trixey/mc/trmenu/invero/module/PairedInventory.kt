@@ -15,7 +15,6 @@ import java.util.*
  */
 class PairedInventory(var container: Inventory, private val playerUUID: UUID?) {
 
-    constructor(container: Inventory, player: Player) : this(container, player.uniqueId)
     constructor(window: Window, player: Player?) : this(
         window.let {
             if (it.type.isOrdinaryChest) {

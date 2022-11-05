@@ -63,7 +63,7 @@ inline fun <reified T : PanelElement> Panel.buildElement(vararg relativeSlot: In
     return (createElement(T::class.java) as T).also(init).also { element ->
         if (relativeSlot.isNotEmpty()) {
             relativeSlot.forEach {
-                if (it <= 0) throw IllegalArgumentException("Relative slot can not be negative number")
+                if (it < 0) throw IllegalArgumentException("Relative slot can not be negative number")
                 setElement(it, element)
             }
         }

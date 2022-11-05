@@ -32,7 +32,7 @@ open class ContainerWindow(
                 handler.updateWindowTitle(it, this, value)
                 // 防止未处理的残留虚拟容器
                 submit {
-                    if (!hasViewer()) {
+                    if (!isViewing()) {
                         handler.closeWindow(it)
                     }
                 }
