@@ -17,7 +17,7 @@ class BasePanel(
             slotsMap.clear()
         }
 
-    override val slots: List<Int> = (scale.first to scale.second).toList()
+    override val slots by lazy { (0 until scale.first * scale.second).toList() }
 
     override var pos = pos
         set(value) {
@@ -39,16 +39,17 @@ class BasePanel(
 
     fun getSlotsMap(windowWidth: Int): Map<Int, Int> {
         return slotsMap.computeIfAbsent(windowWidth) {
-            val result = LinkedHashMap<Int, Int>()
-            var initial = pos
-            val (width, height) = scale
+            val result = mutableMapOf<Int, Int>()
+            val initial = 0
+            val (width, height) = 3 to 3
+            var relative = 0
 
             for (line in 0 until height) {
                 for (row in 0 until width) {
-                    result[line * height + line + row] = initial
-                    initial++
+                    val absolute = line * windowWidth + initial + row
+                    result[relative] = absolute
+                    relative++
                 }
-                initial += (width - scale.first)
             }
 
             result

@@ -54,6 +54,7 @@ abstract class BaseWindow(val viewer: UUID) : Window {
                         ?.let { absolute ->
                             pairedInventory[absolute] = element.renderItem()
                         }
+                        ?: println("Not found relative: $relative for the panel $panel \n ${panel.getSlotsMap(this@BaseWindow)}")
                 }
             }
         }
