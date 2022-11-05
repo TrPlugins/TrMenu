@@ -8,11 +8,22 @@ import java.util.*
  * @since 2022/11/1 21:33
  */
 class BasePanel(
-    override val window: Window,
-    override val size: Pair<Int, Int>,
-    override val posMark: Int,
-    override var weight: PanelWeight = PanelWeight.NORMAL
+    scale: Pair<Int, Int>, pos: Int, override var weight: PanelWeight = PanelWeight.NORMAL
 ) : Panel {
+
+    override var scale = scale
+        set(value) {
+            field = value
+            slotsMap.clear()
+        }
+
+    override val slots: List<Int> = (scale.first to scale.second).toList()
+
+    override var pos = pos
+        set(value) {
+            field = value
+            slotsMap.clear()
+        }
 
     override val elements: LinkedHashMap<Int, PanelElement> = LinkedHashMap()
     override val dynamicElements: LinkedList<PanelElementDynamic> = LinkedList()
@@ -20,26 +31,35 @@ class BasePanel(
     /**
      * Claimed Slots Map
      * (Relative: Actual)
+     *
      */
-    override val slotsMap = run {
-        // Relative: Absolute
-        val result = LinkedHashMap<Int, Int>()
-        var initial = posMark
-        val (width, height) = size
+    private val slotsMap = LinkedHashMap<Int, Map<Int, Int>>()
 
-        for (line in 0 until height) {
-            for (row in 0 until width) {
-                result[line * height + line + row] = initial
-                initial++
+    override fun getSlotsMap(window: Window) = getSlotsMap(window.type.width)
+
+    fun getSlotsMap(windowWidth: Int): Map<Int, Int> {
+        return slotsMap.computeIfAbsent(windowWidth) {
+            val result = LinkedHashMap<Int, Int>()
+            var initial = pos
+            val (width, height) = scale
+
+            for (line in 0 until height) {
+                for (row in 0 until width) {
+                    result[line * height + line + row] = initial
+                    initial++
+                }
+                initial += (width - scale.first)
             }
-            initial += (window.type.width - size.first)
+
+            result
         }
-        result
     }
 
     /**
      * No children panels supported
      */
     override fun getChildren() = null
+
+    override fun getParent() = null
 
 }

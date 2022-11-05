@@ -1,5 +1,6 @@
 package cc.trixey.mc.trmenu.invero.module
 
+import cc.trixey.mc.trmenu.invero.impl.WindowHolder
 import java.util.*
 
 /**
@@ -9,20 +10,30 @@ import java.util.*
 interface Panel : Parentable {
 
     /**
-     * The window to which this panel belongs
+     * The windows to which this panel applied
+     *
+     * @attention do not abuse this property
      */
-    val window: Window
+    val windows: List<Window>
+        get() {
+            return WindowHolder.runningWindows.filter { it.panels.contains(this) }
+        }
 
     /**
-     * Size of this panel
+     * Scale of this panel
      * Width and height
      */
-    val size: Pair<Int, Int>
+    val scale: Pair<Int, Int>
+
+    /**
+     * Relative Available Slots
+     */
+    val slots: List<Int>
 
     /**
      * The top-left slot of this panel's real position
      */
-    val posMark: Int
+    val pos: Int
 
     /**
      * Panel weight
@@ -44,28 +55,16 @@ interface Panel : Parentable {
 
     /**
      * Mapped slots
-     * RelativeSlot: ActualWindowSlot
+     * Width: (RelativeSlot: ActualWindowSlot)
      */
-    val slotsMap: LinkedHashMap<Int, Int>
-
-    override fun getParent() = window
-
-    /**
-     * Set the weight of this panel
-     *
-     * @see PanelWeight
-     */
-    fun weight(weight: PanelWeight) {
-        this.weight = weight
-    }
+    fun getSlotsMap(window: Window): Map<Int, Int>
 
     fun postRender(function: Panel.() -> Unit) {
         function(this)
     }
 
     fun setElement(relativeSlot: Int, element: PanelElement) {
-        return if (!elements.containsKey(relativeSlot))
-            elements.set(relativeSlot, element)
+        return if (!elements.containsKey(relativeSlot)) elements.set(relativeSlot, element)
         else throw UnsupportedOperationException("TODO PanelElement safely unregister")
     }
 

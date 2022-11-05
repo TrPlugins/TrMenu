@@ -49,10 +49,11 @@ abstract class BaseWindow(val viewer: UUID) : Window {
         // forEach Panels at its weight from low to high
         panels.sortedBy { it.weight.value }.forEach { panel ->
             panel.postRender {
-                panel.elements.forEach { (relSlot, element) ->
-                    slotsMap[relSlot]?.let { absSlot ->
-                        pairedInventory[absSlot] = element.renderItem()
-                    }
+                panel.elements.forEach { (relative, element) ->
+                    panel.getSlotsMap(this@BaseWindow)[relative]
+                        ?.let { absolute ->
+                            pairedInventory[absolute] = element.renderItem()
+                        }
                 }
             }
         }

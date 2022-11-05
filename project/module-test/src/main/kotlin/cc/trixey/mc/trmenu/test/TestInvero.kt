@@ -5,9 +5,10 @@ import cc.trixey.mc.trmenu.invero.impl.element.BaseItem
 import cc.trixey.mc.trmenu.invero.impl.panel.BasePanel
 import cc.trixey.mc.trmenu.invero.impl.window.ContainerWindow
 import cc.trixey.mc.trmenu.invero.module.Window
-import cc.trixey.mc.trmenu.invero.util.buildElement
-import cc.trixey.mc.trmenu.invero.util.buildPanel
+import cc.trixey.mc.trmenu.invero.util.addElement
+import cc.trixey.mc.trmenu.invero.util.addPanel
 import cc.trixey.mc.trmenu.invero.util.buildWindow
+import cc.trixey.mc.trmenu.invero.util.createPanel
 import org.bukkit.Material
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.CommandBody
@@ -35,33 +36,42 @@ import taboolib.platform.util.buildItem
 @CommandHeader(name = "testInvero")
 object TestInvero {
 
+    val preCreated = createPanel<BasePanel> {
+        scale = 3 to 3
+        pos = 4
+        // fillup
+        slots.forEach {
+            addElement<BaseItem>(it) {
+                setItem(buildItem(Material.values().random()))
+            }
+        }
+    }
+
     @CommandBody
     val release = subCommand {
         execute { player, _, _ ->
+            val window = buildWindow<ContainerWindow>(player) {
+                title = "Hello Invero"
 
-            val window =
-                buildWindow<ContainerWindow>(player) {
-
-                    title = "Hello Invero"
-
-                    buildPanel<BasePanel>(3 to 2) {
-                        /*
-                        Relative Layout:
-                        012
-                        345
-                         */
-                        buildElement<BaseItem>(0, 4, 5) { setItem(buildItem(Material.DIAMOND)) }
-                        buildElement<BaseItem>(1, 2, 3) { setItem(buildItem(Material.EMERALD)) }
-
+                addPanel(preCreated)
+                addPanel<BasePanel>(3 to 2) {
+                    /*
+                    Relative Layout:
+                    012
+                    345
+                     */
+                    addElement<BaseItem>(0, 4, 5) {
+                        setItem(buildItem(Material.DIAMOND))
+                    }
+                    addElement<BaseItem>(1, 2, 3) {
+                        setItem(buildItem(Material.EMERALD))
                     }
 
-                }.also {
-                    it.open()
                 }
 
-            submit(delay = 20L) {
-                window.testAnimatedTitle()
-            }
+            }.also { it.open() }
+
+            submit(delay = 20L) { window.testAnimatedTitle() }
         }
     }
 
