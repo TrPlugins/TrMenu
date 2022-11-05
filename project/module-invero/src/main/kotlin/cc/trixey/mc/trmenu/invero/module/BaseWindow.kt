@@ -29,8 +29,33 @@ abstract class BaseWindow(val viewer: UUID) : Window {
         return getProxyPlayer(viewer)?.castSafely()
     }
 
+    /**
+     * Get the viewer of this window
+     *
+     * @throws NullPointerException if Viewer is null
+     */
     fun getViewer(): Player {
-        return getProxyPlayer(viewer)?.castSafely() ?: throw Exception("Expected viewer is not valid")
+        return getProxyPlayer(viewer)?.castSafely() ?: throw NullPointerException("Expected viewer is not valid")
+    }
+
+
+    /**
+     * Render all panels at once
+     */
+    fun render(clearance: Boolean = false) {
+        if (!hasViewer()) throw IllegalStateException("Unable to render this panel while the owner Window is not opened by a player")
+        if (clearance) pairedInventory.clear()
+
+        // forEach Panels at its weight from low to high
+        panels.sortedBy { it.weight.value }.forEach { panel ->
+            panel.postRender {
+                panel.elements.forEach { (relSlot, element) ->
+                    slotsMap[relSlot]?.let { absSlot ->
+                        pairedInventory[absSlot] = element.renderItem()
+                    }
+                }
+            }
+        }
     }
 
     override fun handleEvent(e: InventoryEvent) {

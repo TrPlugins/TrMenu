@@ -1,6 +1,7 @@
-package cc.trixey.mc.trmenu.invero.impl
+package cc.trixey.mc.trmenu.invero.impl.window
 
 import cc.trixey.mc.trmenu.invero.module.PairedInventory
+import cc.trixey.mc.trmenu.invero.module.TypeAddress
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryOpenEvent
@@ -13,7 +14,7 @@ import org.bukkit.inventory.ItemStack
  * 一个完整的容器窗口
  * 玩家的背包默认会被缓存 & 清空，关闭时予以恢复
  */
-class CompleteWindow(viewer: Player) : ContainerWindow(viewer) {
+class CompleteWindow(viewer: Player, title: String, type: TypeAddress) : ContainerWindow(viewer, title, type) {
 
     /**
      * 查看此类型 Window 自动备份玩家背包的实际物品

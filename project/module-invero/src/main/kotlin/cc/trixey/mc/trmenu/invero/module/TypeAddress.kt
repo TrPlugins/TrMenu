@@ -117,6 +117,12 @@ enum class TypeAddress(val vanillaId: String, val serialId: Int, slotsContainer:
      */
     val entireWindowSize by lazy { slotsHotbar.last + 1 }
 
+    val width by lazy {
+        if (isOrdinaryChest) 9
+        // TODO width examine
+        else 3
+    }
+
     val bukkitType by lazy {
         InventoryType.valueOf(
             when (serialId) {

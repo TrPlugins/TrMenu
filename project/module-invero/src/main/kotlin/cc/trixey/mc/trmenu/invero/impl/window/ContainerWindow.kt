@@ -1,5 +1,6 @@
-package cc.trixey.mc.trmenu.invero.impl
+package cc.trixey.mc.trmenu.invero.impl.window
 
+import cc.trixey.mc.trmenu.invero.impl.WindowHolder
 import cc.trixey.mc.trmenu.invero.module.*
 import cc.trixey.mc.trmenu.invero.util.handler
 import org.bukkit.entity.Player
@@ -19,7 +20,7 @@ import taboolib.library.reflex.Reflex.Companion.getProperty
  * 玩家的背包将不受到调用和影响
  */
 open class ContainerWindow(
-    viewer: Player, title: String = "Untitled", override val type: TypeAddress = TypeAddress.ofRows(6)
+    viewer: Player, title: String, override val type: TypeAddress
 ) : BaseWindow(viewer.uniqueId) {
 
     /**
@@ -103,7 +104,7 @@ open class ContainerWindow(
         if (!e.isCancelled) {
             WindowHolder.registerWindow(this)
         }
-        panels.forEach { it.render() }
+        render()
         e.player.sendMessage("\nhandleOpen\n")
     }
 

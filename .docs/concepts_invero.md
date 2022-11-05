@@ -21,7 +21,7 @@ Panels can be children of many windows
 ### Panel
 
 > An abstract form of GUI  
-> No width, height. Only size(slots)
+> With width, height
 
 Page Properties
 

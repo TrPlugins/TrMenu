@@ -1,7 +1,7 @@
 # Panel
 
 > An abstract form of GUI  
-> No width, height. Only size(slots)
+> With width, height
 
 
 Concept `buildPanel` function

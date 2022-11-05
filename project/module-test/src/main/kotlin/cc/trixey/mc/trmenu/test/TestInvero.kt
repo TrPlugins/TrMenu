@@ -1,19 +1,22 @@
 package cc.trixey.mc.trmenu.test
 
-import cc.trixey.mc.trmenu.invero.impl.BasePanel
-import cc.trixey.mc.trmenu.invero.impl.ContainerWindow
 import cc.trixey.mc.trmenu.invero.impl.WindowHolder
-import cc.trixey.mc.trmenu.invero.module.PanelWeight
+import cc.trixey.mc.trmenu.invero.impl.element.BaseItem
+import cc.trixey.mc.trmenu.invero.impl.panel.BasePanel
+import cc.trixey.mc.trmenu.invero.impl.window.ContainerWindow
 import cc.trixey.mc.trmenu.invero.module.Window
+import cc.trixey.mc.trmenu.invero.util.buildElement
+import cc.trixey.mc.trmenu.invero.util.buildPanel
+import cc.trixey.mc.trmenu.invero.util.buildWindow
 import org.bukkit.Material
 import org.bukkit.entity.Player
-import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.CommandBody
 import taboolib.common.platform.command.CommandHeader
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.function.submit
 import taboolib.common.platform.function.submitAsync
+import taboolib.platform.util.buildItem
 
 /**
  * @author Arasple
@@ -25,18 +28,26 @@ object TestInvero {
     @CommandBody
     val release = subCommand {
         execute<Player> { player, _, _ ->
-            val window = ContainerWindow(player)
 
-            window.title = "Hello Invero"
-            window.panels.add(BasePanel(window).apply {
+            val window =
+                buildWindow<ContainerWindow>(player) {
 
-                weight(PanelWeight.HIGH)
+                    title = "Hello Invero"
 
-                item(ItemStack(Material.values().random()), (0..10).random())
+                    buildPanel<BasePanel>(3 to 2) {
+                        /*
+                        Relative Layout:
+                        012
+                        345
+                         */
+                        buildElement<BaseItem>(0, 4, 5) { setItem(buildItem(Material.DIAMOND)) }
+                        buildElement<BaseItem>(1, 2, 3) { setItem(buildItem(Material.EMERALD)) }
 
-            })
+                    }
 
-            window.open()
+                }.also {
+                    it.open()
+                }
 
             submit(delay = 20L) {
                 player.sendMessage("Test::Animated_Title::Submited")
