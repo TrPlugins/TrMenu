@@ -1,6 +1,6 @@
 package cc.trixey.mc.trmenu.invero.module
 
-import cc.trixey.mc.trmenu.invero.impl.WindowHolder
+import org.bukkit.event.inventory.InventoryClickEvent
 import java.util.*
 
 /**
@@ -14,10 +14,7 @@ interface Panel : Parentable {
      *
      * @attention do not abuse this property
      */
-    val windows: List<Window>
-        get() {
-            return WindowHolder.runningWindows.filter { it.panels.contains(this) }
-        }
+    val windows: LinkedList<Window>
 
     /**
      * Scale of this panel
@@ -55,13 +52,19 @@ interface Panel : Parentable {
 
     /**
      * Mapped slots
-     * Width: (RelativeSlot: ActualWindowSlot)
+     * (ActualWindowSlot:RelativeSlot)
      */
-    fun getSlotsMap(window: Window): Map<Int, Int>
+    fun getSlotsMap(window: Window): SlotMap
 
-    fun postRender(function: Panel.() -> Unit) {
-        function(this)
-    }
+    fun getClaimedSlots(window: Window) = getSlotsMap(window).claimedSlots
+
+    fun unregisterWindow(window: Window) = windows.remove(window)
+
+    fun registerWindow(window: Window) = windows.add(window)
+
+    fun forWindows(function: Window.() -> Unit) = windows.forEach(function)
+
+    fun postRender(function: Panel.() -> Unit) = function(this)
 
     fun setElement(relativeSlot: Int, element: PanelElement) {
         return if (!elements.containsKey(relativeSlot)) elements.set(relativeSlot, element)
@@ -73,5 +76,11 @@ interface Panel : Parentable {
     fun addElementDynamic(element: PanelElementDynamic) = dynamicElements.add(element)
 
     fun removeElementDynamic(element: PanelElementDynamic) = dynamicElements.remove(element)
+
+    fun handleClick(window: Window, e: InventoryClickEvent)
+
+    fun handleItemsCollect(window: Window, e: InventoryClickEvent)
+
+    fun handleItemsMove(window: Window, e: InventoryClickEvent)
 
 }

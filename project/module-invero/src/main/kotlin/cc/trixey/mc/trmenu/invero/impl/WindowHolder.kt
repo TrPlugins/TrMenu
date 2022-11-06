@@ -15,12 +15,14 @@ class WindowHolder(val window: Window) : InventoryHolder {
 
         val runningWindows = CopyOnWriteArrayList<Window>()
 
-        fun registerWindow(window: Window) {
-            runningWindows.add(window)
+        fun Window.register() {
+            panels.forEach { it.registerWindow(this) }
+            runningWindows.add(this)
         }
 
-        fun unregisterWindow(window: Window): Boolean {
-            return runningWindows.remove(window)
+        fun Window.unregister(): Boolean {
+            panels.forEach { it.unregisterWindow(this) }
+            return runningWindows.remove(this)
         }
 
     }

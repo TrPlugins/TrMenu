@@ -11,39 +11,41 @@ import org.bukkit.inventory.ItemStack
  * @author Arasple
  * @since 2022/10/29 16:44
  *
- * 一个完整的容器窗口
- * 玩家的背包默认会被缓存 & 清空，关闭时予以恢复
+ * A full complete window which uses player's inventory for panels
+ * By default player's inventory will be saved before opening, and restored after closure
  */
 class CompleteWindow(viewer: Player, title: String, type: TypeAddress) : ContainerWindow(viewer, title, type) {
 
     /**
-     * 查看此类型 Window 自动备份玩家背包的实际物品
-     * 此备份保留了原有物品的准确位置
+     * Backup of the player's items
      */
     val playerItems = arrayOfNulls<ItemStack>(36)
 
     /**
-     * PairedInventory 对象
-     *
-     * 可调用 Window 的容器 Inventory，
-     * 以及玩家的 PlayerInventory 对象
+     * @see PairedInventory
      */
     override val pairedInventory: PairedInventory by lazy {
         PairedInventory(this, viewer)
     }
 
+    /**
+     * Handle open event
+     */
     override fun handleOpen(e: InventoryOpenEvent) {
         backupPlayerInventory()
         super.handleOpen(e)
     }
 
+    /**
+     * Handle close event
+     */
     override fun handleClose(e: InventoryCloseEvent) {
         restorePlayerInventory()
         super.handleClose(e)
     }
 
     /**
-     * 缓存玩家的背包物品
+     * Backup player's inventory contents
      */
     private fun backupPlayerInventory() {
         pairedInventory.getPlayerInventory().apply {
@@ -55,7 +57,7 @@ class CompleteWindow(viewer: Player, title: String, type: TypeAddress) : Contain
     }
 
     /**
-     * 恢复玩家背包的物品
+     * Restore player's inventory contents
      */
     private fun restorePlayerInventory() {
         pairedInventory.getPlayerInventory().apply {

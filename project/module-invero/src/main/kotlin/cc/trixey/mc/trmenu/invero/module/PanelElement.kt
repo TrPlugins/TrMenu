@@ -1,6 +1,7 @@
 package cc.trixey.mc.trmenu.invero.module
 
-import org.bukkit.inventory.ItemStack
+import org.bukkit.event.inventory.InventoryClickEvent
+import java.util.*
 
 /**
  * @author Arasple
@@ -13,6 +14,29 @@ interface PanelElement {
      */
     val panel: Panel
 
-    fun renderItem(): ItemStack?
+    val panelElements: LinkedHashMap<Int, PanelElement>
+        get() {
+            return panel.elements
+        }
+
+    val panelDynamicElements: LinkedList<PanelElementDynamic>
+        get() {
+            return panel.dynamicElements
+        }
+
+    val windows: LinkedList<Window>
+        get() {
+            return panel.windows
+        }
+
+    val relativeSlots: List<Int>?
+
+    fun Window.slotMap() = panel.getSlotsMap(this)
+
+    fun forWindows(function: Window.() -> Unit) = panel.forWindows(function)
+
+    fun handleClick(e: InventoryClickEvent)
+
+    fun render()
 
 }

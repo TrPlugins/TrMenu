@@ -23,6 +23,8 @@ interface Window : Parentable {
 
     fun open()
 
+    fun render(clearance: Boolean = false)
+
     fun handleEvent(e: InventoryEvent)
 
     fun hasViewer() = getViewerSafe() != null

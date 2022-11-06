@@ -23,7 +23,7 @@ import taboolib.platform.util.buildItem
  * @since 2022/10/29 10:51
  *
  * TODO
- * [ ] Window 交互与 Panel、PanelElement 的传递
+ * [√] Window 交互与 Panel、PanelElement 的传递
  * [ ] 嵌套 Panel 的实现和子父传递
  * [ ] 层叠 Panel 的交互、渲染处理
  * [ ] DynamicElement 的实现
@@ -41,23 +41,28 @@ object TestInvero {
     @CommandBody
     val release = subCommand {
         execute { player, _, _ ->
+            var count = 1
             val window = buildWindow<ContainerWindow>(player) {
                 title = "Hello Invero"
-
                 addPanel(preCreated)
+
                 addPanel<BasePanel>(3 to 2) {
-                    /*
-                    Relative Layout:
-                    012
-                    345
-                     */
                     addElement<BaseItem>(0, 4, 5) {
+                        onClick {
+                            isCancelled = true
+                            if (isLeftClick) {
+                                count++
+                            } else {
+                                count--
+                            }
+                            modifyItem { amount = count }
+                            render()
+                        }
                         setItem(buildItem(Material.DIAMOND))
                     }
                     addElement<BaseItem>(1, 2, 3) {
                         setItem(buildItem(Material.EMERALD))
                     }
-
                 }
 
             }.also { it.open() }

@@ -25,40 +25,44 @@ abstract class BaseWindow(val viewer: UUID) : Window {
 
     abstract fun handleClose(e: InventoryCloseEvent)
 
-    override fun getViewerSafe(): Player? {
-        return getProxyPlayer(viewer)?.castSafely()
-    }
-
     /**
      * Get the viewer of this window
      *
      * @throws NullPointerException if Viewer is null
      */
     fun getViewer(): Player {
-        return getProxyPlayer(viewer)?.castSafely() ?: throw NullPointerException("Expected viewer is not valid")
+        return getViewerSafe() ?: throw NullPointerException("Expected viewer is not valid")
+    }
+
+    override fun getViewerSafe(): Player? {
+        return getProxyPlayer(viewer)?.castSafely()
     }
 
 
     /**
      * Render all panels at once
      */
-    fun render(clearance: Boolean = false) {
+    override fun render(clearance: Boolean) {
         if (!hasViewer()) throw IllegalStateException("Unable to render this panel while the viewer does not exists")
         if (clearance) pairedInventory.clear()
 
         // forEach Panels at its weight from low to high
         panels.sortedBy { it.weight.value }.forEach { panel ->
             panel.postRender {
-                panel.elements.forEach { (relative, element) ->
-                    panel.getSlotsMap(this@BaseWindow)[relative]
-                        ?.let { absolute ->
-                            if (absolute >= 0)
-                                pairedInventory[absolute] = element.renderItem()
-                        }
-                        ?: println("Not found relative: $relative for the panel $panel \n ${panel.getSlotsMap(this@BaseWindow)}")
+                panel.elements.values.forEach {
+                    it.render()
                 }
             }
         }
+    }
+
+    fun findPanelHandler(slot: Int): Panel? {
+        return panels.sortedByDescending { it.weight }
+            .firstOrNull {
+                it
+                    .getClaimedSlots(this)
+                    .contains(slot)
+            }
     }
 
     override fun handleEvent(e: InventoryEvent) {
