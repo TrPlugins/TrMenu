@@ -36,16 +36,7 @@ import taboolib.platform.util.buildItem
 @CommandHeader(name = "testInvero")
 object TestInvero {
 
-    var preCreated = createPanel<BasePanel> {
-        scale = 3 to 3
-        pos = 4
-        // fillup
-        slots.forEach {
-            addElement<BaseItem>(it) {
-                setItem(buildItem(Material.values().random()))
-            }
-        }
-    }
+    var preCreated: BasePanel = testPanelGenerate()
 
     @CommandBody
     val release = subCommand {
@@ -77,18 +68,12 @@ object TestInvero {
 
     @CommandBody
     val refreshTest = subCommand {
-        execute<ProxyCommandSender> { sender, context, arguemnt ->
+        execute<ProxyCommandSender> { sender, _, arguemnt ->
             sender.sendMessage("Refreshed")
-            preCreated = createPanel {
-                scale = 3 to 3
-                pos = arguemnt.toIntOrNull() ?: 4
-
-                addElement<BaseItem>(relativeSlot = slots.toIntArray()) {
-                    setItem(buildItem(Material.values().random()))
-                }
-            }
+            preCreated = testPanelGenerate(arguemnt.split(" ")[1].toIntOrNull() ?: 4)
         }
     }
+
 
     @CommandBody
     val printDebug = subCommand {
@@ -110,6 +95,18 @@ object TestInvero {
             if (!isViewing()) cancel().also { return@submitAsync }
             title = animatedTitles[index++]
             if (index == animatedTitles.size - 1) index = 0
+        }
+    }
+
+
+    private fun testPanelGenerate(pos: Int = 4): BasePanel {
+        return createPanel {
+            scale = 3 to 3
+            this.pos = pos
+
+            addElement<BaseItem>(relativeSlot = slots.toIntArray()) {
+                setItem(buildItem(Material.values().random()))
+            }
         }
     }
 

@@ -40,15 +40,17 @@ class BasePanel(
     fun getSlotsMap(windowWidth: Int): Map<Int, Int> {
         return slotsMap.computeIfAbsent(windowWidth) {
             val result = mutableMapOf<Int, Int>()
-            val initial = 0
-            val (width, height) = 3 to 3
-            var relative = 0
+            var counter = 0
+            var baseLine = 0
+            var baseIndex = pos
+            while (baseIndex >= windowWidth) {
+                baseIndex -= windowWidth
+                baseLine++
+            }
 
-            for (line in 0 until height) {
-                for (row in 0 until width) {
-                    val absolute = line * windowWidth + initial + row
-                    result[relative] = absolute
-                    relative++
+            for (x in baseLine until baseLine + scale.second) {
+                for (y in baseIndex until baseIndex + scale.first) {
+                    result[counter++] = if (y >= windowWidth) -1 else windowWidth * x + y
                 }
             }
 
