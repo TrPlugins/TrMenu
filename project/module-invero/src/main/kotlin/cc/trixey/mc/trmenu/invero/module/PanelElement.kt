@@ -12,31 +12,30 @@ interface PanelElement {
     /**
      * The panel to which this element belongs to
      */
-    val panel: Panel
+    val parentPanel: Panel
 
-    val panelElements: LinkedHashMap<Int, PanelElement>
+    val parentPanelElements: MappedElements
         get() {
-            return panel.elements
+            return if (parentPanel is BasePanel) {
+                (parentPanel as BasePanel).getElements()
+            } else {
+                (parentPanel as BasePagedPanel).getPage()
+            }
         }
 
-    val panelDynamicElements: LinkedList<PanelElementDynamic>
+    val appliedWindows: LinkedList<Window>
         get() {
-            return panel.dynamicElements
+            return parentPanel.windows
         }
 
-    val windows: LinkedList<Window>
-        get() {
-            return panel.windows
-        }
+    val relativeSlotsInParentPanel: Set<Int>?
 
-    val relativeSlots: List<Int>?
+    fun Window.slotMap() = parentPanel.getSlotsMap(this)
 
-    fun Window.slotMap() = panel.getSlotsMap(this)
-
-    fun forWindows(function: Window.() -> Unit) = panel.forWindows(function)
+    fun forWindows(function: Window.() -> Unit) = parentPanel.forWindows(function)
 
     fun handleClick(e: InventoryClickEvent)
 
-    fun render()
+    fun render(window: Window)
 
 }

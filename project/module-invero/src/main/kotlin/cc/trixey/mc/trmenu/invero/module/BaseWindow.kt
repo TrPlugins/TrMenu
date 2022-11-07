@@ -47,13 +47,7 @@ abstract class BaseWindow(val viewer: UUID) : Window {
         if (clearance) pairedInventory.clear()
 
         // forEach Panels at its weight from low to high
-        panels.sortedBy { it.weight.value }.forEach { panel ->
-            panel.postRender {
-                panel.elements.values.forEach {
-                    it.render()
-                }
-            }
-        }
+        panels.sortedBy { it.weight.value }.forEach { panel -> panel.render(this) }
     }
 
     fun findPanelHandler(slot: Int): Panel? {

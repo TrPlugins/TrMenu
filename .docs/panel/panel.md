@@ -82,16 +82,26 @@ Page Properties
 
 Page Types
 
-- Base Panel
-    - Standard Panel
-    - Generator Panel
+- Base Panel (elements)
+    - Standard Panel (one group elements)
+    - Generator Panel (auto-generator for elements)
 
-- Paged Panel
-    - Paged Standard Panel
-    - Paged Generator Panel
-    - Paged Scroll Panel
-    - Paged Tab Panel
-    - Paged Netesed Panel
+- Paged Panel (unlimited elements in groups)
+
+    # Static page amount
+    
+    - Paged Standard Panel (preset groups of elements)
+    - Paged Tab Panel (preset groups of elements)
+    - Paged Netesed Panel (preset groups of panels)
+    
+    # Dynamic page amount
+ 
+    - Paged Generator Panel (auto groups)
+
+- Scroll Panel (proxy window of panels)
+    - Scroll Standard Panel
+    - Scroll Generator Panel
+    - Scroll Netesed Panel
 
 - IO Panel
     - Storage Panel

@@ -2,8 +2,12 @@ package cc.trixey.mc.trmenu.invero.impl.element
 
 import cc.trixey.mc.trmenu.invero.module.Panel
 import cc.trixey.mc.trmenu.invero.module.PanelElementAbsolute
+import cc.trixey.mc.trmenu.invero.module.Window
+import org.bukkit.Material
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemStack
+import taboolib.platform.util.ItemBuilder
+import taboolib.platform.util.buildItem
 
 /**
  * @author Arasple
@@ -13,12 +17,12 @@ open class BaseItem(private var itemStack: ItemStack?, panel: Panel) : PanelElem
 
     private var handlerClick: (e: InventoryClickEvent) -> Unit = {}
 
-    fun setItem(itemStack: ItemStack?) {
-        this.itemStack = itemStack
+    fun setItem(material: Material, itemBuilder: ItemBuilder.() -> Unit = {}) {
+        this.itemStack = buildItem(material, itemBuilder)
     }
 
-    fun modifyItem(function: ItemStack.() -> Unit) {
-        itemStack?.let { function(it) }
+    fun modify(itemBuilder: ItemBuilder.() -> Unit) {
+        itemStack?.let { buildItem(itemStack!!, itemBuilder) }
     }
 
     fun onClick(pass: InventoryClickEvent.() -> Unit) {
@@ -29,11 +33,9 @@ open class BaseItem(private var itemStack: ItemStack?, panel: Panel) : PanelElem
         handlerClick(e)
     }
 
-    override fun render() {
-        forWindows {
-            actualSlots().forEach {
-                pairedInventory[it] = itemStack
-            }
+    override fun render(window: Window) {
+        window.actualSlots().forEach {
+            window.pairedInventory[it] = itemStack
         }
     }
 

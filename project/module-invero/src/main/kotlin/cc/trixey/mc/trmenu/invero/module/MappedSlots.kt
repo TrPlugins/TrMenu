@@ -8,7 +8,7 @@ package cc.trixey.mc.trmenu.invero.module
  * Output: Relative -> Actual
  *
  */
-data class SlotMap(val input: Map<Int, Int>, val output: Map<Int, Int>) {
+class MappedSlots(val input: Map<Int, Int>, val output: Map<Int, Int>) {
 
     operator fun get(relative: Int) = getActual(relative)
 
@@ -16,8 +16,7 @@ data class SlotMap(val input: Map<Int, Int>, val output: Map<Int, Int>) {
 
     fun getRelative(actual: Int) = input[actual] ?: -1
 
-
-    val claimedSlots: List<Int> by lazy {
+    val claimedSlots by lazy {
         input.keys.toList()
     }
 

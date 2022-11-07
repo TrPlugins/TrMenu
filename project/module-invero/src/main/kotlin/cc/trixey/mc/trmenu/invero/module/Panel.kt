@@ -39,22 +39,38 @@ interface Panel : Parentable {
     var weight: PanelWeight
 
     /**
-     * Panel Elements
-     * (RelativeSlot: Element)
+     * Claimed Slots Map
+     *
+     * Width: MappedSlots(Actual:Relative)
      */
-    val elements: LinkedHashMap<Int, PanelElement>
-
-    /**
-     * Panel dynamic elements
-     * Referring to those elements whose position are not definite and changable
-     */
-    val dynamicElements: LinkedList<PanelElementDynamic>
+    val slotsMap: LinkedHashMap<Int, MappedSlots>
 
     /**
      * Mapped slots
      * (ActualWindowSlot:RelativeSlot)
      */
-    fun getSlotsMap(window: Window): SlotMap
+    /**
+     * Get the slotsmap for a window
+     */
+    fun getSlotsMap(window: Window) = getSlotsMap(window.type.width)
+
+    /**
+     * Generate slotsmap for a certain window width
+     */
+    private fun getSlotsMap(windowWidth: Int): MappedSlots {
+        return slotsMap.computeIfAbsent(windowWidth) {
+            val result = mutableMapOf<Int, Int>()
+            var counter = 0
+            var baseLine = 0
+            var baseIndex = pos
+            while (baseIndex >= windowWidth) baseIndex -= windowWidth.also { baseLine++ }
+            for (x in baseLine until baseLine + scale.second)
+                for (y in baseIndex until baseIndex + scale.first)
+                    result[if (y >= windowWidth) -1 else windowWidth * x + y] = counter++
+
+            MappedSlots(result)
+        }
+    }
 
     fun getClaimedSlots(window: Window) = getSlotsMap(window).claimedSlots
 
@@ -64,18 +80,9 @@ interface Panel : Parentable {
 
     fun forWindows(function: Window.() -> Unit) = windows.forEach(function)
 
-    fun postRender(function: Panel.() -> Unit) = function(this)
+    fun render(window: Window)
 
-    fun setElement(relativeSlot: Int, element: PanelElement) {
-        return if (!elements.containsKey(relativeSlot)) elements.set(relativeSlot, element)
-        else throw UnsupportedOperationException("TODO PanelElement safely unregister")
-    }
-
-    fun getElement(relativeSlot: Int) = elements[relativeSlot]
-
-    fun addElementDynamic(element: PanelElementDynamic) = dynamicElements.add(element)
-
-    fun removeElementDynamic(element: PanelElementDynamic) = dynamicElements.remove(element)
+    fun renderAll() = forWindows { render(this) }
 
     fun handleClick(window: Window, e: InventoryClickEvent)
 

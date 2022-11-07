@@ -2,21 +2,17 @@ package cc.trixey.mc.trmenu.test
 
 import cc.trixey.mc.trmenu.invero.impl.WindowHolder
 import cc.trixey.mc.trmenu.invero.impl.element.BaseItem
-import cc.trixey.mc.trmenu.invero.impl.panel.BasePanel
+import cc.trixey.mc.trmenu.invero.impl.panel.StandardPagedPanel
+import cc.trixey.mc.trmenu.invero.impl.panel.StandardPanel
 import cc.trixey.mc.trmenu.invero.impl.window.ContainerWindow
 import cc.trixey.mc.trmenu.invero.module.Window
-import cc.trixey.mc.trmenu.invero.util.addElement
-import cc.trixey.mc.trmenu.invero.util.addPanel
-import cc.trixey.mc.trmenu.invero.util.buildWindow
-import cc.trixey.mc.trmenu.invero.util.createPanel
+import cc.trixey.mc.trmenu.invero.util.*
 import org.bukkit.Material
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.CommandBody
 import taboolib.common.platform.command.CommandHeader
 import taboolib.common.platform.command.subCommand
-import taboolib.common.platform.function.submit
 import taboolib.common.platform.function.submitAsync
-import taboolib.platform.util.buildItem
 
 /**
  * @author Arasple
@@ -36,38 +32,101 @@ import taboolib.platform.util.buildItem
 @CommandHeader(name = "testInvero")
 object TestInvero {
 
-    var preCreated: BasePanel = testPanelGenerate()
+    var preCreated: StandardPanel = testPanelGenerate(32)
 
     @CommandBody
     val release = subCommand {
         execute { player, _, _ ->
             var count = 1
-            val window = buildWindow<ContainerWindow>(player) {
+
+            buildWindow<ContainerWindow>(player) {
                 title = "Hello Invero"
                 addPanel(preCreated)
 
-                addPanel<BasePanel>(3 to 2) {
+                /**
+                 * StandardPanel
+                 */
+
+                /**
+                 * StandardPanel
+                 */
+                addPanel<StandardPanel>(3 to 2) {
                     addElement<BaseItem>(0, 4, 5) {
+                        setItem(Material.DIAMOND)
                         onClick {
                             isCancelled = true
-                            if (isLeftClick) {
-                                count++
-                            } else {
-                                count--
-                            }
-                            modifyItem { amount = count }
-                            render()
+                            modify { amount = (if (isLeftClick) count++ else count--) }
                         }
-                        setItem(buildItem(Material.DIAMOND))
                     }
-                    addElement<BaseItem>(1, 2, 3) {
-                        setItem(buildItem(Material.EMERALD))
-                    }
+                    addElement<BaseItem>(1, 2, 3) { setItem(Material.EMERALD) }
                 }
 
+                /**
+                 * StandardPagedPanel
+                 *
+                 * *** ###
+                 * *** ###
+                 */
+
+                /**
+                 * StandardPagedPanel
+                 *
+                 * *** ###
+                 * *** ###
+                 */
+                addPanel<StandardPagedPanel>(3 to 2) {
+                    markPosition(4)
+
+                    val previousPage = createElement<BaseItem> {
+                        setItem(Material.ARROW) { name = "§3Previous page" }
+                        onClick {
+                            isCancelled = true
+                            previousPage()
+                            title = "Page: $pageIndex / $maxPageIndex"
+                        }
+                    }
+
+                    val nextPage = createElement<BaseItem> {
+                        setItem(Material.ARROW) { name = "§aNext page" }
+                        onClick {
+                            isCancelled = true
+                            nextPage()
+                            title = "Page: $pageIndex / $maxPageIndex"
+                        }
+                    }
+
+                    val fill = createElement<BaseItem> {
+                        setItem(Material.BLACK_STAINED_GLASS)
+                    }
+
+                    val fill2 = createElement<BaseItem> {
+                        setItem(Material.LIME_STAINED_GLASS_PANE)
+                    }
+
+                    page {
+                        setElement(0, previousPage)
+                        setElement(2, nextPage)
+                        slots.forEach {
+                            if (it != 0 && it != 2) {
+                                setElement(it, fill)
+                            }
+                        }
+                    }
+
+                    page {
+                        setElement(0, previousPage)
+                        setElement(2, nextPage)
+                        slots.forEach {
+                            if (it != 0 && it != 2) {
+                                setElement(it, fill2)
+                            }
+                        }
+                    }
+
+                }
             }.also { it.open() }
 
-            submit(delay = 20L) { window.testAnimatedTitle() }
+//            submit(delay = 20L) { window.testAnimatedTitle() }
         }
     }
 
@@ -104,13 +163,13 @@ object TestInvero {
     }
 
 
-    private fun testPanelGenerate(pos: Int = 4): BasePanel {
+    private fun testPanelGenerate(pos: Int = 4): StandardPanel {
         return createPanel {
             scale = 3 to 3
-            this.pos = pos
+            markPosition(pos)
 
             addElement<BaseItem>(relativeSlot = slots.toIntArray()) {
-                setItem(buildItem(Material.values().random()))
+                setItem(Material.values().random())
             }
         }
     }
