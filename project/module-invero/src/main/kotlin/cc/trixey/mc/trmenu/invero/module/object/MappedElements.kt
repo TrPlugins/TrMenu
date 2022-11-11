@@ -1,5 +1,7 @@
-package cc.trixey.mc.trmenu.invero.module
+package cc.trixey.mc.trmenu.invero.module.`object`
 
+import cc.trixey.mc.trmenu.invero.module.PanelElement
+import cc.trixey.mc.trmenu.invero.module.PanelElementDynamic
 import java.util.*
 
 /**

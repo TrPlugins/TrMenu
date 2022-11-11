@@ -26,18 +26,18 @@ object InveroManager {
         }
     }
 
-    fun constructPanel(type: Class<*>, size: Pair<Int, Int>, posMark: Int): Panel {
+    fun constructPanel(type: Class<*>, scale: Pair<Int, Int>, posMark: Int): Panel {
         return when (type) {
-            StandardPanel::class.java -> StandardPanel(size, posMark)
-            StandardPagedPanel::class.java -> StandardPagedPanel(size, posMark)
+            StandardPanel::class.java -> StandardPanel(scale, posMark)
+            StandardPagedPanel::class.java -> StandardPagedPanel(scale, posMark)
             else -> throw IllegalArgumentException("Failed to create panel, not found registered class $type")
         }
     }
 
-    fun constructWindow(type: Class<*>, viewer: Player, title: String, windowType: TypeAddress): Window {
+    fun constructWindow(type: Class<*>, viewer: Player, windowType: TypeAddress, title: String): Window {
         return when (type) {
-            ContainerWindow::class.java -> ContainerWindow(viewer, title, windowType)
-            CompleteWindow::class.java -> CompleteWindow(viewer, title, windowType)
+            ContainerWindow::class.java -> ContainerWindow(viewer, windowType, title)
+            CompleteWindow::class.java -> CompleteWindow(viewer, windowType, title)
             else -> throw IllegalArgumentException("Failed to create window, not found registered class $type")
         }
     }

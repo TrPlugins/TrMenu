@@ -1,4 +1,8 @@
-package cc.trixey.mc.trmenu.invero.module
+package cc.trixey.mc.trmenu.invero.module.base
+
+import cc.trixey.mc.trmenu.invero.module.*
+import cc.trixey.mc.trmenu.invero.module.`object`.MappedElements
+import cc.trixey.mc.trmenu.invero.module.`object`.PanelWeight
 
 /**
  * @author Arasple

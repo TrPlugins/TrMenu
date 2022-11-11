@@ -8,7 +8,8 @@ taboolib {
     description {
         name(rootProject.name)
     }
-    install("common", "platform-bungee")
+    install("common")
+    install("platform-bungee")
     options("skip-minimize", "keep-kotlin-module")
     classifier = null
     version = taboolibVersion

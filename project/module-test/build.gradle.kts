@@ -8,7 +8,8 @@ taboolib {
     description {
         name(rootProject.name)
     }
-    install("common", "platform-bukkit")
+    install("common")
+    install("platform-bukkit")
     install("module-nms")
     options("skip-minimize", "keep-kotlin-module")
     classifier = null
@@ -16,6 +17,7 @@ taboolib {
 }
 
 dependencies {
+    api(project(":project:implementation-bukkit"))
     api(project(":project:module-invero"))
     api(project(":project:module-invero-legacy"))
 }

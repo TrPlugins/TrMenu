@@ -1,5 +1,7 @@
 package cc.trixey.mc.trmenu.invero.module
 
+import cc.trixey.mc.trmenu.invero.module.`object`.MappedSlots
+import cc.trixey.mc.trmenu.invero.module.`object`.PanelWeight
 import org.bukkit.event.inventory.InventoryClickEvent
 import java.util.*
 

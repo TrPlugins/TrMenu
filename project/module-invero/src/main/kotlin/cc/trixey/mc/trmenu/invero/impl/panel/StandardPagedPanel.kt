@@ -1,8 +1,8 @@
 package cc.trixey.mc.trmenu.invero.impl.panel
 
-import cc.trixey.mc.trmenu.invero.module.BasePagedPanel
-import cc.trixey.mc.trmenu.invero.module.PanelWeight
 import cc.trixey.mc.trmenu.invero.module.Window
+import cc.trixey.mc.trmenu.invero.module.base.BasePagedPanel
+import cc.trixey.mc.trmenu.invero.module.`object`.PanelWeight
 import org.bukkit.event.inventory.InventoryClickEvent
 
 /**
@@ -19,25 +19,19 @@ class StandardPagedPanel(
         set(value) {
             wipePanel()
             renderAll()
-            field = value
+            if (value in 0 until maxPageIndex) field = value
         }
 
-    override fun nextPage() {
-        if (pageIndex < maxPageIndex) pageIndex++
-    }
+    override fun nextPage(): Int = pageIndex++
 
-    override fun previousPage() {
-        if (pageIndex > 0) pageIndex--
-    }
+    override fun previousPage(): Int = pageIndex--
 
     override fun switchPage(page: Int) {
         pageIndex = page
     }
 
     override fun handleClick(window: Window, e: InventoryClickEvent) {
-        getSlotsMap(window).getRelative(e.slot).let { relativeSlot ->
-            getPage().getElement(relativeSlot)?.handleClick(e)
-        }
+        getSlotsMap(window).getRelative(e.slot).let { getPage().getElement(it)?.handleEvent(e) }
     }
 
     override fun render(window: Window) {

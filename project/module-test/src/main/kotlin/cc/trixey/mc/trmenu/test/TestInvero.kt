@@ -1,18 +1,22 @@
 package cc.trixey.mc.trmenu.test
 
+import cc.trixey.mc.trmenu.coroutine.launch
 import cc.trixey.mc.trmenu.invero.impl.WindowHolder
 import cc.trixey.mc.trmenu.invero.impl.element.BaseItem
 import cc.trixey.mc.trmenu.invero.impl.panel.StandardPagedPanel
 import cc.trixey.mc.trmenu.invero.impl.panel.StandardPanel
+import cc.trixey.mc.trmenu.invero.impl.window.CompleteWindow
 import cc.trixey.mc.trmenu.invero.impl.window.ContainerWindow
-import cc.trixey.mc.trmenu.invero.module.Window
+import cc.trixey.mc.trmenu.invero.module.TypeAddress
 import cc.trixey.mc.trmenu.invero.util.*
 import org.bukkit.Material
+import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.CommandBody
 import taboolib.common.platform.command.CommandHeader
 import taboolib.common.platform.command.subCommand
-import taboolib.common.platform.function.submitAsync
+import taboolib.library.xseries.XMaterial
+import taboolib.platform.util.isAir
 
 /**
  * @author Arasple
@@ -32,76 +36,63 @@ import taboolib.common.platform.function.submitAsync
 @CommandHeader(name = "testInvero")
 object TestInvero {
 
-    var preCreated: StandardPanel = testPanelGenerate(32)
+    @CommandBody
+    val testDynamicTitle = subCommand {
+        execute { player, _, _ ->
+            val window = buildWindow<CompleteWindow>(player, TypeAddress.GENERIC_9X3) {
+                addPanel<StandardPanel>(9 to 3, 0) {
+                    for (s in 0..27) addElement<BaseItem>(s) {
+                        setItem(generateRandomItem())
+                    }
+                }
+            }.also { it.open() }
+
+            launch(true) {
+                // Skedule 在低分辨率 （<3ticks) 下存在抛 “ Already resumed” 异常的问题
+                // TODO 研究解决或用 Submit 代替低分辨率场景
+                repeating(5)
+                for (title in dynamicTitles) {
+                    window.title = title
+                    yield()
+                }
+                window.title = "Hello Invero"
+            }
+        }
+    }
 
     @CommandBody
-    val release = subCommand {
+    val testStandard = subCommand {
         execute { player, _, _ ->
             var count = 1
 
             buildWindow<ContainerWindow>(player) {
                 title = "Hello Invero"
-                addPanel(preCreated)
 
-                /**
-                 * StandardPanel
-                 */
-
-                /**
-                 * StandardPanel
-                 */
+                addPanel(posMarkPanel)
                 addPanel<StandardPanel>(3 to 2) {
                     addElement<BaseItem>(0, 4, 5) {
                         setItem(Material.DIAMOND)
                         onClick {
-                            isCancelled = true
                             modify { amount = (if (isLeftClick) count++ else count--) }
                         }
                     }
                     addElement<BaseItem>(1, 2, 3) { setItem(Material.EMERALD) }
                 }
-
-                /**
-                 * StandardPagedPanel
-                 *
-                 * *** ###
-                 * *** ###
-                 */
-
-                /**
-                 * StandardPagedPanel
-                 *
-                 * *** ###
-                 * *** ###
-                 */
-                addPanel<StandardPagedPanel>(3 to 2) {
-                    markPosition(4)
-
-                    val previousPage = createElement<BaseItem> {
-                        setItem(Material.ARROW) { name = "§3Previous page" }
+                addPanel<StandardPagedPanel>(3 to 2, 4) {
+                    val previousPage = createItem<BaseItem>(Material.ARROW, { name = "§3Previous page" }, {
                         onClick {
-                            isCancelled = true
                             previousPage()
                             title = "Page: $pageIndex / $maxPageIndex"
                         }
-                    }
-
-                    val nextPage = createElement<BaseItem> {
-                        setItem(Material.ARROW) { name = "§aNext page" }
+                    })
+                    val nextPage = createItem<BaseItem>(Material.ARROW, { name = "§aNext Page" }, {
                         onClick {
-                            isCancelled = true
                             nextPage()
                             title = "Page: $pageIndex / $maxPageIndex"
                         }
-                    }
-
-                    val fill = createElement<BaseItem> {
-                        setItem(Material.BLACK_STAINED_GLASS)
-                    }
-
-                    val fill2 = createElement<BaseItem> {
-                        setItem(Material.LIME_STAINED_GLASS_PANE)
-                    }
+                    })
+                    val fill = createItem<BaseItem>(Material.BLACK_STAINED_GLASS)
+                    val fill2 = createItem<BaseItem>(Material.LIME_STAINED_GLASS_PANE)
 
                     page {
                         setElement(0, previousPage)
@@ -125,22 +116,20 @@ object TestInvero {
 
                 }
             }.also { it.open() }
-
-//            submit(delay = 20L) { window.testAnimatedTitle() }
         }
     }
 
     @CommandBody
-    val refreshTest = subCommand {
+    val testStandardPosMark = subCommand {
         execute<ProxyCommandSender> { sender, _, arguemnt ->
-            sender.sendMessage("Refreshed")
-            preCreated = testPanelGenerate(arguemnt.split(" ")[1].toIntOrNull() ?: 4)
+            sender.sendMessage("PosMarked")
+            posMarkPanel = testPanelPosMark(arguemnt.split(" ")[1].toIntOrNull() ?: 4)
         }
     }
 
 
     @CommandBody
-    val printDebug = subCommand {
+    val print = subCommand {
         execute<ProxyCommandSender> { sender, _, _ ->
             sender.sendMessage("Size: ${WindowHolder.runningWindows.size}")
             WindowHolder.runningWindows.forEach {
@@ -149,32 +138,7 @@ object TestInvero {
         }
     }
 
-    /**
-     * 测试动态标题的播放性能
-     */
-    private fun Window.testAnimatedTitle(frameTicks: Long = 1) {
-        var index = 0
-
-        submitAsync(period = frameTicks) {
-            if (!isViewing()) cancel().also { return@submitAsync }
-            title = animatedTitles[index++]
-            if (index == animatedTitles.size - 1) index = 0
-        }
-    }
-
-
-    private fun testPanelGenerate(pos: Int = 4): StandardPanel {
-        return createPanel {
-            scale = 3 to 3
-            markPosition(pos)
-
-            addElement<BaseItem>(relativeSlot = slots.toIntArray()) {
-                setItem(Material.values().random())
-            }
-        }
-    }
-
-    private val animatedTitles by lazy {
+    private val dynamicTitles by lazy {
         var current = ""
         val titles = mutableListOf<String>()
 
@@ -184,6 +148,27 @@ object TestInvero {
         }
         titles.addAll(titles.reversed())
         titles
+    }
+
+    var posMarkPanel: StandardPanel = testPanelPosMark(32)
+
+    private fun generateRandomItem(): ItemStack {
+        var itemStack: ItemStack? = null
+        while (itemStack == null || itemStack.isAir) {
+            itemStack = XMaterial.values().random().parseItem()
+        }
+        return itemStack
+    }
+
+    private fun testPanelPosMark(pos: Int): StandardPanel {
+        return createPanel {
+            scale = 3 to 3
+            markPosition(pos)
+
+            addElement<BaseItem>(relativeSlot = slots.toIntArray()) {
+                setItem(Material.values().random())
+            }
+        }
     }
 
 }

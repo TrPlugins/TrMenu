@@ -1,5 +1,7 @@
-package cc.trixey.mc.trmenu.invero.module
+package cc.trixey.mc.trmenu.invero.module.base
 
+import cc.trixey.mc.trmenu.invero.module.Panel
+import cc.trixey.mc.trmenu.invero.module.Window
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.*
 import taboolib.common.platform.function.getProxyPlayer
@@ -51,20 +53,22 @@ abstract class BaseWindow(val viewer: UUID) : Window {
     }
 
     fun findPanelHandler(slot: Int): Panel? {
-        return panels.sortedByDescending { it.weight }
-            .firstOrNull {
-                it
-                    .getClaimedSlots(this)
-                    .contains(slot)
-            }
+        return panels.sortedByDescending { it.weight }.firstOrNull {
+            it.getClaimedSlots(this).contains(slot)
+        }
     }
 
     override fun handleEvent(e: InventoryEvent) {
         when (e) {
-            is InventoryDragEvent -> handleDrag(e)
             is InventoryOpenEvent -> handleOpen(e)
             is InventoryCloseEvent -> handleClose(e)
+            is InventoryDragEvent -> {
+                e.isCancelled = true
+                handleDrag(e)
+            }
+
             is InventoryClickEvent -> {
+                e.isCancelled = true
                 when (e.action) {
                     InventoryAction.MOVE_TO_OTHER_INVENTORY -> handleItemsMove(e)
                     InventoryAction.COLLECT_TO_CURSOR -> handleItemsCollect(e)

@@ -2,7 +2,11 @@ package cc.trixey.mc.trmenu.invero.impl.window
 
 import cc.trixey.mc.trmenu.invero.impl.WindowHolder.Companion.register
 import cc.trixey.mc.trmenu.invero.impl.WindowHolder.Companion.unregister
-import cc.trixey.mc.trmenu.invero.module.*
+import cc.trixey.mc.trmenu.invero.module.Panel
+import cc.trixey.mc.trmenu.invero.module.Parentable
+import cc.trixey.mc.trmenu.invero.module.TypeAddress
+import cc.trixey.mc.trmenu.invero.module.base.BaseWindow
+import cc.trixey.mc.trmenu.invero.module.`object`.PairedInventory
 import cc.trixey.mc.trmenu.invero.util.handler
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
@@ -19,7 +23,7 @@ import taboolib.common.platform.function.submit
  * Player's inventory will not be used or influenced
  */
 open class ContainerWindow(
-    viewer: Player, title: String, override val type: TypeAddress
+    viewer: Player, override val type: TypeAddress, title: String
 ) : BaseWindow(viewer.uniqueId) {
 
     /**

@@ -1,5 +1,7 @@
 package cc.trixey.mc.trmenu.invero.module
 
+import cc.trixey.mc.trmenu.invero.module.`object`.MappedSlots
+import cc.trixey.mc.trmenu.invero.module.`object`.PanelWeight
 import org.bukkit.event.inventory.InventoryClickEvent
 import java.util.*
 
@@ -86,6 +88,17 @@ abstract class PanelInstance(
     fun wipePanel() {
         forWindows {
             getClaimedSlots(this).forEach { pairedInventory[it] = null }
+        }
+    }
+
+    /**
+     * TODO
+     * Element interact event processing
+     */
+    fun PanelElement.handleEvent(e: InventoryClickEvent) {
+        when (this) {
+            is Clickable -> handleClick(e)
+            else -> null
         }
     }
 

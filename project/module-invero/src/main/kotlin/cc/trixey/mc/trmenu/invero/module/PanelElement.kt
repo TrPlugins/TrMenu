@@ -1,6 +1,8 @@
 package cc.trixey.mc.trmenu.invero.module
 
-import org.bukkit.event.inventory.InventoryClickEvent
+import cc.trixey.mc.trmenu.invero.module.base.BasePagedPanel
+import cc.trixey.mc.trmenu.invero.module.base.BasePanel
+import cc.trixey.mc.trmenu.invero.module.`object`.MappedElements
 import java.util.*
 
 /**
@@ -33,8 +35,6 @@ interface PanelElement {
     fun Window.slotMap() = parentPanel.getSlotsMap(this)
 
     fun forWindows(function: Window.() -> Unit) = parentPanel.forWindows(function)
-
-    fun handleClick(e: InventoryClickEvent)
 
     fun render(window: Window)
 

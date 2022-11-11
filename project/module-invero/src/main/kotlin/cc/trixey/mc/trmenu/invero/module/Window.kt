@@ -1,6 +1,7 @@
 package cc.trixey.mc.trmenu.invero.module
 
 import cc.trixey.mc.trmenu.invero.impl.WindowHolder
+import cc.trixey.mc.trmenu.invero.module.`object`.PairedInventory
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryEvent
 import java.util.*

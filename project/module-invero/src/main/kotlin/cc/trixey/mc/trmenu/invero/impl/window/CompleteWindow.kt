@@ -1,7 +1,7 @@
 package cc.trixey.mc.trmenu.invero.impl.window
 
-import cc.trixey.mc.trmenu.invero.module.PairedInventory
 import cc.trixey.mc.trmenu.invero.module.TypeAddress
+import cc.trixey.mc.trmenu.invero.module.`object`.PairedInventory
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryOpenEvent
@@ -14,7 +14,7 @@ import org.bukkit.inventory.ItemStack
  * A full complete window which uses player's inventory for panels
  * By default player's inventory will be saved before opening, and restored after closure
  */
-class CompleteWindow(viewer: Player, title: String, type: TypeAddress) : ContainerWindow(viewer, title, type) {
+class CompleteWindow(viewer: Player, type: TypeAddress, title: String) : ContainerWindow(viewer, type, title) {
 
     /**
      * Backup of the player's items

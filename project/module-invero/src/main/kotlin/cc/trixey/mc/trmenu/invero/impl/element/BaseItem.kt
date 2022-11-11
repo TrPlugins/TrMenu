@@ -1,5 +1,6 @@
 package cc.trixey.mc.trmenu.invero.impl.element
 
+import cc.trixey.mc.trmenu.invero.module.Clickable
 import cc.trixey.mc.trmenu.invero.module.Panel
 import cc.trixey.mc.trmenu.invero.module.PanelElementAbsolute
 import cc.trixey.mc.trmenu.invero.module.Window
@@ -13,24 +14,20 @@ import taboolib.platform.util.buildItem
  * @author Arasple
  * @since 2022/11/4 18:37
  */
-open class BaseItem(private var itemStack: ItemStack?, panel: Panel) : PanelElementAbsolute(panel) {
+open class BaseItem(private var itemStack: ItemStack?, panel: Panel) : PanelElementAbsolute(panel), Clickable {
 
-    private var handlerClick: (e: InventoryClickEvent) -> Unit = {}
+    override var handler: (e: InventoryClickEvent) -> Unit = {}
 
-    fun setItem(material: Material, itemBuilder: ItemBuilder.() -> Unit = {}) {
-        this.itemStack = buildItem(material, itemBuilder)
+    fun setItem(material: Material, builder: ItemBuilder.() -> Unit = {}) {
+        itemStack = buildItem(material, builder)
     }
 
-    fun modify(itemBuilder: ItemBuilder.() -> Unit) {
-        itemStack?.let { buildItem(itemStack!!, itemBuilder) }
+    fun setItem(value: ItemStack?) {
+        itemStack = value
     }
 
-    fun onClick(pass: InventoryClickEvent.() -> Unit) {
-        handlerClick = pass
-    }
-
-    override fun handleClick(e: InventoryClickEvent) {
-        handlerClick(e)
+    fun modify(builder: ItemBuilder.() -> Unit) {
+        itemStack?.let { buildItem(itemStack!!, builder) }
     }
 
     override fun render(window: Window) {

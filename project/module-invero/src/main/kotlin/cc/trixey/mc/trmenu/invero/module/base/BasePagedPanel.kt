@@ -1,5 +1,8 @@
-package cc.trixey.mc.trmenu.invero.module
+package cc.trixey.mc.trmenu.invero.module.base
 
+import cc.trixey.mc.trmenu.invero.module.PanelInstance
+import cc.trixey.mc.trmenu.invero.module.`object`.MappedElements
+import cc.trixey.mc.trmenu.invero.module.`object`.PanelWeight
 import java.util.*
 
 /**
@@ -33,9 +36,9 @@ abstract class BasePagedPanel(
 
     fun addPage(layer: MappedElements) = pages.add(layer)
 
-    abstract fun nextPage()
+    abstract fun nextPage(): Int
 
-    abstract fun previousPage()
+    abstract fun previousPage(): Int
 
     abstract fun switchPage(page: Int)
 

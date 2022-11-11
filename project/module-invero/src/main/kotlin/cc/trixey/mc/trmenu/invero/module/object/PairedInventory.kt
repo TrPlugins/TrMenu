@@ -1,6 +1,7 @@
-package cc.trixey.mc.trmenu.invero.module
+package cc.trixey.mc.trmenu.invero.module.`object`
 
 import cc.trixey.mc.trmenu.invero.impl.WindowHolder
+import cc.trixey.mc.trmenu.invero.module.Window
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.inventory.Inventory
@@ -43,7 +44,7 @@ class PairedInventory(var container: Inventory, private val playerUUID: UUID?) {
     }
 
     operator fun get(absoluteSlot: Int): ItemStack? {
-        return if (absoluteSlot + 1 >= container.size) {
+        return if (absoluteSlot + 1 > container.size) {
             getPlayerInventorySafely()?.getItem(absoluteSlot - container.size)
         } else {
             container.getItem(absoluteSlot)
@@ -51,7 +52,7 @@ class PairedInventory(var container: Inventory, private val playerUUID: UUID?) {
     }
 
     operator fun set(absoluteSlot: Int, itemStack: ItemStack?) {
-        if (absoluteSlot + 1 >= container.size) {
+        if (absoluteSlot + 1 > container.size) {
             getPlayerInventorySafely()?.setItem(absoluteSlot - container.size, itemStack)
         } else {
             container.setItem(absoluteSlot, itemStack)

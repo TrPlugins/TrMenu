@@ -1,9 +1,12 @@
 /**
  * @author Arasple
  * @since 2022/11/6 14:21
+ *
+ * 测试单元
+ * SlotsMap 算法 的实现
+ *
+ * @see cc.trixey.mc.trmenu.invero.module.Panel.getSlotsMap
  */
-
-
 fun main() {
 
     /**
