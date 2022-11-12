@@ -53,7 +53,15 @@ abstract class PanelInstance(
      */
     override val slots by lazy { (0 until scale.first * scale.second).toList() }
 
+    /**
+     * Map of relative slots and actual slots
+     * The key (int) is the width of a Window
+     */
     override val slotsMap = LinkedHashMap<Int, MappedSlots>()
+
+    abstract val slotsOccupied: Set<Int>
+
+    abstract val slotsUnoccupied: List<Int>
 
     /**
      * Windows that are using this panel

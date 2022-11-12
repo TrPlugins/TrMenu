@@ -20,6 +20,13 @@ class MappedElements {
      */
     private val dynamicElements = LinkedList<PanelElementDynamic>()
 
+    val slotsOccupied: Set<Int>
+        get() {
+            // TODO DynamicElement Support
+            return elements.keys
+        }
+
+
     fun findElement(panelElement: PanelElement): Set<Int> {
         return elements.filterValues { it == panelElement }.keys
     }

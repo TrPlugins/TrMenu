@@ -1,6 +1,9 @@
 package cc.trixey.mc.trmenu.invero.module.base
 
-import cc.trixey.mc.trmenu.invero.module.*
+import cc.trixey.mc.trmenu.invero.module.PanelElement
+import cc.trixey.mc.trmenu.invero.module.PanelElementDynamic
+import cc.trixey.mc.trmenu.invero.module.PanelInstance
+import cc.trixey.mc.trmenu.invero.module.Window
 import cc.trixey.mc.trmenu.invero.module.`object`.MappedElements
 import cc.trixey.mc.trmenu.invero.module.`object`.PanelWeight
 
@@ -11,6 +14,13 @@ import cc.trixey.mc.trmenu.invero.module.`object`.PanelWeight
 abstract class BasePanel(scale: Pair<Int, Int>, pos: Int, weight: PanelWeight) : PanelInstance(scale, pos, weight) {
 
     private val elementsMap = MappedElements()
+
+    override val slotsOccupied: Set<Int>
+        get() = elementsMap.slotsOccupied
+
+
+    override val slotsUnoccupied: List<Int>
+        get() = slots - slotsOccupied
 
     fun setElement(relativeSlot: Int, element: PanelElement) {
         elementsMap[relativeSlot] = element

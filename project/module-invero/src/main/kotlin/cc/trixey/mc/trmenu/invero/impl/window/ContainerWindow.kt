@@ -13,7 +13,6 @@ import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryDragEvent
 import org.bukkit.event.inventory.InventoryOpenEvent
-import taboolib.common.platform.function.submit
 
 /**
  * @author Arasple
@@ -33,11 +32,10 @@ open class ContainerWindow(
     override var title = title
         set(value) {
             getViewerSafe()?.let {
-                handler.updateWindowTitle(it, this, value)
-                submit {
-                    if (!isViewing()) {
-                        handler.closeWindow(it)
-                    }
+                if (!isViewing()) {
+                    handler.closeWindow(it)
+                } else {
+                    handler.updateWindowTitle(it, this, value)
                 }
             }
             field = value

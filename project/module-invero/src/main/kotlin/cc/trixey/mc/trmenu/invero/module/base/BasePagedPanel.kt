@@ -28,13 +28,26 @@ abstract class BasePagedPanel(
 
     private val pages = LinkedList<MappedElements>()
 
+    override val slotsUnoccupied: List<Int>
+        get() = slotsUnoccupied()
+
+    override val slotsOccupied: Set<Int>
+        get() = slotsOccupied()
+
+    fun slotsUnoccupied(index: Int = pageIndex) = slots - slotsOccupied(index)
+
+    fun slotsOccupied(index: Int = pageIndex) = getPage(index).slotsOccupied
+
     operator fun get(index: Int) = pages[index]
 
-    fun getPage() = pages[pageIndex]
+    fun getPage(index: Int = pageIndex) = pages[index]
 
     fun getPages() = pages
 
-    fun addPage(layer: MappedElements) = pages.add(layer)
+    fun addPage(layer: MappedElements): Int {
+        pages.add(layer)
+        return pages.size - 1
+    }
 
     abstract fun nextPage(): Int
 

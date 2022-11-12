@@ -1,7 +1,7 @@
 package cc.trixey.mc.trmenu.invero
 
 import cc.trixey.mc.trmenu.invero.impl.WindowHolder
-import cc.trixey.mc.trmenu.invero.impl.element.BaseItem
+import cc.trixey.mc.trmenu.invero.impl.element.BasicItem
 import cc.trixey.mc.trmenu.invero.impl.panel.StandardPagedPanel
 import cc.trixey.mc.trmenu.invero.impl.panel.StandardPanel
 import cc.trixey.mc.trmenu.invero.impl.window.CompleteWindow
@@ -16,12 +16,21 @@ import taboolib.common.platform.event.SubscribeEvent
 /**
  * @author Arasple
  * @since 2022/10/28 19:22
+ *
+ * TODO List
+ *
+ * - ItemElement 请求更新逻辑
+ * - 周期性帧 ItemElement
+ * - DynamicElement 动态槽位
+ * ^ 至此已实现支持 TrMenu v3 的功能框架
+ *
+ * - 
  */
 object InveroManager {
 
-    fun Panel.constructElement(type: Class<*>): BaseItem {
+    fun Panel.constructElement(type: Class<*>): BasicItem {
         return when (type) {
-            BaseItem::class.java -> BaseItem(null, this)
+            BasicItem::class.java -> BasicItem(null, this)
             else -> throw IllegalArgumentException("Failed to create element, not found registered class $type")
         }
     }

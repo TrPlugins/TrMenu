@@ -1,12 +1,12 @@
 package cc.trixey.mc.trmenu.test
 
 import cc.trixey.mc.trmenu.coroutine.launch
+import cc.trixey.mc.trmenu.coroutine.launchAsync
 import cc.trixey.mc.trmenu.invero.impl.WindowHolder
-import cc.trixey.mc.trmenu.invero.impl.element.BaseItem
+import cc.trixey.mc.trmenu.invero.impl.element.BasicItem
 import cc.trixey.mc.trmenu.invero.impl.panel.StandardPagedPanel
 import cc.trixey.mc.trmenu.invero.impl.panel.StandardPanel
 import cc.trixey.mc.trmenu.invero.impl.window.CompleteWindow
-import cc.trixey.mc.trmenu.invero.impl.window.ContainerWindow
 import cc.trixey.mc.trmenu.invero.module.TypeAddress
 import cc.trixey.mc.trmenu.invero.util.*
 import org.bukkit.Material
@@ -21,17 +21,6 @@ import taboolib.platform.util.isAir
 /**
  * @author Arasple
  * @since 2022/10/29 10:51
- *
- * TODO
- * [√] Window 交互与 Panel、PanelElement 的传递
- * [ ] 嵌套 Panel 的实现和子父传递
- * [ ] 层叠 Panel 的交互、渲染处理
- * [ ] DynamicElement 的实现
- * [ ] Animation for Panel 动画组件的实现
- * [ ] Element 的主动请求更新
- * [ ] 更多常规类型的 Panel
- * [ ] 更多常规类型的 Element
- * [ ] 交互性、储存容器的实现
  */
 @CommandHeader(name = "testInvero")
 object TestInvero {
@@ -41,16 +30,16 @@ object TestInvero {
         execute { player, _, _ ->
             val window = buildWindow<CompleteWindow>(player, TypeAddress.GENERIC_9X3) {
                 addPanel<StandardPanel>(9 to 3, 0) {
-                    for (s in 0..27) addElement<BaseItem>(s) {
+                    for (s in slots) addElement<BasicItem>(s) {
                         setItem(generateRandomItem())
                     }
                 }
             }.also { it.open() }
 
+            // Skedule 在低分辨率 （<3ticks) 下存在抛 “ Already resumed” 异常的问题
+            // TODO 研究解决或用 Submit 代替低分辨率场景
             launch(true) {
-                // Skedule 在低分辨率 （<3ticks) 下存在抛 “ Already resumed” 异常的问题
-                // TODO 研究解决或用 Submit 代替低分辨率场景
-                repeating(5)
+                repeating(3)
                 for (title in dynamicTitles) {
                     window.title = title
                     yield()
@@ -63,59 +52,74 @@ object TestInvero {
     @CommandBody
     val testStandard = subCommand {
         execute { player, _, _ ->
-            var count = 1
+            launchAsync {
+                var count = 1
 
-            buildWindow<ContainerWindow>(player) {
-                title = "Hello Invero"
-
-                addPanel(posMarkPanel)
-                addPanel<StandardPanel>(3 to 2) {
-                    addElement<BaseItem>(0, 4, 5) {
+                val panel = buildPanel<StandardPanel>(3 to 10) {
+                    addElement<BasicItem>(0, 4, 5) {
                         setItem(Material.DIAMOND)
                         onClick {
                             modify { amount = (if (isLeftClick) count++ else count--) }
                         }
                     }
-                    addElement<BaseItem>(1, 2, 3) { setItem(Material.EMERALD) }
+                    addElement<BasicItem>(*slotsUnoccupied.toIntArray()) { setItem(Material.EMERALD) }
                 }
-                addPanel<StandardPagedPanel>(3 to 2, 4) {
-                    val previousPage = createItem<BaseItem>(Material.ARROW, { name = "§3Previous page" }, {
+
+                val pagedPanel = buildPanel<StandardPagedPanel>(3 to 8, 4) {
+                    val previousPage = buildItem<BasicItem>(Material.ARROW, {
+                        name = "§3Previous page"
+                        lore.add("$pageIndex / $maxPageIndex")
+                    }, {
                         onClick {
                             previousPage()
-                            title = "Page: $pageIndex / $maxPageIndex"
+                            modifyLore { set(0, "$pageIndex / $maxPageIndex") }
+                            forWindows { title = "Page: $pageIndex / $maxPageIndex" }
                         }
                     })
-                    val nextPage = createItem<BaseItem>(Material.ARROW, { name = "§aNext Page" }, {
+                    val nextPage = buildItem<BasicItem>(Material.ARROW, {
+                        name = "§aNext Page"
+                        lore.add("$pageIndex / $maxPageIndex")
+                    }, {
                         onClick {
                             nextPage()
-                            title = "Page: $pageIndex / $maxPageIndex"
+                            modifyLore { set(0, "$pageIndex / $maxPageIndex") }
+                            forWindows { title = "Page: $pageIndex / $maxPageIndex" }
                         }
                     })
-                    val fill = createItem<BaseItem>(Material.BLACK_STAINED_GLASS)
-                    val fill2 = createItem<BaseItem>(Material.LIME_STAINED_GLASS_PANE)
+                    val fill = buildItem<BasicItem>(Material.BLACK_STAINED_GLASS)
+                    val fill2 = buildItem<BasicItem>(Material.LIME_STAINED_GLASS_PANE)
+                    val randomFill: () -> BasicItem = { buildItem(generateRandomItem()) }
 
-                    page {
+                    page { index ->
                         setElement(0, previousPage)
                         setElement(2, nextPage)
-                        slots.forEach {
-                            if (it != 0 && it != 2) {
-                                setElement(it, fill)
-                            }
-                        }
+
+                        slotsUnoccupied(index).forEach { setElement(it, fill) }
                     }
 
-                    page {
+                    page { index ->
                         setElement(0, previousPage)
                         setElement(2, nextPage)
-                        slots.forEach {
-                            if (it != 0 && it != 2) {
-                                setElement(it, fill2)
-                            }
-                        }
+                        slotsUnoccupied(index).forEach { setElement(it, fill2) }
                     }
 
+                    for (i in 0..10) {
+                        page { index ->
+                            setElement(0, previousPage)
+                            setElement(2, nextPage)
+                            slotsUnoccupied(index).forEach { setElement(it, randomFill()) }
+                        }
+                    }
                 }
-            }.also { it.open() }
+
+                buildWindow<CompleteWindow>(player) {
+                    title = "Standard Panels Test"
+
+                    addPanel(
+                        markPanel, panel, pagedPanel
+                    )
+                }.also { it.open() }
+            }
         }
     }
 
@@ -123,7 +127,7 @@ object TestInvero {
     val testStandardPosMark = subCommand {
         execute<ProxyCommandSender> { sender, _, arguemnt ->
             sender.sendMessage("PosMarked")
-            posMarkPanel = testPanelPosMark(arguemnt.split(" ")[1].toIntOrNull() ?: 4)
+            markPanel = testPanelPosMark(arguemnt.split(" ")[1].toIntOrNull() ?: 4)
         }
     }
 
@@ -150,7 +154,7 @@ object TestInvero {
         titles
     }
 
-    var posMarkPanel: StandardPanel = testPanelPosMark(32)
+    var markPanel: StandardPanel = testPanelPosMark(32)
 
     private fun generateRandomItem(): ItemStack {
         var itemStack: ItemStack? = null
@@ -161,11 +165,8 @@ object TestInvero {
     }
 
     private fun testPanelPosMark(pos: Int): StandardPanel {
-        return createPanel {
-            scale = 3 to 3
-            markPosition(pos)
-
-            addElement<BaseItem>(relativeSlot = slots.toIntArray()) {
+        return buildPanel(3 to 3, pos) {
+            addElement<BasicItem>(*slots.toIntArray()) {
                 setItem(Material.values().random())
             }
         }

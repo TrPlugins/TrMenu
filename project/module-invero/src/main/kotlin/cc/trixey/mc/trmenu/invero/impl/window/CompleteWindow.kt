@@ -11,15 +11,15 @@ import org.bukkit.inventory.ItemStack
  * @author Arasple
  * @since 2022/10/29 16:44
  *
- * A full complete window which uses player's inventory for panels
- * By default player's inventory will be saved before opening, and restored after closure
+ * A full competent window which uses player's inventory for panels
+ * By default player's inventory will be saved before opening, and restored after closing
  */
 class CompleteWindow(viewer: Player, type: TypeAddress, title: String) : ContainerWindow(viewer, type, title) {
 
     /**
      * Backup of the player's items
      */
-    val playerItems = arrayOfNulls<ItemStack>(36)
+    var playerItems = arrayOfNulls<ItemStack>(36)
 
     /**
      * @see PairedInventory
@@ -49,9 +49,7 @@ class CompleteWindow(viewer: Player, type: TypeAddress, title: String) : Contain
      */
     private fun backupPlayerInventory() {
         pairedInventory.getPlayerInventory().apply {
-            storageContents.forEachIndexed { index, itemStack ->
-                playerItems[index] = itemStack
-            }
+            playerItems = storageContents
             clear()
         }
     }
@@ -60,11 +58,7 @@ class CompleteWindow(viewer: Player, type: TypeAddress, title: String) : Contain
      * Restore player's inventory contents
      */
     private fun restorePlayerInventory() {
-        pairedInventory.getPlayerInventory().apply {
-            playerItems.forEachIndexed { index, itemStack ->
-                storageContents[index] = itemStack
-            }
-        }
+        pairedInventory.getPlayerInventory().apply { storageContents = playerItems }
     }
 
 }

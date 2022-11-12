@@ -4,6 +4,7 @@ import cc.trixey.mc.trmenu.invero.module.Window
 import cc.trixey.mc.trmenu.invero.module.base.BasePagedPanel
 import cc.trixey.mc.trmenu.invero.module.`object`.PanelWeight
 import org.bukkit.event.inventory.InventoryClickEvent
+import taboolib.common.platform.function.submit
 
 /**
  * @author Arasple
@@ -17,9 +18,11 @@ class StandardPagedPanel(
 
     override var pageIndex = 0
         set(value) {
-            wipePanel()
-            renderAll()
-            if (value in 0 until maxPageIndex) field = value
+            if (value in 0..maxPageIndex) field = value
+            submit {
+                wipePanel()
+                renderAll()
+            }
         }
 
     override fun nextPage(): Int = pageIndex++

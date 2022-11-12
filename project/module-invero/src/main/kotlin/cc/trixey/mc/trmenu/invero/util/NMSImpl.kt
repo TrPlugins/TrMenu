@@ -2,14 +2,13 @@ package cc.trixey.mc.trmenu.invero.util
 
 import cc.trixey.mc.trmenu.invero.module.Window
 import net.minecraft.server.v1_16_R3.ChatComponentText
+import net.minecraft.server.v1_16_R3.Container
 import net.minecraft.server.v1_16_R3.PacketPlayOutCloseWindow
 import net.minecraft.server.v1_16_R3.PacketPlayOutOpenWindow
-import net.minecraft.world.inventory.Container
 import net.minecraft.world.inventory.Containers
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer
 import org.bukkit.craftbukkit.v1_16_R3.util.CraftChatMessage
 import org.bukkit.entity.Player
-
 import taboolib.library.reflex.Reflex.Companion.getProperty
 import taboolib.library.reflex.Reflex.Companion.unsafeInstance
 import taboolib.module.nms.MinecraftVersion.isUniversal
@@ -25,6 +24,9 @@ class NMSImpl : NMS() {
         player as CraftPlayer
 
         return if (isUniversal) {
+//            Caused by: java.lang.NoSuchFieldError: containerMenu
+//            player as org.bukkit.craftbukkit.v1_19_R1.entity.CraftPlayer
+//            player.handle.containerMenu.containerId
             player.handle.getProperty<Container>("containerMenu")!!.getProperty<Int>("containerId")!!
         } else {
             player.handle.activeContainer.windowId

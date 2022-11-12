@@ -65,6 +65,10 @@ fun Plugin.schedule(
  *
  * @receiver The BukkitScheduler instance to use for scheduling tasks.
  */
+fun launchAsync(co: suspend BukkitSchedulerController.() -> Unit): CoroutineTask {
+    return launch(true, co)
+}
+
 fun launch(async: Boolean = false, co: suspend BukkitSchedulerController.() -> Unit): CoroutineTask {
     val controller = BukkitSchedulerController(scheduler)
     val block: suspend BukkitSchedulerController.() -> Unit = {

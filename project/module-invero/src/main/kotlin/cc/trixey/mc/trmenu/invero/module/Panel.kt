@@ -25,7 +25,7 @@ interface Panel : Parentable {
     val scale: Pair<Int, Int>
 
     /**
-     * Relative Available Slots
+     * Relative slots of this panel
      */
     val slots: List<Int>
 
