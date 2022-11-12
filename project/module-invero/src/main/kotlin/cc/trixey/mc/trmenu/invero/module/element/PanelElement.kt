@@ -42,6 +42,8 @@ interface PanelElement {
 
     fun forWindows(function: Window.() -> Unit) = panel.forWindows(function)
 
-    fun render(window: Window)
+    fun renderElement(window: Window)
+
+    fun renderAll() = forWindows { renderElement(this) }
 
 }

@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack
  */
 class BasicItem(private var itemStack: ItemStack?, panel: Panel) : ElementAbsolute(panel), ItemProvider {
 
-    override fun render(window: Window) {
+    override fun renderElement(window: Window) {
         if (!panel.isRenderable(this)) return
 
         window.getAbsoluteSlots().forEach {

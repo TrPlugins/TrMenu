@@ -44,12 +44,12 @@ abstract class BaseWindow(val viewer: UUID) : Window {
     /**
      * Render all panels at once
      */
-    override fun render(clearance: Boolean) {
+    override fun renderWindow(clearance: Boolean) {
         if (!hasViewer()) throw IllegalStateException("Unable to render this panel while the viewer does not exists")
         if (clearance) pairedInventory.clear()
 
         panels.sortedBy { it.weight.value }.forEach { panel ->
-            panel.render(this)
+            panel.renderPanel(this)
         }
     }
 

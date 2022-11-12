@@ -60,7 +60,7 @@ open class ContainerWindow(
      */
     override fun handleOpen(e: InventoryOpenEvent) {
         if (!e.isCancelled) register()
-        render()
+        renderWindow()
     }
 
     /**

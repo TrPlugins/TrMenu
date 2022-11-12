@@ -58,12 +58,12 @@ abstract class BasePanel(scale: Pair<Int, Int>, pos: Int, weight: PanelWeight) :
     /**
      * Render this panel to a specific window
      */
-    override fun render(window: Window) {
+    override fun renderPanel(window: Window) {
         elementsMap.forAbsoluteElements {
-            it.render(window)
+            it.renderElement(window)
         }
         elementsMap.forDynamicElements {
-            it.render(window)
+            it.renderElement(window)
         }
     }
 

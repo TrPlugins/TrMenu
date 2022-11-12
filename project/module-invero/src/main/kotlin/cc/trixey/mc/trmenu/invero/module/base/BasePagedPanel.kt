@@ -98,12 +98,12 @@ abstract class BasePagedPanel(
     /**
      * Default render logic for BasePagedPanel
      */
-    override fun render(window: Window) {
+    override fun renderPanel(window: Window) {
         getPage().forAbsoluteElements {
-            it.render(window)
+            it.renderElement(window)
         }
         getPage().forDynamicElements {
-            it.render(window)
+            it.renderElement(window)
         }
     }
 

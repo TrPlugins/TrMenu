@@ -88,9 +88,9 @@ interface Panel : Parentable {
      */
     fun isRenderable(element: PanelElement): Boolean
 
-    fun render(window: Window)
+    fun renderPanel(window: Window)
 
-    fun renderAll() = forWindows { render(this) }
+    fun renderAll() = forWindows { renderPanel(this) }
 
     fun handleClick(window: Window, e: InventoryClickEvent)
 

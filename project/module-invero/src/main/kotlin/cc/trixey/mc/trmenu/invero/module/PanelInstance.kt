@@ -28,7 +28,7 @@ abstract class PanelInstance(scale: Pair<Int, Int>, pos: Int, weight: PanelWeigh
     override var weight = weight
         set(value) {
             field = value
-            forWindows { render(true) }
+            forWindows { renderWindow(true) }
         }
 
     /**
