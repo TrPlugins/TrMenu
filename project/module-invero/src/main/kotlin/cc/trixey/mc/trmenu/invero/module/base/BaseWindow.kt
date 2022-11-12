@@ -48,8 +48,9 @@ abstract class BaseWindow(val viewer: UUID) : Window {
         if (!hasViewer()) throw IllegalStateException("Unable to render this panel while the viewer does not exists")
         if (clearance) pairedInventory.clear()
 
-        // forEach Panels at its weight from low to high
-        panels.sortedBy { it.weight.value }.forEach { panel -> panel.render(this) }
+        panels.sortedBy { it.weight.value }.forEach { panel ->
+            panel.render(this)
+        }
     }
 
     fun findPanelHandler(slot: Int): Panel? {
@@ -63,12 +64,10 @@ abstract class BaseWindow(val viewer: UUID) : Window {
             is InventoryOpenEvent -> handleOpen(e)
             is InventoryCloseEvent -> handleClose(e)
             is InventoryDragEvent -> {
-                e.isCancelled = true
                 handleDrag(e)
             }
 
             is InventoryClickEvent -> {
-                e.isCancelled = true
                 when (e.action) {
                     InventoryAction.MOVE_TO_OTHER_INVENTORY -> handleItemsMove(e)
                     InventoryAction.COLLECT_TO_CURSOR -> handleItemsCollect(e)

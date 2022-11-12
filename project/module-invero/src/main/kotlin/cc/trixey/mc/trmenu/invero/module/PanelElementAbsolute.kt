@@ -1,20 +1,29 @@
 package cc.trixey.mc.trmenu.invero.module
 
+import org.bukkit.event.inventory.InventoryClickEvent
+
 /**
  * @author Arasple
  * @since 2022/11/6 15:17
  */
-abstract class PanelElementAbsolute(override val parentPanel: Panel) : PanelElement {
+abstract class PanelElementAbsolute(override val panel: Panel) : PanelElement {
 
-    private val actualSlots = LinkedHashMap<Int, List<Int>>()
+    private var handlerClickEvent: (InventoryClickEvent) -> Unit = {}
+    private val absoltueSlots = LinkedHashMap<Int, List<Int>>()
 
-    override val relativeSlotsInParentPanel by lazy {
-        parentPanelElements.findElement(this).ifEmpty { null }
+    val slots by lazy {
+        panelElements.findElementSlots(this).ifEmpty { null }
     }
 
-    fun Window.actualSlots(): List<Int> {
-        return actualSlots.computeIfAbsent(type.width) {
-            relativeSlotsInParentPanel!!.map { slotMap().getActual(it) }.filter { it >= 0 }
+    fun onClick(event: InventoryClickEvent.() -> Unit) {
+        handlerClickEvent = event
+    }
+
+    fun passClickEvent(e: InventoryClickEvent) = handlerClickEvent(e)
+
+    fun Window.getAbsoluteSLots(): List<Int> {
+        return absoltueSlots.computeIfAbsent(type.width) {
+            slots!!.map { slotMap().getActual(it) }.filter { it >= 0 }
         }
     }
 

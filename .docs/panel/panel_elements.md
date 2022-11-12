@@ -2,5 +2,4 @@
 
 - Item
     - BaseItem
-    - 
 - Portal

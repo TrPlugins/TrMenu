@@ -1,6 +1,7 @@
 package cc.trixey.mc.trmenu.invero.module.`object`
 
 import cc.trixey.mc.trmenu.invero.module.PanelElement
+import cc.trixey.mc.trmenu.invero.module.PanelElementAbsolute
 import cc.trixey.mc.trmenu.invero.module.PanelElementDynamic
 import java.util.*
 
@@ -13,7 +14,7 @@ class MappedElements {
     /**
      * Static-Slot Elements of this panel
      */
-    private val elements = LinkedHashMap<Int, PanelElement>()
+    private val absoluteElements = LinkedHashMap<Int, PanelElementAbsolute>()
 
     /**
      * Dynamic-Slot Elements of this panel
@@ -23,43 +24,45 @@ class MappedElements {
     val slotsOccupied: Set<Int>
         get() {
             // TODO DynamicElement Support
-            return elements.keys
+            return absoluteElements.keys
         }
 
-
-    fun findElement(panelElement: PanelElement): Set<Int> {
-        return elements.filterValues { it == panelElement }.keys
+    fun findElementSlots(panelElement: PanelElementAbsolute): Set<Int> {
+        return absoluteElements.filterValues { it == panelElement }.keys
     }
 
-    fun setElement(relativeSlot: Int, element: PanelElement) {
-        return if (!elements.containsKey(relativeSlot)) elements.set(relativeSlot, element)
+    fun setElement(relativeSlot: Int, element: PanelElementAbsolute) {
+        return if (!absoluteElements.containsKey(relativeSlot)) absoluteElements.set(relativeSlot, element)
         else throw UnsupportedOperationException("TODO PanelElement safely unregister")
     }
 
-    fun getElement(relativeSlot: Int) = elements[relativeSlot]
+    fun getAbsoluteElement(relativeSlot: Int) = absoluteElements[relativeSlot]
 
-    fun addElementDynamic(element: PanelElementDynamic) = dynamicElements.add(element)
+    operator fun get(relativeSlot: Int) = getAbsoluteElement(relativeSlot)
 
-    fun removeElementDynamic(element: PanelElementDynamic) = dynamicElements.remove(element)
+    operator fun set(relativeSlot: Int, element: PanelElementAbsolute) = setElement(relativeSlot, element)
 
-    operator fun get(relativeSlot: Int) = getElement(relativeSlot)
+    fun forDynamicElements(function: (PanelElementDynamic) -> Unit) {
+        dynamicElements.forEach(function)
+    }
 
-    operator fun set(relativeSlot: Int, element: PanelElement) = setElement(relativeSlot, element)
+    fun forAbsoluteElements(function: (PanelElementAbsolute) -> Unit) {
+        absoluteElements.values.forEach(function)
+    }
+
+    operator fun minusAssign(element: PanelElement) {
+        if (element is PanelElementAbsolute) {
+            val keys = absoluteElements.filterValues { it == element }.keys
+            keys.forEach {
+                absoluteElements.remove(it)
+            }
+        } else if (element is PanelElementDynamic) {
+            dynamicElements.remove(element)
+        }
+    }
 
     operator fun plusAssign(element: PanelElementDynamic) {
-        dynamicElements += element
-    }
-
-    operator fun minusAssign(element: PanelElementDynamic) {
-        dynamicElements -= element
-    }
-
-    fun forEach(function: (Int, PanelElement) -> Unit) {
-        elements.forEach(function)
-    }
-
-    fun forEachDynamic(function: (PanelElementDynamic) -> Unit) {
-        dynamicElements.forEach(function)
+        dynamicElements.add(element)
     }
 
 }

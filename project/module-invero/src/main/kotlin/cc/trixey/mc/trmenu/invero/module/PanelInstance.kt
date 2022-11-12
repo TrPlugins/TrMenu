@@ -9,9 +9,7 @@ import java.util.*
  * @author Arasple
  * @since 2022/11/7 22:18
  */
-abstract class PanelInstance(
-    scale: Pair<Int, Int>, pos: Int, weight: PanelWeight
-) : Panel {
+abstract class PanelInstance(scale: Pair<Int, Int>, pos: Int, weight: PanelWeight) : Panel {
 
     /**
      * Scale of this panel
@@ -40,14 +38,6 @@ abstract class PanelInstance(
         private set
 
     /**
-     * Change the starting position of this panel
-     */
-    fun markPosition(mark: Int) {
-        pos = mark
-        slotsMap.clear()
-    }
-
-    /**
      * Slots this panel have
      * (Relative slots, starting from 0)
      */
@@ -59,8 +49,14 @@ abstract class PanelInstance(
      */
     override val slotsMap = LinkedHashMap<Int, MappedSlots>()
 
+    /**
+     * The relative slots which have already been taken by elements
+     */
     abstract val slotsOccupied: Set<Int>
 
+    /**
+     * The relative slots that are currently available
+     */
     abstract val slotsUnoccupied: List<Int>
 
     /**
@@ -69,24 +65,21 @@ abstract class PanelInstance(
     override val windows = LinkedList<Window>()
 
     /**
-     * Handle click event that passed to this panel
+     * Get sub-panels
      */
-    override fun handleClick(window: Window, e: InventoryClickEvent) {
-
-    }
+    override fun getChildren() = null
 
     /**
-     * Handle items collect event that concerned this panel
+     * Get parent panel
      */
-    override fun handleItemsCollect(window: Window, e: InventoryClickEvent) {
-
-    }
+    override fun getParent() = null
 
     /**
-     * Handle items move event that concerned this panel
+     * Change the starting position of this panel
      */
-    override fun handleItemsMove(window: Window, e: InventoryClickEvent) {
-
+    fun markPosition(mark: Int) {
+        pos = mark
+        slotsMap.clear()
     }
 
     /**
@@ -99,25 +92,16 @@ abstract class PanelInstance(
         }
     }
 
-    /**
-     * TODO
-     * Element interact event processing
-     */
-    fun PanelElement.handleEvent(e: InventoryClickEvent) {
-        when (this) {
-            is Clickable -> handleClick(e)
-            else -> null
-        }
+    override fun handleClick(window: Window, e: InventoryClickEvent) {
+        e.isCancelled = true
     }
 
-    /**
-     * No children panels supported
-     */
-    override fun getChildren() = null
+    override fun handleItemsMove(window: Window, e: InventoryClickEvent) {
+        e.isCancelled = true
+    }
 
-    /**
-     * Parent panel support
-     */
-    override fun getParent() = null
+    override fun handleItemsCollect(window: Window, e: InventoryClickEvent) {
+        e.isCancelled = true
+    }
 
 }

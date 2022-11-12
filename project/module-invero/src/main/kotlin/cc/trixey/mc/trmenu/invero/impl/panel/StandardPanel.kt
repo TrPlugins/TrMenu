@@ -9,14 +9,13 @@ import org.bukkit.event.inventory.InventoryClickEvent
  * @author Arasple
  * @since 2022/11/1 21:33
  */
-open class StandardPanel(
-    scale: Pair<Int, Int>,
-    pos: Int,
-    weight: PanelWeight = PanelWeight.NORMAL,
-) : BasePanel(scale, pos, weight) {
+open class StandardPanel(scale: Pair<Int, Int>, pos: Int, weight: PanelWeight) : BasePanel(scale, pos, weight) {
 
     override fun handleClick(window: Window, e: InventoryClickEvent) {
-        getSlotsMap(window).getRelative(e.slot).let { getElement(it)?.handleEvent(e) }
+        val relativeslot = getSlotsMap(window).getRelative(e.slot)
+        val element = getAbsoluteElement(relativeslot)
+
+        element?.passClickEvent(e)
     }
 
 }

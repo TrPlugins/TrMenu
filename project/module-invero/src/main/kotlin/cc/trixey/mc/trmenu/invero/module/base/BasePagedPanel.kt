@@ -1,6 +1,7 @@
 package cc.trixey.mc.trmenu.invero.module.base
 
 import cc.trixey.mc.trmenu.invero.module.PanelInstance
+import cc.trixey.mc.trmenu.invero.module.Window
 import cc.trixey.mc.trmenu.invero.module.`object`.MappedElements
 import cc.trixey.mc.trmenu.invero.module.`object`.PanelWeight
 import java.util.*
@@ -19,40 +20,83 @@ abstract class BasePagedPanel(
     abstract var pageIndex: Int
 
     /**
-     * Current pages amount
+     * Current max page index
      */
     val maxPageIndex: Int
-        get() {
-            return pages.size - 1
-        }
+        get() = pages.size - 1
 
-    private val pages = LinkedList<MappedElements>()
+    /**
+     * Pages of elements
+     */
+    internal val pages = LinkedList<MappedElements>()
 
-    override val slotsUnoccupied: List<Int>
-        get() = slotsUnoccupied()
-
+    /**
+     * @see PanelInstance.slotsOccupied
+     */
     override val slotsOccupied: Set<Int>
         get() = slotsOccupied()
 
+    /**
+     * @see PanelInstance.slotsUnoccupied
+     */
+    override val slotsUnoccupied: List<Int>
+        get() = slotsUnoccupied()
+
+    /**
+     * Get the occupied slots of a certain page
+     */
+    fun slotsOccupied(index: Int = pageIndex) = this[index].slotsOccupied
+
+    /**
+     * Get the unoccupied slots of a certain page
+     */
     fun slotsUnoccupied(index: Int = pageIndex) = slots - slotsOccupied(index)
 
-    fun slotsOccupied(index: Int = pageIndex) = getPage(index).slotsOccupied
-
+    /**
+     * Get a certain page layer
+     */
     operator fun get(index: Int) = pages[index]
 
-    fun getPage(index: Int = pageIndex) = pages[index]
+    /**
+     * Get a certain page layer with default pageIndex
+     */
+    fun getPage(index: Int = pageIndex) = this[index]
 
-    fun getPages() = pages
-
-    fun addPage(layer: MappedElements): Int {
-        pages.add(layer)
+    /**
+     * Add a page to this panel
+     *
+     * @return last index of pages
+     */
+    fun addPage(page: MappedElements): Int {
+        pages += page
         return pages.size - 1
     }
 
+    /**
+     * Switch to the next page
+     */
     abstract fun nextPage(): Int
 
+    /**
+     * Switch to the previous page
+     */
     abstract fun previousPage(): Int
 
+    /**
+     * Switch to a certain page
+     */
     abstract fun switchPage(page: Int)
+
+    /**
+     * Default render logic for BasePagedPanel
+     */
+    override fun render(window: Window) {
+        getPage().forAbsoluteElements { element ->
+            element.render(window)
+        }
+        getPage().forDynamicElements {
+            // TODO Render dynamic
+        }
+    }
 
 }

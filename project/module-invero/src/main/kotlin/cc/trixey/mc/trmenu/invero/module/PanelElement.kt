@@ -12,29 +12,33 @@ import java.util.*
 interface PanelElement {
 
     /**
-     * The panel to which this element belongs to
+     * The parent panel of this element
      */
-    val parentPanel: Panel
+    val panel: Panel
 
-    val parentPanelElements: MappedElements
+    /**
+     * Get the MappedElements of the panel to which this element belong
+     */
+    val panelElements: MappedElements
         get() {
-            return if (parentPanel is BasePanel) {
-                (parentPanel as BasePanel).getElements()
-            } else {
-                (parentPanel as BasePagedPanel).getPage()
+            return when (panel) {
+                is BasePanel -> (panel as BasePanel).elementsMap
+                is BasePagedPanel -> (panel as BasePagedPanel).getPage()
+                else -> error("Unsupported panel")
             }
         }
 
-    val appliedWindows: LinkedList<Window>
+    /**
+     * The windows that this element is suppose to render
+     */
+    val windows: LinkedList<Window>
         get() {
-            return parentPanel.windows
+            return panel.windows
         }
 
-    val relativeSlotsInParentPanel: Set<Int>?
+    fun Window.slotMap() = panel.getSlotsMap(this)
 
-    fun Window.slotMap() = parentPanel.getSlotsMap(this)
-
-    fun forWindows(function: Window.() -> Unit) = parentPanel.forWindows(function)
+    fun forWindows(function: Window.() -> Unit) = panel.forWindows(function)
 
     fun render(window: Window)
 

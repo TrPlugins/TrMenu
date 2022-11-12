@@ -43,19 +43,19 @@ class PairedInventory(var container: Inventory, private val playerUUID: UUID?) {
         getPlayerInventorySafely()?.clear()
     }
 
-    operator fun get(absoluteSlot: Int): ItemStack? {
-        return if (absoluteSlot + 1 > container.size) {
-            getPlayerInventorySafely()?.getItem(absoluteSlot.outflowCorrect() - container.size)
+    operator fun get(slot: Int): ItemStack? {
+        return if (slot + 1 > container.size) {
+            getPlayerInventorySafely()?.getItem(slot.outflowCorrect() - container.size)
         } else {
-            container.getItem(absoluteSlot)
+            container.getItem(slot)
         }
     }
 
-    operator fun set(absoluteSlot: Int, itemStack: ItemStack?) {
-        if (absoluteSlot + 1 > container.size) {
-            getPlayerInventorySafely()?.setItem(absoluteSlot.outflowCorrect(), itemStack)
+    operator fun set(slot: Int, itemStack: ItemStack?) {
+        if (slot + 1 > container.size) {
+            getPlayerInventorySafely()?.setItem(slot.outflowCorrect(), itemStack)
         } else {
-            container.setItem(absoluteSlot, itemStack)
+            container.setItem(slot, itemStack)
         }
     }
 
@@ -74,13 +74,8 @@ class PairedInventory(var container: Inventory, private val playerUUID: UUID?) {
      *
      * 27,28... 35
      */
-    private fun Int.outflowCorrect(): Int {
-        val substracted = this - container.size
-        return if (substracted > 26) {
-            substracted - 27
-        } else {
-            substracted + 9
-        }
+    private fun Int.outflowCorrect() = (this - container.size).let {
+        if (it > 26) it - 27 else it + 9
     }
 
 }

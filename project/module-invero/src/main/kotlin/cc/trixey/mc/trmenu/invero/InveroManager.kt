@@ -9,6 +9,7 @@ import cc.trixey.mc.trmenu.invero.impl.window.ContainerWindow
 import cc.trixey.mc.trmenu.invero.module.Panel
 import cc.trixey.mc.trmenu.invero.module.TypeAddress
 import cc.trixey.mc.trmenu.invero.module.Window
+import cc.trixey.mc.trmenu.invero.module.`object`.PanelWeight
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.*
 import taboolib.common.platform.event.SubscribeEvent
@@ -24,7 +25,7 @@ import taboolib.common.platform.event.SubscribeEvent
  * - DynamicElement 动态槽位
  * ^ 至此已实现支持 TrMenu v3 的功能框架
  *
- * - 
+ * -
  */
 object InveroManager {
 
@@ -35,10 +36,10 @@ object InveroManager {
         }
     }
 
-    fun constructPanel(type: Class<*>, scale: Pair<Int, Int>, posMark: Int): Panel {
+    fun constructPanel(type: Class<*>, scale: Pair<Int, Int>, posMark: Int, weight: PanelWeight): Panel {
         return when (type) {
-            StandardPanel::class.java -> StandardPanel(scale, posMark)
-            StandardPagedPanel::class.java -> StandardPagedPanel(scale, posMark)
+            StandardPanel::class.java -> StandardPanel(scale, posMark, weight)
+            StandardPagedPanel::class.java -> StandardPagedPanel(scale, posMark, weight)
             else -> throw IllegalArgumentException("Failed to create panel, not found registered class $type")
         }
     }

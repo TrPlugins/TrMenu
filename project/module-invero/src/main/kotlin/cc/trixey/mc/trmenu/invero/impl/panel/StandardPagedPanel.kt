@@ -10,12 +10,11 @@ import taboolib.common.platform.function.submit
  * @author Arasple
  * @since 2022/11/6 16:30
  */
-class StandardPagedPanel(
-    scale: Pair<Int, Int>,
-    pos: Int,
-    weight: PanelWeight = PanelWeight.NORMAL,
-) : BasePagedPanel(scale, pos, weight) {
+class StandardPagedPanel(scale: Pair<Int, Int>, pos: Int, weight: PanelWeight) : BasePagedPanel(scale, pos, weight) {
 
+    /**
+     * @see BasePagedPanel.pageIndex
+     */
     override var pageIndex = 0
         set(value) {
             if (value in 0..maxPageIndex) field = value
@@ -25,22 +24,28 @@ class StandardPagedPanel(
             }
         }
 
+    /**
+     * @see BasePagedPanel.nextPage
+     */
     override fun nextPage(): Int = pageIndex++
 
+    /**
+     * @see BasePagedPanel.previousPage
+     */
     override fun previousPage(): Int = pageIndex--
 
+    /**
+     * @see BasePagedPanel.switchPage
+     */
     override fun switchPage(page: Int) {
         pageIndex = page
     }
 
     override fun handleClick(window: Window, e: InventoryClickEvent) {
-        getSlotsMap(window).getRelative(e.slot).let { getPage().getElement(it)?.handleEvent(e) }
-    }
+        val relativeslot = getSlotsMap(window).getRelative(e.slot)
+        val element = getPage().getAbsoluteElement(relativeslot)
 
-    override fun render(window: Window) {
-        getPage().forEach { _, panelElement ->
-            panelElement.render(window)
-        }
+        element?.passClickEvent(e)
     }
 
 }
