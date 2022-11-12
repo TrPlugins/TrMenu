@@ -1,8 +1,8 @@
 package cc.trixey.mc.trmenu.invero.module.`object`
 
-import cc.trixey.mc.trmenu.invero.module.element.PanelElement
 import cc.trixey.mc.trmenu.invero.module.element.ElementAbsolute
 import cc.trixey.mc.trmenu.invero.module.element.ElementDynamic
+import cc.trixey.mc.trmenu.invero.module.element.PanelElement
 import java.util.*
 
 /**
@@ -26,6 +26,10 @@ class MappedElements {
             return absoluteElements.keys + dynamicElements.flatMap { it.slots }
         }
 
+    fun hasElement(element: PanelElement): Boolean {
+        return absoluteElements.containsValue(element) || dynamicElements.contains(element)
+    }
+
     fun findElementSlots(panelElement: ElementAbsolute): Set<Int> {
         return absoluteElements.filterValues { it == panelElement }.keys
     }
@@ -33,6 +37,15 @@ class MappedElements {
     fun setElement(relativeSlot: Int, element: ElementAbsolute) {
         return if (!absoluteElements.containsKey(relativeSlot)) absoluteElements.set(relativeSlot, element)
         else throw UnsupportedOperationException("TODO PanelElement safely unregister")
+    }
+
+    fun ElementDynamic.add(): ElementDynamic {
+        this@MappedElements += this
+        return this
+    }
+
+    fun ElementAbsolute.add(vararg slots: Int) {
+        slots.forEach { setElement(it, this) }
     }
 
     fun getAbsoluteElement(relativeSlot: Int) = absoluteElements[relativeSlot]

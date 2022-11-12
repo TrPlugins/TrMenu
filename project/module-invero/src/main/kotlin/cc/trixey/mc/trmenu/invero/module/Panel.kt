@@ -1,5 +1,6 @@
 package cc.trixey.mc.trmenu.invero.module
 
+import cc.trixey.mc.trmenu.invero.module.element.PanelElement
 import cc.trixey.mc.trmenu.invero.module.`object`.MappedSlots
 import cc.trixey.mc.trmenu.invero.module.`object`.PanelWeight
 import org.bukkit.event.inventory.InventoryClickEvent
@@ -81,6 +82,11 @@ interface Panel : Parentable {
     fun registerWindow(window: Window) = windows.add(window)
 
     fun forWindows(function: Window.() -> Unit) = windows.forEach(function)
+
+    /**
+     * Check if this element is current renderable
+     */
+    fun isRenderable(element: PanelElement): Boolean
 
     fun render(window: Window)
 

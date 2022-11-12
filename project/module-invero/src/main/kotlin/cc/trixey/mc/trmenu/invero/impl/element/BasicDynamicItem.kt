@@ -13,6 +13,8 @@ import org.bukkit.inventory.ItemStack
 class BasicDynamicItem(private var itemStack: ItemStack?, panel: Panel) : ElementDynamic(panel), ItemProvider {
 
     override fun render(window: Window) {
+        if (!panel.isRenderable(this)) return
+
         window.getAbsoluteSlots().forEach {
             window.pairedInventory[it] = itemStack
         }

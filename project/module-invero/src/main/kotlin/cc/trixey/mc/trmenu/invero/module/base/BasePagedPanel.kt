@@ -2,6 +2,7 @@ package cc.trixey.mc.trmenu.invero.module.base
 
 import cc.trixey.mc.trmenu.invero.module.PanelInstance
 import cc.trixey.mc.trmenu.invero.module.Window
+import cc.trixey.mc.trmenu.invero.module.element.PanelElement
 import cc.trixey.mc.trmenu.invero.module.`object`.MappedElements
 import cc.trixey.mc.trmenu.invero.module.`object`.PanelWeight
 import java.util.*
@@ -88,14 +89,21 @@ abstract class BasePagedPanel(
     abstract fun switchPage(page: Int)
 
     /**
+     * Check if this element is current renderable
+     */
+    override fun isRenderable(element: PanelElement): Boolean {
+        return getPage().hasElement(element)
+    }
+
+    /**
      * Default render logic for BasePagedPanel
      */
     override fun render(window: Window) {
-        getPage().forAbsoluteElements { element ->
-            element.render(window)
+        getPage().forAbsoluteElements {
+            it.render(window)
         }
         getPage().forDynamicElements {
-            // TODO Render dynamic
+            it.render(window)
         }
     }
 

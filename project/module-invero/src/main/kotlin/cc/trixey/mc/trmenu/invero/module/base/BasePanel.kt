@@ -1,9 +1,9 @@
 package cc.trixey.mc.trmenu.invero.module.base
 
-import cc.trixey.mc.trmenu.invero.module.element.ElementAbsolute
-import cc.trixey.mc.trmenu.invero.module.element.ElementDynamic
 import cc.trixey.mc.trmenu.invero.module.PanelInstance
 import cc.trixey.mc.trmenu.invero.module.Window
+import cc.trixey.mc.trmenu.invero.module.element.ElementAbsolute
+import cc.trixey.mc.trmenu.invero.module.element.ElementDynamic
 import cc.trixey.mc.trmenu.invero.module.`object`.MappedElements
 import cc.trixey.mc.trmenu.invero.module.`object`.PanelWeight
 
@@ -59,11 +59,11 @@ abstract class BasePanel(scale: Pair<Int, Int>, pos: Int, weight: PanelWeight) :
      * Render this panel to a specific window
      */
     override fun render(window: Window) {
-        elementsMap.forAbsoluteElements { element ->
-            element.render(window)
+        elementsMap.forAbsoluteElements {
+            it.render(window)
         }
         elementsMap.forDynamicElements {
-            // TODO Render dynamic
+            it.render(window)
         }
     }
 

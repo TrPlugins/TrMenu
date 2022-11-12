@@ -13,6 +13,8 @@ import org.bukkit.inventory.ItemStack
 class BasicItem(private var itemStack: ItemStack?, panel: Panel) : ElementAbsolute(panel), ItemProvider {
 
     override fun render(window: Window) {
+        if (!panel.isRenderable(this)) return
+
         window.getAbsoluteSlots().forEach {
             window.pairedInventory[it] = itemStack
         }

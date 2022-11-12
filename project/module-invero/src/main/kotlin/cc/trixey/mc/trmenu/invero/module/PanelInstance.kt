@@ -1,5 +1,6 @@
 package cc.trixey.mc.trmenu.invero.module
 
+import cc.trixey.mc.trmenu.invero.module.element.PanelElement
 import cc.trixey.mc.trmenu.invero.module.`object`.MappedSlots
 import cc.trixey.mc.trmenu.invero.module.`object`.PanelWeight
 import org.bukkit.event.inventory.InventoryClickEvent
@@ -80,6 +81,10 @@ abstract class PanelInstance(scale: Pair<Int, Int>, pos: Int, weight: PanelWeigh
     fun markPosition(mark: Int) {
         pos = mark
         slotsMap.clear()
+    }
+
+    override fun isRenderable(element: PanelElement): Boolean {
+        return true
     }
 
     /**

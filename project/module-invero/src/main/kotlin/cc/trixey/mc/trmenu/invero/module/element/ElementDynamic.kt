@@ -23,11 +23,11 @@ abstract class ElementDynamic(panel: Panel) : Interactable(panel) {
             field = value
         }
 
-    fun changeSlots(vararg slots: Int) {
+    fun slots(vararg slots: Int) {
         this.slots = slots.toSet()
     }
 
-    fun changeSlots(slots: Set<Int>) {
+    fun slots(slots: Set<Int>) {
         this.slots = slots
     }
 
