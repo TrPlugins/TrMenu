@@ -3,10 +3,15 @@ package cc.trixey.mc.trmenu.invero.util
 import cc.trixey.mc.trmenu.invero.InveroManager.constructElement
 import cc.trixey.mc.trmenu.invero.InveroManager.constructPanel
 import cc.trixey.mc.trmenu.invero.InveroManager.constructWindow
-import cc.trixey.mc.trmenu.invero.impl.element.BasicItem
-import cc.trixey.mc.trmenu.invero.module.*
+import cc.trixey.mc.trmenu.invero.module.Panel
+import cc.trixey.mc.trmenu.invero.module.TypeAddress
+import cc.trixey.mc.trmenu.invero.module.Window
 import cc.trixey.mc.trmenu.invero.module.base.BasePagedPanel
 import cc.trixey.mc.trmenu.invero.module.base.BasePanel
+import cc.trixey.mc.trmenu.invero.module.element.ElementAbsolute
+import cc.trixey.mc.trmenu.invero.module.element.ElementDynamic
+import cc.trixey.mc.trmenu.invero.module.element.ItemProvider
+import cc.trixey.mc.trmenu.invero.module.element.PanelElement
 import cc.trixey.mc.trmenu.invero.module.`object`.MappedElements
 import cc.trixey.mc.trmenu.invero.module.`object`.PanelWeight
 import org.bukkit.Material
@@ -52,14 +57,14 @@ inline fun <reified T : PanelElement> Panel.buildElement(init: T.() -> Unit = {}
     return (constructElement(T::class.java) as T).also(init)
 }
 
-inline fun <reified T : BasicItem> Panel.buildItem(itemStack: ItemStack, init: T.() -> Unit = {}): T {
+inline fun <reified T : ItemProvider> Panel.buildItem(itemStack: ItemStack, init: T.() -> Unit = {}): T {
     return (constructElement(T::class.java) as T).also {
-        (it as BasicItem).setItem(itemStack)
+        it.setItem(itemStack)
         init(it)
     }
 }
 
-inline fun <reified T : BasicItem> Panel.buildItem(
+inline fun <reified T : ItemProvider> Panel.buildItem(
     material: Material,
     noinline builder: ItemBuilder.() -> Unit = {},
     init: T.() -> Unit = {}
@@ -90,12 +95,12 @@ fun BasePagedPanel.page(function: MappedElements.(Int) -> Unit) {
 
 inline fun <reified T : PanelElement> BasePanel.addElement(vararg slots: Int, init: T.() -> Unit = {}): T {
     return buildElement(init).also { element ->
-        if (slots.isNotEmpty() && element is PanelElementAbsolute) {
+        if (slots.isNotEmpty() && element is ElementAbsolute) {
             slots.forEach {
                 if (it < 0) throw IllegalArgumentException("Relative slot can not be negative number")
                 setElement(it, element)
             }
-        } else if (element is PanelElementDynamic) {
+        } else if (element is ElementDynamic) {
             addDynamicElement(element)
         }
     }

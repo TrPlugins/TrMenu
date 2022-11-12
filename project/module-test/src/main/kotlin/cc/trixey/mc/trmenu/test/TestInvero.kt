@@ -3,6 +3,7 @@ package cc.trixey.mc.trmenu.test
 import cc.trixey.mc.trmenu.coroutine.launch
 import cc.trixey.mc.trmenu.coroutine.launchAsync
 import cc.trixey.mc.trmenu.invero.impl.WindowHolder
+import cc.trixey.mc.trmenu.invero.impl.element.BasicDynamicItem
 import cc.trixey.mc.trmenu.invero.impl.element.BasicItem
 import cc.trixey.mc.trmenu.invero.impl.panel.StandardPagedPanel
 import cc.trixey.mc.trmenu.invero.impl.panel.StandardPanel
@@ -10,6 +11,7 @@ import cc.trixey.mc.trmenu.invero.impl.window.CompleteWindow
 import cc.trixey.mc.trmenu.invero.module.TypeAddress
 import cc.trixey.mc.trmenu.invero.util.*
 import org.bukkit.Material
+import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.CommandBody
@@ -45,6 +47,36 @@ object TestInvero {
                     yield()
                 }
                 window.title = "Hello Invero"
+            }
+        }
+    }
+
+    @CommandBody
+    val testDynamicItem = subCommand {
+        execute<Player> { player, _, _ ->
+            buildPanel<StandardPanel>(9 to 10) {
+                val dynamicDiamond =
+                    buildItem<BasicDynamicItem>(Material.DIAMOND) {
+                        changeSlots(0)
+
+                        onClick {
+                            modify { amount++ }
+                            player.sendMessage("You clicked $slot, Amount++")
+                        }
+                    }.add()
+
+                launchAsync {
+                    repeating(5)
+                    for (i in 0..60) {
+                        dynamicDiamond.changeSlots(i, i + 1)
+                        yield()
+                    }
+                    dynamicDiamond.changeSlots(0)
+                }
+            }.let {
+                buildWindow<CompleteWindow>(player, TypeAddress.GENERIC_9X6) {
+                    addPanel(it)
+                }.also { it.open() }
             }
         }
     }

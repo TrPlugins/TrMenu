@@ -1,5 +1,7 @@
-package cc.trixey.mc.trmenu.invero.module
+package cc.trixey.mc.trmenu.invero.module.element
 
+import cc.trixey.mc.trmenu.invero.module.Panel
+import cc.trixey.mc.trmenu.invero.module.Window
 import cc.trixey.mc.trmenu.invero.module.base.BasePagedPanel
 import cc.trixey.mc.trmenu.invero.module.base.BasePanel
 import cc.trixey.mc.trmenu.invero.module.`object`.MappedElements

@@ -2,15 +2,15 @@ package cc.trixey.mc.trmenu.invero.impl.element
 
 import cc.trixey.mc.trmenu.invero.module.Panel
 import cc.trixey.mc.trmenu.invero.module.Window
-import cc.trixey.mc.trmenu.invero.module.element.ElementAbsolute
+import cc.trixey.mc.trmenu.invero.module.element.ElementDynamic
 import cc.trixey.mc.trmenu.invero.module.element.ItemProvider
 import org.bukkit.inventory.ItemStack
 
 /**
  * @author Arasple
- * @since 2022/11/4 18:37
+ * @since 2022/11/12 19:52
  */
-class BasicItem(private var itemStack: ItemStack?, panel: Panel) : ElementAbsolute(panel), ItemProvider {
+class BasicDynamicItem(private var itemStack: ItemStack?, panel: Panel) : ElementDynamic(panel), ItemProvider {
 
     override fun render(window: Window) {
         window.getAbsoluteSlots().forEach {

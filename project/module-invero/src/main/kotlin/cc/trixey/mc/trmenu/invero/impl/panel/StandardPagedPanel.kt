@@ -42,8 +42,10 @@ class StandardPagedPanel(scale: Pair<Int, Int>, pos: Int, weight: PanelWeight) :
     }
 
     override fun handleClick(window: Window, e: InventoryClickEvent) {
+        e.isCancelled = true
+
         val relativeslot = getSlotsMap(window).getRelative(e.slot)
-        val element = getPage().getAbsoluteElement(relativeslot)
+        val element = getPage()[relativeslot]
 
         element?.passClickEvent(e)
     }

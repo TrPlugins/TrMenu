@@ -1,6 +1,7 @@
 package cc.trixey.mc.trmenu.invero
 
 import cc.trixey.mc.trmenu.invero.impl.WindowHolder
+import cc.trixey.mc.trmenu.invero.impl.element.BasicDynamicItem
 import cc.trixey.mc.trmenu.invero.impl.element.BasicItem
 import cc.trixey.mc.trmenu.invero.impl.panel.StandardPagedPanel
 import cc.trixey.mc.trmenu.invero.impl.panel.StandardPanel
@@ -9,6 +10,7 @@ import cc.trixey.mc.trmenu.invero.impl.window.ContainerWindow
 import cc.trixey.mc.trmenu.invero.module.Panel
 import cc.trixey.mc.trmenu.invero.module.TypeAddress
 import cc.trixey.mc.trmenu.invero.module.Window
+import cc.trixey.mc.trmenu.invero.module.element.PanelElement
 import cc.trixey.mc.trmenu.invero.module.`object`.PanelWeight
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.*
@@ -20,18 +22,20 @@ import taboolib.common.platform.event.SubscribeEvent
  *
  * TODO List
  *
- * - ItemElement 请求更新逻辑
- * - 周期性帧 ItemElement
- * - DynamicElement 动态槽位
+ * - #[?] ItemElement 请求更新逻辑
+ * - #[?] 周期性帧 ItemElement
+ *
+ * - #[√] DynamicElement 动态槽位
  * ^ 至此已实现支持 TrMenu v3 的功能框架
  *
  * -
  */
 object InveroManager {
 
-    fun Panel.constructElement(type: Class<*>): BasicItem {
+    fun Panel.constructElement(type: Class<*>): PanelElement {
         return when (type) {
             BasicItem::class.java -> BasicItem(null, this)
+            BasicDynamicItem::class.java -> BasicDynamicItem(null, this)
             else -> throw IllegalArgumentException("Failed to create element, not found registered class $type")
         }
     }

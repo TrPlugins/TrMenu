@@ -1,7 +1,7 @@
 package cc.trixey.mc.trmenu.invero.module.base
 
-import cc.trixey.mc.trmenu.invero.module.PanelElementAbsolute
-import cc.trixey.mc.trmenu.invero.module.PanelElementDynamic
+import cc.trixey.mc.trmenu.invero.module.element.ElementAbsolute
+import cc.trixey.mc.trmenu.invero.module.element.ElementDynamic
 import cc.trixey.mc.trmenu.invero.module.PanelInstance
 import cc.trixey.mc.trmenu.invero.module.Window
 import cc.trixey.mc.trmenu.invero.module.`object`.MappedElements
@@ -35,29 +35,24 @@ abstract class BasePanel(scale: Pair<Int, Int>, pos: Int, weight: PanelWeight) :
     /**
      * Set panel's element
      */
-    fun setElement(relativeSlot: Int, element: PanelElementAbsolute) {
+    fun setElement(relativeSlot: Int, element: ElementAbsolute) {
         elementsMap[relativeSlot] = element
     }
 
     /**
-     * Get element of this panel
+     * Add a dynamic element to this panel
      */
-    fun getAbsoluteElement(relativeSlot: Int): PanelElementAbsolute? {
-        return elementsMap[relativeSlot]
-    }
-
-    /**
-     * Add dynamic element to this panel
-     */
-    fun addDynamicElement(element: PanelElementDynamic) {
+    fun addDynamicElement(element: ElementDynamic) {
         elementsMap += element
     }
 
-    /**
-     * Remove dynamic element to this panel
-     */
-    fun removeDynamicElement(element: PanelElementDynamic) {
-        elementsMap -= element
+    fun ElementDynamic.add(): ElementDynamic {
+        elementsMap += this
+        return this
+    }
+
+    fun ElementAbsolute.set(relativeSlot: Int) {
+        setElement(relativeSlot, this)
     }
 
     /**
