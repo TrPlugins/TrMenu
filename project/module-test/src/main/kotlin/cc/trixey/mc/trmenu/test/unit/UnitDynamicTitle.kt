@@ -9,6 +9,7 @@ import cc.trixey.mc.trmenu.invero.util.addElement
 import cc.trixey.mc.trmenu.invero.util.addPanel
 import cc.trixey.mc.trmenu.invero.util.buildWindow
 import cc.trixey.mc.trmenu.test.TestInvero
+import cc.trixey.mc.trmenu.test.generateRandomItem
 import taboolib.common.platform.command.subCommand
 
 /**
@@ -22,7 +23,7 @@ object UnitDynamicTitle {
             val window = buildWindow<CompleteWindow>(player, TypeAddress.GENERIC_9X3) {
                 addPanel<StandardPanel>(9 to 3, 0) {
                     for (s in slots) addElement<BasicItem>(s) {
-                        setItem(TestInvero.generateRandomItem())
+                        setItem(generateRandomItem())
                     }
                 }
             }.also { it.open() }

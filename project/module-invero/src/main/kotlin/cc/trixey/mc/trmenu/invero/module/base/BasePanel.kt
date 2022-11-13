@@ -51,8 +51,8 @@ abstract class BasePanel(scale: Pair<Int, Int>, pos: Int, weight: PanelWeight) :
         return this
     }
 
-    fun ElementAbsolute.set(relativeSlot: Int) {
-        setElement(relativeSlot, this)
+    fun ElementAbsolute.set(vararg slots: Int) {
+        slots.forEach { setElement(it, this) }
     }
 
     /**

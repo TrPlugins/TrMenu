@@ -13,9 +13,7 @@ import java.util.*
 interface Panel : Parentable {
 
     /**
-     * The windows to which this panel applied
-     *
-     * @attention do not abuse this property
+     * Windows that use this panel
      */
     val windows: LinkedList<Window>
 
@@ -55,47 +53,51 @@ interface Panel : Parentable {
     /**
      * Get the slotsmap for a window
      */
-    fun getSlotsMap(window: Window) = getSlotsMap(window.type.width)
-
-    /**
-     * Generate slotsmap for a certain window width
-     */
-    private fun getSlotsMap(windowWidth: Int): MappedSlots {
-        return slotsMap.computeIfAbsent(windowWidth) {
-            val result = mutableMapOf<Int, Int>()
-            var counter = 0
-            var baseLine = 0
-            var baseIndex = pos
-            while (baseIndex >= windowWidth) baseIndex -= windowWidth.also { baseLine++ }
-            for (x in baseLine until baseLine + scale.second)
-                for (y in baseIndex until baseIndex + scale.first)
-                    result[if (y >= windowWidth) -1 else windowWidth * x + y] = counter++
-
-            MappedSlots(result)
-        }
-    }
-
-    fun getClaimedSlots(window: Window) = getSlotsMap(window).claimedSlots
-
-    fun unregisterWindow(window: Window) = windows.remove(window)
-
-    fun registerWindow(window: Window) = windows.add(window)
-
-    fun forWindows(function: Window.() -> Unit) = windows.forEach(function)
+    fun getSlotsMap(parent: Parentable): MappedSlots
 
     /**
      * Check if this element is current renderable
      */
     fun isRenderable(element: PanelElement): Boolean
 
+    /**
+     * Render this panel to a specifical window
+     */
     fun renderPanel(window: Window)
 
-    fun renderAll() = forWindows { renderPanel(this) }
+    /**
+     * Unregister from a window
+     */
+    fun unregisterWindow(window: Window)
 
+    /**
+     * Register to a window
+     */
+    fun registerWindow(window: Window)
+
+    /**
+     * forEach Windows
+     */
+    fun forWindows(function: Window.() -> Unit)
+
+    /**
+     * Render this panel to all windows
+     */
+    fun renderAll()
+
+    /**
+     * Handle click event
+     */
     fun handleClick(window: Window, e: InventoryClickEvent)
 
+    /**
+     * Handle items collect event
+     */
     fun handleItemsCollect(window: Window, e: InventoryClickEvent)
 
+    /**
+     * Handle items move event
+     */
     fun handleItemsMove(window: Window, e: InventoryClickEvent)
 
 }

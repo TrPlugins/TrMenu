@@ -3,10 +3,12 @@ package cc.trixey.mc.trmenu.invero.util
 import cc.trixey.mc.trmenu.invero.InveroManager.constructElement
 import cc.trixey.mc.trmenu.invero.InveroManager.constructPanel
 import cc.trixey.mc.trmenu.invero.InveroManager.constructWindow
+import cc.trixey.mc.trmenu.invero.impl.panel.PagedNetesedPanel
+import cc.trixey.mc.trmenu.invero.impl.panel.PagedStandardPanel
 import cc.trixey.mc.trmenu.invero.module.Panel
+import cc.trixey.mc.trmenu.invero.module.PanelInstance
 import cc.trixey.mc.trmenu.invero.module.TypeAddress
 import cc.trixey.mc.trmenu.invero.module.Window
-import cc.trixey.mc.trmenu.invero.module.base.BasePagedPanel
 import cc.trixey.mc.trmenu.invero.module.base.BasePanel
 import cc.trixey.mc.trmenu.invero.module.element.ElementAbsolute
 import cc.trixey.mc.trmenu.invero.module.element.ElementDynamic
@@ -29,28 +31,19 @@ import taboolib.platform.util.ItemBuilder
  */
 
 inline fun <reified T : Window> buildWindow(
-    viewer: Player,
-    type: TypeAddress = TypeAddress.ofRows(6),
-    title: String = "Untitled",
-    init: T.() -> Unit = {}
+    viewer: Player, type: TypeAddress = TypeAddress.ofRows(6), title: String = "Untitled", init: T.() -> Unit = {}
 ): T {
     return (constructWindow(T::class.java, viewer, type, title) as T).also(init)
 }
 
 inline fun <reified T : Panel> buildPanel(
-    scale: Pair<Int, Int>,
-    pos: Int = 0,
-    weight: PanelWeight = PanelWeight.NORMAL,
-    init: T.() -> Unit = {}
+    scale: Pair<Int, Int>, pos: Int = 0, weight: PanelWeight = PanelWeight.NORMAL, init: T.() -> Unit = {}
 ): T {
     return (constructPanel(T::class.java, scale, pos, weight) as T).also(init)
 }
 
 inline fun <reified T : Panel> buildPanel(
-    scale: List<Int>,
-    pos: Int = 0,
-    weight: PanelWeight = PanelWeight.NORMAL,
-    init: T.() -> Unit = {}
+    scale: List<Int>, pos: Int = 0, weight: PanelWeight = PanelWeight.NORMAL, init: T.() -> Unit = {}
 ) = buildPanel(scale.first() to scale.last(), pos, weight, init)
 
 inline fun <reified T : PanelElement> Panel.buildElement(init: T.() -> Unit = {}): T {
@@ -65,9 +58,7 @@ inline fun <reified T : ItemProvider> Panel.buildItem(itemStack: ItemStack, init
 }
 
 inline fun <reified T : ItemProvider> Panel.buildItem(
-    material: Material,
-    noinline builder: ItemBuilder.() -> Unit = {},
-    init: T.() -> Unit = {}
+    material: Material, noinline builder: ItemBuilder.() -> Unit = {}, init: T.() -> Unit = {}
 ) = buildItem(taboolib.platform.util.buildItem(material, builder), init)
 
 fun Window.addPanel(vararg panel: Panel) {
@@ -79,18 +70,23 @@ fun Window.addPanel(vararg panel: Panel) {
  */
 
 inline fun <reified T : Panel> Window.addPanel(
-    scale: Pair<Int, Int>,
-    pos: Int = 0,
-    weight: PanelWeight = PanelWeight.NORMAL,
-    init: T.() -> Unit = {}
+    scale: Pair<Int, Int>, pos: Int = 0, weight: PanelWeight = PanelWeight.NORMAL, init: T.() -> Unit = {}
 ): T {
     return (constructPanel(T::class.java, scale, pos, weight) as T).also(init).also {
         panels += it
     }
 }
 
-fun BasePagedPanel.page(function: MappedElements.(Int) -> Unit) {
+fun PagedStandardPanel.page(function: MappedElements.(Int) -> Unit) {
     return MappedElements().let { function(it, addPage(it)) }
+}
+
+fun PagedNetesedPanel.page(panel: PanelInstance) {
+    addPage(panel)
+}
+
+fun PanelInstance.paged(parent: PagedNetesedPanel) {
+    parent.page(this)
 }
 
 inline fun <reified T : PanelElement> BasePanel.addElement(vararg slots: Int, init: T.() -> Unit = {}): T {

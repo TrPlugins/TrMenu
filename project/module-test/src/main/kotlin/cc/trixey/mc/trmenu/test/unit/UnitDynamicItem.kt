@@ -3,12 +3,13 @@ package cc.trixey.mc.trmenu.test.unit
 import cc.trixey.mc.trmenu.coroutine.launchAsync
 import cc.trixey.mc.trmenu.invero.impl.element.BasicDynamicItem
 import cc.trixey.mc.trmenu.invero.impl.element.BasicItem
-import cc.trixey.mc.trmenu.invero.impl.panel.StandardPagedPanel
+import cc.trixey.mc.trmenu.invero.impl.panel.PagedStandardPanel
 import cc.trixey.mc.trmenu.invero.impl.panel.StandardPanel
 import cc.trixey.mc.trmenu.invero.impl.window.CompleteWindow
 import cc.trixey.mc.trmenu.invero.module.TypeAddress
 import cc.trixey.mc.trmenu.invero.util.*
 import cc.trixey.mc.trmenu.test.TestInvero
+import cc.trixey.mc.trmenu.test.generateRandomItem
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import taboolib.common.platform.command.subCommand
@@ -49,7 +50,7 @@ object UnitDynamicItem {
 
     val paged = subCommand {
         execute<Player> { player, _, _ ->
-            buildPanel<StandardPagedPanel>(9 to 6) {
+            buildPanel<PagedStandardPanel>(9 to 6) {
                 val previousPage = buildItem<BasicItem>(Material.ARROW, {
                     name = "§3Previous page"
                     lore.add("$pageIndex / $maxPageIndex")
@@ -77,7 +78,7 @@ object UnitDynamicItem {
                         nextPage.add(8)
 
                         var count = 9
-                        val rand = buildItem<BasicDynamicItem>(TestInvero.generateRandomItem()) {
+                        val rand = buildItem<BasicDynamicItem>(generateRandomItem()) {
                             slots(9)
                             onClick {
                                 modify { amount++ }

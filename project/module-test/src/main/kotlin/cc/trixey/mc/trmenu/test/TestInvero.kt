@@ -1,9 +1,6 @@
 package cc.trixey.mc.trmenu.test
 
-import cc.trixey.mc.trmenu.test.unit.UnitDynamicItem
-import cc.trixey.mc.trmenu.test.unit.UnitDynamicTitle
-import cc.trixey.mc.trmenu.test.unit.UnitPrinter
-import cc.trixey.mc.trmenu.test.unit.UnitStandard
+import cc.trixey.mc.trmenu.test.unit.*
 import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.command.CommandBody
 import taboolib.common.platform.command.CommandHeader
@@ -26,7 +23,7 @@ object TestInvero {
     /**
      * 测试常规面板和窗口
      *
-     * StandardPanel / StandardPagedPanel
+     * StandardPanel / PagedStandardPanel
      */
     @CommandBody
     val testStandardPanels = UnitStandard.command
@@ -36,6 +33,12 @@ object TestInvero {
      */
     @CommandBody
     val testStandardPanels_PosMark = UnitStandard.posMark
+
+    /**
+     * 测试嵌套面板
+     */
+    @CommandBody
+    val testPagedNested = UnitNested.command
 
     /**
      * 测试动态物品滚动的效果
@@ -55,12 +58,12 @@ object TestInvero {
     @CommandBody
     val print = UnitPrinter.print
 
-    fun generateRandomItem(): ItemStack {
-        var itemStack: ItemStack? = null
-        while (itemStack == null || itemStack.isAir) {
-            itemStack = XMaterial.values().random().parseItem()
-        }
-        return itemStack
-    }
+}
 
+fun generateRandomItem(): ItemStack {
+    var itemStack: ItemStack? = null
+    while (itemStack == null || itemStack.isAir) {
+        itemStack = XMaterial.values().random().parseItem()
+    }
+    return itemStack
 }

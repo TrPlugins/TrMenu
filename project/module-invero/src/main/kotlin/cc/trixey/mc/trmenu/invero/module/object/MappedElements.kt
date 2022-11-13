@@ -34,9 +34,13 @@ class MappedElements {
         return absoluteElements.filterValues { it == panelElement }.keys
     }
 
-    fun setElement(relativeSlot: Int, element: ElementAbsolute) {
+    fun setElement(element: ElementAbsolute, relativeSlot: Int) {
         return if (!absoluteElements.containsKey(relativeSlot)) absoluteElements.set(relativeSlot, element)
-        else throw UnsupportedOperationException("TODO PanelElement safely unregister")
+        else error("PanelElement at $relativeSlot is already registered")
+    }
+
+    fun setElement(relativeSlot: Int, element: ElementAbsolute) {
+        return setElement(element, relativeSlot)
     }
 
     fun ElementDynamic.add(): ElementDynamic {
@@ -45,7 +49,7 @@ class MappedElements {
     }
 
     fun ElementAbsolute.add(vararg slots: Int) {
-        slots.forEach { setElement(it, this) }
+        slots.forEach { setElement(this, it) }
     }
 
     fun getAbsoluteElement(relativeSlot: Int) = absoluteElements[relativeSlot]
@@ -54,7 +58,7 @@ class MappedElements {
 
     operator fun get(relativeSlot: Int) = getAbsoluteElement(relativeSlot) ?: getDynamicElement(relativeSlot)
 
-    operator fun set(relativeSlot: Int, element: ElementAbsolute) = setElement(relativeSlot, element)
+    operator fun set(relativeSlot: Int, element: ElementAbsolute) = setElement(element, relativeSlot)
 
     fun forDynamicElements(function: (ElementDynamic) -> Unit) {
         dynamicElements.forEach(function)

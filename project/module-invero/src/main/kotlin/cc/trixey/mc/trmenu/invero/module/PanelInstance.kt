@@ -12,42 +12,36 @@ import java.util.*
  */
 abstract class PanelInstance(scale: Pair<Int, Int>, pos: Int, weight: PanelWeight) : Panel {
 
-    /**
-     * Scale of this panel
-     * Consists of width and height
-     */
+    open var parent: PanelInstance? = null
+    open val children: LinkedList<PanelInstance>? = null
+
+    override val windows: LinkedList<Window> = LinkedList()
+        get() {
+            getParent()?.let {
+                if (it is PanelInstance) return it.windows
+            }
+            return field
+        }
+
     override var scale = scale
         set(value) {
             field = value
             slotsMap.clear()
         }
 
-    /**
-     * The weight of this panel
-     */
     override var weight = weight
         set(value) {
             field = value
             forWindows { renderWindow(true) }
         }
 
-    /**
-     * Layout position mark
-     * Starting index of real slot
-     */
     final override var pos = pos
         private set
 
-    /**
-     * Slots this panel have
-     * (Relative slots, starting from 0)
-     */
+
     override val slots by lazy { (0 until scale.first * scale.second).toList() }
 
-    /**
-     * Map of relative slots and actual slots
-     * The key (int) is the width of a Window
-     */
+
     override val slotsMap = LinkedHashMap<Int, MappedSlots>()
 
     /**
@@ -60,42 +54,38 @@ abstract class PanelInstance(scale: Pair<Int, Int>, pos: Int, weight: PanelWeigh
      */
     abstract val slotsUnoccupied: List<Int>
 
-    /**
-     * Windows that are using this panel
-     */
-    override val windows = LinkedList<Window>()
+    override fun getChildren() = children?.map { it }
 
-    /**
-     * Get sub-panels
-     */
-    override fun getChildren() = null
+    override fun getParent() = parent as Parentable?
 
-    /**
-     * Get parent panel
-     */
-    override fun getParent() = null
-
-    /**
-     * Change the starting position of this panel
-     */
-    fun markPosition(mark: Int) {
-        pos = mark
-        slotsMap.clear()
+    override fun getSlotsMap(parent: Parentable): MappedSlots {
+        val width = when (parent) {
+            is Window -> parent.type.width
+            is PanelInstance -> parent.scale.first
+            else -> error("?")
+        }
+        return slotsMap.computeIfAbsent(width) {
+            MappedSlots.from(scale, pos, width)
+        }
     }
 
     override fun isRenderable(element: PanelElement): Boolean {
         return true
     }
 
-    /**
-     * TODO
-     * Still testing wipeAll function
-     */
-    fun wipePanel() {
-        forWindows {
-            getClaimedSlots(this).forEach { pairedInventory[it] = null }
-        }
+    override fun unregisterWindow(window: Window) {
+        windows.remove(window)
     }
+
+    override fun registerWindow(window: Window) {
+        windows.add(window)
+    }
+
+    override fun forWindows(function: Window.() -> Unit) {
+        windows.forEach(function)
+    }
+
+    override fun renderAll() = forWindows { renderPanel(this) }
 
     override fun handleClick(window: Window, e: InventoryClickEvent) {
         e.isCancelled = true
@@ -107,6 +97,24 @@ abstract class PanelInstance(scale: Pair<Int, Int>, pos: Int, weight: PanelWeigh
 
     override fun handleItemsCollect(window: Window, e: InventoryClickEvent) {
         e.isCancelled = true
+    }
+
+    /**
+     * Change the starting position of this panel
+     */
+    fun markPosition(mark: Int) {
+        pos = mark
+        slotsMap.clear()
+    }
+
+    /**
+     * TODO
+     * Still testing wipeAll function
+     */
+    fun wipePanel() {
+        forWindows {
+            getSlotsMap(this).claimedSlots.forEach { pairedInventory[it] = null }
+        }
     }
 
 }

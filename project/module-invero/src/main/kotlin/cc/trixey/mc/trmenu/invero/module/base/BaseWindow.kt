@@ -55,7 +55,7 @@ abstract class BaseWindow(val viewer: UUID) : Window {
 
     fun findPanelHandler(slot: Int): Panel? {
         return panels.sortedByDescending { it.weight }.firstOrNull {
-            it.getClaimedSlots(this).contains(slot)
+            it.getSlotsMap(this).claimedSlots.contains(slot)
         }
     }
 

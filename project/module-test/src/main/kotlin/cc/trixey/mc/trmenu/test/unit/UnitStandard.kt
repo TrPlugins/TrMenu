@@ -2,11 +2,11 @@ package cc.trixey.mc.trmenu.test.unit
 
 import cc.trixey.mc.trmenu.coroutine.launchAsync
 import cc.trixey.mc.trmenu.invero.impl.element.BasicItem
-import cc.trixey.mc.trmenu.invero.impl.panel.StandardPagedPanel
+import cc.trixey.mc.trmenu.invero.impl.panel.PagedStandardPanel
 import cc.trixey.mc.trmenu.invero.impl.panel.StandardPanel
 import cc.trixey.mc.trmenu.invero.impl.window.CompleteWindow
 import cc.trixey.mc.trmenu.invero.util.*
-import cc.trixey.mc.trmenu.test.TestInvero
+import cc.trixey.mc.trmenu.test.generateRandomItem
 import org.bukkit.Material
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.subCommand
@@ -32,7 +32,7 @@ object UnitStandard {
                     addElement<BasicItem>(*slotsUnoccupied.toIntArray()) { setItem(Material.EMERALD) }
                 }
 
-                val pagedPanel = buildPanel<StandardPagedPanel>(3 to 8, 4) {
+                val pagedPanel = buildPanel<PagedStandardPanel>(3 to 8, 4) {
                     val previousPage = buildItem<BasicItem>(Material.ARROW, {
                         name = "§3Previous page"
                         lore.add("$pageIndex / $maxPageIndex")
@@ -55,7 +55,7 @@ object UnitStandard {
                     })
                     val fill = buildItem<BasicItem>(Material.BLACK_STAINED_GLASS)
                     val fill2 = buildItem<BasicItem>(Material.LIME_STAINED_GLASS_PANE)
-                    val randomFill: () -> BasicItem = { buildItem(TestInvero.generateRandomItem()) }
+                    val randomFill: () -> BasicItem = { buildItem(generateRandomItem()) }
 
                     page { index ->
                         setElement(0, previousPage)

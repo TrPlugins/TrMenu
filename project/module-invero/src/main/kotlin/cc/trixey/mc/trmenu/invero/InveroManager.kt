@@ -3,7 +3,8 @@ package cc.trixey.mc.trmenu.invero
 import cc.trixey.mc.trmenu.invero.impl.WindowHolder
 import cc.trixey.mc.trmenu.invero.impl.element.BasicDynamicItem
 import cc.trixey.mc.trmenu.invero.impl.element.BasicItem
-import cc.trixey.mc.trmenu.invero.impl.panel.StandardPagedPanel
+import cc.trixey.mc.trmenu.invero.impl.panel.PagedNetesedPanel
+import cc.trixey.mc.trmenu.invero.impl.panel.PagedStandardPanel
 import cc.trixey.mc.trmenu.invero.impl.panel.StandardPanel
 import cc.trixey.mc.trmenu.invero.impl.window.CompleteWindow
 import cc.trixey.mc.trmenu.invero.impl.window.ContainerWindow
@@ -43,7 +44,8 @@ object InveroManager {
     fun constructPanel(type: Class<*>, scale: Pair<Int, Int>, posMark: Int, weight: PanelWeight): Panel {
         return when (type) {
             StandardPanel::class.java -> StandardPanel(scale, posMark, weight)
-            StandardPagedPanel::class.java -> StandardPagedPanel(scale, posMark, weight)
+            PagedStandardPanel::class.java -> PagedStandardPanel(scale, posMark, weight)
+            PagedNetesedPanel::class.java -> PagedNetesedPanel(scale, posMark, weight)
             else -> throw IllegalArgumentException("Failed to create panel, not found registered class $type")
         }
     }
