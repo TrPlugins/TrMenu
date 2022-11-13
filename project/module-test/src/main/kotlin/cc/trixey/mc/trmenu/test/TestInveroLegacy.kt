@@ -124,7 +124,7 @@ fun registerTestingCommand() {
                         cancel()
                     }
                     testInvero.title = titles[index++]
-                    if (index == titles.size - 1) index = 0
+                    if (index == titles.lastIndex) index = 0
                 }
             }
         }

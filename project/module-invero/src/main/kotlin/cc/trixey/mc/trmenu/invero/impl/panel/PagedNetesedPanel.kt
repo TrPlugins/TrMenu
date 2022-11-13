@@ -33,7 +33,7 @@ class PagedNetesedPanel(scale: Pair<Int, Int>, pos: Int, weight: PanelWeight) : 
      * @see BasePagedPanel.maxPageIndex
      */
     override val maxPageIndex: Int
-        get() = children.size - 1
+        get() = children.lastIndex
 
     /**
      * @see PanelInstance.slotsOccupied
@@ -78,7 +78,7 @@ class PagedNetesedPanel(scale: Pair<Int, Int>, pos: Int, weight: PanelWeight) : 
         children += page.also {
             it.parent = this
         }
-        return children.size - 1
+        return children.lastIndex
     }
 
     /**

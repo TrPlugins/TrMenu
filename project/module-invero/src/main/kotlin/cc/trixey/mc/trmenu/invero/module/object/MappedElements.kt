@@ -36,19 +36,27 @@ class MappedElements {
 
     fun setElement(element: ElementAbsolute, relativeSlot: Int) {
         return if (!absoluteElements.containsKey(relativeSlot)) absoluteElements.set(relativeSlot, element)
-        else error("PanelElement at $relativeSlot is already registered")
+        else {
+            // TODO Safely unregister element
+//            error("PanelElement at $relativeSlot is already registered")
+            absoluteElements[relativeSlot] = element
+        }
     }
 
     fun setElement(relativeSlot: Int, element: ElementAbsolute) {
         return setElement(element, relativeSlot)
     }
 
-    fun ElementDynamic.add(): ElementDynamic {
+    fun removeElement(relativeSlot: Int) {
+         absoluteElements.remove(relativeSlot)
+    }
+
+    fun ElementDynamic.set(): ElementDynamic {
         this@MappedElements += this
         return this
     }
 
-    fun ElementAbsolute.add(vararg slots: Int) {
+    fun ElementAbsolute.set(vararg slots: Int) {
         slots.forEach { setElement(this, it) }
     }
 

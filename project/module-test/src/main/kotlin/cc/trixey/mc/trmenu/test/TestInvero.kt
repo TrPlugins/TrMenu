@@ -1,10 +1,12 @@
 package cc.trixey.mc.trmenu.test
 
 import cc.trixey.mc.trmenu.test.unit.*
+import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.command.CommandBody
 import taboolib.common.platform.command.CommandHeader
-import taboolib.library.xseries.XMaterial
+import taboolib.platform.util.ItemBuilder
+import taboolib.platform.util.buildItem
 import taboolib.platform.util.isAir
 
 /**
@@ -19,6 +21,12 @@ object TestInvero {
      */
     @CommandBody
     val testDynamicTitle = UnitDynamicTitle.command
+
+    /**
+     * 测试生成器命令
+     */
+    @CommandBody
+    val testGenerator = UnitGenerator.command
 
     /**
      * 测试常规面板和窗口
@@ -60,10 +68,10 @@ object TestInvero {
 
 }
 
-fun generateRandomItem(): ItemStack {
+fun generateRandomItem(builder: ItemBuilder.() -> Unit = {}): ItemStack {
     var itemStack: ItemStack? = null
-    while (itemStack == null || itemStack.isAir) {
-        itemStack = XMaterial.values().random().parseItem()
+    while (itemStack.isAir()) {
+        itemStack = ItemStack(Material.values().filter { it.isItem }.random())
     }
-    return itemStack
+    return buildItem(itemStack!!, builder)
 }

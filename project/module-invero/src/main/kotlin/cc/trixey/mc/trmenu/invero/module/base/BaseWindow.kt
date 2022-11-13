@@ -15,6 +15,14 @@ abstract class BaseWindow(val viewer: UUID) : Window {
 
     override val panels: LinkedList<Panel> = LinkedList()
 
+    operator fun plusAssign(value: Panel) {
+        panels += value
+    }
+
+    operator fun minusAssign(value: Panel) {
+        panels -= value
+    }
+
     abstract fun handleClick(e: InventoryClickEvent)
 
     abstract fun handleDrag(e: InventoryDragEvent)

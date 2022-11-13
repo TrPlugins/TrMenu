@@ -9,9 +9,7 @@ import cc.trixey.mc.trmenu.invero.module.TypeAddress
 import cc.trixey.mc.trmenu.invero.util.*
 import cc.trixey.mc.trmenu.test.generateRandomItem
 import org.bukkit.Material
-import org.bukkit.entity.Player
 import taboolib.common.platform.command.subCommand
-import taboolib.common.util.random
 import taboolib.library.xseries.XSound
 
 /**
@@ -21,7 +19,7 @@ import taboolib.library.xseries.XSound
 object UnitNested {
 
     val command = subCommand {
-        execute<Player> { player, _, _ ->
+        execute { player, _, _ ->
             /*
             *********
             *********
@@ -65,9 +63,9 @@ object UnitNested {
                     val randomFill: () -> BasicItem = { buildItem(generateRandomItem()) }
                     for (i in 0..10) {
                         page { index ->
-                            previousPage.add(0)
-                            nextPage.add(8)
-                            randomFill().add(*slotsUnoccupied(index).toIntArray())
+                            previousPage.set(0)
+                            nextPage.set(8)
+                            randomFill().set(*slotsUnoccupied(index).toIntArray())
                         }
                     }
                 }.paged(this)

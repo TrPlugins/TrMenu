@@ -8,7 +8,6 @@ import cc.trixey.mc.trmenu.invero.impl.panel.StandardPanel
 import cc.trixey.mc.trmenu.invero.impl.window.CompleteWindow
 import cc.trixey.mc.trmenu.invero.module.TypeAddress
 import cc.trixey.mc.trmenu.invero.util.*
-import cc.trixey.mc.trmenu.test.TestInvero
 import cc.trixey.mc.trmenu.test.generateRandomItem
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -74,8 +73,8 @@ object UnitDynamicItem {
 
                 for (i in 0..3) {
                     page { currentPage ->
-                        previousPage.add(0)
-                        nextPage.add(8)
+                        previousPage.set(0)
+                        nextPage.set(8)
 
                         var count = 9
                         val rand = buildItem<BasicDynamicItem>(generateRandomItem()) {
@@ -84,7 +83,7 @@ object UnitDynamicItem {
                                 modify { amount++ }
                                 player.sendMessage("You clicked $slot on page $pageIndex, Amount++")
                             }
-                        }.add()
+                        }.set()
 
                         player.sendMessage("Wait 2 secs")
                         submitAsync(delay = 2 * 20, period = 8) {

@@ -14,7 +14,7 @@ import java.util.*
  * @author Arasple
  * @since 2022/11/6 16:30
  */
-class PagedStandardPanel(scale: Pair<Int, Int>, pos: Int, weight: PanelWeight) : BasePagedPanel(scale, pos, weight) {
+open class PagedStandardPanel(scale: Pair<Int, Int>, pos: Int, weight: PanelWeight) : BasePagedPanel(scale, pos, weight) {
 
     /**
      * @see BasePagedPanel.pageIndex
@@ -32,7 +32,7 @@ class PagedStandardPanel(scale: Pair<Int, Int>, pos: Int, weight: PanelWeight) :
      * @see BasePagedPanel.maxPageIndex
      */
     override val maxPageIndex: Int
-        get() = pagedElements.size - 1
+        get() = pagedElements.lastIndex
 
     /**
      * @see BasePagedPanel.pagedElements
@@ -71,7 +71,7 @@ class PagedStandardPanel(scale: Pair<Int, Int>, pos: Int, weight: PanelWeight) :
     /**
      * Get a certain page layer with default pageIndex
      */
-    fun getPage(index: Int = pageIndex) = pagedElements[index]
+    open fun getPage(index: Int = pageIndex) = pagedElements[index]
 
     /**
      * Add a page to this panel
@@ -80,7 +80,7 @@ class PagedStandardPanel(scale: Pair<Int, Int>, pos: Int, weight: PanelWeight) :
      */
     fun addPage(page: MappedElements): Int {
         pagedElements += page
-        return pagedElements.size - 1
+        return pagedElements.lastIndex
     }
 
     /**
