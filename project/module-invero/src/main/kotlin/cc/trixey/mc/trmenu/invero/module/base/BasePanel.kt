@@ -13,7 +13,11 @@ import cc.trixey.mc.trmenu.invero.module.`object`.PanelWeight
  *
  * BasePanel is the most basic panel, which supports only one page of ordinary elements
  */
-abstract class BasePanel(scale: Pair<Int, Int>, pos: Int, weight: PanelWeight) : PanelInstance(scale, pos, weight) {
+abstract class BasePanel(
+    scale: Pair<Int, Int>,
+    pos: Int,
+    weight: PanelWeight
+) : PanelInstance(scale, pos, weight) {
 
     /**
      * Elements of this panel
@@ -37,6 +41,24 @@ abstract class BasePanel(scale: Pair<Int, Int>, pos: Int, weight: PanelWeight) :
      */
     fun setElement(relativeSlot: Int, element: ElementAbsolute) {
         elementsMap[relativeSlot] = element
+    }
+
+    /**
+     * Set panel's element on multiple slots
+     */
+    fun setElement(relativeSlots: Array<Int>, element: ElementAbsolute) {
+        relativeSlots.forEach {
+            setElement(it, element)
+        }
+    }
+
+    /**
+     * Set panel's element on multiple slots
+     */
+    fun setElement(relativeSlots: IntRange, element: ElementAbsolute) {
+        relativeSlots.forEach {
+            setElement(it, element)
+        }
     }
 
     /**

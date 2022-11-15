@@ -61,6 +61,12 @@ object TestInvero {
     val testDynamicItem_Paged = UnitDynamicItem.paged
 
     /**
+     * 测试基于多页实现的独立的动态物品滚动效果
+     */
+    @CommandBody
+    val testStoragePanel = UnitIO.storage
+
+    /**
      * 打印一些信息
      */
     @CommandBody

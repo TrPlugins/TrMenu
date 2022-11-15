@@ -4,6 +4,7 @@ import cc.trixey.mc.trmenu.invero.module.element.PanelElement
 import cc.trixey.mc.trmenu.invero.module.`object`.MappedSlots
 import cc.trixey.mc.trmenu.invero.module.`object`.PanelWeight
 import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.inventory.InventoryDragEvent
 import java.util.*
 
 /**
@@ -84,6 +85,11 @@ interface Panel : Parentable {
      * Render this panel to all windows
      */
     fun renderAll()
+
+    /**
+     * Handle click event
+     */
+    fun handleDrag(window: Window, e: InventoryDragEvent)
 
     /**
      * Handle click event

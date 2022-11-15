@@ -13,7 +13,11 @@ import java.util.*
  * @author Arasple
  * @since 2022/11/12 22:12
  */
-class PagedNetesedPanel(scale: Pair<Int, Int>, pos: Int, weight: PanelWeight) : BasePagedPanel(scale, pos, weight) {
+class PagedNetesedPanel(
+    scale: Pair<Int, Int>,
+    pos: Int,
+    weight: PanelWeight
+) : BasePagedPanel(scale, pos, weight) {
 
     override val children: LinkedList<PanelInstance> = LinkedList()
 

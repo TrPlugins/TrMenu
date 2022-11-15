@@ -8,7 +8,9 @@ import cc.trixey.mc.trmenu.invero.module.`object`.PanelWeight
  * @since 2022/11/6 16:51
  */
 abstract class BasePagedPanel(
-    scale: Pair<Int, Int>, pos: Int, weight: PanelWeight
+    scale: Pair<Int, Int>,
+    pos: Int,
+    weight: PanelWeight
 ) : PanelInstance(scale, pos, weight) {
 
     /**

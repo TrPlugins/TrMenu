@@ -11,7 +11,9 @@ import cc.trixey.mc.trmenu.invero.module.`object`.PanelWeight
  * @since 2022/11/13 15:33
  */
 class PagedGeneratorPanel(
-    scale: Pair<Int, Int>, pos: Int, weight: PanelWeight
+    scale: Pair<Int, Int>,
+    pos: Int,
+    weight: PanelWeight
 ) : PagedStandardPanel(scale, pos, weight) {
 
     override var maxPageIndex: Int = 0

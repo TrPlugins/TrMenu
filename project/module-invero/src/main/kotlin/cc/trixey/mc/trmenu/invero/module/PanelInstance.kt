@@ -4,6 +4,7 @@ import cc.trixey.mc.trmenu.invero.module.element.PanelElement
 import cc.trixey.mc.trmenu.invero.module.`object`.MappedSlots
 import cc.trixey.mc.trmenu.invero.module.`object`.PanelWeight
 import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.inventory.InventoryDragEvent
 import java.util.*
 
 /**
@@ -88,6 +89,10 @@ abstract class PanelInstance(scale: Pair<Int, Int>, pos: Int, weight: PanelWeigh
     override fun renderAll() = forWindows { renderPanel(this) }
 
     override fun handleClick(window: Window, e: InventoryClickEvent) {
+        e.isCancelled = true
+    }
+
+    override fun handleDrag(window: Window, e: InventoryDragEvent) {
         e.isCancelled = true
     }
 

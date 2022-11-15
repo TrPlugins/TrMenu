@@ -82,7 +82,7 @@ open class ContainerWindow(
      * Handle drag event to this panel
      */
     override fun handleDrag(e: InventoryDragEvent) {
-
+        findPanelHandler(*e.inventorySlots.toIntArray())?.handleDrag(this, e)
     }
 
     /**

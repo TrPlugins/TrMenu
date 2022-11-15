@@ -22,9 +22,10 @@ tasks {
         dependsOn(shadowJar)
     }
 }
+/*
 
 gradle.buildFinished {
     File(buildDir, "libs").listFiles().first().let {
         it.copyTo(File("F:\\Testing\\Purpur 1.19.2\\plugins\\${it.name}"), true)
     }
-}
+}*/

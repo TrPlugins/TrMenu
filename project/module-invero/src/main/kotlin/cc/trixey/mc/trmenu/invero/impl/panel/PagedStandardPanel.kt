@@ -14,7 +14,11 @@ import java.util.*
  * @author Arasple
  * @since 2022/11/6 16:30
  */
-open class PagedStandardPanel(scale: Pair<Int, Int>, pos: Int, weight: PanelWeight) : BasePagedPanel(scale, pos, weight) {
+open class PagedStandardPanel(
+    scale: Pair<Int, Int>,
+    pos: Int,
+    weight: PanelWeight
+) : BasePagedPanel(scale, pos, weight) {
 
     /**
      * @see BasePagedPanel.pageIndex
@@ -115,8 +119,8 @@ open class PagedStandardPanel(scale: Pair<Int, Int>, pos: Int, weight: PanelWeig
     override fun handleClick(window: Window, e: InventoryClickEvent) {
         e.isCancelled = true
 
-        val relativeslot = getSlotsMap(window).getRelative(e.slot)
-        val element = getPage()[relativeslot]
+        val relativeSlot = getSlotsMap(window).getRelative(e.slot)
+        val element = getPage()[relativeSlot]
 
         element?.passClickEvent(e)
     }

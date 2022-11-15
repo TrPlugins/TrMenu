@@ -61,9 +61,9 @@ abstract class BaseWindow(val viewer: UUID) : Window {
         }
     }
 
-    fun findPanelHandler(slot: Int): Panel? {
+    fun findPanelHandler(vararg slots: Int): Panel? {
         return panels.sortedByDescending { it.weight }.firstOrNull {
-            it.getSlotsMap(this).claimedSlots.contains(slot)
+            it.getSlotsMap(this).claimedSlots.containsAll(slots.toList())
         }
     }
 
