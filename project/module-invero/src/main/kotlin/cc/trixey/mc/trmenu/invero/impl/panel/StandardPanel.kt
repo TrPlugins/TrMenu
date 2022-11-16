@@ -19,7 +19,7 @@ open class StandardPanel(
     override fun handleClick(window: Window, e: InventoryClickEvent) {
         e.isCancelled = true
 
-        val relativeSlot = getSlotsMap(window).getRelative(e.slot)
+        val relativeSlot = getSlotsMap(window).getRelative(e.rawSlot)
         val element = elementsMap[relativeSlot]
 
         if (element is Interactable) element.passClickEvent(e)

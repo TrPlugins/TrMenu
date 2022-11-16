@@ -75,28 +75,30 @@ open class ContainerWindow(
      * Handle click event to this panel
      */
     override fun handleClick(e: InventoryClickEvent) {
-        findPanelHandler(e.slot)?.handleClick(this, e)
+        findPanelHandler(e.rawSlot)?.handleClick(this, e) ?: run { e.isCancelled = true }
     }
 
     /**
      * Handle drag event to this panel
      */
     override fun handleDrag(e: InventoryDragEvent) {
-        findPanelHandler(*e.inventorySlots.toIntArray())?.handleDrag(this, e)
+        findPanelHandler(*e.inventorySlots.toIntArray())?.handleDrag(this, e) ?: run { e.isCancelled = true }
     }
 
     /**
      * Handle items move event concerns this panel
+     *
+     * TODO 不可控现象: 无法取得目标 slot, 无法判断目标 panel, 从而可能使 item 移动到非 IOPanel 上..
      */
     override fun handleItemsMove(e: InventoryClickEvent) {
-        findPanelHandler(e.slot)?.handleItemsMove(this, e)
+        findPanelHandler(e.rawSlot)?.handleItemsMove(this, e) ?: run { e.isCancelled = true }
     }
 
     /**
      * Handle items collect event concerns this panel
      */
     override fun handleItemsCollect(e: InventoryClickEvent) {
-        findPanelHandler(e.slot)?.handleItemsCollect(this, e)
+        findPanelHandler(e.rawSlot)?.handleItemsCollect(this, e) ?: run { e.isCancelled = true }
     }
 
     /**

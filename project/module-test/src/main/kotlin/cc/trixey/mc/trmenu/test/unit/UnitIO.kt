@@ -8,7 +8,11 @@ import cc.trixey.mc.trmenu.invero.util.*
 import cc.trixey.mc.trmenu.test.generateRandomItem
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.inventory.InventoryDragEvent
+import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.command.subCommand
+import taboolib.common.platform.event.SubscribeEvent
 import taboolib.library.xseries.XMaterial
 
 /**
@@ -27,21 +31,23 @@ object UnitIO {
 
                 val pane = randomPane()
 
+                addPanel<IOStoragePanel>(7 to 4, 10) {
+                    setElement(0..4, buildItem<BasicItem>(taboolib.platform.util.buildItem(generateRandomItem()){
+                        name = "§bA random Item"
+                        lore.add("§3You can move freely in this panel.")
+                    }))
+
+                }
+                // 使玩家背包可以移动物品
+                addPanel<IOStoragePanel>(9 to 3, 54)
                 arrayOf(0, 45).forEach { pos ->
-                    addPanel<StandardPanel>(9 to 1, pos) {
+                    addPanel<StandardPanel>(8 to 1, pos) {
                         val paneItem = buildItem<BasicItem>(pane)
 
                         slotsUnoccupied.forEach { slot ->
                             setElement(slot, paneItem)
                         }
                     }
-                }
-                addPanel<IOStoragePanel>(9 to 4, 9) {
-                    setElement(0..4, buildItem<BasicItem>(taboolib.platform.util.buildItem(generateRandomItem()){
-                        name = "§bA random Item"
-                        lore.add("§3You can move freely in this panel.")
-                    }))
-
                 }
 
             }.also { it.open() }
@@ -51,11 +57,8 @@ object UnitIO {
 
     fun randomPane(): Material {
         return Material.values().filter { it.name.endsWith("_stained_glass_pane", ignoreCase = true) }.random()
-            ?: Material.WHITE_STAINED_GLASS_PANE
     }
-
-/*
-    @SubscribeEvent
+/*    @SubscribeEvent
     fun e(e: InventoryDragEvent) {
         println("================================> InventoryDragEvent")
         println("          type: " + e.type)
@@ -82,4 +85,5 @@ object UnitIO {
 
     fun ItemStack?.dump() = "${this?.type}-${this?.amount}"
     */
+
 }
