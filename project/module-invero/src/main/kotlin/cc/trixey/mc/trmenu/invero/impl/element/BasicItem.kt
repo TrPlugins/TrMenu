@@ -16,7 +16,7 @@ class BasicItem(private var itemStack: ItemStack?, panel: Panel) : ElementAbsolu
         if (!panel.isRenderable(this)) return
 
         window.getAbsoluteSlots().forEach {
-            window.pairedInventory[it] = itemStack
+            window.inventorySet[it] = itemStack
         }
     }
 

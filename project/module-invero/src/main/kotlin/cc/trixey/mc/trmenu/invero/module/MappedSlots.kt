@@ -4,9 +4,10 @@ package cc.trixey.mc.trmenu.invero.module
  * @author Arasple
  * @since 2022/11/6 16:11
  *
- * (Default) Input: Actual -> Relative
- * Output: Relative -> Actual
+ * 映射槽位集
  *
+ * input: <真实容器槽位> -> <相对槽位>
+ * output: input.reversied
  */
 class MappedSlots(val input: Map<Int, Int>, val output: Map<Int, Int>) {
 

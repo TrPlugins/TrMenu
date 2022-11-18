@@ -3,105 +3,101 @@ package cc.trixey.mc.trmenu.invero.module
 import cc.trixey.mc.trmenu.invero.module.element.PanelElement
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryDragEvent
-import java.util.*
 import java.util.concurrent.ConcurrentMap
 
 /**
  * @author Arasple
  * @since 2022/10/29 10:59
+ *
+ * Panel 作为一个有长、宽的 UI 页面，
+ * 可以作为 Window 的一个交互页面之一
  */
 interface Panel : Parentable {
 
     /**
-     * Windows that use this panel
+     * 正在使用此 Panel 的 Windows
      */
     val windows: ArrayList<Window>
 
     /**
-     * Scale of this panel
-     * Width and height
+     * 该 Panel 的规模
+     * 长 x 宽
      */
     val scale: Pair<Int, Int>
 
     /**
-     * Relative slots of this panel
+     * 该 Panel 的有效相对槽位
      */
     val slots: Set<Int>
 
     /**
-     * The top-left slot of this panel's real position
+     * 该 Panel 的左上角的定位点
      */
     val pos: Int
 
     /**
-     * Panel weight
-     * Weight can define the render priority of the panel's elements
+     * Panel 的权重
+     * 用于定义渲染、交互的优先级
      */
     var weight: PanelWeight
 
     /**
-     * Claimed Slots Map
-     *
-     * Width: MappedSlots(Actual:Relative)
+     * 针对不同类型的 Window/父级 Panel 的映射槽位集
      */
     val slotsMap: ConcurrentMap<Int, MappedSlots>
 
     /**
-     * Mapped slots
-     * (ActualWindowSlot:RelativeSlot)
-     */
-    /**
-     * Get the slotsmap for a window
+     * 取得针对父级对象的映射槽位集
      */
     fun getSlotsMap(parent: Parentable): MappedSlots
 
     /**
-     * Check if this element is current renderable
+     * 检测某元素当前是否可渲染
      */
     fun isRenderable(element: PanelElement): Boolean
 
     /**
-     * Render this panel to a specifical window
-     */
-    fun renderPanel(window: Window)
-
-    /**
-     * Unregister from a window
+     * 注销
      */
     fun unregisterWindow(window: Window)
 
     /**
-     * Register to a window
+     * 注册
      */
     fun registerWindow(window: Window)
 
     /**
-     * forEach Windows
+     * 遍历窗口
      */
     fun forWindows(function: Window.() -> Unit)
 
     /**
-     * Render this panel to all windows
+     * 渲染全部窗口
      */
     fun renderAll()
 
     /**
-     * Handle click event
+     * 向某个 Window 渲染此 Panel
+     */
+    fun renderPanel(window: Window)
+
+    /**
+     * 处理 DragEvent
      */
     fun handleDrag(window: Window, e: InventoryDragEvent)
 
     /**
-     * Handle click event
+     * 处理 ClickEvent
      */
     fun handleClick(window: Window, e: InventoryClickEvent)
 
     /**
-     * Handle items collect event
+     * 处理 ItemsCollect
      */
     fun handleItemsCollect(window: Window, e: InventoryClickEvent)
 
     /**
-     * Handle items move event
+     * 处理 ItemsMove
      */
     fun handleItemsMove(window: Window, e: InventoryClickEvent)
 

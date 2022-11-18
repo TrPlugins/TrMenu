@@ -22,6 +22,11 @@ class PagedGeneratorPanel(
     var exclude: Set<Int> = setOf()
 ) : PagedStandardPanel(scale, pos, weight) {
 
+    override fun renderPanel(window: Window) {
+        genearte()
+        super.renderPanel(window)
+    }
+
     lateinit var generator: Generator<ElementAbsolute>
     override var maxPageIndex = 0
     private val pool
@@ -43,11 +48,6 @@ class PagedGeneratorPanel(
     override fun getPage(index: Int): MappedElements {
         if (pagedElements.isEmpty()) addPage(MappedElements())
         return pagedElements[0]
-    }
-
-    override fun renderPanel(window: Window) {
-        genearte()
-        super.renderPanel(window)
     }
 
     fun genearte(): Boolean {

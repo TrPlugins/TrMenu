@@ -19,6 +19,10 @@ class PagedNetesedPanel(
     weight: PanelWeight
 ) : BasePagedPanel(scale, pos, weight) {
 
+    override fun renderPanel(window: Window) {
+        getPage().renderPanel(window)
+    }
+
     override val children: ArrayList<PanelInstance> = ArrayList()
 
     /**
@@ -82,13 +86,6 @@ class PagedNetesedPanel(
             is BasePagedPanel -> it.getOccupiedSlots(it.pageIndex)
             else -> error("getSlotsOccupied")
         }
-    }
-
-    /**
-     * Default render logic for BasePagedPanel
-     */
-    override fun renderPanel(window: Window) {
-        getPage().renderPanel(window)
     }
 
     /**

@@ -107,7 +107,7 @@ abstract class PanelInstance(scale: Pair<Int, Int>, pos: Int, weight: PanelWeigh
         forWindows {
             val windowSlotMap = getSlotsMap(this@forWindows)
             slots.forEach {
-                pairedInventory[windowSlotMap.getActual(it)] = null
+                inventorySet[windowSlotMap.getActual(it)] = null
             }
         }
     }

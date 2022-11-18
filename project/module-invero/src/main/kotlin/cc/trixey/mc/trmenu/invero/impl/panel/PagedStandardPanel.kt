@@ -18,6 +18,19 @@ open class PagedStandardPanel(
     weight: PanelWeight
 ) : BasePagedPanel(scale, pos, weight) {
 
+    override fun renderPanel(window: Window) {
+        // TODO ? NOT RENDER DYNAMIC OF FALLBACK?
+        getFallbackElements().forAbsoluteElements {
+            it.renderElement(window)
+        }
+        getPage().forAbsoluteElements {
+            it.renderElement(window)
+        }
+        getPage().forDynamicElements {
+            it.renderElement(window)
+        }
+    }
+
     /**
      * @see BasePagedPanel.pageIndex
      */
@@ -93,22 +106,6 @@ open class PagedStandardPanel(
     fun addPage(page: MappedElements): Int {
         pagedElements += page
         return pagedElements.lastIndex
-    }
-
-    /**
-     * Default render logic for BasePagedPanel
-     */
-    override fun renderPanel(window: Window) {
-        // TODO ? NOT RENDER DYNAMIC OF FALLBACK?
-        getFallbackElements().forAbsoluteElements {
-            it.renderElement(window)
-        }
-        getPage().forAbsoluteElements {
-            it.renderElement(window)
-        }
-        getPage().forDynamicElements {
-            it.renderElement(window)
-        }
     }
 
     /**

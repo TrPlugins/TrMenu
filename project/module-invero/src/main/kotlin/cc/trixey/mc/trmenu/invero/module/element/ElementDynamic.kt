@@ -17,7 +17,7 @@ abstract class ElementDynamic(panel: Panel) : Interactable(panel) {
         set(value) {
             forWindows {
                 val previous = getAbsoluteSlots()
-                (previous - value).forEach { pairedInventory[it] = null }
+                (previous - value).forEach { inventorySet[it] = null }
                 submit { renderElement(this@forWindows) }
             }
             field = value

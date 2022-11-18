@@ -19,6 +19,15 @@ abstract class BasePanel(
     weight: PanelWeight
 ) : PanelInstance(scale, pos, weight) {
 
+    override fun renderPanel(window: Window) {
+        elementsMap.forAbsoluteElements {
+            it.renderElement(window)
+        }
+        elementsMap.forDynamicElements {
+            it.renderElement(window)
+        }
+    }
+
     /**
      * Elements of this panel
      */
@@ -41,25 +50,25 @@ abstract class BasePanel(
     /**
      * Set panel's element
      */
-    fun setElement(relativeSlot: Int, element: ElementAbsolute) {
-        elementsMap[relativeSlot] = element
+    fun set(slot: Int, element: ElementAbsolute) {
+        elementsMap[slot] = element
     }
 
     /**
      * Set panel's element on multiple slots
      */
-    fun setElement(relativeSlots: Array<Int>, element: ElementAbsolute) {
-        relativeSlots.forEach {
-            setElement(it, element)
+    fun set(slots: Array<Int>, element: ElementAbsolute) {
+        slots.forEach {
+            set(it, element)
         }
     }
 
     /**
      * Set panel's element on multiple slots
      */
-    fun setElement(relativeSlots: IntRange, element: ElementAbsolute) {
-        relativeSlots.forEach {
-            setElement(it, element)
+    fun set(slots: IntRange, element: ElementAbsolute) {
+        slots.forEach {
+            set(it, element)
         }
     }
 
@@ -80,19 +89,7 @@ abstract class BasePanel(
     }
 
     fun ElementAbsolute.set(slots: Set<Int>) {
-        slots.forEach { setElement(it, this) }
-    }
-
-    /**
-     * Render this panel to a specific window
-     */
-    override fun renderPanel(window: Window) {
-        elementsMap.forAbsoluteElements {
-            it.renderElement(window)
-        }
-        elementsMap.forDynamicElements {
-            it.renderElement(window)
-        }
+        slots.forEach { set(it, this) }
     }
 
 }

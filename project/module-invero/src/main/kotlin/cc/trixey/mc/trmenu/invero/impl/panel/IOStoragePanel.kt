@@ -1,9 +1,8 @@
 package cc.trixey.mc.trmenu.invero.impl.panel
 
+import cc.trixey.mc.trmenu.invero.module.PanelWeight
 import cc.trixey.mc.trmenu.invero.module.Window
 import cc.trixey.mc.trmenu.invero.module.base.BaseIOPanel
-import cc.trixey.mc.trmenu.invero.module.element.Interactable
-import cc.trixey.mc.trmenu.invero.module.PanelWeight
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryDragEvent
 
@@ -17,27 +16,38 @@ open class IOStoragePanel(
     weight: PanelWeight
 ) : BaseIOPanel(scale, pos, weight) {
 
+    private var handlerClick: (InventoryClickEvent) -> Unit = {}
     private var handlerDrag: (InventoryDragEvent) -> Unit = {}
     private var handlerMove: (InventoryClickEvent) -> Unit = {}
 
+    override fun renderPanel(window: Window) {
+        storage.forEach { (index, itemStack) ->
+            val slot = getSlotsMap(window).getActual(index)
+            window.inventorySet[slot] = itemStack
+        }
+    }
+
+    override fun handleClick(window: Window, e: InventoryClickEvent) {
+        handlerClick(e)
+        updateStorage(window)
+    }
+
     override fun handleItemsMove(window: Window, e: InventoryClickEvent) {
         handlerMove(e)
+        updateStorage(window)
     }
 
     override fun handleDrag(window: Window, e: InventoryDragEvent) {
         handlerDrag(e)
+        updateStorage(window)
     }
 
-    // TODO
     override fun handleItemsCollect(window: Window, e: InventoryClickEvent) {
         super.handleItemsCollect(window, e)
     }
 
-    override fun handleClick(window: Window, e: InventoryClickEvent) {
-        val relativeSlot = getSlotsMap(window).getRelative(e.rawSlot)
-        val element = elementsMap[relativeSlot]
-
-        if (element is Interactable) element.passClickEvent(e)
+    fun onClick(event: (InventoryClickEvent) -> Unit) {
+        handlerClick = event
     }
 
     fun onDrag(event: (InventoryDragEvent) -> Unit) {

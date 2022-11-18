@@ -13,7 +13,7 @@ import java.util.*
  * @author Arasple
  * @since 2022/10/29 17:04
  */
-class PairedInventory(var container: Inventory, private val playerUUID: UUID?) {
+class PairedInventory(var container: Inventory, private val playerUUID: UUID?) : InventorySet {
 
     constructor(window: Window, player: Player?) : this(
         window.let {
@@ -29,20 +29,24 @@ class PairedInventory(var container: Inventory, private val playerUUID: UUID?) {
         playerUUID != null
     }
 
-    fun getPlayerInventory(): PlayerInventory {
+    override fun getContainerSize(): Int {
+        return container.size
+    }
+
+    override fun getPlayerInventory(): PlayerInventory {
         return getPlayerInventorySafely() ?: throw NullPointerException("getPlayerInventory() is null")
     }
 
-    fun getPlayerInventorySafely(): PlayerInventory? {
+    override fun getPlayerInventorySafely(): PlayerInventory? {
         return playerUUID?.let { getProxyPlayer(it)?.castSafely<Player>()?.inventory }
     }
 
-    fun clear() {
+    override fun clear() {
         container.clear()
         getPlayerInventorySafely()?.clear()
     }
 
-    operator fun get(slot: Int): ItemStack? {
+    override operator fun get(slot: Int): ItemStack? {
         return if (slot + 1 > container.size) {
             getPlayerInventorySafely()?.getItem(slot.outflowCorrect() - container.size)
         } else {
@@ -50,31 +54,12 @@ class PairedInventory(var container: Inventory, private val playerUUID: UUID?) {
         }
     }
 
-    operator fun set(slot: Int, itemStack: ItemStack?) {
+    override operator fun set(slot: Int, itemStack: ItemStack?) {
         if (slot + 1 > container.size) {
             getPlayerInventorySafely()?.setItem(slot.outflowCorrect(), itemStack)
         } else {
             container.setItem(slot, itemStack)
         }
-    }
-
-    /**
-     * Realistic:
-     * 09,10,11,12,13,14,15,16,17
-     * 18,19,20,21,22,23,24,25,26
-     * 27,28,29,30,31,32,33,34,35
-     *
-     * 0, 1, 2, 3, 4, 5, 6, 7, 8
-     *
-     * Expected:
-     * 01,02,03 ...
-     * ...
-     * ......     26,
-     *
-     * 27,28... 35
-     */
-    private fun Int.outflowCorrect() = (this - container.size).let {
-        if (it > 26) it - 27 else it + 9
     }
 
 }

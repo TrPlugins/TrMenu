@@ -1,14 +1,15 @@
 package cc.trixey.mc.trmenu.test.unit
 
+import cc.trixey.mc.trmenu.invero.impl.WindowHolder
 import cc.trixey.mc.trmenu.invero.impl.element.BasicItem
 import cc.trixey.mc.trmenu.invero.impl.panel.IOStoragePanel
+import cc.trixey.mc.trmenu.invero.impl.panel.PagedStandardPanel
+import cc.trixey.mc.trmenu.invero.impl.panel.StandardPanel
 import cc.trixey.mc.trmenu.invero.impl.window.ContainerWindow
-import cc.trixey.mc.trmenu.invero.util.addPanel
-import cc.trixey.mc.trmenu.invero.util.buildItem
-import cc.trixey.mc.trmenu.invero.util.buildWindow
+import cc.trixey.mc.trmenu.invero.module.PanelWeight
+import cc.trixey.mc.trmenu.invero.util.*
 import cc.trixey.mc.trmenu.test.generateRandomItem
 import org.bukkit.Material
-import org.bukkit.entity.Player
 import taboolib.common.platform.command.subCommand
 
 /**
@@ -20,67 +21,102 @@ import taboolib.common.platform.command.subCommand
  */
 object UnitIO {
 
-    val storage = subCommand {
-        execute<Player> { player, _, _ ->
+    val storagePanel = buildPanel<IOStoragePanel>(3 to 3, 10, PanelWeight.SURFACE) {
+        for (i in 0..8) {
+            set(i, generateRandomItem {
+                amount = (1..10).random()
+
+                name = "§bA random Item"
+                lore.add("§3You can move freely in this panel.")
+            })
+        }
+
+        onClick {
+            println("================================> InventoryClickEvent")
+            println("      action: " + it.action)
+            println("       click: " + it.click)
+            println(" currentItem: " + it.currentItem)
+            println("      cursor: " + it.cursor)
+            println("hotbarButton: " + it.hotbarButton)
+            println("     rawSlot: " + it.rawSlot)
+            println("        slot: " + it.slot)
+            println("    slotType: " + it.slotType)
+        }
+
+        onMove {
+            it.clickedInventory?.apply {
+                if (holder is WindowHolder) {
+                    println("================================> WindowMoveItemsEvent")
+                    println("     current: " + it.currentItem)
+                    println("     cursor: " + it.cursor)
+                    println("     slotType: " + it.slotType)
+                    println("     slot: " + it.slot)
+                    println("     action: " + it.action)
+                    println("     rawSlot: " + it.rawSlot)
+                }
+            }
+        }
+
+        onDrag { it ->
+            println("================================> InventoryDragEvent")
+            println("          type: " + it.type)
+            println("        cursor: " + it.cursor)
+            println("     oldCursor: " + it.oldCursor)
+            println("      newItems: " + it.newItems.toList().map { "{${it.first}, ${it.second}}, " })
+            println("      rawSlots: " + it.rawSlots)
+            println("inventorySlots: " + it.inventorySlots)
+        }
+    }
+
+    val command = subCommand {
+        execute { player, _, _ ->
             buildWindow<ContainerWindow>(player) {
+                lock = false
                 title = "Storage Panels Test"
 
-                val pane = randomPane()
+                this += storagePanel
 
-                addPanel<IOStoragePanel>(7 to 4, 10) {
-                    setElement(0..4, buildItem<BasicItem>(generateRandomItem {
-                        name = "§bA random Item"
-                        lore.add("§3You can move freely in this panel.")
-                    }))
+                addPanel<StandardPanel>(5 to 5, 0, PanelWeight.BACKGROUND) {
+                    buildItem<BasicItem>(Material.GRAY_STAINED_GLASS_PANE).set(getUnoccupiedSlots())
                 }
-                // ContainerWindow 不应该包含干涉玩家容器的 Panel
-                // TODO 通过 ContainerWindow 提供锁定/允许玩家容器交互的方法
-//                // 使玩家背包可以移动物品
-//                addPanel<IOStoragePanel>(9 to 3, 54)
-//                arrayOf(0, 45).forEach { pos ->
-//                    addPanel<StandardPanel>(8 to 1, pos) {
-//                        val paneItem = buildItem<BasicItem>(pane)
-//
-//                        slotsUnoccupied.forEach { slot ->
-//                            setElement(slot, paneItem)
-//                        }
-//                    }
-//                }
+
+                addPanel<PagedStandardPanel>(3 to 6, 6) {
+                    buildItem<BasicItem>(Material.ARROW, {
+                        name = "§3Previous page"
+                        lore.add("$pageIndex / $maxPageIndex")
+                    }, {
+                        onClick {
+                            previousPage()
+                            modifyLore { set(0, "$pageIndex / $maxPageIndex") }
+                            forWindows { title = "Page: $pageIndex / $maxPageIndex" }
+                        }
+                    }).setDefault(this, 0)
+
+                    buildItem<BasicItem>(Material.ARROW, {
+                        name = "§aNext Page"
+                        lore.add("$pageIndex / $maxPageIndex")
+                    }, {
+                        onClick {
+                            nextPage()
+                            modifyLore { set(0, "$pageIndex / $maxPageIndex") }
+                            forWindows { title = "Page: $pageIndex / $maxPageIndex" }
+                        }
+                    }).setDefault(this, 2)
+
+                    val fill: () -> BasicItem = { buildItem(generateRandomItem()) }
+
+                    page {
+                        set(getUnoccupiedSlots(), buildItem<BasicItem>(Material.BLACK_STAINED_GLASS))
+                    }
+                    page {
+                        set(getUnoccupiedSlots(), buildItem<BasicItem>(Material.LIME_STAINED_GLASS_PANE))
+                    }
+
+                    for (i in 0..10) page { set(getUnoccupiedSlots(), fill()) }
+                }
 
             }.also { it.open() }
-
         }
     }
-
-    fun randomPane(): Material {
-        return Material.values().filter { it.name.endsWith("_stained_glass_pane", ignoreCase = true) }.random()
-    }
-    /*    @SubscribeEvent
-        fun e(e: InventoryDragEvent) {
-            println("================================> InventoryDragEvent")
-            println("          type: " + e.type)
-            println("        cursor: " + e.cursor.dump())
-            println("     oldCursor: " + e.oldCursor.dump())
-            println("      newItems: " + e.newItems.toList().map { "{${it.first}, ${it.second.dump()}}, " })
-            println("      rawSlots: " + e.rawSlots)
-            println("inventorySlots: " + e.inventorySlots)
-
-        }
-
-        @SubscribeEvent
-        fun e(e: InventoryClickEvent) {
-            println("================================> InventoryClickEvent")
-            println("      action: " + e.action)
-            println("       click: " + e.click)
-            println(" currentItem: " + e.currentItem.dump())
-            println("      cursor: " + e.cursor.dump())
-            println("hotbarButton: " + e.hotbarButton)
-            println("     rawSlot: " + e.rawSlot)
-            println("        slot: " + e.slot)
-            println("    slotType: " + e.slotType)
-        }
-
-        fun ItemStack?.dump() = "${this?.type}-${this?.amount}"
-        */
 
 }

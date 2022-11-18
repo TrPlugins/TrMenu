@@ -1,5 +1,6 @@
 package cc.trixey.mc.trmenu.invero.impl
 
+import cc.trixey.mc.trmenu.invero.module.PairedInventory
 import cc.trixey.mc.trmenu.invero.module.Window
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.InventoryHolder
@@ -28,7 +29,7 @@ class WindowHolder(val window: Window) : InventoryHolder {
     }
 
     override fun getInventory(): Inventory {
-        return window.pairedInventory.container
+        return (window.inventorySet as PairedInventory).container
     }
 
 }

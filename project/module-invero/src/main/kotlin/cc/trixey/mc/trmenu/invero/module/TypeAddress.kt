@@ -5,6 +5,9 @@ import org.bukkit.event.inventory.InventoryType
 /**
  * @author Arasple
  * @since 2022/10/20
+ *
+ * 容器的类型枚举与相关方法
+ * 方便调用数据包处理
  */
 enum class TypeAddress(val vanillaId: String, val serialId: Int, slotsContainer: IntRange) {
 

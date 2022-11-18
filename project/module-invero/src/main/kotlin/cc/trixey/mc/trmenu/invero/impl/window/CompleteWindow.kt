@@ -24,7 +24,7 @@ class CompleteWindow(viewer: Player, type: TypeAddress, title: String) : Contain
     /**
      * @see PairedInventory
      */
-    override val pairedInventory: PairedInventory by lazy {
+    override val inventorySet: PairedInventory by lazy {
         PairedInventory(this, viewer)
     }
 
@@ -48,7 +48,7 @@ class CompleteWindow(viewer: Player, type: TypeAddress, title: String) : Contain
      * Backup player's inventory contents
      */
     private fun backupPlayerInventory() {
-        pairedInventory.getPlayerInventory().apply {
+        inventorySet.getPlayerInventory().apply {
             playerItems = storageContents
             clear()
         }
@@ -58,7 +58,7 @@ class CompleteWindow(viewer: Player, type: TypeAddress, title: String) : Contain
      * Restore player's inventory contents
      */
     private fun restorePlayerInventory() {
-        pairedInventory.getPlayerInventory().apply { storageContents = playerItems }
+        inventorySet.getPlayerInventory().apply { storageContents = playerItems }
     }
 
 }

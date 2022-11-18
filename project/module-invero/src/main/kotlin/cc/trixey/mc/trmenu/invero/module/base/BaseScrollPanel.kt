@@ -1,9 +1,8 @@
 package cc.trixey.mc.trmenu.invero.module.base
 
-import cc.trixey.mc.trmenu.invero.module.PanelInstance
 import cc.trixey.mc.trmenu.invero.module.PanelWeight
-import cc.trixey.mc.trmenu.invero.module.RollingDirection
-import cc.trixey.mc.trmenu.invero.module.element.ElementAbsolute
+import cc.trixey.mc.trmenu.invero.module.ScrollDirection
+import cc.trixey.mc.trmenu.invero.module.ScrollType
 
 /**
  * @author Arasple
@@ -13,17 +12,15 @@ abstract class BaseScrollPanel(
     scale: Pair<Int, Int>,
     pos: Int,
     weight: PanelWeight,
-    val direction: RollingDirection = RollingDirection(vertical = true)
-) : PanelInstance(scale, pos, weight) {
+    val direction: ScrollDirection,
+    val scrollType: ScrollType
+) : BasePanel(scale, pos, weight) {
 
-    /*
-    vertical scrolling:
-    Fixed width, unlimited height (lines), score [lines]
-
-    horizontal scrolling:
-    Fixed height(lines), unlimited width, scroll [rows]
+    /**
+     * Current index of the scrolling page
      */
+    abstract var index: Int
 
-    val colums = mutableListOf<Array<ElementAbsolute>>()
+    abstract fun scroll(step: Int = 1)
 
 }

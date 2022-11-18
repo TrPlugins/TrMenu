@@ -97,7 +97,7 @@ inline fun <reified T : PanelElement> BasePanel.addElement(slots: Collection<Int
         if (slots.isNotEmpty() && element is ElementAbsolute) {
             slots.forEach {
                 if (it < 0) throw IllegalArgumentException("Relative slot can not be negative number")
-                setElement(it, element)
+                set(it, element)
             }
         } else if (element is ElementDynamic) {
             addDynamicElement(element)
