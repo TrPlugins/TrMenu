@@ -1,4 +1,4 @@
-package cc.trixey.mc.trmenu.invero.module.`object`
+package cc.trixey.mc.trmenu.invero.module
 
 /**
  * @author Arasple

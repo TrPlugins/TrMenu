@@ -10,7 +10,7 @@ import cc.trixey.mc.trmenu.invero.module.Panel
 import cc.trixey.mc.trmenu.invero.module.TypeAddress
 import cc.trixey.mc.trmenu.invero.module.Window
 import cc.trixey.mc.trmenu.invero.module.element.PanelElement
-import cc.trixey.mc.trmenu.invero.module.`object`.PanelWeight
+import cc.trixey.mc.trmenu.invero.module.PanelWeight
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.*
 import taboolib.common.platform.event.SubscribeEvent
@@ -22,12 +22,12 @@ import taboolib.common.platform.event.SubscribeEvent
  * TODO List
  *
  * - #[?] ItemElement 请求更新逻辑
- * - #[?] 周期性帧 ItemElement
- *
+ * - #[√] 周期性帧 ItemElement
  * - #[√] DynamicElement 动态槽位
  * ^ 至此已实现支持 TrMenu v3 的功能框架
  *
- * -
+ * [ ] Paged(Generator)?Panel 支持静态元素，方便设置导航按钮
+ * [ ] 支持虚拟容器发包实现的 PacketWindow（特殊场景如不使用 IOPanel的UI可用）
  */
 object InveroManager {
 

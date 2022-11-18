@@ -13,7 +13,7 @@ import java.util.*
  */
 abstract class BaseWindow(val viewer: UUID) : Window {
 
-    override val panels: LinkedList<Panel> = LinkedList()
+    override val panels: ArrayList<Panel> = ArrayList()
 
     operator fun plusAssign(value: Panel) {
         panels += value
@@ -61,9 +61,15 @@ abstract class BaseWindow(val viewer: UUID) : Window {
         }
     }
 
-    fun findPanelHandler(vararg slots: Int): Panel? {
+    fun findPanelHandler(slots: Collection<Int>): Panel? {
         return panels.sortedByDescending { it.weight }.firstOrNull {
-            it.getSlotsMap(this).claimedSlots.containsAll(slots.toList())
+            it.getSlotsMap(this).claimedSlots.containsAll(slots)
+        }
+    }
+
+    fun findPanelHandler(slot: Int): Panel? {
+        return panels.sortedByDescending { it.weight }.firstOrNull {
+            it.getSlotsMap(this).claimedSlots.contains(slot)
         }
     }
 

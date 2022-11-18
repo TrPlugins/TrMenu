@@ -1,7 +1,6 @@
 package cc.trixey.mc.trmenu.invero.impl.panel
 
-import cc.trixey.mc.trmenu.invero.module.base.BasePanel
-import cc.trixey.mc.trmenu.invero.module.`object`.PanelWeight
+import cc.trixey.mc.trmenu.invero.module.PanelWeight
 
 /**
  * @author Score2

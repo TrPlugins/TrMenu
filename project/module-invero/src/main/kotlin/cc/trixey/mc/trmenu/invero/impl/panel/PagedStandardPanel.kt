@@ -1,14 +1,12 @@
 package cc.trixey.mc.trmenu.invero.impl.panel
 
-import cc.trixey.mc.trmenu.invero.module.PanelInstance
+import cc.trixey.mc.trmenu.invero.module.MappedElements
+import cc.trixey.mc.trmenu.invero.module.PanelWeight
 import cc.trixey.mc.trmenu.invero.module.Window
 import cc.trixey.mc.trmenu.invero.module.base.BasePagedPanel
 import cc.trixey.mc.trmenu.invero.module.element.PanelElement
-import cc.trixey.mc.trmenu.invero.module.`object`.MappedElements
-import cc.trixey.mc.trmenu.invero.module.`object`.PanelWeight
 import org.bukkit.event.inventory.InventoryClickEvent
 import taboolib.common.platform.function.submit
-import java.util.*
 
 /**
  * @author Arasple
@@ -25,10 +23,13 @@ open class PagedStandardPanel(
      */
     override var pageIndex = 0
         set(value) {
-            if (value in 0..maxPageIndex) field = value
+            var changed = false
+            if (value in 0..maxPageIndex) field = value.also { changed = true }
             submit {
-                wipePanel()
-                renderAll()
+                if (changed) {
+                    renderAll()
+                    wipePanel(getUnoccupiedSlots(field))
+                }
             }
         }
 
@@ -39,21 +40,21 @@ open class PagedStandardPanel(
         get() = pagedElements.lastIndex
 
     /**
-     * @see BasePagedPanel.pagedElements
+     * Elements of different page
      */
-    val pagedElements = LinkedList<MappedElements>()
+    internal val pagedElements = ArrayList<MappedElements>()
 
     /**
-     * @see PanelInstance.slotsOccupied
+     * Default fall back elements for every page
      */
-    override val slotsOccupied: Set<Int>
-        get() = slotsOccupied()
+    internal val fallbackElements = MappedElements()
 
     /**
-     * @see PanelInstance.slotsUnoccupied
+     * @see BasePagedPanel.getOccupiedSlots
      */
-    override val slotsUnoccupied: List<Int>
-        get() = slotsUnoccupied()
+    override fun getOccupiedSlots(page: Int): Set<Int> {
+        return getPage(page).occupiedSlots + fallbackElements.occupiedSlots
+    }
 
     /**
      * @see BasePagedPanel.nextPage
@@ -78,6 +79,13 @@ open class PagedStandardPanel(
     open fun getPage(index: Int = pageIndex) = pagedElements[index]
 
     /**
+     * Get fallback elements layout
+     */
+    open fun getFallbackElements(): MappedElements {
+        return fallbackElements
+    }
+
+    /**
      * Add a page to this panel
      *
      * @return last index of pages
@@ -88,19 +96,13 @@ open class PagedStandardPanel(
     }
 
     /**
-     * Get the occupied slots of a certain page
-     */
-    fun slotsOccupied(index: Int = pageIndex) = pagedElements[index].slotsOccupied
-
-    /**
-     * Get the unoccupied slots of a certain page
-     */
-    fun slotsUnoccupied(index: Int = pageIndex) = slots - slotsOccupied(index)
-
-    /**
      * Default render logic for BasePagedPanel
      */
     override fun renderPanel(window: Window) {
+        // TODO ? NOT RENDER DYNAMIC OF FALLBACK?
+        getFallbackElements().forAbsoluteElements {
+            it.renderElement(window)
+        }
         getPage().forAbsoluteElements {
             it.renderElement(window)
         }
@@ -113,14 +115,14 @@ open class PagedStandardPanel(
      * Check if this element is current renderable
      */
     override fun isRenderable(element: PanelElement): Boolean {
-        return getPage().hasElement(element)
+        return getPage().has(element) || getFallbackElements().has(element)
     }
 
     override fun handleClick(window: Window, e: InventoryClickEvent) {
         e.isCancelled = true
 
-        val relativeSlot = getSlotsMap(window).getRelative(e.rawSlot)
-        val element = getPage()[relativeSlot]
+        val slot = getSlotsMap(window).getRelative(e.rawSlot)
+        val element = getPage()[slot] ?: getFallbackElements()[slot]
 
         element?.passClickEvent(e)
     }

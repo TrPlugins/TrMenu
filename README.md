@@ -7,7 +7,7 @@
 ### Note
 
 Still under heavy development  
-There is no estimated time of release 
+There is no estimated time of release
 
 ---
 

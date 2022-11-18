@@ -1,13 +1,13 @@
 package cc.trixey.mc.trmenu.invero.impl.panel
 
 import cc.trixey.mc.trmenu.invero.module.PanelInstance
+import cc.trixey.mc.trmenu.invero.module.PanelWeight
 import cc.trixey.mc.trmenu.invero.module.Window
 import cc.trixey.mc.trmenu.invero.module.base.BasePagedPanel
+import cc.trixey.mc.trmenu.invero.module.base.BasePanel
 import cc.trixey.mc.trmenu.invero.module.element.PanelElement
-import cc.trixey.mc.trmenu.invero.module.`object`.PanelWeight
 import org.bukkit.event.inventory.InventoryClickEvent
 import taboolib.common.platform.function.submit
-import java.util.*
 
 /**
  * @author Arasple
@@ -19,7 +19,7 @@ class PagedNetesedPanel(
     weight: PanelWeight
 ) : BasePagedPanel(scale, pos, weight) {
 
-    override val children: LinkedList<PanelInstance> = LinkedList()
+    override val children: ArrayList<PanelInstance> = ArrayList()
 
     /**
      * @see BasePagedPanel.pageIndex
@@ -38,18 +38,6 @@ class PagedNetesedPanel(
      */
     override val maxPageIndex: Int
         get() = children.lastIndex
-
-    /**
-     * @see PanelInstance.slotsOccupied
-     */
-    override val slotsOccupied: Set<Int>
-        get() = slotsOccupied()
-
-    /**
-     * @see PanelInstance.slotsUnoccupied
-     */
-    override val slotsUnoccupied: List<Int>
-        get() = slotsUnoccupied()
 
     /**
      * @see BasePagedPanel.nextPage
@@ -86,14 +74,15 @@ class PagedNetesedPanel(
     }
 
     /**
-     * Get the occupied slots of a certain page
+     * @see BasePagedPanel.getOccupiedSlots
      */
-    fun slotsOccupied(index: Int = pageIndex) = children[index].slotsOccupied
-
-    /**
-     * Get the unoccupied slots of a certain page
-     */
-    fun slotsUnoccupied(index: Int = pageIndex) = slots - slotsOccupied(index)
+    override fun getOccupiedSlots(page: Int): Set<Int> {
+        return when (val it = getPage(page)) {
+            is BasePanel -> it.getOccupiedSlots()
+            is BasePagedPanel -> it.getOccupiedSlots(it.pageIndex)
+            else -> error("getSlotsOccupied")
+        }
+    }
 
     /**
      * Default render logic for BasePagedPanel

@@ -36,7 +36,7 @@ object UnitNested {
             val nested = buildPanel<PagedNetesedPanel>(9 to 5) {
 
                 buildPanel<StandardPanel>(9 to 5) {
-                    buildItem<BasicItem>(generateRandomItem()).set(*slotsUnoccupied.toIntArray())
+                    buildItem<BasicItem>(generateRandomItem()).set(getUnoccupiedSlots())
                 }.paged(this)
 
                 buildPanel<PagedStandardPanel>(9 to 5) {
@@ -62,10 +62,10 @@ object UnitNested {
                     })
                     val randomFill: () -> BasicItem = { buildItem(generateRandomItem()) }
                     for (i in 0..10) {
-                        page { index ->
+                        page {
                             previousPage.set(0)
                             nextPage.set(8)
-                            randomFill().set(*slotsUnoccupied(index).toIntArray())
+                            randomFill().set(*getUnoccupiedSlots().toIntArray())
                         }
                     }
                 }.paged(this)
@@ -89,12 +89,12 @@ object UnitNested {
                         XSound.BLOCK_NOTE_BLOCK_PLING.play(whoClicked)
                     }
                 }).set(8)
-                buildItem<BasicItem>(Material.GRAY_STAINED_GLASS_PANE).set(*slotsUnoccupied.toIntArray())
+                buildItem<BasicItem>(Material.GRAY_STAINED_GLASS_PANE).set(getUnoccupiedSlots())
             }
 
             window.apply {
-                addPanel(nested)
-                addPanel(nav)
+                this += nested
+                this += nav
             }.open()
         }
     }

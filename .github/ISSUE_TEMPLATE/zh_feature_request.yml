@@ -1,7 +1,7 @@
 name: '🛸 功能请求'
 description: '注意: 未正确根据提示发布功能请求可能会被忽略或关闭.'
 title: "[功能]: "
-labels: ['💠Enhancement | 增强']
+labels: [ '💠Enhancement | 增强' ]
 body:
   - type: checkboxes
     id: wikis

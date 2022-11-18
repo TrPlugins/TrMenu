@@ -2,6 +2,7 @@ package cc.trixey.mc.trmenu.invero.module.element
 
 import cc.trixey.mc.trmenu.invero.module.Panel
 import cc.trixey.mc.trmenu.invero.module.Window
+import java.util.concurrent.ConcurrentHashMap
 
 /**
  * @author Arasple
@@ -9,10 +10,14 @@ import cc.trixey.mc.trmenu.invero.module.Window
  */
 abstract class ElementAbsolute(panel: Panel) : Interactable(panel) {
 
-    private val absoltueSlots = LinkedHashMap<Int, List<Int>>()
+    private val absoltueSlots = ConcurrentHashMap<Int, List<Int>>()
 
     val slots by lazy {
-        panelElements.findElementSlots(this).ifEmpty { null }
+        panelElements.findElementSlots(this).ifEmpty {
+            panelElementsFallback.findElementSlots(this).ifEmpty {
+                null
+            }
+        }
     }
 
     fun Window.getAbsoluteSlots(): List<Int> {

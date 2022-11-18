@@ -1,11 +1,10 @@
 package cc.trixey.mc.trmenu.invero.module
 
 import cc.trixey.mc.trmenu.invero.module.element.PanelElement
-import cc.trixey.mc.trmenu.invero.module.`object`.MappedSlots
-import cc.trixey.mc.trmenu.invero.module.`object`.PanelWeight
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryDragEvent
 import java.util.*
+import java.util.concurrent.ConcurrentMap
 
 /**
  * @author Arasple
@@ -16,7 +15,7 @@ interface Panel : Parentable {
     /**
      * Windows that use this panel
      */
-    val windows: LinkedList<Window>
+    val windows: ArrayList<Window>
 
     /**
      * Scale of this panel
@@ -27,7 +26,7 @@ interface Panel : Parentable {
     /**
      * Relative slots of this panel
      */
-    val slots: List<Int>
+    val slots: Set<Int>
 
     /**
      * The top-left slot of this panel's real position
@@ -45,7 +44,7 @@ interface Panel : Parentable {
      *
      * Width: MappedSlots(Actual:Relative)
      */
-    val slotsMap: LinkedHashMap<Int, MappedSlots>
+    val slotsMap: ConcurrentMap<Int, MappedSlots>
 
     /**
      * Mapped slots

@@ -2,11 +2,11 @@ package cc.trixey.mc.trmenu.invero.impl.window
 
 import cc.trixey.mc.trmenu.invero.impl.WindowHolder.Companion.register
 import cc.trixey.mc.trmenu.invero.impl.WindowHolder.Companion.unregister
+import cc.trixey.mc.trmenu.invero.module.PairedInventory
 import cc.trixey.mc.trmenu.invero.module.Panel
 import cc.trixey.mc.trmenu.invero.module.Parentable
 import cc.trixey.mc.trmenu.invero.module.TypeAddress
 import cc.trixey.mc.trmenu.invero.module.base.BaseWindow
-import cc.trixey.mc.trmenu.invero.module.`object`.PairedInventory
 import cc.trixey.mc.trmenu.invero.util.handler
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryClickEvent
@@ -82,7 +82,7 @@ open class ContainerWindow(
      * Handle drag event to this panel
      */
     override fun handleDrag(e: InventoryDragEvent) {
-        findPanelHandler(*e.inventorySlots.toIntArray())?.handleDrag(this, e) ?: run { e.isCancelled = true }
+        findPanelHandler(e.inventorySlots)?.handleDrag(this, e) ?: run { e.isCancelled = true }
     }
 
     /**

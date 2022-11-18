@@ -1,7 +1,7 @@
 name: '🐞 Bug Report'
 description: 'Warning: If you don’t follow the prompts to give feedback, this issue may be ignored or closed.'
 title: "[Bug]: "
-labels: ['🐞Bug | 问题', '🔍Recurring | 调查中...']
+labels: [ '🐞Bug | 问题', '🔍Recurring | 调查中...' ]
 body:
   - type: checkboxes
     id: latests

@@ -1,4 +1,4 @@
-package cc.trixey.mc.trmenu.invero.module.`object`
+package cc.trixey.mc.trmenu.invero.module
 
 /**
  * @author Arasple
@@ -22,7 +22,7 @@ class MappedSlots(val input: Map<Int, Int>, val output: Map<Int, Int>) {
                 for (y in baseIndex until baseIndex + scale.first)
                     result[if (y >= windowWidth) -1 else windowWidth * x + y] = counter++
 
-            return MappedSlots(result)
+            return MappedSlots(result.filter { it.key >= 0 && it.value >= 0 })
         }
 
     }
@@ -39,7 +39,7 @@ class MappedSlots(val input: Map<Int, Int>, val output: Map<Int, Int>) {
      * Actual slots that this panel have claimed
      */
     val claimedSlots by lazy {
-        input.keys.toList()
+        input.keys.toSet()
     }
 
 }

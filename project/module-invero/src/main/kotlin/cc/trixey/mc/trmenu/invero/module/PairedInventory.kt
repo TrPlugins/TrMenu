@@ -1,7 +1,6 @@
-package cc.trixey.mc.trmenu.invero.module.`object`
+package cc.trixey.mc.trmenu.invero.module
 
 import cc.trixey.mc.trmenu.invero.impl.WindowHolder
-import cc.trixey.mc.trmenu.invero.module.Window
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.inventory.Inventory

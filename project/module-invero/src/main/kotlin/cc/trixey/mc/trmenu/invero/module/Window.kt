@@ -1,7 +1,6 @@
 package cc.trixey.mc.trmenu.invero.module
 
 import cc.trixey.mc.trmenu.invero.impl.WindowHolder
-import cc.trixey.mc.trmenu.invero.module.`object`.PairedInventory
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryEvent
 import java.util.*
@@ -14,7 +13,7 @@ interface Window : Parentable {
 
     var title: String
 
-    val panels: LinkedList<Panel>
+    val panels: ArrayList<Panel>
 
     val type: TypeAddress
 

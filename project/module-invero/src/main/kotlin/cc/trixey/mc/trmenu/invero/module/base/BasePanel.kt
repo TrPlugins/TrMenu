@@ -1,11 +1,11 @@
 package cc.trixey.mc.trmenu.invero.module.base
 
+import cc.trixey.mc.trmenu.invero.module.MappedElements
 import cc.trixey.mc.trmenu.invero.module.PanelInstance
+import cc.trixey.mc.trmenu.invero.module.PanelWeight
 import cc.trixey.mc.trmenu.invero.module.Window
 import cc.trixey.mc.trmenu.invero.module.element.ElementAbsolute
 import cc.trixey.mc.trmenu.invero.module.element.ElementDynamic
-import cc.trixey.mc.trmenu.invero.module.`object`.MappedElements
-import cc.trixey.mc.trmenu.invero.module.`object`.PanelWeight
 
 /**
  * @author Arasple
@@ -22,19 +22,21 @@ abstract class BasePanel(
     /**
      * Elements of this panel
      */
-    internal val elementsMap = MappedElements()
+    val elementsMap = MappedElements()
 
     /**
-     * @see PanelInstance.slotsOccupied
+     * Get occupied slots (relative)
      */
-    override val slotsOccupied: Set<Int>
-        get() = elementsMap.slotsOccupied
+    fun getOccupiedSlots(): Set<Int> {
+        return elementsMap.occupiedSlots
+    }
 
     /**
-     * @see PanelInstance.slotsUnoccupied
+     * Get unoccupied slots
      */
-    override val slotsUnoccupied: List<Int>
-        get() = slots - slotsOccupied
+    fun getUnoccupiedSlots(): Set<Int> {
+        return slots - elementsMap.occupiedSlots
+    }
 
     /**
      * Set panel's element
@@ -74,6 +76,10 @@ abstract class BasePanel(
     }
 
     fun ElementAbsolute.set(vararg slots: Int) {
+        set(slots.toSet())
+    }
+
+    fun ElementAbsolute.set(slots: Set<Int>) {
         slots.forEach { setElement(it, this) }
     }
 

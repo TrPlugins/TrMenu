@@ -1,10 +1,6 @@
 package cc.trixey.mc.trmenu.invero.module.base
 
-import cc.trixey.mc.trmenu.invero.module.Panel
-import cc.trixey.mc.trmenu.invero.module.PanelInstance
-import cc.trixey.mc.trmenu.invero.module.Window
-import cc.trixey.mc.trmenu.invero.module.`object`.PanelWeight
-import org.bukkit.event.inventory.InventoryClickEvent
+import cc.trixey.mc.trmenu.invero.module.PanelWeight
 import org.bukkit.inventory.ItemStack
 import java.util.concurrent.ConcurrentHashMap
 

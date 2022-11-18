@@ -2,12 +2,10 @@ package cc.trixey.mc.trmenu.invero.impl.panel
 
 import cc.trixey.mc.trmenu.invero.module.Window
 import cc.trixey.mc.trmenu.invero.module.base.BaseIOPanel
-import cc.trixey.mc.trmenu.invero.module.base.BasePanel
 import cc.trixey.mc.trmenu.invero.module.element.Interactable
-import cc.trixey.mc.trmenu.invero.module.`object`.PanelWeight
+import cc.trixey.mc.trmenu.invero.module.PanelWeight
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryDragEvent
-import org.bukkit.event.inventory.InventoryMoveItemEvent
 
 /**
  * @author Score2

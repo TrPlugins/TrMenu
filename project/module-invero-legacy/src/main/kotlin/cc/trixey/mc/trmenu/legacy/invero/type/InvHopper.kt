@@ -8,4 +8,5 @@ import java.util.*
  * @author Arasple
  * @since 2022/10/22
  */
-class InvHopper(pool: InveroPool, title: String, viewer: UUID?) : InvInstance(pool, WindowProperty.HOPPER, title, viewer)
+class InvHopper(pool: InveroPool, title: String, viewer: UUID?) :
+    InvInstance(pool, WindowProperty.HOPPER, title, viewer)

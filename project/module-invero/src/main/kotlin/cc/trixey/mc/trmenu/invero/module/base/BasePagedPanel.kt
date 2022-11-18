@@ -1,7 +1,7 @@
 package cc.trixey.mc.trmenu.invero.module.base
 
 import cc.trixey.mc.trmenu.invero.module.PanelInstance
-import cc.trixey.mc.trmenu.invero.module.`object`.PanelWeight
+import cc.trixey.mc.trmenu.invero.module.PanelWeight
 
 /**
  * @author Arasple
@@ -37,5 +37,15 @@ abstract class BasePagedPanel(
      * Switch to a certain page
      */
     abstract fun switchPage(page: Int)
+
+    /**
+     * Get occupied slots (relative)
+     */
+    abstract fun getOccupiedSlots(page: Int): Set<Int>
+
+    /**
+     * Get unoccupied slots
+     */
+    fun getUnoccupiedSlots(page: Int) = slots - getOccupiedSlots(page)
 
 }

@@ -8,7 +8,6 @@ import cc.trixey.mc.trmenu.invero.module.TypeAddress
 import cc.trixey.mc.trmenu.invero.util.addElement
 import cc.trixey.mc.trmenu.invero.util.addPanel
 import cc.trixey.mc.trmenu.invero.util.buildWindow
-import cc.trixey.mc.trmenu.test.TestInvero
 import cc.trixey.mc.trmenu.test.generateRandomItem
 import taboolib.common.platform.command.subCommand
 

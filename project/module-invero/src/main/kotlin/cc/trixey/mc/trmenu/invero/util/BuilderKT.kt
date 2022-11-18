@@ -5,17 +5,12 @@ import cc.trixey.mc.trmenu.invero.InveroManager.constructPanel
 import cc.trixey.mc.trmenu.invero.InveroManager.constructWindow
 import cc.trixey.mc.trmenu.invero.impl.panel.PagedNetesedPanel
 import cc.trixey.mc.trmenu.invero.impl.panel.PagedStandardPanel
-import cc.trixey.mc.trmenu.invero.module.Panel
-import cc.trixey.mc.trmenu.invero.module.PanelInstance
-import cc.trixey.mc.trmenu.invero.module.TypeAddress
-import cc.trixey.mc.trmenu.invero.module.Window
+import cc.trixey.mc.trmenu.invero.module.*
 import cc.trixey.mc.trmenu.invero.module.base.BasePanel
 import cc.trixey.mc.trmenu.invero.module.element.ElementAbsolute
 import cc.trixey.mc.trmenu.invero.module.element.ElementDynamic
 import cc.trixey.mc.trmenu.invero.module.element.ItemProvider
 import cc.trixey.mc.trmenu.invero.module.element.PanelElement
-import cc.trixey.mc.trmenu.invero.module.`object`.MappedElements
-import cc.trixey.mc.trmenu.invero.module.`object`.PanelWeight
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -77,6 +72,10 @@ inline fun <reified T : Panel> Window.addPanel(
     }
 }
 
+fun ElementAbsolute.setDefault(panel: PagedStandardPanel, vararg slots: Int) {
+    panel.getFallbackElements().apply { set(*slots) }
+}
+
 fun PagedStandardPanel.page(function: MappedElements.(Int) -> Unit) {
     return MappedElements().let { function(it, addPage(it)) }
 }
@@ -90,6 +89,10 @@ fun PanelInstance.paged(parent: PagedNetesedPanel) {
 }
 
 inline fun <reified T : PanelElement> BasePanel.addElement(vararg slots: Int, init: T.() -> Unit = {}): T {
+    return addElement(slots.toSet(), init)
+}
+
+inline fun <reified T : PanelElement> BasePanel.addElement(slots: Collection<Int>, init: T.() -> Unit = {}): T {
     return buildElement(init).also { element ->
         if (slots.isNotEmpty() && element is ElementAbsolute) {
             slots.forEach {
