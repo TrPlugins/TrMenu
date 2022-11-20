@@ -1,13 +1,13 @@
 package cc.trixey.mc.trmenu.test.unit
 
-import cc.trixey.mc.trmenu.invero.impl.WindowHolder
-import cc.trixey.mc.trmenu.invero.impl.element.BasicItem
-import cc.trixey.mc.trmenu.invero.impl.panel.IOStoragePanel
-import cc.trixey.mc.trmenu.invero.impl.panel.PagedStandardPanel
-import cc.trixey.mc.trmenu.invero.impl.panel.StandardPanel
-import cc.trixey.mc.trmenu.invero.impl.window.ContainerWindow
-import cc.trixey.mc.trmenu.invero.module.PanelWeight
-import cc.trixey.mc.trmenu.invero.util.*
+import cc.trixey.mc.invero.common.PanelWeight
+import cc.trixey.mc.invero.common.WindowHolder
+import cc.trixey.mc.invero.element.BasicItem
+import cc.trixey.mc.invero.panel.IOStoragePanel
+import cc.trixey.mc.invero.panel.PagedStandardPanel
+import cc.trixey.mc.invero.panel.StandardPanel
+import cc.trixey.mc.invero.util.*
+import cc.trixey.mc.invero.window.ContainerWindow
 import cc.trixey.mc.trmenu.test.generateRandomItem
 import org.bukkit.Material
 import taboolib.common.platform.command.subCommand
@@ -106,13 +106,13 @@ object UnitIO {
                     val fill: () -> BasicItem = { buildItem(generateRandomItem()) }
 
                     page {
-                        set(getUnoccupiedSlots(), buildItem<BasicItem>(Material.BLACK_STAINED_GLASS))
+                        add(getUnoccupiedSlots(it), buildItem<BasicItem>(Material.BLACK_STAINED_GLASS))
                     }
                     page {
-                        set(getUnoccupiedSlots(), buildItem<BasicItem>(Material.LIME_STAINED_GLASS_PANE))
+                        add(getUnoccupiedSlots(it), buildItem<BasicItem>(Material.LIME_STAINED_GLASS_PANE))
                     }
 
-                    for (i in 0..10) page { set(getUnoccupiedSlots(), fill()) }
+                    for (i in 0..10) page { add(getUnoccupiedSlots(it), fill()) }
                 }
 
             }.also { it.open() }

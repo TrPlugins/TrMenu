@@ -1,12 +1,12 @@
 package cc.trixey.mc.trmenu.test.unit
 
-import cc.trixey.mc.trmenu.invero.impl.element.BasicItem
-import cc.trixey.mc.trmenu.invero.impl.panel.PagedNetesedPanel
-import cc.trixey.mc.trmenu.invero.impl.panel.PagedStandardPanel
-import cc.trixey.mc.trmenu.invero.impl.panel.StandardPanel
-import cc.trixey.mc.trmenu.invero.impl.window.ContainerWindow
-import cc.trixey.mc.trmenu.invero.module.TypeAddress
-import cc.trixey.mc.trmenu.invero.util.*
+import cc.trixey.mc.invero.common.WindowType
+import cc.trixey.mc.invero.element.BasicItem
+import cc.trixey.mc.invero.panel.PagedNetesedPanel
+import cc.trixey.mc.invero.panel.PagedStandardPanel
+import cc.trixey.mc.invero.panel.StandardPanel
+import cc.trixey.mc.invero.util.*
+import cc.trixey.mc.invero.window.ContainerWindow
 import cc.trixey.mc.trmenu.test.generateRandomItem
 import org.bukkit.Material
 import taboolib.common.platform.command.subCommand
@@ -30,7 +30,7 @@ object UnitNested {
              */
 
             // Window
-            val window = buildWindow<ContainerWindow>(player, TypeAddress.GENERIC_9X6, "Nested")
+            val window = buildWindow<ContainerWindow>(player, WindowType.GENERIC_9X6, "Nested")
 
             // Nested Paged Panel
             val nested = buildPanel<PagedNetesedPanel>(9 to 5) {
@@ -65,7 +65,7 @@ object UnitNested {
                         page {
                             previousPage.set(0)
                             nextPage.set(8)
-                            randomFill().set(*getUnoccupiedSlots().toIntArray())
+                            randomFill().set(*getUnoccupiedSlots(it).toIntArray())
                         }
                     }
                 }.paged(this)

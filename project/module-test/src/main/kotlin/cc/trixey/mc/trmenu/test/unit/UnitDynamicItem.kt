@@ -1,13 +1,13 @@
 package cc.trixey.mc.trmenu.test.unit
 
+import cc.trixey.mc.invero.common.WindowType
+import cc.trixey.mc.invero.element.BasicDynamicItem
+import cc.trixey.mc.invero.element.BasicItem
+import cc.trixey.mc.invero.panel.PagedStandardPanel
+import cc.trixey.mc.invero.panel.StandardPanel
+import cc.trixey.mc.invero.util.*
+import cc.trixey.mc.invero.window.CompleteWindow
 import cc.trixey.mc.trmenu.coroutine.launchAsync
-import cc.trixey.mc.trmenu.invero.impl.element.BasicDynamicItem
-import cc.trixey.mc.trmenu.invero.impl.element.BasicItem
-import cc.trixey.mc.trmenu.invero.impl.panel.PagedStandardPanel
-import cc.trixey.mc.trmenu.invero.impl.panel.StandardPanel
-import cc.trixey.mc.trmenu.invero.impl.window.CompleteWindow
-import cc.trixey.mc.trmenu.invero.module.TypeAddress
-import cc.trixey.mc.trmenu.invero.util.*
 import cc.trixey.mc.trmenu.test.generateRandomItem
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -40,7 +40,7 @@ object UnitDynamicItem {
                     dynamicDiamond.slots(0)
                 }
             }.let {
-                buildWindow<CompleteWindow>(player, TypeAddress.GENERIC_9X6) {
+                buildWindow<CompleteWindow>(player, WindowType.GENERIC_9X6) {
                     addPanel(it)
                 }.also { it.open() }
             }
@@ -83,7 +83,7 @@ object UnitDynamicItem {
                                 modify { amount++ }
                                 player.sendMessage("You clicked $slot on page $pageIndex, Amount++")
                             }
-                        }.set()
+                        }.add()
 
                         player.sendMessage("Wait 2 secs")
                         submitAsync(delay = 2 * 20, period = 8) {
@@ -100,7 +100,7 @@ object UnitDynamicItem {
                     }
                 }
             }.let {
-                buildWindow<CompleteWindow>(player, TypeAddress.GENERIC_9X6) {
+                buildWindow<CompleteWindow>(player, WindowType.GENERIC_9X6) {
                     addPanel(it)
                 }.also { it.open() }
             }

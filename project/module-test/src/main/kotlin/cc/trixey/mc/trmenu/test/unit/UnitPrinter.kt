@@ -1,6 +1,6 @@
 package cc.trixey.mc.trmenu.test.unit
 
-import cc.trixey.mc.trmenu.invero.impl.WindowHolder
+import cc.trixey.mc.invero.InveroManager
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.subCommand
 
@@ -12,8 +12,8 @@ object UnitPrinter {
 
     val print = subCommand {
         execute<ProxyCommandSender> { sender, _, _ ->
-            sender.sendMessage("Size: ${WindowHolder.runningWindows.size}")
-            WindowHolder.runningWindows.forEach {
+            sender.sendMessage("Size: ${InveroManager.getWindows().size}")
+            InveroManager.getWindows().forEach {
                 sender.sendMessage(":Window: ${it.type}")
             }
         }

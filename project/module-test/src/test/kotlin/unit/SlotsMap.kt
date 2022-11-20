@@ -5,7 +5,7 @@
  * 测试单元
  * SlotsMap 算法 的实现
  *
- * @see cc.trixey.mc.trmenu.invero.module.Panel.getSlotsMap
+ * @see cc.trixey.mc.invero.common.Panel.getSlotsMap
  */
 fun main() {
 

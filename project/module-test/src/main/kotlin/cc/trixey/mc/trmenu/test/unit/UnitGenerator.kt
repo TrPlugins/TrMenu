@@ -1,12 +1,12 @@
 package cc.trixey.mc.trmenu.test.unit
 
-import cc.trixey.mc.trmenu.invero.impl.element.BasicItem
-import cc.trixey.mc.trmenu.invero.impl.panel.PagedGeneratorPanel
-import cc.trixey.mc.trmenu.invero.impl.window.CompleteWindow
-import cc.trixey.mc.trmenu.invero.module.Generator
-import cc.trixey.mc.trmenu.invero.util.buildItem
-import cc.trixey.mc.trmenu.invero.util.buildPanel
-import cc.trixey.mc.trmenu.invero.util.buildWindow
+import cc.trixey.mc.invero.element.BasicItem
+import cc.trixey.mc.invero.panel.PagedGeneratorPanel
+import cc.trixey.mc.invero.window.CompleteWindow
+import cc.trixey.mc.invero.common.generator.Generator
+import cc.trixey.mc.invero.util.buildItem
+import cc.trixey.mc.invero.util.buildPanel
+import cc.trixey.mc.invero.util.buildWindow
 import cc.trixey.mc.trmenu.test.generateRandomItem
 import org.bukkit.Material
 import org.bukkit.entity.Player
