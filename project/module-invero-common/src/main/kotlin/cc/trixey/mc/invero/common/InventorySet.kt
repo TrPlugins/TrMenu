@@ -1,5 +1,6 @@
 package cc.trixey.mc.invero.common
 
+import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.PlayerInventory
 
@@ -15,6 +16,11 @@ interface InventorySet {
      * 即是否包含玩家背包容器
      */
     val isCompleteSet: Boolean
+
+    /**
+     * 开启
+     */
+    fun open(player: Player)
 
     /**
      * 获取容器大小

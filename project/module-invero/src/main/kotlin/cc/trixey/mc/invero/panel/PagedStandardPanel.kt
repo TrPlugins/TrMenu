@@ -19,10 +19,7 @@ open class PagedStandardPanel(
     override fun renderPanel() {
         forWindows {
             getPage().forElements { renderElement(this, it) }
-            getStaticElements().forElements {
-                println("RENDER_STATIC_ELEMENT")
-                renderElement(this, it)
-            }
+            getStaticElements().forElements { renderElement(this, it) }
         }
     }
 

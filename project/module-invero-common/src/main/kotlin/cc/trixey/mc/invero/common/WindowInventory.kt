@@ -31,6 +31,13 @@ class WindowInventory(var container: Inventory, private val playerUUID: UUID?) :
         get() = playerUUID != null
 
     /**
+     * @see InventorySet.open
+     */
+    override fun open(player: Player) {
+        player.openInventory(container)
+    }
+
+    /**
      * @see InventorySet.getContainerSize
      */
     override fun getContainerSize(): Int {

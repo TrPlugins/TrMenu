@@ -33,10 +33,7 @@ abstract class BaseWindow(val viewer: UUID) : Window {
         when (e) {
             is InventoryOpenEvent -> handleOpen(e)
             is InventoryCloseEvent -> handleClose(e)
-            is InventoryDragEvent -> {
-                handleDrag(e)
-            }
-
+            is InventoryDragEvent -> handleDrag(e)
             is InventoryClickEvent -> {
                 when (e.action) {
                     InventoryAction.MOVE_TO_OTHER_INVENTORY -> handleItemsMove(e)

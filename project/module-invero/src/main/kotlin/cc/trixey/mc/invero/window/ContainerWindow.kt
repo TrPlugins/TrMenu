@@ -1,10 +1,7 @@
 package cc.trixey.mc.invero.window
 
 import cc.trixey.mc.invero.InveroManager
-import cc.trixey.mc.invero.common.Panel
-import cc.trixey.mc.invero.common.Parentable
-import cc.trixey.mc.invero.common.WindowInventory
-import cc.trixey.mc.invero.common.WindowType
+import cc.trixey.mc.invero.common.*
 import cc.trixey.mc.invero.common.base.BaseWindow
 import cc.trixey.mc.invero.panel.IOStoragePanel
 import cc.trixey.mc.invero.util.nms.handler
@@ -48,7 +45,7 @@ open class ContainerWindow(
     /**
      * 容器对
      */
-    override val inventorySet by lazy {
+    override val inventorySet: InventorySet by lazy {
         WindowInventory(this, null)
     }
 
@@ -56,7 +53,7 @@ open class ContainerWindow(
      * 开启窗口
      */
     override fun open() {
-        getViewer().openInventory(inventorySet.container)
+        inventorySet.open(getViewer())
     }
 
     /**

@@ -54,7 +54,6 @@ abstract class BasePanel(
         return elementsMap
     }
 
-
     /**
      * 取得某槽位元素
      */

@@ -65,6 +65,14 @@ class MappedElements {
      */
     operator fun get(slot: Int) = absoluteElements[slot] ?: dynamicElements.find { it.slots.contains(slot) }
 
+    operator fun set(slot: Int, element: Element) {
+        if (element is ElementAbsolute) {
+            absoluteElements[slot] = element
+        } else if (element is ElementDynamic) {
+            dynamicElements += element.also { it.slots(slot) }
+        }
+    }
+
     /**
      * 设置某槽位元素
      */

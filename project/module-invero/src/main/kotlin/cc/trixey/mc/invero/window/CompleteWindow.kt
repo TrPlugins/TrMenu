@@ -1,5 +1,6 @@
 package cc.trixey.mc.invero.window
 
+import cc.trixey.mc.invero.common.InventorySet
 import cc.trixey.mc.invero.common.WindowInventory
 import cc.trixey.mc.invero.common.WindowType
 import org.bukkit.entity.Player
@@ -21,7 +22,7 @@ class CompleteWindow(viewer: Player, type: WindowType, title: String) : Containe
     /**
      * @see WindowInventory
      */
-    override val inventorySet: WindowInventory by lazy {
+    override val inventorySet: InventorySet by lazy {
         WindowInventory(this, viewer)
     }
 

@@ -19,9 +19,8 @@ class MappedSlots(val input: Map<Int, Int>, val output: Map<Int, Int>) {
             var baseLine = 0
             var baseIndex = pos
             while (baseIndex >= windowWidth) baseIndex -= windowWidth.also { baseLine++ }
-            for (x in baseLine until baseLine + scale.second)
-                for (y in baseIndex until baseIndex + scale.first)
-                    result[if (y >= windowWidth) -1 else windowWidth * x + y] = counter++
+            for (x in baseLine until baseLine + scale.second) for (y in baseIndex until baseIndex + scale.first) result[if (y >= windowWidth) -1 else windowWidth * x + y] =
+                counter++
 
             return MappedSlots(result.filter { it.key >= 0 && it.value >= 0 })
         }
@@ -32,9 +31,9 @@ class MappedSlots(val input: Map<Int, Int>, val output: Map<Int, Int>) {
 
     operator fun get(relative: Int) = getAbsolute(relative)
 
-    fun getAbsolute(relative: Int) = output[relative] ?: -1
+    fun getAbsolute(relative: Int) = output[relative] ?: error("Can not locate the absolute slot for [$relative]")
 
-    fun getRelative(absolute: Int) = input[absolute] ?: -1
+    fun getRelative(absolute: Int) = input[absolute] ?: error("Can not locate the relative slot for [$absolute]")
 
     val absoluteSlots by lazy {
         input.keys.toSet()

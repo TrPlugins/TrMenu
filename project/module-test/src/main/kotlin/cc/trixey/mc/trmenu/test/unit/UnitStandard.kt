@@ -1,5 +1,6 @@
 package cc.trixey.mc.trmenu.test.unit
 
+import cc.trixey.mc.invero.common.PanelWeight
 import cc.trixey.mc.trmenu.coroutine.launchAsync
 import cc.trixey.mc.invero.element.BasicItem
 import cc.trixey.mc.invero.panel.PagedStandardPanel
@@ -88,7 +89,7 @@ object UnitStandard {
     private var markedPanel: StandardPanel = testPanelPosMark(8)
 
     private fun testPanelPosMark(pos: Int): StandardPanel {
-        return buildPanel(1 to 8, pos) {
+        return buildPanel(1 to 8, pos,PanelWeight.BACKGROUND) {
             addElement<BasicItem>(slots) {
                 setItem(Material.values().random())
             }
