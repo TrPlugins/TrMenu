@@ -1,15 +1,10 @@
 package cc.trixey.mc.invero.panel
 
-import cc.trixey.mc.invero.common.Element
-import cc.trixey.mc.invero.common.ItemProvider
-import cc.trixey.mc.invero.common.PanelWeight
-import cc.trixey.mc.invero.common.Window
+import cc.trixey.mc.invero.common.*
 import cc.trixey.mc.invero.common.base.BaseScrollPanel
-import cc.trixey.mc.invero.common.base.ElementAbsolute
 import cc.trixey.mc.invero.common.scroll.ScrollColum
 import cc.trixey.mc.invero.common.scroll.ScrollDirection
 import cc.trixey.mc.invero.common.scroll.ScrollType
-import cc.trixey.mc.invero.common.scroll.ScrollType.*
 import cc.trixey.mc.invero.util.distinguishMark
 
 /**
@@ -17,11 +12,11 @@ import cc.trixey.mc.invero.util.distinguishMark
  * @since 2022/11/17 11:17
  */
 class ScrollStandardPanel(
-    scale: Pair<Int, Int>,
+    scale: PanelScale,
     pos: Int,
     weight: PanelWeight,
     direction: ScrollDirection = ScrollDirection(vertical = true),
-    type: ScrollType = STOP
+    type: ScrollType = ScrollType.STOP
 ) : BaseScrollPanel(scale, pos, weight, direction, type) {
 
     /**
@@ -29,49 +24,68 @@ class ScrollStandardPanel(
      */
     override var index: Int = 0
         set(value) {
-            if (value in 0..maxIndex) {
-                field = value
-                renderPanel()
+            val previous = field
+            when {
+                type.isStop || type.isBlank -> if (value in 0..maxIndex) field = value
+                type.isLoop -> field = if (value > maxIndex) 0 else if (value < 0) value + colums.size else value
             }
+            if (previous != field) renderPanel()
         }
 
     /**
      * @see BaseScrollPanel.maxIndex
+     *
      */
-    override val maxIndex: Int by lazy {
-        when (type) {
-            STOP -> colums.size - columViewSize
-            LOOP -> -1
-            BLANK -> colums.size - type.value
+    override val maxIndex: Int
+        get() {
+            return when {
+                type.isStop -> colums.size - columViewSize
+                type.isLoop -> colums.lastIndex
+                type.isBlank -> colums.size - type.value
+                else -> error("maxIndex.get")
+            }
         }
-    }
 
     /**
      * 可滚动的栏目元素
      */
     private val colums = mutableListOf<ScrollColum>()
 
-    fun colum(function: ScrollColum.() -> Unit) {
-        colums += ScrollColum(arrayOfNulls<ElementAbsolute?>(9)).also(function)
+    fun colum(function: ScrollColum.(capacity: Int) -> Unit) {
+        colums += ScrollColum(arrayOfNulls<Element?>(columCapacity)).also {
+            function(it, columCapacity)
+        }
     }
 
     override fun renderPanel() {
         val rendered = mutableSetOf<Int>()
+        val apply = (index until index + columViewSize).map {
+            if (type.isLoop && it > maxIndex) it - colums.size
+            else it
+        }
 
-        for (x in index until index + columViewSize) {
-            colums[x].elements.forEachIndexed { y, element ->
-                if (element != null)
-                    if (direction.isVertical) {
-                        val slot = (x - index) * scale.first + y
-                        getElementsMap()[slot] = element
-                        rendered += slot
-                    } else {
-                        TODO("support horizontal")
-                    }
+        apply.forEachIndexed { order, applyIndex ->
+            val getSlot: (index: Int) -> Int = {
+                if (direction.isVertical) order * scale.width + it
+                else it * scale.width + order
+            }
+            val colum = colums.getOrNull(applyIndex)?.elements ?: kotlin.run {
+                for (i in 0 until columCapacity) getElementsMap().remove(getSlot(i))
+                return@forEachIndexed
+            }
+            colum.forEachIndexed { y, element ->
+                val slot = getSlot(y)
+
+                if (element != null) {
+                    getElementsMap()[slot] = element
+                    rendered += slot
+                } else {
+                    getElementsMap().remove(slot)
+                }
             }
         }
-        clearPanel(slots - rendered)
 
+        clearPanel(slots - rendered)
         super.renderPanel()
     }
 

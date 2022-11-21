@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap
  * 基础的 Panel 抽象实例
  */
 abstract class PanelInstance(
-    override val scale: Pair<Int, Int>,
+    override val scale: PanelScale,
     override val pos: Int,
     weight: PanelWeight
 ) : Panel {
@@ -51,7 +51,7 @@ abstract class PanelInstance(
     /**
      * @see Panel.slots
      */
-    override val slots by lazy { (0 until scale.first * scale.second).toSet() }
+    override val slots by lazy { (0 until scale.area).toSet() }
 
     /**
      * @see Panel.slotsMap
@@ -64,7 +64,7 @@ abstract class PanelInstance(
     override fun getSlotsMap(parent: Parentable): MappedSlots {
         val width = when (parent) {
             is Window -> parent.type.width
-            is PanelInstance -> parent.scale.first
+            is PanelInstance -> parent.scale.width
             else -> error("?")
         }
         return slotsMap.computeIfAbsent(width) { MappedSlots.from(scale, pos, width) }

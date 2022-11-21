@@ -12,10 +12,11 @@ abstract class ElementDynamic(panel: Panel) : Interactable(panel) {
 
     internal var slots = setOf<Int>()
         set(value) {
+            val diff = field - value
             field = value
             forWindows {
                 val slotMap = slotMap()
-                (field - value).forEach { inventorySet[slotMap.getAbsolute(it)] = null }
+                diff.forEach { inventorySet[slotMap.getAbsolute(it)] = null }
             }
             render()
         }

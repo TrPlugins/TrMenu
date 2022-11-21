@@ -1,6 +1,7 @@
 package cc.trixey.mc.invero.panel
 
 import cc.trixey.mc.invero.common.Element
+import cc.trixey.mc.invero.common.PanelScale
 import cc.trixey.mc.invero.common.PanelWeight
 import cc.trixey.mc.invero.common.Window
 import cc.trixey.mc.invero.common.base.BaseIOPanel
@@ -12,7 +13,7 @@ import org.bukkit.event.inventory.InventoryDragEvent
  * @since 2022/11/15 18:30
  */
 open class IOStoragePanel(
-    scale: Pair<Int, Int>, pos: Int, weight: PanelWeight
+    scale: PanelScale, pos: Int, weight: PanelWeight
 ) : BaseIOPanel(scale, pos, weight) {
 
     private var handlerClick: (InventoryClickEvent) -> Unit = {}

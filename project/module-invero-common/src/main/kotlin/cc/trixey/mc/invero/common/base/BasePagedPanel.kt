@@ -1,5 +1,6 @@
 package cc.trixey.mc.invero.common.base
 
+import cc.trixey.mc.invero.common.PanelScale
 import cc.trixey.mc.invero.common.PanelWeight
 
 /**
@@ -9,7 +10,7 @@ import cc.trixey.mc.invero.common.PanelWeight
  * 基础的翻页 Panel 模型
  */
 abstract class BasePagedPanel(
-    scale: Pair<Int, Int>,
+    scale: PanelScale,
     pos: Int,
     weight: PanelWeight
 ) : PanelInstance(scale, pos, weight) {

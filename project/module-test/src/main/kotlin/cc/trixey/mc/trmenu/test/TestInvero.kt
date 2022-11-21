@@ -71,7 +71,13 @@ object TestInvero {
      * 测试滚动页面
      */
     @CommandBody
-    val testScrollStandard = UnitScroll.standard
+    val testScrollStandard_Vertical = UnitScroll.vertical
+
+    /**
+     * 测试滚动页面
+     */
+    @CommandBody
+    val testScrollStandard_Horizontal = UnitScroll.horizontal
 
     /**
      * 打印一些信息

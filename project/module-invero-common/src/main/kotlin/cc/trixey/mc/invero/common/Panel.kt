@@ -22,7 +22,7 @@ interface Panel : Parentable {
      * 该 Panel 的规模
      * 长 x 宽
      */
-    val scale: Pair<Int, Int>
+    val scale: PanelScale
 
     /**
      * 该 Panel 的有效相对槽位

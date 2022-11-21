@@ -1,6 +1,7 @@
 package cc.trixey.mc.invero.panel
 
 import cc.trixey.mc.invero.common.MappedElements
+import cc.trixey.mc.invero.common.PanelScale
 import cc.trixey.mc.invero.common.PanelWeight
 import cc.trixey.mc.invero.common.base.ElementAbsolute
 import cc.trixey.mc.invero.common.generator.Generator
@@ -14,8 +15,9 @@ import cc.trixey.mc.invero.common.generator.Generator
  *
  * staticElements 作为强制覆盖元素，其占用槽位自动被排除生成池槽位
  */
+@Deprecated("TODO 继承 BasePagedPanel 重写")
 class PagedGeneratorPanel(
-    scale: Pair<Int, Int>,
+    scale: PanelScale,
     pos: Int,
     weight: PanelWeight,
     var exclude: Set<Int> = setOf()

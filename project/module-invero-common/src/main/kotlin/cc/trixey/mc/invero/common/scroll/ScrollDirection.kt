@@ -24,4 +24,8 @@ value class ScrollDirection(private val vertical: Boolean = true) {
     val isHorizontal: Boolean
         get() = !vertical
 
+    override fun toString(): String {
+        return if (isVertical) "Vertical" else "Horizontal"
+    }
+
 }

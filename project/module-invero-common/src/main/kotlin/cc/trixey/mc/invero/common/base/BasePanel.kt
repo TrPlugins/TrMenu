@@ -2,6 +2,7 @@ package cc.trixey.mc.invero.common.base
 
 import cc.trixey.mc.invero.common.Element
 import cc.trixey.mc.invero.common.MappedElements
+import cc.trixey.mc.invero.common.PanelScale
 import cc.trixey.mc.invero.common.PanelWeight
 
 /**
@@ -12,7 +13,7 @@ import cc.trixey.mc.invero.common.PanelWeight
  * 包含一个 MappedElements（ Panel 元素集）
  */
 abstract class BasePanel(
-    scale: Pair<Int, Int>,
+    scale: PanelScale,
     pos: Int,
     weight: PanelWeight
 ) : PanelInstance(scale, pos, weight) {

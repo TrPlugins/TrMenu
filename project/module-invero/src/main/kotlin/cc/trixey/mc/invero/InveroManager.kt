@@ -40,6 +40,10 @@ object InveroManager {
     }
 
     fun constructPanel(type: Class<*>, scale: Pair<Int, Int>, posMark: Int, weight: PanelWeight): Panel {
+        return constructPanel(type, PanelScale(scale), posMark, weight)
+    }
+
+    fun constructPanel(type: Class<*>, scale: PanelScale, posMark: Int, weight: PanelWeight): Panel {
         return when (type) {
             StandardPanel::class.java -> StandardPanel(scale, posMark, weight)
             PagedStandardPanel::class.java -> PagedStandardPanel(scale, posMark, weight)

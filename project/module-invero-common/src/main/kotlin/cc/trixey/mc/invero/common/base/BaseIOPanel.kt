@@ -1,5 +1,6 @@
 package cc.trixey.mc.invero.common.base
 
+import cc.trixey.mc.invero.common.PanelScale
 import cc.trixey.mc.invero.common.PanelWeight
 import cc.trixey.mc.invero.common.Window
 import org.bukkit.Material
@@ -11,7 +12,7 @@ import java.util.concurrent.ConcurrentHashMap
  * @since 2022/11/15 18:31
  */
 abstract class BaseIOPanel(
-    scale: Pair<Int, Int>,
+    scale: PanelScale,
     pos: Int,
     weight: PanelWeight
 ) : PanelInstance(scale, pos, weight) {

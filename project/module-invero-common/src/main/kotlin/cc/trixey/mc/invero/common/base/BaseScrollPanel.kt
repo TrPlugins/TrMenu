@@ -1,6 +1,7 @@
 package cc.trixey.mc.invero.common.base
 
 import cc.trixey.mc.invero.common.MappedElements
+import cc.trixey.mc.invero.common.PanelScale
 import cc.trixey.mc.invero.common.PanelWeight
 import cc.trixey.mc.invero.common.scroll.ScrollDirection
 import cc.trixey.mc.invero.common.scroll.ScrollType
@@ -12,7 +13,7 @@ import cc.trixey.mc.invero.common.scroll.ScrollType
  * 滚动元素存储在 ScrollColum 中，通过单例 ElementsMap 的设置来实现滚动元素
  */
 abstract class BaseScrollPanel(
-    scale: Pair<Int, Int>, pos: Int, weight: PanelWeight, val direction: ScrollDirection, val type: ScrollType
+    scale: PanelScale, pos: Int, weight: PanelWeight, open var direction: ScrollDirection, open var type: ScrollType
 ) : PanelInstance(scale, pos, weight) {
 
     /**
@@ -53,7 +54,7 @@ abstract class BaseScrollPanel(
      * 单个滚动栏目的容量
      */
     val columCapacity: Int by lazy {
-        if (direction.isVertical) scale.first else scale.second
+        if (direction.isVertical) scale.width else scale.height
     }
 
     /**
@@ -62,7 +63,7 @@ abstract class BaseScrollPanel(
      * 由 Panel 的尺寸和滚动方向决定
      */
     val columViewSize: Int by lazy {
-        if (direction.isVertical) scale.second else scale.first
+        if (direction.isVertical) scale.height else scale.width
     }
 
     fun scroll(step: Int = 1) {

@@ -11,7 +11,7 @@ import taboolib.common.platform.function.submit
  * @since 2022/11/6 16:30
  */
 open class PagedStandardPanel(
-    scale: Pair<Int, Int>,
+    scale: PanelScale,
     pos: Int,
     weight: PanelWeight
 ) : BasePagedPanel(scale, pos, weight) {

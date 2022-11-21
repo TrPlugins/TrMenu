@@ -1,9 +1,6 @@
 package cc.trixey.mc.invero.panel
 
-import cc.trixey.mc.invero.common.Element
-import cc.trixey.mc.invero.common.ItemProvider
-import cc.trixey.mc.invero.common.PanelWeight
-import cc.trixey.mc.invero.common.Window
+import cc.trixey.mc.invero.common.*
 import cc.trixey.mc.invero.common.base.BasePanel
 import cc.trixey.mc.invero.common.base.Interactable
 import cc.trixey.mc.invero.util.distinguishMark
@@ -14,7 +11,7 @@ import org.bukkit.event.inventory.InventoryClickEvent
  * @since 2022/11/1 21:33
  */
 class StandardPanel(
-    scale: Pair<Int, Int>,
+    scale: PanelScale,
     pos: Int,
     weight: PanelWeight
 ) : BasePanel(scale, pos, weight) {
