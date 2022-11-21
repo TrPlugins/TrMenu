@@ -18,8 +18,8 @@ open class PagedStandardPanel(
 
     override fun renderPanel() {
         forWindows {
-            getPage().forElements { renderElement(this, it) }
-            getStaticElements().forElements { renderElement(this, it) }
+            getPage().forEach { renderElement(this, it) }
+            getStaticElements().forEach { renderElement(this, it) }
         }
     }
 
@@ -37,7 +37,7 @@ open class PagedStandardPanel(
     }
 
     private fun findSlots(element: Element): Set<Int> {
-        return getPage().findSlots(element).ifEmpty { getStaticElements().findSlots(element) }
+        return getPage().find(element).ifEmpty { getStaticElements().find(element) }
     }
 
     /**
@@ -45,10 +45,8 @@ open class PagedStandardPanel(
      */
     override var pageIndex = 0
         set(value) {
-            var changed = false
-            if (value in 0..maxPageIndex) field = value.also { changed = true }
-            submit {
-                if (changed) {
+            if (value in 0..maxPageIndex) field = value.also {
+                submit {
                     renderPanel()
                     clearPanel(getUnoccupiedSlots(field))
                 }

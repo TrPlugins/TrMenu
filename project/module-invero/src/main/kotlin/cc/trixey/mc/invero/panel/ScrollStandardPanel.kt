@@ -95,7 +95,7 @@ class ScrollStandardPanel(
         val slotMap = getSlotsMap(window)
         if (element is ItemProvider) {
             val itemStack = element.get()
-            getElementsMap().findSlots(element).forEach {
+            getElementsMap().find(element).forEach {
                 val slot = slotMap.getAbsolute(it)
                 window.inventorySet[slot] = itemStack.distinguishMark(slot)
             }

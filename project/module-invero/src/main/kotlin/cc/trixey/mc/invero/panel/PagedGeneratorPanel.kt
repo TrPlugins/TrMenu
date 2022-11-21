@@ -1,74 +1,126 @@
 package cc.trixey.mc.invero.panel
 
-import cc.trixey.mc.invero.common.MappedElements
-import cc.trixey.mc.invero.common.PanelScale
-import cc.trixey.mc.invero.common.PanelWeight
-import cc.trixey.mc.invero.common.base.ElementAbsolute
+import cc.trixey.mc.invero.common.*
+import cc.trixey.mc.invero.common.base.BasePagedPanel
 import cc.trixey.mc.invero.common.generator.Generator
+import cc.trixey.mc.invero.util.distinguishMark
+import org.bukkit.event.inventory.InventoryClickEvent
+import taboolib.common.platform.function.submit
 
 /**
  * @author Arasple
- * @since 2022/11/13 15:33
- *
- * 逻辑上只使用 (PagedStandardPanel) 的一页元素 pagedElements[0]
- * 动态生成元素后再进行设置
- *
- * staticElements 作为强制覆盖元素，其占用槽位自动被排除生成池槽位
+ * @since 2022/11/21 22:46
  */
-@Deprecated("TODO 继承 BasePagedPanel 重写")
 class PagedGeneratorPanel(
-    scale: PanelScale,
-    pos: Int,
-    weight: PanelWeight,
-    var exclude: Set<Int> = setOf()
-) : PagedStandardPanel(scale, pos, weight) {
+    scale: PanelScale, pos: Int, weight: PanelWeight
+) : BasePagedPanel(scale, pos, weight) {
 
-    lateinit var generator: Generator<ElementAbsolute>
-    override var maxPageIndex = 0
-    private val pool
-        get() = slots - staticElements.occupiedSlots - exclude
+    /**
+     * 元素生成器
+     */
+    lateinit var generator: Generator<Element>
 
-    private var lastGenerated: List<ElementAbsolute> = listOf()
+    /**
+     * 页面的元素
+     */
+    private val page = MappedElements()
+
+    /**
+     * 静态槽位（排除生成池槽位）
+     */
+    private val static: MutableSet<Int> = mutableSetOf()
+
+    /**
+     * 生成池槽位（用以应用生成的元素）
+     */
+    private var pool = slots - static
+
+    override var pageIndex: Int = 0
         set(value) {
-            maxPageIndex = value.size / pool.size
-            if (pagedElements.lastIndex > maxPageIndex) {
-                pagedElements
+            if (value in 0..maxPageIndex) field = value.also {
+                submit {
+                    renderPanel()
+                    clearPanel(getUnoccupiedSlots(field))
+                }
             }
-            field = value
         }
 
-    override fun renderPanel() {
-        genearte()
-        super.renderPanel()
-    }
+    override var maxPageIndex: Int = 0
 
-    override fun getPage(index: Int): MappedElements {
-        if (pagedElements.isEmpty()) addPage(MappedElements())
-        return pagedElements[0]
-    }
-
-    fun background(function: MappedElements.() -> Unit) {
-        function(getStaticElements())
-    }
-
-    fun genearte(): Boolean {
-        val generated = generator.generate()
+    /**
+     * 生成元素、裁切针对当前页码的有效元素集
+     * 并设置元素
+     */
+    private fun generate(): Boolean {
+        val elements = generator.spawn()
         val fromIndex = pageIndex * pool.size
-        val toIndex = (fromIndex + pool.size).coerceAtMost(generated.lastIndex)
+        val toIndex = (fromIndex + pool.size).coerceAtMost(elements.lastIndex)
+        maxPageIndex = elements.size / pool.size
 
-        return if (generated.size > fromIndex) {
-            val elements = generated.also { lastGenerated = it }.subList(fromIndex, toIndex)
-
-            getPage().apply {
+        if (elements.size > fromIndex) {
+            val apply = elements.subList(fromIndex, toIndex)
+            page.apply {
                 pool.forEachIndexed { index, slot ->
-                    if (index <= elements.lastIndex) elements[index].set(slot)
+                    if (index <= apply.lastIndex) apply[index].set(slot)
                     else remove(slot)
                 }
             }
-            true
-        } else {
-            false
+            return true
         }
+        return false
+    }
+
+    /**
+     * 设置背景静态元素
+     */
+    fun background(function: MappedElements.() -> Unit) {
+        page.apply {
+            clear()
+            function()
+            forEachSloted { _, slots ->
+                slots.forEach { exclude(it) }
+            }
+        }
+    }
+
+    /**
+     * 设置静态槽位
+     */
+    fun exclude(slot: Int) {
+        static += slot
+        pool = slots - static
+    }
+
+    override fun renderPanel() {
+        if (generate()) {
+            forWindows {
+                page.forEach { renderElement(this, it) }
+            }
+        }
+    }
+
+    override fun renderElement(window: Window, element: Element) {
+        if (page.has(element)) {
+            val slotMap = getSlotsMap(window)
+            if (element is ItemProvider) {
+                val itemStack = element.get()
+                page.find(element).forEach {
+                    val slot = slotMap.getAbsolute(it)
+                    window.inventorySet[slot] = itemStack.distinguishMark(slot)
+                }
+            }
+        }
+    }
+
+    override fun getOccupiedSlots(page: Int) = this.page.occupiedSlots
+
+    override fun handleClick(window: Window, e: InventoryClickEvent) {
+        super.handleClick(window, e)
+
+        val slot = getSlotsMap(window).getRelative(e.rawSlot)
+        val element = page[slot]
+
+        element?.passClickEvent(e)
     }
 
 }

@@ -28,7 +28,7 @@ abstract class BasePanel(
      */
     override fun renderPanel() {
         forWindows {
-            elementsMap.forElements {
+            elementsMap.forEach {
                 renderElement(this, it)
             }
         }

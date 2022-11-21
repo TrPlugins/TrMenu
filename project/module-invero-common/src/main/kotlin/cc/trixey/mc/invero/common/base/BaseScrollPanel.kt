@@ -30,7 +30,7 @@ abstract class BaseScrollPanel(
 
     override fun renderPanel() {
         forWindows {
-            elementsMap.forElements {
+            elementsMap.forEach {
                 renderElement(this, it)
             }
         }
