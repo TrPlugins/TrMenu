@@ -27,7 +27,6 @@ object UnitNested {
         execute { player, _, _ ->
             // Window
             val window = buildWindow<ContainerWindow>(player, WindowType.GENERIC_9X6, "Nested")
-
             // 9x5 的嵌套面板
             val nested = buildPanel<PagedNetesedPanel>(9 to 5) {
 
