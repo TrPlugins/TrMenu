@@ -23,5 +23,4 @@ class BasicDynamicItem(private var itemStack: ItemStack?, panel: Panel) : Elemen
         this.itemStack = itemStack
     }
 
-
 }

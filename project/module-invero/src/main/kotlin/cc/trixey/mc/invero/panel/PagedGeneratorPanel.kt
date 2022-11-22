@@ -23,7 +23,7 @@ class PagedGeneratorPanel(
     /**
      * 页面的元素
      */
-    private val page = MappedElements()
+    private val page = ElemapSimplified()
 
     /**
      * 静态槽位（排除生成池槽位）
@@ -73,7 +73,7 @@ class PagedGeneratorPanel(
     /**
      * 设置背景静态元素
      */
-    fun background(function: MappedElements.() -> Unit) {
+    fun background(function: ElemapSimplified.() -> Unit) {
         page.apply {
             clear()
             function()
@@ -112,7 +112,7 @@ class PagedGeneratorPanel(
         }
     }
 
-    override fun getOccupiedSlots(page: Int) = this.page.occupiedSlots
+    override fun getOccupiedSlots(page: Int) = this.page.getOccupiedSlots()
 
     override fun handleClick(window: Window, e: InventoryClickEvent) {
         super.handleClick(window, e)

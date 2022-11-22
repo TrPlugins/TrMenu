@@ -23,5 +23,4 @@ class BasicItem(private var itemStack: ItemStack?, panel: Panel) : ElementAbsolu
         this.itemStack = itemStack
     }
 
-
 }

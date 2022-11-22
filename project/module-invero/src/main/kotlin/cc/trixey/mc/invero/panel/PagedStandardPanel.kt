@@ -62,18 +62,18 @@ open class PagedStandardPanel(
     /**
      * 多页元素
      */
-    internal val pagedElements = ArrayList<MappedElements>()
+    internal val pagedElements = ArrayList<ElemapCompetent>()
 
     /**
      * 静态占据元素
      */
-    internal val staticElements = MappedElements()
+    internal val staticElements = ElemapCompetent()
 
     /**
      * @see BasePagedPanel.getOccupiedSlots
      */
     override fun getOccupiedSlots(page: Int): Set<Int> {
-        return getPage(page).occupiedSlots + staticElements.occupiedSlots
+        return getPage(page).getOccupiedSlots() + staticElements.getOccupiedSlots()
     }
 
     /**
@@ -89,7 +89,7 @@ open class PagedStandardPanel(
     /**
      * 添加一页元素
      */
-    fun addPage(page: MappedElements): Int {
+    fun addPage(page: ElemapCompetent): Int {
         pagedElements += page
         return pagedElements.lastIndex
     }

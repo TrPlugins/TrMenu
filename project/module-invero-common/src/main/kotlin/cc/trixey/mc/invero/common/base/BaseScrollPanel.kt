@@ -1,6 +1,6 @@
 package cc.trixey.mc.invero.common.base
 
-import cc.trixey.mc.invero.common.MappedElements
+import cc.trixey.mc.invero.common.ElemapSimplified
 import cc.trixey.mc.invero.common.PanelScale
 import cc.trixey.mc.invero.common.PanelWeight
 import cc.trixey.mc.invero.common.scroll.ScrollDirection
@@ -10,7 +10,7 @@ import cc.trixey.mc.invero.common.scroll.ScrollType
  * @author Arasple
  * @since 2022/11/17 11:19
  *
- * 滚动元素存储在 ScrollColum 中，通过单例 ElementsMap 的设置来实现滚动元素
+ * 滚动元素存储在 ScrollColum 中，通过单例 Elemap 的设置来实现滚动元素
  */
 abstract class BaseScrollPanel(
     scale: PanelScale, pos: Int, weight: PanelWeight, open var direction: ScrollDirection, open var type: ScrollType
@@ -19,12 +19,12 @@ abstract class BaseScrollPanel(
     /**
      * 元素
      */
-    private val elementsMap = MappedElements()
+    private val elementsMap = ElemapSimplified()
 
     /**
      * 取得元素集
      */
-    fun getElementsMap(): MappedElements {
+    fun getElementsMap(): ElemapSimplified {
         return elementsMap
     }
 
@@ -36,7 +36,7 @@ abstract class BaseScrollPanel(
         }
     }
 
-    fun getBase(): MappedElements {
+    fun getBase(): ElemapSimplified {
         return elementsMap
     }
 

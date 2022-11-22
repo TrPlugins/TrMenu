@@ -1,7 +1,7 @@
 package cc.trixey.mc.invero.common.base
 
+import cc.trixey.mc.invero.common.ElemapCompetent
 import cc.trixey.mc.invero.common.Element
-import cc.trixey.mc.invero.common.MappedElements
 import cc.trixey.mc.invero.common.PanelScale
 import cc.trixey.mc.invero.common.PanelWeight
 
@@ -10,7 +10,7 @@ import cc.trixey.mc.invero.common.PanelWeight
  * @since 2022/11/6 16:47
  *
  * 基础的 Panel
- * 包含一个 MappedElements（ Panel 元素集）
+ * 包含一个 ElemapCompetent（ Panel 元素集）
  */
 abstract class BasePanel(
     scale: PanelScale,
@@ -21,7 +21,7 @@ abstract class BasePanel(
     /**
      * 元素
      */
-    private val elementsMap = MappedElements()
+    private val elementsMap = ElemapCompetent()
 
     /**
      * 向所有窗口渲染此 Panel
@@ -38,7 +38,7 @@ abstract class BasePanel(
      * 取得占用的槽位
      */
     fun getOccupiedSlots(): Set<Int> {
-        return elementsMap.occupiedSlots
+        return elementsMap.getOccupiedSlots()
     }
 
     /**
@@ -51,7 +51,7 @@ abstract class BasePanel(
     /**
      * 取得元素集
      */
-    fun getElementsMap(): MappedElements {
+    fun getElementsMap(): ElemapCompetent {
         return elementsMap
     }
 
