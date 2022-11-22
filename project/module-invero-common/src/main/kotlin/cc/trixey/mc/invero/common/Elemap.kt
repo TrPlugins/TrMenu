@@ -61,4 +61,6 @@ interface Elemap {
 
     fun Element.set(vararg slots: Int) = slots.forEach { add(it, this) }
 
+    fun Element.set(slots: Collection<Int>) = slots.forEach { add(it, this) }
+
 }

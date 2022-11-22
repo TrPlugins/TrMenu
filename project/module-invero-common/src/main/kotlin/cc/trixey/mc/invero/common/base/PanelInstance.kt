@@ -21,7 +21,7 @@ abstract class PanelInstance(
     /**
      * 父级
      */
-    open var parent: PanelInstance? = null
+    private var panelParent: Parentable? = null
 
     /**
      * 子集
@@ -61,13 +61,14 @@ abstract class PanelInstance(
     /**
      * @see Panel.getSlotsMap
      */
-    override fun getSlotsMap(parent: Parentable): MappedSlots {
-        val width = when (parent) {
-            is Window -> parent.type.width
-            is PanelInstance -> parent.scale.width
+    override fun getSlotsMap(otherwise: Parentable?): MappedSlots {
+        val parent = getParent() ?: otherwise
+        val (width, parentSlotMap) = when (parent) {
+            is Window -> parent.type.width to null
+            is PanelInstance -> parent.scale.width to parent.getSlotsMap(otherwise)
             else -> error("?")
         }
-        return slotsMap.computeIfAbsent(width) { MappedSlots.from(scale, pos, width) }
+        return slotsMap.computeIfAbsent(width) { MappedSlots.from(scale, pos, width, parentSlotMap) }
     }
 
     /**
@@ -78,7 +79,14 @@ abstract class PanelInstance(
     /**
      * @see Panel.getParent
      */
-    override fun getParent() = parent as Parentable?
+    override fun getParent() = panelParent
+
+    /**
+     * @see Panel.setParent
+     */
+    override fun setParent(parentable: Parentable?) {
+        panelParent = parentable
+    }
 
     /**
      * @see Panel.isRenderable

@@ -90,6 +90,16 @@ open class PagedStandardPanel(
     open fun getStaticElements() = staticElements
 
     /**
+     * 设置背景静态元素
+     */
+    fun background(function: ElemapCompetent.() -> Unit) {
+        staticElements.apply {
+            clear()
+            function()
+        }
+    }
+
+    /**
      * 添加一页元素
      */
     fun addPage(page: ElemapCompetent): Int {

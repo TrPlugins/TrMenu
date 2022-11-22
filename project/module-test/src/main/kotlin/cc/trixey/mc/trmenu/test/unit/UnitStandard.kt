@@ -33,27 +33,30 @@ object UnitStandard {
                 }
 
                 val pagedPanel = buildPanel<PagedStandardPanel>(3 to 10, 4) {
-                    buildItem<BasicItem>(Material.ARROW, {
-                        name = "§3Previous page"
-                        lore.add("$pageIndex / $maxPageIndex")
-                    }, {
-                        onClick {
-                            previousPage()
-                            modifyLore { set(0, "$pageIndex / $maxPageIndex") }
-                            forWindows { title = "Page: $pageIndex / $maxPageIndex" }
-                        }
-                    }).setDefault(this, 0)
 
-                    buildItem<BasicItem>(Material.ARROW, {
-                        name = "§aNext Page"
-                        lore.add("$pageIndex / $maxPageIndex")
-                    }, {
-                        onClick {
-                            nextPage()
-                            modifyLore { set(0, "$pageIndex / $maxPageIndex") }
-                            forWindows { title = "Page: $pageIndex / $maxPageIndex" }
-                        }
-                    }).setDefault(this, 2)
+                    background {
+                        buildItem<BasicItem>(Material.ARROW, {
+                            name = "§3Previous page"
+                            lore.add("$pageIndex / $maxPageIndex")
+                        }, {
+                            onClick {
+                                previousPage()
+                                modifyLore { set(0, "$pageIndex / $maxPageIndex") }
+                                forWindows { title = "Page: $pageIndex / $maxPageIndex" }
+                            }
+                        }).set(0)
+
+                        buildItem<BasicItem>(Material.ARROW, {
+                            name = "§aNext Page"
+                            lore.add("$pageIndex / $maxPageIndex")
+                        }, {
+                            onClick {
+                                nextPage()
+                                modifyLore { set(0, "$pageIndex / $maxPageIndex") }
+                                forWindows { title = "Page: $pageIndex / $maxPageIndex" }
+                            }
+                        }).set(2)
+                    }
 
                     val fill: () -> BasicItem = { buildItem(generateRandomItem()) }
 

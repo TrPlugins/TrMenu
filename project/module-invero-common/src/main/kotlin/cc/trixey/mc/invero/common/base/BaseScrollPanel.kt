@@ -11,6 +11,9 @@ import cc.trixey.mc.invero.common.scroll.ScrollType
  * @since 2022/11/17 11:19
  *
  * 滚动元素存储在 ScrollColum 中，通过单例 Elemap 的设置来实现滚动元素
+ *
+ * 考虑到 ScrollPanel 通过栏目来定位元素的特殊性，
+ * 不支持自设默认元素（导航栏实现需要额外使用 StandardPanel）
  */
 abstract class BaseScrollPanel(
     scale: PanelScale,

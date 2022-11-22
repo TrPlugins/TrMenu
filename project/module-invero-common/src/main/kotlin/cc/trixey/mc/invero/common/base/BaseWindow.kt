@@ -1,9 +1,9 @@
 package cc.trixey.mc.invero.common.base
 
 import cc.trixey.mc.invero.common.Panel
+import cc.trixey.mc.invero.common.Parentable
 import cc.trixey.mc.invero.common.Window
 import org.bukkit.entity.Player
-import org.bukkit.event.inventory.*
 import taboolib.common.platform.function.getProxyPlayer
 import java.util.*
 
@@ -21,40 +21,17 @@ abstract class BaseWindow(val viewer: UUID) : Window {
      */
     override val panels: ArrayList<Panel> = ArrayList()
 
-    operator fun plusAssign(value: Panel) {
-        panels += value
+    override fun getResponseInterval(): Int {
+        return 200
+    }
+
+    operator fun plusAssign(value: PanelInstance) {
+        panels += value.also { it.setParent(this) }
     }
 
     operator fun minusAssign(value: Panel) {
         panels -= value
     }
-
-    override fun handleEvent(e: InventoryEvent) {
-        when (e) {
-            is InventoryOpenEvent -> handleOpen(e)
-            is InventoryCloseEvent -> handleClose(e)
-            is InventoryDragEvent -> handleDrag(e)
-            is InventoryClickEvent -> {
-                when (e.action) {
-                    InventoryAction.MOVE_TO_OTHER_INVENTORY -> handleItemsMove(e)
-                    InventoryAction.COLLECT_TO_CURSOR -> handleItemsCollect(e)
-                    else -> handleClick(e)
-                }
-            }
-        }
-    }
-
-    abstract fun handleClick(e: InventoryClickEvent)
-
-    abstract fun handleDrag(e: InventoryDragEvent)
-
-    abstract fun handleItemsMove(e: InventoryClickEvent)
-
-    abstract fun handleItemsCollect(e: InventoryClickEvent)
-
-    abstract fun handleOpen(e: InventoryOpenEvent)
-
-    abstract fun handleClose(e: InventoryCloseEvent)
 
     fun getViewer(): Player {
         return getViewerSafe() ?: throw NullPointerException("Expected viewer is not valid")
@@ -70,22 +47,13 @@ abstract class BaseWindow(val viewer: UUID) : Window {
 
         // TODO 改进渲染逻辑
         // 重叠区域、不必要渲染区域省去
-        panels.sortedBy { it.weight.value }.forEach { panel ->
+        panels.sortedBy { it.weight }.forEach { panel ->
             panel.renderPanel()
         }
     }
 
-    fun findPanelHandler(slot: Int): Panel? {
-        return panels.sortedByDescending { it.weight }.firstOrNull {
-            it.getSlotsMap(this).absoluteSlots.contains(slot)
-        }
-    }
-
-    // TODO ??
-    fun findPanelHandler(slots: Collection<Int>): Panel? {
-        return panels.sortedByDescending { it.weight }.firstOrNull {
-            it.getSlotsMap(this).absoluteSlots.containsAll(slots)
-        }
+    override fun setParent(parentable: Parentable?) {
+        error("Window can not set parent")
     }
 
 }

@@ -1,6 +1,7 @@
 package cc.trixey.mc.invero
 
 import cc.trixey.mc.invero.common.WindowHolder
+import cc.trixey.mc.invero.common.event.BukkitInvEvent
 import org.bukkit.event.inventory.*
 import taboolib.common.platform.event.SubscribeEvent
 
@@ -24,7 +25,7 @@ object InveroListener {
 
     private fun InventoryEvent.passInventoryEvent() = inventory.holder.let {
         if (it is WindowHolder) {
-            it.window.handleEvent(this)
+            it.window.handleEvent(BukkitInvEvent(this))
         }
     }
 

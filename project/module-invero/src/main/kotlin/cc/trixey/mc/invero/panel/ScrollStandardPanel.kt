@@ -12,7 +12,7 @@ import cc.trixey.mc.invero.util.distinguishMark
  * @since 2022/11/17 11:17
  *
  * 标准滚动面板
- * 支持静态元素作为栏目
+ * 栏目仅接受静态元素
  */
 open class ScrollStandardPanel(
     scale: PanelScale,

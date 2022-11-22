@@ -44,7 +44,7 @@ class PagedNetesedPanel(
     fun getPage(index: Int = pageIndex) = children[index]
 
     fun addPage(page: PanelInstance): Int {
-        children += page.also { it.parent = this }
+        children += page.also { it.setParent(this) }
         return children.lastIndex
     }
 

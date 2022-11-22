@@ -12,7 +12,7 @@ import cc.trixey.mc.invero.common.scroll.ScrollType
  * @since 2022/11/20 18:06
  *
  * 滚动生成器面板
- * 不支持设置静态物品，导航栏需要额外添加 Panel 实现
+ * 栏目仅接受静态元素
  */
 class ScrollGeneratorPanel(
     scale: PanelScale,

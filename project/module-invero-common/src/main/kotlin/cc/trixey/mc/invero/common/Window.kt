@@ -1,7 +1,7 @@
 package cc.trixey.mc.invero.common
 
+import cc.trixey.mc.invero.common.event.InvEvent
 import org.bukkit.entity.Player
-import org.bukkit.event.inventory.InventoryEvent
 
 /**
  * @author Arasple
@@ -45,6 +45,11 @@ interface Window : Parentable {
     fun hasViewer() = getViewerSafe() != null
 
     /**
+     * 对交互的反应最低延迟 (ms)
+     */
+    fun getResponseInterval(): Int
+
+    /**
      * 为该窗口的已指定观众开启窗口
      */
     fun open()
@@ -59,7 +64,7 @@ interface Window : Parentable {
     /**
      * 处理事件
      */
-    fun handleEvent(e: InventoryEvent)
+    fun handleEvent(e: InvEvent)
 
     /**
      * 返回当前观众是否正在查看本窗口

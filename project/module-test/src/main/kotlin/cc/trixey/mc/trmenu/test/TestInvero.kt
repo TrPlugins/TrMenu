@@ -5,6 +5,8 @@ import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.command.CommandBody
 import taboolib.common.platform.command.CommandHeader
+import taboolib.common.platform.command.subCommand
+import taboolib.common.platform.function.submitAsync
 import taboolib.platform.util.ItemBuilder
 import taboolib.platform.util.buildItem
 import taboolib.platform.util.isAir
@@ -21,12 +23,6 @@ object TestInvero {
      */
     @CommandBody
     val testDynamicTitle = UnitDynamicTitle.command
-
-    /**
-     * 测试生成器命令
-     */
-    @CommandBody
-    val testGenerator = UnitGenerator.paged
 
     /**
      * 测试常规面板和窗口
@@ -49,23 +45,16 @@ object TestInvero {
     val testNested = UnitNested.command
 
     /**
-     * 测试动态物品滚动的效果
-     */
-    @CommandBody
-    val testDynamicItem = UnitDynamicItem.normal
-
-    /**
      * 测试基于多页实现的独立的动态物品滚动效果
      */
     @CommandBody
-    val testDynamicItem_Paged = UnitDynamicItem.paged
+    val testDynamicItem = UnitDynamicItem.paged
 
     /**
      * 测试物品输入与输出 Panel
      */
     @CommandBody
     val testIO = UnitIO.command
-
 
     /**
      * 测试滚动页面
@@ -79,11 +68,23 @@ object TestInvero {
     @CommandBody
     val testScrollStandard_Horizontal = UnitScroll.horizontal
 
-    /**
-     * 测试滚动页面
-     */
     @CommandBody
-    val testScrollGenerator = UnitGenerator.scroll
+    val testGenerator_Paged = subCommand {
+        execute { player, _, _ ->
+            submitAsync {
+                UnitGenerator.pagedGenerator(player)
+            }
+        }
+    }
+
+    @CommandBody
+    val testGenerator_Scroll = subCommand {
+        execute { player, _, _ ->
+            submitAsync {
+                UnitGenerator.scrollGenerator(player)
+            }
+        }
+    }
 
     /**
      * 打印一些信息

@@ -4,6 +4,7 @@ import cc.trixey.mc.invero.common.*
 import cc.trixey.mc.invero.element.BasicDynamicItem
 import cc.trixey.mc.invero.element.BasicItem
 import cc.trixey.mc.invero.panel.*
+import cc.trixey.mc.invero.util.toScale
 import cc.trixey.mc.invero.window.CompleteWindow
 import cc.trixey.mc.invero.window.ContainerWindow
 import org.bukkit.entity.Player
@@ -45,7 +46,7 @@ object InveroManager {
     }
 
     fun constructPanel(type: Class<*>, scale: Pair<Int, Int>, posMark: Int, weight: PanelWeight): Panel {
-        return constructPanel(type, PanelScale(scale), posMark, weight)
+        return constructPanel(type, scale.toScale(), posMark, weight)
     }
 
     fun constructPanel(type: Class<*>, scale: PanelScale, posMark: Int, weight: PanelWeight): Panel {

@@ -3,6 +3,8 @@ package cc.trixey.mc.invero.window
 import cc.trixey.mc.invero.InveroManager
 import cc.trixey.mc.invero.common.*
 import cc.trixey.mc.invero.common.base.BaseWindow
+import cc.trixey.mc.invero.common.base.BaseWindowBukkit
+import cc.trixey.mc.invero.common.util.findPanel
 import cc.trixey.mc.invero.panel.IOStoragePanel
 import cc.trixey.mc.invero.util.nms.handler
 import org.bukkit.entity.Player
@@ -11,6 +13,8 @@ import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryDragEvent
 import org.bukkit.event.inventory.InventoryOpenEvent
 import org.bukkit.inventory.PlayerInventory
+import taboolib.common.platform.function.isPrimaryThread
+import taboolib.common.platform.function.submit
 
 /**
  * @author Arasple
@@ -24,8 +28,7 @@ open class ContainerWindow(
     override val type: WindowType,
     title: String,
     var lock: Boolean = true
-) : BaseWindow(viewer.uniqueId) {
-
+) : BaseWindowBukkit(viewer.uniqueId) {
 
     /**
      * 容器的标题
@@ -53,7 +56,8 @@ open class ContainerWindow(
      * 开启窗口
      */
     override fun open() {
-        inventorySet.open(getViewer())
+        if (isPrimaryThread) inventorySet.open(getViewer())
+        else submit { inventorySet.open(getViewer()) }
     }
 
     /**
@@ -79,7 +83,7 @@ open class ContainerWindow(
      */
     override fun handleClick(e: InventoryClickEvent) {
         if (e.clickedInventory is PlayerInventory) e.isCancelled = lock
-        else findPanelHandler(e.rawSlot)?.handleClick(this, e) ?: run { e.isCancelled = true }
+        else findPanel(e.rawSlot)?.handleClick(this, e) ?: run { e.isCancelled = true }
     }
 
     /**
@@ -87,7 +91,7 @@ open class ContainerWindow(
      */
     override fun handleDrag(e: InventoryDragEvent) {
         if (e.inventory is PlayerInventory) e.isCancelled = lock
-        else findPanelHandler(e.inventorySlots)?.handleDrag(this, e) ?: run { e.isCancelled = true }
+        else findPanel(e.inventorySlots)?.handleDrag(this, e) ?: run { e.isCancelled = true }
     }
 
     /**
@@ -120,9 +124,9 @@ open class ContainerWindow(
 //                            e.currentItem = null
                 }
             }
-        } else findPanelHandler(e.rawSlot)?.handleItemsMove(this, e) ?: run { e.isCancelled = true }
+        } else findPanel(e.rawSlot)?.handleItemsMove(this, e) ?: run { e.isCancelled = true }
     }
-    
+
     override fun isViewing(): Boolean {
         return getViewerSafe()?.let {
             val holder = it.openInventory.topInventory.holder
@@ -134,7 +138,7 @@ open class ContainerWindow(
      * 处理物品快速收集事件
      */
     override fun handleItemsCollect(e: InventoryClickEvent) {
-        findPanelHandler(e.rawSlot)?.handleItemsCollect(this, e) ?: run { e.isCancelled = true }
+        findPanel(e.rawSlot)?.handleItemsCollect(this, e) ?: run { e.isCancelled = true }
     }
 
     /**

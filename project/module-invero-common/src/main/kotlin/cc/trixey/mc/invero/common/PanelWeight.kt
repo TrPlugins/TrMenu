@@ -6,21 +6,30 @@ package cc.trixey.mc.invero.common
  *
  * Panel 的权重，将决定渲染的顺序和处理交互的优先级
  */
-enum class PanelWeight(val value: Int) {
+@JvmInline
+value class PanelWeight(private val value: Int) : Comparable<PanelWeight> {
 
-    BACKGROUND(Int.MIN_VALUE),
+    companion object {
 
-    LOWEST(-10),
+        val BACKGROUND = PanelWeight(Int.MIN_VALUE)
 
-    LOW(-1),
+        val LOWEST = PanelWeight(-10)
 
-    NORMAL(0),
+        val LOW = PanelWeight(-1)
 
-    HIGH(1),
+        val NORMAL = PanelWeight(0)
 
-    HIGHEST(10),
+        val HIGH = PanelWeight(1)
 
-    SURFACE(Int.MAX_VALUE)
+        val HIGHEST = PanelWeight(10)
+
+        val SURFACE = PanelWeight(Int.MAX_VALUE)
+
+    }
+
+    override fun compareTo(other: PanelWeight): Int {
+        return value.compareTo(other.value)
+    }
 
 
 }

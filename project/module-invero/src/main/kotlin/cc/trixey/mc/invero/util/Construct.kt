@@ -18,29 +18,34 @@ import taboolib.platform.util.ItemBuilder
  */
 
 /**
- * Building functions
+ * 构建通用 Window 的函数
  */
-
 inline fun <reified T : Window> buildWindow(
     viewer: Player, type: WindowType = WindowType.ofRows(6), title: String = "Untitled", init: T.() -> Unit = {}
 ): T {
     return (constructWindow(T::class.java, viewer, type, title) as T).also(init)
 }
 
+/**
+ * 构建通用 Panel 的函数
+ */
 inline fun <reified T : Panel> buildPanel(
     scale: Pair<Int, Int>, pos: Int = 0, weight: PanelWeight = PanelWeight.NORMAL, init: T.() -> Unit = {}
 ): T {
     return (constructPanel(T::class.java, scale, pos, weight) as T).also(init)
 }
 
-inline fun <reified T : Panel> buildPanel(
-    scale: List<Int>, pos: Int = 0, weight: PanelWeight = PanelWeight.NORMAL, init: T.() -> Unit = {}
-) = buildPanel(scale.first() to scale.last(), pos, weight, init)
-
+/**
+ * 在 Panel 下 构建通用 Element 的函数
+ */
 inline fun <reified T : Element> Panel.buildElement(init: T.() -> Unit = {}): T {
     return (constructElement(T::class.java) as T).also(init)
 }
 
+
+/**
+ * 在 Panel 下 构建通用 ItemProvider 的函数
+ */
 inline fun <reified T : ItemProvider> Panel.buildItem(itemStack: ItemStack, init: T.() -> Unit = {}): T {
     return (constructElement(T::class.java) as T).also {
         it.setItem(itemStack)
@@ -48,13 +53,13 @@ inline fun <reified T : ItemProvider> Panel.buildItem(itemStack: ItemStack, init
     }
 }
 
+/**
+ * 在 Panel 下 构建通用 ItemProvider 的函数
+ */
 inline fun <reified T : ItemProvider> Panel.buildItem(
     material: Material, noinline builder: ItemBuilder.() -> Unit = {}, init: T.() -> Unit = {}
 ) = buildItem(taboolib.platform.util.buildItem(material, builder), init)
 
-/**
- * Adding functions
- */
 
 inline fun <reified T : Panel> Window.addPanel(
     scale: Pair<Int, Int>, pos: Int = 0, weight: PanelWeight = PanelWeight.NORMAL, init: T.() -> Unit = {}

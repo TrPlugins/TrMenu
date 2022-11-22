@@ -12,4 +12,6 @@ interface Parentable {
 
     fun getParent(): Parentable?
 
+    fun setParent(parentable: Parentable?)
+
 }
