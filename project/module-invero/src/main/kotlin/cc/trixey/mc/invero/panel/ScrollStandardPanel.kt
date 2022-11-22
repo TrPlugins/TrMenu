@@ -10,8 +10,11 @@ import cc.trixey.mc.invero.util.distinguishMark
 /**
  * @author Arasple
  * @since 2022/11/17 11:17
+ *
+ * 标准滚动面板
+ * 支持静态元素作为栏目
  */
-class ScrollStandardPanel(
+open class ScrollStandardPanel(
     scale: PanelScale,
     pos: Int,
     weight: PanelWeight,
@@ -49,11 +52,11 @@ class ScrollStandardPanel(
     /**
      * 可滚动的栏目元素
      */
-    private val colums = mutableListOf<ScrollColum>()
+    internal val colums = mutableListOf<ScrollColum>()
 
-    fun colum(function: ScrollColum.(capacity: Int) -> Unit) {
+    fun colum(function: ScrollColum.(indices: IntRange) -> Unit) {
         colums += ScrollColum(arrayOfNulls<Element?>(columCapacity)).also {
-            function(it, columCapacity)
+            function(it, 0 until columCapacity)
         }
     }
 

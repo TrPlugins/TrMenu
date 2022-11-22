@@ -64,11 +64,6 @@ interface Window : Parentable {
     /**
      * 返回当前观众是否正在查看本窗口
      */
-    fun isViewing(): Boolean {
-        return getViewerSafe()?.let {
-            val holder = it.openInventory.topInventory.holder
-            holder is WindowHolder && holder.window == this
-        } ?: false
-    }
+    fun isViewing(): Boolean
 
 }

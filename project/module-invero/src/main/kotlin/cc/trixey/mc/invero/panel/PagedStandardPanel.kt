@@ -9,6 +9,9 @@ import taboolib.common.platform.function.submit
 /**
  * @author Arasple
  * @since 2022/11/6 16:30
+ *
+ * 标准翻页面板
+ * 可用理解为多页的 StandardPanel，支持静态、动态元素
  */
 open class PagedStandardPanel(
     scale: PanelScale,

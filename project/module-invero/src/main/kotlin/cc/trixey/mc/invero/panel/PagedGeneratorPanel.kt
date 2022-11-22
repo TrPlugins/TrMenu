@@ -2,7 +2,9 @@ package cc.trixey.mc.invero.panel
 
 import cc.trixey.mc.invero.common.*
 import cc.trixey.mc.invero.common.base.BasePagedPanel
-import cc.trixey.mc.invero.common.generator.Generator
+import cc.trixey.mc.invero.common.base.ElementAbsolute
+import cc.trixey.mc.invero.common.base.Interactable
+import cc.trixey.mc.invero.common.generator.GeneratorPanel
 import cc.trixey.mc.invero.util.distinguishMark
 import org.bukkit.event.inventory.InventoryClickEvent
 import taboolib.common.platform.function.submit
@@ -10,15 +12,19 @@ import taboolib.common.platform.function.submit
 /**
  * @author Arasple
  * @since 2022/11/21 22:46
+ *
+ * 翻页生成器面板
+ * 根据页码生成静态元素覆盖生成池槽位
+ * 支持设置静态物品（槽位自动排除生成池）
  */
 class PagedGeneratorPanel(
     scale: PanelScale, pos: Int, weight: PanelWeight
-) : BasePagedPanel(scale, pos, weight) {
+) : BasePagedPanel(scale, pos, weight), GeneratorPanel {
 
     /**
-     * 元素生成器
+     * 最后一次生成的元素
      */
-    lateinit var generator: Generator<Element>
+    override var lastGenerated: List<ElementAbsolute> = listOf()
 
     /**
      * 页面的元素
@@ -51,8 +57,8 @@ class PagedGeneratorPanel(
      * 生成元素、裁切针对当前页码的有效元素集
      * 并设置元素
      */
-    private fun generate(): Boolean {
-        val elements = generator.spawn()
+    private fun apply(): Boolean {
+        val elements = lastGenerated
         val fromIndex = pageIndex * pool.size
         val toIndex = (fromIndex + pool.size).coerceAtMost(elements.lastIndex)
         maxPageIndex = elements.size / pool.size
@@ -92,7 +98,7 @@ class PagedGeneratorPanel(
     }
 
     override fun renderPanel() {
-        if (generate()) {
+        if (apply()) {
             forWindows {
                 page.forEach { renderElement(this, it) }
             }
@@ -119,8 +125,7 @@ class PagedGeneratorPanel(
 
         val slot = getSlotsMap(window).getRelative(e.rawSlot)
         val element = page[slot]
-
-        element?.passClickEvent(e)
+        if (element is Interactable) element.passClickEvent(e)
     }
 
 }

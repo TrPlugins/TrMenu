@@ -13,7 +13,11 @@ import cc.trixey.mc.invero.common.scroll.ScrollType
  * 滚动元素存储在 ScrollColum 中，通过单例 Elemap 的设置来实现滚动元素
  */
 abstract class BaseScrollPanel(
-    scale: PanelScale, pos: Int, weight: PanelWeight, open var direction: ScrollDirection, open var type: ScrollType
+    scale: PanelScale,
+    pos: Int,
+    weight: PanelWeight,
+    open var direction: ScrollDirection,
+    open var type: ScrollType
 ) : PanelInstance(scale, pos, weight) {
 
     /**

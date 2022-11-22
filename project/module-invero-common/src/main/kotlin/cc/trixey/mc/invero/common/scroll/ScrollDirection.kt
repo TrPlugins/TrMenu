@@ -7,6 +7,14 @@ package cc.trixey.mc.invero.common.scroll
 @JvmInline
 value class ScrollDirection(private val vertical: Boolean = true) {
 
+    companion object {
+
+        val HORIZONTAL = ScrollDirection(false)
+
+        val VERTICAL = ScrollDirection(true)
+
+    }
+
     /**
      * 是否为垂直滚动
      * （默认）

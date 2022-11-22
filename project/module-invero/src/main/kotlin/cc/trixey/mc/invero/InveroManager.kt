@@ -13,7 +13,12 @@ import java.util.concurrent.CopyOnWriteArrayList
  * @author Arasple
  * @since 2022/10/28 19:22
  *
- * TODO 需要改进开放性注册
+ * Roadmap
+ *
+ * [√] ScrollGeneratorPanel
+ * [ ] IOStoragePanel & 物品交互模拟
+ * [ ] PacketWindow 虚拟容器的实现和Bukkit事件抽象化兼容
+ * [ ] 需要改进开放性注册
  */
 object InveroManager {
 
@@ -50,8 +55,8 @@ object InveroManager {
             PagedNetesedPanel::class.java -> PagedNetesedPanel(scale, posMark, weight)
             PagedGeneratorPanel::class.java -> PagedGeneratorPanel(scale, posMark, weight)
             ScrollStandardPanel::class.java -> ScrollStandardPanel(scale, posMark, weight)
+            ScrollGeneratorPanel::class.java -> ScrollGeneratorPanel(scale, posMark, weight)
             IOStoragePanel::class.java -> IOStoragePanel(scale, posMark, weight)
-//            IOCraftingPanel::class.java -> IOCraftingPanel(scale, posMark, weight)
             else -> throw IllegalArgumentException("Failed to create panel, not found registered class $type")
         }
     }

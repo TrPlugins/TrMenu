@@ -79,11 +79,9 @@ object UnitScroll {
                 direction = ScrollDirection(false)
 
                 for (colum in 0..16) {
-                    colum { capacity ->
-                        val item = buildItem<BasicItem>(generateRandomItem {
-                            amount = colum + 1
-                        })
-                        for (i in 0 until capacity) this[i] = item
+                    colum {
+                        val item = buildItem<BasicItem>(generateRandomItem { amount = colum + 1 })
+                        for (i in it) this[i] = item
                     }
                 }
             }

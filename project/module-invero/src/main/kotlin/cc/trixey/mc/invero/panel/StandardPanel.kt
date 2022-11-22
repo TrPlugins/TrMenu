@@ -9,6 +9,9 @@ import org.bukkit.event.inventory.InventoryClickEvent
 /**
  * @author Arasple
  * @since 2022/11/1 21:33
+ *
+ * 标准的面板
+ * 支持静态、动态元素
  */
 class StandardPanel(
     scale: PanelScale,
@@ -30,11 +33,10 @@ class StandardPanel(
     }
 
     override fun handleClick(window: Window, e: InventoryClickEvent) {
-        e.isCancelled = true
+        super.handleClick(window, e)
 
-        val relativeSlot = getSlotsMap(window).getRelative(e.rawSlot)
-        val element = getElementsMap()[relativeSlot]
-
+        val slot = getSlotsMap(window).getRelative(e.rawSlot)
+        val element = getElementsMap()[slot]
         if (element is Interactable) element.passClickEvent(e)
     }
 

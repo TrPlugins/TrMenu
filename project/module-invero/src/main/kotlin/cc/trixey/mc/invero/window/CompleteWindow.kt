@@ -1,6 +1,7 @@
 package cc.trixey.mc.invero.window
 
 import cc.trixey.mc.invero.common.InventorySet
+import cc.trixey.mc.invero.common.WindowHolder
 import cc.trixey.mc.invero.common.WindowInventory
 import cc.trixey.mc.invero.common.WindowType
 import org.bukkit.entity.Player

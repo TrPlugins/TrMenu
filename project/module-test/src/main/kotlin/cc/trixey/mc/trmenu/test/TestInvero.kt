@@ -26,7 +26,7 @@ object TestInvero {
      * 测试生成器命令
      */
     @CommandBody
-    val testGenerator = UnitGenerator.command
+    val testGenerator = UnitGenerator.paged
 
     /**
      * 测试常规面板和窗口
@@ -80,6 +80,12 @@ object TestInvero {
     val testScrollStandard_Horizontal = UnitScroll.horizontal
 
     /**
+     * 测试滚动页面
+     */
+    @CommandBody
+    val testScrollGenerator = UnitGenerator.scroll
+
+    /**
      * 打印一些信息
      */
     @CommandBody
@@ -90,7 +96,9 @@ object TestInvero {
 fun generateRandomItem(builder: ItemBuilder.() -> Unit = {}): ItemStack {
     var itemStack: ItemStack? = null
     while (itemStack.isAir()) {
-        itemStack = ItemStack(Material.values().filter { it.isItem }.random())
+        itemStack = ItemStack(Material.values().filter {
+            it.isItem || it.isBlock
+        }.random())
     }
     return buildItem(itemStack!!, builder).also {
         it.amount = it.amount.coerceAtMost(it.maxStackSize)

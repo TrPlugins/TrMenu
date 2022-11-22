@@ -13,9 +13,14 @@ import taboolib.common.platform.function.submit
 /**
  * @author Arasple
  * @since 2022/11/12 22:12
+ *
+ * 嵌套翻页面板
+ * 理论上兼容所有面板模型
  */
 class PagedNetesedPanel(
-    scale: PanelScale, pos: Int, weight: PanelWeight
+    scale: PanelScale,
+    pos: Int,
+    weight: PanelWeight
 ) : BasePagedPanel(scale, pos, weight) {
 
     override val children: ArrayList<PanelInstance> = ArrayList()
@@ -32,9 +37,9 @@ class PagedNetesedPanel(
     override val maxPageIndex: Int
         get() = children.lastIndex
 
-    override fun renderPanel() =getPage().renderPanel()
+    override fun renderPanel() = getPage().renderPanel()
 
-    override fun renderElement(window: Window, element: Element) =getPage().renderElement(window, element)
+    override fun renderElement(window: Window, element: Element) = getPage().renderElement(window, element)
 
     fun getPage(index: Int = pageIndex) = children[index]
 

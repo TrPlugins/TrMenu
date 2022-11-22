@@ -122,6 +122,13 @@ open class ContainerWindow(
             }
         } else findPanelHandler(e.rawSlot)?.handleItemsMove(this, e) ?: run { e.isCancelled = true }
     }
+    
+    override fun isViewing(): Boolean {
+        return getViewerSafe()?.let {
+            val holder = it.openInventory.topInventory.holder
+            holder is WindowHolder && holder.window == this
+        } ?: false
+    }
 
     /**
      * 处理物品快速收集事件

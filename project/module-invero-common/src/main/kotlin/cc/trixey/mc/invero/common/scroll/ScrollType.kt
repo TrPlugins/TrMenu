@@ -39,6 +39,11 @@ value class ScrollType(val value: Int = 0) {
     val isBlank: Boolean
         get() = value > 0
 
+    fun blankBy(value: Int): ScrollType {
+        return if (this.value > 0 && value > 0) ScrollType(value)
+        else this
+    }
+
     companion object {
 
         fun random(): ScrollType {
