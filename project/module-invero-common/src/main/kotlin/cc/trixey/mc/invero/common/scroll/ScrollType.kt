@@ -11,17 +11,16 @@ value class ScrollType(val value: Int = 0) {
         get() = when {
             isStop -> "STOP"
             isLoop -> "LOOP"
-            isBlank -> "BLANK"
             else -> error("")
         }
 
     /**
      * 截止滚动
      *
-     * 当滚动到最后一个栏目的元素时不再支持继续滚动
+     * 当滚动到还剩 value 个栏目时停止
      */
     val isStop: Boolean
-        get() = value == 0
+        get() = value >= 0
 
     /**
      * 循环滚动
@@ -31,15 +30,7 @@ value class ScrollType(val value: Int = 0) {
     val isLoop: Boolean
         get() = value < 0
 
-    /**
-     * 留白滚动
-     *
-     * 当滚动到最后一个栏目后继续滚动将产生空白区域，直到只剩 $value 行栏目可视
-     */
-    val isBlank: Boolean
-        get() = value > 0
-
-    fun blankBy(value: Int): ScrollType {
+    fun stopAt(value: Int): ScrollType {
         return if (this.value > 0 && value > 0) ScrollType(value)
         else this
     }
@@ -47,14 +38,16 @@ value class ScrollType(val value: Int = 0) {
     companion object {
 
         fun random(): ScrollType {
-            return arrayOf(STOP, LOOP, BLANK).random()
+            return arrayOf(STOP, LOOP).random()
         }
 
-        val STOP = ScrollType()
+        fun stopAt(value: Int): ScrollType {
+            return ScrollType(value.coerceAtLeast(0))
+        }
+
+        val STOP = ScrollType(0)
 
         val LOOP = ScrollType(-1)
-
-        val BLANK = ScrollType(1)
 
     }
 

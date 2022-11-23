@@ -6,6 +6,8 @@ package cc.trixey.mc.invero.common
  */
 interface Elemap {
 
+    val panel: Panel
+
     /**
      * 是否存在某各个元素
      */

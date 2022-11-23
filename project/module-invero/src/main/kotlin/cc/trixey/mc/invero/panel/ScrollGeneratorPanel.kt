@@ -35,7 +35,7 @@ class ScrollGeneratorPanel(
         colums.clear()
         val elements = lastGenerated
         elements.windowed(columCapacity, columCapacity, true).map { columElements ->
-            colum {
+            addColum {
                 for (i in it) this[i] = columElements.getOrNull(i)
             }
         }

@@ -26,13 +26,8 @@ abstract class BaseScrollPanel(
     /**
      * 元素
      */
-    private val elementsMap = ElemapSimplified()
-
-    /**
-     * 取得元素集
-     */
-    fun getElementsMap(): ElemapSimplified {
-        return elementsMap
+    private val elementsMap by lazy {
+        ElemapSimplified(this)
     }
 
     override fun renderPanel() {
@@ -76,5 +71,9 @@ abstract class BaseScrollPanel(
     fun scroll(step: Int = 1) {
         index += step
     }
+
+    fun next() = scroll(1)
+
+    fun previous() = scroll(-1)
 
 }

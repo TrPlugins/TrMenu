@@ -70,7 +70,7 @@ open class PagedStandardPanel(
     /**
      * 静态占据元素
      */
-    internal val staticElements = ElemapCompetent()
+    internal val staticElements by lazy { ElemapCompetent(this) }
 
     /**
      * @see BasePagedPanel.getOccupiedSlots

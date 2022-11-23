@@ -29,7 +29,7 @@ open class ScrollStandardPanel(
         set(value) {
             val previous = field
             when {
-                type.isStop || type.isBlank -> if (value in 0..maxIndex) field = value
+                type.isStop -> if (value in 0..maxIndex) field = value
                 type.isLoop -> field = if (value > maxIndex) 0 else if (value < 0) value + colums.size else value
             }
             if (previous != field) renderPanel()
@@ -42,9 +42,8 @@ open class ScrollStandardPanel(
     override val maxIndex: Int
         get() {
             return when {
-                type.isStop -> colums.size - columViewSize
+                type.isStop -> colums.size - (type.value).coerceAtMost(columViewSize)
                 type.isLoop -> colums.lastIndex
-                type.isBlank -> colums.size - type.value
                 else -> error("maxIndex.get")
             }
         }
@@ -54,7 +53,7 @@ open class ScrollStandardPanel(
      */
     internal val colums = mutableListOf<ScrollColum>()
 
-    fun colum(function: ScrollColum.(indices: IntRange) -> Unit) {
+    fun addColum(function: ScrollColum.(indices: IntRange) -> Unit) {
         colums += ScrollColum(arrayOfNulls<Element?>(columCapacity)).also {
             function(it, 0 until columCapacity)
         }

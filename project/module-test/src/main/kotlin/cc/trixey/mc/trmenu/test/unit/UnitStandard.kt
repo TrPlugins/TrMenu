@@ -1,14 +1,19 @@
 package cc.trixey.mc.trmenu.test.unit
 
 import cc.trixey.mc.invero.common.PanelWeight
-import cc.trixey.mc.trmenu.coroutine.launchAsync
 import cc.trixey.mc.invero.element.BasicItem
-import cc.trixey.mc.invero.panel.PagedStandardPanel
 import cc.trixey.mc.invero.panel.StandardPanel
-import cc.trixey.mc.invero.window.CompleteWindow
-import cc.trixey.mc.invero.util.*
+import cc.trixey.mc.invero.util.addElement
+import cc.trixey.mc.invero.util.buildPanel
+import cc.trixey.mc.invero.util.dsl.item
+import cc.trixey.mc.invero.util.dsl.paged
+import cc.trixey.mc.invero.util.dsl.standard
+import cc.trixey.mc.invero.util.dsl.window
+import cc.trixey.mc.invero.util.page
+import cc.trixey.mc.trmenu.coroutine.launchAsync
 import cc.trixey.mc.trmenu.test.generateRandomItem
 import org.bukkit.Material
+import org.bukkit.entity.Player
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.subCommand
 
@@ -18,67 +23,60 @@ import taboolib.common.platform.command.subCommand
  */
 object UnitStandard {
 
-    val command = subCommand {
-        execute { player, _, _ ->
-            launchAsync {
-                var count = 1
 
-                val panel = buildPanel<StandardPanel>(3 to 5) {
-                    buildItem<BasicItem>(Material.DIAMOND) {
-                        onClick {
-                            modify { amount = (if (isLeftClick) count++ else count--) }
-                        }
-                    }.set(0, 4, 5)
-                    buildItem<BasicItem>(Material.EMERALD).set(getUnoccupiedSlots())
-                }
+    private fun Player.showStandard() {
+        window(this, title = "Standard") {
 
-                val pagedPanel = buildPanel<PagedStandardPanel>(3 to 10, 4) {
-
-                    background {
-                        buildItem<BasicItem>(Material.ARROW, {
-                            name = "§3Previous page"
-                            lore.add("$pageIndex / $maxPageIndex")
-                        }, {
-                            onClick {
-                                previousPage()
-                                modifyLore { set(0, "$pageIndex / $maxPageIndex") }
-                                forWindows { title = "Page: $pageIndex / $maxPageIndex" }
-                            }
-                        }).set(0)
-
-                        buildItem<BasicItem>(Material.ARROW, {
-                            name = "§aNext Page"
-                            lore.add("$pageIndex / $maxPageIndex")
-                        }, {
-                            onClick {
-                                nextPage()
-                                modifyLore { set(0, "$pageIndex / $maxPageIndex") }
-                                forWindows { title = "Page: $pageIndex / $maxPageIndex" }
-                            }
-                        }).set(2)
-                    }
-
-                    val fill: () -> BasicItem = { buildItem(generateRandomItem()) }
-
-                    page {
-                        add(getUnoccupiedSlots(it), buildItem<BasicItem>(Material.BLACK_STAINED_GLASS))
-                    }
-                    page {
-                        add(getUnoccupiedSlots(it), buildItem<BasicItem>(Material.LIME_STAINED_GLASS_PANE))
-                    }
-
-                    for (i in 0..10)
-                        page { add(getUnoccupiedSlots(it), fill()) }
-                }
-
-                buildWindow<CompleteWindow>(player) {
-                    title = "Standard Panels Test"
-
-                    this += panel
-                    this += pagedPanel
-                    this += markedPanel
-                }.also { it.open() }
+            standard(3 to 5) {
+                item(org.bukkit.Material.DIAMOND).set(0, 4, 5)
+                item(org.bukkit.Material.EMERALD).fillup()
             }
+
+            paged(3 to 10, 4) {
+
+                background {
+                    val controlItem: (name: String, shift: Int) -> BasicItem = { name, shift ->
+                        item(
+                            org.bukkit.Material.ARROW,
+                            {
+                                this.name = name
+                                lore.add("$pageIndex / $maxPageIndex")
+                            },
+                            {
+                                onClick {
+                                    shiftPage(shift)
+                                    title = "Page: $pageIndex / $maxPageIndex"
+                                }
+                            }
+                        )
+                    }
+
+                    controlItem("§aNext Page", 1).set(2)
+                    controlItem("§3Previous Page", 0).set(0)
+                }
+
+                val randFill = { item(generateRandomItem()) }
+
+                page {
+                    item(org.bukkit.Material.BLACK_STAINED_GLASS).set(getUnoccupiedSlots(it))
+                }
+                page {
+                    item(org.bukkit.Material.LIME_STAINED_GLASS_PANE).set(getUnoccupiedSlots(it))
+                }
+
+                for (i in 0..10)
+                    page { randFill().set(getUnoccupiedSlots(it)) }
+
+            }
+
+            this += cc.trixey.mc.trmenu.test.unit.UnitStandard.markedPanel
+        }
+    }
+
+
+    val command = subCommand {
+        execute<Player> { player, _, _ ->
+            launchAsync { player.showStandard() }
         }
     }
 
@@ -92,7 +90,7 @@ object UnitStandard {
     private var markedPanel: StandardPanel = testPanelPosMark(8)
 
     private fun testPanelPosMark(pos: Int): StandardPanel {
-        return buildPanel(1 to 8, pos,PanelWeight.BACKGROUND) {
+        return buildPanel(1 to 8, pos, PanelWeight.BACKGROUND) {
             addElement<BasicItem>(slots) {
                 setItem(Material.values().random())
             }

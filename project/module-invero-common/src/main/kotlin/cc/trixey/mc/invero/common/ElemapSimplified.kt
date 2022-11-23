@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap
  * 简单的元素集
  * 仅支持静态元素（ElementAbsolute）
  */
-open class ElemapSimplified : Elemap {
+open class ElemapSimplified(override val panel: Panel) : Elemap {
 
     internal val absoluteElements = ConcurrentHashMap<Int, ElementAbsolute>()
 

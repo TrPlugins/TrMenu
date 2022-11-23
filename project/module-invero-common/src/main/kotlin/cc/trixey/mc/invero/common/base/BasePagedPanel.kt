@@ -36,6 +36,13 @@ abstract class BasePagedPanel(
     open fun previousPage() = pageIndex--
 
     /**
+     * 自定义切页
+     */
+    open fun shiftPage(value: Int) {
+        pageIndex += value
+    }
+
+    /**
      * 切换到指定页码
      */
     open fun switchPage(page: Int) {

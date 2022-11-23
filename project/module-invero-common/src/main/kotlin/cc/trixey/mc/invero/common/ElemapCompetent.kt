@@ -11,7 +11,7 @@ import java.util.concurrent.CopyOnWriteArrayList
  * 功能覆盖性元素集
  * 支持静态和动态槽位元素（ElementAbsolute、ElementDynamic）
  */
-class ElemapCompetent : ElemapSimplified() {
+class ElemapCompetent(panel: Panel) : ElemapSimplified(panel) {
 
     internal val dynamicElements = CopyOnWriteArrayList<ElementDynamic>()
 

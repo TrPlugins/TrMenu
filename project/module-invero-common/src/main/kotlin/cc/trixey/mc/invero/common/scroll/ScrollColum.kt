@@ -1,7 +1,6 @@
 package cc.trixey.mc.invero.common.scroll
 
 import cc.trixey.mc.invero.common.Element
-import cc.trixey.mc.invero.common.base.ElementAbsolute
 
 /**
  * @author Arasple
@@ -9,7 +8,6 @@ import cc.trixey.mc.invero.common.base.ElementAbsolute
  */
 @JvmInline
 value class ScrollColum(val elements: Array<Element?>) {
-    constructor(it: List<ElementAbsolute>) : this(it.toTypedArray())
 
     operator fun set(index: Int, element: Element?) {
         elements[index] = element

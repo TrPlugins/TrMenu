@@ -124,7 +124,7 @@ inline fun <reified T : Element> BasePanel.addElement(
  * 在 PagedStandardPanel 下通过 page { } 构建元素页的函数
  */
 fun PagedStandardPanel.page(function: ElemapCompetent.(Int) -> Unit) {
-    return ElemapCompetent().let { function(it, addPage(it)) }
+    return ElemapCompetent(this).let { function(it, addPage(it)) }
 }
 
 /**

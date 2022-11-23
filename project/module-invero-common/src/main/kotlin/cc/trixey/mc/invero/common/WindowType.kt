@@ -110,6 +110,11 @@ enum class WindowType(val vanillaId: String, val serialId: Int, slotsContainer: 
     val slotsEntireWindow by lazy { (0..slotsHotbar.last) }
 
     /**
+     * 容器可用槽位
+     */
+    val slotsContainer by lazy { (0 until containerSize) }
+
+    /**
      * 容器（不包括玩家背包）的大小
      */
     val containerSize by lazy { slotsContainer.last + 1 }

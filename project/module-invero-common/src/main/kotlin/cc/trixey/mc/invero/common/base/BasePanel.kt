@@ -13,15 +13,15 @@ import cc.trixey.mc.invero.common.PanelWeight
  * 包含一个 ElemapCompetent（ Panel 元素集）
  */
 abstract class BasePanel(
-    scale: PanelScale,
-    pos: Int,
-    weight: PanelWeight
+    scale: PanelScale, pos: Int, weight: PanelWeight
 ) : PanelInstance(scale, pos, weight) {
 
     /**
      * 元素
      */
-    private val elementsMap = ElemapCompetent()
+    val elementsMap by lazy {
+        ElemapCompetent(this)
+    }
 
     /**
      * 向所有窗口渲染此 Panel
@@ -48,26 +48,24 @@ abstract class BasePanel(
         return slots - getOccupiedSlots()
     }
 
-    /**
-     * 取得元素集
-     */
-    fun getElementsMap(): ElemapCompetent {
-        return elementsMap
-    }
 
     /**
      * 取得某槽位元素
      */
-    operator fun get(slot: Int) = getElementsMap()[slot]
+    operator fun get(slot: Int) = elementsMap[slot]
 
     /**
      * 设置某槽位元素
      */
-    operator fun set(slot: Int, element: Element) = getElementsMap().add(slot, element)
+    operator fun set(slot: Int, element: Element) = elementsMap.add(slot, element)
 
     /*
     拓展函数
      */
+
+    fun Element.fillup(): Element {
+        return set(getUnoccupiedSlots())
+    }
 
     fun Element.set(slots: Set<Int>): Element {
         return this.also {
@@ -81,7 +79,7 @@ abstract class BasePanel(
 
     fun ElementDynamic.add(): ElementDynamic {
         return this.also {
-            getElementsMap() += it
+            elementsMap += it
         }
     }
 
