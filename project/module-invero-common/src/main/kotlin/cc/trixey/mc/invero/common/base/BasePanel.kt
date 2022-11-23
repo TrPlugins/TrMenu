@@ -1,9 +1,9 @@
 package cc.trixey.mc.invero.common.base
 
-import cc.trixey.mc.invero.common.ElemapCompetent
 import cc.trixey.mc.invero.common.Element
 import cc.trixey.mc.invero.common.PanelScale
 import cc.trixey.mc.invero.common.PanelWeight
+import cc.trixey.mc.invero.common.ElemapCompetent
 
 /**
  * @author Arasple

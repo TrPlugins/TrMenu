@@ -25,7 +25,7 @@ class StandardPanel(
         val slotMap = getSlotsMap(window)
         if (element is ItemProvider) {
             val itemStack = element.get()
-            getElementsMap().find(element).forEach {
+            elementsMap.find(element).forEach {
                 val slot = slotMap.getAbsolute(it)
                 window.inventorySet[slot] = itemStack.distinguishMark(slot)
             }
@@ -36,7 +36,7 @@ class StandardPanel(
         super.handleClick(window, e)
 
         val slot = getSlotsMap(window).getRelative(e.rawSlot)
-        val element = getElementsMap()[slot]
+        val element = elementsMap[slot]
         if (element is Interactable) element.passClickEvent(e)
     }
 

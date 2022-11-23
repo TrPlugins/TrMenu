@@ -13,10 +13,9 @@ import taboolib.platform.util.ItemBuilder
  * @author Arasple
  * @since 2022/11/23 11:00
  */
+fun Panel.firstSlot() = slots.first()
 
-fun BasePanel.firstSlot() = slots.first()
-
-fun BasePanel.lastSlot() = slots.last()
+fun Panel.lastSlot() = slots.last()
 
 fun BasePanel.firstAvailableSlot() = getUnoccupiedSlots().minOf { it }
 

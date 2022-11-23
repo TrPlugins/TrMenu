@@ -12,17 +12,12 @@ import org.bukkit.entity.Player
  *
  * 一个 Window 仅允许包含一个 Viewer（唯一的玩家）
  */
-interface Window : Parentable {
+interface Window : Parentable, PanelContainer {
 
     /**
      * 容器的标题
      */
     var title: String
-
-    /**
-     * 该 Window 包含的 Panel
-     */
-    val panels: ArrayList<Panel>
 
     /**
      * 该容器的类型

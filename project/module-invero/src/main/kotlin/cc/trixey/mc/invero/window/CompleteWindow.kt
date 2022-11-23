@@ -3,7 +3,9 @@ package cc.trixey.mc.invero.window
 import cc.trixey.mc.invero.common.InventorySet
 import cc.trixey.mc.invero.common.WindowInventory
 import cc.trixey.mc.invero.common.WindowType
+import cc.trixey.mc.invero.common.util.findPanel
 import org.bukkit.entity.Player
+import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryOpenEvent
 import org.bukkit.inventory.ItemStack
@@ -37,6 +39,10 @@ class CompleteWindow(viewer: Player, type: WindowType, title: String) : Containe
     override fun handleOpen(e: InventoryOpenEvent) {
         backupPlayerInventory()
         super.handleOpen(e)
+    }
+
+    override fun handleClick(e: InventoryClickEvent) {
+        findPanel(e.rawSlot)?.handleClick(this, e) ?: run { e.isCancelled = true }
     }
 
     /**

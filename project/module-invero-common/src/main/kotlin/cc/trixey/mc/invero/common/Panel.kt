@@ -49,7 +49,7 @@ interface Panel : Parentable {
      * 取得针对父级对象的映射槽位集
      * 实际检索父级为 getParent() ?: otherwise
      */
-    fun getSlotsMap(otherwise: Parentable? = null): MappedSlots
+    fun getSlotsMap(otherwise: Parentable): MappedSlots
 
     /**
      * 检测某元素当前是否可渲染

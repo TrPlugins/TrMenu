@@ -1,9 +1,6 @@
 package cc.trixey.mc.invero.panel
 
-import cc.trixey.mc.invero.common.Element
-import cc.trixey.mc.invero.common.PanelScale
-import cc.trixey.mc.invero.common.PanelWeight
-import cc.trixey.mc.invero.common.Window
+import cc.trixey.mc.invero.common.*
 import cc.trixey.mc.invero.common.base.BasePagedPanel
 import cc.trixey.mc.invero.common.base.BasePanel
 import cc.trixey.mc.invero.common.base.PanelInstance
@@ -21,7 +18,7 @@ class PagedNetesedPanel(
     scale: PanelScale,
     pos: Int,
     weight: PanelWeight
-) : BasePagedPanel(scale, pos, weight) {
+) : BasePagedPanel(scale, pos, weight), PanelContainer {
 
     override val children: ArrayList<PanelInstance> = ArrayList()
 
@@ -43,11 +40,6 @@ class PagedNetesedPanel(
 
     fun getPage(index: Int = pageIndex) = children[index]
 
-    fun addPage(page: PanelInstance): Int {
-        children += page.also { it.setParent(this) }
-        return children.lastIndex
-    }
-
     override fun getOccupiedSlots(page: Int): Set<Int> {
         return when (val it = getPage(page)) {
             is BasePanel -> it.getOccupiedSlots()
@@ -62,6 +54,18 @@ class PagedNetesedPanel(
 
     override fun handleClick(window: Window, e: InventoryClickEvent) {
         getPage().handleClick(window, e)
+    }
+
+    override fun getPanels(): List<Panel> {
+        return children
+    }
+
+    override fun addPanel(panel: Panel): Boolean {
+        return if (panel is PanelInstance) children.add(panel.also { it.setParent(this) }) else false
+    }
+
+    override fun removePanel(panel: Panel): Boolean {
+        return children.remove(panel)
     }
 
 }

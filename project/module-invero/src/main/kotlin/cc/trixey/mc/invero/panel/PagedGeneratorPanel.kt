@@ -29,7 +29,7 @@ class PagedGeneratorPanel(
     /**
      * 页面的元素
      */
-    private val page = ElemapSimplified()
+    private val page = ElemapSimplified(this)
 
     /**
      * 静态槽位（排除生成池槽位）

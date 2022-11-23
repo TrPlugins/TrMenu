@@ -1,12 +1,10 @@
 package cc.trixey.mc.invero.util.dsl
 
-import cc.trixey.mc.invero.common.Panel
-import cc.trixey.mc.invero.common.PanelWeight
-import cc.trixey.mc.invero.common.WindowType
+import cc.trixey.mc.invero.common.*
 import cc.trixey.mc.invero.common.base.BaseWindow
+import cc.trixey.mc.invero.common.base.PanelInstance
 import cc.trixey.mc.invero.common.universal.PanelGroup
 import cc.trixey.mc.invero.panel.*
-import cc.trixey.mc.invero.util.addPanel
 import cc.trixey.mc.invero.util.buildPanel
 import cc.trixey.mc.invero.util.buildWindow
 import cc.trixey.mc.invero.window.CompleteWindow
@@ -22,28 +20,31 @@ import org.bukkit.entity.Player
  * BaseWindow 的增强拓展函数
  */
 
-@Suppress("UNCHECKED_CAST")
-fun <T : Panel> BaseWindow.panelAt(index: Int): T = panels[index] as T
+inline fun <reified T : Panel> PanelContainer.getTypedPanelAt(index: Int): T = getPanels().filterIsInstance<T>()[index]
 
-fun <T : Panel> BaseWindow.firstPanel(): T = panelAt(0)
+inline fun <reified T : Panel> PanelContainer.firstPanel(): T = getTypedPanelAt(0)
 
-fun BaseWindow.firstScrollPanel(): ScrollStandardPanel = firstPanel()
+fun PanelContainer.firstScrollPanel(): ScrollStandardPanel = firstPanel()
 
-fun BaseWindow.firstScrollGeneratorPanel(): ScrollGeneratorPanel = firstPanel()
+fun PanelContainer.firstScrollGeneratorPanel(): ScrollGeneratorPanel = firstPanel()
 
-fun BaseWindow.firstPagedPanel(): PagedStandardPanel = firstPanel()
+fun PanelContainer.firstPagedPanel(): PagedStandardPanel = firstPanel()
 
-fun BaseWindow.firstPagedGeneratorPanel(): PagedGeneratorPanel = firstPanel()
+fun PanelContainer.firstPagedGeneratorPanel(): PagedGeneratorPanel = firstPanel()
 
-fun BaseWindow.firstPagedNetesedPanel(): PagedNetesedPanel = firstPanel()
+fun PanelContainer.firstPagedNetesedPanel(): PagedNetesedPanel = firstPanel()
 
-fun BaseWindow.firstPanelGroup(): PanelGroup = firstPanel()
+fun PanelContainer.firstPanelGroup(): PanelGroup = firstPanel()
 
-fun BaseWindow.firstStandardPanel(): StandardPanel = firstPanel()
+fun PanelContainer.firstStandardPanel(): StandardPanel = firstPanel()
 
-fun BaseWindow.firstPos(): Int {
-    val total = if (inventorySet.isCompleteSet) type.slotsEntireWindow else type.slotsContainer
-    val available = total.toSet() - panels.flatMap { it.getSlotsMap(this).absoluteSlots }.toSet()
+fun PanelContainer.firstPos(): Int {
+    val total = when (this) {
+        is Window -> if (inventorySet.isCompleteSet) type.slotsEntireWindow else type.slotsContainer
+        is PanelInstance -> slots
+        else -> error("Unsupported PanelContainer to get first position")
+    }
+    val available = total.toSet() - if (this is PanelGroup) getPanels().flatMap { it.slots }.toSet() else setOf()
     return available.first()
 }
 
@@ -54,55 +55,103 @@ fun BaseWindow.title(value: String) {
 /**
  * Window 下创建 Paenl 函数
  */
-inline fun BaseWindow.scroll(
+inline fun PanelContainer.scroll(
     scale: Pair<Int, Int>,
     pos: Int = firstPos(),
     weight: PanelWeight = PanelWeight.NORMAL,
     block: ScrollStandardPanel.() -> Unit
-) = buildPanel<ScrollStandardPanel>(scale, pos, weight).also(block).also { addPanel(it) }
+) = cc.trixey.mc.invero.util.dsl.scroll(scale, pos, weight, block).also { addPanel(it) }
 
-inline fun BaseWindow.standard(
+inline fun PanelContainer.standard(
     scale: Pair<Int, Int>,
     pos: Int = firstPos(),
     weight: PanelWeight = PanelWeight.NORMAL,
     block: StandardPanel.() -> Unit
-) = buildPanel<StandardPanel>(scale, pos, weight).also(block).also { addPanel(it) }
+) = cc.trixey.mc.invero.util.dsl.standard(scale, pos, weight, block).also { addPanel(it) }
 
-inline fun BaseWindow.paged(
+inline fun PanelContainer.paged(
     scale: Pair<Int, Int>,
     pos: Int = firstPos(),
     weight: PanelWeight = PanelWeight.NORMAL,
     block: PagedStandardPanel.() -> Unit
-) = buildPanel<PagedStandardPanel>(scale, pos, weight).also(block).also { addPanel(it) }
+) = cc.trixey.mc.invero.util.dsl.paged(scale, pos, weight, block).also { addPanel(it) }
 
-inline fun BaseWindow.pagedNetesed(
+inline fun PanelContainer.pagedNetesed(
     scale: Pair<Int, Int>,
     pos: Int = firstPos(),
     weight: PanelWeight = PanelWeight.NORMAL,
     block: PagedNetesedPanel.() -> Unit
-) = buildPanel<PagedNetesedPanel>(scale, pos, weight).also(block).also { addPanel(it) }
+) = cc.trixey.mc.invero.util.dsl.pagedNetesed(scale, pos, weight, block).also { addPanel(it) }
 
-
-inline fun BaseWindow.generatorScroll(
+inline fun PanelContainer.generatorScroll(
     scale: Pair<Int, Int>,
     pos: Int = firstPos(),
     weight: PanelWeight = PanelWeight.NORMAL,
     block: ScrollGeneratorPanel.() -> Unit
-) = buildPanel<ScrollGeneratorPanel>(scale, pos, weight).also(block).also { addPanel(it) }
+) = cc.trixey.mc.invero.util.dsl.generatorScroll(scale, pos, weight, block).also { addPanel(it) }
 
-inline fun BaseWindow.generatorPaged(
+inline fun PanelContainer.generatorPaged(
     scale: Pair<Int, Int>,
     pos: Int = firstPos(),
     weight: PanelWeight = PanelWeight.NORMAL,
     block: PagedGeneratorPanel.() -> Unit
-) = buildPanel<PagedGeneratorPanel>(scale, pos, weight).also(block).also { addPanel(it) }
+) = cc.trixey.mc.invero.util.dsl.generatorPaged(scale, pos, weight, block).also { addPanel(it) }
 
-inline fun BaseWindow.storageIOPanel(
+inline fun PanelContainer.storageIOPanel(
     scale: Pair<Int, Int>,
     pos: Int = firstPos(),
     weight: PanelWeight = PanelWeight.NORMAL,
     block: IOStoragePanel.() -> Unit
-) = buildPanel<IOStoragePanel>(scale, pos, weight).also(block).also { addPanel(it) }
+) = cc.trixey.mc.invero.util.dsl.storageIOPanel(scale, pos, weight, block).also { addPanel(it) }
+
+inline fun scroll(
+    scale: Pair<Int, Int>,
+    pos: Int,
+    weight: PanelWeight = PanelWeight.NORMAL,
+    block: ScrollStandardPanel.() -> Unit
+) = buildPanel<ScrollStandardPanel>(scale, pos, weight).also(block)
+
+inline fun standard(
+    scale: Pair<Int, Int>,
+    pos: Int,
+    weight: PanelWeight = PanelWeight.NORMAL,
+    block: StandardPanel.() -> Unit
+) = buildPanel<StandardPanel>(scale, pos, weight).also(block)
+
+inline fun paged(
+    scale: Pair<Int, Int>,
+    pos: Int,
+    weight: PanelWeight = PanelWeight.NORMAL,
+    block: PagedStandardPanel.() -> Unit
+) = buildPanel<PagedStandardPanel>(scale, pos, weight).also(block)
+
+inline fun pagedNetesed(
+    scale: Pair<Int, Int>,
+    pos: Int,
+    weight: PanelWeight = PanelWeight.NORMAL,
+    block: PagedNetesedPanel.() -> Unit
+) = buildPanel<PagedNetesedPanel>(scale, pos, weight).also(block)
+
+inline fun generatorScroll(
+    scale: Pair<Int, Int>,
+    pos: Int,
+    weight: PanelWeight = PanelWeight.NORMAL,
+    block: ScrollGeneratorPanel.() -> Unit
+) = buildPanel<ScrollGeneratorPanel>(scale, pos, weight).also(block)
+
+inline fun generatorPaged(
+    scale: Pair<Int, Int>,
+    pos: Int,
+    weight: PanelWeight = PanelWeight.NORMAL,
+    block: PagedGeneratorPanel.() -> Unit
+) = buildPanel<PagedGeneratorPanel>(scale, pos, weight).also(block)
+
+inline fun storageIOPanel(
+    scale: Pair<Int, Int>,
+    pos: Int,
+    weight: PanelWeight = PanelWeight.NORMAL,
+    block: IOStoragePanel.() -> Unit
+) = buildPanel<IOStoragePanel>(scale, pos, weight).also(block)
 
 /**
  * 创建 Window 的函数

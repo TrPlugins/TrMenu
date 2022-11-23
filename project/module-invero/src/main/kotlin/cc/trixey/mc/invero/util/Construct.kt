@@ -8,6 +8,7 @@ import cc.trixey.mc.invero.common.base.ElementAbsolute
 import cc.trixey.mc.invero.common.base.ElementDynamic
 import cc.trixey.mc.invero.common.base.PanelInstance
 import cc.trixey.mc.invero.common.universal.PanelGroup
+import cc.trixey.mc.invero.element.ElemapPaged
 import cc.trixey.mc.invero.panel.PagedNetesedPanel
 import cc.trixey.mc.invero.panel.PagedStandardPanel
 import org.bukkit.Material
@@ -77,8 +78,8 @@ inline fun <reified T : ItemProvider> Panel.buildItem(
 /**
  * 为 Window 添加 Panel 面板的功能
  */
-fun Window.addPanel(vararg panel: Panel) {
-    panel.forEach { panels += it }
+fun PanelContainer.addPanel(vararg panel: Panel) {
+    panel.forEach { addPanel(it) }
 }
 
 /**
@@ -123,8 +124,8 @@ inline fun <reified T : Element> BasePanel.addElement(
 /**
  * 在 PagedStandardPanel 下通过 page { } 构建元素页的函数
  */
-fun PagedStandardPanel.page(function: ElemapCompetent.(Int) -> Unit) {
-    return ElemapCompetent(this).let { function(it, addPage(it)) }
+fun PagedStandardPanel.page(function: ElemapPaged.(Int) -> Unit) {
+    return ElemapPaged(pagedElements.size, this).let { function(it, addPage(it)) }
 }
 
 /**
@@ -164,18 +165,18 @@ inline fun <reified T : PanelInstance> PagedNetesedPanel.addPanel(
     weight: PanelWeight = PanelWeight.NORMAL,
     init: T.() -> Unit = {}
 ): T {
-    return buildPanel(scale, pos, weight, init).also { addPage(it) }
+    return buildPanel(scale, pos, weight, init).also { addPanel(it) }
 }
 
 /**
  * 在 PagedNetesedPanel 下 创建 PanelGroup
  * 自动添加到嵌套页中
  */
-fun PagedNetesedPanel.addGroup(
+fun PanelContainer.addGroup(
     scale: Pair<Int, Int>,
     pos: Int = 0,
     weight: PanelWeight = PanelWeight.NORMAL,
     function: PanelGroup.() -> Unit
 ): PanelGroup {
-    return group(scale, pos, weight, function).also { addPage(it) }
+    return group(scale, pos, weight, function).also { addPanel(it) }
 }

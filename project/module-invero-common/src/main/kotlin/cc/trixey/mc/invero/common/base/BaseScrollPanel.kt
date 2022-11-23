@@ -26,7 +26,7 @@ abstract class BaseScrollPanel(
     /**
      * 元素
      */
-    private val elementsMap by lazy {
+    protected val elementsMap by lazy {
         ElemapSimplified(this)
     }
 

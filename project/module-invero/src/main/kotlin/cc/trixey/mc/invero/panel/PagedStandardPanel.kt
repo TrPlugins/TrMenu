@@ -2,6 +2,7 @@ package cc.trixey.mc.invero.panel
 
 import cc.trixey.mc.invero.common.*
 import cc.trixey.mc.invero.common.base.BasePagedPanel
+import cc.trixey.mc.invero.element.ElemapPaged
 import cc.trixey.mc.invero.util.distinguishMark
 import org.bukkit.event.inventory.InventoryClickEvent
 import taboolib.common.platform.function.submit
@@ -65,7 +66,7 @@ open class PagedStandardPanel(
     /**
      * 多页元素
      */
-    internal val pagedElements = ArrayList<ElemapCompetent>()
+    internal val pagedElements = ArrayList<ElemapPaged>()
 
     /**
      * 静态占据元素
@@ -102,7 +103,7 @@ open class PagedStandardPanel(
     /**
      * 添加一页元素
      */
-    fun addPage(page: ElemapCompetent): Int {
+    fun addPage(page: ElemapPaged): Int {
         pagedElements += page
         return pagedElements.lastIndex
     }

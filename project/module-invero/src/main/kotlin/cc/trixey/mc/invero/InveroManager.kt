@@ -17,21 +17,23 @@ import java.util.concurrent.CopyOnWriteArrayList
  * Roadmap
  *
  * [√] ScrollGeneratorPanel
+ * [√] DSL
+ * [ ] 元素结构实现的优化（Absolute/Dynamic），SlotMap与嵌套Panel的优化
+ * [ ] InfiniteCavansPanel 的实现
  * [ ] IOStoragePanel & 物品交互模拟
  * [ ] PacketWindow 虚拟容器的实现和Bukkit事件抽象化兼容
- * [ ] 需要改进开放性注册
  */
 object InveroManager {
 
     private val runningWindows = CopyOnWriteArrayList<Window>()
 
     fun register(window: Window) {
-        window.panels.forEach { it.registerWindow(window) }
+        window.getPanels().forEach { it.registerWindow(window) }
         runningWindows.add(window)
     }
 
     fun unregister(window: Window): Boolean {
-        window.panels.forEach { it.unregisterWindow(window) }
+        window.getPanels().forEach { it.unregisterWindow(window) }
         return runningWindows.remove(window)
     }
 

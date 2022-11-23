@@ -61,13 +61,15 @@ abstract class PanelInstance(
     /**
      * @see Panel.getSlotsMap
      */
-    override fun getSlotsMap(otherwise: Parentable?): MappedSlots {
+    override fun getSlotsMap(otherwise: Parentable): MappedSlots {
         val parent = getParent() ?: otherwise
+
         val (width, parentSlotMap) = when (parent) {
             is Window -> parent.type.width to null
             is PanelInstance -> parent.scale.width to parent.getSlotsMap(otherwise)
-            else -> error("?")
+            else -> error("Not found available parent")
         }
+
         return slotsMap.computeIfAbsent(width) { MappedSlots.from(scale, pos, width, parentSlotMap) }
     }
 

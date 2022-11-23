@@ -10,7 +10,7 @@ import cc.trixey.mc.invero.common.Panel
  */
 abstract class ElementDynamic(panel: Panel) : Interactable(panel) {
 
-    internal var slots = setOf<Int>()
+    var slots = setOf<Int>()
         set(value) {
             val diff = field - value
             field = value

@@ -1,8 +1,6 @@
 package cc.trixey.mc.trmenu.test.unit
 
 import cc.trixey.mc.invero.common.WindowType
-import cc.trixey.mc.invero.element.BasicItem
-import cc.trixey.mc.invero.util.buildItem
 import cc.trixey.mc.invero.util.dsl.*
 import cc.trixey.mc.trmenu.coroutine.launchAsync
 import cc.trixey.mc.trmenu.test.generateRandomItem
@@ -36,7 +34,7 @@ object UnitScroll {
                 scrollRandomType()
 
                 for (i in 0..16)
-                    fillColum { buildItem<BasicItem>(generateRandomItem()) }
+                    fillColum { item(generateRandomItem()) }
 
             }
 
@@ -65,7 +63,7 @@ object UnitScroll {
                 scrollRandomType()
 
                 for (i in 0..16)
-                    fillColum { buildItem<BasicItem>(generateRandomItem()) }
+                    fillColum { item(generateRandomItem()) }
 
             }
 

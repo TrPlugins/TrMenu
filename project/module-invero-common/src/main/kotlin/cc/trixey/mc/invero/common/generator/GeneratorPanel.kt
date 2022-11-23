@@ -15,7 +15,6 @@ interface GeneratorPanel {
         spawner: (R) -> T
     ) = generator(data, spawner, null, null)
 
-
     fun <T : ElementAbsolute, R> generator(
         data: List<R>,
         spawner: (R) -> T,

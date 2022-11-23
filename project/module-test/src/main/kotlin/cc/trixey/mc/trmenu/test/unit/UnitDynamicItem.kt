@@ -5,7 +5,10 @@ import cc.trixey.mc.invero.element.BasicDynamicItem
 import cc.trixey.mc.invero.element.BasicItem
 import cc.trixey.mc.invero.panel.PagedStandardPanel
 import cc.trixey.mc.invero.panel.StandardPanel
-import cc.trixey.mc.invero.util.*
+import cc.trixey.mc.invero.util.buildItem
+import cc.trixey.mc.invero.util.buildPanel
+import cc.trixey.mc.invero.util.buildWindow
+import cc.trixey.mc.invero.util.page
 import cc.trixey.mc.invero.window.CompleteWindow
 import cc.trixey.mc.trmenu.coroutine.launchAsync
 import cc.trixey.mc.trmenu.test.generateRandomItem

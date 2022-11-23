@@ -19,14 +19,30 @@ abstract class BaseWindow(val viewer: UUID) : Window {
     /**
      * 该窗口使用的 Panels
      */
-    override val panels: ArrayList<Panel> = ArrayList()
+    val panels: ArrayList<Panel> = ArrayList()
+
+    override fun addPanel(panel: Panel): Boolean {
+        return panels.add(panel)
+    }
+
+    override fun removePanel(panel: Panel): Boolean {
+        return panels.remove(panel)
+    }
+
+    override fun getPanels(): List<Panel> {
+        return panels
+    }
+
+    override fun getChildren(): List<Parentable>? {
+        return getPanels()
+    }
 
     override fun getResponseInterval(): Int {
         return 200
     }
 
     operator fun plusAssign(value: PanelInstance) {
-        panels += value.also { it.setParent(this) }
+        panels += value
     }
 
     operator fun minusAssign(value: Panel) {

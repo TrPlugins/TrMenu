@@ -3,8 +3,6 @@ package cc.trixey.mc.trmenu.test.unit
 import cc.trixey.mc.invero.common.PanelWeight
 import cc.trixey.mc.invero.element.BasicItem
 import cc.trixey.mc.invero.panel.StandardPanel
-import cc.trixey.mc.invero.util.addElement
-import cc.trixey.mc.invero.util.buildPanel
 import cc.trixey.mc.invero.util.dsl.item
 import cc.trixey.mc.invero.util.dsl.paged
 import cc.trixey.mc.invero.util.dsl.standard
@@ -23,13 +21,11 @@ import taboolib.common.platform.command.subCommand
  */
 object UnitStandard {
 
-
     private fun Player.showStandard() {
         window(this, title = "Standard") {
-
             standard(3 to 5) {
-                item(org.bukkit.Material.DIAMOND).set(0, 4, 5)
-                item(org.bukkit.Material.EMERALD).fillup()
+                item(Material.DIAMOND).set(0, 4, 5)
+                item(Material.EMERALD).fillup()
             }
 
             paged(3 to 10, 4) {
@@ -37,12 +33,7 @@ object UnitStandard {
                 background {
                     val controlItem: (name: String, shift: Int) -> BasicItem = { name, shift ->
                         item(
-                            org.bukkit.Material.ARROW,
-                            {
-                                this.name = name
-                                lore.add("$pageIndex / $maxPageIndex")
-                            },
-                            {
+                            Material.ARROW, { this.name = name }, {
                                 onClick {
                                     shiftPage(shift)
                                     title = "Page: $pageIndex / $maxPageIndex"
@@ -52,24 +43,25 @@ object UnitStandard {
                     }
 
                     controlItem("§aNext Page", 1).set(2)
-                    controlItem("§3Previous Page", 0).set(0)
+                    controlItem("§3Previous Page", -1).set(0)
                 }
 
                 val randFill = { item(generateRandomItem()) }
 
                 page {
-                    item(org.bukkit.Material.BLACK_STAINED_GLASS).set(getUnoccupiedSlots(it))
+                    item(org.bukkit.Material.BLACK_STAINED_GLASS).fillup()
                 }
                 page {
-                    item(org.bukkit.Material.LIME_STAINED_GLASS_PANE).set(getUnoccupiedSlots(it))
+                    item(org.bukkit.Material.LIME_STAINED_GLASS_PANE).fillup()
                 }
 
                 for (i in 0..10)
-                    page { randFill().set(getUnoccupiedSlots(it)) }
+                    page { randFill().fillup() }
 
             }
+            this += markedPanel
 
-            this += cc.trixey.mc.trmenu.test.unit.UnitStandard.markedPanel
+            open()
         }
     }
 
@@ -80,21 +72,19 @@ object UnitStandard {
         }
     }
 
-    val posMark = subCommand {
-        execute<ProxyCommandSender> { sender, _, arguemnt ->
-            sender.sendMessage("PosMarked")
-            markedPanel = testPanelPosMark(arguemnt.split(" ")[1].toIntOrNull() ?: 4)
-        }
-    }
-
     private var markedPanel: StandardPanel = testPanelPosMark(8)
 
-    private fun testPanelPosMark(pos: Int): StandardPanel {
-        return buildPanel(1 to 8, pos, PanelWeight.BACKGROUND) {
-            addElement<BasicItem>(slots) {
-                setItem(Material.values().random())
-            }
+    val posMark = subCommand {
+        execute<ProxyCommandSender> { sender, _, arguemnt ->
+            val pos = arguemnt.split(" ")[1].toIntOrNull() ?: 4
+            sender.sendMessage("PosMarked $pos")
+            markedPanel = testPanelPosMark(pos)
         }
     }
+
+    private fun testPanelPosMark(pos: Int) =
+        standard(1 to 8, pos, PanelWeight.BACKGROUND) {
+            item(generateRandomItem()).fillup()
+        }
 
 }

@@ -1,9 +1,6 @@
 package cc.trixey.mc.invero.common.universal
 
-import cc.trixey.mc.invero.common.Element
-import cc.trixey.mc.invero.common.PanelScale
-import cc.trixey.mc.invero.common.PanelWeight
-import cc.trixey.mc.invero.common.Window
+import cc.trixey.mc.invero.common.*
 import cc.trixey.mc.invero.common.base.PanelInstance
 import cc.trixey.mc.invero.common.util.findPanel
 import org.bukkit.event.inventory.InventoryClickEvent
@@ -20,7 +17,7 @@ class PanelGroup(
     scale: PanelScale,
     pos: Int,
     weight: PanelWeight
-) : PanelInstance(scale, pos, weight) {
+) : PanelInstance(scale, pos, weight), PanelContainer {
 
     internal val panels = mutableSetOf<PanelInstance>()
 
@@ -33,19 +30,19 @@ class PanelGroup(
     }
 
     override fun handleClick(window: Window, e: InventoryClickEvent) {
-        findPanel(e.rawSlot)?.handleClick(window, e)
+        findPanel(e.rawSlot, window)?.handleClick(window, e)
     }
 
     override fun handleDrag(window: Window, e: InventoryDragEvent) {
-        findPanel(e.rawSlots.random())?.handleDrag(window, e)
+        findPanel(e.rawSlots.random(), window)?.handleDrag(window, e)
     }
 
     override fun handleItemsCollect(window: Window, e: InventoryClickEvent) {
-        findPanel(e.rawSlot)?.handleItemsCollect(window, e)
+        findPanel(e.rawSlot, window)?.handleItemsCollect(window, e)
     }
 
     override fun handleItemsMove(window: Window, e: InventoryClickEvent) {
-        findPanel(e.rawSlot)?.handleItemsMove(window, e)
+        findPanel(e.rawSlot, window)?.handleItemsMove(window, e)
     }
 
     /**
@@ -55,6 +52,21 @@ class PanelGroup(
     fun <T : PanelInstance> T.grouped(): T {
         panels.add(this.also { it.setParent(this@PanelGroup) })
         return this
+    }
+
+    override fun getPanels(): List<Panel> {
+        return panels.toList()
+    }
+
+    override fun addPanel(panel: Panel): Boolean {
+        return if (panel is PanelInstance) {
+            panel.grouped()
+            true
+        } else false
+    }
+
+    override fun removePanel(panel: Panel): Boolean {
+        return panels.remove(panel)
     }
 
 }

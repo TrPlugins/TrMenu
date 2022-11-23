@@ -72,17 +72,17 @@ open class ScrollStandardPanel(
                 else it * scale.width + order
             }
             val colum = colums.getOrNull(applyIndex)?.elements ?: kotlin.run {
-                for (i in 0 until columCapacity) getElementsMap().remove(getSlot(i))
+                for (i in 0 until columCapacity) elementsMap.remove(getSlot(i))
                 return@forEachIndexed
             }
             colum.forEachIndexed { y, element ->
                 val slot = getSlot(y)
 
                 if (element != null) {
-                    getElementsMap()[slot] = element
+                    elementsMap[slot] = element
                     rendered += slot
                 } else {
-                    getElementsMap().remove(slot)
+                    elementsMap.remove(slot)
                 }
             }
         }
@@ -97,7 +97,7 @@ open class ScrollStandardPanel(
         val slotMap = getSlotsMap(window)
         if (element is ItemProvider) {
             val itemStack = element.get()
-            getElementsMap().find(element).forEach {
+            elementsMap.find(element).forEach {
                 val slot = slotMap.getAbsolute(it)
                 window.inventorySet[slot] = itemStack.distinguishMark(slot)
             }
