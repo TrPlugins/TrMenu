@@ -59,7 +59,7 @@ interface Panel : Parentable, Scalable {
     /**
      * 检测某元素当前是否可渲染
      */
-    fun isRenderable(element: Element): Boolean
+    fun getRenderability(element: Element): Set<Int>
 
     /**
      * 处理某元素的更新请求

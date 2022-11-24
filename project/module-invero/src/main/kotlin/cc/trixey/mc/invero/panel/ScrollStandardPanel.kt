@@ -1,11 +1,12 @@
 package cc.trixey.mc.invero.panel
 
-import cc.trixey.mc.invero.common.*
+import cc.trixey.mc.invero.common.Element
+import cc.trixey.mc.invero.common.PanelWeight
+import cc.trixey.mc.invero.common.ScaleView
 import cc.trixey.mc.invero.common.panel.BaseScrollPanel
 import cc.trixey.mc.invero.common.panel.scroll.ScrollColum
 import cc.trixey.mc.invero.common.panel.scroll.ScrollDirection
 import cc.trixey.mc.invero.common.panel.scroll.ScrollType
-import cc.trixey.mc.invero.util.distinguishMark
 
 /**
  * @author Arasple
@@ -88,18 +89,6 @@ open class ScrollStandardPanel(
 
         clearPanel(slots - rendered)
         super.renderPanel()
-    }
-
-    override fun renderElement(window: Window, element: Element) {
-        if (!isRenderable(element)) return
-
-        if (element is ItemProvider) {
-            val itemStack = element.get()
-            elementsMap.find(element).forEach {
-                val slot = it.toUpperSlot()
-                window.inventorySet[slot] = itemStack.distinguishMark(slot)
-            }
-        }
     }
 
 }

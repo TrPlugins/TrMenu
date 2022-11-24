@@ -1,10 +1,14 @@
 package cc.trixey.mc.invero.common.panel
 
-import cc.trixey.mc.invero.common.item.ElemapSimplified
+import cc.trixey.mc.invero.common.Element
 import cc.trixey.mc.invero.common.PanelWeight
 import cc.trixey.mc.invero.common.ScaleView
+import cc.trixey.mc.invero.common.Window
+import cc.trixey.mc.invero.common.item.ElemapSimplified
+import cc.trixey.mc.invero.common.item.Interactable
 import cc.trixey.mc.invero.common.panel.scroll.ScrollDirection
 import cc.trixey.mc.invero.common.panel.scroll.ScrollType
+import org.bukkit.event.inventory.InventoryClickEvent
 
 /**
  * @author Arasple
@@ -22,18 +26,26 @@ abstract class BaseScrollPanel(
     open var type: ScrollType
 ) : PanelInstance(scale, weight) {
 
-    /**
-     * 元素
-     */
     protected val elementsMap by lazy {
         ElemapSimplified(this)
     }
 
+    override fun handleClick(window: Window, e: InventoryClickEvent) {
+        super.handleClick(window, e)
+
+        e.rawSlot.toLowerSlot()?.let {
+            val element = elementsMap[it]
+            if (element is Interactable) element.passClickEvent(e)
+        }
+    }
+
+    override fun getRenderability(element: Element): Set<Int> {
+        return elementsMap.findUpperSlots(this, element)
+    }
+
     override fun renderPanel() {
         forWindows {
-            elementsMap.forEach {
-                renderElement(this, it)
-            }
+            elementsMap.forEach { renderElement(this, it) }
         }
     }
 
@@ -74,5 +86,9 @@ abstract class BaseScrollPanel(
     fun next() = scroll(1)
 
     fun previous() = scroll(-1)
+
+    fun getOccupiedSlots(): Set<Int> {
+        return elementsMap.getOccupiedSlots()
+    }
 
 }

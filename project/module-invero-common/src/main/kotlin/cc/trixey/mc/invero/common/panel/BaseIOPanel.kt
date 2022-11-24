@@ -20,8 +20,10 @@ abstract class BaseIOPanel(
 
     fun updateStorage(window: Window) {
         // TODO 需要改进的逻辑
+
         for (key in storage.keys) {
-            storage[key] = window.inventorySet[key.toUpperSlot()] ?: ItemStack(Material.AIR)
+            val slot = key.toUpperSlot() ?: continue
+            storage[key] = window.inventorySet[slot] ?: ItemStack(Material.AIR)
         }
     }
 

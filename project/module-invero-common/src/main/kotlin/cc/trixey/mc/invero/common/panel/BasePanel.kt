@@ -2,9 +2,12 @@ package cc.trixey.mc.invero.common.panel
 
 import cc.trixey.mc.invero.common.Element
 import cc.trixey.mc.invero.common.PanelWeight
-import cc.trixey.mc.invero.common.item.ElemapCompetent
 import cc.trixey.mc.invero.common.ScaleView
+import cc.trixey.mc.invero.common.Window
+import cc.trixey.mc.invero.common.item.ElemapCompetent
 import cc.trixey.mc.invero.common.item.ElementDynamic
+import cc.trixey.mc.invero.common.item.Interactable
+import org.bukkit.event.inventory.InventoryClickEvent
 
 /**
  * @author Arasple
@@ -13,15 +16,26 @@ import cc.trixey.mc.invero.common.item.ElementDynamic
  * 基础的 Panel
  * 包含一个 ElemapCompetent（ Panel 元素集）
  */
-abstract class BasePanel(
-    scale: ScaleView, weight: PanelWeight
-) : PanelInstance(scale, weight) {
+abstract class BasePanel(scale: ScaleView, weight: PanelWeight) : PanelInstance(scale, weight) {
 
     /**
      * 元素
      */
-    val elementsMap by lazy {
+    protected val elementsMap by lazy {
         ElemapCompetent(this)
+    }
+
+    override fun handleClick(window: Window, e: InventoryClickEvent) {
+        super.handleClick(window, e)
+
+        e.rawSlot.toLowerSlot()?.let {
+            val element = elementsMap[it]
+            if (element is Interactable) element.passClickEvent(e)
+        }
+    }
+
+    override fun getRenderability(element: Element): Set<Int> {
+        return elementsMap.findUpperSlots(this, element)
     }
 
     /**
@@ -29,9 +43,7 @@ abstract class BasePanel(
      */
     override fun renderPanel() {
         forWindows {
-            elementsMap.forEach {
-                renderElement(this, it)
-            }
+            elementsMap.forEach { renderElement(this, it) }
         }
     }
 

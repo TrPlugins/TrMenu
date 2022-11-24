@@ -1,13 +1,12 @@
 package cc.trixey.mc.invero.panel
 
-import cc.trixey.mc.invero.common.*
+import cc.trixey.mc.invero.common.Element
+import cc.trixey.mc.invero.common.PanelWeight
+import cc.trixey.mc.invero.common.ScaleView
 import cc.trixey.mc.invero.common.item.ElemapSimplified
-import cc.trixey.mc.invero.common.panel.BasePagedPanel
 import cc.trixey.mc.invero.common.item.ElementAbsolute
-import cc.trixey.mc.invero.common.item.Interactable
+import cc.trixey.mc.invero.common.panel.BasePagedPanel
 import cc.trixey.mc.invero.common.panel.generator.GeneratorPanel
-import cc.trixey.mc.invero.util.distinguishMark
-import org.bukkit.event.inventory.InventoryClickEvent
 import taboolib.common.platform.function.submit
 
 /**
@@ -97,33 +96,12 @@ class PagedGeneratorPanel(scale: ScaleView, weight: PanelWeight) : BasePagedPane
     }
 
     override fun renderPanel() {
-        if (apply()) {
-            forWindows {
-                page.forEach { renderElement(this, it) }
-            }
-        }
+        if (!apply()) return
+        forWindows { page.forEach { renderElement(this, it) } }
     }
 
-    override fun renderElement(window: Window, element: Element) {
-        if (page.has(element)) {
-            if (element is ItemProvider) {
-                val itemStack = element.get()
-                page.find(element).forEach {
-                    val slot = it.toUpperSlot()
-                    window.inventorySet[slot] = itemStack.distinguishMark(slot)
-                }
-            }
-        }
-    }
+    override fun getRenderability(element: Element) = page.findUpperSlots(this, element)
 
     override fun getOccupiedSlots(page: Int) = this.page.getOccupiedSlots()
-
-    override fun handleClick(window: Window, e: InventoryClickEvent) {
-        super.handleClick(window, e)
-
-        val slot = e.rawSlot.toLowerSlot()
-        val element = page[slot]
-        if (element is Interactable) element.passClickEvent(e)
-    }
 
 }

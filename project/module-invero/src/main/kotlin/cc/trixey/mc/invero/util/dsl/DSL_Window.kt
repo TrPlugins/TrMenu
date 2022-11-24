@@ -38,6 +38,8 @@ fun PanelContainer.getPanelGroup(index: Int = 0): PanelGroup = getTypedPanelAt(i
 
 fun PanelContainer.getStandardPanel(index: Int = 0): StandardPanel = getTypedPanelAt(index)
 
+fun PanelContainer.getFreeformNetesed(index: Int = 0): FreeformNetesedPanel = getTypedPanelAt(index)
+
 fun PanelContainer.autoPositioning(): Int {
     val available = when (this) {
         is Window -> if (inventorySet.isCompleteSet) type.slotsEntireWindow else type.slotsContainer
@@ -110,6 +112,13 @@ inline fun PanelContainer.storageIOPanel(
     block: IOStoragePanel.() -> Unit
 ) = cc.trixey.mc.invero.util.dsl.storageIOPanel(scale, pos, weight, block).also { add(it) }
 
+inline fun PanelContainer.freeformNetesed(
+    scale: Pair<Int, Int>,
+    pos: Int = autoPositioning(),
+    weight: PanelWeight = PanelWeight.NORMAL,
+    block: FreeformNetesedPanel.() -> Unit
+) = cc.trixey.mc.invero.util.dsl.freeformNetesed(scale, pos, weight, block).also { add(it) }
+
 inline fun scroll(
     scale: Pair<Int, Int>,
     pos: Int,
@@ -158,6 +167,13 @@ inline fun storageIOPanel(
     weight: PanelWeight = PanelWeight.NORMAL,
     block: IOStoragePanel.() -> Unit
 ) = buildPanel<IOStoragePanel>(scale, pos, weight).also(block)
+
+inline fun freeformNetesed(
+    scale: Pair<Int, Int>,
+    pos: Int,
+    weight: PanelWeight = PanelWeight.NORMAL,
+    block: FreeformNetesedPanel.() -> Unit
+) = buildPanel<FreeformNetesedPanel>(scale, pos, weight).also(block)
 
 /**
  * 创建 Window 的函数

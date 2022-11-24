@@ -1,6 +1,7 @@
 package cc.trixey.mc.invero.common.panel
 
 import cc.trixey.mc.invero.common.*
+import cc.trixey.mc.invero.util.distinguishMark
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryDragEvent
 
@@ -11,9 +12,7 @@ import org.bukkit.event.inventory.InventoryDragEvent
  *
  * 基础的 Panel 抽象实例
  */
-abstract class PanelInstance(
-    scale: ScaleView, weight: PanelWeight
-) : Panel {
+abstract class PanelInstance(scale: ScaleView, weight: PanelWeight) : Panel {
 
     /**
      * 父级
@@ -75,13 +74,6 @@ abstract class PanelInstance(
     }
 
     /**
-     * @see Panel.isRenderable
-     */
-    override fun isRenderable(element: Element): Boolean {
-        return true
-    }
-
-    /**
      * @see Panel.unregisterWindow
      */
     override fun unregisterWindow(window: Window) {
@@ -107,10 +99,20 @@ abstract class PanelInstance(
      */
     override fun clearPanel(slots: Collection<Int>) {
         forWindows {
-            slots.forEach {
-                inventorySet[it.toUpperSlot()] = null
+            slots.mapNotNull { it.toUpperSlot() }.forEach {
+                inventorySet[it] = null
             }
         }
+    }
+
+    /**
+     * @see Panel.renderElement
+     */
+    override fun renderElement(window: Window, element: Element) {
+        if (element !is ItemProvider) return
+        val itemStack = element.get()
+
+        getRenderability(element).forEach { window.inventorySet[it] = itemStack.distinguishMark(it) }
     }
 
     /*
@@ -144,19 +146,21 @@ abstract class PanelInstance(
         }
     }
 
-    fun Int.toUpperSlot(): Int {
-        return scale.getCache()!![this] ?: error("Not found upper slot for $this // Parent: $panelParent")
+    open fun Int.toUpperSlot(): Int? {
+        scale.getCache()!![this]?.let {
+            if (it in (getParent() as Scalable).scale.slots) return it
+        }
+        return null
     }
 
-    fun Int.toLowerSlot(): Int {
-        return scale.getCacheReversed()!![this] ?: error("Not found lower slot for $this // Parent: $panelParent")
+    open fun Int.toLowerSlot(): Int? {
+        scale.getCacheReversed()!![this]?.let {
+            if (it in (getParent() as Scalable).scale.slots) return it
+        }
+        return null
     }
 
-    fun Int.toUpperSlotSafely(): Int? {
-        return scale.getCache()!![this]
-    }
-
-    fun getUpperSlots(): Set<Int> {
+    open fun getUpperSlots(): Set<Int> {
         return scale.getCache()!!.values.toSet()
     }
 

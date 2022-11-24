@@ -21,10 +21,15 @@ open class IOStoragePanel(scale: ScaleView, weight: PanelWeight) : BaseIOPanel(s
     override fun renderPanel() {
         forWindows {
             storage.forEach { (index, itemStack) ->
-                val slot = index.toUpperSlot()
-                inventorySet[slot] = itemStack
+                index.toUpperSlot()?.let {
+                    inventorySet[it] = itemStack
+                }
             }
         }
+    }
+
+    override fun getRenderability(element: Element): Set<Int> {
+        TODO("Not yet implemented")
     }
 
     override fun renderElement(window: Window, element: Element) {

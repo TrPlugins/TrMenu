@@ -12,7 +12,7 @@ import org.bukkit.event.inventory.InventoryDragEvent
  * Paenl 集
  * 子 Paenl 的应用范围不得超过父级 （PanelGroup）的 scale/pos
  */
-class PanelGroup(scale: ScaleView, weight: PanelWeight) : PanelInstance(scale, weight), PanelContainer {
+open class PanelGroup(scale: ScaleView, weight: PanelWeight) : PanelInstance(scale, weight), PanelContainer {
 
     override val panels: ArrayList<Panel> = ArrayList()
 
@@ -20,8 +20,12 @@ class PanelGroup(scale: ScaleView, weight: PanelWeight) : PanelInstance(scale, w
         panels.sortedByDescending { it.weight }.forEach { it.renderPanel() }
     }
 
+    override fun getRenderability(element: Element): Set<Int> {
+        error("PanelGroup itself does not support getRenderability()")
+    }
+
     override fun renderElement(window: Window, element: Element) {
-        error("This panel do not support element")
+        error("PanelGroup itself does not support renderElement()")
     }
 
     override fun handleClick(window: Window, e: InventoryClickEvent) {

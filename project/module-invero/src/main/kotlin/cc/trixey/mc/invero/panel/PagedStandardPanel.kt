@@ -1,10 +1,12 @@
 package cc.trixey.mc.invero.panel
 
-import cc.trixey.mc.invero.common.*
+import cc.trixey.mc.invero.common.Element
+import cc.trixey.mc.invero.common.PanelWeight
+import cc.trixey.mc.invero.common.ScaleView
+import cc.trixey.mc.invero.common.Window
 import cc.trixey.mc.invero.common.item.ElemapCompetent
 import cc.trixey.mc.invero.common.panel.BasePagedPanel
 import cc.trixey.mc.invero.element.ElemapPaged
-import cc.trixey.mc.invero.util.distinguishMark
 import org.bukkit.event.inventory.InventoryClickEvent
 import taboolib.common.platform.function.submit
 
@@ -17,6 +19,12 @@ import taboolib.common.platform.function.submit
  */
 open class PagedStandardPanel(scale: ScaleView, weight: PanelWeight) : BasePagedPanel(scale, weight) {
 
+    override fun getRenderability(element: Element): Set<Int> {
+        return getPage().findUpperSlots(this, element)
+            .ifEmpty { getStaticElements().findUpperSlots(this, element) }
+            .toSet()
+    }
+
     override fun renderPanel() {
         forWindows {
             getPage().forEach { renderElement(this, it) }
@@ -24,25 +32,6 @@ open class PagedStandardPanel(scale: ScaleView, weight: PanelWeight) : BasePaged
         }
     }
 
-    override fun renderElement(window: Window, element: Element) {
-        if (!isRenderable(element)) return
-
-        if (element is ItemProvider) {
-            val itemStack = element.get()
-            findSlots(element).forEach {
-                val slot = it.toUpperSlot()
-                window.inventorySet[slot] = itemStack.distinguishMark(slot)
-            }
-        }
-    }
-
-    private fun findSlots(element: Element): Set<Int> {
-        return getPage().find(element).ifEmpty { getStaticElements().find(element) }
-    }
-
-    /**
-     * @see BasePagedPanel.pageIndex
-     */
     override var pageIndex = 0
         set(value) {
             if (value in 0..maxPageIndex) field = value.also {
@@ -53,42 +42,25 @@ open class PagedStandardPanel(scale: ScaleView, weight: PanelWeight) : BasePaged
             }
         }
 
-    /**
-     * @see BasePagedPanel.maxPageIndex
-     */
     override val maxPageIndex: Int
         get() = pagedElements.lastIndex
 
-    /**
-     * 多页元素
-     */
     internal val pagedElements = ArrayList<ElemapPaged>()
 
-    /**
-     * 静态占据元素
-     */
     internal val staticElements by lazy { ElemapCompetent(this) }
 
-    /**
-     * @see BasePagedPanel.getOccupiedSlots
-     */
     override fun getOccupiedSlots(page: Int): Set<Int> {
         return getPage(page).getOccupiedSlots() + staticElements.getOccupiedSlots()
     }
 
-    /**
-     * 取得指定页码的元素
-     */
-    open fun getPage(index: Int = pageIndex) = pagedElements[index]
+    open fun getPage(index: Int = pageIndex): ElemapPaged {
+        return pagedElements[index]
+    }
 
-    /**
-     * 取得静态占据元素
-     */
-    open fun getStaticElements() = staticElements
+    open fun getStaticElements(): ElemapCompetent {
+        return staticElements
+    }
 
-    /**
-     * 设置背景静态元素
-     */
     fun background(function: ElemapCompetent.() -> Unit) {
         staticElements.apply {
             clear()
@@ -96,31 +68,18 @@ open class PagedStandardPanel(scale: ScaleView, weight: PanelWeight) : BasePaged
         }
     }
 
-    /**
-     * 添加一页元素
-     */
     fun addPage(page: ElemapPaged): Int {
         pagedElements += page
         return pagedElements.lastIndex
     }
 
-    /**
-     * @see BasePagedPanel.isRenderable
-     */
-    override fun isRenderable(element: Element): Boolean {
-        return getPage().has(element) || getStaticElements().has(element)
-    }
-
-    /**
-     * 处理点击事件
-     */
     override fun handleClick(window: Window, e: InventoryClickEvent) {
         e.isCancelled = true
 
-        val slot = e.rawSlot.toLowerSlot()
-        val element = getPage()[slot] ?: getStaticElements()[slot]
-
-        element?.passClickEvent(e)
+        e.rawSlot.toLowerSlot()?.let {
+            val element = getPage()[it] ?: getStaticElements()[it]
+            element?.passClickEvent(e)
+        }
     }
 
 }

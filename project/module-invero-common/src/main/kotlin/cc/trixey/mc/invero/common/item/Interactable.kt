@@ -10,12 +10,13 @@ import org.bukkit.event.inventory.InventoryClickEvent
  */
 abstract class Interactable(override val panel: Panel) : Element {
 
-    private var handlerClickEvent: (InventoryClickEvent) -> Unit = {}
+    private var handlerClickEvent: (InventoryClickEvent, Interactable) -> Unit = { _, _ -> }
 
-    fun onClick(event: InventoryClickEvent.() -> Unit) {
+    fun onClick(event: InventoryClickEvent.(element: Interactable) -> Unit): Interactable {
         handlerClickEvent = event
+        return this
     }
 
-    fun passClickEvent(e: InventoryClickEvent) = handlerClickEvent(e)
+    fun passClickEvent(e: InventoryClickEvent) = handlerClickEvent(e, this)
 
 }

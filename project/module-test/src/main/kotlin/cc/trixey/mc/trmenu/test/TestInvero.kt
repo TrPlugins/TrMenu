@@ -87,6 +87,12 @@ object TestInvero {
     }
 
     /**
+     * Freeform 无限嵌套面板测试
+     */
+    @CommandBody
+    val testFreeformNetesed = UnitFreeform.netesed
+
+    /**
      * 打印一些信息
      */
     @CommandBody

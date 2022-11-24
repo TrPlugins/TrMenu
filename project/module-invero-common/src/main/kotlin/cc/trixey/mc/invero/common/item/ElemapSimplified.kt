@@ -3,6 +3,7 @@ package cc.trixey.mc.invero.common.item
 import cc.trixey.mc.invero.common.Elemap
 import cc.trixey.mc.invero.common.Element
 import cc.trixey.mc.invero.common.Panel
+import cc.trixey.mc.invero.common.panel.PanelInstance
 import java.util.concurrent.ConcurrentHashMap
 
 /**
@@ -57,6 +58,20 @@ open class ElemapSimplified(override val panel: Panel) : Elemap {
 
     override fun clear() {
         absoluteElements.clear()
+    }
+
+    /*
+    拓展函数
+     */
+
+    fun findUpperSlots(panel: PanelInstance, element: Element): Set<Int> {
+        panel.apply {
+            return find(element).mapNotNull {
+                val v = it.toUpperSlot()
+                if (v != null && v < 0) null
+                else v
+            }.toSet()
+        }
     }
 
 }

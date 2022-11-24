@@ -3,6 +3,7 @@ package cc.trixey.mc.invero.panel
 import cc.trixey.mc.invero.common.*
 import cc.trixey.mc.invero.common.panel.BasePagedPanel
 import cc.trixey.mc.invero.common.panel.BasePanel
+import cc.trixey.mc.invero.common.panel.BaseScrollPanel
 import org.bukkit.event.inventory.InventoryClickEvent
 import taboolib.common.platform.function.submit
 
@@ -32,8 +33,9 @@ class PagedNetesedPanel(scale: ScaleView, weight: PanelWeight) : BasePagedPanel(
     override fun getChildren() = panels
 
     override fun renderPanel() = getPage().renderPanel()
-
     override fun renderElement(window: Window, element: Element) = getPage().renderElement(window, element)
+    override fun getRenderability(element: Element) = getPage().getRenderability(element)
+    override fun handleClick(window: Window, e: InventoryClickEvent) = getPage().handleClick(window, e)
 
     fun getPage(index: Int = pageIndex) = panels[index]
 
@@ -41,16 +43,9 @@ class PagedNetesedPanel(scale: ScaleView, weight: PanelWeight) : BasePagedPanel(
         return when (val it = getPage(page)) {
             is BasePanel -> it.getOccupiedSlots()
             is BasePagedPanel -> it.getOccupiedSlots(it.pageIndex)
-            else -> error("Not yet supported panel type")
+            is BaseScrollPanel -> it.getOccupiedSlots()
+            else -> error("Not yet supported this panel type")
         }
-    }
-
-    override fun isRenderable(element: Element): Boolean {
-        return getPage().isRenderable(element)
-    }
-
-    override fun handleClick(window: Window, e: InventoryClickEvent) {
-        getPage().handleClick(window, e)
     }
 
 }

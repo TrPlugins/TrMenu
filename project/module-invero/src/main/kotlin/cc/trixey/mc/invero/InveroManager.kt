@@ -59,6 +59,7 @@ object InveroManager {
             PagedGeneratorPanel::class.java -> PagedGeneratorPanel(scale, weight)
             ScrollStandardPanel::class.java -> ScrollStandardPanel(scale, weight)
             ScrollGeneratorPanel::class.java -> ScrollGeneratorPanel(scale, weight)
+            FreeformNetesedPanel::class.java -> FreeformNetesedPanel(scale, weight)
             IOStoragePanel::class.java -> IOStoragePanel(scale, weight)
             else -> throw IllegalArgumentException("Failed to create panel, not found registered class $type")
         }
