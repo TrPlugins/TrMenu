@@ -2,7 +2,6 @@ package cc.trixey.mc.invero.common
 
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryDragEvent
-import java.util.concurrent.ConcurrentMap
 
 /**
  * @author Arasple
@@ -11,7 +10,7 @@ import java.util.concurrent.ConcurrentMap
  * Panel 作为一个有长、宽的 UI 页面，
  * 可以作为 Window 的一个交互页面之一
  */
-interface Panel : Parentable {
+interface Panel : Parentable, Scalable {
 
     /**
      * 正在使用此 Panel 的 Windows
@@ -19,20 +18,17 @@ interface Panel : Parentable {
     val windows: ArrayList<Window>
 
     /**
-     * 该 Panel 的规模
-     * 长 x 宽
+     * 该 Panel 的视野和定位
+     * (长 x 宽 + 相对槽位 + 相对定位）
      */
-    val scale: PanelScale
+    override val scale: ScaleView
 
     /**
-     * 该 Panel 的有效相对槽位
+     * 无序槽位
+     *
+     * @see ScaleView.slots
      */
     val slots: Set<Int>
-
-    /**
-     * 该 Panel 的左上角的定位点
-     */
-    val pos: Int
 
     /**
      * Panel 的权重
@@ -41,30 +37,14 @@ interface Panel : Parentable {
     var weight: PanelWeight
 
     /**
-     * 针对不同类型的 Window/父级 Panel 的映射槽位集
+     * 注册
      */
-    val slotsMap: ConcurrentMap<Int, MappedSlots>
-
-    /**
-     * 取得针对父级对象的映射槽位集
-     * 实际检索父级为 getParent() ?: otherwise
-     */
-    fun getSlotsMap(otherwise: Parentable): MappedSlots
-
-    /**
-     * 检测某元素当前是否可渲染
-     */
-    fun isRenderable(element: Element): Boolean
+    fun registerWindow(window: Window)
 
     /**
      * 注销
      */
     fun unregisterWindow(window: Window)
-
-    /**
-     * 注册
-     */
-    fun registerWindow(window: Window)
 
     /**
      * 遍历窗口
@@ -77,24 +57,23 @@ interface Panel : Parentable {
     fun renderPanel()
 
     /**
+     * 检测某元素当前是否可渲染
+     */
+    fun isRenderable(element: Element): Boolean
+
+    /**
      * 处理某元素的更新请求
      */
     fun renderElement(window: Window, element: Element)
 
     /**
-     * 清除 Panel 所有槽位的已渲染物品
-     */
-    fun clearPanel() = clearPanel(slots)
-
-    /**
      * 清除 Panel 指定槽位的已渲染物品
      */
+    fun clearPanel(slots: Collection<Int>)
+
+    fun clearPanel() = clearPanel(scale.slots)
+
     fun clearPanel(vararg slots: Int) = clearPanel(slots.toSet())
-
-    /**
-     * 清除 Panel 指定槽位的已渲染物品
-     */
-    fun clearPanel(slots: Set<Int>)
 
     /**
      * 处理 DragEvent

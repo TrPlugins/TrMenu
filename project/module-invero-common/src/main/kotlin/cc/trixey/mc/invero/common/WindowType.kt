@@ -186,6 +186,10 @@ enum class WindowType(val vanillaId: String, val serialId: Int, slotsContainer: 
         }
     }
 
+    val scaleView: ScaleView by lazy {
+        ScaleView(width to rows)
+    }
+
     companion object {
 
         fun ofRows(rows: Int): WindowType {

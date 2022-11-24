@@ -1,6 +1,8 @@
-package cc.trixey.mc.invero.common
+package cc.trixey.mc.invero.common.item
 
-import cc.trixey.mc.invero.common.base.ElementAbsolute
+import cc.trixey.mc.invero.common.Elemap
+import cc.trixey.mc.invero.common.Element
+import cc.trixey.mc.invero.common.Panel
 import java.util.concurrent.ConcurrentHashMap
 
 /**

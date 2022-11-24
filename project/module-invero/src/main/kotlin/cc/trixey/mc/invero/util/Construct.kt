@@ -3,13 +3,12 @@ package cc.trixey.mc.invero.util
 import cc.trixey.mc.invero.InveroManager
 import cc.trixey.mc.invero.InveroManager.constructElement
 import cc.trixey.mc.invero.common.*
-import cc.trixey.mc.invero.common.base.BasePanel
-import cc.trixey.mc.invero.common.base.ElementAbsolute
-import cc.trixey.mc.invero.common.base.ElementDynamic
-import cc.trixey.mc.invero.common.base.PanelInstance
-import cc.trixey.mc.invero.common.universal.PanelGroup
+import cc.trixey.mc.invero.common.panel.BasePanel
+import cc.trixey.mc.invero.common.item.ElementAbsolute
+import cc.trixey.mc.invero.common.item.ElementDynamic
+import cc.trixey.mc.invero.common.panel.PanelInstance
+import cc.trixey.mc.invero.common.panel.PanelGroup
 import cc.trixey.mc.invero.element.ElemapPaged
-import cc.trixey.mc.invero.panel.PagedNetesedPanel
 import cc.trixey.mc.invero.panel.PagedStandardPanel
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -78,20 +77,20 @@ inline fun <reified T : ItemProvider> Panel.buildItem(
 /**
  * 为 Window 添加 Panel 面板的功能
  */
-fun PanelContainer.addPanel(vararg panel: Panel) {
-    panel.forEach { addPanel(it) }
+fun PanelContainer.add(vararg panel: Panel) {
+    panel.forEach { add(it) }
 }
 
 /**
  * 构建 Window 下适用的添加 构建面板函数
  */
-inline fun <reified T : Panel> Window.addPanel(
+inline fun <reified T : Panel> Window.add(
     scale: Pair<Int, Int>,
     pos: Int = 0,
     weight: PanelWeight = PanelWeight.NORMAL,
     init: T.() -> Unit = {}
 ): T {
-    return buildPanel(scale, pos, weight, init).also { addPanel(it) }
+    return buildPanel(scale, pos, weight, init).also { add(it) }
 }
 
 /**
@@ -131,8 +130,8 @@ fun PagedStandardPanel.page(function: ElemapPaged.(Int) -> Unit) {
 /**
  * PairInt 转 PanelScale
  */
-fun Pair<Int, Int>.toScale(): PanelScale {
-    return PanelScale(this)
+fun Pair<Int, Int>.toScale(position: Int = -1): ScaleView {
+    return ScaleView(position, this)
 }
 
 /**
@@ -144,28 +143,19 @@ fun group(
     weight: PanelWeight = PanelWeight.NORMAL,
     function: PanelGroup.() -> Unit
 ): PanelGroup {
-    return PanelGroup(scale.toScale(), pos, weight).also(function)
+    return PanelGroup(scale.toScale(pos), weight).also(function)
 }
 
 /**
  * 构建 PanelGroup 时的 addPaenl 函数
  */
-inline fun <reified T : PanelInstance> PanelGroup.addPanel(
-    scale: Pair<Int, Int>, pos: Int = 0, weight: PanelWeight = PanelWeight.NORMAL, init: T.() -> Unit = {}
-): T {
-    return buildPanel(scale, pos, weight, init).also { it.grouped() }
-}
-
-/**
- * 构建 PagedNetesedPanel 时的 addPaenl 函数
- */
-inline fun <reified T : PanelInstance> PagedNetesedPanel.addPanel(
+inline fun <reified T : PanelInstance> PanelContainer.addPanel(
     scale: Pair<Int, Int>,
     pos: Int = 0,
     weight: PanelWeight = PanelWeight.NORMAL,
     init: T.() -> Unit = {}
 ): T {
-    return buildPanel(scale, pos, weight, init).also { addPanel(it) }
+    return buildPanel(scale, pos, weight, init).also { add(it) }
 }
 
 /**
@@ -178,5 +168,5 @@ fun PanelContainer.addGroup(
     weight: PanelWeight = PanelWeight.NORMAL,
     function: PanelGroup.() -> Unit
 ): PanelGroup {
-    return group(scale, pos, weight, function).also { addPanel(it) }
+    return group(scale, pos, weight, function).also { add(it) }
 }

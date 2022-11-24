@@ -11,8 +11,6 @@ interface Element {
      */
     val panel: Panel
 
-    fun Window.slotMap() = panel.getSlotsMap(this)
-
     fun forWindows(function: Window.() -> Unit) = panel.forWindows(function)
 
     fun render()

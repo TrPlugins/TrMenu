@@ -1,9 +1,10 @@
-package cc.trixey.mc.invero.common.base
+package cc.trixey.mc.invero.common.panel
 
 import cc.trixey.mc.invero.common.Element
-import cc.trixey.mc.invero.common.PanelScale
 import cc.trixey.mc.invero.common.PanelWeight
-import cc.trixey.mc.invero.common.ElemapCompetent
+import cc.trixey.mc.invero.common.item.ElemapCompetent
+import cc.trixey.mc.invero.common.ScaleView
+import cc.trixey.mc.invero.common.item.ElementDynamic
 
 /**
  * @author Arasple
@@ -13,8 +14,8 @@ import cc.trixey.mc.invero.common.ElemapCompetent
  * 包含一个 ElemapCompetent（ Panel 元素集）
  */
 abstract class BasePanel(
-    scale: PanelScale, pos: Int, weight: PanelWeight
-) : PanelInstance(scale, pos, weight) {
+    scale: ScaleView, weight: PanelWeight
+) : PanelInstance(scale, weight) {
 
     /**
      * 元素

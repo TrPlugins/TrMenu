@@ -1,4 +1,4 @@
-package cc.trixey.mc.invero.common.event
+package cc.trixey.mc.invero.common.window.event
 
 import org.bukkit.event.inventory.*
 

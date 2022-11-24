@@ -1,7 +1,8 @@
 package cc.trixey.mc.invero.panel
 
 import cc.trixey.mc.invero.common.*
-import cc.trixey.mc.invero.common.base.BasePagedPanel
+import cc.trixey.mc.invero.common.item.ElemapCompetent
+import cc.trixey.mc.invero.common.panel.BasePagedPanel
 import cc.trixey.mc.invero.element.ElemapPaged
 import cc.trixey.mc.invero.util.distinguishMark
 import org.bukkit.event.inventory.InventoryClickEvent
@@ -14,11 +15,7 @@ import taboolib.common.platform.function.submit
  * 标准翻页面板
  * 可用理解为多页的 StandardPanel，支持静态、动态元素
  */
-open class PagedStandardPanel(
-    scale: PanelScale,
-    pos: Int,
-    weight: PanelWeight
-) : BasePagedPanel(scale, pos, weight) {
+open class PagedStandardPanel(scale: ScaleView, weight: PanelWeight) : BasePagedPanel(scale, weight) {
 
     override fun renderPanel() {
         forWindows {
@@ -30,11 +27,10 @@ open class PagedStandardPanel(
     override fun renderElement(window: Window, element: Element) {
         if (!isRenderable(element)) return
 
-        val slotMap = getSlotsMap(window)
         if (element is ItemProvider) {
             val itemStack = element.get()
             findSlots(element).forEach {
-                val slot = slotMap.getAbsolute(it)
+                val slot = it.toUpperSlot()
                 window.inventorySet[slot] = itemStack.distinguishMark(slot)
             }
         }
@@ -121,7 +117,7 @@ open class PagedStandardPanel(
     override fun handleClick(window: Window, e: InventoryClickEvent) {
         e.isCancelled = true
 
-        val slot = getSlotsMap(window).getRelative(e.rawSlot)
+        val slot = e.rawSlot.toLowerSlot()
         val element = getPage()[slot] ?: getStaticElements()[slot]
 
         element?.passClickEvent(e)

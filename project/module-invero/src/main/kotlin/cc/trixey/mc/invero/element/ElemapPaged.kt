@@ -1,6 +1,6 @@
 package cc.trixey.mc.invero.element
 
-import cc.trixey.mc.invero.common.ElemapCompetent
+import cc.trixey.mc.invero.common.item.ElemapCompetent
 import cc.trixey.mc.invero.common.Element
 import cc.trixey.mc.invero.panel.PagedStandardPanel
 

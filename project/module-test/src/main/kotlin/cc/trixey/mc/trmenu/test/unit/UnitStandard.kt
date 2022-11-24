@@ -49,10 +49,10 @@ object UnitStandard {
                 val randFill = { item(generateRandomItem()) }
 
                 page {
-                    item(org.bukkit.Material.BLACK_STAINED_GLASS).fillup()
+                    item(Material.BLACK_STAINED_GLASS).fillup()
                 }
                 page {
-                    item(org.bukkit.Material.LIME_STAINED_GLASS_PANE).fillup()
+                    item(Material.LIME_STAINED_GLASS_PANE).fillup()
                 }
 
                 for (i in 0..10)

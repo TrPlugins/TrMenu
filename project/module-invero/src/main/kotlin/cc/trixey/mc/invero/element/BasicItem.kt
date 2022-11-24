@@ -2,7 +2,7 @@ package cc.trixey.mc.invero.element
 
 import cc.trixey.mc.invero.common.ItemProvider
 import cc.trixey.mc.invero.common.Panel
-import cc.trixey.mc.invero.common.base.ElementAbsolute
+import cc.trixey.mc.invero.common.item.ElementAbsolute
 import org.bukkit.inventory.ItemStack
 
 /**

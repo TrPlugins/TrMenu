@@ -44,7 +44,7 @@ object UnitDynamicItem {
                 }
             }.let {
                 buildWindow<CompleteWindow>(player, WindowType.GENERIC_9X6) {
-                    addPanel(it)
+                     add(it)
                 }.also { it.open() }
             }
         }
@@ -104,7 +104,7 @@ object UnitDynamicItem {
                 }
             }.let {
                 buildWindow<CompleteWindow>(player, WindowType.GENERIC_9X6) {
-                    addPanel(it)
+                     add(it)
                 }.also { it.open() }
             }
         }

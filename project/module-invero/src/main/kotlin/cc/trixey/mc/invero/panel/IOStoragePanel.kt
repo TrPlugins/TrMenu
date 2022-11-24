@@ -1,10 +1,10 @@
 package cc.trixey.mc.invero.panel
 
 import cc.trixey.mc.invero.common.Element
-import cc.trixey.mc.invero.common.PanelScale
 import cc.trixey.mc.invero.common.PanelWeight
+import cc.trixey.mc.invero.common.ScaleView
 import cc.trixey.mc.invero.common.Window
-import cc.trixey.mc.invero.common.base.BaseIOPanel
+import cc.trixey.mc.invero.common.panel.BaseIOPanel
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryDragEvent
 
@@ -12,9 +12,7 @@ import org.bukkit.event.inventory.InventoryDragEvent
  * @author Score2
  * @since 2022/11/15 18:30
  */
-open class IOStoragePanel(
-    scale: PanelScale, pos: Int, weight: PanelWeight
-) : BaseIOPanel(scale, pos, weight) {
+open class IOStoragePanel(scale: ScaleView, weight: PanelWeight) : BaseIOPanel(scale, weight) {
 
     private var handlerClick: (InventoryClickEvent) -> Unit = {}
     private var handlerDrag: (InventoryDragEvent) -> Unit = {}
@@ -23,7 +21,7 @@ open class IOStoragePanel(
     override fun renderPanel() {
         forWindows {
             storage.forEach { (index, itemStack) ->
-                val slot = getSlotsMap(this).getAbsolute(index)
+                val slot = index.toUpperSlot()
                 inventorySet[slot] = itemStack
             }
         }

@@ -1,9 +1,9 @@
 package cc.trixey.mc.invero.util.dsl
 
 import cc.trixey.mc.invero.common.Element
-import cc.trixey.mc.invero.common.base.BaseScrollPanel
-import cc.trixey.mc.invero.common.scroll.ScrollDirection
-import cc.trixey.mc.invero.common.scroll.ScrollType
+import cc.trixey.mc.invero.common.panel.BaseScrollPanel
+import cc.trixey.mc.invero.common.panel.scroll.ScrollDirection
+import cc.trixey.mc.invero.common.panel.scroll.ScrollType
 import cc.trixey.mc.invero.panel.ScrollStandardPanel
 
 /**

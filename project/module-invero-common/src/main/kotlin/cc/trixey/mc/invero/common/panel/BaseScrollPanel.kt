@@ -1,10 +1,10 @@
-package cc.trixey.mc.invero.common.base
+package cc.trixey.mc.invero.common.panel
 
-import cc.trixey.mc.invero.common.ElemapSimplified
-import cc.trixey.mc.invero.common.PanelScale
+import cc.trixey.mc.invero.common.item.ElemapSimplified
 import cc.trixey.mc.invero.common.PanelWeight
-import cc.trixey.mc.invero.common.scroll.ScrollDirection
-import cc.trixey.mc.invero.common.scroll.ScrollType
+import cc.trixey.mc.invero.common.ScaleView
+import cc.trixey.mc.invero.common.panel.scroll.ScrollDirection
+import cc.trixey.mc.invero.common.panel.scroll.ScrollType
 
 /**
  * @author Arasple
@@ -16,12 +16,11 @@ import cc.trixey.mc.invero.common.scroll.ScrollType
  * 不支持自设默认元素（导航栏实现需要额外使用 StandardPanel）
  */
 abstract class BaseScrollPanel(
-    scale: PanelScale,
-    pos: Int,
+    scale: ScaleView,
     weight: PanelWeight,
     open var direction: ScrollDirection,
     open var type: ScrollType
-) : PanelInstance(scale, pos, weight) {
+) : PanelInstance(scale, weight) {
 
     /**
      * 元素

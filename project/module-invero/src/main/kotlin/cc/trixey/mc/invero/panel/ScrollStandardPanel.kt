@@ -1,10 +1,10 @@
 package cc.trixey.mc.invero.panel
 
 import cc.trixey.mc.invero.common.*
-import cc.trixey.mc.invero.common.base.BaseScrollPanel
-import cc.trixey.mc.invero.common.scroll.ScrollColum
-import cc.trixey.mc.invero.common.scroll.ScrollDirection
-import cc.trixey.mc.invero.common.scroll.ScrollType
+import cc.trixey.mc.invero.common.panel.BaseScrollPanel
+import cc.trixey.mc.invero.common.panel.scroll.ScrollColum
+import cc.trixey.mc.invero.common.panel.scroll.ScrollDirection
+import cc.trixey.mc.invero.common.panel.scroll.ScrollType
 import cc.trixey.mc.invero.util.distinguishMark
 
 /**
@@ -15,12 +15,11 @@ import cc.trixey.mc.invero.util.distinguishMark
  * 栏目仅接受静态元素
  */
 open class ScrollStandardPanel(
-    scale: PanelScale,
-    pos: Int,
+    scale: ScaleView,
     weight: PanelWeight,
     direction: ScrollDirection = ScrollDirection(vertical = true),
     type: ScrollType = ScrollType.STOP
-) : BaseScrollPanel(scale, pos, weight, direction, type) {
+) : BaseScrollPanel(scale, weight, direction, type) {
 
     /**
      * @see BaseScrollPanel.index
@@ -94,11 +93,10 @@ open class ScrollStandardPanel(
     override fun renderElement(window: Window, element: Element) {
         if (!isRenderable(element)) return
 
-        val slotMap = getSlotsMap(window)
         if (element is ItemProvider) {
             val itemStack = element.get()
             elementsMap.find(element).forEach {
-                val slot = slotMap.getAbsolute(it)
+                val slot = it.toUpperSlot()
                 window.inventorySet[slot] = itemStack.distinguishMark(slot)
             }
         }

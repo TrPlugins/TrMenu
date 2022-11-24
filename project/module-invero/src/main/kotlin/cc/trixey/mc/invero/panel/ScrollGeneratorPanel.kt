@@ -1,11 +1,11 @@
 package cc.trixey.mc.invero.panel
 
-import cc.trixey.mc.invero.common.PanelScale
 import cc.trixey.mc.invero.common.PanelWeight
-import cc.trixey.mc.invero.common.base.ElementAbsolute
-import cc.trixey.mc.invero.common.generator.GeneratorPanel
-import cc.trixey.mc.invero.common.scroll.ScrollDirection
-import cc.trixey.mc.invero.common.scroll.ScrollType
+import cc.trixey.mc.invero.common.ScaleView
+import cc.trixey.mc.invero.common.item.ElementAbsolute
+import cc.trixey.mc.invero.common.panel.generator.GeneratorPanel
+import cc.trixey.mc.invero.common.panel.scroll.ScrollDirection
+import cc.trixey.mc.invero.common.panel.scroll.ScrollType
 
 /**
  * @author Arasple
@@ -15,12 +15,11 @@ import cc.trixey.mc.invero.common.scroll.ScrollType
  * 栏目仅接受静态元素
  */
 class ScrollGeneratorPanel(
-    scale: PanelScale,
-    pos: Int,
+    scale: ScaleView,
     weight: PanelWeight,
     direction: ScrollDirection = ScrollDirection(vertical = true),
     type: ScrollType = ScrollType.STOP
-) : ScrollStandardPanel(scale, pos, weight, direction, type), GeneratorPanel {
+) : ScrollStandardPanel(scale, weight, direction, type), GeneratorPanel {
 
     /**
      * 最后一次生成的元素

@@ -1,6 +1,6 @@
 package cc.trixey.mc.invero.common
 
-import cc.trixey.mc.invero.common.event.InvEvent
+import cc.trixey.mc.invero.common.window.event.InvEvent
 import org.bukkit.entity.Player
 
 /**
@@ -11,8 +11,10 @@ import org.bukkit.entity.Player
  * 其包含多个 Panel 子对象，而 UI 的交互与渲染功能都由 Panel 实现, Window 只负责传递与显示
  *
  * 一个 Window 仅允许包含一个 Viewer（唯一的玩家）
+ *
+ * 注意，如果一个 Panel 被多个 Window 同时调用，应该确保所有 Window 的类型一致
  */
-interface Window : Parentable, PanelContainer {
+interface Window : Parentable, PanelContainer, Scalable {
 
     /**
      * 容器的标题
@@ -23,6 +25,11 @@ interface Window : Parentable, PanelContainer {
      * 该容器的类型
      */
     val type: WindowType
+
+    /**
+     * 容器规模
+     */
+    override val scale: ScaleView
 
     /**
      * 抽象容器管理

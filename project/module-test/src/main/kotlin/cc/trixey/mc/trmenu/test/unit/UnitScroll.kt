@@ -1,6 +1,5 @@
 package cc.trixey.mc.trmenu.test.unit
 
-import cc.trixey.mc.invero.common.WindowType
 import cc.trixey.mc.invero.util.dsl.*
 import cc.trixey.mc.trmenu.coroutine.launchAsync
 import cc.trixey.mc.trmenu.test.generateRandomItem
@@ -27,25 +26,25 @@ object UnitScroll {
     }
 
     fun Player.showVertical() {
-        window(this, WindowType.GENERIC_9X6, "Scroll Vertical") {
+        window(this, title = "Scroll Vertical") {
 
             scroll(8 to 6) {
                 scrollVertically()
                 scrollRandomType()
+                if (type.isStop) stopDead()
 
                 for (i in 0..16)
                     fillColum { item(generateRandomItem()) }
-
             }
 
             nav(1 to 6) {
 
-                item(firstSlot(), Material.LIME_STAINED_GLASS_PANE, builder = { name = "§a← LEFT" }) {
-                    onClick { firstScrollPanel().previous() }
+                item(firstSlot(), Material.LIME_STAINED_GLASS_PANE, builder = { name = "§a↑ UP" }) {
+                    onClick { getScrollPanel().previous() }
                 }
 
-                item(lastSlot(), Material.CYAN_STAINED_GLASS_PANE, builder = { name = "§a→ RIGHT" }) {
-                    onClick { firstScrollPanel().next() }
+                item(lastSlot(), Material.CYAN_STAINED_GLASS_PANE, builder = { name = "§3↓ DOWN" }) {
+                    onClick { getScrollPanel().next() }
                 }
 
                 item(Material.GRAY_STAINED_GLASS_PANE).fillup()
@@ -56,7 +55,7 @@ object UnitScroll {
     }
 
     fun Player.showHorizontal() {
-        window(this, WindowType.GENERIC_9X6, "Scroll Horizontal") {
+        window(this, title = "Scroll Horizontal") {
 
             scroll(9 to 5) {
                 scrollHorizontally()
@@ -70,11 +69,11 @@ object UnitScroll {
             nav(9 to 1) {
 
                 item(firstSlot(), Material.LIME_STAINED_GLASS_PANE, builder = { name = "§a← LEFT" }) {
-                    onClick { firstScrollPanel().previous() }
+                    onClick { getScrollPanel().previous() }
                 }
 
                 item(lastSlot(), Material.CYAN_STAINED_GLASS_PANE, builder = { name = "§a→ RIGHT" }) {
-                    onClick { firstScrollPanel().next() }
+                    onClick { getScrollPanel().next() }
                 }
 
                 item(Material.GRAY_STAINED_GLASS_PANE).fillup()

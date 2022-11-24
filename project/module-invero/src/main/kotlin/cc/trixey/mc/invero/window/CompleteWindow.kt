@@ -1,6 +1,7 @@
 package cc.trixey.mc.invero.window
 
 import cc.trixey.mc.invero.common.InventorySet
+import cc.trixey.mc.invero.common.ScaleView
 import cc.trixey.mc.invero.common.WindowInventory
 import cc.trixey.mc.invero.common.WindowType
 import cc.trixey.mc.invero.common.util.findPanel
@@ -26,6 +27,13 @@ class CompleteWindow(viewer: Player, type: WindowType, title: String) : Containe
      */
     override val inventorySet: InventorySet by lazy {
         WindowInventory(this, viewer)
+    }
+
+    /**
+     * 容器规模
+     */
+    override val scale by lazy {
+        ScaleView(type.scaleView.width to type.scaleView.height + 4)
     }
 
     /**

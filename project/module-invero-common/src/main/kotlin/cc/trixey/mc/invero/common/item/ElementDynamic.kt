@@ -1,4 +1,4 @@
-package cc.trixey.mc.invero.common.base
+package cc.trixey.mc.invero.common.item
 
 import cc.trixey.mc.invero.common.Panel
 
@@ -12,12 +12,8 @@ abstract class ElementDynamic(panel: Panel) : Interactable(panel) {
 
     var slots = setOf<Int>()
         set(value) {
-            val diff = field - value
+            (field - value).let { if (it.isNotEmpty()) panel.clearPanel(it) }
             field = value
-            forWindows {
-                val slotMap = slotMap()
-                diff.forEach { inventorySet[slotMap.getAbsolute(it)] = null }
-            }
             render()
         }
 

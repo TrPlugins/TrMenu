@@ -1,4 +1,4 @@
-package cc.trixey.mc.invero.common.scroll
+package cc.trixey.mc.invero.common.panel.scroll
 
 /**
  * @author Arasple

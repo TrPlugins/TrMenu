@@ -1,9 +1,8 @@
 package cc.trixey.mc.invero.panel
 
 import cc.trixey.mc.invero.common.*
-import cc.trixey.mc.invero.common.base.BasePagedPanel
-import cc.trixey.mc.invero.common.base.BasePanel
-import cc.trixey.mc.invero.common.base.PanelInstance
+import cc.trixey.mc.invero.common.panel.BasePagedPanel
+import cc.trixey.mc.invero.common.panel.BasePanel
 import org.bukkit.event.inventory.InventoryClickEvent
 import taboolib.common.platform.function.submit
 
@@ -14,13 +13,9 @@ import taboolib.common.platform.function.submit
  * 嵌套翻页面板
  * 理论上兼容所有面板模型
  */
-class PagedNetesedPanel(
-    scale: PanelScale,
-    pos: Int,
-    weight: PanelWeight
-) : BasePagedPanel(scale, pos, weight), PanelContainer {
+class PagedNetesedPanel(scale: ScaleView, weight: PanelWeight) : BasePagedPanel(scale, weight), PanelContainer {
 
-    override val children: ArrayList<PanelInstance> = ArrayList()
+    override val panels: ArrayList<Panel> = ArrayList()
 
     override var pageIndex = 0
         set(value) {
@@ -32,13 +27,15 @@ class PagedNetesedPanel(
         }
 
     override val maxPageIndex: Int
-        get() = children.lastIndex
+        get() = panels.lastIndex
+
+    override fun getChildren() = panels
 
     override fun renderPanel() = getPage().renderPanel()
 
     override fun renderElement(window: Window, element: Element) = getPage().renderElement(window, element)
 
-    fun getPage(index: Int = pageIndex) = children[index]
+    fun getPage(index: Int = pageIndex) = panels[index]
 
     override fun getOccupiedSlots(page: Int): Set<Int> {
         return when (val it = getPage(page)) {
@@ -54,18 +51,6 @@ class PagedNetesedPanel(
 
     override fun handleClick(window: Window, e: InventoryClickEvent) {
         getPage().handleClick(window, e)
-    }
-
-    override fun getPanels(): List<Panel> {
-        return children
-    }
-
-    override fun addPanel(panel: Panel): Boolean {
-        return if (panel is PanelInstance) children.add(panel.also { it.setParent(this) }) else false
-    }
-
-    override fun removePanel(panel: Panel): Boolean {
-        return children.remove(panel)
     }
 
 }

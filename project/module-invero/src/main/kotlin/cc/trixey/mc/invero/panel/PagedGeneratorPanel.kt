@@ -1,10 +1,11 @@
 package cc.trixey.mc.invero.panel
 
 import cc.trixey.mc.invero.common.*
-import cc.trixey.mc.invero.common.base.BasePagedPanel
-import cc.trixey.mc.invero.common.base.ElementAbsolute
-import cc.trixey.mc.invero.common.base.Interactable
-import cc.trixey.mc.invero.common.generator.GeneratorPanel
+import cc.trixey.mc.invero.common.item.ElemapSimplified
+import cc.trixey.mc.invero.common.panel.BasePagedPanel
+import cc.trixey.mc.invero.common.item.ElementAbsolute
+import cc.trixey.mc.invero.common.item.Interactable
+import cc.trixey.mc.invero.common.panel.generator.GeneratorPanel
 import cc.trixey.mc.invero.util.distinguishMark
 import org.bukkit.event.inventory.InventoryClickEvent
 import taboolib.common.platform.function.submit
@@ -17,9 +18,7 @@ import taboolib.common.platform.function.submit
  * 根据页码生成静态元素覆盖生成池槽位
  * 支持设置静态物品（槽位自动排除生成池）
  */
-class PagedGeneratorPanel(
-    scale: PanelScale, pos: Int, weight: PanelWeight
-) : BasePagedPanel(scale, pos, weight), GeneratorPanel {
+class PagedGeneratorPanel(scale: ScaleView, weight: PanelWeight) : BasePagedPanel(scale, weight), GeneratorPanel {
 
     /**
      * 最后一次生成的元素
@@ -107,11 +106,10 @@ class PagedGeneratorPanel(
 
     override fun renderElement(window: Window, element: Element) {
         if (page.has(element)) {
-            val slotMap = getSlotsMap(window)
             if (element is ItemProvider) {
                 val itemStack = element.get()
                 page.find(element).forEach {
-                    val slot = slotMap.getAbsolute(it)
+                    val slot = it.toUpperSlot()
                     window.inventorySet[slot] = itemStack.distinguishMark(slot)
                 }
             }
@@ -123,7 +121,7 @@ class PagedGeneratorPanel(
     override fun handleClick(window: Window, e: InventoryClickEvent) {
         super.handleClick(window, e)
 
-        val slot = getSlotsMap(window).getRelative(e.rawSlot)
+        val slot = e.rawSlot.toLowerSlot()
         val element = page[slot]
         if (element is Interactable) element.passClickEvent(e)
     }

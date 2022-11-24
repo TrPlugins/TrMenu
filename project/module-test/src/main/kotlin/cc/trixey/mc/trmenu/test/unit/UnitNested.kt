@@ -60,11 +60,11 @@ object UnitNested {
 
                 nav(9 to 1, 0) {
                     item(firstSlot(), Material.LIME_STAINED_GLASS_PANE, builder = { name = "§a← LEFT" }) {
-                        onClick { firstScrollPanel().previous() }
+                        onClick { getScrollPanel().previous() }
                     }
 
                     item(lastSlot(), Material.CYAN_STAINED_GLASS_PANE, builder = { name = "§a→ RIGHT" }) {
-                        onClick { firstScrollPanel().next() }
+                        onClick { getScrollPanel().next() }
                     }
 
                     item(Material.BLACK_STAINED_GLASS_PANE).fillup()
@@ -99,7 +99,7 @@ object UnitNested {
         嵌套 UI 的导航条
          */
         nav(9 to 1, Slots.LINE_6_RIGHT + 1) {
-            val nested = firstPagedNetesedPanel()
+            val nested = getPagedNetesedPanel()
 
             item(0, Material.CYAN_STAINED_GLASS_PANE, { name = "§3Previous page" }, {
                 onClick {

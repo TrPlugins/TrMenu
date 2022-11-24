@@ -28,12 +28,12 @@ object InveroManager {
     private val runningWindows = CopyOnWriteArrayList<Window>()
 
     fun register(window: Window) {
-        window.getPanels().forEach { it.registerWindow(window) }
+        window.forEachPanel { registerWindow(window) }
         runningWindows.add(window)
     }
 
     fun unregister(window: Window): Boolean {
-        window.getPanels().forEach { it.unregisterWindow(window) }
+        window.forEachPanel { unregisterWindow(window) }
         return runningWindows.remove(window)
     }
 
@@ -48,18 +48,18 @@ object InveroManager {
     }
 
     fun constructPanel(type: Class<*>, scale: Pair<Int, Int>, posMark: Int, weight: PanelWeight): Panel {
-        return constructPanel(type, scale.toScale(), posMark, weight)
+        return constructPanel(type, scale.toScale(posMark), weight)
     }
 
-    fun constructPanel(type: Class<*>, scale: PanelScale, posMark: Int, weight: PanelWeight): Panel {
+    fun constructPanel(type: Class<*>, scale: ScaleView, weight: PanelWeight): Panel {
         return when (type) {
-            StandardPanel::class.java -> StandardPanel(scale, posMark, weight)
-            PagedStandardPanel::class.java -> PagedStandardPanel(scale, posMark, weight)
-            PagedNetesedPanel::class.java -> PagedNetesedPanel(scale, posMark, weight)
-            PagedGeneratorPanel::class.java -> PagedGeneratorPanel(scale, posMark, weight)
-            ScrollStandardPanel::class.java -> ScrollStandardPanel(scale, posMark, weight)
-            ScrollGeneratorPanel::class.java -> ScrollGeneratorPanel(scale, posMark, weight)
-            IOStoragePanel::class.java -> IOStoragePanel(scale, posMark, weight)
+            StandardPanel::class.java -> StandardPanel(scale, weight)
+            PagedStandardPanel::class.java -> PagedStandardPanel(scale, weight)
+            PagedNetesedPanel::class.java -> PagedNetesedPanel(scale, weight)
+            PagedGeneratorPanel::class.java -> PagedGeneratorPanel(scale, weight)
+            ScrollStandardPanel::class.java -> ScrollStandardPanel(scale, weight)
+            ScrollGeneratorPanel::class.java -> ScrollGeneratorPanel(scale, weight)
+            IOStoragePanel::class.java -> IOStoragePanel(scale, weight)
             else -> throw IllegalArgumentException("Failed to create panel, not found registered class $type")
         }
     }

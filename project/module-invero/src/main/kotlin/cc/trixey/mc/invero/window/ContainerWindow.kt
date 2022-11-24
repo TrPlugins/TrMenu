@@ -2,8 +2,8 @@ package cc.trixey.mc.invero.window
 
 import cc.trixey.mc.invero.InveroManager
 import cc.trixey.mc.invero.common.*
-import cc.trixey.mc.invero.common.base.BaseWindow
-import cc.trixey.mc.invero.common.base.BaseWindowBukkit
+import cc.trixey.mc.invero.common.window.BaseWindow
+import cc.trixey.mc.invero.common.window.BaseWindowBukkit
 import cc.trixey.mc.invero.common.util.findPanel
 import cc.trixey.mc.invero.panel.IOStoragePanel
 import cc.trixey.mc.invero.util.nms.handler
@@ -15,6 +15,7 @@ import org.bukkit.event.inventory.InventoryOpenEvent
 import org.bukkit.inventory.PlayerInventory
 import taboolib.common.platform.function.isPrimaryThread
 import taboolib.common.platform.function.submit
+import java.util.ArrayList
 
 /**
  * @author Arasple
@@ -25,7 +26,7 @@ import taboolib.common.platform.function.submit
  */
 open class ContainerWindow(
     viewer: Player,
-    override val type: WindowType,
+    final override val type: WindowType,
     title: String,
     var lock: Boolean = true
 ) : BaseWindowBukkit(viewer.uniqueId) {
@@ -44,6 +45,13 @@ open class ContainerWindow(
             }
             field = value
         }
+
+    /**
+     * 容器规模
+     */
+    override val scale by lazy {
+        ScaleView(type.scaleView.width to type.scaleView.height)
+    }
 
     /**
      * 容器对
@@ -144,7 +152,7 @@ open class ContainerWindow(
     /**
      * @see BaseWindow.getChildren
      */
-    override fun getChildren(): List<Panel> {
+    override fun getChildren(): ArrayList<Panel> {
         return panels
     }
 

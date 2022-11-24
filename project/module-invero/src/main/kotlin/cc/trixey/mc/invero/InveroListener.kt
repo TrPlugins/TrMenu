@@ -1,7 +1,7 @@
 package cc.trixey.mc.invero
 
 import cc.trixey.mc.invero.common.WindowHolder
-import cc.trixey.mc.invero.common.event.BukkitInvEvent
+import cc.trixey.mc.invero.common.window.event.BukkitInvEvent
 import org.bukkit.event.inventory.*
 import taboolib.common.platform.event.SubscribeEvent
 

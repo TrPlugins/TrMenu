@@ -1,7 +1,7 @@
-package cc.trixey.mc.invero.common
+package cc.trixey.mc.invero.common.item
 
-import cc.trixey.mc.invero.common.base.ElementAbsolute
-import cc.trixey.mc.invero.common.base.ElementDynamic
+import cc.trixey.mc.invero.common.Element
+import cc.trixey.mc.invero.common.Panel
 import java.util.concurrent.CopyOnWriteArrayList
 
 /**

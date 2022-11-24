@@ -17,7 +17,7 @@ import cc.trixey.mc.invero.panel.StandardPanel
  */
 inline fun PanelContainer.nav(
     scale: Pair<Int, Int>,
-    pos: Int = firstPos(),
+    pos: Int = autoPositioning(),
     weight: PanelWeight = PanelWeight.NORMAL,
     block: StandardPanel.() -> Unit
 ) = standard(scale, pos, weight, block)

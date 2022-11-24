@@ -2,7 +2,7 @@ package cc.trixey.mc.invero.element
 
 import cc.trixey.mc.invero.common.ItemProvider
 import cc.trixey.mc.invero.common.Panel
-import cc.trixey.mc.invero.common.base.ElementDynamic
+import cc.trixey.mc.invero.common.item.ElementDynamic
 import org.bukkit.inventory.ItemStack
 
 /**

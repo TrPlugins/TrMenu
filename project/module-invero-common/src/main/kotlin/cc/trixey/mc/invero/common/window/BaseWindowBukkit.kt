@@ -1,7 +1,7 @@
-package cc.trixey.mc.invero.common.base
+package cc.trixey.mc.invero.common.window
 
-import cc.trixey.mc.invero.common.event.EventType
-import cc.trixey.mc.invero.common.event.InvEvent
+import cc.trixey.mc.invero.common.window.event.EventType
+import cc.trixey.mc.invero.common.window.event.InvEvent
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryDragEvent

@@ -1,6 +1,6 @@
-package cc.trixey.mc.invero.common.generator
+package cc.trixey.mc.invero.common.panel.generator
 
-import cc.trixey.mc.invero.common.base.ElementAbsolute
+import cc.trixey.mc.invero.common.item.ElementAbsolute
 
 /**
  * @author Arasple

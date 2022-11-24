@@ -71,7 +71,7 @@ object UnitGenerator {
             }
 
             nav(9 to 1) {
-                val scroll = firstScrollPanel()
+                val scroll = getScrollPanel()
                 item(firstSlot(), Material.CYAN_STAINED_GLASS_PANE, { name = "§3← LEFT" }, {
                     onClick {
                         scroll.previous()

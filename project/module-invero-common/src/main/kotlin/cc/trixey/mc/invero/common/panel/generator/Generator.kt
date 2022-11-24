@@ -1,4 +1,4 @@
-package cc.trixey.mc.invero.common.generator
+package cc.trixey.mc.invero.common.panel.generator
 
 /**
  * @author Arasple

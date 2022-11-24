@@ -1,7 +1,7 @@
-package cc.trixey.mc.invero.common.base
+package cc.trixey.mc.invero.common.panel
 
-import cc.trixey.mc.invero.common.PanelScale
 import cc.trixey.mc.invero.common.PanelWeight
+import cc.trixey.mc.invero.common.ScaleView
 
 /**
  * @author Arasple
@@ -10,10 +10,9 @@ import cc.trixey.mc.invero.common.PanelWeight
  * 基础的翻页 Panel 模型
  */
 abstract class BasePagedPanel(
-    scale: PanelScale,
-    pos: Int,
+    scale: ScaleView,
     weight: PanelWeight
-) : PanelInstance(scale, pos, weight) {
+) : PanelInstance(scale, weight) {
 
     /**
      * 当前页码

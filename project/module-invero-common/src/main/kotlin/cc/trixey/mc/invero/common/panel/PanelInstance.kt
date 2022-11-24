@@ -1,9 +1,8 @@
-package cc.trixey.mc.invero.common.base
+package cc.trixey.mc.invero.common.panel
 
 import cc.trixey.mc.invero.common.*
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryDragEvent
-import java.util.concurrent.ConcurrentHashMap
 
 /**
  * @author Arasple
@@ -13,9 +12,7 @@ import java.util.concurrent.ConcurrentHashMap
  * 基础的 Panel 抽象实例
  */
 abstract class PanelInstance(
-    override val scale: PanelScale,
-    override val pos: Int,
-    weight: PanelWeight
+    scale: ScaleView, weight: PanelWeight
 ) : Panel {
 
     /**
@@ -24,9 +21,20 @@ abstract class PanelInstance(
     private var panelParent: Parentable? = null
 
     /**
-     * 子集
+     * 无序槽位
+     *
+     * @see ScaleView.slots
      */
-    open val children: ArrayList<PanelInstance>? = null
+    override val slots: Set<Int> by lazy { scale.slots.toSet() }
+
+    /**
+     * 槽位映射和大小、分布
+     */
+    override val scale: ScaleView = scale
+        get() {
+            initScale(field)
+            return field
+        }
 
     /**
      * @see Panel.windows
@@ -49,34 +57,9 @@ abstract class PanelInstance(
         }
 
     /**
-     * @see Panel.slots
-     */
-    override val slots by lazy { (0 until scale.area).toSet() }
-
-    /**
-     * @see Panel.slotsMap
-     */
-    override val slotsMap = ConcurrentHashMap<Int, MappedSlots>()
-
-    /**
-     * @see Panel.getSlotsMap
-     */
-    override fun getSlotsMap(otherwise: Parentable): MappedSlots {
-        val parent = getParent() ?: otherwise
-
-        val (width, parentSlotMap) = when (parent) {
-            is Window -> parent.type.width to null
-            is PanelInstance -> parent.scale.width to parent.getSlotsMap(otherwise)
-            else -> error("Not found available parent")
-        }
-
-        return slotsMap.computeIfAbsent(width) { MappedSlots.from(scale, pos, width, parentSlotMap) }
-    }
-
-    /**
      * @see Panel.getChildren
      */
-    override fun getChildren() = children?.map { it }
+    override fun getChildren(): ArrayList<Panel>? = null
 
     /**
      * @see Panel.getParent
@@ -86,8 +69,9 @@ abstract class PanelInstance(
     /**
      * @see Panel.setParent
      */
-    override fun setParent(parentable: Parentable?) {
+    override fun setParent(parentable: Parentable) {
         panelParent = parentable
+        scale.resetCache()
     }
 
     /**
@@ -121,11 +105,10 @@ abstract class PanelInstance(
     /**
      * @see Panel.clearPanel
      */
-    override fun clearPanel(slots: Set<Int>) {
+    override fun clearPanel(slots: Collection<Int>) {
         forWindows {
-            val windowSlotMap = getSlotsMap(this@forWindows)
             slots.forEach {
-                inventorySet[windowSlotMap.getAbsolute(it)] = null
+                inventorySet[it.toUpperSlot()] = null
             }
         }
     }
@@ -148,6 +131,33 @@ abstract class PanelInstance(
 
     override fun handleItemsCollect(window: Window, e: InventoryClickEvent) {
         e.isCancelled = true
+    }
+
+    /**
+     * 工具
+     */
+
+    private fun initScale(scale: ScaleView) {
+        if (scale.getCache() == null) {
+            val parent = panelParent ?: windows.firstOrNull()
+            if (parent != null) scale.initCache((parent as Scalable))
+        }
+    }
+
+    fun Int.toUpperSlot(): Int {
+        return scale.getCache()!![this] ?: error("Not found upper slot for $this // Parent: $panelParent")
+    }
+
+    fun Int.toLowerSlot(): Int {
+        return scale.getCacheReversed()!![this] ?: error("Not found lower slot for $this // Parent: $panelParent")
+    }
+
+    fun Int.toUpperSlotSafely(): Int? {
+        return scale.getCache()!![this]
+    }
+
+    fun getUpperSlots(): Set<Int> {
+        return scale.getCache()!!.values.toSet()
     }
 
 }

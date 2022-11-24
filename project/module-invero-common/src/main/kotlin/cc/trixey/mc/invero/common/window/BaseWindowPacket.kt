@@ -1,4 +1,4 @@
-package cc.trixey.mc.invero.common.base
+package cc.trixey.mc.invero.common.window
 
 import java.util.*
 

@@ -2,7 +2,7 @@ package cc.trixey.mc.invero.util.dsl
 
 import cc.trixey.mc.invero.common.Elemap
 import cc.trixey.mc.invero.common.Panel
-import cc.trixey.mc.invero.common.base.BasePanel
+import cc.trixey.mc.invero.common.panel.BasePanel
 import cc.trixey.mc.invero.element.BasicItem
 import cc.trixey.mc.invero.util.buildItem
 import org.bukkit.Material
@@ -13,9 +13,9 @@ import taboolib.platform.util.ItemBuilder
  * @author Arasple
  * @since 2022/11/23 11:00
  */
-fun Panel.firstSlot() = slots.first()
+fun Panel.firstSlot() = scale.slots.first()
 
-fun Panel.lastSlot() = slots.last()
+fun Panel.lastSlot() = scale.slots.last()
 
 fun BasePanel.firstAvailableSlot() = getUnoccupiedSlots().minOf { it }
 
