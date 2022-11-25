@@ -23,7 +23,7 @@ object TestClassUtil {
         classes.add(C2002::class.java)
 
         classes.fromClassesCollect(S1::class.java).forEach {
-            it.println()
+            it.name.println()
         }
     }
 
