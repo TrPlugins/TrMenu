@@ -22,6 +22,10 @@ tasks {
         dependsOn(shadowJar)
     }
 }
+
+tasks.jar {
+    archiveFileName.set(rootProject.name)
+}
 /*
 
 gradle.buildFinished {

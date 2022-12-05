@@ -16,14 +16,6 @@ import java.lang.reflect.Modifier
  * @since 2022/11/26 0:17
  */
 
-/**
- * 从给定类中以指定父类筛选, 同时支持从 Companion 和 INSTANCE 中筛选
- * 获得后的 Class<T> 可使用 taboolib.io.getInstance() 获取指定对象
- *
- * @param `super` 父类
- * @param deep 范围增加至类中类
- * @param insted 从 Companion 和 INSTANCE 中筛选
- */
 fun <T> List<Class<*>>.fromClassesCollect(`super`: Class<T>, deep: Boolean = false, insted: Boolean = false) =
     toTypedArray().fromClassesCollect(`super`, deep, insted)
 
@@ -35,7 +27,14 @@ fun <T> Array<Class<*>>.fromClassesCollect(`super`: Class<T>, deep: Boolean = fa
         }
     }
 
-@Suppress("UNCHECKED_CAST")
+/**
+ * 从给定类中以指定父类筛选, 同时支持从 Companion 和 INSTANCE 中筛选
+ * 获得后的 Class<T> 可使用 taboolib.io.getInstance() 获取指定对象
+ *
+ * @param super 父类
+ * @param deep 范围增加至类中类
+ * @param insted 从 Companion 和 INSTANCE 中筛选
+ */
 fun <T> Class<*>.fromClassCollect(`super`: Class<T>, deep: Boolean = false, insted: Boolean = false): MutableList<Class<out T>> =
     mutableListOf<Class<out T>>().also { list ->
         if (insted) {

@@ -1,0 +1,8 @@
+properties:
+  type: container
+  title: 'TrMenu IV - Container'
+
+layout:
+  - ''
+
+panel-1:
