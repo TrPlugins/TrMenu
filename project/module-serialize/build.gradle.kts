@@ -13,3 +13,7 @@ taboolib {
     classifier = null
     version = taboolibVersion
 }
+
+dependencies {
+    api(project(":project:common"))
+}
