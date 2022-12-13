@@ -28,6 +28,10 @@ class Conclusion<T>(private var obj: T? = null) {
         return this
     }
 
+    fun hasProcedure(): Boolean {
+        return procedures.isNotEmpty()
+    }
+
     fun addProcedure(content: String) {
         procedures.add(content)
     }

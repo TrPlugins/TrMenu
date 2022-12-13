@@ -6,6 +6,7 @@ import cc.trixey.mc.trmenu.util.fromClassesCollect
 import taboolib.common.io.runningClasses
 import taboolib.common.util.resettableLazy
 import taboolib.library.reflex.Reflex.Companion.invokeConstructor
+import taboolib.module.configuration.Configuration
 
 /**
  * TrMenu
@@ -16,7 +17,7 @@ import taboolib.library.reflex.Reflex.Companion.invokeConstructor
  */
 interface MenuSerializer {
 
-    fun serializeMenu(): Conclusion<Menu>
+    fun serializeMenu(conf: Configuration): Conclusion<Menu>
 
     companion object {
 
@@ -37,7 +38,7 @@ interface MenuSerializer {
             }
         }
 
-        fun serialize() {
+        fun <T> serialize() {
 
 
 

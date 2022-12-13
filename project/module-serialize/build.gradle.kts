@@ -9,6 +9,7 @@ taboolib {
         name(rootProject.name)
     }
     install("common")
+    install("module-configuration")
     options("skip-minimize", "keep-kotlin-module")
     classifier = null
     version = taboolibVersion

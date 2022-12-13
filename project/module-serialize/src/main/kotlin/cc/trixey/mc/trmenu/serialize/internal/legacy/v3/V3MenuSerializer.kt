@@ -1,8 +1,9 @@
-package cc.trixey.mc.trmenu.serialize.legacy.v3
+package cc.trixey.mc.trmenu.serialize.internal.legacy.v3
 
 import cc.trixey.mc.trmenu.api.menu.Menu
 import cc.trixey.mc.trmenu.serialize.MenuSerializer
 import cc.trixey.mc.trmenu.util.Conclusion
+import taboolib.module.configuration.Configuration
 
 /**
  * TrMenu
@@ -13,7 +14,7 @@ import cc.trixey.mc.trmenu.util.Conclusion
  */
 class V3MenuSerializer : MenuSerializer {
 
-    override fun serializeMenu(): Conclusion<Menu> {
+    override fun serializeMenu(conf: Configuration): Conclusion<Menu> {
         TODO("Not yet implemented")
     }
 
