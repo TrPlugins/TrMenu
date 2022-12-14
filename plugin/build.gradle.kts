@@ -70,6 +70,8 @@ dependencies {
     compileOnly("com.electronwill.night-config:core:3.6.5")
 
     // Server Core
+    compileOnly("ink.ptms.core:v11903:11903-minimize:mapped")
+    compileOnly("ink.ptms.core:v11903:11903-minimize:universal")
     compileOnly("ink.ptms.core:v11701:11701-minimize:mapped")
     compileOnly("ink.ptms.core:v11701:11701-minimize:universal")
     compileOnly("ink.ptms.core:v11604:11604")

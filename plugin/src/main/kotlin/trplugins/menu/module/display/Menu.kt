@@ -6,6 +6,7 @@ import taboolib.common.platform.function.adaptPlayer
 import taboolib.common.platform.function.pluginId
 import taboolib.common.platform.function.submit
 import taboolib.module.configuration.ConfigFile
+import taboolib.module.configuration.Configuration
 import taboolib.platform.util.cancelNextChat
 import trplugins.menu.api.event.MenuOpenEvent
 import trplugins.menu.api.event.MenuPageChangeEvent
@@ -25,7 +26,7 @@ class Menu(
     val settings: MenuSettings,
     val layout: MenuLayout,
     val icons: Set<Icon>,
-    conf: ConfigFile
+    conf: Configuration
 ) {
 
     companion object {
@@ -34,7 +35,7 @@ class Menu(
 
     }
 
-    var conf: ConfigFile = conf
+    var conf: Configuration = conf
         internal set
 
     val viewers: MutableSet<String> = mutableSetOf()
