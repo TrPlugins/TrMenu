@@ -1,7 +1,5 @@
 package cc.trixey.mc.trmenu.serialize.internal.legacy.v3
 
-import cc.trixey.mc.trmenu.api.menu.MenuProps
-
 /**
  * TrMenu
  * cc.trixey.mc.trmenu.serialize.internal.legacy.v3.V3MenuSettings
@@ -12,5 +10,5 @@ import cc.trixey.mc.trmenu.api.menu.MenuProps
 class V3MenuSettings(
     val title: List<String>,
     val titleUpdate: Int,
-) : MenuProps() {
+) {
 }

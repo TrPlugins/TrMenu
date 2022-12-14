@@ -8,7 +8,6 @@ package cc.trixey.mc.trmenu.api.menu
  * @since 2022/12/10 1:02
  */
 abstract class Menu(
-    val props: MenuProps,
-
+    val panels:
 ) {
 }
