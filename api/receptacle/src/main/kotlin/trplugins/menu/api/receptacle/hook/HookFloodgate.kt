@@ -2,7 +2,6 @@ package trplugins.menu.api.receptacle.hook
 
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
-import org.geysermc.floodgate.api.FloodgateApi
 
 /**
  * TrMenu
@@ -14,7 +13,8 @@ import org.geysermc.floodgate.api.FloodgateApi
 class HookFloodgate private constructor() {
 
     fun isBedrockPlayer(player: Player): Boolean {
-        return FloodgateApi.getInstance().isFloodgatePlayer(player.uniqueId)
+//        return FloodgateApi.getInstance().isFloodgatePlayer(player.uniqueId)
+        return false
     }
 
     companion object {

@@ -311,9 +311,9 @@ class Assist {
     /**
      * Hook
      */
-    fun isBedrockPlayer(player: Player): Boolean {
+    /*fun isBedrockPlayer(player: Player): Boolean {
         return HookPlugin.getFloodgate().isBedrockPlayer(player)
-    }
+    }*/
 
 
     /**

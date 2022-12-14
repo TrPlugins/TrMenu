@@ -77,7 +77,6 @@ dependencies {
     compileOnly("ink.ptms.core:v11604:11604")
 
     // Hook Plugins
-    compileOnly("org.geysermc.floodgate:api:2.2.1-SNAPSHOT") { isTransitive = false }
     compileOnly("me.clip:placeholderapi:2.10.9") { isTransitive = false }
     compileOnly("ink.ptms:Zaphkiel:1.6.0") { isTransitive = false }
     compileOnly("ca.tweetzy:skulls:2.7.2") { isTransitive = false }
