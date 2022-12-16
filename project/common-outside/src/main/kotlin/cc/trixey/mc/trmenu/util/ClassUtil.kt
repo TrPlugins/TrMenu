@@ -1,9 +1,7 @@
 package cc.trixey.mc.trmenu.util
 
 import taboolib.common.TabooLibCommon
-import taboolib.common.io.getInstance
 import taboolib.common.io.runningClasses
-import taboolib.common.util.lazySupplier
 import taboolib.library.reflex.Reflex.Companion.getProperty
 import taboolib.library.reflex.ReflexClass
 import java.lang.reflect.Modifier

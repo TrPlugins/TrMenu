@@ -11,3 +11,9 @@ taboolib {
     classifier = null
     version = taboolibVersion
 }
+
+dependencies {
+    api(project(":project:common-outside"))
+    api(project(":project:module-invero"))
+    api(project(":project:module-serialize"))
+}

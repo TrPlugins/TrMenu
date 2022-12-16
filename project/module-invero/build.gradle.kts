@@ -5,9 +5,7 @@ plugins {
 }
 
 dependencies {
-    api(project(":project:common"))
     api(project(":project:module-invero-common"))
-    api(project(":project:implementation-bukkit"))
 }
 
 taboolib {

@@ -5,12 +5,7 @@ plugins {
 }
 
 taboolib {
-    description {
-        name(rootProject.name)
-    }
-    install("common")
-    install("platform-bukkit")
-    install("module-nms")
+    install("common", "common-5")
     options("skip-minimize", "keep-kotlin-module")
     classifier = null
     version = taboolibVersion

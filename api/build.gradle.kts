@@ -6,7 +6,6 @@ plugins {
 
 dependencies {
     implementation(project(":project:common"))
-    implementation(project(":project:module-invero-common"))
     implementation(project(":project:module-serialize"))
 }
 

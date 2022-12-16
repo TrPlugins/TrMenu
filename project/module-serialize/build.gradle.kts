@@ -16,5 +16,5 @@ taboolib {
 }
 
 dependencies {
-    api(project(":project:common"))
+    api(project(":project:common-outside"))
 }
