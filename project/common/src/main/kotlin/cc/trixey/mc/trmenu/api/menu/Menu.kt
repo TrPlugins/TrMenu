@@ -1,5 +1,10 @@
 package cc.trixey.mc.trmenu.api.menu
 
+import cc.trixey.mc.invero.common.Panel
+import cc.trixey.mc.invero.common.Window
+import taboolib.common.platform.ProxyPlayer
+import java.util.UUID
+
 /**
  * TrMenu
  * cc.trixey.mc.trmenu.api.menu.Menu
@@ -8,6 +13,14 @@ package cc.trixey.mc.trmenu.api.menu
  * @since 2022/12/10 1:02
  */
 abstract class Menu(
-    val panels:
+    val id: String = UUID.randomUUID().toString(),
+    val panels: List<Panel>
 ) {
+
+    abstract fun windowed(viewer: ProxyPlayer): Window
+
+    fun open(viewer: ProxyPlayer): Window {
+        return windowed(viewer).apply { this.open() }
+    }
+
 }
