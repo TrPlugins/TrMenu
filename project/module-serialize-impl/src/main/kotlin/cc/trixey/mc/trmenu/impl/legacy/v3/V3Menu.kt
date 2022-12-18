@@ -1,4 +1,4 @@
-package cc.trixey.mc.trmenu.serialize.internal.legacy.v3
+package cc.trixey.mc.trmenu.impl.legacy.v3
 
 import cc.trixey.mc.trmenu.api.menu.Menu
 

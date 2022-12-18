@@ -4,6 +4,10 @@ plugins {
     id("io.izzel.taboolib")
 }
 
+dependencies {
+    api(project(":project:module-invero"))
+}
+
 taboolib {
     description {
         name(rootProject.name)

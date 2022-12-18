@@ -1,4 +1,4 @@
-package cc.trixey.mc.trmenu.serialize.internal
+package cc.trixey.mc.trmenu.impl.legacy.v3
 
 import cc.trixey.mc.trmenu.api.menu.Menu
 import cc.trixey.mc.trmenu.serialize.MenuSerializer
@@ -7,12 +7,12 @@ import taboolib.module.configuration.Configuration
 
 /**
  * TrMenu
- * cc.trixey.mc.trmenu.serialize.def.ContainerMenuSerializer
+ * cc.trixey.mc.trmenu.serialize.legacy.v3.V3MenuSerializer
  *
  * @author Score2
- * @since 2022/12/10 0:47
+ * @since 2022/12/10 1:03
  */
-class ContainerMenuSerializer : MenuSerializer {
+class V3MenuSerializer : MenuSerializer {
 
     override fun serializeMenu(conf: Configuration): Conclusion<Menu> {
         TODO("Not yet implemented")

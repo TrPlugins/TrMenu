@@ -7,6 +7,7 @@ import taboolib.common.io.runningClasses
 import taboolib.common.util.resettableLazy
 import taboolib.library.reflex.Reflex.Companion.invokeConstructor
 import taboolib.module.configuration.Configuration
+import java.lang.Exception
 
 /**
  * TrMenu
@@ -24,7 +25,7 @@ interface MenuSerializer {
         /**
          * ResettableLazy.reset("plugin-bootstrap")
          */
-        private val serializers by resettableLazy("plugin-bootstrap") {
+        val serializers by resettableLazy("plugin-bootstrap") {
             runningClasses.fromClassesCollect(MenuSerializer::class.java).map {
                 Conclusion<MenuSerializer>().prove { it.invokeConstructor() }
             }.mapNotNull {
@@ -38,12 +39,11 @@ interface MenuSerializer {
             }
         }
 
-        fun <T> serialize() {
+        inline fun <reified T> serialize(conf: Configuration) {
+            val serializer = serializers.find { it::class.java == T::class.java }
+                ?: throw Exception("Unsupported serializer '${T::class.java.name}'")
 
-
-
-
-
+            serializer.serializeMenu(conf)
         }
 
     }

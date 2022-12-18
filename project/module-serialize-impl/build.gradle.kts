@@ -9,9 +9,13 @@ taboolib {
         name(rootProject.name)
     }
     install("common")
-    install("platform-bukkit")
-    install("module-nms")
+    install("module-configuration")
     options("skip-minimize", "keep-kotlin-module")
     classifier = null
     version = taboolibVersion
+}
+
+dependencies {
+    api(project(":project:common"))
+    api(project(":project:module-serialize"))
 }
