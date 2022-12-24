@@ -27,6 +27,7 @@ import taboolib.platform.compat.getBalance
 import taboolib.platform.util.ItemBuilder
 import taboolib.type.BukkitEquipment
 import trplugins.menu.TrMenu
+import trplugins.menu.api.receptacle.provider.PlatformProvider
 import java.util.*
 
 
@@ -311,9 +312,9 @@ class Assist {
     /**
      * Hook
      */
-    /*fun isBedrockPlayer(player: Player): Boolean {
-        return HookPlugin.getFloodgate().isBedrockPlayer(player)
-    }*/
+    fun isBedrockPlayer(player: Player): Boolean {
+        return PlatformProvider.isBedrockPlayer(player)
+    }
 
 
     /**

@@ -3,6 +3,7 @@ Options:
   Running-Performance: Normal
   Multi-Thread: true
   Async-Load-Menus: true
+  Bedrock-Static-Inv: false
 
   Placeholders:
     JavaScript-Parse: false

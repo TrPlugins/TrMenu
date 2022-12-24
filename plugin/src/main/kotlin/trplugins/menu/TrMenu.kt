@@ -19,6 +19,7 @@ import taboolib.module.lang.Language
 import taboolib.module.lang.sendLang
 import taboolib.platform.BukkitPlugin
 import trplugins.menu.api.action.ActionHandle
+import trplugins.menu.api.receptacle.provider.PlatformProvider
 import trplugins.menu.module.display.session
 import trplugins.menu.module.internal.script.evalScript
 
@@ -72,6 +73,11 @@ object TrMenu : Plugin() {
         Shortcuts.Type.load()
         RegisterCommands.load()
         Kether.isAllowToleranceParser = SETTINGS.getBoolean("Action.Kether.Allow-Tolerance-Parser",false)
+        if (SETTINGS.getBoolean("Options.Bedrock-Static-Inv", false)) {
+            PlatformProvider.compute()
+        } else {
+            PlatformProvider.provider = null
+        }
     }
 
 }
