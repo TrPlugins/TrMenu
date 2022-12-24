@@ -29,7 +29,7 @@ class Lore(lore: List<String>) {
         lore
             .forEach { (line, condition) ->
                 if (condition == null || session.evalScript(condition).asBoolean()) {
-                    lores.addAll(session.parse(line).split("\n"))
+                    lores.addAll(session.parse(line).split("\\n", "\n"))
                 }
             }
 
