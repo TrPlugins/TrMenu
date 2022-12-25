@@ -1,6 +1,6 @@
 package cc.trixey.mc.trmenu.test.unit
 
-import cc.trixey.mc.invero.util.dsl.*
+import cc.trixey.mc.invero.impl.container.util.dsl.*
 import cc.trixey.mc.trmenu.test.generateRandomItem
 import org.bukkit.Material
 import org.bukkit.entity.Player

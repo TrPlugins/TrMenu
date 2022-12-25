@@ -1,6 +1,6 @@
 package cc.trixey.mc.trmenu.test.unit
 
-import cc.trixey.mc.invero.InveroManager
+import cc.trixey.mc.invero.impl.container.InveroManager
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.command.subCommand
 

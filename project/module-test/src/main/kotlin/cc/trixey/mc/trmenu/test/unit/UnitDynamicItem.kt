@@ -1,15 +1,15 @@
 package cc.trixey.mc.trmenu.test.unit
 
-import cc.trixey.mc.invero.common.WindowType
-import cc.trixey.mc.invero.element.BasicDynamicItem
-import cc.trixey.mc.invero.element.BasicItem
-import cc.trixey.mc.invero.panel.PagedStandardPanel
-import cc.trixey.mc.invero.panel.StandardPanel
-import cc.trixey.mc.invero.util.buildItem
-import cc.trixey.mc.invero.util.buildPanel
-import cc.trixey.mc.invero.util.buildWindow
-import cc.trixey.mc.invero.util.page
-import cc.trixey.mc.invero.window.CompleteWindow
+import cc.trixey.mc.invero.WindowType
+import cc.trixey.mc.invero.impl.container.element.BasicDynamicItem
+import cc.trixey.mc.invero.impl.container.element.BasicItem
+import cc.trixey.mc.invero.impl.container.panel.PagedStandardPanel
+import cc.trixey.mc.invero.impl.container.panel.StandardPanel
+import cc.trixey.mc.invero.impl.container.util.buildItem
+import cc.trixey.mc.invero.impl.container.util.buildPanel
+import cc.trixey.mc.invero.impl.container.util.buildWindow
+import cc.trixey.mc.invero.impl.container.util.page
+import cc.trixey.mc.invero.impl.container.window.CompleteWindow
 import cc.trixey.mc.trmenu.coroutine.launchAsync
 import cc.trixey.mc.trmenu.test.generateRandomItem
 import org.bukkit.Material

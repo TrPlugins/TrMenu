@@ -41,7 +41,7 @@ interface MenuSerializer {
 
         inline fun <reified T> serialize(conf: Configuration) {
             val serializer = serializers.find { it::class.java == T::class.java }
-                ?: throw Exception("Unsupported serializer '${T::class.java.name}'")
+                ?: throw IllegalArgumentException("Unsupported serializer '${T::class.java.name}'")
 
             serializer.serializeMenu(conf)
         }

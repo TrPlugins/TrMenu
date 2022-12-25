@@ -1,13 +1,13 @@
 package cc.trixey.mc.trmenu.test.unit
 
-import cc.trixey.mc.invero.common.PanelWeight
-import cc.trixey.mc.invero.common.WindowHolder
-import cc.trixey.mc.invero.element.BasicItem
-import cc.trixey.mc.invero.panel.IOStoragePanel
-import cc.trixey.mc.invero.panel.PagedStandardPanel
-import cc.trixey.mc.invero.panel.StandardPanel
-import cc.trixey.mc.invero.util.*
-import cc.trixey.mc.invero.window.ContainerWindow
+import cc.trixey.mc.invero.PanelWeight
+import cc.trixey.mc.invero.WindowHolder
+import cc.trixey.mc.invero.impl.container.element.BasicItem
+import cc.trixey.mc.invero.impl.container.panel.IOStoragePanel
+import cc.trixey.mc.invero.impl.container.panel.PagedStandardPanel
+import cc.trixey.mc.invero.impl.container.panel.StandardPanel
+import cc.trixey.mc.invero.impl.container.util.*
+import cc.trixey.mc.invero.impl.container.window.ContainerWindow
 import cc.trixey.mc.trmenu.test.generateRandomItem
 import org.bukkit.Material
 import taboolib.common.platform.command.subCommand

@@ -1,13 +1,13 @@
 package cc.trixey.mc.trmenu.test.unit
 
-import cc.trixey.mc.invero.common.PanelWeight
-import cc.trixey.mc.invero.element.BasicItem
-import cc.trixey.mc.invero.panel.StandardPanel
-import cc.trixey.mc.invero.util.dsl.item
-import cc.trixey.mc.invero.util.dsl.paged
-import cc.trixey.mc.invero.util.dsl.standard
-import cc.trixey.mc.invero.util.dsl.window
-import cc.trixey.mc.invero.util.page
+import cc.trixey.mc.invero.PanelWeight
+import cc.trixey.mc.invero.impl.container.element.BasicItem
+import cc.trixey.mc.invero.impl.container.panel.StandardPanel
+import cc.trixey.mc.invero.impl.container.util.dsl.item
+import cc.trixey.mc.invero.impl.container.util.dsl.paged
+import cc.trixey.mc.invero.impl.container.util.dsl.standard
+import cc.trixey.mc.invero.impl.container.util.dsl.window
+import cc.trixey.mc.invero.impl.container.util.page
 import cc.trixey.mc.trmenu.coroutine.launchAsync
 import cc.trixey.mc.trmenu.test.generateRandomItem
 import org.bukkit.Material

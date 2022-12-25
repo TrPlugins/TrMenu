@@ -1,8 +1,8 @@
 package cc.trixey.mc.trmenu.test.unit
 
-import cc.trixey.mc.invero.element.BasicDynamicItem
-import cc.trixey.mc.invero.util.buildItem
-import cc.trixey.mc.invero.util.dsl.*
+import cc.trixey.mc.invero.impl.container.element.BasicDynamicItem
+import cc.trixey.mc.invero.impl.container.util.dsl.*
+import cc.trixey.mc.invero.impl.container.util.buildItem
 import cc.trixey.mc.trmenu.coroutine.launchAsync
 import org.bukkit.Material
 import org.bukkit.entity.Player

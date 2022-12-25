@@ -1,13 +1,13 @@
 package cc.trixey.mc.trmenu.test.unit
 
 import cc.trixey.mc.trmenu.coroutine.launch
-import cc.trixey.mc.invero.element.BasicItem
-import cc.trixey.mc.invero.panel.StandardPanel
-import cc.trixey.mc.invero.window.CompleteWindow
-import cc.trixey.mc.invero.common.WindowType
-import cc.trixey.mc.invero.util.addElement
-import cc.trixey.mc.invero.util.addPanel
-import cc.trixey.mc.invero.util.buildWindow
+import cc.trixey.mc.invero.impl.container.element.BasicItem
+import cc.trixey.mc.invero.impl.container.panel.StandardPanel
+import cc.trixey.mc.invero.impl.container.window.CompleteWindow
+import cc.trixey.mc.invero.WindowType
+import cc.trixey.mc.invero.impl.container.util.addElement
+import cc.trixey.mc.invero.impl.container.util.addPanel
+import cc.trixey.mc.invero.impl.container.util.buildWindow
 import cc.trixey.mc.trmenu.test.generateRandomItem
 import taboolib.common.platform.command.subCommand
 

@@ -1,9 +1,10 @@
 package cc.trixey.mc.trmenu.test.unit
 
-import cc.trixey.mc.invero.element.BasicItem
-import cc.trixey.mc.invero.util.addGroup
-import cc.trixey.mc.invero.util.dsl.*
-import cc.trixey.mc.invero.util.page
+import cc.trixey.mc.invero.impl.container.element.BasicItem
+import cc.trixey.mc.invero.impl.container.util.dsl.*
+import cc.trixey.mc.invero.impl.container.util.dsl.nav
+import cc.trixey.mc.invero.impl.container.util.addGroup
+import cc.trixey.mc.invero.impl.container.util.page
 import cc.trixey.mc.trmenu.coroutine.launchAsync
 import cc.trixey.mc.trmenu.test.generateRandomItem
 import org.bukkit.Material
