@@ -5,6 +5,7 @@ import trplugins.menu.module.display.MenuSession
 import trplugins.menu.module.internal.data.Metadata
 import org.bukkit.event.player.PlayerQuitEvent
 import taboolib.common.platform.event.SubscribeEvent
+import taboolib.common.platform.function.submit
 import trplugins.menu.api.receptacle.setViewingReceptacle
 
 /**
@@ -18,7 +19,9 @@ object ListenerQuit {
         val player = e.player
         val session = MenuSession.getSession(player)
         session.shut()
-        Metadata.pushData(player)
+        submit(async = true) {
+            Metadata.pushData(player)
+        }
         Menu.menus.forEach {
             it.icons.forEach { icon -> icon.onReset(session) }
         }

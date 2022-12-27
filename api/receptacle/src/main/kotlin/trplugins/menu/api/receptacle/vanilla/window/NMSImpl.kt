@@ -1,12 +1,10 @@
 package trplugins.menu.api.receptacle.vanilla.window
 
 import net.minecraft.server.v1_16_R3.*
-import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.craftbukkit.v1_16_R3.inventory.CraftItemStack
 import org.bukkit.craftbukkit.v1_16_R3.util.CraftChatMessage
 import org.bukkit.entity.Player
-import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import taboolib.library.reflex.Reflex.Companion.getProperty
 import taboolib.library.reflex.Reflex.Companion.setProperty
@@ -14,7 +12,8 @@ import taboolib.library.reflex.Reflex.Companion.unsafeInstance
 import taboolib.module.nms.MinecraftVersion
 import taboolib.module.nms.sendPacket
 import taboolib.platform.util.isAir
-import trplugins.menu.api.receptacle.hook.HookFloodgate
+import trplugins.menu.api.receptacle.provider.PlatformProvider
+import trplugins.menu.api.receptacle.vanilla.window.StaticInventory.staticInventory
 
 /**
  * @author Arasple
@@ -23,16 +22,13 @@ import trplugins.menu.api.receptacle.hook.HookFloodgate
 class NMSImpl : NMS() {
 
     private val emptyItemStack: net.minecraft.server.v1_16_R3.ItemStack? = CraftItemStack.asNMSCopy((ItemStack(Material.AIR)))
-    private val staticInventories = HashMap<Player, Pair<Int, Inventory>>()
-    private val Player.staticInventory get() = staticInventories[this]?.second
     private val version = MinecraftVersion.majorLegacy
 
-    private fun Player.isBedrockPlayer() = HookFloodgate.isBedrockPlayer(this)
+    private fun Player.isBedrockPlayer() = PlatformProvider.isBedrockPlayer(this)
 
     override fun sendWindowsClose(player: Player, windowId: Int) {
         if (player.isBedrockPlayer()) {
-            player.closeInventory()
-            staticInventories.remove(player)
+            StaticInventory.close(player)
         } else {
             player.sendPacket(PacketPlayOutCloseWindow(windowId))
         }
@@ -40,8 +36,15 @@ class NMSImpl : NMS() {
 
     override fun sendWindowsItems(player: Player, windowId: Int, items: Array<ItemStack?>) {
         when {
-            player.isBedrockPlayer() -> items.forEach { player.staticInventory?.addItem(it) }
-
+            player.isBedrockPlayer() -> {
+                val inventory = player.staticInventory!!
+                items.forEachIndexed { index, item ->
+                    if (index >= inventory.size) {
+                        return
+                    }
+                    inventory.setItem(index, item)
+                }
+            }
             version >= 11701 -> {
                 sendPacket(
                     player,
@@ -82,10 +85,7 @@ class NMSImpl : NMS() {
     override fun sendWindowsOpen(player: Player, windowId: Int, type: WindowLayout, title: String) {
         when {
             player.isBedrockPlayer() -> {
-                val inventory = Bukkit.createInventory(null, type.toBukkitType(), title)
-                player.openInventory(inventory)
-                val containerId = player.getProperty<Int>("entity/containerCounter")!!
-                staticInventories[player] = Pair(containerId, inventory)
+                StaticInventory.open(player, type, title)
             }
             version >= 11900 -> {
                 sendPacket(
@@ -130,7 +130,14 @@ class NMSImpl : NMS() {
     override fun sendWindowsSetSlot(player: Player, windowId: Int, slot: Int, itemStack: ItemStack?, stateId: Int) {
         when {
             player.isBedrockPlayer() -> {
-                player.staticInventory!!.setItem(slot, itemStack)
+                if (windowId == -1 && slot == -1) {
+                    player.itemOnCursor.type = Material.AIR
+                } else {
+                    val inventory = player.staticInventory!!
+                    if (slot >= 0 && slot < inventory.size) {
+                        inventory.setItem(slot, itemStack)
+                    }
+                }
             }
             version >= 11701 -> {
                 sendPacket(

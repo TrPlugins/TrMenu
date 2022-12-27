@@ -1,5 +1,7 @@
 package trplugins.menu.api.receptacle.vanilla.window
 
+import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.inventory.InventoryDragEvent
 import taboolib.common.platform.Platform
 import taboolib.common.platform.PlatformSide
 import taboolib.common.platform.event.SubscribeEvent
@@ -8,6 +10,7 @@ import taboolib.module.nms.MinecraftVersion
 import taboolib.module.nms.PacketReceiveEvent
 import taboolib.module.nms.nmsProxy
 import trplugins.menu.api.receptacle.*
+import trplugins.menu.api.receptacle.vanilla.window.StaticInventory.staticContainerId
 
 @PlatformSide([Platform.BUKKIT])
 object WindowListener {
@@ -21,7 +24,8 @@ object WindowListener {
             } else {
                 e.packet.read<Int>("a")
             }
-            if (id == 119) {
+            if (id == 119 || id == e.player.staticContainerId) {
+                e.isCancelled = true
                 val slot: Int
                 val clickType: ReceptacleClickType
                 val button: Int
@@ -44,7 +48,6 @@ object WindowListener {
                 if (evt.isCancelled) {
                     nmsProxy<NMS>().sendWindowsSetSlot(e.player, slot = -1, windowId = -1)
                 }
-                e.isCancelled = true
             }
         } else if (e.packet.name == "PacketPlayInCloseWindow") {
             val id = if (MinecraftVersion.isUniversal) {
@@ -52,7 +55,7 @@ object WindowListener {
             } else {
                 e.packet.read<Int>("id")
             }
-            if (id == 119) {
+            if (id == 119 || id == e.player.staticContainerId) {
                 receptacle.close(false)
                 // 防止关闭菜单后, 动态标题频率过快出现的卡假容器
                 submit(delay = 1, async = true) {
@@ -70,6 +73,20 @@ object WindowListener {
             }
             e.isCancelled = true
             ReceptacleCloseEvent(e.player, receptacle).call()
+        }
+    }
+
+    @SubscribeEvent
+    fun onClick(e: InventoryClickEvent) {
+        if (e.inventory.holder is StaticInventory.Holder) {
+            e.isCancelled = true
+        }
+    }
+
+    @SubscribeEvent
+    fun onDrag(e: InventoryDragEvent) {
+        if (e.inventory.holder is StaticInventory.Holder) {
+            e.isCancelled = true
         }
     }
 }

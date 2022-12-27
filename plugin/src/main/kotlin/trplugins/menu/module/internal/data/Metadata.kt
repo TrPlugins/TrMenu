@@ -75,9 +75,13 @@ object Metadata {
     }
 
     fun loadData(player: Player) {
-        data[player.name] = DataMap(
-            getLocalePlayer(player)!!.getConfigurationSection("TrMenu.Data")?.toMap()?.toMutableMap() ?: mutableMapOf()
-        )
+        val map: MutableMap<String, Any?> = mutableMapOf()
+
+        getLocalePlayer(player)!!.getConfigurationSection("TrMenu.Data")?.let { section ->
+            section.getKeys(true).forEach { key -> map[key] = section.get(key) }
+        }
+
+        data[player.name] = DataMap(map)
     }
 
     fun <T> getData(target: T): DataMap {
