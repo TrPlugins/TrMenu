@@ -15,5 +15,4 @@ taboolib {
 dependencies {
     api(project(":project:common-outside"))
     api(project(":project:module-invero-impl"))
-    api(project(":project:module-serialize"))
 }

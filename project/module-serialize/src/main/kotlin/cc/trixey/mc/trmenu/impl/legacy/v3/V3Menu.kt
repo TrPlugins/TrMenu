@@ -34,6 +34,8 @@ class V3Menu(
         TODO("Not yet implemented")
     }
 
+    class Icon()
+
     class Layout(
         rows: Int = 0,
         val type: InventoryType,

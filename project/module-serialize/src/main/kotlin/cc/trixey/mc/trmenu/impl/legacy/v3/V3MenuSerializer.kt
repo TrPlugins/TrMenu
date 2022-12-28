@@ -16,6 +16,7 @@ class V3MenuSerializer : MenuSerializer {
 
     override fun serializeMenu(conf: Configuration): Conclusion<Menu> {
         TODO("Not yet implemented")
+
     }
 
 }

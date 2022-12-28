@@ -1,0 +1,6 @@
+properties:
+  # flat(2d), encircle(3d)
+  display-form: encircle
+  spawn-radius: 2.5
+
+panels:
