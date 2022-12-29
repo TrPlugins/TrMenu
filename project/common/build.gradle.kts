@@ -5,8 +5,15 @@ plugins {
 }
 
 taboolib {
-    install("common", "common-5")
-    install("platform-bukkit")
+    install(
+        "common",
+        "common-5",
+        "module-configuration",
+        "module-kether",
+    )
+    install(
+        "platform-bukkit"
+    )
     options("skip-minimize", "keep-kotlin-module")
     classifier = null
     version = taboolibVersion
