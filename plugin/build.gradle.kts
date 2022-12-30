@@ -1,7 +1,27 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import Versions.taboolib_version
 
 plugins {
-    id("com.github.johnrengelman.shadow")
+    id("io.izzel.taboolib")
+}
+
+taboolib {
+    install(
+        "common",
+        "common-5",
+        "module-configuration",
+        "module-nms",
+        "module-nms-util",
+        "module-kether",
+        "platform-bukkit",
+        "platform-bungee",
+    )
+
+    classifier = null
+    version = taboolib_version
+}
+
+tasks.jar {
+    archiveBaseName.set(rootProject.name)
 }
 
 dependencies {
@@ -9,11 +29,11 @@ dependencies {
         .map { it.path }
         .filter { it.startsWith(":project:") }
         .forEach {
-            implementation(project(it))
+            taboo(project(it))
         }
 }
 
-tasks {
+/*tasks {
     withType<ShadowJar> {
         archiveClassifier.set("")
         exclude("META-INF/**")
@@ -25,7 +45,7 @@ tasks {
 
 tasks.jar {
     archiveFileName.set(rootProject.name)
-}
+}*/
 /*
 
 gradle.buildFinished {

@@ -1,21 +1,7 @@
-val taboolibVersion: String by project
-
-plugins {
-    id("io.izzel.taboolib")
-}
-
 dependencies {
-    api(project(":project:module-invero"))
-}
+    tabooModule("common")
+    tabooModule("platform-bukkit")
+    tabooModule("module-nms")
 
-taboolib {
-    description {
-        name(rootProject.name)
-    }
-    install("common")
-    install("platform-bukkit")
-    install("module-nms")
-    options("skip-minimize", "keep-kotlin-module")
-    classifier = null
-    version = taboolibVersion
+    api(project(":project:module-invero"))
 }
