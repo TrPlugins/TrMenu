@@ -10,7 +10,7 @@ package cc.trixey.mc.trmenu.api.reaction
 class DeepList<T : Any>(
     parent: Collection<T>
 ) : ArrayList<Require<Any>>(
-    parent.map { Require(null, it) }
+    parent.map { Require("value", null, it) }
 ) {
 
     fun list() {

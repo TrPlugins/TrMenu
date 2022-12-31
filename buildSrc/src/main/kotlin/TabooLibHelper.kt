@@ -9,10 +9,6 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
  * @since 2022/12/30 23:53
  */
 
-enum class ImportMethod {
-    API,
-    IMPL
-}
 
 fun DependencyHandler.tabooModule(module: String, im: ImportMethod = ImportMethod.API) {
     when (im) {

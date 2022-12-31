@@ -1,6 +1,10 @@
 package cc.trixey.mc.trmenu.api.reaction
 
+import cc.trixey.mc.trmenu.TrMenu
+import cc.trixey.mc.trmenu.TrMenu.conditionalKether
+import taboolib.common.platform.ProxyPlayer
 import taboolib.library.configuration.ConfigurationSection
+import taboolib.module.configuration.Configuration
 
 /**
  * TrMenu
@@ -9,25 +13,30 @@ import taboolib.library.configuration.ConfigurationSection
  * @author Score2
  * @since 2022/12/28 23:06
  */
-class Require<T>(val condition: String?, val value: T) {
+class Require<T>(val key: String, val condition: String?, val value: T) {
 
-    fun eval(): Boolean {
+    fun eval(player: ProxyPlayer): Boolean {
         if (condition == null) {
             return true
         }
 
-        TODO("kether or javascript")
+        // TODO("javascript")
+
+        return player.conditionalKether(condition)
     }
 
-    fun result(): T? =
-        if (eval()) {
+    fun result(player: ProxyPlayer): T? =
+        if (eval(player)) {
             value
         } else {
             null
         }
 
     fun saveToSection(): ConfigurationSection {
-        TODO()
+        val section = Configuration.empty()
+        section["condition"] = condition
+        section[key] = value
+        return section
     }
 
 }
