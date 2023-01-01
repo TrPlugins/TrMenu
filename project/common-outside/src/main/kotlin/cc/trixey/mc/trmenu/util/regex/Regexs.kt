@@ -12,5 +12,7 @@ object Regexs {
     val REGEX_FALSE = "false|no|off".toRegex()
     val REGEX_BOOLEAN = "true|yes|on|false|no|off".toRegex()
 
+    val REGEX_CONDITION = "(condition|requirement)s?".toRegex()
+
     val REGEX_PLACEHOLDER = "(%)(.+?)(%)|(?!\\{\")((\\{)(.+?)(}))".toRegex()
 }

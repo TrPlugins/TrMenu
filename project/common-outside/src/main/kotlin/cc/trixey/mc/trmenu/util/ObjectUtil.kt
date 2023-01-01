@@ -14,6 +14,9 @@ import cc.trixey.mc.trmenu.util.regex.Regexs.REGEX_TRUE
 fun String.hasPlaceholder() =
     REGEX_PLACEHOLDER.find(this) != null
 
+fun String.removeBlank() =
+    replace("\\s*".toRegex(), "")
+
 fun Any?.parseBoolean(): Boolean {
     return when (this) {
         is Boolean -> this

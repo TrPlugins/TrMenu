@@ -1,13 +1,15 @@
-package cc.trixey.mc.trmenu.impl.legacy.v3
+package cc.trixey.mc.trmenu.serialize.impl.legacy.v3
 
 import cc.trixey.mc.invero.Panel
 import cc.trixey.mc.invero.Window
 import cc.trixey.mc.invero.WindowType
 import cc.trixey.mc.trmenu.api.menu.Menu
 import org.bukkit.Bukkit
+import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryType
 import taboolib.common.platform.ProxyPlayer
 import taboolib.common.platform.function.adaptPlayer
+import taboolib.common.platform.function.onlinePlayers
 import taboolib.common.platform.function.submit
 import taboolib.common.util.VariableReader
 import javax.lang.model.element.VariableElement
@@ -25,7 +27,7 @@ class V3Menu(
     val settings: Settings,
     val layouts: List<Layout>,
 
-) : Menu(id) {
+    ) : Menu(id) {
 
     override val panels: List<Panel>
         get() = TODO("Not yet implemented")
@@ -35,6 +37,8 @@ class V3Menu(
     }
 
     class Icon()
+
+    class IconProperty()
 
     class Layout(
         rows: Int = 0,

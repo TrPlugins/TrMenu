@@ -1,6 +1,7 @@
 package cc.trixey.mc.trmenu.api.reaction
 
 import cc.trixey.mc.trmenu.util.getString
+import cc.trixey.mc.trmenu.util.regex.Regexs.REGEX_CONDITION
 import cc.trixey.mc.trmenu.util.regexKeyNullable
 import taboolib.library.configuration.ConfigurationSection
 
@@ -11,8 +12,6 @@ import taboolib.library.configuration.ConfigurationSection
  * @author Score2
  * @since 2022/12/29 21:01
  */
-
-val REGEX_CONDITION = "(condition|requirement)s?".toRegex()
 
 fun ConfigurationSection.asRequirable(k: String = "value"): Require<Any>? {
     val condition = getString(REGEX_CONDITION)
