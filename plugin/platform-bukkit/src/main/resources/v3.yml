@@ -1,0 +1,261 @@
+Title:
+  - 'Hello, TrMenu!'
+  - 'Hello, %player_name%!'
+  - 'Support Animated Titles'
+
+Title-Update: 80
+
+Layout:
+  - - '########`Close`'
+    - '         '
+    - '   PT   '
+    - '         '
+    - '####*###`Next`'
+
+  - - '########`Close`'
+    - '         '
+    - '         '
+    - '         '
+    - '`Pre`########'
+
+PlayerInventory:
+  - - '         '
+    - '         '
+    - '         '
+    - '         '
+
+Options:
+  Arguments: false
+  Default-Arguments: [ ]
+  Default-Layout: 0
+  Hide-Player-Inventory: false
+  Min-Click-Delay: 200
+  Depend-Expansions: [ 'server', 'player', 'progress', 'animations' ]
+
+Bindings:
+  Commands:
+    - '(?i)example(-)?(gui)?(s)?'
+  Items:
+    - 'material:compass'
+    - 'material:clock,lore:OPEN_MENU'
+    - 'texture:eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDRmNDUyZDk5OGVhYmFjNDY0MmM2YjBmZTVhOGY0ZTJlNjczZWRjYWUyYTZkZmQ5ZTZhMmU4NmU3ODZlZGFjMCJ9fX0='
+
+Events:
+  Open:
+    - condition: 'perm *trmenu.use'
+      actions:
+        - 'sound: BLOCK_CHEST_OPEN-1-0'
+      deny:
+        - 'sound: ENTITY_ITEM_BREAK-1-0'
+        - 'title: `&c&lPermission Required` `&7&lYou need permission &6&ltrmenu.use &7&lto open this trplugins.menu` 15 20 15'
+        - 'return'
+  Close:
+    - 'sound: BLOCK_CHEST_CLOSE-1-0'
+
+Icons:
+  '#':
+    update: [ -1, 10, 15, -1 ]
+    display:
+      material: Gray Stained Glass Pane
+      name: [ '&fTr&7Menu', '&7Tr&8Menu', '&8Tr&0Menu','&7Tr&8Menu' ]
+      lore:
+        - - '&7Thanks &f:> &7for using!'
+        - - '&7Thanks &f:) &7for using!'
+    actions:
+      all: 'sound: BLOCK_NOTE_BLOCK_PLING-1-2'
+
+  Close:
+    update: [ -1, 5, -1, -1 ]
+    display:
+      material: Red Stained Glass Pane
+      name: [ '&cC&7lose', '&cCl&7ose', '&cClo&7se', '&cClos&7e', '&cClose' ]
+    actions:
+      all: close
+
+  Next:
+    display:
+      material: Cyan Stained Glass Pane
+      name: '&bN&3ext Page'
+    actions:
+      all:
+        - 'page: 1'
+        - 'sound: BLOCK_CHEST_OPEN-1-2'
+  Pre:
+    display:
+      material: Lime Stained Glass Pane
+      name: '&aP&2revious Page'
+    actions:
+      all:
+        - 'page: 0'
+        - 'sound: BLOCK_CHEST_OPEN-1-2'
+
+  '*':
+    update: [ -1, 5, 20, -1 ]
+    display:
+      material: <skull:9842dc3b917b1a796c303e15105474a8e315de7982b6ca54feafb5a4d13d4e95>
+      name:
+        - '&3&lSERVER'
+        - '&b&lSE&3&lRVER'
+        - '&3&lS&b&lER&3&lVER'
+        - '&3&lSE&b&lRV&3&lER'
+        - '&3&lSER&b&lVE&3&lR'
+        - '&3&lSERV&b&lER'
+      lore:
+        - ''
+        - '&8| &7RAM: &2%server_ram_used%/%server_ram_total% &7MB'
+        - '&8[ %progress_bar_{server_ram_used}_m:{server_ram_total}_c:&3■_p:&7■_r:&8■_l:20% &8]'
+        - ''
+        - '&b${flash_➥} &3Left-Click &7to display more info.'
+    actions:
+      left:
+        - 'set-meta: icon_server_hide true'
+        - 'sound: BLOCK_NOTE_BLOCK_BIT-1-0'
+        - 'refresh: *'
+    icons:
+      - condition: 'check &icon_server_hide is *true'
+        priority: 5
+        inherit: true
+        display:
+          lore:
+            - ''
+            - '&8| &7RAM: &2%server_ram_used%/%server_ram_total% &7MB'
+            - '&8[ %progress_bar_{server_ram_used}_m:{server_ram_total}_c:&3■_p:&7■_r:&8■_l:20% &8]'
+            - ''
+            - '&8| &7ONLINE: &e%server_online% &6${js: utils.getOnlinePlayers().size() > 1 ? "Players" : "Player"}'
+            - '&8| &7UPTIME: &e%server_uptime%'
+            - '&8| &7TPS: &a%server_tps%'
+            - ''
+            - '&a${flash_➥} &2Right-Click &7to hide extra-info.'
+        actions:
+          right:
+            - 'rem-meta: icon_server_hide'
+            - 'sound: BLOCK_NOTE_BLOCK_BIT-1-2'
+            - 'refresh: *'
+
+  P:
+    update: 20
+    display:
+      material: 'head:%player_name%'
+      name: '&2&l%player_name%'
+      lore:
+        - ''
+        - 'Hello, %player_name%! There''s your profile.'
+        - ''
+        - '&8| &7HEALTH: &c%player_health_rounded% ♥'
+        - '&8| &7LEVEL: &3Lv.%player_level%'
+        - '&8| &7TIME: &3%player_world_time_24%'
+        - ''
+        - '&8| &7REGISTER DATE: &3%player_first_join_date%'
+        - '&8| &7IP: &3%player_ip%'
+        - '&8| &7PING: ${js: varInt("%player_ping%") < 60 ? "&a" : "&2"}%player_ping% ms'
+        - ''
+        - '&8➥ &7Press number key &66 &7to high jump'
+        - ''
+        - '&8%player_uuid%'
+    actions:
+      all: 'sound: BLOCK_NOTE_BLOCK_PLING-1-2'
+      number_key_6:
+        - 'close'
+        - 'title: `&b&LGET READY` &6&l3 10 20 40 &&& sound: ENTITY_ENDER_DRAGON_FLAP-1-0'
+        - 'title: `&3&LGET READY` &6&l2 &&& sound: ENTITY_ENDER_DRAGON_FLAP-1-0 {Delay=20}'
+        - 'title: `&9&LGET READY` &c&l1 &&& sound: ENTITY_ENDER_DRAGON_FLAP-1-0 {Delay=40}'
+        - 'js: player.setVelocity(player.getVelocity().setY(25)) &&& js: player.setNoDamageTicks(600) &&& sound: ENTITY_ENDER_DRAGON_FLAP-1-1 {Delay=50}'
+        - 'js: player.setVelocity(player.getVelocity().setY(45)) &&& title: &d&LAGAIN &7&lHIGHER! &&& sound: ENTITY_ENDER_DRAGON_FLAP-1-2 {Delay=100}'
+
+  T:
+    update: 20
+    display:
+      material: compass
+      name: '&3&lTrMenu'
+      amount: '${js: varInt("%server_time_s%") + 1}'
+      lore:
+        - ''
+        - 'The following is the relevant statistics'
+        - 'of TrMenu, from the bStats'
+        - '&8(https://bstats.org/)'
+        - ''
+        - '&8| &3Servers: ${bStats.servers}'
+        - '&8| &3Players: ${bStats.players}'
+        - '&8| &3Menus: ${bStats.menus}'
+        - ''
+        - 'In the past half an hour,'
+        - 'Menus have been opened ${bStats.opens} times'
+        - ''
+
+  Bee:
+    update: 20
+    display:
+      material: 'head:b727d0ab03f5cd022f8705d3f7f133ca4920eae8e1e47b5074433a137e691e4e'
+      name: '&eBee ~'
+      slots:
+        - [ 9 ]
+        - [ 18 ]
+        - [ 28 ]
+        - [ 29 ]
+        - [ 30 ]
+        - [ 31 ]
+        - [ 32 ]
+        - [ 33 ]
+        - [ 34 ]
+        - [ 35 ]
+        - [ 26 ]
+        - [ 16 ]
+        - [ 15 ]
+        - [ 14 ]
+        - [ 13 ]
+        - [ 12 ]
+        - [ 11 ]
+        - [ 10 ]
+    actions:
+      all:
+        - 'set-meta: angryBee true'
+        - 'sound: ENTITY_ENDERMAN_HURT-1-2'
+        - 'rem-meta: angryBee &&& refresh: Bee &&& sound: ENTITY_SPIDER_STEP-1-2 {Delay=80}'
+        - 'refresh: Bee'
+    icons:
+      - condition: 'check &angryBee is *true'
+        display:
+          name: '&cBee &4~'
+          material: 'head:e6b74e052b74288799ba6d9f35c5d0221cf8b04331547ec2f68d73597ae2c9b'
+          lore:
+            - 'unfortunate...'
+        actions:
+          all: 'sound: ENTITY_ENDERMAN_HURT-1-2'
+
+Tasks:
+  tikTok:
+    period: 80
+    task:
+      - condition: '$ sender.isOp()'
+        actions:
+          - 'sound: BLOCK_NOTE_BLOCK_BIT-1-2'
+
+Functions:
+  flash: |-
+    function flash() {
+      var display = new Date().getSeconds() % 2 == 0
+      return display ? args[0] : "  "
+    }
+    flash()
+  bStats:
+    servers: vars("${bStats.query_servers_&a_&7 servers}")
+    players: vars("${bStats.query_players_&6_&7 players}")
+    menus: vars("${bStats.query_menus_&2_&7 menus}")
+    opens: |-
+      function opens() {
+        var data = utils.query("https://bstats.org/api/v1/plugins/5742/charts/menu_open_counts/data?maxElements=1")
+        if (data.has()){
+          return "&b" + data.asJson().getAsJsonArray().get(0).getAsJsonArray().get(1) + "&7"
+        }
+        return "&8Loading." + vars("${flash_.}") + "&7"
+      }
+      opens()
+    query: |-
+      function query() {
+        var data = utils.query("https://bstats.org/api/v1/plugins/5742/charts/" + args[0] + "/data?maxElements=1")
+        if (data.has()){
+          return args[1] + data.asJson().getAsJsonArray().get(0).getAsJsonArray().get(1) + args[2]
+        }
+        return "&8Loading." + vars("${flash_.}")
+      }
+      query()

@@ -18,12 +18,15 @@ taboolib {
         }
     }
 
+    relocate("cc.trixey.invero", "$group.invero")
+
     classifier = null
     version = taboolibVersion
 }
 
 dependencies {
-    compileOnly("ink.ptms.core:v11903:11903:universal")
+    taboo("cc.trixey.invero:framework-bukkit:1.0.0")
+    taboo("cc.trixey.invero:framework-common:1.0.0")
 
     rootProject
         .childProjects["project"]

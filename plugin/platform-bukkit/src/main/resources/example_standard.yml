@@ -1,0 +1,41 @@
+Title:
+  value: [
+    'Hello, TrMenu'
+    'H_'
+    'Hel_'
+    'Hello_'
+    'Hello, T_'
+    'Hello, TrM_'
+    'Hello, TrMenu_'
+  ]
+  interval: 80
+  loop: reversable
+
+Layout:
+  - [
+    '########`Exit`'
+    '|       |'
+    '|       |'
+    '|       |'
+    '########`Next`'
+  ]
+  - [
+    '########`Close`'
+    '         '
+    '         '
+    '         '
+    '`Pre`########'
+  ]
+
+Layout-PlayerInventory: [ ]
+
+Options:
+  Default-Page: 0
+  Hide-Player-Storage: true
+  Min-Interact-Interval: 200
+  Depended-PlaceholderAPI-Expansions: [
+    'server','player','progress','animations'
+  ]
+
+Bindings:
+  Command:

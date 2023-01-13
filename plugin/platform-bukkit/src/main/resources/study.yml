@@ -1,0 +1,20 @@
+# 单写静态标题支持
+# interval = -1, loopMode = loop
+Title: 'Single static title'
+
+# v3 的 title, title-update 直接迁移
+
+# 复写自动化动态标题
+Title_:
+  value: [
+    'Hello, TrMenu',
+    'H_'
+    'Hel_'
+    'Hello_'
+    'Hello, T_'
+    'Hello, TrM_'
+    'Hello, TrMenu_'
+  ]
+  interval: 80
+  loop: reversable
+
