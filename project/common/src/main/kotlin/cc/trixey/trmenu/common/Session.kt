@@ -1,16 +1,16 @@
-package cc.trixey.trmenu.common.menu
+package cc.trixey.trmenu.common
 
 import cc.trixey.invero.common.Viewer
 import cc.trixey.invero.common.Window
 
 /**
  * TrMenu
- * cc.trixey.trmenu.common.menu.MenuSession
+ * cc.trixey.trmenu.common.MenuSession
  *
  * @author Arasple
  * @since 2023/1/13 12:53
  */
-interface MenuSession {
+interface Session {
 
     val viewer: Viewer
 

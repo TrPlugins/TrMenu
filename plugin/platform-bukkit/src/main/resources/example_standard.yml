@@ -11,6 +11,8 @@ Title:
   interval: 80
   loop: reversable
 
+Type: GENERIC_9X6
+
 Layout:
   - [
     '########`Exit`'
@@ -39,3 +41,4 @@ Options:
 
 Bindings:
   Command:
+  Item-Traits:

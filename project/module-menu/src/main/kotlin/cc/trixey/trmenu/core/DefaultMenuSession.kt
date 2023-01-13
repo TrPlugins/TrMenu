@@ -3,8 +3,8 @@ package cc.trixey.trmenu.core
 import cc.trixey.invero.bukkit.BukkitViewer
 import cc.trixey.invero.common.Viewer
 import cc.trixey.invero.common.Window
-import cc.trixey.trmenu.common.menu.Menu
-import cc.trixey.trmenu.common.menu.MenuSession
+import cc.trixey.trmenu.common.Menu
+import cc.trixey.trmenu.common.Session
 import taboolib.common.platform.function.submit
 import taboolib.common.platform.service.PlatformExecutor
 
@@ -19,11 +19,18 @@ class DefaultMenuSession(
     override val viewer: BukkitViewer,
     override var menu: Menu? = null,
     override var viewingWindow: Window? = null
-) : MenuSession {
+) : Session {
 
     constructor(viewer: Viewer, viewingMenu: Menu? = null) : this(viewer as BukkitViewer, viewingMenu)
 
     val tasks = mutableSetOf<PlatformExecutor.PlatformTask>()
+
+    fun closure() {
+        tasks.forEach { it.cancel() }
+
+        menu = null
+        viewingWindow?.close(viewer)
+    }
 
     fun launch(
         now: Boolean = false,
