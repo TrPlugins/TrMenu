@@ -58,6 +58,9 @@ object CommandHandler {
     @CommandBody(permission = "trmenu.command.debug", optional = true)
     val debug = CommandDebug.command
 
+    @CommandBody(permission = "trmenu.command.invero", optional = true)
+    val inceroInherit = CommandInvero.command
+
     @CommandBody(optional = true)
     val help = subCommand {
         execute<CommandSender> { sender, _, _ ->
