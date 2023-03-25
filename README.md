@@ -1,4 +1,4 @@
-# 请转向使用 [Invero](http://invero.trixey.cc/) — Bukkit 平台 容器GUI 解决方案
+# [Invero](http://invero.trixey.cc/) is available, this is the inventory gui for bukkit of emerging。 TrMenu will be deprecated.
 
 ---
 ## (Deprecated) TrMenu
