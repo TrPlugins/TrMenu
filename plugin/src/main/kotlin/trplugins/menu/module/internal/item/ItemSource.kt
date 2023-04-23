@@ -29,7 +29,6 @@ object ItemSource {
                 else HookPlugin[HookSkulls::class.java].getSkull(id)
             }
             "JAVASCRIPT", "JS" -> JavaScriptAgent.eval(session, id).asItemStack()
-            "ORAXEN" -> HookPlugin.getOraxen().getItem(id)
             "ITEMSADDER", "IA" -> HookPlugin.getItemsAdder().getItem(id)
             "ZAPHKIEL", "ZL" -> HookPlugin.getZaphkiel().getItem(id)
             else -> CustomItemSourceEvent(name, id, session).also { it.call() }.source

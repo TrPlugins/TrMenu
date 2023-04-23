@@ -1,6 +1,7 @@
 package trplugins.menu.util.net
 
 import taboolib.common.env.DependencyDownloader
+import taboolib.common.env.IO
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.function.submit
 import taboolib.module.lang.sendLang
@@ -35,7 +36,7 @@ object Paster {
                 con.doInput = true
                 con.doOutput = true
                 con.outputStream.also { it.write(content.toByteArray(StandardCharsets.UTF_8)) }
-                val source = DependencyDownloader.readFully(con.inputStream, StandardCharsets.UTF_8).parseJson().asJsonObject
+                val source = IO.readFully(con.inputStream, StandardCharsets.UTF_8).parseJson().asJsonObject
                 url(URL + source.get("key").asString)
             } catch (e: Throwable) {
                 e.printStackTrace()

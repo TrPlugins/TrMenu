@@ -1,7 +1,10 @@
-# [Invero](http://invero.trixey.cc/) is available, this is the inventory gui for bukkit of emerging。 TrMenu will be deprecated.
+## TrMenu was deprecated the 25/03/2023
+
+TrMenu is now working on 1.19.4
+
+# I'm trying to maintain TrMenu alive, please open an issue if you have any suggestions / bugs
 
 ---
-## (Deprecated) TrMenu
 
 ![](https://attachment.mcbbs.net/data/myattachment/forum/202108/17/142921rll20j5kie5kzk1f.gif)
 ![](https://img.shields.io/github/last-commit/Arasple/TrMenu?logo=artstation&style=for-the-badge&color=9266CC)![](https://img.shields.io/github/issues/InsinuateProjects/TrMenu?style=for-the-badge&logo=slashdot)![](https://img.shields.io/github/release/Arasple/TrMenu?style=for-the-badge&color=00C58E&logo=ionic)

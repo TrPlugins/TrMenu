@@ -43,10 +43,6 @@ object HookPlugin {
         return get(HookHeadDatabase::class.java)
     }
 
-    fun getOraxen(): HookOraxen {
-        return get(HookOraxen::class.java)
-    }
-
     fun getPlayerPoints(): HookPlayerPoints {
         return get(HookPlayerPoints::class.java)
     }
