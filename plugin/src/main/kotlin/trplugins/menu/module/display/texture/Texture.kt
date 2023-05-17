@@ -1,5 +1,13 @@
 package trplugins.menu.module.display.texture
 
+import org.bukkit.Material
+import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.LeatherArmorMeta
+import org.bukkit.inventory.meta.SkullMeta
+import taboolib.common.util.Strings.similarDegree
+import taboolib.library.xseries.XMaterial
+import taboolib.module.nms.MinecraftVersion
+import taboolib.platform.util.buildItem
 import trplugins.menu.api.menu.ITexture
 import trplugins.menu.module.display.MenuSession
 import trplugins.menu.module.internal.hook.HookPlugin
@@ -9,15 +17,6 @@ import trplugins.menu.module.internal.item.ItemSource
 import trplugins.menu.util.Regexs
 import trplugins.menu.util.bukkit.Heads
 import trplugins.menu.util.bukkit.ItemHelper
-import org.bukkit.Material
-import org.bukkit.inventory.ItemStack
-import org.bukkit.inventory.meta.LeatherArmorMeta
-import org.bukkit.inventory.meta.SkullMeta
-import taboolib.common.reflect.Reflex.Companion.invokeMethod
-import taboolib.common.util.Strings.similarDegree
-import taboolib.library.xseries.XMaterial
-import taboolib.module.nms.MinecraftVersion
-import taboolib.platform.util.buildItem
 
 /**
  * @author Arasple
@@ -146,48 +145,20 @@ class Texture(
 
         private fun parseMaterial(material: String): ItemStack {
             val split = material.split(":", limit = 2)
-            val data = split.getOrNull(1)?.toIntOrNull() ?: 0
             val id = split[0].toIntOrNull() ?: split[0].uppercase().replace("[ _]".toRegex(), "_")
 
 
             val item = try {
                 buildItem(XMaterial.matchXMaterial(FALL_BACK)) {
-                    if (id is Int) {
-                        try {
-                            this.material = Material::class.java.invokeMethod<Material>(
-                                "getMaterial",
-                                id.toInt(),
-                                fixed = true
-                            )!!
-                            this.damage = data
-                        } catch (t: Throwable) {
-                            t.printStackTrace()
-                            XMaterial.matchXMaterial(id, -1).let {
-                                if (it.isPresent) {
-                                    setMaterial(it.get())
-                                    this.damage = data
-                                } else {
-                                    XMaterial.STONE
-                                }
-                            }
-                        }
-                        /*                    XMaterial.matchXMaterial(id, (-1).toByte()).let {
-                    if (it.isPresent) {
-                        setMaterial(it.get())
-                        this.damage = data
-                    } else {
-                        XMaterial.STONE
-                    }
-                }*/
-                    } else {
-                        val name = id.toString()
-                        this.material = Material.getMaterial(name)!!
-                    }
+                    val name = id.toString()
+                    this.material = Material.getMaterial(name)!!
                 }
             } catch (e: Throwable) {
-                runCatching { XMaterial.values().find { it.name.equals(id.toString(), true) }
-                    ?: XMaterial.values().find { it -> it.legacy.any { it == id.toString() } }
-                    ?: XMaterial.values().maxByOrNull { similarDegree(id.toString(), it.name) } }.getOrNull()?.parseItem()
+                runCatching {
+                    XMaterial.values().find { it.name.equals(id.toString(), true) }
+                        ?: XMaterial.values().find { it -> it.legacy.any { it == id.toString() } }
+                        ?: XMaterial.values().maxByOrNull { similarDegree(id.toString(), it.name) }
+                }.getOrNull()?.parseItem()
                     ?: FALL_BACK
             }
 

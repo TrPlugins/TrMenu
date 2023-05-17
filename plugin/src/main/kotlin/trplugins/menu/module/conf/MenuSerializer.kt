@@ -226,7 +226,7 @@ object MenuSerializer : ISerializer {
      * Func Ⅴ. 载入图标显示部分
      */
     private val loadIconProperty: (String, IconProperty?, Configuration?, Configuration?, Configuration?, Int) -> IconProperty =
-        { id, def, it, display, action, order ->
+        { _, def, it, display, action, order ->
             val name = Property.ICON_DISPLAY_NAME.ofStringList(display)
             val texture = Property.ICON_DISPLAY_MATERIAL.ofStringList(display)
             val lore = Property.ICON_DISPLAY_LORE.ofLists(display)
