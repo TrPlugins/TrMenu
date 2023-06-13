@@ -2,6 +2,7 @@ package trplugins.menu.util.net
 
 import taboolib.common.Isolated
 import taboolib.common.env.DependencyDownloader
+import taboolib.common.env.IO
 import trplugins.menu.util.parseJson
 import java.net.HttpURLConnection
 import java.net.URL
@@ -70,7 +71,7 @@ object PasteGG {
             con.doInput = true
             con.doOutput = true
             con.outputStream.also { it.write(json.toByteArray(StandardCharsets.UTF_8)) }
-            val source = DependencyDownloader.readFully(con.inputStream, StandardCharsets.UTF_8).parseJson().asJsonObject
+            val source = IO.readFully(con.inputStream, StandardCharsets.UTF_8).parseJson().asJsonObject
 
             success.invoke(source.toString())
         } catch (e: Throwable) {

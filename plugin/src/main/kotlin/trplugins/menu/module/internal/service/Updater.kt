@@ -2,17 +2,18 @@ package trplugins.menu.module.internal.service
 
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
-import trplugins.menu.TrMenu
 import org.bukkit.event.player.PlayerJoinEvent
 import taboolib.common.LifeCycle
-import taboolib.common.env.DependencyDownloader
-import taboolib.common.platform.*
+import taboolib.common.env.IO
+import taboolib.common.platform.Awake
+import taboolib.common.platform.SkipTo
 import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.event.SubscribeEvent
 import taboolib.common.platform.function.console
 import taboolib.common.platform.function.submit
 import taboolib.module.lang.sendLang
 import taboolib.platform.util.sendLang
+import trplugins.menu.TrMenu
 import java.io.BufferedInputStream
 import java.net.URL
 import java.nio.charset.StandardCharsets
@@ -48,7 +49,7 @@ object Updater {
         try {
             URL(API_URL).openStream().use { inputStream ->
                 BufferedInputStream(inputStream).use { bufferedInputStream ->
-                    read = DependencyDownloader.readFully(bufferedInputStream, StandardCharsets.UTF_8)
+                    read = IO.readFully(bufferedInputStream, StandardCharsets.UTF_8)
                     val json = JsonParser().parse(read) as JsonObject
                     val latestVersion = json.get("tag_name").asDouble
                     if (latestVersion > CURRENT_VERSION) {

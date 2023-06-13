@@ -1,6 +1,6 @@
 package trplugins.menu.module.internal.hook.impl
 
-import io.th0rgal.oraxen.items.OraxenItems
+import io.th0rgal.oraxen.api.OraxenItems
 import trplugins.menu.module.internal.hook.HookAbstract
 import org.bukkit.inventory.ItemStack
 import taboolib.library.xseries.XMaterial

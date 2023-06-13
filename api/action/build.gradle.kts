@@ -28,6 +28,7 @@ taboolib {
 
 repositories {
     mavenCentral()
+    mavenLocal()
     maven("https://repo.tabooproject.org/repository/releases")
     maven("https://hub.spigotmc.org/nexus/content/groups/public/")
 }
