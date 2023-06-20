@@ -1,18 +1,18 @@
 package trplugins.menu.module.conf
 
-import trplugins.menu.util.concurrent.TaskConcurrent
-import trplugins.menu.TrMenu
-import trplugins.menu.api.TrMenuAPI
-import trplugins.menu.api.event.MenuOpenEvent
-import trplugins.menu.module.conf.prop.SerialzeResult
-import trplugins.menu.module.display.Menu
-import trplugins.menu.util.file.FileListener
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import taboolib.common.platform.function.console
 import taboolib.common.platform.function.releaseResourceFile
 import taboolib.module.lang.sendLang
 import taboolib.platform.util.sendLang
+import trplugins.menu.TrMenu
+import trplugins.menu.api.TrMenuAPI
+import trplugins.menu.api.event.MenuOpenEvent
+import trplugins.menu.module.conf.prop.SerialzeResult
+import trplugins.menu.module.display.Menu
+import trplugins.menu.util.concurrent.TaskConcurrent
+import trplugins.menu.util.file.FileListener
 import java.io.File
 
 /**
@@ -120,8 +120,9 @@ object Loader {
     /**
      * 监听菜单
      */
-    internal fun listen(file: File) {
-        if (!FileListener.isListening(file)) {
+    fun listen(file: File) {
+        val isListening = runCatching { !FileListener.isListening(file) }.getOrElse { true }
+        if (!isListening) {
             FileListener.listener(file) {
                 val start = System.currentTimeMillis()
                 val reload = try {
