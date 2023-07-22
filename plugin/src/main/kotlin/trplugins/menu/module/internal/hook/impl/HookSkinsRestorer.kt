@@ -1,6 +1,7 @@
 package trplugins.menu.module.internal.hook.impl
 
-import net.skinsrestorer.api.SkinsRestorerAPI
+import net.skinsrestorer.api.SkinsRestorerProvider
+import net.skinsrestorer.api.SkinsRestorer
 import trplugins.menu.module.internal.hook.HookAbstract
 
 /**
@@ -9,9 +10,9 @@ import trplugins.menu.module.internal.hook.HookAbstract
  */
 class HookSkinsRestorer : HookAbstract() {
 
-    private val skinsRestorerAPI: SkinsRestorerAPI? =
+    private val skinsRestorer: SkinsRestorer? =
         if (isHooked) {
-            SkinsRestorerAPI.getApi()
+            SkinsRestorerProvider.get()
         } else {
             null
         }
@@ -21,13 +22,13 @@ class HookSkinsRestorer : HookAbstract() {
         }
 
     fun getPlayerSkinTexture(name: String): String? {
-        skinsRestorerAPI?.let {
-            if (it.getSkinData(name) == null) {
+        skinsRestorer?.let {
+            if (it.skinStorage.findOrCreateSkinData(name).isEmpty) {
                 return null
             }
 
-            val skinData = it.getSkinData(name)
-            return skinData.value
+            val skinData = it.skinStorage.findOrCreateSkinData(name)
+            return skinData.get().property.value
         }
         return null
     }
