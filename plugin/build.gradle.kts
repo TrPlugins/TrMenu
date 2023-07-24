@@ -65,7 +65,7 @@ dependencies {
 
     // Libraries
     compileOnly("org.apache.commons:commons-lang3:3.12.0")
-    compileOnly("com.electronwill.night-config:core:3.6.5")
+    compileOnly("com.electronwill.night-config:core:3.6.6")
 
     // Server Core
     compileOnly("ink.ptms.core:v11903:11903-minimize:mapped")
@@ -75,10 +75,10 @@ dependencies {
     compileOnly("ink.ptms.core:v11604:11604")
 
     // Hook Plugins
-    compileOnly("me.clip:placeholderapi:2.10.9") { isTransitive = false }
-    compileOnly("ink.ptms:Zaphkiel:1.6.0") { isTransitive = false }
+    compileOnly("me.clip:placeholderapi:2.11.2") { isTransitive = false }
+    compileOnly("ink.ptms:Zaphkiel:2.0.0") { isTransitive = false }
     compileOnly("ca.tweetzy:skulls:2.7.2") { isTransitive = false }
-    compileOnly("net.skinsrestorer:skinsrestorer-api:14.2.1") { isTransitive = false }
+    compileOnly("net.skinsrestorer:skinsrestorer-api:14.2.12") { isTransitive = false }
     compileOnly("com.github.oraxen:oraxen:-SNAPSHOT") { isTransitive = false }
     compileOnly("org.black_ixx:playerpoints:3.1.1") { isTransitive = false }
     compileOnly("com.github.MilkBowl:VaultAPI:-SNAPSHOT") { isTransitive = false }
