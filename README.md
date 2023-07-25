@@ -1,6 +1,6 @@
 # TrMenu
 ![CI](https://github.com/shuiqing2046/TrMenu/actions/workflows/build.yml/badge.svg)
-> Attempt to actively maintain this resource.
+> Attempt to actively maintain this resource
 > 
 > Download: [Github Actions](https://github.com/shuiqing2046/TrMenu/actions) 
 > 
