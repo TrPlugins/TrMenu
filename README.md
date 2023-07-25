@@ -9,5 +9,6 @@
 ## Links
 
 + [TrMenu Original project](https://github.com/TrPlugins/TrMenu)
++ [TrMenu Document(Chinese)](https://trmenu.trixey.cc)
 
 ![](https://attachment.mcbbs.net/data/myattachment/forum/202108/17/142921rll20j5kie5kzk1f.gif)
