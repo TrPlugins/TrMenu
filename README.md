@@ -13,14 +13,13 @@
   <p align="center">
     <strong>Attempt to actively maintain this resource.</strong>
     <br />
-<br />
-    <a href="https://github.com/shuiqing2046/TrMenu/actions" target="_blank"><strong><span style="color:#4C33E5;">Download Github Actions</span></strong></a>
+    <a href="https://github.com/shuiqing2046/TrMenu/actions"><strong><span style="color:#4C33E5;">Download Github Actions</span></strong></a>
     <br />
   </p>
   <p align="center">
-    <a href="https://github.com/TrPlugins/TrMenu" target="_blank">TrMenu Original project</a>
+    <a href="https://github.com/TrPlugins/TrMenu">TrMenu Original project</a>
     ·
-    <a href="https://trmenu.trixey.cc" target="_blank">Document(Chinese)</a>
+    <a href="https://trmenu.trixey.cc">Document(Chinese)</a>
     
   </p>
 </div>
