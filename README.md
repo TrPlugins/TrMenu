@@ -17,9 +17,9 @@
     <br />
   </p>
   <p align="center">
-    <a href="https://github.com/TrPlugins/TrMenu">TrMenu Original project</a>
+    <a href="https://github.com/TrPlugins/TrMenu">TrMenu Original Repositories</a>
     ·
-    <a href="https://trmenu.trixey.cc">Document(Chinese)</a>
+    <a href="https://trmenu.trixey.cc">TrMenu Document(Chinese)</a>
     
   </p>
 </div>
