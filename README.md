@@ -2,7 +2,7 @@
 
 <div align="center">
 
-[![trmenu](https://www.spigotmc.org/data/resource_icons/83/83120.jpg?1613203706)
+![trmenu](https://www.spigotmc.org/data/resource_icons/83/83120.jpg?1613203706)
 
 
 
