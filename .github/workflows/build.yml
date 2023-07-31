@@ -1,4 +1,4 @@
-name: CI
+name: TrMenu Artifact
 
 on:
   push:
@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v1
         with:
-          java-version: 8
+          java-version: 17
 
       - name: Cache .gradle/caches
         uses: actions/cache@v1
@@ -35,21 +35,21 @@ jobs:
 #      - name: Build with Gradle
 #        run: ./gradlew clean build -s
 
-      # 第一次构建
+      # First build
       - name: build
         id: build_1
         run: ./gradlew build
-      # 第二次构建
+      # Second build
       - name: build (retry 1)
         id: build_2
         if: steps.build_1.outcome == 'failure'
         run: ./gradlew build
-       # 第三次构建
+       # Third build
       - name: build (retry 2)
         id: build_3
         if: steps.build_2.outcome == 'failure'
         run: ./gradlew build
-       # 第四次构建
+       # Fourth build
       - name: build (retry 3)
         id: build_4
         if: steps.build_3.outcome == 'failure'
