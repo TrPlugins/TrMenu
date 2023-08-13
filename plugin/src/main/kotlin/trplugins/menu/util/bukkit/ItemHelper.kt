@@ -109,7 +109,7 @@ object ItemHelper {
                     itemStack?.amount = it.asInt
                 }
                 val meta = parse["meta"]
-                return if (meta != null) itemStack.also { ItemTag.fromLegacyJson(meta.toString()).saveTo(it) }
+                return if (meta != null) itemStack.also { ItemTag.fromLegacyJson(meta.toString()).saveTo(it!!) }
                 else itemStack
             }
             return null
