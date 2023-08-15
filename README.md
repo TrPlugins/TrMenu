@@ -1,6 +1,6 @@
 ## TrMenu was deprecated the 25/03/2023
 
-TrMenu is now working on 1.19.4
+TrMenu is now working on 1.20.1
 
 # I'm trying to maintain TrMenu alive, please open an issue if you have any suggestions / bugs
 
