@@ -44,7 +44,7 @@ object ItemHelper {
         builder.patterns.clear()
         builder.patterns.addAll(string.split(",").let {
             val patterns = mutableListOf<Pattern>()
-            it.forEach {
+            it.forEach { it ->
                 val type = it.split(" ")
                 if (type.size == 1) {
                     builder.finishing = {
@@ -109,7 +109,11 @@ object ItemHelper {
                     itemStack?.amount = it.asInt
                 }
                 val meta = parse["meta"]
-                return if (meta != null) itemStack.also { ItemTag.fromLegacyJson(meta.toString()).saveTo(it) }
+                return if (meta != null) itemStack.also {
+                    if (it != null) {
+                        ItemTag.fromLegacyJson(meta.toString()).saveTo(it)
+                    }
+                }
                 else itemStack
             }
             return null
