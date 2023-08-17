@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-    if: ${{ github.event_name != 'pull_request' || github.repository != github.event.pull_request.head.repo.full_name }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -20,8 +19,8 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
-      - name: Build
-        run: ./gradlew build
+      - name: Clean Build
+        run: ./gradlew clean build
       - name: Archive Artifacts
         uses: actions/upload-artifact@v3
         with:
