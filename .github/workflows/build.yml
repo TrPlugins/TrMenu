@@ -1,13 +1,13 @@
 # By   Super_chen520
 # Date 2023-8-17
 
-name: TrMenu Original
+name: TrMenu Release
 
 on:
   push:
-    branches: [ "stable/v3" ]
+    branches: [ main ]
   pull_request:
-    branches: [ "stable/v3" ]
+    branches: [ main ]
 
 jobs:
   releaseJar:
@@ -50,5 +50,5 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3.1.2
         with:
-          name: TrMenu Original
+          name: TrMenu Release
           path: build/libs/*.jar
