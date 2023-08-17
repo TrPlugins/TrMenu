@@ -1,4 +1,4 @@
-name: TrMenu Rebirth Artifact
+name: TrMenu Release
 
 on:
   push:
@@ -58,6 +58,5 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: TrMenu Rebirth Artifact
+          name: TrMenu Release
           path: build/libs/*.jar
-          distribution: ceshiix
