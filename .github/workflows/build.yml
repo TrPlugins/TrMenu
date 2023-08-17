@@ -23,7 +23,7 @@ jobs:
           restore-keys: ${{ runner.os }}-gradle-
 
       - name: Cache .gradle/wrapper
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ~/.gradle/wrapper
           key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/*.gradle') }}
