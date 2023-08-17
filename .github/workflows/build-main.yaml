@@ -20,11 +20,10 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
-      - name: Clean Build
-        run: ./gradlew clean build
+      - name: Build
+        run: ./gradlew build
       - name: Archive Artifacts
         uses: actions/upload-artifact@v3
         with:
           name: TrMenu Release
           path: build/libs/*.jar
-          distribution: Output jar file.
