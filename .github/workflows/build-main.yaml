@@ -1,62 +1,23 @@
-name: TrMenu Release
-
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
+name: build
+on: [pull_request, push]
 jobs:
-  releaseJar:
+  build:
+    if: ${{ github.event_name != 'pull_request' || github.repository != github.event.pull_request.head.repo.full_name }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-java@v3
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1
+      - name: Setup Java
+        uses: actions/setup-java@v3
         with:
+          distribution: temurin
           java-version: 17
-
-      - name: Cache .gradle/caches
-        uses: actions/cache@v1
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: ${{ runner.os }}-gradle-
-
-      - name: Cache .gradle/wrapper
-        uses: actions/cache@v1
-        with:
-          path: ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/*.gradle') }}
-          restore-keys: ${{ runner.os }}-gradle-wrapper-
-
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-
-#      - name: Build with Gradle
-#        run: ./gradlew clean build -s
-
-      # First build
-      - name: build
-        id: build_1
-        run: ./gradlew build
-      # Second build
-      - name: build (retry 1)
-        id: build_2
-        if: steps.build_1.outcome == 'failure'
-        run: ./gradlew build
-       # Third build
-      - name: build (retry 2)
-        id: build_3
-        if: steps.build_2.outcome == 'failure'
-        run: ./gradlew build
-       # Fourth build
-      - name: build (retry 3)
-        id: build_4
-        if: steps.build_3.outcome == 'failure'
-        run: ./gradlew build
-        # output jar
-      - name: Upload Artifacts
+      - name: Clean Build
+        run: ./gradlew clean build
+      - name: Archive Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: TrMenu Release
+          name: IllegalStack-SNAPSHOT
           path: build/libs/*.jar
