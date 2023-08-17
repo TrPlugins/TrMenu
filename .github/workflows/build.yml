@@ -16,7 +16,7 @@ jobs:
           java-version: 17
 
       - name: Cache .gradle/caches
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
