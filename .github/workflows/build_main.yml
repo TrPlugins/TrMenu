@@ -1,3 +1,6 @@
+# By   Super_chen520
+# Date 2023-8-17
+
 name: TrMenu Release
 
 on:
@@ -20,9 +23,8 @@ jobs:
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-
 #      - name: Build with Gradle
-#        run: ./gradlew clean build -s
+#        run: ./gradlew build
 
       # First build
       - name: build
@@ -43,6 +45,7 @@ jobs:
         id: build_4
         if: steps.build_3.outcome == 'failure'
         run: ./gradlew build
+
         # output jar
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3.1.2

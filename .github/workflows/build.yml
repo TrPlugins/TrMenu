@@ -1,39 +1,30 @@
-name: TrMenu Artifact
+# By   Super_chen520
+# Date 2023-8-17
+
+name: TrMenu Original
 
 on:
   push:
-    branches: [ stable/v3 ]
+    branches: [ "stable/v3" ]
   pull_request:
-    branches: [ stable/v3 ]
+    branches: [ "stable/v3" ]
 
 jobs:
   releaseJar:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-java@v1
+      - name: set up JDK 17
+        uses: actions/setup-java@v3
         with:
-          java-version: 17
-
-      - name: Cache .gradle/caches
-        uses: actions/cache@v1
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
-          restore-keys: ${{ runner.os }}-gradle-
-
-      - name: Cache .gradle/wrapper
-        uses: actions/cache@v1
-        with:
-          path: ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-wrapper-${{ hashFiles('**/*.gradle') }}
-          restore-keys: ${{ runner.os }}-gradle-wrapper-
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-
 #      - name: Build with Gradle
-#        run: ./gradlew clean build -s
+#        run: ./gradlew build
 
       # First build
       - name: build
@@ -54,9 +45,10 @@ jobs:
         id: build_4
         if: steps.build_3.outcome == 'failure'
         run: ./gradlew build
+
         # output jar
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3.1.2
         with:
-          name: TrMenu Artifact
+          name: TrMenu Original
           path: build/libs/*.jar
