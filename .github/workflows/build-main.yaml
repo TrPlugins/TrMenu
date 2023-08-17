@@ -1,13 +1,8 @@
-name: TrMenu Release
-
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
+name: TrMenu Rebirth
+on: [pull_request, push]
 jobs:
   build:
+    if: ${{ github.event_name != 'pull_request' || github.repository != github.event.pull_request.head.repo.full_name }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -24,5 +19,5 @@ jobs:
       - name: Archive Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: TrMenu Release
+          name: SNAPSHOT
           path: build/libs/*.jar
